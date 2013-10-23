@@ -22,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{30167C
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Vision.IO", "Accord.Vision.Windows\Accord.Vision.IO.csproj", "{0DB826E1-CAE4-4802-A579-1E12D7A60348}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math.Extensions", "Accord.Math.Extensions\Accord.Math.Extensions.csproj", "{23880A3C-B97D-4139-8355-6DC599DD1576}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Core.Extensions", "Accord.Core.Extensions\Accord.Core.Extensions.csproj", "{F46115E9-C4FC-4355-93AE-BE8E96B236C9}"
@@ -31,6 +29,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Imaging.GenericImage", "Accord.Imaging.GenericImage\Accord.Imaging.GenericImage.csproj", "{3CF8F155-3DA1-4529-9B28-D409E86ED4E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Imaging.Extensions", "Accord.Imaging.Extensions\Accord.Imaging.Extensions.csproj", "{91C6AE50-EE09-4E3D-8EBB-1BD42688D042}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Vision.IO", "Accord.Vision.IO\Accord.Vision.IO.csproj", "{0DB826E1-CAE4-4802-A579-1E12D7A60348}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,10 +58,6 @@ Global
 		{408DC7A0-C599-453C-B50A-76F9A09A7E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{408DC7A0-C599-453C-B50A-76F9A09A7E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{408DC7A0-C599-453C-B50A-76F9A09A7E6B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Release|Any CPU.Build.0 = Release|Any CPU
 		{23880A3C-B97D-4139-8355-6DC599DD1576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{23880A3C-B97D-4139-8355-6DC599DD1576}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23880A3C-B97D-4139-8355-6DC599DD1576}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -78,6 +74,10 @@ Global
 		{91C6AE50-EE09-4E3D-8EBB-1BD42688D042}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91C6AE50-EE09-4E3D-8EBB-1BD42688D042}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91C6AE50-EE09-4E3D-8EBB-1BD42688D042}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

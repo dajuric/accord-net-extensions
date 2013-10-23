@@ -119,7 +119,7 @@
       <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
       <Name>Accord.Vision.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Vision.Windows\Accord.Vision.IO.csproj">
+    <ProjectReference Include="..\..\Accord.Vision.IO\Accord.Vision.IO.csproj">
       <Project>{0db826e1-cae4-4802-a579-1e12d7a60348}</Project>
       <Name>Accord.Vision.IO</Name>
     </ProjectReference>
