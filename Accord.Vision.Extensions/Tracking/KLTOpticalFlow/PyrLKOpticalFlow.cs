@@ -69,7 +69,7 @@ namespace Accord.Vision
         public static void EstimateFlow(PyrLKStorage<TColor> storage,
                                         PointF[] prevFeatures, out PointF[] currFeatures,
                                         out KLTFeatureStatus[] status, out float[] error,
-                                        int windowSize = 15, int iterations = 30, float minFeatureShift = 0.1f, float minEigenValue = 0.01f, float maxError = 0.1f)
+                                        int windowSize = 15, int iterations = 30, float minFeatureShift = 0.1f, float minEigenValue = 0.001f, float maxError = 0.1f)
         {
             var initialEstimate = new PointF[prevFeatures.Length];
 

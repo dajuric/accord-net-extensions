@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Accord.Imaging.Filters;
 
 using FlowColor = Accord.Imaging.Gray;
 
@@ -15,7 +14,7 @@ namespace PyrKLOpticalFlowDemo
     {
         Capture videoCapture;
         PyrLKStorage<FlowColor> lkStorage;
-        int winSize = 15;
+        int winSize = 21;
 
         private void processImage(Image<FlowColor, float> prevIm, Image<FlowColor, float> currIm, List<PointF> oldPositions, out List<PointF> newPositions)
         {
@@ -25,11 +24,13 @@ namespace PyrKLOpticalFlowDemo
             float[] error;
             KLTFeatureStatus[] featureStatus;
             /*LKOpticalFlow<FlowColor>.EstimateFlow(lkStorage, oldPositions.ToArray(), 
-                                                  out currFeatures, out featureStatus, out error);*/
+                                                  out currFeatures, out featureStatus, out error,
+                                                  winSize);*/
 
 
             PyrLKOpticalFlow<FlowColor>.EstimateFlow(lkStorage, oldPositions.ToArray(),
-                                                     out currFeatures, out featureStatus, out error);
+                                                     out currFeatures, out featureStatus, out error, 
+                                                     winSize);
 
             newPositions = new List<PointF>();
             for (int i = 0; i < currFeatures.Length; i++)
@@ -137,7 +138,7 @@ namespace PyrKLOpticalFlowDemo
             {
                 if (e.KeyChar == 'r')
                     //oldPositions = prevIm.Convert<byte>().HarrisCorners().Select(x => new PointF(x.X, x.Y)).Take(100).ToList();
-                    oldPositions = prevIm.GoodFeaturesToTrack(winSize, 0.3f).Select(x => new PointF(x.X, x.Y)).Take(100).ToList();
+                    oldPositions = prevIm.GoodFeaturesToTrack(winSize, 0.2f).Select(x => new PointF(x.X, x.Y)).Take(100).ToList();
             }
         }
     }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Accord.Imaging.Filters
+namespace Accord.Imaging
 {
     public static class HarrisExtensions
     {
