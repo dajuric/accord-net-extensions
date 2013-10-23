@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Imaging</id>
+    <version>2.10.0.0</version>
+    <title>Accord.Imaging</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com/</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET (logo small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Contains interest point detectors (SURF and FAST), image matching and image stitching methods. This package is part of the Accord.NET Framework.</description>
+    <summary>Accord.NET Framework Imaging library</summary>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <tags>accord.net aforge.net framework image processing computer vision</tags>
+    <dependencies>
+      <dependency id="Accord" version="2.10.0" />
+      <dependency id="Accord.Math" version="2.10.0" />
+      <dependency id="Accord.MachineLearning" version="2.10.0" />
+      <dependency id="Accord.Statistics" version="2.10.0" />
+      <dependency id="AForge" version="2.2.5" />
+      <dependency id="AForge.Imaging" version="2.2.5" />
+      <dependency id="AForge.Math" version="2.2.5" />
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MoreLinq.Source.MoreEnumerable.ForEach</id>
+    <version>1.0.1</version>
+    <title>MoreLINQ's ForEach for C# Sequences (Source)</title>
+    <authors>MoreLINQ Developers</authors>
+    <owners>MoreLINQ Developers</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://code.google.com/p/morelinq/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>C# source implementation that enhances LINQ to Objects with the method ForEach. Immediately executes the given action on each element in the source sequence.</description>
+    <summary>Enhances LINQ to Objects with the method ForEach</summary>
+    <releaseNotes>Microsoft .NET Framework 2.0 support via LINQBridge</releaseNotes>
+    <copyright />
+    <language>en-US</language>
+    <tags>linq extensions</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework3.5" />
+      <group targetFramework=".NETFramework2.0">
+        <dependency id="LinqBridge.Embedded" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

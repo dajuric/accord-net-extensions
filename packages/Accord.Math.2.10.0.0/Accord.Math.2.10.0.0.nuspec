@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Math</id>
+    <version>2.10.0.0</version>
+    <title>Accord.Math</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com/</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET (logo small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Contains a matrix extension library, along with a suite of numerical matrix decomposition methods, numerical optimization algorithms for constrained and unconstrained problems, special functions and other tools for scientific applications. This package is part of the Accord.NET Framework.</description>
+    <summary>Accord.Math library from the Accord.NET framework</summary>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <tags>accord.net aforge.net framework math decompositions lu qr constrained optimization differentiation numerical matrix algebra</tags>
+    <dependencies>
+      <dependency id="Accord" version="2.10.0" />
+      <dependency id="AForge" version="2.2.5" />
+      <dependency id="AForge.Math" version="2.2.5" />
+    </dependencies>
+  </metadata>
+</package>

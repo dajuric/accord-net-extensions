@@ -1,0 +1,75 @@
+=> Intel Core i5-2500K 3.3 Ghz (4 cores)
+
+******************************************* AForge vs Image<,> - performance *********************************
+
+Color conversions...
+Measuring Image<,> Bgr->Gray Conversion
+Measuring AForge Bgr->Gray Conversion
+Image<,> Bgr->Gray Conversion is faster than AForge Bgr->Gray Conversion ~3,560178 times. Per call: ~0,673 ms
+
+FFT...
+Measuring Image<,> FFT
+Measuring AForge FFT
+Image<,> FFT is faster than AForge FFT ~4,649396 times. Per call: ~2,567 ms
+
+Color filtering...
+Measuring Image<,> HSV filtering
+Measuring AForge HSL filtering
+Image<,> HSV filtering is faster than AForge HSL filtering ~11,36215 times. Per call: ~6,71 ms
+
+Channel modifier...
+Measuring Image<,> Hue modifier
+Measuring AForge Hue modifier
+Image<,> Hue modifier is faster than AForge Hue modifier ~6,893041 times. Per call: ~15,52 ms
+
+Small kernel...
+Measuring Image<,> Convolve
+Measuring AForge Convolve
+Image<,> Convolve is faster than AForge Convolve ~11,04528 times. Per call: ~132,5 ms
+
+Big kernel... (please be very patient) - few minutes
+Measuring Image<,> Convolve
+Measuring AForge Convolve
+Image<,> Convolve is faster than AForge Convolve ~78,5461 times. Per call: ~1393,5 ms
+
+**********************************************************************************************************
+
+
+=> Intel Core i7-2670QM 2.2 Ghz (4+4 cores)
+
+******************************************* AForge vs Image<,> - performance ***********************************
+
+Color conversions...
+Measuring Image<,> Bgr->Gray Conversion
+Measuring AForge Bgr->Gray Conversion
+Image<,> Bgr->Gray Conversion is faster than AForge Bgr->Gray Conversion ~3,199554 times. Per call: ~1,794 ms
+
+FFT...
+Measuring Image<,> FFT
+Measuring AForge FFT
+Image<,> FFT is faster than AForge FFT ~4,702498 times. Per call: ~3,042 ms
+
+Color filtering...
+Measuring Image<,> HSV filtering
+Measuring AForge HSL filtering
+Image<,> HSV filtering is faster than AForge HSL filtering ~16,41162 times. Per call: ~8,26 ms
+
+Channel modifier...
+Measuring Image<,> Hue modifier
+Measuring AForge Hue modifier
+Image<,> Hue modifier is faster than AForge Hue modifier ~10,54157 times. Per call: ~16,84 ms
+
+Small kernel...
+Measuring Image<,> Convolve
+Measuring AForge Convolve
+Image<,> Convolve is faster than AForge Convolve ~7,055921 times. Per call: ~304 ms
+
+Big kernel... (please be very patient) - few minutes
+Measuring Image<,> Convolve
+Measuring AForge Convolve
+Image<,> Convolve is faster than AForge Convolve ~130,2294 times. Per call: ~1482 ms
+
+**********************************************************************************************************
+
+Color casting...
+Per call ~0,003 ms

@@ -1,0 +1,90 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20827.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Imaging.GenericImage", "Accord.Imaging.Extensions\Accord.Imaging.GenericImage.csproj", "{3CF8F155-3DA1-4529-9B28-D409E86ED4E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math.Geometry.Extensions", "Accord.Math.Geometry.Extensions\Accord.Math.Geometry.Extensions.csproj", "{6713153C-8632-4951-A3ED-CD49A70C9FB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Imaging.Extensions", "Accord.Imaging.Filters.Extensions\Accord.Imaging.Extensions.csproj", "{91C6AE50-EE09-4E3D-8EBB-1BD42688D042}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Vision.Extensions", "Accord.Vision.Extensions\Accord.Vision.Extensions.csproj", "{901E6881-6237-49C8-8DDF-5E2491D7D1D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{7E190147-4028-4DD7-B692-1C62009EB399}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CamshiftDemo", "Demo\CamshiftDemo\CamshiftDemo.csproj", "{3CA48B2E-13DA-4B1D-9846-C7754D18A33A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Demo\Test\Test.csproj", "{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PyrKLOpticalFlowDemo", "Demo\PyrKLOpticalFlowDemo\PyrKLOpticalFlowDemo.csproj", "{408DC7A0-C599-453C-B50A-76F9A09A7E6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{30167CA5-B827-4781-A713-1024D1538129}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Vision.IO", "Accord.Vision.Windows\Accord.Vision.IO.csproj", "{0DB826E1-CAE4-4802-A579-1E12D7A60348}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math.Extensions", "Accord.Math.Extensions\Accord.Math.Extensions.csproj", "{23880A3C-B97D-4139-8355-6DC599DD1576}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Core.Extensions", "Accord.Core.Extensions\Accord.Core.Extensions.csproj", "{F46115E9-C4FC-4355-93AE-BE8E96B236C9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CF8F155-3DA1-4529-9B28-D409E86ED4E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CF8F155-3DA1-4529-9B28-D409E86ED4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CF8F155-3DA1-4529-9B28-D409E86ED4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CF8F155-3DA1-4529-9B28-D409E86ED4E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6713153C-8632-4951-A3ED-CD49A70C9FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6713153C-8632-4951-A3ED-CD49A70C9FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6713153C-8632-4951-A3ED-CD49A70C9FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6713153C-8632-4951-A3ED-CD49A70C9FB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91C6AE50-EE09-4E3D-8EBB-1BD42688D042}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91C6AE50-EE09-4E3D-8EBB-1BD42688D042}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91C6AE50-EE09-4E3D-8EBB-1BD42688D042}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91C6AE50-EE09-4E3D-8EBB-1BD42688D042}.Release|Any CPU.Build.0 = Release|Any CPU
+		{901E6881-6237-49C8-8DDF-5E2491D7D1D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{901E6881-6237-49C8-8DDF-5E2491D7D1D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{901E6881-6237-49C8-8DDF-5E2491D7D1D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{901E6881-6237-49C8-8DDF-5E2491D7D1D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CA48B2E-13DA-4B1D-9846-C7754D18A33A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CA48B2E-13DA-4B1D-9846-C7754D18A33A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CA48B2E-13DA-4B1D-9846-C7754D18A33A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CA48B2E-13DA-4B1D-9846-C7754D18A33A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{408DC7A0-C599-453C-B50A-76F9A09A7E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{408DC7A0-C599-453C-B50A-76F9A09A7E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{408DC7A0-C599-453C-B50A-76F9A09A7E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{408DC7A0-C599-453C-B50A-76F9A09A7E6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23880A3C-B97D-4139-8355-6DC599DD1576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23880A3C-B97D-4139-8355-6DC599DD1576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23880A3C-B97D-4139-8355-6DC599DD1576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23880A3C-B97D-4139-8355-6DC599DD1576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F46115E9-C4FC-4355-93AE-BE8E96B236C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F46115E9-C4FC-4355-93AE-BE8E96B236C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F46115E9-C4FC-4355-93AE-BE8E96B236C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F46115E9-C4FC-4355-93AE-BE8E96B236C9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3CA48B2E-13DA-4B1D-9846-C7754D18A33A} = {7E190147-4028-4DD7-B692-1C62009EB399}
+		{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB} = {7E190147-4028-4DD7-B692-1C62009EB399}
+		{408DC7A0-C599-453C-B50A-76F9A09A7E6B} = {7E190147-4028-4DD7-B692-1C62009EB399}
+	EndGlobalSection
+EndGlobal

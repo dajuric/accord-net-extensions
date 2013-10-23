@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MoreLinq.Source.MoreEnumerable.Pairwise</id>
+    <version>1.0.1</version>
+    <title>MoreLINQ's Pairwise for C# Sequences (Source)</title>
+    <authors>MoreLINQ Developers</authors>
+    <owners>MoreLINQ Developers</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://code.google.com/p/morelinq/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>C# source implementation that enhances LINQ to Objects with the method Pairwise. Returns a sequence resulting from applying a function to each element in the source sequence and its predecessor, with the exception of the first element which is only returned as the predecessor of the second element.</description>
+    <summary>Enhances LINQ to Objects with the method Pairwise</summary>
+    <releaseNotes>Microsoft .NET Framework 2.0 support via LINQBridge</releaseNotes>
+    <copyright />
+    <language>en-US</language>
+    <tags>linq extensions</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework3.5" />
+      <group targetFramework=".NETFramework2.0">
+        <dependency id="LinqBridge.Embedded" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
