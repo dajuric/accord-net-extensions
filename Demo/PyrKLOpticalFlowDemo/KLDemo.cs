@@ -28,8 +28,8 @@ namespace PyrKLOpticalFlowDemo
                                                   out currFeatures, out featureStatus, out error);*/
 
 
-            PyrLKOpticalFlow<FlowColor>.EstimateFlow(prevIm, currIm, oldPositions.ToArray(),
-                                          out currFeatures, out featureStatus, out error);
+            PyrLKOpticalFlow<FlowColor>.EstimateFlow(lkStorage, oldPositions.ToArray(),
+                                                     out currFeatures, out featureStatus, out error);
 
             newPositions = new List<PointF>();
             for (int i = 0; i < currFeatures.Length; i++)
@@ -46,41 +46,9 @@ namespace PyrKLOpticalFlowDemo
         public KLDemo()
         {
             InitializeComponent();
+
             lkStorage = new PyrLKStorage<Gray>(pyrLevels: 1);
-
-            /*var i = Bitmap.FromFile("bla.bmp").ToImage<Gray, float>();
-            RectangleF r = new RectangleF(260.9459f, 70.6160049f, 25, 25);
-            i.GetSubRect(Rectangle.Round(r)).ToBitmap().Save("bla2.bmp");
-            i.Mul(-1).GetRectSubPix(r).Mul(-1).ToBitmap().Save("bla3.bmp");*/
-            //return;
-
-            var im1 = Bitmap.FromFile("1.bmp").ToImage<Gray, float>();
-            var im2 = Bitmap.FromFile("2.bmp").ToImage<Gray, float>();
-            var im3=im2.Clone();
-
-            /*List<PointF> newPositions;
-            processImage(im1, im2, new List<PointF>(), out newPositions);
-            processImage(im2, im3, new List<PointF>(), out newPositions);*/
-
-            var pts = new List<PointF>();
-            pts.Add(new PointF(272, 82)); //-> 277,83
-
-            /*im1.SupressNonMaxima(3).ToBitmap().Save("bla.bmp");
-            return;*/
-
-            var features = im1.GoodFeaturesToTrack(5, 0.3f);
-
-            var d = new Image<Bgr, byte>(im1.Size);
-            drawPoints(d, features.Select(x => new PointF(x.X, x.Y)).ToList());
-            d.Save("bla.bmp");
-
-            Console.WriteLine(features);
-            //return;
-
-            List<PointF> newPts;
-            processImage(im1, im2, pts, out newPts);   
-            //return;
-
+            
             try
             {
                 videoCapture = new Capture(0);

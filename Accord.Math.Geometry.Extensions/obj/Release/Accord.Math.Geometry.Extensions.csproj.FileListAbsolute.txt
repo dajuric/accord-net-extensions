@@ -23,4 +23,3 @@ C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\AFor
 C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\AForge.Math.xml
 C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\obj\Release\Accord.Math.Geometry.Extensions.dll
 C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\obj\Release\Accord.Math.Geometry.Extensions.pdb
-C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\obj\Release\Accord.Math.Geometry.Extensions.csprojResolveAssemblyReference.cache

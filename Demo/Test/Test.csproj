@@ -87,6 +87,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.ArrayExtensions.cs" />
     <Compile Include="Test.ColorConversions.cs" />
+    <Compile Include="Test.LKFlow.cs" />
     <Compile Include="Test.Performance.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -127,6 +128,10 @@
     <ProjectReference Include="..\..\Accord.Math.Extensions\Accord.Math.Extensions.csproj">
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
       <Name>Accord.Math.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Vision.Extensions\Accord.Vision.Extensions.csproj">
+      <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
+      <Name>Accord.Vision.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

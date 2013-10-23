@@ -176,3 +176,5 @@ C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\obj\Release\Test.Properties.Re
 C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\obj\Release\Test.csproj.GenerateResource.Cache
 C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\obj\Release\Test.exe
 C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\obj\Release\Test.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Vision.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Vision.Extensions.pdb
