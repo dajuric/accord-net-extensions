@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Accord.Imaging.Extensions")]
+[assembly: AssemblyTitle("Accord.Imaging.Filters")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Accord.Imaging.Extensions")]
+[assembly: AssemblyProduct("Accord.Imaging.Filters")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3a88707d-9c9c-4d34-a121-3070774918e7")]
+[assembly: Guid("4eeb4c2e-4993-43a9-b789-4b0233fc0106")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -100,7 +100,7 @@
       <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
       <Name>Accord.Core.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Accord.Imaging.Extensions\Accord.Imaging.GenericImage.csproj">
+    <ProjectReference Include="..\Accord.Imaging.GenericImage\Accord.Imaging.GenericImage.csproj">
       <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
       <Name>Accord.Imaging.GenericImage</Name>
     </ProjectReference>

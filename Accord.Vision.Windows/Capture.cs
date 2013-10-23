@@ -14,7 +14,7 @@ using Accord.Imaging.Helper;
 namespace Accord.Vision
 {
     /// <summary>
-    /// Video capture class. (I NEED HELP WITH THIS). TODO: This implementation should be in separate assembly (ies - regarding how many architectures should be supported) if the Accord.NET should be used on different architectures.
+    /// Video capture class. (I NEED HELP WITH THIS). TODO: This implementation should be in separate assembly (i.e. - regarding how many architectures should be supported) if the Accord.NET should be used on different architectures.
     /// </summary>
     public class Capture: CaptureBase
     {    

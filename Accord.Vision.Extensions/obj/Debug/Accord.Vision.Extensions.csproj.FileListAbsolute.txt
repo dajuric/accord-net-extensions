@@ -50,3 +50,34 @@ C:\Users\Darko-Home\Google disk\Accord Generic Image\Accord.Vision.Extensions\bi
 C:\Users\Darko-Home\Google disk\Accord Generic Image\Accord.Vision.Extensions\bin\Accord.Imaging.xml
 C:\Users\Darko-Home\Google disk\Accord Generic Image\Accord.Vision.Extensions\bin\Accord.MachineLearning.xml
 C:\Users\Darko-Home\Google disk\Accord Generic Image\Accord.Vision.Extensions\bin\Accord.Statistics.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Vision.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Vision.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Core.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Imaging.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Imaging.GenericImage.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Math.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Math.Geometry.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\AForge.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\AForge.Imaging.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\AForge.Math.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Imaging.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Math.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.MachineLearning.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Statistics.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Core.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Imaging.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Imaging.GenericImage.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Math.Geometry.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Math.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\AForge.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\AForge.Imaging.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\AForge.Math.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Imaging.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Math.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.MachineLearning.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\bin\Accord.Statistics.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\obj\Debug\Accord.Vision.Extensions.csprojResolveAssemblyReference.cache
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\obj\Debug\Accord.Vision.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Vision.Extensions\obj\Debug\Accord.Vision.Extensions.pdb

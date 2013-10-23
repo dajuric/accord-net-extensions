@@ -16,3 +16,11 @@ C:\Users\Darko-Home\Google disk\Accord Generic Image\Accord.Math.Geometry.Extens
 C:\Users\Darko-Home\Google disk\Accord Generic Image\Accord.Math.Geometry.Extensions\obj\Debug\Accord.Math.Geometry.Extensions.pdb
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Math.Geometry.Extensions\obj\Debug\Accord.Math.Geometry.Extensions.csprojResolveAssemblyReference.cache
 C:\Users\Darko-Home\Google disk\Accord Generic Image\Accord.Math.Geometry.Extensions\obj\Debug\Accord.Math.Geometry.Extensions.csprojResolveAssemblyReference.cache
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\Accord.Math.Geometry.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\Accord.Math.Geometry.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\AForge.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\AForge.Math.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\AForge.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\AForge.Math.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\obj\Debug\Accord.Math.Geometry.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\obj\Debug\Accord.Math.Geometry.Extensions.pdb

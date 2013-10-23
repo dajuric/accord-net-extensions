@@ -124,3 +124,41 @@ C:\Users\Darko-Home\Google disk\Accord Generic Image\Demo\Test\bin\AForge.Contro
 C:\Users\Darko-Home\Google disk\Accord Generic Image\Demo\Test\bin\AForge.Video.xml
 C:\Users\Darko-Home\Google disk\Accord Generic Image\Demo\Test\bin\Accord.Imaging.xml
 C:\Users\Darko-Home\Google disk\Accord Generic Image\Demo\Test\bin\Accord.MachineLearning.xml
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Test.exe.config
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Test.exe
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Test.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Controls.Imaging.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Core.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Imaging.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Imaging.GenericImage.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Math.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Math.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\AForge.Controls.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\AForge.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\AForge.Imaging.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\AForge.Math.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\AForge.Video.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Imaging.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Math.Geometry.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.MachineLearning.dll
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Core.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Imaging.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Imaging.GenericImage.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Math.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.xml
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Controls.Imaging.xml
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Math.xml
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\AForge.xml
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\AForge.Controls.xml
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\AForge.Imaging.xml
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\AForge.Math.xml
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\AForge.Video.xml
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Imaging.xml
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Math.Geometry.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.MachineLearning.xml
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\obj\Debug\Test.Properties.Resources.resources
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\obj\Debug\Test.csproj.GenerateResource.Cache
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\obj\Debug\Test.exe
+C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\obj\Debug\Test.pdb

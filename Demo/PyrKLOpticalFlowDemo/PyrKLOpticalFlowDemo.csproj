@@ -103,13 +103,13 @@
       <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
       <Name>Accord.Core.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Imaging.Extensions\Accord.Imaging.GenericImage.csproj">
-      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
-      <Name>Accord.Imaging.GenericImage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Imaging.Filters.Extensions\Accord.Imaging.Extensions.csproj">
+    <ProjectReference Include="..\..\Accord.Imaging.Extensions\Accord.Imaging.Extensions.csproj">
       <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
       <Name>Accord.Imaging.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Imaging.GenericImage\Accord.Imaging.GenericImage.csproj">
+      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
+      <Name>Accord.Imaging.GenericImage</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Math.Geometry.Extensions\Accord.Math.Geometry.Extensions.csproj">
       <Project>{6713153c-8632-4951-a3ed-cd49a70c9fb3}</Project>

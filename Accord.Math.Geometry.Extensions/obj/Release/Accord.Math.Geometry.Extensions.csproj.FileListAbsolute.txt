@@ -15,3 +15,11 @@ C:\Users\Darko\Google disk\Accord Generic Image\Accord.Math.Geometry.Extensions\
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Math.Geometry.Extensions\bin\AForge.Math.xml
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Math.Geometry.Extensions\obj\Release\Accord.Math.Geometry.Extensions.dll
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Math.Geometry.Extensions\obj\Release\Accord.Math.Geometry.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\Accord.Math.Geometry.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\Accord.Math.Geometry.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\AForge.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\AForge.Math.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\AForge.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\bin\AForge.Math.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\obj\Release\Accord.Math.Geometry.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Geometry.Extensions\obj\Release\Accord.Math.Geometry.Extensions.pdb

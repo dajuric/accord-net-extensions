@@ -4,3 +4,9 @@ C:\Users\Darko\Google disk\Accord Generic Image\Accord.Core.Extensions\obj\Relea
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Core.Extensions\obj\Release\Accord.Core.Extensions.pdb
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Core.Extensions\bin\AForge.dll
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Core.Extensions\bin\AForge.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Core.Extensions\bin\Accord.Core.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Core.Extensions\bin\Accord.Core.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Core.Extensions\bin\AForge.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Core.Extensions\bin\AForge.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Core.Extensions\obj\Release\Accord.Core.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Core.Extensions\obj\Release\Accord.Core.Extensions.pdb

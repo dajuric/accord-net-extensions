@@ -9,3 +9,14 @@ C:\Users\Darko\Google disk\Accord Generic Image\Accord.Math.Extensions\bin\AForg
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Math.Extensions\obj\Release\Accord.Math.Extensions.csprojResolveAssemblyReference.cache
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Math.Extensions\obj\Release\Accord.Math.Extensions.dll
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Math.Extensions\obj\Release\Accord.Math.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Extensions\bin\Accord.Math.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Extensions\bin\Accord.Math.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Extensions\bin\Accord.Core.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Extensions\bin\AForge.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Extensions\bin\AForge.Math.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Extensions\bin\Accord.Core.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Extensions\bin\AForge.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Extensions\bin\AForge.Math.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Extensions\obj\Release\Accord.Math.Extensions.csprojResolveAssemblyReference.cache
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Extensions\obj\Release\Accord.Math.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Math.Extensions\obj\Release\Accord.Math.Extensions.pdb

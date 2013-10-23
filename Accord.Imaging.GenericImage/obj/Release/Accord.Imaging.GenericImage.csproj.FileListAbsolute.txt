@@ -15,3 +15,20 @@ C:\Users\Darko\Google disk\Accord Generic Image\Accord.Imaging.Extensions\bin\AF
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Imaging.Extensions\obj\Release\Accord.Imaging.GenericImage.csprojResolveAssemblyReference.cache
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Imaging.Extensions\obj\Release\Accord.Imaging.GenericImage.dll
 C:\Users\Darko\Google disk\Accord Generic Image\Accord.Imaging.Extensions\obj\Release\Accord.Imaging.GenericImage.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\Accord.Imaging.GenericImage.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\Accord.Imaging.GenericImage.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\Accord.Core.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\Accord.Math.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\Accord.Math.Geometry.Extensions.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\AForge.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\AForge.Imaging.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\AForge.Math.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\Accord.Core.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\Accord.Math.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\Accord.Math.Geometry.Extensions.pdb
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\AForge.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\AForge.Imaging.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\bin\AForge.Math.xml
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\obj\Release\Accord.Imaging.GenericImage.csprojResolveAssemblyReference.cache
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\obj\Release\Accord.Imaging.GenericImage.dll
+C:\Users\Darko\Desktop\AccordExtensions\Accord.Imaging.GenericImage\obj\Release\Accord.Imaging.GenericImage.pdb
