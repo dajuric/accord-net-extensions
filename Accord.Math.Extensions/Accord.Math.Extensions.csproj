@@ -34,6 +34,15 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord">
+      <HintPath>..\packages\Accord.2.11.0.0\lib\Accord.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math">
+      <HintPath>..\packages\Accord.Math.2.11.0.0\lib\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics">
+      <HintPath>..\packages\Accord.Statistics.2.11.0.0\lib\Accord.Statistics.dll</HintPath>
+    </Reference>
     <Reference Include="AForge">
       <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
     </Reference>
@@ -53,6 +62,9 @@
     <Compile Include="Complex.cs" />
     <Compile Include="FFT\FFT.cs" />
     <Compile Include="FFT\FFT.Float.cs" />
+    <Compile Include="ParticleFilter\Particle.cs" />
+    <Compile Include="ParticleFilter\ParticleFilter.cs" />
+    <Compile Include="ParticleFilter\ParticleFilterMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -120,7 +120,7 @@ namespace Accord.Imaging
         /// <param name="width">Line thickness.</param>
         public static void Draw<TColor>(this Image<TColor, byte> image, List<LineSegment> lines, float width)
             where TColor : IColor3
-        {
+        { 
             var bmp = image.ToBitmap(false, true);
             using (Graphics g = Graphics.FromImage(bmp))
             {
@@ -190,6 +190,48 @@ namespace Accord.Imaging
                 for (int i = 0; i < contour.Count(); i++)
                 {
                     g.DrawLines(pen, contour.ToArray());
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Draws circle.
+        /// </summary>
+        /// <param name="image">Input image.</param>
+        /// <param name="circle">Circle</param>
+        /// <param name="width">Contours thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, CircleF circle, TColor color, float width)
+            where TColor : IColor3
+        {
+            Color drawingColor = getColor(color);
+            Pen pen = new Pen(drawingColor, width);
+
+            var bmp = image.ToBitmap(false, true);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.DrawEllipse(pen, circle.X, circle.Y, circle.Radius * 2, circle.Radius * 2);
+            }
+        }
+
+        /// <summary>
+        /// Draws circles in various colors.
+        /// </summary>
+        /// <param name="image">Input image.</param>
+        /// <param name="circles">Circles</param>
+        /// <param name="width">Contours thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<CircleF> circles, TColor color, float width)
+            where TColor : IColor3
+        {
+            Color drawingColor = getColor(color);
+            Pen pen = new Pen(drawingColor, width);
+
+            var bmp = image.ToBitmap(false, true);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                foreach (var c in circles)
+	            {
+                    g.DrawEllipse(pen, c.X, c.Y, c.Radius * 2, c.Radius * 2);
                 }
             }
         }

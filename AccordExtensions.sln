@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.20827.3
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math.Geometry.Extensions", "Accord.Math.Geometry.Extensions\Accord.Math.Geometry.Extensions.csproj", "{6713153C-8632-4951-A3ED-CD49A70C9FB3}"
 EndProject
@@ -31,6 +31,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Imaging.Extensions", "Accord.Imaging.Extensions\Accord.Imaging.Extensions.csproj", "{91C6AE50-EE09-4E3D-8EBB-1BD42688D042}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Vision.IO", "Accord.Vision.IO\Accord.Vision.IO.csproj", "{0DB826E1-CAE4-4802-A579-1E12D7A60348}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleParticleFilterDemo", "Demo\SimpleparticleFilterDemo\SimpleParticleFilterDemo.csproj", "{23BF064F-0AC4-469A-928A-F8D6814A160D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +80,10 @@ Global
 		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DB826E1-CAE4-4802-A579-1E12D7A60348}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23BF064F-0AC4-469A-928A-F8D6814A160D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23BF064F-0AC4-469A-928A-F8D6814A160D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23BF064F-0AC4-469A-928A-F8D6814A160D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23BF064F-0AC4-469A-928A-F8D6814A160D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,5 +92,6 @@ Global
 		{3CA48B2E-13DA-4B1D-9846-C7754D18A33A} = {7E190147-4028-4DD7-B692-1C62009EB399}
 		{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB} = {7E190147-4028-4DD7-B692-1C62009EB399}
 		{408DC7A0-C599-453C-B50A-76F9A09A7E6B} = {7E190147-4028-4DD7-B692-1C62009EB399}
+		{23BF064F-0AC4-469A-928A-F8D6814A160D} = {7E190147-4028-4DD7-B692-1C62009EB399}
 	EndGlobalSection
 EndGlobal

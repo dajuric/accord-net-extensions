@@ -18,7 +18,7 @@ namespace Accord.Vision
 
         private void init()
         {
-            int[] binSizes = new int[] { 32, 32 }; //X bins per channel
+            int[] binSizes = new int[] { 64, 64 }; //X bins per channel
 
             IntRange[] ranges = new IntRange[] 
             { 
@@ -38,12 +38,12 @@ namespace Accord.Vision
             //user constraints...
             Image<Gray, byte> mask = hsvImg.InRange(new Hsv(0, 0, minV), new Hsv(0, 0, maxV), 2);
 
-            originalObjHist.Calculate(hsvImg.GetSubRect(roi).SplitChannels(0, 1), false, mask.GetSubRect(roi));
+            originalObjHist.Calculate(hsvImg.GetSubRect(roi).SplitChannels(0, 1), !false, mask.GetSubRect(roi));
             originalObjHist.Scale((float)1 / roi.Area());
             //originalObjHist.Normalize(Byte.MaxValue);
 
             var backgroundArea = roi.Inflate(1.5, 1.5, frame.Size);
-            backgroundHist.Calculate(hsvImg.GetSubRect(backgroundArea).SplitChannels(0, 1), false, mask.GetSubRect(backgroundArea));
+            backgroundHist.Calculate(hsvImg.GetSubRect(backgroundArea).SplitChannels(0, 1), !false, mask.GetSubRect(backgroundArea));
             backgroundHist.Scale((float)1 / backgroundArea.Area());
             //backgroundHist.Normalize(Byte.MaxValue);
             

@@ -138,7 +138,7 @@ namespace PyrKLOpticalFlowDemo
             {
                 if (e.KeyChar == 'r')
                     //oldPositions = prevIm.Convert<byte>().HarrisCorners().Select(x => new PointF(x.X, x.Y)).Take(100).ToList();
-                    oldPositions = prevIm.GoodFeaturesToTrack(winSize, 0.2f).Select(x => new PointF(x.X, x.Y)).Take(100).ToList();
+                    oldPositions = prevIm.GoodFeaturesToTrack(winSize, 0.05f).Select(x => new PointF(x.X, x.Y)).Take(100).ToList();
             }
         }
     }

@@ -50,7 +50,7 @@ namespace Accord.Math
             // check if the array is already calculated
             if (reversedBits[numberOfBits - 1] == null)
             {
-                int n = Tools.Pow2(numberOfBits);
+                int n = AForge.Math.Tools.Pow2(numberOfBits);
                 int[] rBits = new int[n];
 
                 // calculate the array

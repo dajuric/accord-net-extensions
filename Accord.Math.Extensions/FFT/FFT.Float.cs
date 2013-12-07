@@ -29,7 +29,7 @@
         public unsafe static void FFT(ComplexF* data, int length, Direction direction)
         {
             int n = length;
-            int m = Tools.Log2(n);
+            int m = AForge.Math.Tools.Log2(n);
 
             // reorder data first
             ReorderData(data, length);
@@ -109,8 +109,8 @@
 
             // check data size
             if (
-                    (!Tools.IsPowerOf2(k)) ||
-                    (!Tools.IsPowerOf2(n)) ||
+                    (!AForge.Math.Tools.IsPowerOf2(k)) ||
+                    (!AForge.Math.Tools.IsPowerOf2(n)) ||
                     (k < minLength) || (k > maxLength) ||
                     (n < minLength) || (n > maxLength)
                     )
@@ -220,10 +220,10 @@
             int len = length;
 
             // check data length
-            if ((len < minLength) || (len > maxLength) || (!Tools.IsPowerOf2(len)))
+            if ((len < minLength) || (len > maxLength) || (!AForge.Math.Tools.IsPowerOf2(len)))
                 throw new ArgumentException("Incorrect data length.");
 
-            int[] rBits = GetReversedBits(Tools.Log2(len));
+            int[] rBits = GetReversedBits(AForge.Math.Tools.Log2(len));
 
             for (int i = 0; i < len; i++)
             {
