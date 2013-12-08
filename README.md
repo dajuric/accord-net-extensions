@@ -6,7 +6,7 @@ Extension library for Accord.NET
 adds support for:
 
       1) generic image 
-	     general idea: The main structure is generic image which is implemented to be similar to EmguCV's)
+	     general idea: The main structure is generic image which is implemented to be similar to EmguCV's
 		 Differences and enhancements:
 				Generic image can be used in non-generic way also (useful for many filters and tools, see: some implementations in Accord.Imaging.Extensions project)
 				All operations (color conversions) are executed in parallel
@@ -22,7 +22,7 @@ adds support for:
       
 	  6) introduces extension pattern method usage (e.g. img.GaussianSmooth(3)...) (parallel)
       
-	  7)implements new algorithms (Camshift (parallel), KLT (parallel), ParticleFilter, KalmanFilter)
+	  7) implements new algorithms (Camshift (parallel), KLT (parallel), ParticleFilter, KalmanFilter)
    
    
 roadmap: //TODO list
