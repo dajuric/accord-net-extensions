@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Accord.Math.Extensions.ParticleFilter
+namespace Accord.Statistics.Filters
 {
     public class ParticleFilter<TParticle, TState>
         where TParticle : Particle<TState>//, new()

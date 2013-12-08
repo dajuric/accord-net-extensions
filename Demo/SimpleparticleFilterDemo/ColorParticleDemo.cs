@@ -1,8 +1,8 @@
 ﻿using Accord.Imaging;
 using Accord.Math;
-using Accord.Math.Extensions.ParticleFilter;
 using Accord.Math.Geometry;
 using Accord.Statistics.Distributions.Univariate;
+using Accord.Statistics.Filters;
 using Accord.Vision;
 using AForge;
 using System;

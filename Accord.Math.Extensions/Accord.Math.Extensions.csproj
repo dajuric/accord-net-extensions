@@ -60,11 +60,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Complex.cs" />
+    <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="FFT\FFT.cs" />
     <Compile Include="FFT\FFT.Float.cs" />
-    <Compile Include="ParticleFilter\Particle.cs" />
-    <Compile Include="ParticleFilter\ParticleFilter.cs" />
-    <Compile Include="ParticleFilter\ParticleFilterMethods.cs" />
+    <Compile Include="Filters\Kalman\DiscreteKalmanFilter.cs" />
+    <Compile Include="Filters\Kalman\Interfaces\IKalman.cs" />
+    <Compile Include="Filters\Kalman\Interfaces\KalmanFilter.cs" />
+    <Compile Include="Filters\Models\LinearAcceleration1DModel.cs" />
+    <Compile Include="Filters\Models\LinearAcceleration2DModel.cs" />
+    <Compile Include="Filters\ParticleFilter\Particle.cs" />
+    <Compile Include="Filters\ParticleFilter\ParticleFilter.cs" />
+    <Compile Include="Filters\ParticleFilter\ParticleFilterMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +82,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

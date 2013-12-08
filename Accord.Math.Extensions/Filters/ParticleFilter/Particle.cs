@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Accord.Math.Extensions.ParticleFilter
+namespace Accord.Statistics.Filters
 {
     /// <summary>
     /// Non-generic particle interface

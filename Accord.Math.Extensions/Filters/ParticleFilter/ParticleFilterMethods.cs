@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Accord.Math.Extensions.ParticleFilter
+namespace Accord.Statistics.Filters
 {
     public static class FilterMethods<TParticle, TState>
         where TParticle : Particle<TState>, new()
