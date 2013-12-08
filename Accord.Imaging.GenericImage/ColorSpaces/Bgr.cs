@@ -27,6 +27,7 @@ namespace Accord.Imaging
         public double R;
     }
 
+    [ColorInfo(ConversionCodename = "BGR")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Bgr8 
     {
@@ -35,6 +36,7 @@ namespace Accord.Imaging
         public byte R;
     }
 
+    [ColorInfo(ConversionCodename = "BGR")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Bgr16
     {
@@ -43,6 +45,7 @@ namespace Accord.Imaging
         public short R;
     }
 
+    [ColorInfo(ConversionCodename = "BGR")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Bgr32
     {
@@ -51,6 +54,7 @@ namespace Accord.Imaging
         public int R;
     }
 
+    [ColorInfo(ConversionCodename = "BGR")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Bgr32f
     {

@@ -18,7 +18,8 @@ namespace Accord.Imaging
             where TColor : IColor
         {
             int[] colorArr = HelperMethods.ColorToArray<TColor, int>(color);
-
+            correctValueMapping<TColor>(ref colorArr);
+            
             switch (colorArr.Length)
             { 
                 case 1:
@@ -32,6 +33,18 @@ namespace Accord.Imaging
             }
 
             throw new Exception("Unknown color model!");
+        }
+
+        private static void correctValueMapping<TColor>(ref int[] colorArr)
+             where TColor : IColor
+        {
+            if (ColorInfo.GetInfo<TColor, double>().ConversionCodename == "BGR") //TODO (priority: lowest): other way to do that (without harcoding) - converters ?
+            {
+                var temp = colorArr[0];
+                colorArr[0] = colorArr[2];
+                colorArr[2] = temp;
+            }
+
         }
 
         /// <summary>
@@ -161,10 +174,7 @@ namespace Accord.Imaging
             var bmp = image.ToBitmap(false, true);
             using (Graphics g = Graphics.FromImage(bmp))
             {
-                for (int i = 0; i < contour.Count(); i++)
-                {
-                    g.DrawLines(pen, contour.ToArray());
-                }
+                g.DrawLines(pen, contour.ToArray());
             }
         }
 
@@ -187,10 +197,7 @@ namespace Accord.Imaging
             var bmp = image.ToBitmap(false, true);
             using (Graphics g = Graphics.FromImage(bmp))
             {
-                for (int i = 0; i < contour.Count(); i++)
-                {
-                    g.DrawLines(pen, contour.ToArray());
-                }
+                g.DrawLines(pen, contour.ToArray());
             }
         }
 
