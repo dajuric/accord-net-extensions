@@ -11,14 +11,11 @@ adds support for:
       optimized convolution (parallel spatial and parallel in frequency domain - FFT)
       introduces new extension and compatibility methods (for Bitmap, UnmanagedImage...)
       introduces extension pattern method usage (e.g. img.GaussianSmooth(3)...) (parallel)
-      implements new algorithms (Camshift (parallel), KLT (parallel))
+      implements new algorithms (Camshift (parallel), KLT (parallel), ParticleFilter, KalmanFilter)
    
    
 roadmap: //TODO list
-	
-	implement ParticleFilter (merge it from another project)
-	implement KalmanFilter (merge it from another project)
-  
+	  
 	implement missing overloads
 	write extension methods for existing classes/filters
 	overall look and feel
