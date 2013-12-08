@@ -80,6 +80,7 @@
     <Compile Include="DenseHistogram\DenseHistogram.Core.cs" />
     <Compile Include="Filter\FindNonZeroExtensions.cs" />
     <Compile Include="Filter\NonMaximaSupressionExtensions.cs" />
+    <Compile Include="ImageContourExtensions.cs" />
     <Compile Include="IntegralImage\IntegralImageExtensions.cs" />
     <Compile Include="IntegralImage\SquaredIntegralImageExtensions.cs" />
     <Compile Include="Moments\CentralMoments.cs" />

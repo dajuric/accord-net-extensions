@@ -78,6 +78,9 @@ C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\AForge.Vi
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\AForge.Video.dll
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Math.Extensions.dll
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Math.Geometry.Extensions.dll
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Math.dll
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Statistics.dll
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.dll
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Core.Extensions.pdb
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Imaging.GenericImage.pdb
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\AForge.xml
@@ -87,12 +90,9 @@ C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\AForge.Vi
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\AForge.Video.DirectShow.xml
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Math.Extensions.pdb
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Math.Geometry.Extensions.pdb
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Math.xml
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Statistics.xml
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.xml
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\obj\Release\Accord.Vision.IO.csprojResolveAssemblyReference.cache
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\obj\Release\Accord.Vision.IO.dll
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\obj\Release\Accord.Vision.IO.pdb
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Statistics.dll
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Math.dll
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.dll
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Statistics.xml
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.Math.xml
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.IO\bin\Accord.xml

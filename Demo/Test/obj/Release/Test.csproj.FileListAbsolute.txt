@@ -178,6 +178,9 @@ C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\obj\Release\Test.exe
 C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\obj\Release\Test.pdb
 C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Vision.Extensions.dll
 C:\Users\Darko\Desktop\AccordExtensions\Demo\Test\bin\Accord.Vision.Extensions.pdb
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\obj\Release\Test.csprojResolveAssemblyReference.cache
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\obj\Release\Test.Properties.Resources.resources
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\obj\Release\Test.csproj.GenerateResource.Cache
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\bin\Test.exe.config
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\bin\Test.exe
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\bin\Test.pdb
@@ -213,8 +216,5 @@ C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\bin\AForge.Video.xml
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\bin\Accord.Imaging.xml
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\bin\Accord.Math.Geometry.Extensions.pdb
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\bin\Accord.MachineLearning.xml
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\obj\Release\Test.csprojResolveAssemblyReference.cache
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\obj\Release\Test.Properties.Resources.resources
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\obj\Release\Test.csproj.GenerateResource.Cache
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\obj\Release\Test.exe
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\Test\obj\Release\Test.pdb
