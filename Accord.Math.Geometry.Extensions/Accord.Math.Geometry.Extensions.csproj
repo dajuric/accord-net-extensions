@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord">
+      <HintPath>..\packages\Accord.2.11.0.0\lib\Accord.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math">
+      <HintPath>..\packages\Accord.Math.2.11.0.0\lib\Accord.Math.dll</HintPath>
+    </Reference>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
@@ -50,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\Contour\CardinalSpline.cs" />
     <Compile Include="Extensions\Structures\AForgePointExtensions.cs" />
     <Compile Include="Angle.cs" />
     <Compile Include="Extensions\Contour\ContourExtensions.cs" />

@@ -67,5 +67,26 @@ namespace Accord.Math.Geometry
         {
             return (float)System.Math.Sqrt((a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y));
         }
+
+        public static Point Normalize(this Point p)
+        {
+            var norm = p.EuclideanNorm();
+            var pt = new Point 
+            {
+                X = p.X / norm,
+                Y = p.Y / norm
+            };
+
+            return pt;
+        }
+
+        public static Point Swap(this Point p)
+        {
+            return new Point 
+            { 
+                X = p.Y,
+                Y = p.X
+            };
+        }
     }
 }
