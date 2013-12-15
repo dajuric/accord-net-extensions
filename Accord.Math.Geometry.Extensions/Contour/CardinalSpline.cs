@@ -13,7 +13,7 @@ namespace Accord.Math.Geometry
     /// <para><see cref="http://www.intelligence.tuc.gr/~petrakis/courses/computervision/splines.pdf"/></para>.
     /// </remarks>
     /// </summary>
-    public class CardinalSpline: IEnumerable<PointF>
+    public class CardinalSpline: IEnumerable<PointF>, ICloneable
     {
         List<PointF> controlPoints;
 
@@ -21,7 +21,7 @@ namespace Accord.Math.Geometry
         /// Creates cardinal spline.
         /// </summary>
         /// <param name="tension">User specified tension.</param>
-        public CardinalSpline(float tension = 0)
+        public CardinalSpline(float tension = 0.5f)
         { 
             initialize(tension);
         }
@@ -31,9 +31,10 @@ namespace Accord.Math.Geometry
         /// </summary>
         /// <param name="controlPoints">Control points for the curve.</param>
         /// <param name="tension">User specified tension.</param>
-        public CardinalSpline(IEnumerable<PointF> controlPoints, float tension = 0)
-        {
+        public CardinalSpline(IEnumerable<PointF> controlPoints, float tension = 0.5f)
+        { 
             initialize(tension);
+            //this.controlPoints.AddRange(controlPoints); //nedostaje jedan krak
             foreach (var cp in controlPoints)
             {
                 this.Add(cp);
@@ -47,8 +48,12 @@ namespace Accord.Math.Geometry
         }
 
         /// <summary>
-        /// Tension. Greater tension decreases the curve smoothness.
-        /// <para>Zero tension gives the best smoothness.</para>
+        /// Tension. 
+        /// <para>
+        /// Value 1 gives linear interpolation.
+        /// Values smaller than 1 gives greater contour "exterior" tension. 
+        /// Values greater than 1 give greater contour "interior" tension.
+        /// </para>
         /// </summary>
         public float Tension { get; set; }
 
@@ -66,12 +71,12 @@ namespace Accord.Math.Geometry
         /// <summary>
         /// Gets the number of control points.
         /// </summary>
-        public int Count { get { return controlPoints.Count; } }
+        public int Count { get { return controlPoints.Count - 2; } }
 
         /// <summary>
         /// Adds control point to the end of the collection.
         /// </summary>
-        /// <param name="controlPoint">Controll point to add.</param>
+        /// <param name="controlPoint">Control point to add.</param>
         public void Add(PointF controlPoint)
         {
             PointF p0, p1, p2, p3;
@@ -128,7 +133,7 @@ namespace Accord.Math.Geometry
         /// <returns>Interpolated point.</returns>
         public PointF Interpolate(float index)
         {
-            float s = Tension;
+            float s = (1 - Tension) / 2;
 
             int idx = (int)index + 1;
             float u = index - (int)index;
@@ -159,7 +164,7 @@ namespace Accord.Math.Geometry
         /// <returns>Derivative at interpolated point.</returns>
         public PointF DerivativeAt(float index)
         {
-            float s = Tension;
+            float s = (1 - Tension) / 2;
 
             int idx = (int)index + 1;
             float u = index - (int)index;
@@ -180,7 +185,7 @@ namespace Accord.Math.Geometry
             var pointX = mulFactor.Multiply(GHx.Transpose())[0];
             var pointY = mulFactor.Multiply(GHy.Transpose())[0];
 
-            return new PointF(pointX, pointY);
+            return new PointF(pointX, pointY).Normalize();
         }
 
         /// <summary>
@@ -209,5 +214,17 @@ namespace Accord.Math.Geometry
         }
 
         #endregion
+
+        /// <summary>
+        /// Clones this curvature. Curvature points are not shared.
+        /// </summary>
+        /// <returns>New cloned curvature.</returns>
+        public object Clone()
+        {
+            var newCardinal = new CardinalSpline(this.Tension);
+            newCardinal.controlPoints.AddRange(this.controlPoints);
+
+            return newCardinal;
+        }
     }
 }

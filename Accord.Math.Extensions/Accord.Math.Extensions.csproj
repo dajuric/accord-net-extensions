@@ -72,6 +72,7 @@
     <Compile Include="Filters\ParticleFilter\ParticleFilter.cs" />
     <Compile Include="Filters\ParticleFilter\ParticleFilterMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MathExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accord.Core.Extensions\Accord.Core.Extensions.csproj">

@@ -1,4 +1,5 @@
 ﻿using Accord.Core;
+using Accord.Math;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -85,7 +86,7 @@ namespace Accord.Imaging
             {
                 for (int col = 0; col < width; col++)
                 {
-                    *dstPtr = Sqrt(*srcAPtr * *srcAPtr + *srcBPtr * *srcBPtr);
+                    *dstPtr = MathExtensions.Sqrt(*srcAPtr * *srcAPtr + *srcBPtr * *srcBPtr);
 
                     srcAPtr++;
                     srcBPtr++;
@@ -127,36 +128,7 @@ namespace Accord.Imaging
             }
         }
 
-        #region Math helpers
-
-        [StructLayout(LayoutKind.Explicit)]
-        private struct FloatIntUnion
-        {
-            [FieldOffset(0)]
-            public float f;
-
-            [FieldOffset(0)]
-            public int tmp;
-        }
-
-        /// <summary>
-        /// see: http://blog.wouldbetheologian.com/2011/11/fast-approximate-sqrt-method-in-c.html
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static float Sqrt(float z)
-        {
-            if (z == 0) return 0;
-
-            FloatIntUnion u;
-            u.tmp = 0;
-            float xhalf = 0.5f * z;
-            u.f = z;
-            u.tmp = 0x5f375a86 - (u.tmp >> 1);
-            u.f = u.f * (1.5f - xhalf * u.f * u.f);
-            return u.f * z;
-        }
-
-        #endregion
+       
 
     }
 }

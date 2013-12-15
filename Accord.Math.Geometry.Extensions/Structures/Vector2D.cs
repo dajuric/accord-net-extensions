@@ -76,6 +76,53 @@ namespace Accord.Math.Geometry
             return new Vector2D(line.Start, line.End);
         }
 
+        public static explicit operator Vector2D(PointF direction)
+        {
+            return new Vector2D(direction.X, direction.Y);
+        }
+
+        #region Add
+
+        public PointF Add(PointF point)
+        {
+            return Add(this, point);
+        }
+
+        public static PointF Add(Vector2D vector, PointF point)
+        {
+            return new PointF 
+            {
+                X = point.X + vector.X,
+                Y = point.Y + vector.Y
+            };
+        }
+
+        public static PointF operator +(Vector2D vector, PointF point)
+        {
+            return Add(vector, point);
+        }
+
+        #endregion
+
+        #region Multiply
+
+        public Vector2D Multiply(float scale)
+        {
+            return Multiply(this, scale);
+        }
+
+        public static Vector2D Multiply(Vector2D vector, float scale)
+        {
+            return new Vector2D(vector.X * scale, vector.Y * scale);
+        }
+
+        public static Vector2D operator *(Vector2D vector, float scale)
+        {
+            return Multiply(vector, scale);
+        }
+
+        #endregion
+
         public override bool Equals(object obj)
         {
             var v = obj as Vector2D;

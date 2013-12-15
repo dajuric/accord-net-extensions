@@ -33,7 +33,7 @@ namespace Test
             image1.GetRectSubPix(new PointF(1.9f, 1.9f), res);
             ImageBox.Show("Interpolated image", res.ToBitmap());*/
 
-            var kernel1 = SobelEdgeDetector.Sobel_3x3_X;
+            var kernel1 = SobelExtensions.Sobel_3x3_X;
 
             var res = ParallelSpatialConvolution.Convolve(image1, new Image<Gray, float>[] { kernel1 }, ConvolutionBorder.BorderNone);
 

@@ -9,6 +9,12 @@ namespace Accord.Math.Geometry
 {
     public static class PointExtensions
     {
+        public static AForge.Point Rotate(this AForge.Point p, float angleRad) //TODO - critical: move all to AForge.Point 
+        {
+            var a = Rotate(new PointF(p.X, p.Y), angleRad);
+            return new AForge.Point(a.X, a.Y);
+        }
+
         public static PointF Rotate(this PointF p, float angleRad, bool useScreenCoordinateSystem = true)
         {
             if (useScreenCoordinateSystem)

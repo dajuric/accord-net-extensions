@@ -8,7 +8,7 @@ using Accord.Core;
 
 namespace Accord.Imaging.Filters
 {
-    public static class SobelEdgeDetector
+    public static class SobelExtensions
     {
         public static readonly Image<Gray, float> Sobel_3x3_X = new float[,] 
         {
@@ -26,7 +26,7 @@ namespace Accord.Imaging.Filters
         }
         .ToImage();
 
-        static SobelEdgeDetector()
+        static SobelExtensions()
         {
             normalizeKernel(Sobel_3x3_X);
             normalizeKernel(Sobel_3x3_Y);

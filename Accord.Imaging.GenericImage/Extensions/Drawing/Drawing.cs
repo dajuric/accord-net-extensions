@@ -47,6 +47,8 @@ namespace Accord.Imaging
 
         }
 
+        #region Rectangle
+
         /// <summary>
         /// Draws rectangle.
         /// </summary>
@@ -69,6 +71,10 @@ namespace Accord.Imaging
                 g.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
             }
         }
+
+        #endregion
+
+        #region Text
 
         /// <summary>
         /// Draws text.
@@ -98,6 +104,10 @@ namespace Accord.Imaging
             }
         }
 
+        #endregion
+
+        #region Box
+
         /// <summary>
         /// Draws Box2D.
         /// </summary>
@@ -123,6 +133,43 @@ namespace Accord.Imaging
                     g.DrawLine(pen, vertices[i], vertices[idx2]);
                 }
             }
+        }
+
+        #endregion
+
+
+        #region Line
+
+        /// <summary>
+        /// Draws line segment.
+        /// </summary>
+        /// <param name="image">Input image.</param>
+        /// <param name="line">Line</param>
+        /// <param name="width">Line thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, LineSegment line, TColor color, float width)
+            where TColor : IColor3
+        {
+            Draw(image, new LineSegment[] { line }, color, width);
+        }
+
+        /// <summary>
+        /// Draws line segments.
+        /// </summary>
+        /// <param name="image">Input image.</param>
+        /// <param name="lines">Lines</param>
+        /// <param name="width">Line thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, TColor color, float width)
+            where TColor : IColor3
+        {
+            var pointPairs = new List<AForge.Point>();
+
+            foreach (var line in lines)
+            {
+                pointPairs.Add(line.Start);
+                pointPairs.Add(line.End);
+            }
+
+            Draw(image, pointPairs.Select(x=> new PointF(x.X, x.Y)), color, width);
         }
 
         /// <summary>
@@ -155,11 +202,15 @@ namespace Accord.Imaging
             }
         }
 
+        #endregion
+
+        #region Contour
+
         /// <summary>
-        /// Draws lines in various colors regarding their angle.
+        /// Draws contour.
         /// </summary>
         /// <param name="image">Input image.</param>
-        /// <param name="contour">Line segments (treated as vectors)</param>
+        /// <param name="contour">Contour points.</param>
         /// <param name="width">Contours thickness.</param>
         public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<Point> contour, TColor color, float width)
             where TColor : IColor3
@@ -201,6 +252,9 @@ namespace Accord.Imaging
             }
         }
 
+        #endregion
+
+        #region Circle
 
         /// <summary>
         /// Draws circle.
@@ -243,5 +297,6 @@ namespace Accord.Imaging
             }
         }
 
+        #endregion
     }
 }
