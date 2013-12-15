@@ -1,16 +1,23 @@
-﻿using Accord.Imaging;
+﻿using Accord.Core;
+using Accord.Imaging;
+using Accord.Math;
+using Accord.Math.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using LineSegment2DF = AForge.Math.Geometry.LineSegment;
 using Point = AForge.IntPoint;
+using PointF = AForge.Point;
 
 namespace ParticleFilterModelFitting
 {
-    public static class Template 
+    public class Template
     {
+        #region Evaluation 
+
         const int MAX_FEATURE_SIMILARITY = 4;
 
         public static unsafe float GetScore(Image<Gray, byte> featureMap, IList<Point> points, IList<byte> quantizedOrientations)
@@ -63,5 +70,135 @@ namespace ParticleFilterModelFitting
 
             return similarity;
         }
+
+        #endregion
+
+        #region Prototype (model) Loading
+
+        static IList<PointF> prototypeControlPoints;
+        static PointF leftUpperPoint;
+
+        public static void LoadPrototype(IEnumerable<PointF> controlPoints)
+        {
+            var points = controlPoints.Normalize().FlipVertical(0);
+            //Console.WriteLine(points.Average(x => x.X));
+            //Console.WriteLine(points.Average(x => x.Y));
+            //points = points.Transform(Transforms.Translation(-points.Min(x => x.X), -points.Min(x => x.Y)));
+            prototypeControlPoints = points.ToList();
+            leftUpperPoint = new PointF
+            {
+                X = prototypeControlPoints.Min(x => x.X),
+                Y = prototypeControlPoints.Min(x => x.Y)
+            };
+        } 
+
+        public static void LoadPrototype(string fileName)
+        {
+            var points = readCoordinates(fileName);
+            LoadPrototype(points);
+        }
+
+        private static IEnumerable<PointF> readCoordinates(string fileName)
+        {
+            using (TextReader txtReader = new StreamReader(fileName))
+            {
+                string line;
+                while ((line = txtReader.ReadLine()) != null)
+                {
+                    var coord = line
+                                .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                .Select(x => Single.Parse(x, System.Globalization.CultureInfo.InvariantCulture));
+
+                    yield return new PointF
+                    {
+                        X = coord.First(),
+                        Y = coord.Last()
+                    };
+                }
+            }
+        }
+
+        #endregion
+
+        public IList<PointF> ControlPoints {get; private set;}
+        IList<byte> quantizedOrientations;
+
+        private Template(IEnumerable<PointF> points)
+        {
+            ControlPoints = points.ToList();
+        }
+
+        public static Template Create(float translationX, float translationY, 
+                                      float scaleX, float scaleY, 
+                                      int rotationX, int rotationY, int rotationZ) 
+        {
+            if (prototypeControlPoints == null)
+                throw new Exception("Prototype control points must be loaded");
+
+            var initialTranslation = new PointF //so the template left-upper point goes to (0,0) 
+            {
+                X = -leftUpperPoint.X * scaleX,
+                Y = -leftUpperPoint.Y * scaleY
+            };
+
+            var transform = Transforms.RotationZ((float)Angle.ToRadians(rotationZ)).Multiply(
+                            Transforms.RotationY((float)Angle.ToRadians(rotationY))).Multiply(
+                            Transforms.RotationX((float)Angle.ToRadians(rotationX))).Multiply(
+                            Transforms.Translation(initialTranslation.X + translationX, initialTranslation.Y + translationY)).Multiply(
+                            Transforms.Scale(scaleX, scaleY));
+
+                            /*Transforms.Scale(scaleX, scaleY)).Multiply(
+                            Transforms.Translation(translationX, translationY));*/
+
+            var transformedPoints = prototypeControlPoints.Transform(transform);
+            //transformedPoints = transformedPoints.Transform(Transforms.Translation(300, 300));
+
+            return new Template(transformedPoints);
+        }
+
+        #region Drawing
+
+        private static LineSegment2DF getLine(PointF normalDirection, PointF centerPoint, float length)
+        {
+            Vector2D vec = ((Vector2D)normalDirection).Multiply(length / 2);
+            var p1 = vec.Add(centerPoint);
+            var p2 = vec.Negate().Add(centerPoint);
+
+            return new LineSegment2DF(p1, p2);
+        }
+
+        public void Draw(Image<Bgr, byte> image)
+        {
+            var tension = 0f;
+
+            /********************  contour and control points *********************/
+            var points = new List<PointF>();
+            foreach (var idx in EnumerableMethods.GetRange(CardinalSpline.MIN_INDEX, this.ControlPoints.Count - 1 + CardinalSpline.MAX_INDEX_OFFSET, 0.1f))
+            {
+                var pt = CardinalSpline.Interpolate(this.ControlPoints, tension, idx);
+                points.Add(pt);
+            }
+
+            image.Draw(points.Select(x => new System.Drawing.PointF(x.X, x.Y)).ToArray(),
+                       new Bgr(Color.Blue),
+                       3);
+
+            image.Draw(this.ControlPoints.Select(x => new CircleF(x, 3)), new Bgr(Color.Red), 3);
+            /********************  contour and control points *********************/
+
+
+            foreach (var idx in EnumerableMethods.GetRange(CardinalSpline.MIN_INDEX, this.ControlPoints.Count - 1 + CardinalSpline.MAX_INDEX_OFFSET, 0.5f))
+            {
+                var pt = CardinalSpline.Interpolate(this.ControlPoints, tension, idx);
+                var normalDirection = CardinalSpline.NormalDirection(this.ControlPoints, tension, idx);
+
+                var normal = getLine(normalDirection, pt, 30);
+
+                image.Draw(normal, new Bgr(Color.Green), 3);
+            }
+        }
+
+        #endregion
+
     }
 }

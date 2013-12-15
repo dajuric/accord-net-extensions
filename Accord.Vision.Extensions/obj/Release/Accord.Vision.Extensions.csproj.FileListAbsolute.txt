@@ -124,7 +124,6 @@ C:\Users\Darko\Desktop\accord-net-extensions\Accord.Vision.Extensions\bin\Accord
 C:\Users\Darko\Desktop\accord-net-extensions\Accord.Vision.Extensions\obj\Release\Accord.Vision.Extensions.csprojResolveAssemblyReference.cache
 C:\Users\Darko\Desktop\accord-net-extensions\Accord.Vision.Extensions\obj\Release\Accord.Vision.Extensions.dll
 C:\Users\Darko\Desktop\accord-net-extensions\Accord.Vision.Extensions\obj\Release\Accord.Vision.Extensions.pdb
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.Extensions\obj\Release\Accord.Vision.Extensions.csprojResolveAssemblyReference.cache
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.Extensions\bin\Accord.Vision.Extensions.dll
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.Extensions\bin\Accord.Vision.Extensions.pdb
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.Extensions\bin\Accord.Core.Extensions.dll
@@ -153,5 +152,6 @@ C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.Extensions\bin\A
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.Extensions\bin\Accord.Math.Extensions.pdb
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.Extensions\bin\Accord.MachineLearning.xml
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.Extensions\bin\Accord.Statistics.xml
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.Extensions\obj\Release\Accord.Vision.Extensions.csprojResolveAssemblyReference.cache
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.Extensions\obj\Release\Accord.Vision.Extensions.dll
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Vision.Extensions\obj\Release\Accord.Vision.Extensions.pdb

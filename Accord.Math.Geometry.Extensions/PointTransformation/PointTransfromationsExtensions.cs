@@ -103,6 +103,23 @@ namespace Accord.Math.Geometry
         /// <returns>Normalized points.</returns>
         public static IEnumerable<PointF> Normalize(this IEnumerable<PointF> points)
         {
+            var mean = new PointF
+            {
+                X = points.Average(x => x.X),
+                Y = points.Average(x => x.Y)
+            };
+
+            return points.Normalize(mean);
+        }
+
+        /// <summary>
+        /// Normalizes point cloud to range [-1..1]. Ratios will be preserved.
+        /// </summary>
+        /// <param name="points">Points to normalize.</param>
+        /// <param name="mean">User defined mean.</param>
+        /// <returns>Normalized points.</returns>
+        public static IEnumerable<PointF> Normalize(this IEnumerable<PointF> points, PointF mean)
+        {
             var minPt = new PointF
             {
                 X = points.Min(x => x.X),
@@ -115,19 +132,17 @@ namespace Accord.Math.Geometry
                 Y = points.Max(x => x.Y)
             };
 
-            var mean = new PointF
-            {
-                X = points.Average(x => x.X),
-                Y = points.Average(x => x.Y)
-            };
-
             var scaleFactor = System.Math.Max(maxPt.X - minPt.X, maxPt.Y - minPt.Y);
 
-            var transform =  Transforms.Translation(-mean.X, -mean.Y).Multiply(
-                             Transforms.Scale(1 / scaleFactor, 1 / scaleFactor));
+            var transform = Transforms.Scale(1 / scaleFactor, 1 / scaleFactor).Multiply(
+                            Transforms.Translation(-mean.X, -mean.Y));
+
+            /*Transforms.Translation(-mean.X, -mean.Y)/*.Multiply(
+                         Transforms.Scale(1 / scaleFactor, 1 / scaleFactor))*/
+            ;
 
             points = points.Transform(transform);
-               
+
             return points;
         }
 

@@ -170,10 +170,6 @@ C:\Users\Darko\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Relea
 C:\Users\Darko\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.csproj.GenerateResource.Cache
 C:\Users\Darko\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.exe
 C:\Users\Darko\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.pdb
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.csprojResolveAssemblyReference.cache
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.KLDemo.resources
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.Properties.Resources.resources
-C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.csproj.GenerateResource.Cache
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\bin\PyrKLOpticalFlowDemo.exe.config
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\bin\PyrKLOpticalFlowDemo.exe
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\bin\PyrKLOpticalFlowDemo.pdb
@@ -211,5 +207,9 @@ C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\bin\
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\bin\AForge.Video.xml
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\bin\AForge.Video.DirectShow.xml
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\bin\Accord.Math.Extensions.pdb
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.csprojResolveAssemblyReference.cache
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.KLDemo.resources
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.Properties.Resources.resources
+C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.csproj.GenerateResource.Cache
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.exe
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Demo\PyrKLOpticalFlowDemo\obj\Release\PyrKLOpticalFlowDemo.pdb
