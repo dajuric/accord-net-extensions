@@ -10,18 +10,18 @@ using Accord.Imaging;
 using System.Drawing;
 using AForge.Math;
 using Accord.Math;
+using Accord.Core;
 using LineSegment2DF = AForge.Math.Geometry.LineSegment;
-
 
 namespace ParticleFilterModelFitting
 {
     public class HandModel
     {
-        CardinalSpline cardinalSpline;
+        IList<PointF> controlPoints;
 
-        public HandModel(IEnumerable<PointF> points) 
+        public HandModel(IList<PointF> points) 
         {
-            this.cardinalSpline = new CardinalSpline(points, 0);
+            this.controlPoints = points;
         }
 
         public static HandModel Load(string fileName)
@@ -42,7 +42,7 @@ namespace ParticleFilterModelFitting
 
             points = points.Transform(translate);
 
-            var model = new HandModel(points);
+            var model = new HandModel(points.ToList());
             return model;
         }
 
@@ -66,8 +66,6 @@ namespace ParticleFilterModelFitting
             }
         }
 
-        
-
         private static LineSegment2DF getLine(PointF normalDirection, PointF centerPoint, float length)
         {
             Vector2D vec = ((Vector2D)normalDirection).Multiply(length / 2);
@@ -79,11 +77,13 @@ namespace ParticleFilterModelFitting
 
         public void Draw(Image<Bgr, byte> image)
         {
+            var tension = 0f;
+
             /********************  contour and control points *********************/
             var points = new List<PointF>();
-            foreach (var idx in GetRange(0, this.cardinalSpline.Count - 1, 0.1f))
+            foreach (var idx in EnumerableMethods.GetRange(CardinalSpline.MIN_INDEX, this.controlPoints.Count - 1 + CardinalSpline.MAX_INDEX_OFFSET, 0.1f))
             {
-                var pt = cardinalSpline.Interpolate(idx);
+                var pt = CardinalSpline.Interpolate(this.controlPoints,  tension, idx);
                 points.Add(pt);
             }
 
@@ -91,14 +91,14 @@ namespace ParticleFilterModelFitting
                        new Bgr(Color.Blue), 
                        3);
 
-            image.Draw(cardinalSpline.Select(x => new CircleF(x, 3)), new Bgr(Color.Red), 3);
+            image.Draw(this.controlPoints.Select(x => new CircleF(x, 3)), new Bgr(Color.Red), 3);
             /********************  contour and control points *********************/
 
 
-            foreach (var idx in GetRange(0, this.cardinalSpline.Count - 1, 0.5f))
+            foreach (var idx in EnumerableMethods.GetRange(CardinalSpline.MIN_INDEX, this.controlPoints.Count - 1 + CardinalSpline.MAX_INDEX_OFFSET, 0.5f))
             {
-                var pt = cardinalSpline.Interpolate(idx);
-                var normalDirection = this.cardinalSpline.DerivativeAt(idx).Rotate((float)Math.PI / 2);
+                var pt = CardinalSpline.Interpolate(this.controlPoints, tension, idx);
+                var normalDirection = CardinalSpline.NormalDirection(this.controlPoints, tension, idx);
 
                 var normal = getLine(normalDirection, pt, 30);
 
@@ -106,12 +106,6 @@ namespace ParticleFilterModelFitting
             }
         }
 
-        public static IEnumerable<float> GetRange(float start, float end, float step)
-        {
-            for (float i = start; i < end; i += step)
-            {
-                yield return i;
-            }
-        }
+       
     }
 }

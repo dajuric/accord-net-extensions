@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableMethods.cs" />
     <Compile Include="Imaging\ColorAttribute.cs" />
     <Compile Include="Imaging\IColor.cs" />
     <Compile Include="MethodCache.cs" />

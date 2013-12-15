@@ -43,7 +43,7 @@ namespace Accord.Math.Geometry
         /// Transforms 3D point to 2D point using transformation matrix and projection regarding camera position.
         /// </summary>
         /// <param name="point">Point to transform.</param>
-        /// <param name="transformationMat">Transformation matrix.</param>
+        /// <param name="transformationMat">Transformation matrix (3x3).</param>
         /// <param name="camera">Camera position. Default is (0,0,0).</param>
         /// <returns>Transformed point.</returns>
         public static PointF Transform(this PointF point, float[,] transformationMat, Point3 camera = default(Point3))
@@ -97,7 +97,7 @@ namespace Accord.Math.Geometry
         }
 
         /// <summary>
-        /// Normalizes point cloud to range [0..1]. Ratios will be preserved.
+        /// Normalizes point cloud to range [-1..1]. Ratios will be preserved.
         /// </summary>
         /// <param name="points">Points to normalize.</param>
         /// <returns>Normalized points.</returns>

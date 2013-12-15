@@ -13,9 +13,15 @@ namespace Accord.Math.Geometry
     /// <para><see cref="http://www.intelligence.tuc.gr/~petrakis/courses/computervision/splines.pdf"/></para>.
     /// </remarks>
     /// </summary>
-    public class CardinalSpline: IEnumerable<PointF>, ICloneable
+    public class CardinalSpline: ICloneable
     {
+        public const int NUM_DERIVATIVE_POINTS = 2;
+        public const int MIN_INDEX = 0;
+        public const int MAX_INDEX_OFFSET = -NUM_DERIVATIVE_POINTS;
+
         List<PointF> controlPoints;
+
+        #region Constructors
 
         /// <summary>
         /// Creates cardinal spline.
@@ -34,11 +40,11 @@ namespace Accord.Math.Geometry
         public CardinalSpline(IEnumerable<PointF> controlPoints, float tension = 0.5f)
         { 
             initialize(tension);
-            //this.controlPoints.AddRange(controlPoints); //nedostaje jedan krak
-            foreach (var cp in controlPoints)
+            this.controlPoints.AddRange(controlPoints); //nedostaje jedan krak
+            /*foreach (var cp in controlPoints)
             {
                 this.Add(cp);
-            }
+            }*/
         }
 
         private void initialize(float tension)
@@ -46,6 +52,12 @@ namespace Accord.Math.Geometry
             controlPoints = new List<PointF>();
             this.Tension = tension;
         }
+
+        #endregion
+
+        #region Properties
+
+        public IList<PointF> ControlPoints { get { return this.controlPoints; } }
 
         /// <summary>
         /// Tension. 
@@ -58,20 +70,13 @@ namespace Accord.Math.Geometry
         public float Tension { get; set; }
 
         /// <summary>
-        /// Gets or sets control point value.
-        /// </summary>
-        /// <param name="controlPointIdx">Control point index.</param>
-        /// <returns>Control point.</returns>
-        public PointF this[int controlPointIdx]
-        {
-            get { return controlPoints[controlPointIdx]; }
-            set { controlPoints[controlPointIdx] = value; }
-        }
-
-        /// <summary>
         /// Gets the number of control points.
         /// </summary>
-        public int Count { get { return controlPoints.Count - 2; } }
+        public int Count { get { return controlPoints.Count - NUM_DERIVATIVE_POINTS/*2 are derivative points*/; } } //TODO: what to do with this ?
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Adds control point to the end of the collection.
@@ -133,7 +138,56 @@ namespace Accord.Math.Geometry
         /// <returns>Interpolated point.</returns>
         public PointF Interpolate(float index)
         {
-            float s = (1 - Tension) / 2;
+            return Interpolate(this.controlPoints, Tension, index);
+        }
+
+        /// <summary>
+        /// Gets derivative at specified index.
+        /// </summary>
+        /// <param name="index">Index between two control points.</param>
+        /// <returns>Derivative at interpolated point.</returns>
+        public PointF DerivativeAt(float index)
+        {
+            return DerivativeAt(this.controlPoints, Tension, index);
+        }
+
+        /// <summary>
+        /// Gets normal direction at specified point.
+        /// </summary>
+        /// <param name="index">Index between two control points.</param>
+        /// <returns>Normal direction at interpolated point.</returns>
+        public PointF NormalDirection(float index)
+        {
+            return NormalDirection(this.controlPoints, Tension, index);
+        }
+
+        /// <summary>
+        /// Clones this curvature. Curvature points are not shared.
+        /// </summary>
+        /// <returns>New cloned curvature.</returns>
+        public object Clone()
+        {
+            var newCardinal = new CardinalSpline(this.Tension);
+            newCardinal.controlPoints.AddRange(this.controlPoints);
+
+            return newCardinal;
+        }
+
+        #endregion
+
+        #region Static Methods
+
+        /// <summary>
+        /// Interpolates four control points.
+        /// </summary>
+        /// <param name="index">Index between two control points.</param>
+        /// <returns>Interpolated point.</returns>
+        public static PointF Interpolate(IList<PointF> controlPoints, float tension, float index)
+        {
+            if ((index) < 0 || (index + 2) >= controlPoints.Count)
+                throw new NotSupportedException("One control point behind and two control points in advance must be available!");
+
+            float s = (1 - tension) / 2;
 
             int idx = (int)index + 1;
             float u = index - (int)index;
@@ -162,9 +216,12 @@ namespace Accord.Math.Geometry
         /// </summary>
         /// <param name="index">Index between two control points.</param>
         /// <returns>Derivative at interpolated point.</returns>
-        public PointF DerivativeAt(float index)
+        public static PointF DerivativeAt(IList<PointF> controlPoints, float tension, float index)
         {
-            float s = (1 - Tension) / 2;
+            if ((index) < 0 || (index + 2) >= controlPoints.Count)
+                throw new NotSupportedException("One control point behind and two control points in advance must be available!");
+
+            float s = (1 - tension) / 2;
 
             int idx = (int)index + 1;
             float u = index - (int)index;
@@ -193,38 +250,17 @@ namespace Accord.Math.Geometry
         /// </summary>
         /// <param name="index">Index between two control points.</param>
         /// <returns>Normal direction at interpolated point.</returns>
-        public PointF NormalDirection(float index)
+        public static PointF NormalDirection(IList<PointF> controlPoints, float tension, float index)
         {
-            var derivPt = DerivativeAt(index);
+            var derivPt = DerivativeAt(controlPoints, tension, index);
 
-            var p = derivPt.Swap().Normalize();
-            return p;
-        }
-
-        #region IEnumerable implementation
-
-        public IEnumerator<PointF> GetEnumerator()
-        {
-            return controlPoints.GetEnumerator();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return controlPoints.GetEnumerator();
+            return new PointF //rotate 90 degrees (normal is perpendicular)
+            {
+                X = -derivPt.Y,
+                Y = derivPt.X
+            };
         }
 
         #endregion
-
-        /// <summary>
-        /// Clones this curvature. Curvature points are not shared.
-        /// </summary>
-        /// <returns>New cloned curvature.</returns>
-        public object Clone()
-        {
-            var newCardinal = new CardinalSpline(this.Tension);
-            newCardinal.controlPoints.AddRange(this.controlPoints);
-
-            return newCardinal;
-        }
     }
 }
