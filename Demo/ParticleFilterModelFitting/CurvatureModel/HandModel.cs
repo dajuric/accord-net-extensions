@@ -33,7 +33,7 @@ namespace ParticleFilterModelFitting
                      .FlipVertical(0);
 
             var transform = Transforms.Scale(500, 500).Multiply(
-                            Transforms.RotationX((float)Angle.ToRadians(80)));
+                            Transforms.RotationZ((float)Angle.ToRadians(80)));
 
             points = points.Transform(transform).ToList();
 

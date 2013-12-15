@@ -52,6 +52,24 @@ namespace Accord.Math.Geometry
             return point3.Transform(transformationMat).Project(camera);
         }
 
+        public static PointF FlipVertical(this PointF point, float yCoordinate = 0)
+        {
+            return new PointF
+            {
+                X = point.X,
+                Y = 2 * yCoordinate - point.Y
+            };
+        }
+
+        public static PointF FlipHorizontal(this PointF point, float xCoordinate = 0)
+        {
+            return new PointF
+            {
+                X = 2 * xCoordinate - point.X,
+                Y = point.Y
+            };
+        }
+
         #region IEnumerable
 
         public static IEnumerable<PointF> Transform(this IEnumerable<PointF> points, float[,] transformationMat)
@@ -62,20 +80,27 @@ namespace Accord.Math.Geometry
             }
         }
 
-      
-
         public static IEnumerable<PointF> FlipVertical(this IEnumerable<PointF> points, float yCoordinate = 0)
         {
             foreach (var p in points)
             {
-                yield return new PointF
-                {
-                    X = p.X,
-                    Y = 2 * yCoordinate - p.Y
-                };
+                yield return p.FlipVertical(yCoordinate);
             }
         }
 
+        public static IEnumerable<PointF> FlipHorizontal(this IEnumerable<PointF> points, float xCoordinate = 0)
+        {
+            foreach (var p in points)
+            {
+                yield return p.FlipHorizontal(xCoordinate);
+            }
+        }
+
+        /// <summary>
+        /// Normalizes point cloud to range [0..1]. Ratios will be preserved.
+        /// </summary>
+        /// <param name="points">Points to normalize.</param>
+        /// <returns>Normalized points.</returns>
         public static IEnumerable<PointF> Normalize(this IEnumerable<PointF> points)
         {
             var minPt = new PointF
