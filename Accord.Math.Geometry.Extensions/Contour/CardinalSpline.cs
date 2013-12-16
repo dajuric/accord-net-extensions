@@ -261,6 +261,62 @@ namespace Accord.Math.Geometry
             };
         }
 
+        /// <summary>
+        /// Gets indices for which points are evenly distributed along contour.
+        /// A rough estimation is made at resolution 0.1 (index step).
+        /// </summary>
+        /// <param name="numPoints">Number of requested points.</param>
+        /// <returns>Indices for which points are evenly distributed.</returns>
+        public static IList<float> GetEqualyDistributedPoints(IList<PointF> controlPoints, float tension, int numPoints) //TODO - critical: fix function for RESOLUTION != 1
+        {
+            const float RESOLUTION = 0.3f;
+
+            //interpolate points
+            var interpolatedPts = new List<PointF>();
+            for (float i = MIN_INDEX; i < (controlPoints.Count - 1 + MAX_INDEX_OFFSET); i += RESOLUTION)
+            {
+                var pt = CardinalSpline.Interpolate(controlPoints, tension, i);
+                interpolatedPts.Add(pt);
+            }
+
+            //caclulate cumulative distance
+            var cumulativeDistance = interpolatedPts.CumulativeEuclideanDistance(treatAsClosed: false);
+            var requestedTwoPointsDist = cumulativeDistance.Last() / numPoints;
+
+            //calculate spline indices
+            var indices = new List<float>();
+            float cumDist = 0;
+
+            int t = 0;
+            int nFitTimesInSegment = 0;
+            while (t < cumulativeDistance.Count)
+            {
+                if (cumDist >= cumulativeDistance[t])
+                {
+                    var idx = 0f;
+                    for (int i = 1; i < nFitTimesInSegment; i++)
+                    {
+                        idx = MIN_INDEX + t * RESOLUTION + (float)i / nFitTimesInSegment;
+                        indices.Add(idx);
+                    }
+
+                    if (nFitTimesInSegment > 1)
+                    {
+                        idx = MIN_INDEX + (t + 1) * RESOLUTION; //last chunk did not fit into current segment...
+                        indices.Add(idx);
+                    }
+
+                    t++;
+                    nFitTimesInSegment = 0;
+                }
+
+                cumDist += requestedTwoPointsDist;
+                nFitTimesInSegment++;
+            }
+
+            return indices;
+        }
+
         #endregion
     }
 }

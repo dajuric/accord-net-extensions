@@ -184,7 +184,8 @@ namespace ParticleFilterModelFitting
             /********************  contour and control points *********************/
 
 
-            foreach (var idx in EnumerableMethods.GetRange(CardinalSpline.MIN_INDEX, this.ControlPoints.Count - 1 + CardinalSpline.MAX_INDEX_OFFSET, 0.5f))
+            //foreach (var idx in EnumerableMethods.GetRange(CardinalSpline.MIN_INDEX, this.ControlPoints.Count - 1 + CardinalSpline.MAX_INDEX_OFFSET, 0.5f))
+            foreach (var idx in CardinalSpline.GetEqualyDistributedPoints(this.ControlPoints, tension, 100))
             {
                 var pt = CardinalSpline.Interpolate(this.ControlPoints, tension, idx);
                 var normalDirection = CardinalSpline.NormalDirection(this.ControlPoints, tension, idx);

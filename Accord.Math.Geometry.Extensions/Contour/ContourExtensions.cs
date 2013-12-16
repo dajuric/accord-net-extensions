@@ -23,7 +23,7 @@ namespace Accord.Math.Geometry
         /// <param name="pB">End point.</param>
         /// <param name="cumulativePathLength">Contour cumulative path length.</param>
         /// <returns>Distance from start to end point (by following contour points).</returns>
-        public static double GetPathLength(this List<Point> pts, int pA, int pB, List<double> cumulativePathLength)
+        public static double GetPathLength(this List<Point> pts, int pA, int pB, List<float> cumulativePathLength)
         {
             if (pB - pA > 0)
             {
@@ -39,16 +39,42 @@ namespace Accord.Math.Geometry
         }
 
         /// <summary>
-        /// Gets cumulative distance for a contour.
+        /// Gets cumulative distance for a contour (threated as closed contour).
         /// </summary>
         /// <param name="pts">Contour.</param>
+        /// /// <param name="treatAsClosed">Treat as closed contour (distance from the last to the first point is added).</param>
         /// <returns>Cumulative distance.</returns>
-        public static List<double> CumulativeEuclideanDistance(this List<Point> pts)
+        public static List<float> CumulativeEuclideanDistance(this List<Point> pts, bool treatAsClosed = true)
         {
-            var cumulativeDistances = new List<double>();
+            var cumulativeDistances = new List<float>();
+            var maxOffset = treatAsClosed ? 0 : -1;
 
-            double cumulativeDistance = 0;
-            for (int i = 0; i < pts.Count; i++)
+            float cumulativeDistance = 0;
+            for (int i = 0; i < pts.Count + maxOffset; i++)
+            {
+                var idxA = i;
+                var idxB = (i + 1) % pts.Count;
+
+                cumulativeDistance += ((PointF)pts[idxA]).DistanceTo(pts[idxB]);
+                cumulativeDistances.Add(cumulativeDistance);
+            }
+
+            return cumulativeDistances;
+        }
+
+        /// <summary>
+        /// Gets cumulative distance for a contour (threated as closed contour).
+        /// </summary>
+        /// <param name="pts">Contour.</param>
+        /// /// <param name="treatAsClosed">Treat as closed contour (distance from the last to the first point is added).</param>
+        /// <returns>Cumulative distance.</returns>
+        public static List<float> CumulativeEuclideanDistance(this List<PointF> pts, bool treatAsClosed = true)
+        {
+            var cumulativeDistances = new List<float>();
+            var maxOffset = treatAsClosed ? 0 : -1;
+
+            float cumulativeDistance = 0;
+            for (int i = 0; i < pts.Count + maxOffset; i++)
             {
                 var idxA = i;
                 var idxB = (i + 1) % pts.Count;
@@ -268,7 +294,7 @@ namespace Accord.Math.Geometry
         /// <param name="clusterRange">Maximum successive point disatnce.</param>
         /// <param name="cumulativeDistance">Cumulative contour distance. If not specified it will be automatically calculated.</param>
         /// <returns>Point clusters.</returns>
-        public static List<List<int>> ClusterPoints(this List<Point> contour, List<int> ptIndeces, double clusterRange, List<double> cumulativeDistance = null)
+        public static List<List<int>> ClusterPoints(this List<Point> contour, List<int> ptIndeces, double clusterRange, List<float> cumulativeDistance = null)
         {
             cumulativeDistance = cumulativeDistance ?? contour.CumulativeEuclideanDistance();
 

@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using Accord.Math.Geometry;
 using PointF = AForge.Point;
 using Accord.Vision;
-using Accord.Imaging;
 using Accord.Imaging.Filters;
 using System.Runtime.InteropServices;
 
@@ -62,9 +61,21 @@ namespace ParticleFilterModelFitting
             Image<Bgr, byte> img = new Image<Bgr, byte>(1000, 1000);
             //HandModel handModel = new HandModel(coords);
             Template.LoadPrototype("myFile.txt");
-            var template = Template.Create(0f, 0f, 
-                                           500, 500, 
-                                           0, 0, 180);
+
+            Template template = null;
+
+            //var s = DateTime.Now.Ticks;
+
+            //Parallel.For(0, 2 * 100, (int i) => { 
+            //for (int i = 0; i < 2 * 100; i++){
+                template = Template.Create(0f, 0f,
+                                         500, 500,
+                                         0, 0, 0);
+            //}//);
+
+            //var e = DateTime.Now.Ticks;
+            //Console.WriteLine((e - s) / TimeSpan.TicksPerMillisecond);
+            //return;
             template.Draw(img);
             //img.Draw(new CircleF(template.ControlPoints.Average(x => x.X), template.ControlPoints.Average(x => x.Y), 10), new Bgr(Color.Green), 3);
 
