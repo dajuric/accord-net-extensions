@@ -80,11 +80,7 @@ namespace ParticleFilterModelFitting
 
         public static void LoadPrototype(IEnumerable<PointF> controlPoints)
         {
-            var points = controlPoints.Normalize().FlipVertical(0);
-            //Console.WriteLine(points.Average(x => x.X));
-            //Console.WriteLine(points.Average(x => x.Y));
-            //points = points.Transform(Transforms.Translation(-points.Min(x => x.X), -points.Min(x => x.Y)));
-            prototypeControlPoints = points.ToList();
+            prototypeControlPoints = controlPoints.ToList();
             leftUpperPoint = new PointF
             {
                 X = prototypeControlPoints.Min(x => x.X),
@@ -106,7 +102,7 @@ namespace ParticleFilterModelFitting
                 while ((line = txtReader.ReadLine()) != null)
                 {
                     var coord = line
-                                .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                .Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries)
                                 .Select(x => Single.Parse(x, System.Globalization.CultureInfo.InvariantCulture));
 
                     yield return new PointF
@@ -141,17 +137,18 @@ namespace ParticleFilterModelFitting
                 Y = -leftUpperPoint.Y * scaleY
             };
 
-            var transform = Transforms.RotationZ((float)Angle.ToRadians(rotationZ)).Multiply(
-                            Transforms.RotationY((float)Angle.ToRadians(rotationY))).Multiply(
-                            Transforms.RotationX((float)Angle.ToRadians(rotationX))).Multiply(
-                            Transforms.Translation(initialTranslation.X + translationX, initialTranslation.Y + translationY)).Multiply(
-                            Transforms.Scale(scaleX, scaleY));
+            var transform = Transforms.Combine
+                            (
+                                Transforms.RotationX((float)Angle.ToRadians(rotationX)),
+                                Transforms.RotationY((float)Angle.ToRadians(rotationY)),
+                                Transforms.RotationZ((float)Angle.ToRadians(rotationZ)),
 
-                            /*Transforms.Scale(scaleX, scaleY)).Multiply(
-                            Transforms.Translation(translationX, translationY));*/
+                                Transforms.Scale(scaleX, scaleY),
+
+                                Transforms.Translation(initialTranslation.X + translationX, initialTranslation.Y + translationY)
+                            );
 
             var transformedPoints = prototypeControlPoints.Transform(transform);
-            //transformedPoints = transformedPoints.Transform(Transforms.Translation(300, 300));
 
             return new Template(transformedPoints);
         }

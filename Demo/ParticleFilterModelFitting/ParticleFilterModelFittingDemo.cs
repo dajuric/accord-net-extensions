@@ -61,16 +61,16 @@ namespace ParticleFilterModelFitting
 
             Image<Bgr, byte> img = new Image<Bgr, byte>(1000, 1000);
             //HandModel handModel = new HandModel(coords);
-            Template.LoadPrototype("hand_nodes.txt");
+            Template.LoadPrototype("myFile.txt");
             var template = Template.Create(0f, 0f, 
                                            500, 500, 
-                                           0, 0, 0);
+                                           0, 0, 180);
             template.Draw(img);
-            img.Draw(new CircleF(template.ControlPoints.Average(x => x.X), template.ControlPoints.Average(x => x.Y), 10), new Bgr(Color.Green), 3);
+            //img.Draw(new CircleF(template.ControlPoints.Average(x => x.X), template.ControlPoints.Average(x => x.Y), 10), new Bgr(Color.Green), 3);
 
-            /*template = Template.Create(100f, 500f,
+            /*template = Template.Create(0f, 0f,
                                        500, 500,
-                                       0, 0, 90);
+                                       0, 0, 0);
             template.Draw(img);*/
 
             this.pictureBox.Image = img.ToBitmap();

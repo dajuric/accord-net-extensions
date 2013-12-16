@@ -73,6 +73,25 @@ namespace Accord.Math.Geometry
         }
 
         #endregion
+
+        /// <summary>
+        /// Multiplies transforms starting from the last one to the first one (stack).
+        /// Transforms are given by priority.
+        /// </summary>
+        /// <param name="transforms">Transfrom matrices.</param>
+        /// <returns>Combined transfrom matrix.</returns>
+        public static float[,] Combine(params float[][,] transforms)
+        {
+            float[,] res = Matrix.Identity(3).ToSingle();
+
+            for (int i = transforms.Length - 1; i >= 0; i--)
+            {
+                res = res.Multiply(transforms[i]);
+            }
+
+            return res;
+        }
+
     }
 
 }
