@@ -306,7 +306,7 @@ namespace Accord.Math.Geometry
                         goto EXIT;
                 }
 
-                float interpolatedIdx = (cumDist - cumulativeDistance[t]) / (cumulativeDistance[t+1] - cumulativeDistance[t]); //[0..1] - interpolate into segment
+                float interpolatedIdx = (cumDist - cumulativeDistance[t]) / (cumulativeDistance[t+1] - cumulativeDistance[t] + Single.Epsilon); //[0..1] - interpolate into segment
                 var idx = MIN_INDEX + (t + interpolatedIdx) * samplingStep;
                 indices.Add(idx);
 

@@ -80,7 +80,7 @@ namespace ParticleFilterModelFitting
 
         public static void LoadPrototype(IEnumerable<PointF> controlPoints)
         {
-            prototypeControlPoints = controlPoints.ToList();
+            prototypeControlPoints = controlPoints/*.Normalize()*/.ToList();
             leftUpperPoint = new PointF
             {
                 X = prototypeControlPoints.Min(x => x.X),
@@ -116,6 +116,8 @@ namespace ParticleFilterModelFitting
 
         #endregion
 
+        #region Template creating (from prototype)
+
         public IList<PointF> ControlPoints {get; private set;}
         IList<byte> quantizedOrientations;
 
@@ -137,21 +139,34 @@ namespace ParticleFilterModelFitting
                 Y = -leftUpperPoint.Y * scaleY
             };
 
-            var transform = Transforms.Combine
+            /*var transform = Transforms.Combine
                             (
-                                Transforms.RotationX((float)Angle.ToRadians(rotationX)),
-                                Transforms.RotationY((float)Angle.ToRadians(rotationY)),
+                                Transforms.Scale(scaleX, scaleY),
+                               
+                                //Transforms.RotationX((float)Angle.ToRadians(rotationX)),
+                                //Transforms.RotationY((float)Angle.ToRadians(rotationY)),
                                 Transforms.RotationZ((float)Angle.ToRadians(rotationZ)),
 
-                                Transforms.Scale(scaleX, scaleY),
-
-                                Transforms.Translation(initialTranslation.X + translationX, initialTranslation.Y + translationY)
+                                Transforms.Translation(initialTranslation.X, initialTranslation.Y),
+                                Transforms.Translation(translationX, translationY)
                             );
 
-            var transformedPoints = prototypeControlPoints.Transform(transform);
+            var transformedPoints = prototypeControlPoints.Transform(transform);*/
+
+            var transformedPoints = prototypeControlPoints
+                                    .Transform(Transforms.Scale(scaleX, scaleY))
+
+                                    .Transform(Transforms.RotationX((float)Angle.ToRadians(rotationX)))
+                                    .Transform(Transforms.RotationY((float)Angle.ToRadians(rotationY)))
+                                    .Transform(Transforms.RotationZ((float)Angle.ToRadians(rotationZ)))
+                                    
+                                    .Transform(Transforms.Translation(initialTranslation.X, initialTranslation.Y))
+                                    .Transform(Transforms.Translation(translationX, translationY));
 
             return new Template(transformedPoints);
         }
+
+        #endregion
 
         #region Drawing
 

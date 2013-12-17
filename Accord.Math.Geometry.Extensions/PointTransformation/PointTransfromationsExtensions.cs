@@ -91,8 +91,8 @@ namespace Accord.Math.Geometry
 
             var transform = Transforms.Combine
                             (
-                                Transforms.Scale(1 / scaleFactor, 1 / scaleFactor),
-                                Transforms.Translation(-mean.X, -mean.Y)
+                                Transforms.Translation(-mean.X, -mean.Y),
+                                Transforms.Scale(1 / scaleFactor, 1 / scaleFactor)
                             );
                 
             points = points.Transform(transform);
