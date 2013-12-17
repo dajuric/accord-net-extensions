@@ -263,59 +263,60 @@ namespace Accord.Math.Geometry
 
         /// <summary>
         /// Gets indices for which points are evenly distributed along contour.
-        /// A rough estimation is made at resolution 0.1 (index step).
+        /// A rough estimation is made at resolution: <see cref="samplingResolution"/> (index step).
         /// </summary>
         /// <param name="numPoints">Number of requested points.</param>
+        /// <param name="samplingResolution">Sampling resolution for calculating contour length. 
+        /// <remarks>If the spline is "very curvy" set it to a lower value. To increase performance set it to a higher one (e.g. 1).</remarks>
+        /// <remarks>Interval [0..1].</remarks>
+        /// </param>
         /// <returns>Indices for which points are evenly distributed.</returns>
-        public static IList<float> GetEqualyDistributedPoints(IList<PointF> controlPoints, float tension, int numPoints) //TODO - critical: fix function for RESOLUTION != 1
+        public static IList<float> GetEqualyDistributedPoints(IList<PointF> controlPoints, float tension, int numPoints, float samplingResolution = 0.3f) 
         {
-            const float RESOLUTION = 0.3f;
+            if (numPoints < 2)
+                throw new NotSupportedException("The minimal number of points is 2");
 
             //interpolate points
             var interpolatedPts = new List<PointF>();
-            for (float i = MIN_INDEX; i < (controlPoints.Count - 1 + MAX_INDEX_OFFSET); i += RESOLUTION)
+            for (float i = MIN_INDEX; i < (controlPoints.Count - 1 + MAX_INDEX_OFFSET); i += samplingResolution)
             {
                 var pt = CardinalSpline.Interpolate(controlPoints, tension, i);
                 interpolatedPts.Add(pt);
             }
 
-            //caclulate cumulative distance
-            var cumulativeDistance = interpolatedPts.CumulativeEuclideanDistance(treatAsClosed: false);
-            var requestedTwoPointsDist = cumulativeDistance.Last() / numPoints;
+            //calculate cumulative distance
+            var cumulativeDistance = interpolatedPts.CumulativeEuclideanDistance(treatAsClosed: false); cumulativeDistance.Insert(0, 0);
+            var requestedTwoPointsDist = cumulativeDistance.Last() / (numPoints - 0.5f);
 
             //calculate spline indices
             var indices = new List<float>();
-            float cumDist = 0;
+            float cumDist = cumulativeDistance.First();
 
+            //interpolate indices
             int t = 0;
             int nFitTimesInSegment = 0;
-            while (t < cumulativeDistance.Count)
+            while (true)
             {
-                if (cumDist >= cumulativeDistance[t])
+                while (cumDist > cumulativeDistance[t + 1]) //if some segments are too narrow
                 {
-                    var idx = 0f;
-                    for (int i = 1; i < nFitTimesInSegment; i++)
-                    {
-                        idx = MIN_INDEX + t * RESOLUTION + (float)i / nFitTimesInSegment;
-                        indices.Add(idx);
-                    }
-
-                    if (nFitTimesInSegment > 1)
-                    {
-                        idx = MIN_INDEX + (t + 1) * RESOLUTION; //last chunk did not fit into current segment...
-                        indices.Add(idx);
-                    }
-
                     t++;
-                    nFitTimesInSegment = 0;
+
+                    if (t == cumulativeDistance.Count - 1)
+                        goto EXIT;
                 }
+
+                float interpolatedIdx = (cumDist - cumulativeDistance[t]) / (cumulativeDistance[t+1] - cumulativeDistance[t]); //[0..1] - interpolate into segment
+                var idx = MIN_INDEX + (t + interpolatedIdx) * samplingResolution;
+                indices.Add(idx);
 
                 cumDist += requestedTwoPointsDist;
                 nFitTimesInSegment++;
             }
 
+EXIT:
             return indices;
         }
+
 
         #endregion
     }
