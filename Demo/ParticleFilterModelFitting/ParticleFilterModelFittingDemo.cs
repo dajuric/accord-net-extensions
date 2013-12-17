@@ -67,11 +67,11 @@ namespace ParticleFilterModelFitting
             //var s = DateTime.Now.Ticks;
 
             //Parallel.For(0, 2 * 100, (int i) => { 
-            //for (int i = 0; i < 2 * 100; i++){
+            //for (int i = 0; i < 2 * 100000; i++){
                 template = Template.Create(0f, 0f,
                                          500, 500,
                                          0, 0, 0);
-            //}//);
+            //});
 
             //var e = DateTime.Now.Ticks;
             //Console.WriteLine((e - s) / TimeSpan.TicksPerMillisecond);

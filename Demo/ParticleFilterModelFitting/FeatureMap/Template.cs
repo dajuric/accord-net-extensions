@@ -183,7 +183,6 @@ namespace ParticleFilterModelFitting
             image.Draw(this.ControlPoints.Select(x => new CircleF(x, 3)), new Bgr(Color.Red), 3);
             /********************  contour and control points *********************/
 
-
             //foreach (var idx in EnumerableMethods.GetRange(CardinalSpline.MIN_INDEX, this.ControlPoints.Count - 1 + CardinalSpline.MAX_INDEX_OFFSET, 0.5f))
             foreach (var idx in CardinalSpline.GetEqualyDistributedPoints(this.ControlPoints, tension, 100))
             {

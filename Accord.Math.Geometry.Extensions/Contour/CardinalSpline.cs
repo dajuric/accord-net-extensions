@@ -263,22 +263,23 @@ namespace Accord.Math.Geometry
 
         /// <summary>
         /// Gets indices for which points are evenly distributed along contour.
-        /// A rough estimation is made at resolution: <see cref="samplingResolution"/> (index step).
+        /// <para>A rough estimation is made at resolution: <see cref="samplingResolution"/> (index step).</para>
         /// </summary>
         /// <param name="numPoints">Number of requested points.</param>
-        /// <param name="samplingResolution">Sampling resolution for calculating contour length. 
-        /// <remarks>If the spline is "very curvy" set it to a lower value. To increase performance set it to a higher one (e.g. 1).</remarks>
-        /// <remarks>Interval [0..1].</remarks>
+        /// <param name="samplingStep">Sampling resolution for calculating contour length. 
+        /// <para>Distance between two points will be more accurate if the provided value is lower (sampling resolution is higher). The provided value should be fine for most splines.</para>
+        /// <para>If the spline is "very curvy" set it to a lower value. To increase performance set it to a higher one (e.g. 1).</para>
+        /// <para>Interval [0..1].</para>
         /// </param>
         /// <returns>Indices for which points are evenly distributed.</returns>
-        public static IList<float> GetEqualyDistributedPoints(IList<PointF> controlPoints, float tension, int numPoints, float samplingResolution = 0.3f) 
+        public static IList<float> GetEqualyDistributedPoints(IList<PointF> controlPoints, float tension, int numPoints, float samplingStep = 0.3f) 
         {
             if (numPoints < 2)
                 throw new NotSupportedException("The minimal number of points is 2");
 
             //interpolate points
             var interpolatedPts = new List<PointF>();
-            for (float i = MIN_INDEX; i < (controlPoints.Count - 1 + MAX_INDEX_OFFSET); i += samplingResolution)
+            for (float i = MIN_INDEX; i < (controlPoints.Count - 1 + MAX_INDEX_OFFSET); i += samplingStep)
             {
                 var pt = CardinalSpline.Interpolate(controlPoints, tension, i);
                 interpolatedPts.Add(pt);
@@ -306,7 +307,7 @@ namespace Accord.Math.Geometry
                 }
 
                 float interpolatedIdx = (cumDist - cumulativeDistance[t]) / (cumulativeDistance[t+1] - cumulativeDistance[t]); //[0..1] - interpolate into segment
-                var idx = MIN_INDEX + (t + interpolatedIdx) * samplingResolution;
+                var idx = MIN_INDEX + (t + interpolatedIdx) * samplingStep;
                 indices.Add(idx);
 
                 cumDist += requestedTwoPointsDist;
