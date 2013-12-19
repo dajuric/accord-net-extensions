@@ -2,6 +2,7 @@
 using Accord.Imaging.Filters;
 using Accord.Math;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace ParticleFilterModelFitting
 {
@@ -11,7 +12,7 @@ namespace ParticleFilterModelFitting
         const int MIN_GRADIENT_THRESHOLD = 45;
         const int SPREAD_SIZE = 5;
 
-        private static byte[] angleQuantizationTable=null;
+        static byte[] angleQuantizationTable = null;
 
         #region Initialization
 
@@ -37,6 +38,7 @@ namespace ParticleFilterModelFitting
             return angleQuantizationTable;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte QuantizeOrientation(int angleDeg) //angleDeg [0..360]
         {
             var idx = angleQuantizationTable[angleDeg];

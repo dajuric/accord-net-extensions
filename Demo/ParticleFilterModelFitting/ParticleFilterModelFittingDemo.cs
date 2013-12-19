@@ -13,6 +13,10 @@ using PointF = AForge.Point;
 using Accord.Vision;
 using Accord.Imaging.Filters;
 using System.Runtime.InteropServices;
+using Accord.Statistics.Filters;
+using AForge;
+using Accord.Statistics.Distributions.Univariate;
+using MoreLinq;
 
 namespace ParticleFilterModelFitting
 {
@@ -20,12 +24,68 @@ namespace ParticleFilterModelFitting
     {
         Size imgSize = new Size(640, 480);
 
+        ParticleFilter<Particle<ParticleState>, ParticleState> particleFilter;
+        Image<Gray, byte> orientationImage;
+
+        private void init()
+        {
+            Template.LoadPrototype("myFile.txt");
+
+            var particleInitializer = FilterMethods<Particle<ParticleState>, ParticleState>.UnifromParticleSpreadInitializer(new DoubleRange[] 
+                            { 
+                                //position
+                                new DoubleRange(0, imgSize.Width), 
+                                new DoubleRange(0, imgSize.Height),
+
+                                //scale
+                                new DoubleRange(100, 200),
+
+                                //rotation
+                                new DoubleRange(-5, 5)
+                            },
+                            ParticleState.FromArray);
+
+            particleFilter = new ParticleFilter<Particle<ParticleState>, ParticleState>
+            {
+                //Initialize
+                ParticlesCount = 1000,
+                Initializer = particleInitializer,
+
+                //Predict
+                Drift = ParticleState.Drift,
+                Diffuse = ParticleState.Difuse,
+
+                //Update
+                WeightAssigner = (filter, state) => state.HandTemplate.GetScore(orientationImage),
+                Resampler = FilterMethods<Particle<ParticleState>, ParticleState>.SimpleResampler(),
+                Normalizer = FilterMethods<Particle<ParticleState>, ParticleState>.SimpleNormalizer()
+            };
+
+            particleFilter.Initialize();
+        }
+
+        private void exec(Image<Bgr, byte> img)
+        {
+            orientationImage = FeatureMap.Compute(img);
+
+            particleFilter.Predict();
+            particleFilter.Update();
+
+            particleFilter.Particles.ForEach(x => x.State.HandTemplate.Draw(img));
+        }
+
         Capture videoCapture;
 
         public ParticleFilterModelFittingDemo()
         {
             InitializeComponent();
-            
+
+            init();
+
+            Image<Bgr, byte> proba = Bitmap.FromFile("").ToImage<Bgr, byte>();
+            exec(proba);
+            return;
+
            /* try
             {
                 videoCapture = new Capture(0);
@@ -67,10 +127,10 @@ namespace ParticleFilterModelFitting
             //var s = DateTime.Now.Ticks;
 
             //Parallel.For(0, 2 * 1000, (int i) => { 
-            //for (int i = 0; i < 2 * 100000; i++){
+            //for (int i = 0; i < 2 * 1000; i++){
                 template = Template.Create(100f, 100f,
                                          500, 500,
-                                         90, 90, 45);
+                                         0, 0, 45);
             //});
 
             //var e = DateTime.Now.Ticks;
@@ -81,7 +141,7 @@ namespace ParticleFilterModelFitting
 
             /*template = Template.Create(0f, 0f,
                                        500, 500,
-                                       0, 0, 0);
+                                       0, 45, 90);
             template.Draw(img);*/
 
             this.pictureBox.Image = img.ToBitmap();

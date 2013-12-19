@@ -49,3 +49,16 @@ C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Math.Geometry.Extension
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Math.Geometry.Extensions\bin\AForge.Math.xml
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Math.Geometry.Extensions\obj\Debug\Accord.Math.Geometry.Extensions.dll
 C:\Users\Darko-Home\Desktop\accord-net-extensions\Accord.Math.Geometry.Extensions\obj\Debug\Accord.Math.Geometry.Extensions.pdb
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\bin\Accord.Math.Geometry.Extensions.dll
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\bin\Accord.Math.Geometry.Extensions.pdb
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\bin\Accord.dll
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\bin\Accord.Math.dll
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\bin\AForge.dll
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\bin\AForge.Math.dll
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\bin\Accord.xml
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\bin\Accord.Math.xml
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\bin\AForge.xml
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\bin\AForge.Math.xml
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\obj\Debug\Accord.Math.Geometry.Extensions.csprojResolveAssemblyReference.cache
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\obj\Debug\Accord.Math.Geometry.Extensions.dll
+C:\Users\Darko\Documents\GitHub\accord-net-extensions\Accord.Math.Geometry.Extensions\obj\Debug\Accord.Math.Geometry.Extensions.pdb

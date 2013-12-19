@@ -20,7 +20,7 @@ namespace ParticleFilterModelFitting
 
         const int MAX_FEATURE_SIMILARITY = 4;
 
-        public static unsafe float GetScore(Image<Gray, byte> featureMap, IList<Point> points, IList<byte> quantizedOrientations)
+        private static unsafe float GetScore(Image<Gray, byte> featureMap, IList<Point> points, IList<byte> quantizedOrientations)
         {
             if (points.Count != quantizedOrientations.Count)
                 throw new NotSupportedException();
@@ -34,6 +34,9 @@ namespace ParticleFilterModelFitting
                 //template
                 var featurePt = points[i];
                 var featureAngle = quantizedOrientations[i];
+
+                if (featurePt.X < 0 || featurePt.Y < 0 || featurePt.X >= featureMap.Width || featurePt.Y >= featureMap.Height)
+                    continue;
 
                 //image
                 var imageAngles = *(byte*)featureMap.GetData(featurePt.Y, featurePt.X);
@@ -71,27 +74,50 @@ namespace ParticleFilterModelFitting
             return similarity;
         }
 
+        private static byte quantizeOrientation(PointF directionVector)
+        {
+            var angleDeg = (int)Angle.ToDegrees(Math.Atan2(directionVector.Y, directionVector.X));
+            return FeatureMap.QuantizeOrientation(angleDeg);
+        }
+
+        public float GetScore(Image<Gray, byte> featureMap)
+        {
+            return GetScore(featureMap, this.Points, this.QuantizedOrientations);
+        }
+
         #endregion
 
         #region Prototype (model) Loading
 
-        static IList<PointF> prototypeControlPoints;
-        static PointF leftUpperPoint;
+        const float CONTOUR_TENSION = 0f;
+        const int N_SAMPLE_POINTS = 100;
 
-        public static void LoadPrototype(IEnumerable<PointF> controlPoints)
+        static IList<PointF> prototypeControlPoints;
+        static IList<float> prototypeIndices;
+
+        static IList<PointF> prototypePoints;
+        static PointF leftUpperPoint;
+        static IList<PointF> prototypeOrientations;
+
+        public static void LoadPrototype(IList<PointF> controlPoints)
         {
-            prototypeControlPoints = controlPoints/*.Normalize()*/.ToList();
+            prototypeControlPoints = controlPoints;
+            prototypeIndices = CardinalSpline.GetEqualyDistributedPoints(controlPoints, CONTOUR_TENSION, N_SAMPLE_POINTS).ToList();
+
+            prototypePoints = prototypeIndices.Select(x => CardinalSpline.Interpolate(controlPoints, CONTOUR_TENSION, x)).ToList();
             leftUpperPoint = new PointF
             {
-                X = prototypeControlPoints.Min(x => x.X),
-                Y = prototypeControlPoints.Min(x => x.Y)
+                X = prototypePoints.Min(x => x.X),
+                Y = prototypePoints.Min(x => x.Y)
             };
+
+            prototypeOrientations = prototypeIndices.Select(x => CardinalSpline.NormalDirection(controlPoints, CONTOUR_TENSION, x)).ToList();
         } 
 
         public static void LoadPrototype(string fileName)
         {
             var points = readCoordinates(fileName);
-            LoadPrototype(points);
+            LoadPrototype(points.ToList());
         }
 
         private static IEnumerable<PointF> readCoordinates(string fileName)
@@ -118,19 +144,22 @@ namespace ParticleFilterModelFitting
 
         #region Template creating (from prototype)
 
-        public IList<PointF> ControlPoints {get; private set;}
-        IList<byte> quantizedOrientations;
+        public IList<Point> Points {get; private set;}
+        public IList<PointF> Orientations { get; private set; }
+        public IList<byte> QuantizedOrientations {get; private set;}
 
-        private Template(IEnumerable<PointF> points)
+        private Template(IEnumerable<Point> points, IEnumerable<PointF> orientations, IEnumerable<byte> quantizedOrientations)
         {
-            ControlPoints = points.ToList();
+            Points = points.ToList();
+            Orientations = orientations.ToList();
+            QuantizedOrientations = quantizedOrientations.ToList();
         }
 
         public static Template Create(float translationX, float translationY, 
                                       float scaleX, float scaleY, 
                                       int rotationX, int rotationY, int rotationZ) 
         {
-            if (prototypeControlPoints == null)
+            if (prototypePoints == null)
                 throw new Exception("Prototype control points must be loaded");
 
             var initialTranslation = new PointF //so the template left-upper point goes to (0,0) 
@@ -139,31 +168,49 @@ namespace ParticleFilterModelFitting
                 Y = -leftUpperPoint.Y * scaleY
             };
 
-            /*var transform = Transforms.Combine
-                            (
-                                Transforms.Scale(scaleX, scaleY),
-                               
-                                //Transforms.RotationX((float)Angle.ToRadians(rotationX)),
-                                //Transforms.RotationY((float)Angle.ToRadians(rotationY)),
-                                Transforms.RotationZ((float)Angle.ToRadians(rotationZ)),
+            /*var pt = new PointF(1, 1);
 
-                                Transforms.Translation(initialTranslation.X, initialTranslation.Y),
-                                Transforms.Translation(translationX, translationY)
+            var transform = Transforms.Combine
+                            (
+                               Transforms.Scale(scaleX, scaleY),
+
+                               Transforms.RotationX((float)Angle.ToRadians(rotationX)),
+                               Transforms.RotationY((float)Angle.ToRadians(rotationY)),
+                               Transforms.RotationZ((float)Angle.ToRadians(rotationZ)),
+                                                              
+                               Transforms.Translation(initialTranslation.X, initialTranslation.Y),
+                               Transforms.Translation(translationX, translationY)
                             );
 
-            var transformedPoints = prototypeControlPoints.Transform(transform);*/
+            var transformedPoints1 = pt.Transform(transform);*/
 
-            var transformedPoints = prototypeControlPoints
-                                    .Transform(Transforms.Scale(scaleX, scaleY))
+            var transformedPoints = prototypePoints
+                .Transform(Transforms.Scale(scaleX, scaleY))
 
-                                    .Transform(Transforms.RotationX((float)Angle.ToRadians(rotationX)))
-                                    .Transform(Transforms.RotationY((float)Angle.ToRadians(rotationY)))
-                                    .Transform(Transforms.RotationZ((float)Angle.ToRadians(rotationZ)))
-                                    
-                                    .Transform(Transforms.Translation(initialTranslation.X, initialTranslation.Y))
-                                    .Transform(Transforms.Translation(translationX, translationY));
+                .Transform(Transforms.RotationX((float)Angle.ToRadians(rotationX)))
+                .Transform(Transforms.RotationY((float)Angle.ToRadians(rotationY)))
+                .Transform(Transforms.RotationZ((float)Angle.ToRadians(rotationZ)))
 
-            return new Template(transformedPoints);
+                .Transform(Transforms.Translation(initialTranslation.X, initialTranslation.Y))
+                .Transform(Transforms.Translation(translationX, translationY))
+                .Select(x=>x.Round());
+
+           var orientations = prototypeOrientations
+                                        .Transform(Transforms.RotationX((float)Angle.ToRadians(rotationX)))
+                                        .Transform(Transforms.RotationY((float)Angle.ToRadians(rotationY)))
+                                        .Transform(Transforms.RotationZ((float)Angle.ToRadians(rotationZ)));
+
+            /*var transfromedControlPoints = prototypeControlPoints
+                                            .Transform(Transforms.Scale(scaleX, scaleY))
+                                            .Transform(Transforms.RotationX((float)Angle.ToRadians(rotationX)))
+                                            .Transform(Transforms.RotationY((float)Angle.ToRadians(rotationY)))
+                                            .Transform(Transforms.RotationZ((float)Angle.ToRadians(rotationZ)));
+
+            var orientations = prototypeIndices.Select(x => CardinalSpline.NormalDirection(transformedPoints.ToList(), CONTOUR_TENSION, x)); */                           
+
+            var quantizedOrientations = orientations.Select(x => quantizeOrientation(x));
+
+            return new Template(transformedPoints, orientations, quantizedOrientations);
         }
 
         #endregion
@@ -181,31 +228,24 @@ namespace ParticleFilterModelFitting
 
         public void Draw(Image<Bgr, byte> image)
         {
-            var tension = 0f;
-
             /********************  contour and control points *********************/
             var points = new List<PointF>();
-            foreach (var idx in EnumerableMethods.GetRange(CardinalSpline.MIN_INDEX, this.ControlPoints.Count - 1 + CardinalSpline.MAX_INDEX_OFFSET, 0.1f))
+            foreach (var idx in EnumerableMethods.GetRange(CardinalSpline.MIN_INDEX, this.Points.Count - 1 + CardinalSpline.MAX_INDEX_OFFSET, 0.1f))
             {
-                var pt = CardinalSpline.Interpolate(this.ControlPoints, tension, idx);
+                var pt = CardinalSpline.Interpolate(this.Points.Select(x=>new PointF(x.X, x.Y)).ToList(), CONTOUR_TENSION, idx);
                 points.Add(pt);
             }
 
             image.Draw(points.Select(x => new System.Drawing.PointF(x.X, x.Y)).ToArray(),
                        new Bgr(Color.Blue),
                        3);
-
-            image.Draw(this.ControlPoints.Select(x => new CircleF(x, 3)), new Bgr(Color.Red), 3);
+            
+            image.Draw(this.Points.Select(x => new CircleF(x, 3)), new Bgr(Color.Red), 3);
             /********************  contour and control points *********************/
 
-            //foreach (var idx in EnumerableMethods.GetRange(CardinalSpline.MIN_INDEX, this.ControlPoints.Count - 1 + CardinalSpline.MAX_INDEX_OFFSET, 0.5f))
-            foreach (var idx in CardinalSpline.GetEqualyDistributedPoints(this.ControlPoints, tension, 100))
+            for (int i = 0; i < Points.Count; i++)
             {
-                var pt = CardinalSpline.Interpolate(this.ControlPoints, tension, idx);
-                var normalDirection = CardinalSpline.NormalDirection(this.ControlPoints, tension, idx);
-
-                var normal = getLine(normalDirection, pt, 30);
-
+                var normal = getLine(Orientations[i], Points[i], 30);
                 image.Draw(normal, new Bgr(Color.Green), 3);
             }
         }
