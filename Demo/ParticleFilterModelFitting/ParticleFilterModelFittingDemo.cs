@@ -33,22 +33,27 @@ namespace ParticleFilterModelFitting
 
             var particleInitializer = FilterMethods<Particle<ParticleState>, ParticleState>.UnifromParticleSpreadInitializer(new DoubleRange[] 
                             { 
-                                //position
+                               /* //position
                                 new DoubleRange(0, imgSize.Width), 
                                 new DoubleRange(0, imgSize.Height),
 
                                 //scale
-                                new DoubleRange(100, 200),
+                                new DoubleRange(250, 300),
 
                                 //rotation
-                                new DoubleRange(-5, 5)
+                                new DoubleRange(-5, 5)*/
+
+                                new DoubleRange(55, 55), 
+                                new DoubleRange(5, 5),
+                                new DoubleRange(310, 310),
+                                new DoubleRange(0, 0)
                             },
                             ParticleState.FromArray);
 
             particleFilter = new ParticleFilter<Particle<ParticleState>, ParticleState>
             {
                 //Initialize
-                ParticlesCount = 1000,
+                ParticlesCount = 100,
                 Initializer = particleInitializer,
 
                 //Predict
@@ -68,10 +73,15 @@ namespace ParticleFilterModelFitting
         {
             orientationImage = FeatureMap.Compute(img);
 
-            particleFilter.Predict();
-            particleFilter.Update();
+            //for (int i = 0; i < 1000; i++)
+            {
+                particleFilter.Predict();
+                particleFilter.Update();
+            }
 
-            particleFilter.Particles.ForEach(x => x.State.HandTemplate.Draw(img));
+            var sortedParticles = particleFilter.Particles.OrderByDescending(x => x.Weight);
+            sortedParticles.Take(1).ForEach(x => x.State.HandTemplate.Draw(img));
+            //Console.WriteLine("Best particle: " + sortedParticles.First().Weight);
         }
 
         Capture videoCapture;
@@ -82,11 +92,12 @@ namespace ParticleFilterModelFitting
 
             init();
 
-            Image<Bgr, byte> proba = Bitmap.FromFile("").ToImage<Bgr, byte>();
-            exec(proba);
-            return;
+            /*frame = Bitmap.FromFile("C:/probaBW.jpg").ToImage<Bgr, byte>();
+            exec(frame);
+            pictureBox.Image = frame.ToBitmap();
+            return;*/
 
-           /* try
+            try
             {
                 videoCapture = new Capture(0);
             }
@@ -100,23 +111,9 @@ namespace ParticleFilterModelFitting
 
             this.FormClosing += ColorParticleDemo_FormClosing;
             Application.Idle += videoCapture_ProcessFrame;
-            videoCapture.Start();*/
-
-            /*PointF[] coords = new PointF[] 
-            {
-                new PointF(35, 47),
-                new PointF(35, 47),
-                new PointF(16, 40),
-                new PointF(15, 15),
-                new PointF(25, 36),
-                new PointF(40, 15),
-                new PointF(65, 25),
-                new PointF(50, 40),
-                new PointF(60, 42),
-                new PointF(80, 37),
-                new PointF(80, 37)
-            };
-            coords = coords.FlipVertical(coords.Max(x=>x.Y)).Scale(10, 10).ToArray();*/
+            videoCapture.Start();
+            return;
+            
 
             Image<Bgr, byte> img = new Image<Bgr, byte>(1000, 1000);
             //HandModel handModel = new HandModel(coords);
@@ -156,19 +153,19 @@ namespace ParticleFilterModelFitting
             if (!hasNewFrame)
                 return;
 
-            frame = videoCapture.QueryFrame();
+            //frame = videoCapture.QueryFrame().GetSubRect(new Rectangle(0,0,250,250));
 
             long start = DateTime.Now.Ticks;
 
-            var edge = FeatureMap.Compute(frame);
-            //var edge = frame.Convert<Gray, short>();
-            //var edge2 = edge.Sobel(1, 0, 3).InRange(40, 255);
+            frame = Bitmap.FromFile("C:/probaBW.jpg").ToImage<Bgr, byte>();
+            exec(frame);
 
             long end = DateTime.Now.Ticks;
             long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
 
             frame.Draw("Processed: " + elapsedMs + " ms", font, new System.Drawing.PointF(15, 10), new Bgr(0, 255, 0));
-            this.pictureBox.Image = edge.ToBitmap(); //it will be just casted (data is shared)
+            //this.pictureBox.Image = edge.ToBitmap(); //it will be just casted (data is shared)
+            this.pictureBox.Image = frame.ToBitmap();
 
             GC.Collect();
         }

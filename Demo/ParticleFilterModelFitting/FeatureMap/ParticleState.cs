@@ -10,7 +10,7 @@ namespace ParticleFilterModelFitting
 {
     public class ParticleState: ICloneable
     {
-        static NormalDistribution normalDistribution = new NormalDistribution(mean: 0, stdDev: 50);
+        static NormalDistribution normalDistribution = new NormalDistribution(mean: 0, stdDev: 10);
 
         public Template HandTemplate { get; set; }
         public PointF Position { get; set; }
@@ -26,20 +26,22 @@ namespace ParticleFilterModelFitting
         {
             state.Position = new PointF
             {
-                X = state.Position.X + 25 * (float)normalDistribution.Generate(),
-                Y = state.Position.Y + 25 * (float)normalDistribution.Generate(),
+                X = state.Position.X + 1.5f * (float)normalDistribution.Generate(),
+                Y = state.Position.Y + 1.5f * (float)normalDistribution.Generate(),
             };
 
-            state.Scale = state.Scale + 50 * (float)normalDistribution.Generate();
+            //state.Scale = state.Scale + 1.5f * (float)normalDistribution.Generate();
 
-            state.RotationZ = state.RotationZ + (int)(5 * normalDistribution.Generate());
+            //state.RotationZ = state.RotationZ + (int)(1 * normalDistribution.Generate());
+
+            state.HandTemplate = Template.Create(state.Position.X, state.Position.Y, state.Scale, state.Scale, 0, 0, state.RotationZ);
         }
 
         public object Clone()
         {
             return new ParticleState
             {
-                HandTemplate = this.HandTemplate,
+                HandTemplate = Template.Create(Position.X, Position.Y, Scale, Scale, 0,0,RotationZ),//this.HandTemplate,
                 Position = this.Position,
                 Scale = this.Scale,
                 RotationZ = this.RotationZ

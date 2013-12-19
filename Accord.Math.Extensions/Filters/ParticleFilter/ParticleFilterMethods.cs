@@ -69,6 +69,8 @@ namespace Accord.Statistics.Filters
         {
             return (IEnumerable<TParticle> _particles) =>
             {
+                Console.WriteLine(_particles.OrderByDescending(x => x.Weight).First().Weight);
+
                 var particles = _particles.ToList();
 
                 /*************** calculate cumulative weights ****************/
