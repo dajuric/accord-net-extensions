@@ -33,19 +33,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge">
-      <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
+      <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
     </Reference>
     <Reference Include="AForge.Imaging">
-      <HintPath>..\packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
+      <HintPath>..\..\..\packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
     </Reference>
     <Reference Include="AForge.Math">
-      <HintPath>..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
+      <HintPath>..\..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
     </Reference>
     <Reference Include="AForge.Video">
-      <HintPath>..\packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
+      <HintPath>..\..\..\packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
     </Reference>
     <Reference Include="AForge.Video.DirectShow">
-      <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
+      <HintPath>..\..\..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

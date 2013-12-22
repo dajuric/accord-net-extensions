@@ -35,19 +35,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
-      <HintPath>..\packages\Accord.2.11.0.0\lib\Accord.dll</HintPath>
+      <HintPath>..\..\..\packages\Accord.2.11.0.0\lib\Accord.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Math">
-      <HintPath>..\packages\Accord.Math.2.11.0.0\lib\Accord.Math.dll</HintPath>
+      <HintPath>..\..\..\packages\Accord.Math.2.11.0.0\lib\Accord.Math.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Statistics">
-      <HintPath>..\packages\Accord.Statistics.2.11.0.0\lib\Accord.Statistics.dll</HintPath>
+      <HintPath>..\..\..\packages\Accord.Statistics.2.11.0.0\lib\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="AForge">
-      <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
+      <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
     </Reference>
     <Reference Include="AForge.Math">
-      <HintPath>..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
+      <HintPath>..\..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
