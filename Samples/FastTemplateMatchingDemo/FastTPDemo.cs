@@ -14,7 +14,7 @@ namespace FastTemplateMatchingDemo
     {
         public FastTPDemo()
         {
-                  InitializeComponent();
+            InitializeComponent();
         }
     }
 }
