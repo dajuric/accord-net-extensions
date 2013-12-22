@@ -88,6 +88,7 @@
     <Compile Include="ImageColorTypeConversions\ColorDepthConverterFactory.cs" />
     <Compile Include="ImageColorTypeConversions\Converters\Color\BgrHsvConverters.cs" />
     <Compile Include="ImageColorTypeConversions\Converters\Depth\FromByteDepthConverters.cs" />
+    <Compile Include="Image\CoreExtensions\MathOperations\MathOperations.LogicNot.cs" />
     <Compile Include="Image\Core\IImage.cs" />
     <Compile Include="Image\CoreExtensions\ValueSetter.cs" />
     <Compile Include="Image\CoreExtensions\Image.ColorConversions.cs" />

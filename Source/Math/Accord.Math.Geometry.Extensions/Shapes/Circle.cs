@@ -22,5 +22,12 @@ namespace Accord.Math.Geometry
         public int X;
         public int Y;
         public int Radius;
+
+        public Circle(Point position, int radius)
+        {
+            this.X = position.X;
+            this.Y = position.Y;
+            this.Radius = radius;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace Accord.Imaging
 {
     public static class InRangeFilter
     {
-        delegate void InRangeFunc(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest);
+        delegate void InRangeFunc(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest, byte valueToSet);
         static Dictionary<Type, InRangeFunc> inRangeFilters;
 
         static InRangeFilter()
@@ -30,19 +30,20 @@ namespace Accord.Imaging
         /// <param name="img">Input image.</param>
         /// <param name="min">Minimal value.</param>
         /// <param name="max">Maximal value.</param>
+        /// <param name="valueToSet">Value to set to result mask.</param>
         /// <param name="channelIndicies">Which channel indicies to check. If not used then it is assumed that all indicies are used.</param>
         /// <returns>Mask</returns>
-        public static Image<Gray, byte> InRange<TColor, TDepth>(this Image<TColor, TDepth> img, TColor min, TColor max, params int[] channelIndicies)
+        public static Image<Gray, byte> InRange<TColor, TDepth>(this Image<TColor, TDepth> img, TColor min, TColor max, byte valueToSet = 255, params int[] channelIndicies)
             where TColor : IColor
             where TDepth : struct
         {
             TDepth[] minArr = HelperMethods.ColorToArray<TColor, TDepth>(min);
             TDepth[] maxArr = HelperMethods.ColorToArray<TColor, TDepth>(max);
 
-            return InRange(img, minArr, maxArr, channelIndicies);
+            return InRange(img, minArr, maxArr, valueToSet, channelIndicies);
         }
 
-        internal static Image<Gray, byte> InRange<TColor, TDepth>(this Image<TColor, TDepth> img, TDepth[] minArr, TDepth[] maxArr, params int[] channelIndicies)
+        internal static Image<Gray, byte> InRange<TColor, TDepth>(this Image<TColor, TDepth> img, TDepth[] minArr, TDepth[] maxArr, byte valueToSet = 255, params int[] channelIndicies)
             where TColor : IColor
             where TDepth : struct
         {
@@ -70,7 +71,7 @@ namespace Accord.Imaging
                                                                                          {
                                                                                              var srcPatch = srcImg.GetSubRect(area);
                                                                                              var destPatch = dstImg.GetSubRect(area);
-                                                                                             inRangeFilter(srcPatch, minArr, maxArr, channelIndicies, destPatch);
+                                                                                             inRangeFilter(srcPatch, minArr, maxArr, channelIndicies, destPatch, valueToSet);
                                                                                          }
                                                                                         /*,new ParallelOptions { ForceSequential = true}*/);
 
@@ -81,7 +82,7 @@ namespace Accord.Imaging
 
         #region InRange functions
 
-        private unsafe static void inRangeByte(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest)
+        private unsafe static void inRangeByte(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest, byte valueToSet)
         {
             int nChannels = src.ColorInfo.NumberOfChannels;
             int width = src.Width;
@@ -106,7 +107,7 @@ namespace Accord.Imaging
                         bool prevVal = *destPtr != 0;
 
                         bool val = (srcVal >= minVal) && (srcVal <= maxVal) && prevVal;
-                        *destPtr = (byte)(*((byte*)(&val)) * 255); //set 255 if true
+                        *destPtr = (byte)(*((byte*)(&val)) * valueToSet); //set value if true
 
                         srcPtr += nChannels;
                         destPtr++;
@@ -118,7 +119,7 @@ namespace Accord.Imaging
             }
         }
 
-        private unsafe static void inRangeShort(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest)
+        private unsafe static void inRangeShort(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest, byte valueToSet)
         {
             int nChannels = src.ColorInfo.NumberOfChannels;
             int width = src.Width;
@@ -143,7 +144,7 @@ namespace Accord.Imaging
                         bool prevVal = *destPtr != 0;
 
                         bool val = (srcVal >= minVal) && (srcVal <= maxVal) && prevVal;
-                        *destPtr = (byte)(*((byte*)(&val)) * 255); //set 255 if true
+                        *destPtr = (byte)(*((byte*)(&val)) * valueToSet); //set value if true
 
                         srcPtr += nChannels;
                         destPtr++;
@@ -155,7 +156,7 @@ namespace Accord.Imaging
             }
         }
 
-        private unsafe static void inRangeInt(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest)
+        private unsafe static void inRangeInt(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest, byte valueToSet)
         {
             int nChannels = src.ColorInfo.NumberOfChannels;
             int width = src.Width;
@@ -180,7 +181,7 @@ namespace Accord.Imaging
                         bool prevVal = *destPtr != 0;
 
                         bool val = (srcVal >= minVal) && (srcVal <= maxVal) && prevVal;
-                        *destPtr = (byte)(*((byte*)(&val)) * 255); //set 255 if true
+                        *destPtr = (byte)(*((byte*)(&val)) * valueToSet); //set value if true
 
                         srcPtr += nChannels;
                         destPtr++;
@@ -192,7 +193,7 @@ namespace Accord.Imaging
             }
         }
 
-        private unsafe static void inRangeFloat(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest)
+        private unsafe static void inRangeFloat(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest, byte valueToSet)
         {
             int nChannels = src.ColorInfo.NumberOfChannels;
             int width = src.Width;
@@ -217,7 +218,7 @@ namespace Accord.Imaging
                         bool prevVal = *destPtr != 0;
 
                         bool val = (srcVal >= minVal) && (srcVal <= maxVal) && prevVal;
-                        *destPtr = (byte)(*((byte*)(&val)) * 255); //set 255 if true
+                        *destPtr = (byte)(*((byte*)(&val)) * valueToSet); //set value if true
 
                         srcPtr += nChannels;
                         destPtr++;
@@ -229,7 +230,7 @@ namespace Accord.Imaging
             }
         }
 
-        private unsafe static void inRangeDouble(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest)
+        private unsafe static void inRangeDouble(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest, byte valueToSet)
         {
             int nChannels = src.ColorInfo.NumberOfChannels;
             int width = src.Width;
@@ -254,7 +255,7 @@ namespace Accord.Imaging
                         bool prevVal = *destPtr != 0;
 
                         bool val = (srcVal >= minVal) && (srcVal <= maxVal) && prevVal;
-                        *destPtr = (byte)(*((byte*)(&val)) * 255); //set 255 if true
+                        *destPtr = (byte)(*((byte*)(&val)) * valueToSet); //set value if true
 
                         srcPtr += nChannels;
                         destPtr++;

@@ -78,9 +78,10 @@
     <Compile Include="DenseHistogram\DenseHistogram.Backpropagate.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Calculate.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Core.cs" />
-    <Compile Include="Edge\Canny.cs" />
+    <Compile Include="Filter\Edge\Canny.cs" />
     <Compile Include="Filter\FindNonZeroExtensions.cs" />
     <Compile Include="Filter\NonMaximaSupressionExtensions.cs" />
+    <Compile Include="Filter\Thresholding\BinaryThreshold.cs" />
     <Compile Include="ImageContourExtensions.cs" />
     <Compile Include="IntegralImage\IntegralImageExtensions.cs" />
     <Compile Include="IntegralImage\SquaredIntegralImageExtensions.cs" />
@@ -90,8 +91,8 @@
     <Compile Include="Moments\MomentsBase.cs" />
     <Compile Include="Moments\RawMoments.cs" />
     <Compile Include="Transform\PyramidExtensions.cs" />
-    <Compile Include="Smooth\SmoothGaussian.cs" />
-    <Compile Include="Edge\Sobel.cs" />
+    <Compile Include="Filter\Smooth\SmoothGaussian.cs" />
+    <Compile Include="Filter\Edge\Sobel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structures\TermCriteria.cs" />
     <Compile Include="Transform\Resize.cs" />
