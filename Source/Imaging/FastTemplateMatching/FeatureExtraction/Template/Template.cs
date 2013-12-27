@@ -8,70 +8,10 @@ using Accord.Imaging;
 
 namespace LINE2D.TemplateMatching
 {
-    public unsafe class Template
+    public unsafe class Template: ITemplate
     {
-        public class Feature
-        {
-            public int X;
-            public int Y;
-
-            public float GradientMagnitude;
-
-            private byte angleBinRepr;
-            public byte AngleBinaryRepresentation
-            {
-                get { return angleBinRepr; }
-                set 
-                {
-                    angleBinRepr = value;
-                    AngleLabel = CalcAngleLabel(angleBinRepr);
-                }
-            }
-
-            public byte AngleLabel
-            {
-                get; private set;
-            }
-
-            public Feature Clone()
-            {
-                return new Feature
-                {
-                    X = this.X,
-                    Y = this.Y,
-                    AngleBinaryRepresentation = this.AngleBinaryRepresentation,
-                    GradientMagnitude = this.GradientMagnitude
-                };
-            }
-
-            /// <summary>
-            /// Calculate Log2(angleBinRepr)
-            /// </summary>
-            private static byte CalcAngleLabel(byte angleBinRepr)
-            {
-                const int MAX_NUM_OF_SHIFTS = 8; //number of bits per byte
-                byte numRightShifts = 0;
-
-                while ((angleBinRepr & 1) == 0  && numRightShifts < MAX_NUM_OF_SHIFTS)
-                {
-                    angleBinRepr = (byte)(angleBinRepr >> 1);
-                    numRightShifts++;
-                }
-
-                if (numRightShifts == MAX_NUM_OF_SHIFTS)
-                    return 0;
-                else
-                    return numRightShifts;
-            }
-
-            public static byte CalcAngleBinRepresentation(byte angleLabel)
-            {
-                return (byte)Math.Pow(2, angleLabel);
-            }
-        }
-
-        public Feature[] Features = null;
-        public Size Size;
+        public Feature[] Features { get; private set; }
+        public Size Size { get; private set; }
         public string  ClassLabel { get; private set; }
 
         public Template()
@@ -90,13 +30,29 @@ namespace LINE2D.TemplateMatching
             this.ClassLabel = classLabel;
         }
 
-        protected Rectangle boundingRect = Rectangle.Empty;
-        internal void Initialize(Image<Gray, int> magnitude, Image<Gray, int> orientation, int maxNumberOfFeatures, string classLabel)
+        public virtual void Initialize(Image<Bgr, byte> sourceImage, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
-            Image<Gray, Byte> quantizedOrient = ColorGradient.QuantizeOrientations(orientation);
-            Image<Gray, Byte> importantQuantizedOrient = ColorGradient.RetainImportantQuantizedOrientations(quantizedOrient, magnitude, GlobalParameters.MIN_GRADIENT_THRESHOLD);
+            Image<Gray, int> orientationImg;
+            GradientOrientation.ComputeGradient(sourceImage, out orientationImg, GlobalParameters.MIN_FEATURE_STRENGTH);
 
-            List<Feature> features = ExtractTemplate(importantQuantizedOrient, magnitude, maxNumberOfFeatures);
+            Initialize(orientationImg, maxNumberOfFeatures, classLabel, featureImportanceFunc);
+        }
+
+        public virtual void Initialize(Image<Gray, byte> sourceImage, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        {
+            Image<Gray, int> orientationImg;    
+            GradientOrientation.ComputeGradient(sourceImage, out orientationImg, GlobalParameters.MIN_FEATURE_STRENGTH);
+
+            Initialize(orientationImg, maxNumberOfFeatures, classLabel, featureImportanceFunc);
+        }
+
+        protected Rectangle boundingRect = Rectangle.Empty;
+        internal void Initialize(Image<Gray, int> orientation, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        {
+            featureImportanceFunc = (feature) => 0;
+
+            Image<Gray, Byte> importantQuantizedOrient = FeatureMap.Caclulate(orientation, 0);
+            List<Feature> features = ExtractTemplate(importantQuantizedOrient, maxNumberOfFeatures, featureImportanceFunc);
 
             boundingRect = GetBoundingRectangle(features);
             //if (boundingRect.X == 1 && boundingRect.Y  == 1 && boundingRect.Width == 18)
@@ -121,29 +77,10 @@ namespace LINE2D.TemplateMatching
             this.ClassLabel = classLabel;
         }
 
-        public virtual void Initialize(Image<Bgr, Byte> sourceImage, int maxNumberOfFeatures, string classLabel)
-        {
-            Image<Gray, int> magnitude, orientation;
-            ColorGradient.ComputeColor(sourceImage, out magnitude, out orientation);
-
-            this.Initialize(magnitude, orientation, maxNumberOfFeatures, classLabel);
-        }
-
-        public virtual void Initialize(Image<Gray, Byte> sourceImage, int maxNumberOfFeatures, string classLabel)
-        {
-            Image<Gray, int> magnitude, orientation;
-            ColorGradient.ComputeGray(sourceImage, out magnitude, out orientation);
-
-            this.Initialize(magnitude, orientation, maxNumberOfFeatures, classLabel);
-        }
-
-        private static List<Feature> ExtractTemplate(Image<Gray, Byte> orientationImage, Image<Gray, int> magnitudeImage, int maxNumOfFeatures)
+        private static List<Feature> ExtractTemplate(Image<Gray, Byte> orientationImage, int maxNumOfFeatures, Func<Feature, int> featureImportanceFunc)
         {
             byte* orientImgPtr = (byte*)orientationImage.ImageData;
             int orientImgStride = orientationImage.Stride;
-
-            int* magImgPtr = (int*)magnitudeImage.ImageData;
-            int magImgStride = magnitudeImage.Stride / sizeof(int);
 
             int imgWidth = orientationImage.Width;
             int imgHeight = orientationImage.Height;
@@ -154,22 +91,20 @@ namespace LINE2D.TemplateMatching
             {
                 for (int col = 0; col < imgWidth; col++)
                 {
-                    if (magImgPtr[col] < GlobalParameters.MIN_FEATURE_STRENGTH || orientImgPtr[col] == 0)
+                    if (orientImgPtr[col] == 0) //quantized oerientations are: [1,2,4,8,...,128];
                         continue;
 
                     var candidate = new Feature
                     {
                         X = col,
                         Y = row,
-                        AngleBinaryRepresentation = orientImgPtr[col],
-                        GradientMagnitude = magImgPtr[col]
+                        AngleBinaryRepresentation = orientImgPtr[col]
                     };
 
                     candidates.Add(candidate);
                 }
 
                 orientImgPtr += orientImgStride;
-                magImgPtr += magImgStride;
             }
 
 
@@ -177,7 +112,7 @@ namespace LINE2D.TemplateMatching
                 return new List<Feature>();
             else
             {
-                candidates = candidates.OrderByDescending(delegate(Feature f) { return f.GradientMagnitude; }).ToList(); //order descending
+                candidates = candidates.OrderByDescending(featureImportanceFunc).ToList(); //order descending
                 return FilterScatteredFeatures(candidates, maxNumOfFeatures, 5); //candidates.Count must be >= MIN_NUM_OF_FEATURES
             }
         }

@@ -66,9 +66,10 @@ namespace Accord.Imaging
         /// <param name="im">Generic image.</param>
         /// <param name="width">Image width.</param>
         /// <param name="height">Image height.</param>
-        protected static void Initialize(GenericImageBase im, int width, int height)
+        /// <param name="strideAllignment">Stride allignment. Usual practice is that every image row ends with address alligned with 4.</param>
+        protected static void Initialize(GenericImageBase im, int width, int height, int strideAllignment = 4)
         {
-            int stride = calculateStride(im.ColorInfo, width);
+            int stride = calculateStride(im.ColorInfo, width, strideAllignment);
             var buffer = new PinnedArray<byte>(stride * height);
 
             im.mustBeDisposed = true;
@@ -128,8 +129,11 @@ namespace Accord.Imaging
         {
             int stride = width * colorInfo.Size;
 
-            if (stride % allignment != 0)
+            if (allignment != 0 &&
+                stride % allignment != 0)
+            {
                 stride += (allignment - (stride % allignment));
+            }
 
             return stride;
         }

@@ -3,29 +3,30 @@ using Accord.Vision;
 using LINE2D;
 using LINE2D.QueryImage;
 using LINE2D.TemplateMatching;
+using MoreLinq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MoreLinq;
-using Accord.Math.Geometry;
 
 namespace FastTemplateMatchingDemo
 {
     public partial class FastTPDemo : Form
     {
         int threshold = 88;
-        int minDetectionsPerGroup = 3; //for match grouping (postprocessing)
+        int minDetectionsPerGroup = 0; //for match grouping (postprocessing)
 
         Capture videoCapture;
         List<TemplatePyramid> templPyrs;
 
         private void initialize()
         {
-            TemplatePyramid.BindSpecificTemplateToClass<TemplateWithObjectMask>("OpenHand");
-            templPyrs = fromFiles();
+            //templPyrs = fromFiles();
+            templPyrs = fromXML();
         }
 
         List<TemplatePyramid> fromFiles()
@@ -37,6 +38,7 @@ namespace FastTemplateMatchingDemo
 
             object syncObj = new object();
             Parallel.ForEach(files, delegate(string file)
+            //foreach(var file in files)
             {
                 Image<Gray, Byte> preparedBWImage = Bitmap.FromFile(file).ToImage<Gray, byte>();
 
@@ -54,12 +56,31 @@ namespace FastTemplateMatchingDemo
             return list;
         }
 
-        private List<Match> findObjects(Image<Bgr, byte> image)
+        List<TemplatePyramid> fromXML()
         {
-            var bestRepresentatives = new List<Match>();
+            List<TemplatePyramid> list = new List<TemplatePyramid>();
 
-            LinearMemoryPyramid linPyr = LinearMemoryPyramid.CreatePyramid(image);
+            string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
+            list = TemplateSerializer.Load(Path.Combine(resourceDir, "OpenHand_Right.xml"))/*.Take(500)*/.ToList();
+
+            return list;
+        }
+
+        private List<Match> findObjects(Image<Bgr, byte> image, out long preprocessTime, out long matchTime)
+        {
+            var grayIm = image.Convert<Gray, byte>();
+
+            var bestRepresentatives = new List<Match>();
+            
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            LinearizedMapPyramid linPyr = LinearizedMapPyramid.CreatePyramid(grayIm); //prepeare linear-pyramid maps
+            stopwatch.Stop(); preprocessTime = stopwatch.ElapsedMilliseconds;
+
+            stopwatch.Restart();
+            //List<Match> matches = new List<Match>();
             List<Match> matches = Detector.MatchTemplates(linPyr, templPyrs, threshold);
+            stopwatch.Stop(); matchTime = stopwatch.ElapsedMilliseconds;
 
             var matchGroups = new MatchGroupMatching().Group(matches.ToArray());
 
@@ -83,11 +104,22 @@ namespace FastTemplateMatchingDemo
         {
             InitializeComponent();
 
+            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "SIMDArrayInstructions.dll")) == false)
+            {
+                MessageBox.Show("Copy SIMDArrayInstructions.dll to your bin directory!");
+                return;
+            }
+
             initialize();
+
+            /*frame = Bitmap.FromFile("C:/proba.jpg").ToImage<Bgr, byte>();
+            long preprocessTime, matchTime;
+            var bestRepresentatives = findObjects(frame, out preprocessTime, out matchTime);
+            return;*/
 
             try
             {
-                videoCapture = new Capture(0);
+                videoCapture = new Capture(/*"proba.wmv"*/);
             }
             catch (Exception)
             {
@@ -95,8 +127,8 @@ namespace FastTemplateMatchingDemo
                 return;
             }
 
-            videoCapture.VideoSize = new Size(320, 200); //set new Size(0,0) for the lowest one
-
+            videoCapture.VideoSize = new Size(640 / 2, 480 / 2); //set new Size(0,0) for the lowest one
+          
             this.FormClosing += FastTPDemo_FormClosing;
             Application.Idle += videoCapture_NewFrame;
             videoCapture.Start();
@@ -110,31 +142,22 @@ namespace FastTemplateMatchingDemo
             if (!hasNewFrame)
                 return;
 
-            frame = videoCapture.QueryFrame()/*.SmoothGaussian(5)*/; //smoothing <<parallel operation>>
+            frame = videoCapture.QueryFrame().Clone();
+            //frame = Bitmap.FromFile("C:/proba.jpg").ToImage<Bgr, byte>();
 
-            long start = DateTime.Now.Ticks;
-
-            var bestRepresentatives = findObjects(frame);
-
-            long end = DateTime.Now.Ticks;
-            long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
+            long preprocessTime, matchTime;
+            var bestRepresentatives = findObjects(frame, out preprocessTime, out matchTime);
 
             /************************************ drawing ****************************************/
 
             foreach (var m in bestRepresentatives)
             {
-                TemplateWithObjectMask template = (TemplateWithObjectMask)m.Template;
                 frame.Draw(m.BoundingRect, new Bgr(0, 0, 255), 1);
-
-                if (RectangleExtensions.IntersectionPercent(m.BoundingRect, new Rectangle(Point.Empty, frame.Size)) > 0.99) //if a match is fully inside an image...
-                {
-                    var bgrMask = template.BinaryMask.Convert<Bgr, byte>();
-                    frame.GetSubRect(m.BoundingRect).Max(bgrMask, inPlace: true);
-                }
+                frame.Draw(m, new Bgr(Color.Blue), 3, 3);
             }
 
-            frame.Draw(String.Format("Matching {0} templates in: {1} ms", templPyrs.Count, elapsedMs), 
-                       font, new PointF(15, 10), new Bgr(0, 255, 0));
+            frame.Draw(String.Format("Matching {0} templates in: {1} ms", templPyrs.Count, matchTime), 
+                       font, new PointF(5, 10), new Bgr(0, 255, 0));
           
             this.pictureBox.Image = frame.ToBitmap(); //it will be just casted (data is shared) 24bpp color
           

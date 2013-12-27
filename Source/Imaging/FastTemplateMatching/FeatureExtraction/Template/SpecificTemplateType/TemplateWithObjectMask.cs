@@ -42,9 +42,9 @@ namespace LINE2D.TemplateMatching
             }
         }
 
-        public override void Initialize(Image<Gray, byte> sourceImage, int maxNumberOfFeatures, string classLabel)
+        public void Initialize(Image<Gray, int> orientationDegImg, int maxNumberOfFeatures, string classLabel, Image<Gray, byte> sourceImage)
         {
-            base.Initialize(sourceImage, maxNumberOfFeatures, classLabel);
+            base.Initialize(orientationDegImg, maxNumberOfFeatures, classLabel);
             this.HasMetadata = true;
 
             this.BinaryMask = sourceImage.GetSubRect(this.boundingRect).Clone();

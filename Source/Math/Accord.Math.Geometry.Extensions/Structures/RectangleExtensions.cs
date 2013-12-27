@@ -9,6 +9,16 @@ namespace Accord.Math.Geometry
 {
     public static class RectangleExtensions
     {
+        public static Rectangle Intersect(this Rectangle rect, Size area)
+        {
+            Rectangle newRect = rect;
+
+            if (area.IsEmpty == false)
+                newRect.Intersect(new Rectangle(Point.Empty, area));
+
+            return newRect;
+        }
+
         public static float IntersectionPercent(this RectangleF rect1, RectangleF rect2)
         {
             float rect1Area = rect1.Width * rect1.Height;
@@ -20,6 +30,22 @@ namespace Accord.Math.Geometry
             float minRectArea = System.Math.Min(rect1Area, rect2Area);
 
             return (float)intersectRectArea / minRectArea;
+        }
+
+        public static Rectangle Inflate(this Rectangle rect, int width, int height, Size constrainedArea = default(Size))
+        {
+            Rectangle newRect = new Rectangle
+            {
+                X = rect.X - width,
+                Y = rect.Y - height,
+                Width = rect.Width + 2 * width,
+                Height = rect.Height + 2 * height
+            };
+
+            if (constrainedArea.IsEmpty == false)
+                newRect.Intersect(new Rectangle(Point.Empty, constrainedArea));
+
+            return newRect;
         }
 
         public static Rectangle Inflate(this Rectangle rect, double widthScale, double heightScale, Size constrainedArea = default(Size))

@@ -84,14 +84,17 @@
     <Compile Include="Detector\Detector.cs" />
     <Compile Include="Detector\Matching\GroupMatching.cs" />
     <Compile Include="Detector\Matching\Match.cs" />
+    <Compile Include="Detector\SIMDArithemtics.cs" />
+    <Compile Include="FeatureExtraction\Template\ITemplate.cs" />
     <Compile Include="FeatureExtraction\Template\SpecificTemplateType\TemplateWithObjectMask.cs" />
     <Compile Include="FeatureExtraction\Template\TemplateSerializer.cs" />
     <Compile Include="GlobalParameters.cs" />
-    <Compile Include="FeatureExtraction\QueryImage\LinearMemoryPyramid.cs" />
-    <Compile Include="FeatureExtraction\QueryImage\Maps.cs" />
-    <Compile Include="ColorGradient.cs" />
+    <Compile Include="FeatureExtraction\QueryImage\LinearizedMapPyramid.cs" />
+    <Compile Include="FeatureExtraction\QueryImage\LinearizedMaps.cs" />
+    <Compile Include="FeatureExtraction\FeatureMap.cs" />
     <Compile Include="FeatureExtraction\Template\Template.cs" />
     <Compile Include="FeatureExtraction\Template\TemplatePyramid.cs" />
+    <Compile Include="FeatureExtraction\GradientOrientation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />

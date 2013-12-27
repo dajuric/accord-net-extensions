@@ -56,10 +56,11 @@ namespace Accord.Imaging
         /// Constructs an image. (allocation)
         /// </summary>
         /// <param name="size">Image size.</param>
-        public Image(Size size)
+        /// <param name="strideAllignment">Stride allignment. Usual practice is that every image row ends with address alligned with 4.</param>
+        public Image(Size size, int strideAllignment = 4)
             :this()
         {
-            GenericImageBase.Initialize(this, size.Width, size.Height);
+            GenericImageBase.Initialize(this, size.Width, size.Height, strideAllignment);
         }
 
         /// <summary>
@@ -67,10 +68,11 @@ namespace Accord.Imaging
         /// </summary>
         /// <param name="width">Image width.</param>
         /// <param name="height">Image height.</param>
-        public Image(int width, int height)
+        /// <param name="strideAllignment">Stride allignment. Usual practice is that every image row ends with address alligned with 4.</param>
+        public Image(int width, int height, int strideAllignment = 4)
             :this()
         {
-            GenericImageBase.Initialize(this, width, height);
+            GenericImageBase.Initialize(this, width, height, strideAllignment);
         }
 
         /// <summary>

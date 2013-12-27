@@ -30,7 +30,7 @@ namespace Accord.Imaging
             else
                 dest = img.CopyBlank();
 
-            //ToAforgeImage() will only cast image (cause the conversion path has been checked by CanCastOnlyToAForgeImage()
+            //ToAforgeImage() will only cast image (cause the conversion path has been checked by CanCastToAForgeImage()
             filter.Apply(img.ToAForgeImage(), dest.ToAForgeImage());
             return dest;
         }

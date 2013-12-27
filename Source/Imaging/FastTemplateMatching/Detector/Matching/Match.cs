@@ -8,12 +8,21 @@ using LINE2D.TemplateMatching;
 
 namespace LINE2D
 {
+    public class Match<T>: Match where T: ITemplate
+    {
+        public new T Template 
+        {
+            get { return (T)base.Template; }
+            set { base.Template = value; }
+        }
+    }
+
     public class Match
     {
         public int X;
         public int Y;
         public float Score;
-        public Template Template;
+        public ITemplate Template;
 
         public Rectangle BoundingRect
         {

@@ -65,7 +65,7 @@ namespace Accord.Vision
             return ((GenericImageBase)buffer).Convert(destColor, false) as Image<Bgr, byte>; //it will (probably) be casted (not copied) from <Color3, byte> => <Bgr, byte>
         }
 
-        private bool HasNewFrame { get { return buffer != null && !frameQueried; } }
+        private bool HasNewFrame { get { return buffer != null && frameQueried == false; } }
 
         /// <summary>
         /// Block a calling thread until new frame arrives. <see cref="QueryFrame"/> is monitored.

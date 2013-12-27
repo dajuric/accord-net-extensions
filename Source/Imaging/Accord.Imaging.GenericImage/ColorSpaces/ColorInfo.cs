@@ -126,10 +126,12 @@ namespace Accord.Imaging
             /// </summary>
             Depth = 0x1,
             /// <summary>
-            /// Checks if one color can be casted to other 
-            /// (one of the color infos must be Generic (or the same) 
+            /// Checks if one color can be casted to other.
+            /// <para>
+            /// One of the color infos must be Generic (or the same) 
             /// and have the same number of channels 
             /// and color channels must be the same type.
+            /// </para>
             /// </summary>
             Castable = 0x3, 
             /// <summary>

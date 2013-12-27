@@ -60,6 +60,7 @@
     <Compile Include="Extensions\AForgeCompatibility\AForgeFilterProcessing.cs" />
     <Compile Include="Extensions\ArrayCompatibility\ArrayToImageExtensions.cs" />
     <Compile Include="Extensions\ArrayCompatibility\ImageToArrayExtensions.cs" />
+    <Compile Include="Extensions\Basic\ClearImage.cs" />
     <Compile Include="Extensions\Basic\ConditionalCopy.cs" />
     <Compile Include="Extensions\Basic\GetRectSubPix.cs" />
     <Compile Include="Extensions\Basic\InRange.cs" />

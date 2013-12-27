@@ -8,11 +8,18 @@ namespace LINE2D.TemplateMatching
 {
     public class TemplatePyramid
     {
-        public Template[] Templates = null;
+        private Template[] templates = null;
+
+        public Template this[int pyrLevel]
+        {
+            get { return this.templates[pyrLevel]; }
+        }
+
+        public int Count { get { return this.templates.Length;} }
 
         internal TemplatePyramid(Template[] templates)
         {
-            this.Templates = templates;
+            this.templates = templates;
         }
 
         public static TemplatePyramid CreatePyramid(Image<Bgr, Byte> sourceImage, string classLabel)

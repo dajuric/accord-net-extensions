@@ -11,13 +11,12 @@ namespace LINE2D.TemplateMatching
 {
     public class TemplateSerializer
     {
-        private static XElement SerializeTemplateFeature(Template.Feature feature)
+        private static XElement SerializeTemplateFeature(Feature feature)
         {
             XElement xElem = new XElement("Feature");
             xElem.SetAttributeValue("X", feature.X);
             xElem.SetAttributeValue("Y", feature.Y);
-            xElem.SetAttributeValue("AngleLabel", feature.AngleLabel);
-            xElem.SetAttributeValue("Magnitude", feature.GradientMagnitude);
+            xElem.SetAttributeValue("AngleLabel", feature.AngleIndex);
 
             return xElem;
         }
@@ -52,9 +51,9 @@ namespace LINE2D.TemplateMatching
         {
             XElement xElem = new XElement("TemplatePyramid");
 
-            for (int i = 0; i < templatePyramid.Templates.Length; i++)
+            for (int i = 0; i < templatePyramid.Count; i++)
             {
-                xElem.Add(SerializeTemplate(templatePyramid.Templates[i], i));
+                xElem.Add(SerializeTemplate(templatePyramid[i], i));
             }
 
             return xElem;
@@ -63,7 +62,7 @@ namespace LINE2D.TemplateMatching
         public static XElement SerializeTemplatePyramidClass(IEnumerable<TemplatePyramid> c)
         {
             XElement xElem = new XElement("TemplatePyramidClass");
-            xElem.SetAttributeValue("classLabel", c.First().Templates.First().ClassLabel);
+            xElem.SetAttributeValue("classLabel", c.First()[0].ClassLabel);
             xElem.SetAttributeValue("numOfTemplatePyrs", c.Count());
 
             foreach (TemplatePyramid templatePyr in c)
@@ -149,7 +148,7 @@ namespace LINE2D.TemplateMatching
                                                   where featureNode.Name == "Feature"
                                                   select featureNode;
             
-            List<Template.Feature> features = new List<Template.Feature>();
+            List<Feature> features = new List<Feature>();
             foreach (XElement featureNode in featureNodes)
             {
                 features.Add(DeserializeFeature(featureNode));
@@ -163,14 +162,13 @@ namespace LINE2D.TemplateMatching
             return t;
         }
 
-        private static Template.Feature DeserializeFeature(XElement featureNode)
+        private static Feature DeserializeFeature(XElement featureNode)
         {
             int x = (int)featureNode.Attribute("X");
             int y = (int)featureNode.Attribute("Y");
             byte angleLabel = (byte)(int)featureNode.Attribute("AngleLabel");
-            int magnitude = (int)featureNode.Attribute("Magnitude");
 
-            return new Template.Feature { X = x, Y = y, AngleBinaryRepresentation = Template.Feature.CalcAngleBinRepresentation(angleLabel), GradientMagnitude = magnitude };
+            return new Feature { X = x, Y = y, AngleBinaryRepresentation = Feature.CalcAngleBinRepresentation(angleLabel)};
         }
 
     }
