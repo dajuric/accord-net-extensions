@@ -22,7 +22,13 @@ adds support for:
       
 	  6) introduces extension pattern method usage (e.g. img.GaussianSmooth(3)...) (parallel)
       
-	  7) implements new algorithms (Camshift (parallel), KLT (parallel), ParticleFilter, KalmanFilter)
+	  7) implements new algorithms 
+	  		a) Camshift (parallel) + demo, 
+	  		b) KLT (parallel) + demo, 
+	  		c) ParticleFilter + demo, 
+	  		d) KalmanFilter + demo x 2
+	  		e) Fast template matching (~20x faster than conventional) + demo
+	  		f) numerous extensions (e.g. contour, shape...) + demo x 1 + tests
    
    
 roadmap: //TODO list
