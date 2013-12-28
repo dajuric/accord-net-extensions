@@ -1,8 +1,6 @@
 ﻿using Accord.Imaging;
 using Accord.Vision;
 using LINE2D;
-using LINE2D.QueryImage;
-using LINE2D.TemplateMatching;
 using MoreLinq;
 using System;
 using System.Collections.Generic;
@@ -12,6 +10,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+//with template mask
+using Template = LINE2D.ImageTemplateWithMask;
+using TemplatePyramid = LINE2D.ImageTemplatePyramid<LINE2D.ImageTemplateWithMask>;
+
+//without template mask (there is slightly performance gain during execution while not loading templates with binary masks)
+/*using Template = LINE2D.ImageTemplate;
+using TemplatePyramid = LINE2D.ImageTemplatePyramid<LINE2D.ImageTemplate>;*/
 
 namespace FastTemplateMatchingDemo
 {
@@ -23,17 +29,21 @@ namespace FastTemplateMatchingDemo
         Capture videoCapture;
         List<TemplatePyramid> templPyrs;
 
+        /// <summary>
+        /// Switch between two loading methods. 
+        /// Creating a template from files or by deserializing.
+        /// </summary>
         private void initialize()
         {
-            //templPyrs = fromFiles();
-            templPyrs = fromXML();
+            templPyrs = fromFiles();
+            //templPyrs = fromXML();
         }
 
         List<TemplatePyramid> fromFiles()
         {
-            List<TemplatePyramid> list = new List<TemplatePyramid>();
+            var list = new List<TemplatePyramid>();
 
-            string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
+            string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "OpenHandLeft_BW");
             string[] files = Directory.GetFiles(resourceDir, "*.bmp");
 
             object syncObj = new object();
@@ -44,7 +54,7 @@ namespace FastTemplateMatchingDemo
 
                 try
                 {
-                    TemplatePyramid tp = TemplatePyramid.CreatePyramidFromPreparedBWImage(preparedBWImage, "OpenHand");
+                    var tp = TemplatePyramid.CreatePyramidFromPreparedBWImage(preparedBWImage, "OpenHand");
                     lock (syncObj)
                     { list.Add(tp); };
                 }
@@ -52,7 +62,7 @@ namespace FastTemplateMatchingDemo
                 {}
             });
 
-            //TemplateSerializer.Save(list, "bla.xml");
+            //XMLTemplateSerializer<ImageTemplatePyramid, ImageTemplate>.Save(list, "C:/bla.xml");
             return list;
         }
 
@@ -61,7 +71,7 @@ namespace FastTemplateMatchingDemo
             List<TemplatePyramid> list = new List<TemplatePyramid>();
 
             string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
-            list = TemplateSerializer.Load(Path.Combine(resourceDir, "OpenHand_Right.xml"))/*.Take(500)*/.ToList();
+            list = XMLTemplateSerializer<TemplatePyramid, Template>.Load(Path.Combine(resourceDir, "OpenHand_Right.xml")).ToList();
 
             return list;
         }
@@ -71,28 +81,21 @@ namespace FastTemplateMatchingDemo
             var grayIm = image.Convert<Gray, byte>();
 
             var bestRepresentatives = new List<Match>();
-            
+
             Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+
+            stopwatch.Start(); 
             LinearizedMapPyramid linPyr = LinearizedMapPyramid.CreatePyramid(grayIm); //prepeare linear-pyramid maps
-            stopwatch.Stop(); preprocessTime = stopwatch.ElapsedMilliseconds;
+            preprocessTime = stopwatch.ElapsedMilliseconds;
 
             stopwatch.Restart();
-            //List<Match> matches = new List<Match>();
             List<Match> matches = Detector.MatchTemplates(linPyr, templPyrs, threshold);
             stopwatch.Stop(); matchTime = stopwatch.ElapsedMilliseconds;
 
-            var matchGroups = new MatchGroupMatching().Group(matches.ToArray());
-
+            var matchGroups = new MatchClustering(minDetectionsPerGroup).Group(matches.ToArray());
             foreach (var group in matchGroups)
             {
-                if (group.Detections.Length < minDetectionsPerGroup)
-                    continue;
-
-                var bestMatch = group.Detections.MaxBy(delegate(Match a) { return a.BoundingRect.Size.Width * a.BoundingRect.Size.Height; });
-                //group.Detections.Sort(delegate(Match a, Match b) { return a.Score.CompareTo(b.Score) * (-1); });
-
-                bestRepresentatives.Add(bestMatch);
+                bestRepresentatives.Add(group.Representative);
             }
 
             return bestRepresentatives;
@@ -111,11 +114,6 @@ namespace FastTemplateMatchingDemo
             }
 
             initialize();
-
-            /*frame = Bitmap.FromFile("C:/proba.jpg").ToImage<Bgr, byte>();
-            long preprocessTime, matchTime;
-            var bestRepresentatives = findObjects(frame, out preprocessTime, out matchTime);
-            return;*/
 
             try
             {
@@ -149,16 +147,33 @@ namespace FastTemplateMatchingDemo
             var bestRepresentatives = findObjects(frame, out preprocessTime, out matchTime);
 
             /************************************ drawing ****************************************/
-
             foreach (var m in bestRepresentatives)
             {
                 frame.Draw(m.BoundingRect, new Bgr(0, 0, 255), 1);
-                frame.Draw(m, new Bgr(Color.Blue), 3, 3);
+              
+                if (m.Template is ImageTemplateWithMask)
+                {
+                    var mask = ((ImageTemplateWithMask)m.Template).BinaryMask;
+                    if (mask == null) continue; //just draw bounding boxes
+
+                    var area = new Rectangle(m.X, m.Y, mask.Width, mask.Height);
+                    if (area.X < 0 || area.Y < 0 || area.Right >= frame.Width || area.Bottom >= frame.Height) continue; //must be fully inside
+
+                    using (var someImage = new Image<Bgr, byte>(mask.Width, mask.Height, new Bgr(Color.Red)))
+                    {
+                        someImage.Copy(frame.GetSubRect(area), mask);
+                    }
+                }
+                else
+                {
+                    frame.Draw(m, new Bgr(Color.Blue), 3, 3);
+                }
             }
 
             frame.Draw(String.Format("Matching {0} templates in: {1} ms", templPyrs.Count, matchTime), 
                        font, new PointF(5, 10), new Bgr(0, 255, 0));
-          
+            /************************************ drawing ****************************************/
+
             this.pictureBox.Image = frame.ToBitmap(); //it will be just casted (data is shared) 24bpp color
           
             GC.Collect();

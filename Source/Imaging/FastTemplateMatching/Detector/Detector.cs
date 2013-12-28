@@ -1,7 +1,5 @@
 ﻿using Accord.Imaging;
 using Accord.Math.Geometry;
-using LINE2D.QueryImage;
-using LINE2D.TemplateMatching;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
+using Accord.Core;
 
 namespace LINE2D
 {
@@ -30,48 +29,50 @@ namespace LINE2D
 
     public unsafe class Detector
     {
-        public static List<Match> MatchTemplates(LinearizedMapPyramid linPyr, List<TemplatePyramid> templPyrs, int minMatchingPercentage)
+        public static List<Match> MatchTemplates(LinearizedMapPyramid linPyr, IEnumerable<ITemplatePyramid> templPyrs, int minMatchingPercentage, bool inParallel = true)
         {
             List<Match> matches = new List<Match>();
 
-            /*for (int i = 0; i < templPyrs.Count; i++)
+            if (inParallel)
             {
-                List<Match> templateMatches = MatchTemplate(linPyr, templPyrs[i], minMatchingPercentage);
-                matches.AddRange(templateMatches);
-            }*/
+                object syncObj = new object();
 
-            object syncObj = new object();
-
-            Parallel.ForEach(templPyrs, delegate(TemplatePyramid templPyr)
-            {
-                List<Match> templateMatches = MatchTemplate(linPyr, templPyr, minMatchingPercentage);
-                lock (syncObj)
+                Parallel.ForEach(templPyrs, (templPyr) => 
                 {
+                    List<Match> templateMatches = MatchTemplate(linPyr, templPyr, minMatchingPercentage);
+                    lock (syncObj) matches.AddRange(templateMatches);
+                });
+            }
+            else
+            {
+                foreach (var templPyr in templPyrs)
+                {
+                    List<Match> templateMatches = MatchTemplate(linPyr, templPyr, minMatchingPercentage);
                     matches.AddRange(templateMatches);
                 }
-            });
+            }
 
             return matches;
         }
 
-        public static List<Match> MatchTemplate(LinearizedMapPyramid linPyr, TemplatePyramid templPyr, int minMatchingPercentage)
+        public static List<Match> MatchTemplate(LinearizedMapPyramid linPyr, ITemplatePyramid templPyr, int minMatchingPercentage)
         {
             List<Match>[] pyrMatches = new List<Match>[GlobalParameters.NEGBORHOOD_PER_LEVEL.Length];
 
             //match at the lowest level
             int lowestPyramidIdx = GlobalParameters.NEGBORHOOD_PER_LEVEL.Length - 1; //lowestPyramidIdx = 0;
-            var searchArea = new Rectangle(System.Drawing.Point.Empty, linPyr[lowestPyramidIdx].ImageSize); //search whole image
-            pyrMatches[lowestPyramidIdx] = matchTemplate(linPyr[lowestPyramidIdx], templPyr[lowestPyramidIdx], searchArea, minMatchingPercentage);
+            var searchArea = new Rectangle(System.Drawing.Point.Empty, linPyr.PyramidalMaps[lowestPyramidIdx].ImageSize); //search whole image
+            pyrMatches[lowestPyramidIdx] = matchTemplate(linPyr.PyramidalMaps[lowestPyramidIdx], templPyr.Templates[lowestPyramidIdx], searchArea, minMatchingPercentage);
 
             //refine matches
             for (int pyrLevel = lowestPyramidIdx - 1; pyrLevel >= 0; pyrLevel--)
             {
-                LinearizedMaps maps = linPyr[pyrLevel];
-                Template template = templPyr[pyrLevel];
-                Size imageValidSize = linPyr[pyrLevel].ImageValidSize;
+                LinearizedMaps maps = linPyr.PyramidalMaps[pyrLevel];
+                ITemplate template = templPyr.Templates[pyrLevel];
+                Size imageValidSize = maps.ImageValidSize;
                 pyrMatches[pyrLevel] = new List<Match>();
 
-                int previousNeigborhood = linPyr[pyrLevel + 1].NeigborhoodSize;
+                int previousNeigborhood = linPyr.PyramidalMaps[pyrLevel + 1].NeigborhoodSize;
 
                 for (int candidateIdx = 0; candidateIdx < pyrMatches[pyrLevel+1].Count; candidateIdx++) //for every candidate of previous pyramid level...
                 {
@@ -91,7 +92,7 @@ namespace LINE2D
                     };
                     searchArea = searchArea.Intersect(imageValidSize);
 
-                    var foundCandidates = matchTemplate(linPyr[pyrLevel], templPyr[pyrLevel], searchArea, minMatchingPercentage);
+                    var foundCandidates = matchTemplate(linPyr.PyramidalMaps[pyrLevel], template, searchArea, minMatchingPercentage);
                     pyrMatches[pyrLevel].AddRange(foundCandidates);
                 }
             }
@@ -101,7 +102,7 @@ namespace LINE2D
 
         #region Match template core
 
-        private static List<Match> matchTemplate(LinearizedMaps linMaps, Template template, Rectangle searchArea, int minMatchingPercentage)
+        private static List<Match> matchTemplate(LinearizedMaps linMaps, ITemplate template, Rectangle searchArea, int minMatchingPercentage)
         {
             //just do matching for templates that can fit into query image
             if (template.Size.Width > linMaps.ImageValidSize.Width ||
@@ -125,7 +126,7 @@ namespace LINE2D
             return foundCandidates;
         }
 
-        private static Image<Gray, short> calculateSimilarityMap(Template template, LinearizedMaps maps, Rectangle searchArea)
+        private static Image<Gray, short> calculateSimilarityMap(ITemplate template, LinearizedMaps maps, Rectangle searchArea)
         {
             Debug.Assert(searchArea.Right <= maps.ImageSize.Width && 
                          searchArea.Bottom <= maps.ImageSize.Height);
@@ -136,9 +137,9 @@ namespace LINE2D
             int height = searchArea.Height / maps.NeigborhoodSize;
             int size = width * height; //stride == width
 
-            Image<Gray, short> similarityMap = new Image<Gray, short>(width, height, LinearizedMaps.MAP_STRIDE_ALLIGNMENT);
+            Image<Gray, short> similarityMap = new Image<Gray, short>(width, height, LinearizedMaps.MAP_STRIDE_ALLIGNMENT); //performance penalty (alloc, dealloc)!!!
 
-            using (var buffer = new Image<Gray, byte>(width, height, LinearizedMaps.MAP_STRIDE_ALLIGNMENT))
+            using (var buffer = new Image<Gray, byte>(width, height, LinearizedMaps.MAP_STRIDE_ALLIGNMENT)) //performance penalty (alloc, dealloc)!!!
             {
                 int nBufferAddings = 0;
 
@@ -198,7 +199,7 @@ namespace LINE2D
             return positions;
         }
 
-        private static List<Match> createMatches(Template template, int neigborhood, List<Point> mapPositions, Point offset, List<short> rawScores, float rawScoreScale)
+        private static List<Match> createMatches(ITemplate template, int neigborhood, List<Point> mapPositions, Point offset, List<short> rawScores, float rawScoreScale)
         {
             var matches = new List<Match>();
             int allignment = neigborhood / 2;

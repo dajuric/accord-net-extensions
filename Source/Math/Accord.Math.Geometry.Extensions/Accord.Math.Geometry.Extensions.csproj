@@ -57,13 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contour\CardinalSpline.cs" />
+    <Compile Include="GroupMatching.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.MinBy.cs" />
     <Compile Include="Structures\AForgePointExtensions.cs" />
     <Compile Include="Angle.cs" />
     <Compile Include="Contour\ContourExtensions.cs" />
     <Compile Include="PointTransformation\PointTransfromationsExtensions.cs" />
     <Compile Include="Structures\RangeExtensions.cs" />
     <Compile Include="PointTransformation\Transfroms.cs" />
-    <Compile Include="MoreLinq\MoreEnumerable.MinBy.cs" />
     <Compile Include="Shapes\Box2D.cs" />
     <Compile Include="Shapes\Circle.cs" />
     <Compile Include="Structures\PointExtensions.cs" />

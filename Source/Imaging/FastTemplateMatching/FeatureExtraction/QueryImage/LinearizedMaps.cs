@@ -1,5 +1,4 @@
 ﻿using Accord.Imaging;
-using LINE2D.TemplateMatching;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,7 +8,7 @@ using System.Security;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 
-namespace LINE2D.QueryImage
+namespace LINE2D
 {
     /// <summary>
     /// Linearized memory maps calcuation.
@@ -23,7 +22,7 @@ namespace LINE2D.QueryImage
         public const int MAP_STRIDE_ALLIGNMENT = 0; 
 
         /// <summary>
-        /// Pre-calculated simmilarites between feature angle and all angle combinations. 
+        /// Pre-calculated simmilarites between feature angle (binary representations) and all angle combinations. 
         /// <para>[NUM_OF_ORIENTATIONS, 256 (all possible angle combinations for an source orientation)]</para>
         /// </summary>
         public static readonly byte[,] SimilarityAngleTable = null; 

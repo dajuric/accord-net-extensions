@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Diagnostics;
-using LINE2D.QueryImage;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Accord.Imaging;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Diagnostics;
-using LINE2D.QueryImage;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Accord.Imaging;
@@ -12,7 +11,7 @@ using Accord.Math;
 
 namespace LINE2D
 {
-    public unsafe class FeatureMap
+    unsafe class FeatureMap
     {
         public static byte INVALID_QUANTIZED_ORIENTATION = GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS + 1;
 
@@ -76,7 +75,8 @@ namespace LINE2D
         }
 
         /// <summary>
-        /// Take only those orientations that have MINIMAL_NUM_OF_SAME_ORIENTED_PIXELS in 3x3 negborhood
+        /// Take only those orientations that have MINIMAL_NUM_OF_SAME_ORIENTED_PIXELS in 3x3 negborhood.
+        /// Perfroms angle transformation into binary form ([0..7] -> [1, 2, 4, 8, ..., 128]) as well.
         /// </summary>
         private static Image<Gray, Byte> RetainImportantQuantizedOrientations(Image<Gray, Byte> qunatizedOrientionImg)
         {

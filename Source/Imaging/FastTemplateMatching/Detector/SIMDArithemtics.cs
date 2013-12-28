@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using Point = AForge.IntPoint;
 
-namespace LINE2D.QueryImage
+namespace LINE2D
 {
     public unsafe static class SIMDArithemtics
     {

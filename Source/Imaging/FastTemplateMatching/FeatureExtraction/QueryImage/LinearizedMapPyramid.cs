@@ -2,23 +2,17 @@
 using System;
 using Accord.Imaging.Filters;
 using Accord.Core;
+using System.Collections.Generic;
 
-namespace LINE2D.QueryImage
+namespace LINE2D
 {
     public class LinearizedMapPyramid: IDisposable
     {
-        private LinearizedMaps[] pyrMaps = null;
-
-        public LinearizedMaps this[int pyrLevel]
-        {
-            get { return pyrMaps[pyrLevel]; }
-        }
-
-        public int Count { get { return this.pyrMaps.Length; } }
+        public LinearizedMaps[] PyramidalMaps { get; set; }
 
         private LinearizedMapPyramid(LinearizedMaps[] responseMaps)
         {
-            this.pyrMaps = responseMaps;
+            this.PyramidalMaps = responseMaps;
         }
 
         public static LinearizedMapPyramid CreatePyramid(Image<Gray, Byte> sourceImage)
@@ -62,12 +56,16 @@ namespace LINE2D.QueryImage
             return new LinearizedMapPyramid(responseMaps);
         }
 
+        #region IDisposable Interface
+
         public void Dispose()
         {
-            foreach (var responseMap in pyrMaps)
+            foreach (var responseMap in PyramidalMaps)
             {
                 responseMap.Dispose();
             }
         }
+
+        #endregion
     }
 }

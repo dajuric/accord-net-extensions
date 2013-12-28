@@ -77,24 +77,28 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Detector\Detector.cs" />
-    <Compile Include="Detector\Matching\GroupMatching.cs" />
-    <Compile Include="Detector\Matching\Match.cs" />
+    <Compile Include="Detector\Match\Match.cs" />
+    <Compile Include="Detector\Match\MatchClustering.cs" />
     <Compile Include="Detector\SIMDArithemtics.cs" />
-    <Compile Include="FeatureExtraction\Template\ITemplate.cs" />
-    <Compile Include="FeatureExtraction\Template\SpecificTemplateType\TemplateWithObjectMask.cs" />
-    <Compile Include="FeatureExtraction\Template\TemplateSerializer.cs" />
+    <Compile Include="FeatureExtraction\Template\Base\Feature.cs" />
+    <Compile Include="FeatureExtraction\Template\Base\ITemplate.cs" />
+    <Compile Include="FeatureExtraction\Template\Base\ITemplatePyramid.cs" />
+    <Compile Include="FeatureExtraction\Template\ImageTemplate\ImageTemplateWithMask.cs" />
+    <Compile Include="FeatureExtraction\Template\XMLTemplateSerializer.cs" />
     <Compile Include="GlobalParameters.cs" />
     <Compile Include="FeatureExtraction\QueryImage\LinearizedMapPyramid.cs" />
     <Compile Include="FeatureExtraction\QueryImage\LinearizedMaps.cs" />
     <Compile Include="FeatureExtraction\FeatureMap.cs" />
-    <Compile Include="FeatureExtraction\Template\Template.cs" />
-    <Compile Include="FeatureExtraction\Template\TemplatePyramid.cs" />
+    <Compile Include="FeatureExtraction\Template\ImageTemplate\ImageTemplate.cs" />
+    <Compile Include="FeatureExtraction\Template\ImageTemplate\ImageTemplatePyramid.cs" />
     <Compile Include="FeatureExtraction\GradientOrientation.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.MaxBy.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
