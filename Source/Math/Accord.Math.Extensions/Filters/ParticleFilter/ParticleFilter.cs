@@ -8,7 +8,7 @@ namespace Accord.Statistics.Filters
         where TParticle : Particle<TState>//, new()
         where TState : ICloneable
     {
-        public IList<TParticle> Particles { get; private set; }
+        public List<TParticle> Particles { get; private set; } //TODO: staviti IList<>
 
         public ParticleFilter()
         { }

@@ -27,7 +27,9 @@ namespace Accord.Math.Geometry
         /// <param name="angle">Angle in degrees.</param>
         public Box2D(Rectangle rect, float angle)
         {
-            this.Center = rect.Center();
+            var center = rect.Center();
+
+            this.Center = new PointF(center.X, center.Y);
             this.Size = rect.Size;
             this.Angle = angle;
         }

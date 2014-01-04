@@ -1,7 +1,7 @@
 ﻿
 namespace Accord.Math.Geometry
 {
-    public static class Transforms
+    public static class Transforms2D
     {
         #region Rotation
 
@@ -31,7 +31,7 @@ namespace Accord.Math.Geometry
             };
         }
 
-        public static float[,] RotationZ(float angleRad)
+        public static float[,] Rotation(float angleRad)
         {
             var cos = (float)System.Math.Cos(angleRad);
             var sin = (float)System.Math.Sin(angleRad);

@@ -97,7 +97,7 @@
     <Compile Include="FeatureExtraction\FeatureMap.cs" />
     <Compile Include="FeatureExtraction\Template\ImageTemplate\ImageTemplate.cs" />
     <Compile Include="FeatureExtraction\Template\ImageTemplate\ImageTemplatePyramid.cs" />
-    <Compile Include="FeatureExtraction\GradientOrientation.cs" />
+    <Compile Include="FeatureExtraction\GradientComputation.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.MaxBy.cs" />
   </ItemGroup>
   <ItemGroup>

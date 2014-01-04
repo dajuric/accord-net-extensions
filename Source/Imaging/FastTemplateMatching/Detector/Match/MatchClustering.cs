@@ -9,20 +9,50 @@ namespace LINE2D
 {
     public class MatchClustering : GroupMatching<Match>
     {
-        public MatchClustering(int minimumNeighbors = 1, double threshold = 0.2)
-            : base(AverageMatches, AreMatchesNear, minimumNeighbors, threshold)
-        { }
+        /// <summary>
+        /// Default comparer. Compare matches by size. Usually representative match is better by using this criteria.
+        /// </summary>
+        public static Func<Match, double> COMPARE_BY_SIZE = (m) => m.BoundingRect.Size.Width * m.BoundingRect.Size.Height;
+        /// <summary>
+        /// Compare matches by score.
+        /// </summary>
+        public static Func<Match, double> COMPARE_BY_SCORE = (m) => m.Score;
 
-        public static Match AverageMatches(Match[] matches)
+        Func<Match, double> compareByFunc = null;
+
+        public MatchClustering(int minimumNeighbors = 1, double threshold = 0.2)
+           :base(null, AreMatchesNear, minimumNeighbors, threshold)
         {
-            var bestMatch = matches.MaxBy(delegate(Match a) { return a.BoundingRect.Size.Width * a.BoundingRect.Size.Height; });
-            //var bestMatch = matches.MaxBy(m => m.Score);
+            compareByFunc = COMPARE_BY_SIZE;
+            this.AverageFunc = AverageMatches;
+        }
+
+        private Match AverageMatches(Match[] matches)
+        {
+            var bestMatch = matches.MaxBy(compareByFunc);
             return bestMatch;
         }
 
-        public static bool AreMatchesNear(Match m1, Match m2, double threshold)
+        private static bool AreMatchesNear(Match m1, Match m2, double threshold)
         {
             return RectangleGroupMatching.AreRectanglesNear(m1.BoundingRect, m2.BoundingRect, threshold);
+        }
+
+        /// <summary>
+        ///   Groups possibly near rectangles into a smaller
+        ///   set of distinct and averaged rectangles.
+        /// </summary>
+        /// 
+        /// <param name="strucutures">The structures to group.</param>
+        /// <param name="userCompareBy">User defined comparasion function. If null, the default will be used.</param>
+        /// 
+        public GroupMatch<Match>[] Group(Match[] strucutures, Func<Match, double> userCompareBy = null)
+        {
+            this.compareByFunc = userCompareBy;
+            if (this.compareByFunc == null)
+                this.compareByFunc = COMPARE_BY_SIZE;
+
+            return base.Group(strucutures);
         }
     }
 }

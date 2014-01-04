@@ -49,6 +49,7 @@
     <Compile Include="Imaging\ColorAttribute.cs" />
     <Compile Include="Imaging\IColor.cs" />
     <Compile Include="MethodCache.cs" />
+    <Compile Include="NaturalSortComparer.cs" />
     <Compile Include="ParallelFilterProcessing\ParallelProcessor.cs" />
     <Compile Include="Structures\CircularList.cs" />
     <Compile Include="Structures\PinnedArray.cs" />

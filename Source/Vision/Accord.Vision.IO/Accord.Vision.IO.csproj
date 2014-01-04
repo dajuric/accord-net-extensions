@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Capture.cs" />
     <Compile Include="CaptureBase.cs" />
+    <Compile Include="ImageSequenceCapture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -25,7 +25,6 @@ namespace Accord.Vision
         /// </summary>
         /// <param name="cameraIdx">Camera index.</param>
         public Capture(int cameraIdx = 0)
-            :base(cameraIdx)
         {
             var videoDevices = GetVideoDevices();
             if (cameraIdx > (videoDevices.Length - 1))
@@ -52,7 +51,10 @@ namespace Accord.Vision
         /// </summary>
         /// <param name="fileName">Video file name.</param>
         public Capture(string fileName)
-        {
+        { 
+            if (System.IO.File.Exists(fileName) == false)
+                throw new System.IO.FileNotFoundException();
+
             var captureDevice = new FileVideoSource(fileName);
             videoSource = captureDevice;
             initalize();
@@ -202,7 +204,11 @@ namespace Accord.Vision
  
         void videoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            base.OnVideoFrame(eventArgs.Frame);
+            var bmpData = eventArgs.Frame.LockBits(new Rectangle(Point.Empty, eventArgs.Frame.Size), System.Drawing.Imaging.ImageLockMode.ReadOnly, eventArgs.Frame.PixelFormat);
+
+            base.OnVideoFrame(bmpData.AsImage());
+
+            eventArgs.Frame.UnlockBits(bmpData);
         }
     }
 }

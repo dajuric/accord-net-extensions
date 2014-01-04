@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using PointF = AForge.Point;
 
@@ -212,6 +213,27 @@ namespace Accord.Math.Geometry
         }
 
         /// <summary>
+        /// Interpolates at indices which are obtained using <see cref="samplingStep"/>.
+        /// <para>Distances between points do not have to be equal because control points may not be equaly distributed.</para>
+        /// <para>For equaly distributed points please use: <seealso cref="GetEqualyDistributedPoints"/>.</para>
+        /// </summary>
+        /// <param name="numPoints">Number of points to interpolate.</param>
+        /// <param name="samplingStep">Index increase factor.</param>
+        /// <returns>Interpolated points.</returns>
+        public static IEnumerable<PointF> Interpolate(IList<PointF> controlPoints, float tension, int numPoints, float samplingStep = 0.3f)
+        {
+            if (numPoints < 2)
+                throw new NotSupportedException("The minimal number of points is 2");
+
+            //interpolate points
+            for (float i = MIN_INDEX; i < (controlPoints.Count - 1 + MAX_INDEX_OFFSET); i += samplingStep)
+            {
+                var pt = CardinalSpline.Interpolate(controlPoints, tension, i);
+                yield return pt;
+            }
+        }
+
+        /// <summary>
         /// Gets derivative at specified index.
         /// </summary>
         /// <param name="index">Index between two control points.</param>
@@ -278,13 +300,8 @@ namespace Accord.Math.Geometry
                 throw new NotSupportedException("The minimal number of points is 2");
 
             //interpolate points
-            var interpolatedPts = new List<PointF>();
-            for (float i = MIN_INDEX; i < (controlPoints.Count - 1 + MAX_INDEX_OFFSET); i += samplingStep)
-            {
-                var pt = CardinalSpline.Interpolate(controlPoints, tension, i);
-                interpolatedPts.Add(pt);
-            }
-
+            var interpolatedPts = Interpolate(controlPoints, tension, numPoints, samplingStep).ToList();
+        
             //calculate cumulative distance
             var cumulativeDistance = interpolatedPts.CumulativeEuclideanDistance(treatAsClosed: false); cumulativeDistance.Insert(0, 0);
             var requestedTwoPointsDist = cumulativeDistance.Last() / (numPoints - 0.5f);
@@ -318,6 +335,12 @@ EXIT:
             return indices;
         }
 
+
+        public static RectangleF GetBoundingRect(IList<PointF> controlPoints, float tension, int numPoints, float samplingStep = 0.3f)
+        {
+            var boundingRect = Interpolate(controlPoints, tension, numPoints, samplingStep).BoundingRect();
+            return boundingRect;     
+        }
 
         #endregion
     }

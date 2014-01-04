@@ -9,12 +9,13 @@ namespace Accord.Math.Geometry
 {
     public static class Angle
     {
-        public static double ToDegrees(double angleRad)
+        public static double ToDegrees(double angleRad, bool normalizeDegrees = true)
         {
             var deg = angleRad / System.Math.PI * 180;
-            deg = NormalizeDegrees(deg);
-            
 
+            if(normalizeDegrees)
+                deg = NormalizeDegrees(deg);
+            
             return deg;
         }
 

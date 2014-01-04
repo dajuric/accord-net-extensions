@@ -89,10 +89,10 @@ namespace Accord.Math.Geometry
 
             var scaleFactor = System.Math.Max(maxPt.X - minPt.X, maxPt.Y - minPt.Y);
 
-            var transform = Transforms.Combine
+            var transform = Transforms2D.Combine
                             (
-                                Transforms.Translation(-mean.X, -mean.Y),
-                                Transforms.Scale(1 / scaleFactor, 1 / scaleFactor)
+                                Transforms2D.Translation(-mean.X, -mean.Y),
+                                Transforms2D.Scale(1 / scaleFactor, 1 / scaleFactor)
                             );
                 
             points = points.Transform(transform);

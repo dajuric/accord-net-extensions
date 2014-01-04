@@ -162,11 +162,12 @@ namespace LINE2D
                 features.Add(DeserializeFeature(featureNode));
             }
 
-            XElement aditionalDataNode = templateNode.Descendants("AditionalData").FirstOrDefault();
-            
             TTemplate t = new TTemplate();
             t.Initialize(features.ToArray(), new System.Drawing.Size(width, height), templateClass);
-            t.ReadXml(aditionalDataNode.CreateReader());
+
+            XElement aditionalDataNode = templateNode.Descendants("AditionalData").FirstOrDefault();
+            if (aditionalDataNode != null)
+                t.ReadXml(aditionalDataNode.CreateReader());
 
             return t;
         }

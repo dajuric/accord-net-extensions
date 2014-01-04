@@ -1,27 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Accord.Imaging;
+using System;
 using System.Drawing;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Accord.Imaging;
-using Accord.Imaging.Filters;
-using Accord.Math;
 
 namespace LINE2D
 {
-    unsafe class FeatureMap
+    /// <summary>
+    /// Orientation feature map.
+    /// <para>Feature map creatign has 3 stages:</para>
+    /// <para>     1) Orientation quantization: [0..360] => [0..NUM_OF_QUNATIZED_ORIENTATIONS].</para>
+    /// <para>     2) Filtering qunatized orientations (neigborhood must be the same oriented) 
+    ///               and representing them in a binary form: [0..NUM_OF_QUNATIZED_ORIENTATIONS] => [1, 2, 4, 8, 16...]</para>
+    /// <para>     3) Spreading binary represented orientations to local neigborhood. This is a trade-off between accuracy and the noise resistance.</para>
+    /// </summary>
+    public unsafe static class FeatureMap
     {
+        public const int INVALID_ORIENTATION = 360 + 1; //used where magnitude to small; 360+1 => look quantization table
         public static byte INVALID_QUANTIZED_ORIENTATION = GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS + 1;
 
-        private static byte[] angleQuantizationTable = null;
+        /// <summary>
+        /// Angle qunatization lookup table. It transforms [0..360] => [0..NUM_OF_QUNATIZED_ORIENTATIONS-1].
+        /// <para>For input value INVALID_ORIENTATION INVALID_QUANTIZED_ORIENTATION will be returned. 
+        /// This special value is needed during feature map building to discard pixels which have small magnitude.</para>
+        /// </summary>
+        public static readonly byte[] AngleQuantizationTable = null;
 
         #region Quantization table calculation
 
         static FeatureMap()
         {
-            FeatureMap.angleQuantizationTable = CalculateAngleQuantizationTable();
+            FeatureMap.AngleQuantizationTable = CalculateAngleQuantizationTable();
         }
 
         private static byte[] CalculateAngleQuantizationTable()
@@ -38,7 +45,7 @@ namespace LINE2D
                 angleQuantizationTable[angle] = (byte)directedAngle;
             }
 
-            angleQuantizationTable[GradientOrientation.INVALID_ORIENTATION] = INVALID_QUANTIZED_ORIENTATION;
+            angleQuantizationTable[INVALID_ORIENTATION] = INVALID_QUANTIZED_ORIENTATION;
 
             return angleQuantizationTable;
         }
@@ -63,7 +70,7 @@ namespace LINE2D
                 for (int i = 0; i < imgWidth; i++)
                 {
                     int angle = orientDegImgPtr[i];
-                    qOrinetUnfilteredPtr[i] = angleQuantizationTable[angle]; //[0-360] -> [...] -> [0-7] (for mapping see "CalculateAngleQuantizationTable()")
+                    qOrinetUnfilteredPtr[i] = AngleQuantizationTable[angle]; //[0-360] -> [...] -> [0-7] (for mapping see "CalculateAngleQuantizationTable()")
                 }
 
                 orientDegImgPtr += imgWidth; //<Gray, int> is always alligned

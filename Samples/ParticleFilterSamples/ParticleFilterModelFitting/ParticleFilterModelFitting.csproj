@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -76,9 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FeatureMap\ParticleState.cs" />
-    <Compile Include="FeatureMap\Template.cs" />
-    <Compile Include="FeatureMap\FeatureMap.cs" />
+    <Compile Include="FeatureMap\OpenHandTemplate.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.ForEach.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.MaxBy.cs" />
     <Compile Include="ParticleFilterModelFittingDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +127,10 @@
     <ProjectReference Include="..\..\..\Source\Imaging\Accord.Imaging.GenericImage\Accord.Imaging.GenericImage.csproj">
       <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
       <Name>Accord.Imaging.GenericImage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Imaging\FastTemplateMatching\LINE2D.csproj">
+      <Project>{5f6b97f8-7ea6-4b5d-9a5d-f5581505c303}</Project>
+      <Name>LINE2D</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Source\Math\Accord.Math.Extensions\Accord.Math.Extensions.csproj">
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>

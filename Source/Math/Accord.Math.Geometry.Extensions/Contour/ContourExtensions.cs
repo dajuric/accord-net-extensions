@@ -8,6 +8,7 @@ using Range = AForge.IntRange;
 using RangeF = AForge.Range;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
+using System.Drawing;
 
 namespace Accord.Math.Geometry
 {
@@ -178,11 +179,10 @@ namespace Accord.Math.Geometry
         }
 
         /// <summary>
-        /// Finds vaelys and peaks.
+        /// Finds valeys and peaks.
         /// </summary>
         /// <param name="contourPts">Contour.</param>
-        /// <param name="selector">Filter function where peak or valey is choosen. Angle range can be determined also.
-        /// </param>
+        /// <param name="selector">Filter function where peak or valey is choosen. Angle range can be determined also. </param>
         /// <param name="scale">A good value is ~15. A specified amount will be skipped every time to avoid local minima.</param>
         /// <param name="peaks">Found peaks.</param>
         /// <param name="valeys">Found valeys.</param>
@@ -191,8 +191,8 @@ namespace Accord.Math.Geometry
         /// <code>
         ///     contourPts.FindExtremaIndices((angle, isPeak)=>
         ///     {
-        ///         if ((isPeak && angle &gt 0 && angle &lt 90) || //peak filtering
-        ///             (!isPeak && angle &gt 0 && angle &lt 90))  //valey filtering
+        ///         if ((isPeak AND angle ;gt 0 AND angle ;lt 90) || //peak filtering
+        ///             (!isPeak AND angle ;gt 0 AND angle ;lt 90))  //valey filtering
         ///             return true;
         ///
         ///         return false;
@@ -351,23 +351,49 @@ namespace Accord.Math.Geometry
                                 .ToList();
 
             return sortedIndeces;
-            //return Enumerable.Range(0, points.Count());
         }
 
-        /*private static int less(PointF center, PointF a, PointF b)
+        public static RectangleF BoundingRect(this IEnumerable<PointF> points)
         {
-            //  Variables to Store the atans
-            double aTanA, aTanB;
+            float minX = Single.MaxValue, maxX = Single.MinValue, 
+                  minY = Single.MaxValue, maxY = Single.MinValue;
 
-            //  Fetch the atans
-            aTanA = Math.Atan2(a.Y - center.Y, a.X - center.X);
-            aTanB = Math.Atan2(b.Y - center.Y, b.X - center.X);
+            foreach (var pt in points)
+            {
+                if (pt.X < minX)
+                    minX = pt.X;
+                if (pt.X > maxX)
+                    maxX = pt.X;
 
-            //  Determine next point in Clockwise rotation
-            if (aTanA < aTanB) return -1;
-            else if (aTanB < aTanA) return 1;
-            return 0;
-        }*/
+                if (pt.Y < minY)
+                    minY = pt.Y;
+                if (pt.Y > maxY)
+                    maxY = pt.Y;
+            }
+
+            return new RectangleF(minX, minY, maxX - minX, maxY - minY);
+        }
+
+        public static Rectangle BoundingRect(this IEnumerable<Point> points)
+        {
+            int minX = Int32.MaxValue, maxX = Int32.MinValue, 
+                minY = Int32.MaxValue, maxY = Int32.MinValue;
+
+            foreach (var pt in points)
+            {
+                if (pt.X < minX)
+                    minX = pt.X;
+                if (pt.X > maxX)
+                    maxX = pt.X;
+
+                if (pt.Y < minY)
+                    minY = pt.Y;
+                if (pt.Y > maxY)
+                    maxY = pt.Y;
+            }
+
+            return new Rectangle(minX, minY, maxX - minX, maxY - minY);
+        }
 
     }
 }

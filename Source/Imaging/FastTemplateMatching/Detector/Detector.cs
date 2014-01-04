@@ -29,6 +29,8 @@ namespace LINE2D
 
     public unsafe class Detector
     {
+        #region TemplatePyrmaid matching (public)
+
         public static List<Match> MatchTemplates(LinearizedMapPyramid linPyr, IEnumerable<ITemplatePyramid> templPyrs, int minMatchingPercentage, bool inParallel = true)
         {
             List<Match> matches = new List<Match>();
@@ -57,15 +59,19 @@ namespace LINE2D
 
         public static List<Match> MatchTemplate(LinearizedMapPyramid linPyr, ITemplatePyramid templPyr, int minMatchingPercentage)
         {
-            List<Match>[] pyrMatches = new List<Match>[GlobalParameters.NEGBORHOOD_PER_LEVEL.Length];
+            if (linPyr.PyramidalMaps.Length != templPyr.Templates.Length)
+                throw new Exception("Number of pyramids in linear pyramid must match the number of templates in template pyramid!" + "\n" + 
+                                    "Check if the number of neighborhood per level is the same as the number of features per level for template!");
+
+            List<Match>[] pyrMatches = new List<Match>[linPyr.PyramidalMaps.Length];
 
             //match at the lowest level
-            int lowestPyramidIdx = GlobalParameters.NEGBORHOOD_PER_LEVEL.Length - 1; //lowestPyramidIdx = 0;
-            var searchArea = new Rectangle(System.Drawing.Point.Empty, linPyr.PyramidalMaps[lowestPyramidIdx].ImageSize); //search whole image
-            pyrMatches[lowestPyramidIdx] = matchTemplate(linPyr.PyramidalMaps[lowestPyramidIdx], templPyr.Templates[lowestPyramidIdx], searchArea, minMatchingPercentage);
+            int lowestLevelIdx = linPyr.PyramidalMaps.Length - 1; 
+            var searchArea = new Rectangle(System.Drawing.Point.Empty, linPyr.PyramidalMaps[lowestLevelIdx].ImageSize); //search whole image
+            pyrMatches[lowestLevelIdx] = matchTemplate(linPyr.PyramidalMaps[lowestLevelIdx], templPyr.Templates[lowestLevelIdx], searchArea, minMatchingPercentage, true);
 
             //refine matches
-            for (int pyrLevel = lowestPyramidIdx - 1; pyrLevel >= 0; pyrLevel--)
+            for (int pyrLevel = (lowestLevelIdx - 1); pyrLevel >= 0; pyrLevel--)
             {
                 LinearizedMaps maps = linPyr.PyramidalMaps[pyrLevel];
                 ITemplate template = templPyr.Templates[pyrLevel];
@@ -92,7 +98,7 @@ namespace LINE2D
                     };
                     searchArea = searchArea.Intersect(imageValidSize);
 
-                    var foundCandidates = matchTemplate(linPyr.PyramidalMaps[pyrLevel], template, searchArea, minMatchingPercentage);
+                    var foundCandidates = matchTemplate(linPyr.PyramidalMaps[pyrLevel], template, searchArea, minMatchingPercentage, pyrLevel != 0 /*filter partial object for all levels except for the original one*/);
                     pyrMatches[pyrLevel].AddRange(foundCandidates);
                 }
             }
@@ -100,9 +106,60 @@ namespace LINE2D
             return pyrMatches[0]; //matches of the highest pyr level
         }
 
+        #endregion
+
+        #region Template matching (public)
+
+        public static List<Match> MatchTemplates(LinearizedMaps linMaps, IEnumerable<ITemplate> templates, int minMatchingPercentage, bool inParallel = true)
+        {
+            var searchArea = new Rectangle(System.Drawing.Point.Empty, linMaps.ImageSize);
+
+            List<Match> matches = new List<Match>();
+
+            if (inParallel)
+            {
+                object syncObj = new object();
+
+                Parallel.ForEach(templates, (template) =>
+                {
+                    List<Match> templateMatches = matchTemplate(linMaps, template, searchArea, minMatchingPercentage);
+                    lock (syncObj) matches.AddRange(templateMatches);
+                });
+            }
+            else
+            {
+                foreach (var template in templates)
+                {
+                    List<Match> templateMatches = matchTemplate(linMaps, template, searchArea, minMatchingPercentage);
+                    matches.AddRange(templateMatches);
+                }
+            }
+
+            return matches;
+        }
+
+        public static List<Match> MatchTemplate(LinearizedMaps linMaps, ITemplate template, Rectangle searchArea, int minMatchingPercentage)
+        {
+            if (searchArea.IntersectionPercent(new Rectangle(System.Drawing.Point.Empty, linMaps.ImageSize)) < 1)
+            {
+                throw new Exception("Search area must be within image size!");
+            }
+
+            return matchTemplate(linMaps, template, searchArea, minMatchingPercentage);
+        }
+
+        public static List<Match> MatchTemplate(LinearizedMaps linMaps, ITemplate template, int minMatchingPercentage)
+        {
+            var searchArea = new Rectangle(System.Drawing.Point.Empty, linMaps.ImageSize);
+
+            return matchTemplate(linMaps, template, searchArea, minMatchingPercentage);
+        }
+
+        #endregion
+
         #region Match template core
 
-        private static List<Match> matchTemplate(LinearizedMaps linMaps, ITemplate template, Rectangle searchArea, int minMatchingPercentage)
+        private static List<Match> matchTemplate(LinearizedMaps linMaps, ITemplate template, Rectangle searchArea, int minMatchingPercentage, bool filterPartialObjects = true)
         {
             //just do matching for templates that can fit into query image
             if (template.Size.Width > linMaps.ImageValidSize.Width ||
@@ -120,8 +177,7 @@ namespace LINE2D
             var offset = new Point(searchArea.X, searchArea.Y);
             var foundCandidates = createMatches(template, linMaps.NeigborhoodSize, foundMatchPoints, offset, rawScores, rawScoreScale);
 
-            if (linMaps.NeigborhoodSize == GlobalParameters.NEGBORHOOD_PER_LEVEL.Last() /*only the lowest level*/)
-                filterPartialShownObjects(ref foundCandidates, linMaps.ImageSize);
+            filterPartialShownObjects(ref foundCandidates, linMaps.ImageSize);
 
             return foundCandidates;
         }
@@ -135,13 +191,12 @@ namespace LINE2D
 
             int width = searchArea.Width / maps.NeigborhoodSize;
             int height = searchArea.Height / maps.NeigborhoodSize;
-            int size = width * height; //stride == width
 
             Image<Gray, short> similarityMap = new Image<Gray, short>(width, height, LinearizedMaps.MAP_STRIDE_ALLIGNMENT); //performance penalty (alloc, dealloc)!!!
 
             using (var buffer = new Image<Gray, byte>(width, height, LinearizedMaps.MAP_STRIDE_ALLIGNMENT)) //performance penalty (alloc, dealloc)!!!
             {
-                int nBufferAddings = 0;
+                int nAddsInBuffer = 0;
 
                 foreach (var feature in template.Features)
                 {
@@ -151,14 +206,14 @@ namespace LINE2D
                     var neighbourMap = maps.GetMapElement(position, feature.AngleIndex, out mapPoint);
 
                     neighbourMap.AddTo(buffer, mapPoint);
-                    nBufferAddings++;
+                    nAddsInBuffer++;
 
-                    if (nBufferAddings / SIMDArithemtics.MAX_SUPPORTED_NUM_OF_FEATURES_ADDDED_AS_BYTE != 0)
+                    if (nAddsInBuffer / SIMDArithemtics.MAX_SUPPORTED_NUM_OF_FEATURES_ADDDED_AS_BYTE != 0)
                     {
                         buffer.AddTo(similarityMap);
                         buffer.Clear();
 
-                        nBufferAddings = 0;
+                        nAddsInBuffer = 0;
                     }
                 }
 
@@ -220,8 +275,6 @@ namespace LINE2D
             return matches;
         }
 
-        #endregion
-
         private static void filterPartialShownObjects(ref List<Match> matches, Size originalImageSize)
         {
             List<Match> filteredMatches = new List<Match>();
@@ -236,5 +289,6 @@ namespace LINE2D
             matches = filteredMatches;
         }
 
+        #endregion
     }
 }

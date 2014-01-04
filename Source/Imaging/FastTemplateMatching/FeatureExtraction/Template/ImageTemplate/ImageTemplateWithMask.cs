@@ -19,9 +19,9 @@ namespace LINE2D
 
         public bool HasBinaryMask { get { return BinaryMask != null; } }
 
-        public override void Initialize(Image<Gray, byte> sourceImage, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        public override void Initialize(Image<Gray, byte> sourceImage, int minFeatureStrength, int minNumberOfFeatures, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
-            base.Initialize(sourceImage, maxNumberOfFeatures, classLabel, featureImportanceFunc);
+            base.Initialize(sourceImage, minFeatureStrength, minNumberOfFeatures, maxNumberOfFeatures, classLabel, featureImportanceFunc);
 
             this.BinaryMask = sourceImage.GetSubRect(boundingRect).Clone();
 
@@ -29,6 +29,11 @@ namespace LINE2D
                 BinaryMask = this.BinaryMask.Not();
 
             this.BinaryMask = this.BinaryMask.ThresholdToZero(255 * 0.75, 255); //if Gauss kernel was applied...
+        }
+
+        public override void Initialize(Image<Bgr, byte> sourceImage, int minFeatureStrength, int minNumOfFeatures, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        {
+            throw new Exception("Binary mask can not be saved from non black-white image!");
         }
 
         #region ISerializable

@@ -1,15 +1,8 @@
 ﻿using Accord.Imaging;
-using AForge.Video;
-using AForge.Video.DirectShow;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MoreLinq;
+using System.Drawing.Imaging;
 using System.Threading;
-using Accord.Imaging.Helper;
 
 namespace Accord.Vision
 {
@@ -26,20 +19,6 @@ namespace Accord.Vision
         public event NewFrameHandler NewFrame;
 
         /// <summary>
-        /// Creates capture from camera which has index: <see cref="cameraIdx"/>
-        /// </summary>
-        /// <param name="cameraIdx">Camera index.</param>
-        public CaptureBase(int cameraIdx = 0)
-        {}
-
-        /// <summary>
-        /// Creates capture from video file.
-        /// </summary>
-        /// <param name="fileName">Video file name.</param>
-        public CaptureBase(string fileName)
-        {}
-
-        /// <summary>
         /// Starts capture.
         /// </summary>
         public abstract void Start();
@@ -49,7 +28,16 @@ namespace Accord.Vision
         /// </summary>
         public abstract void Stop();
 
-        bool frameQueried = true;
+        public bool SupportsPausing { get; protected set; }
+        protected virtual void Pause() { }
+        protected virtual void Resume() { }
+
+        protected CaptureBase()
+        {
+            SupportsPausing = false;
+        }
+
+        protected bool frameQueried = true;
         /// <summary>
         /// Queries a frame. 
         /// </summary>
@@ -58,6 +46,9 @@ namespace Accord.Vision
         {
             if (buffer == null)
                 return null;
+
+            if (SupportsPausing)
+                Resume();
 
             frameQueried = true;
 
@@ -103,33 +94,47 @@ namespace Accord.Vision
         /// </summary>
         public abstract bool FlipVertical { get; set; } //HOW TO DO IT ? (without making Image<,> methods)
 
-        object sync = new object();
+       
         //Image<Bgr, byte> buffer = null;
-        IImage buffer = null;
+        protected object sync = new object();
+        protected IImage buffer = null;
 
-        protected void OnVideoFrame(Bitmap bmp)
+        protected void OnVideoFrame(IImage image, bool copyImage = true)
         {
             if (!SupressNewFrameEvent && frameQueried)
             {
                 lock (sync)
                 {
-                    if (buffer != null)
-                    {
-                        bmp.ToImage(buffer);
-                    }
-                    else
-                    {
-                        buffer = bmp.ToImage();
-                    }
-
+                    fillBuffer(image, copyImage);
+                    
                     frameQueried = false;
 
                     if (NewFrame != null) NewFrame(this, new EventArgs());
                 }
             }
-            //else
+            else
             {
-                //HOW TO PAUSE ???
+                if (SupportsPausing)
+                    Pause();
+            }
+        }
+
+        private void fillBuffer(IImage image, bool copyImage)
+        {
+            if (copyImage == false)
+            {
+                buffer = image;
+            }
+            else
+            {
+                if (buffer != null)
+                {
+                    buffer.SetValue(image);
+                }
+                else
+                {
+                    buffer = image.Clone();
+                }
             }
         }
 

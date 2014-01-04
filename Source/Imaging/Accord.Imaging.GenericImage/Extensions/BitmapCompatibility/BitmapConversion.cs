@@ -130,13 +130,28 @@ namespace Accord.Imaging
 
         public static ColorInfo GetColorInfo(this Image bmp)
         {
+            return GetColorInfo(bmp.PixelFormat);
+        }
+
+        public static ColorInfo GetColorInfo(this PixelFormat pixelFormat)
+        {
             var imageColor = (from pixelFormatMapping in PixelFormatMappings
-                              where pixelFormatMapping.PixelFormat == bmp.PixelFormat
+                              where pixelFormatMapping.PixelFormat == pixelFormat
                               select pixelFormatMapping.ColorInfo)
                            .DefaultIfEmpty()
                            .FirstOrDefault();
 
             return imageColor;
+        }
+
+        #endregion
+
+        #region Conversion from BitmapData
+
+        public static IImage AsImage(this BitmapData bmpData)
+        {
+            var colorInfo = GetColorInfo(bmpData.PixelFormat);
+            return GenericImageBase.Create(colorInfo, bmpData.Scan0, bmpData.Width, bmpData.Height, bmpData.Stride, bmpData /*can it be null ?*/);
         }
 
         #endregion

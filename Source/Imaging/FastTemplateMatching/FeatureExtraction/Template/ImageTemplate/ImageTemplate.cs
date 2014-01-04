@@ -16,36 +16,35 @@ namespace LINE2D
         public Size Size { get; private set; }
         public string  ClassLabel { get; private set; }
 
-        public void Initialize(Feature[] features, Size size, string classLabel)
+        public void Initialize(Feature[] features, Size size, string label)
         {
             this.Features = features;
             this.Size = size;
-            this.ClassLabel = classLabel;
+            this.ClassLabel = label;
         }
 
-        public virtual void Initialize(Image<Bgr, byte> sourceImage, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        public virtual void Initialize(Image<Bgr, byte> sourceImage, int minFeatureStrength, int minNumOfFeatures, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
-            Image<Gray, int> orientationImg;
-            GradientOrientation.ComputeGradient(sourceImage, out orientationImg, GlobalParameters.MIN_FEATURE_STRENGTH);
+            Image<Gray, int> orientationImg = GradientComputation.ComputeOrientation(sourceImage, minFeatureStrength);
 
-            Initialize(orientationImg, maxNumberOfFeatures, classLabel, featureImportanceFunc);
+            Initialize(orientationImg, minNumOfFeatures, maxNumberOfFeatures, classLabel, featureImportanceFunc);
         }
 
-        public virtual void Initialize(Image<Gray, byte> sourceImage, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        public virtual void Initialize(Image<Gray, byte> sourceImage, int minFeatureStrength, int minNumOfFeatures, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
-            Image<Gray, int> orientationImg;
-            GradientOrientation.ComputeGradient(sourceImage, out orientationImg, GlobalParameters.MIN_FEATURE_STRENGTH);
+            Image<Gray, int> orientationImg = GradientComputation.ComputeOrientation(sourceImage, minFeatureStrength);
 
-            Initialize(orientationImg, maxNumberOfFeatures, classLabel, featureImportanceFunc);
+            Initialize(orientationImg, minNumOfFeatures, maxNumberOfFeatures, classLabel, featureImportanceFunc);
         }
 
         protected Rectangle boundingRect = Rectangle.Empty;
-        internal void Initialize(Image<Gray, int> orientation, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        public void Initialize(Image<Gray, int> orientation, int minNumOfFeatures, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
+            maxNumberOfFeatures = Math.Max(0, Math.Min(maxNumberOfFeatures, GlobalParameters.MAX_NUM_OF_FEATURES));
             featureImportanceFunc = (feature) => 0;
 
             Image<Gray, Byte> importantQuantizedOrient = FeatureMap.Caclulate(orientation, 0);
-            List<Feature> features = ExtractTemplate(importantQuantizedOrient, maxNumberOfFeatures, featureImportanceFunc);
+            List<Feature> features = ExtractTemplate(importantQuantizedOrient, minNumOfFeatures, maxNumberOfFeatures, featureImportanceFunc);
 
             boundingRect = GetBoundingRectangle(features);
             //if (boundingRect.X == 1 && boundingRect.Y  == 1 && boundingRect.Width == 18)
@@ -70,7 +69,7 @@ namespace LINE2D
             this.ClassLabel = classLabel;
         }
 
-        private static List<Feature> ExtractTemplate(Image<Gray, Byte> orientationImage, int maxNumOfFeatures, Func<Feature, int> featureImportanceFunc)
+        private static List<Feature> ExtractTemplate(Image<Gray, Byte> orientationImage, int minNumOfFeatures, int maxNumOfFeatures, Func<Feature, int> featureImportanceFunc)
         {
             byte* orientImgPtr = (byte*)orientationImage.ImageData;
             int orientImgStride = orientationImage.Stride;
@@ -95,8 +94,9 @@ namespace LINE2D
             }
 
 
-            if (candidates.Count < GlobalParameters.MIN_NUMBER_OF_FEATURES)
+            if (candidates.Count < minNumOfFeatures)
                 return new List<Feature>();
+               //throw new Exception("The minimum number of features can not be extracted!");
             else
             {
                 candidates = candidates.OrderByDescending(featureImportanceFunc).ToList(); //order descending
@@ -106,8 +106,6 @@ namespace LINE2D
 
         private static List<Feature> FilterScatteredFeatures(List<Feature> candidates, int maxNumOfFeatures, int minDistance)
         {
-            Debug.Assert(candidates.Count >= GlobalParameters.MIN_NUMBER_OF_FEATURES);
-
             int distance = 50;
 
             List<Feature> filteredFeatures = new List<Feature>();

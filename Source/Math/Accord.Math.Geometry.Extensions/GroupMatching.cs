@@ -75,8 +75,7 @@ namespace Accord.Math.Geometry
         }
 
         /// <summary>
-        ///   Groups possibly near rectangles into a smaller
-        ///   set of distinct and averaged rectangles.
+        ///   Groups possibly near strucures into clusters.
         /// </summary>
         /// 
         /// <param name="strucutures">The structures to group.</param>

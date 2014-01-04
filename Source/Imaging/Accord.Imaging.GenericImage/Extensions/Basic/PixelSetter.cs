@@ -18,7 +18,7 @@ namespace Accord.Imaging
             SetValue((IImage)img, srcDataImg);
         }
 
-        internal static void SetValue(this IImage img, IImage srcDataImg)
+        public static void SetValue(this IImage img, IImage srcDataImg)
         {
             if (img.Size != srcDataImg.Size)
                 throw new Exception("Both images must be the same size!");

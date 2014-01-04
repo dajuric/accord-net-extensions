@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Point = AForge.IntPoint;
+using PointF = AForge.Point;
 
 namespace Accord.Math.Geometry
 {
@@ -14,7 +16,7 @@ namespace Accord.Math.Geometry
             Rectangle newRect = rect;
 
             if (area.IsEmpty == false)
-                newRect.Intersect(new Rectangle(Point.Empty, area));
+                newRect.Intersect(new Rectangle(System.Drawing.Point.Empty, area));
 
             return newRect;
         }
@@ -25,6 +27,19 @@ namespace Accord.Math.Geometry
             float rect2Area = rect2.Width * rect2.Height;
 
             RectangleF interesectRect = RectangleF.Intersect(rect1, rect2);
+            float intersectRectArea = interesectRect.Width * interesectRect.Height;
+
+            float minRectArea = System.Math.Min(rect1Area, rect2Area);
+
+            return (float)intersectRectArea / minRectArea;
+        }
+
+        public static float IntersectionPercent(this Rectangle rect1, Rectangle rect2)
+        {
+            float rect1Area = rect1.Width * rect1.Height;
+            float rect2Area = rect2.Width * rect2.Height;
+
+            Rectangle interesectRect = Rectangle.Intersect(rect1, rect2);
             float intersectRectArea = interesectRect.Width * interesectRect.Height;
 
             float minRectArea = System.Math.Min(rect1Area, rect2Area);
@@ -43,7 +58,7 @@ namespace Accord.Math.Geometry
             };
 
             if (constrainedArea.IsEmpty == false)
-                newRect.Intersect(new Rectangle(Point.Empty, constrainedArea));
+                newRect.Intersect(new Rectangle(System.Drawing.Point.Empty, constrainedArea));
 
             return newRect;
         }
@@ -59,7 +74,7 @@ namespace Accord.Math.Geometry
             };
 
             if (constrainedArea.IsEmpty == false)
-                newRect.Intersect(new Rectangle(Point.Empty, constrainedArea));
+                newRect.Intersect(new Rectangle(System.Drawing.Point.Empty, constrainedArea));
 
             return newRect;
         }
@@ -82,6 +97,17 @@ namespace Accord.Math.Geometry
                 new Point(rect.Right, rect.Y), //right-upper
                 new Point(rect.X, rect.Bottom), //left-bottom
                 new Point(rect.Right, rect.Bottom) //right-bottom
+            };
+        }
+
+        public static PointF[] Vertices(this RectangleF rect)
+        {
+            return new PointF[] 
+            { 
+                new PointF(rect.X, rect.Y), //left-upper
+                new PointF(rect.Right, rect.Y), //right-upper
+                new PointF(rect.X, rect.Bottom), //left-bottom
+                new PointF(rect.Right, rect.Bottom) //right-bottom
             };
         }
 

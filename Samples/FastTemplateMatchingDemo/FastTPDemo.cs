@@ -12,18 +12,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 //with template mask
-using Template = LINE2D.ImageTemplateWithMask;
-using TemplatePyramid = LINE2D.ImageTemplatePyramid<LINE2D.ImageTemplateWithMask>;
+/*using Template = LINE2D.ImageTemplateWithMask;
+using TemplatePyramid = LINE2D.ImageTemplatePyramid<LINE2D.ImageTemplateWithMask>;*/
 
 //without template mask (there is slightly performance gain during execution while not loading templates with binary masks)
-/*using Template = LINE2D.ImageTemplate;
-using TemplatePyramid = LINE2D.ImageTemplatePyramid<LINE2D.ImageTemplate>;*/
+using Template = LINE2D.ImageTemplate;
+using TemplatePyramid = LINE2D.ImageTemplatePyramid<LINE2D.ImageTemplate>;
 
 namespace FastTemplateMatchingDemo
 {
     public partial class FastTPDemo : Form
     {
-        int threshold = 88;
+        int threshold = 85;
         int minDetectionsPerGroup = 0; //for match grouping (postprocessing)
 
         Capture videoCapture;
@@ -43,7 +43,7 @@ namespace FastTemplateMatchingDemo
         {
             var list = new List<TemplatePyramid>();
 
-            string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "OpenHandLeft_BW");
+            string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "OpenHandLeft_BW_temp");
             string[] files = Directory.GetFiles(resourceDir, "*.bmp");
 
             object syncObj = new object();
@@ -54,7 +54,7 @@ namespace FastTemplateMatchingDemo
 
                 try
                 {
-                    var tp = TemplatePyramid.CreatePyramidFromPreparedBWImage(preparedBWImage, "OpenHand");
+                    var tp = TemplatePyramid.CreatePyramidFromPreparedBWImage(preparedBWImage, new FileInfo(file).Name /*"OpenHand"*/);
                     lock (syncObj)
                     { list.Add(tp); };
                 }
@@ -72,10 +72,12 @@ namespace FastTemplateMatchingDemo
 
             string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
             list = XMLTemplateSerializer<TemplatePyramid, Template>.Load(Path.Combine(resourceDir, "OpenHand_Right.xml")).ToList();
+            //list = XMLTemplateSerializer<TemplatePyramid, Template>.Load("C:/bla.xml").ToList();
 
             return list;
         }
 
+        LinearizedMapPyramid linPyr = null;
         private List<Match> findObjects(Image<Bgr, byte> image, out long preprocessTime, out long matchTime)
         {
             var grayIm = image.Convert<Gray, byte>();
@@ -85,7 +87,7 @@ namespace FastTemplateMatchingDemo
             Stopwatch stopwatch = new Stopwatch();
 
             stopwatch.Start(); 
-            LinearizedMapPyramid linPyr = LinearizedMapPyramid.CreatePyramid(grayIm); //prepeare linear-pyramid maps
+            linPyr = LinearizedMapPyramid.CreatePyramid(grayIm); //prepeare linear-pyramid maps
             preprocessTime = stopwatch.ElapsedMilliseconds;
 
             stopwatch.Restart();
@@ -117,7 +119,7 @@ namespace FastTemplateMatchingDemo
 
             try
             {
-                videoCapture = new Capture(/*"proba.wmv"*/);
+                videoCapture = new Capture();
             }
             catch (Exception)
             {
@@ -168,6 +170,8 @@ namespace FastTemplateMatchingDemo
                 {
                     frame.Draw(m, new Bgr(Color.Blue), 3, 3);
                 }
+
+                Console.WriteLine("Best template: " + m.Template.ClassLabel + " score: " + m.Score);
             }
 
             frame.Draw(String.Format("Matching {0} templates in: {1} ms", templPyrs.Count, matchTime), 

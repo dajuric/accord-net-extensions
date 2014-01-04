@@ -36,7 +36,7 @@ namespace Accord.Imaging
             Copy((IImage)img, destImg, mask);
         }
 
-        internal static void Copy(this IImage img, IImage destImg, Image<Gray, byte> mask)
+        public static void Copy(this IImage img, IImage destImg, Image<Gray, byte> mask)
         {
             if (img.Size != mask.Size || img.Size != destImg.Size)
                 throw new Exception("Image, mask, destImg size must be the same!");

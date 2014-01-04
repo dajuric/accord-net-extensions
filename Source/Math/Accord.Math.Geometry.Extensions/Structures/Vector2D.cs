@@ -24,6 +24,12 @@ namespace Accord.Math.Geometry
             : this(endPoint.X - startPoint.X, endPoint.Y - startPoint.Y)
         { }
 
+        public Vector2D(double angleRad, float scale = 1)
+        {
+            this.X = (float)System.Math.Cos(angleRad) * scale;
+            this.Y = (float)System.Math.Sin(angleRad) * scale;
+        }
+
         public float X { get; private set; }
         public float Y { get; private set; }
 
