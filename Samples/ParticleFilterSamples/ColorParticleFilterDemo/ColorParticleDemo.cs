@@ -94,7 +94,7 @@ namespace SimpleParticleFilterDemo
            particleFilter = particleFilter.Update
                (
                    //measure
-                   p => particleWeightUpdateFunc(p),
+                   p => updateParticleWeight(p),
                    //normalize weights
                    particles => ParticleFilter.SimpleNormalizer(particles),
                    //resample (if necessary)
@@ -105,7 +105,7 @@ namespace SimpleParticleFilterDemo
 
         NormalDistribution prob = new NormalDistribution(mean: 0, stdDev: 50);
 
-        private void particleWeightUpdateFunc(ColorParticle p)
+        private void updateParticleWeight(ColorParticle p)
         { 
             double[] distanceVector = new double[] { 255, 255, 255 };
             var location = System.Drawing.Point.Round(p.Position);

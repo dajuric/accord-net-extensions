@@ -8,7 +8,7 @@ namespace Accord.Statistics.Filters
     public interface IParticle : ICloneable
     {
         /// <summary>
-        /// Particle's weight. It will be normalized after <see cref="Update"/> function.
+        /// Particle's weight.
         /// </summary>
         double Weight { get; set; }
     }
