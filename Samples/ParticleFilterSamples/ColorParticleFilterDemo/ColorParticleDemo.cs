@@ -63,12 +63,15 @@ namespace SimpleParticleFilterDemo
         {
             particleFilter = ParticleFilter.UnifromParticleSpreadInitializer<ColorParticle>
                                                     (
+                                                        //particles' count
                                                         1000,
+                                                        //position range
                                                         new DoubleRange[] 
                                                         { 
                                                             new DoubleRange(0, imgSize.Width), 
                                                             new DoubleRange(0, imgSize.Height)
                                                         },
+                                                        //convert arr => position (create from array)
                                                         ColorParticle.FromArray
                                                     )
                                                     .ToList();
@@ -79,7 +82,9 @@ namespace SimpleParticleFilterDemo
         {
             particleFilter.Predict
                (
+                   //drift
                    p => ColorParticle.Drift(p),
+                   //difuse
                    p => ColorParticle.Difuse(p)
                );
         }
@@ -88,8 +93,11 @@ namespace SimpleParticleFilterDemo
         {
            particleFilter = particleFilter.Update
                (
+                   //measure
                    p => particleWeightUpdateFunc(p),
+                   //normalize weights
                    particles => ParticleFilter.SimpleNormalizer(particles),
+                   //resample (if necessary)
                    (particles, normalizedWeights) => ParticleFilter.SimpleResampler(particles.ToList(), normalizedWeights.ToList())
                )
                .ToList();
