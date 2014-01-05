@@ -64,34 +64,21 @@ namespace Accord.Math.Geometry
 
         /// <summary>
         /// Normalizes point cloud to range [-1..1]. Ratios will be preserved.
+        /// <para>A bounding rectangle will be determined and then </para>
+        /// <para>  1) points will be translated for (rect center X, rect center Y)</para>
+        /// <para>  2) and then rescaled for (1/scale, 1/scale) where scale is max(width, height).</para>
         /// </summary>
         /// <param name="points">Points to normalize.</param>
         /// <returns>Normalized points.</returns>
         public static IEnumerable<PointF> Normalize(this IEnumerable<PointF> points)
         {
-            var minPt = new PointF
-            {
-                X = points.Min(x => x.X),
-                Y = points.Min(x => x.Y)
-            };
-
-            var mean = new PointF
-            {
-                X = points.Average(x => x.X),
-                Y = points.Average(x => x.Y)
-            };
-
-            var maxPt = new PointF
-            {
-                X = points.Max(x => x.X),
-                Y = points.Max(x => x.Y)
-            };
-
-            var scaleFactor = System.Math.Max(maxPt.X - minPt.X, maxPt.Y - minPt.Y);
+            var rect = points.BoundingRect();
+            var center = rect.Center();
+            var scaleFactor = System.Math.Max(rect.Width, rect.Height);
 
             var transform = Transforms2D.Combine
                             (
-                                Transforms2D.Translation(-mean.X, -mean.Y),
+                                Transforms2D.Translation(-center.X, -center.Y),
                                 Transforms2D.Scale(1 / scaleFactor, 1 / scaleFactor)
                             );
                 

@@ -1,6 +1,6 @@
-﻿namespace SimpleParticleFilterDemo
+﻿namespace CardinalSplineDemo
 {
-    partial class SimpleParticleDemoForm
+    partial class CardinalSplineForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,30 +28,48 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.btnPause = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox
             // 
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox.Location = new System.Drawing.Point(9, 10);
-            this.pictureBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox.Location = new System.Drawing.Point(11, 11);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(480, 390);
-            this.pictureBox.TabIndex = 1;
+            this.pictureBox.TabIndex = 3;
             this.pictureBox.TabStop = false;
             // 
-            // SimpleParticleDemoForm
+            // timer
+            // 
+            this.timer.Interval = 30;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // btnPause
+            // 
+            this.btnPause.Location = new System.Drawing.Point(497, 352);
+            this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(75, 38);
+            this.btnPause.TabIndex = 4;
+            this.btnPause.Text = "Pause Resume";
+            this.btnPause.UseVisualStyleBackColor = true;
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
+            // 
+            // CardinalSplineForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(494, 404);
+            this.ClientSize = new System.Drawing.Size(572, 402);
+            this.Controls.Add(this.btnPause);
             this.Controls.Add(this.pictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Name = "SimpleParticleDemoForm";
-            this.Text = "Simple color particle tracking (Show redish object!)";
+            this.Name = "CardinalSplineForm";
+            this.Text = "CardinalSpline Demo";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
 
@@ -60,6 +78,8 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Button btnPause;
     }
 }
 

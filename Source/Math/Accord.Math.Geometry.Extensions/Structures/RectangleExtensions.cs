@@ -84,9 +84,19 @@ namespace Accord.Math.Geometry
             return rect.Width * rect.Height;
         }
 
+        public static float Area(this RectangleF rect)
+        {
+            return rect.Width * rect.Height;
+        }
+
         public static PointF Center(this Rectangle rect)
         {
             return new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
+        }
+
+        public static PointF Center(this RectangleF rect)
+        {
+            return new PointF(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
         }
 
         public static Point[] Vertices(this Rectangle rect)

@@ -29,7 +29,7 @@ namespace LINE2D
                                             (image, minFeatures, maxFeatures, label) => 
                                             {
                                                 var t = new T();
-                                                t.Initialize(sourceImage, minFeatureStrength, minFeatures, maxFeatures, label, null);
+                                                t.Initialize(sourceImage, minFeatureStrength, maxFeatures, label, null);
                                                 return t;
                                             },
                                             minNumberOfFeatures, maxNumberOfFeaturesPerLevel);
@@ -41,7 +41,7 @@ namespace LINE2D
                                             (image, minFeatures, maxFeatures, label) =>
                                             {
                                                 var t = new T();
-                                                t.Initialize(sourceImage, minFeatureStrength, minFeatures, maxFeatures, label, null);
+                                                t.Initialize(sourceImage, minFeatureStrength, maxFeatures, label, null);
                                                 return t;
                                             },
                                             minNumberOfFeatures, maxNumberOfFeaturesPerLevel);
@@ -68,7 +68,7 @@ namespace LINE2D
                 var newTemplate = templateCreationFunc(image, minNumberOfFeatures, maxNumberOfFeaturesPerLevel[pyrLevel], classLabel);
                 templates[pyrLevel] = newTemplate;
 
-                if (templates[pyrLevel].Features.Length == 0) //if there is no enough features mark Pyramid as invalid
+                if (templates[pyrLevel].Features.Length < minNumberOfFeatures) //if there is no enough features mark Pyramid as invalid
                 {
                     isValid = false;
                     break;

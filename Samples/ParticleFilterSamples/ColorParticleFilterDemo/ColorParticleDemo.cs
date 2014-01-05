@@ -15,39 +15,41 @@ namespace SimpleParticleFilterDemo
 {
     public partial class SimpleParticleDemoForm : Form
     {
-        class State : ICloneable
+        class ColorParticle: IParticle
         {
             static NormalDistribution normalDistribution = new NormalDistribution();
 
+            public double Weight { get; set; }
             public PointF Position { get; set; }
 
-            public static void Drift(ref State state)
+            public static void Drift(ColorParticle p)
             {
                 //we do not have velocity (or something else), so nothing :)
             }
 
-            public static void Difuse(ref State state)
+            public static void Difuse(ColorParticle p)
             {
-                state.Position = new PointF
+                p.Position = new PointF
                 {
-                    X = state.Position.X + 25 * (float)normalDistribution.Generate(),
-                    Y = state.Position.Y + 25 * (float)normalDistribution.Generate(),
+                    X = p.Position.X + 25 * (float)normalDistribution.Generate(),
+                    Y = p.Position.Y + 25 * (float)normalDistribution.Generate(),
                 };
             }
 
-            public object Clone()
+            public static ColorParticle FromArray(double[] arr)
             {
-                return new State
-                {
-                    Position = this.Position
-                };
-            }
-
-            public static State FromArray(double[] arr)
-            {
-                return new State
+                return new ColorParticle
                 {
                     Position = new PointF((float)arr[0], (float)arr[1]),
+                };
+            }
+
+            object ICloneable.Clone()
+            {
+                return new ColorParticle 
+                {
+                     Position = this.Position,
+                     Weight = this.Weight
                 };
             }
         }
@@ -55,42 +57,50 @@ namespace SimpleParticleFilterDemo
         Size imgSize = new Size(640, 480);
 
         Color referenceColor = Color.Red; //User defined color
-        ParticleFilter<Particle<State>, State> particleFilter;
+        List<ColorParticle> particleFilter;
       
         private void init()
         {
-            var particleInitializer = FilterMethods<Particle<State>, State>.UnifromParticleSpreadInitializer(new DoubleRange[] 
-                            { 
-                                new DoubleRange(0, imgSize.Width), 
-                                new DoubleRange(0, imgSize.Height)
-                            },
-                            State.FromArray);
+            particleFilter = ParticleFilter.UnifromParticleSpreadInitializer<ColorParticle>
+                                                    (
+                                                        1000,
+                                                        new DoubleRange[] 
+                                                        { 
+                                                            new DoubleRange(0, imgSize.Width), 
+                                                            new DoubleRange(0, imgSize.Height)
+                                                        },
+                                                        ColorParticle.FromArray
+                                                    )
+                                                    .ToList();
 
-            particleFilter = new ParticleFilter<Particle<State>, State>
-            {
-                //Initialize
-                ParticlesCount = 1000,
-                Initializer = particleInitializer,
+        }
 
-                //Predict
-                Drift = State.Drift,
-                Diffuse = State.Difuse,
+        private void predict()
+        {
+            particleFilter.Predict
+               (
+                   p => ColorParticle.Drift(p),
+                   p => ColorParticle.Difuse(p)
+               );
+        }
 
-                //Update
-                WeightAssigner = particleWeightUpdateFunc,
-                Resampler = FilterMethods<Particle<State>, State>.SimpleResampler(),
-                Normalizer = FilterMethods<Particle<State>, State>.SimpleNormalizer()
-            };
-
-            particleFilter.Initialize();
+        private void update()
+        {
+           particleFilter = particleFilter.Update
+               (
+                   p => particleWeightUpdateFunc(p),
+                   particles => ParticleFilter.SimpleNormalizer(particles),
+                   (particles, normalizedWeights) => ParticleFilter.SimpleResampler(particles.ToList(), normalizedWeights.ToList())
+               )
+               .ToList();
         }
 
         NormalDistribution prob = new NormalDistribution(mean: 0, stdDev: 50);
 
-        private double particleWeightUpdateFunc(ParticleFilter<Particle<State>, State> filter, State state)
+        private void particleWeightUpdateFunc(ColorParticle p)
         { 
             double[] distanceVector = new double[] { 255, 255, 255 };
-            var location = System.Drawing.Point.Round(state.Position);
+            var location = System.Drawing.Point.Round(p.Position);
 
             //check if a particle got outside the image boundaries
             if (location.X >= 0 && location.X < imgSize.Width &&
@@ -115,8 +125,7 @@ namespace SimpleParticleFilterDemo
             double probability = constAddFactor + constMulFactor * distance;*/
 
             var probability = prob.ProbabilityDensityFunction(Math.Sqrt(distance));
-
-            return probability;
+            p.Weight = probability;       
         }
 
         #region GUI...
@@ -157,22 +166,22 @@ namespace SimpleParticleFilterDemo
 
             long start = DateTime.Now.Ticks;
 
-            particleFilter.Predict();
-            particleFilter.Update();
-
+            predict();
+            update();
+           
             long end = DateTime.Now.Ticks;
             long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
 
-            drawParticles(particleFilter.Particles, frame);
+            drawParticles(particleFilter, frame);
             frame.Draw("Processed: " + elapsedMs + " ms", font, new PointF(15, 10), new Bgr(0, 255, 0));
             this.pictureBox.Image = frame.ToBitmap(); //it will be just casted (data is shared)
 
             GC.Collect();
         }
 
-        private void drawParticles(IEnumerable<Particle<State>> particles, Image<Bgr, byte> img)
+        private void drawParticles(IEnumerable<ColorParticle> particles, Image<Bgr, byte> img)
         {
-            var circles = particles.Select(x => new CircleF { X = x.State.Position.X, Y = x.State.Position.Y, Radius = 1.5f });
+            var circles = particles.Select(x => new CircleF { X = x.Position.X, Y = x.Position.Y, Radius = 1.5f });
             img.Draw(circles, new Bgr(Color.Blue), 5);
         }
 

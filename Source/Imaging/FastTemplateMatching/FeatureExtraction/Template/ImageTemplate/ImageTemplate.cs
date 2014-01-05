@@ -23,28 +23,28 @@ namespace LINE2D
             this.ClassLabel = label;
         }
 
-        public virtual void Initialize(Image<Bgr, byte> sourceImage, int minFeatureStrength, int minNumOfFeatures, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        public virtual void Initialize(Image<Bgr, byte> sourceImage, int minFeatureStrength, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
             Image<Gray, int> orientationImg = GradientComputation.ComputeOrientation(sourceImage, minFeatureStrength);
 
-            Initialize(orientationImg, minNumOfFeatures, maxNumberOfFeatures, classLabel, featureImportanceFunc);
+            Initialize(orientationImg, maxNumberOfFeatures, classLabel, featureImportanceFunc);
         }
 
-        public virtual void Initialize(Image<Gray, byte> sourceImage, int minFeatureStrength, int minNumOfFeatures, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        public virtual void Initialize(Image<Gray, byte> sourceImage, int minFeatureStrength, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
             Image<Gray, int> orientationImg = GradientComputation.ComputeOrientation(sourceImage, minFeatureStrength);
 
-            Initialize(orientationImg, minNumOfFeatures, maxNumberOfFeatures, classLabel, featureImportanceFunc);
+            Initialize(orientationImg, maxNumberOfFeatures, classLabel, featureImportanceFunc);
         }
 
         protected Rectangle boundingRect = Rectangle.Empty;
-        public void Initialize(Image<Gray, int> orientation, int minNumOfFeatures, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        public void Initialize(Image<Gray, int> orientation, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
             maxNumberOfFeatures = Math.Max(0, Math.Min(maxNumberOfFeatures, GlobalParameters.MAX_NUM_OF_FEATURES));
             featureImportanceFunc = (feature) => 0;
 
             Image<Gray, Byte> importantQuantizedOrient = FeatureMap.Caclulate(orientation, 0);
-            List<Feature> features = ExtractTemplate(importantQuantizedOrient, minNumOfFeatures, maxNumberOfFeatures, featureImportanceFunc);
+            List<Feature> features = ExtractTemplate(importantQuantizedOrient, maxNumberOfFeatures, featureImportanceFunc);
 
             boundingRect = GetBoundingRectangle(features);
             //if (boundingRect.X == 1 && boundingRect.Y  == 1 && boundingRect.Width == 18)
@@ -69,7 +69,7 @@ namespace LINE2D
             this.ClassLabel = classLabel;
         }
 
-        private static List<Feature> ExtractTemplate(Image<Gray, Byte> orientationImage, int minNumOfFeatures, int maxNumOfFeatures, Func<Feature, int> featureImportanceFunc)
+        private static List<Feature> ExtractTemplate(Image<Gray, Byte> orientationImage, int maxNumOfFeatures, Func<Feature, int> featureImportanceFunc)
         {
             byte* orientImgPtr = (byte*)orientationImage.ImageData;
             int orientImgStride = orientationImage.Stride;
@@ -94,14 +94,8 @@ namespace LINE2D
             }
 
 
-            if (candidates.Count < minNumOfFeatures)
-                return new List<Feature>();
-               //throw new Exception("The minimum number of features can not be extracted!");
-            else
-            {
-                candidates = candidates.OrderByDescending(featureImportanceFunc).ToList(); //order descending
-                return FilterScatteredFeatures(candidates, maxNumOfFeatures, 5); //candidates.Count must be >= MIN_NUM_OF_FEATURES
-            }
+            candidates = candidates.OrderByDescending(featureImportanceFunc).ToList(); //order descending
+            return FilterScatteredFeatures(candidates, maxNumOfFeatures, 5); //candidates.Count must be >= MIN_NUM_OF_FEATURES
         }
 
         private static List<Feature> FilterScatteredFeatures(List<Feature> candidates, int maxNumOfFeatures, int minDistance)

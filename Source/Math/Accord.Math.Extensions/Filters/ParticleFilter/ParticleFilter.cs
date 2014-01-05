@@ -4,76 +4,22 @@ using System.Linq;
 
 namespace Accord.Statistics.Filters
 {
-    public class ParticleFilter<TParticle, TState>
-        where TParticle : Particle<TState>//, new()
-        where TState : ICloneable
-    {
-        public List<TParticle> Particles { get; private set; } //TODO: staviti IList<>
-
-        public ParticleFilter()
-        { }
-
-        /// <summary>
-        /// Initializes particles by using provided <see cref="Initializer"/>.
-        /// </summary>
-        public void Initialize()
-        {
-            this.Particles = Initializer(this.ParticlesCount).ToList();
-            this.EffectiveCountMinRatio = 0.9;
-        }
-
-        public double EffectiveParticleCount
-        {
-            get
-            {
-                var sumSqr = this.Particles.Sum(x => x.Weight * x.Weight);
-                return 1d / sumSqr;
-            }
-        }
-
-        public double EffectiveCountMinRatio
-        {
-            get;
-            set;
-        }
-
-        public int ParticlesCount
-        {
-            get;
-            set;
-        }
-
+    public static partial class ParticleFilter
+    {      
         #region Predict Methods
 
-        public void Predict()
-        {
-            drift();
-            diffuse();
-        }
-
         /// <summary>
-        /// Update state from model (no noise).
+        /// Predicts particle's state.
         /// </summary>
-        private void drift()
+        /// <param name="drift">Update state from model (no noise).</param>
+        /// <param name="difuse">Apply noise to spread particles.</param>
+        public static void Predict<TParticle>(this IEnumerable<TParticle> particles, Action<TParticle> drift, Action<TParticle> diffuse)
+              where TParticle : class, IParticle
         {
-            foreach (var p in this.Particles)
+            foreach (var p in particles)
             {
-                var state = p.State;
-                Drift(ref state);
-                p.State = state;
-            }
-        }
-
-        /// <summary>
-        /// Apply noise to spread particles.
-        /// </summary>
-        private void diffuse()
-        {
-            foreach (var p in this.Particles)
-            {
-                var state = p.State;
-                Diffuse(ref state);
-                p.State = state;
+                drift(p);
+                diffuse(p);
             }
         }
 
@@ -81,116 +27,42 @@ namespace Accord.Statistics.Filters
 
         #region Update Methods
 
-        public void Update()
+        /// <summary>
+        /// Updates particle's state.
+        /// </summary>
+        /// <param name="measure">Assign weight to each particle.</param>
+        /// <param name="normalize">Normalization function.</param>
+        /// <param name="resample">Resample particles (creates new swarm).</param>
+        /// <param name="effectiveCountMinRatio">If caclualted effective count ratio is lower than user specified value resampling will occur, otherwise not.
+        /// <para>The range is [0..1]. If resampling must occur every time put 1.</para>
+        /// </param>
+        public static IEnumerable<TParticle> Update<TParticle>(this IEnumerable<TParticle> particles, 
+                                                Action<TParticle> measure, 
+                                                Func<IEnumerable<IParticle>, IEnumerable<double>> normalize, 
+                                                Func<IEnumerable<TParticle>, IEnumerable<double>, IEnumerable<TParticle>> resample,
+                                                float effectiveCountMinRatio = 0.9f)
+              where TParticle : class, IParticle
         {
-            measure(WeightAssigner);
-
-            if ((double)this.EffectiveParticleCount / this.Particles.Count < this.EffectiveCountMinRatio)
+            foreach (var p in particles)
             {
-                this.Particles = this.Resampler(this.Particles).ToList();
+                measure(p);
             }
-        }
 
-        /// <summary>
-        /// Assign weight to each particle. Weights are normalized afterwards.
-        /// </summary>
-        /// <param name="weightFunc"></param>
-        private void measure(WeightFunc weightFunc)
-        {
-            foreach (var p in this.Particles)
+            var normalizedWeights = normalize(particles);
+
+            var newParticles = particles;
+            if ((double)EffectiveParticleCount(normalizedWeights) / particles.Count() < effectiveCountMinRatio)
             {
-                p.Weight = weightFunc(this, p.State);
+                newParticles = resample(particles, normalizedWeights);
             }
 
-            this.Normalizer(this.Particles);
+            return newParticles;
         }
 
-        #endregion
-
-        #region Initialize Properties
-
-        /// <summary>
-        /// A function that initializes particles.
-        /// </summary>
-        /// <param name="numberOfParticles">Initial number of particles.</param>
-        /// <returns></returns>
-        public delegate IEnumerable<TParticle> InitializerFunc(int numberOfParticles);
-
-        public InitializerFunc Initializer
+        private static double EffectiveParticleCount(IEnumerable<double> weights)
         {
-            get;
-            set;
-        }
-
-        #endregion
-
-        #region Predict Properties
-
-        /// <summary>
-        /// A function that applies state predicition from model.
-        /// </summary>
-        /// <param name="state">Particle's state.</param>
-        public delegate void DriftFunc(ref TState state);
-
-        /// <summary>
-        /// A function that applies noise to a particle state.
-        /// </summary>
-        /// <param name="state">Particle's state.</param>
-        public delegate void DiffuseFunc(ref TState state);
-
-        public DriftFunc Drift
-        {
-            get;
-            set;
-        }
-
-        public DiffuseFunc Diffuse
-        {
-            get;
-            set;
-        }
-
-        #endregion
-
-        #region Update Properties
-
-        /// <summary>
-        /// A function that assigns weight to a particle.
-        /// </summary>
-        /// <param name="filter">Particle filer that contains those particles.</param>
-        /// <param name="pState">Particle's state to assign wight to.</param>
-        /// <returns>Particle weight.</returns>
-        public delegate double WeightFunc(ParticleFilter<TParticle, TState> filter, TState pState);
-        /// <summary>
-        /// Normalization function for particles' weight normalization. <br/>
-        /// This function should be used with appropriate weight assign function.
-        /// </summary>
-        /// <param name="particles">Particles.</param>
-        public delegate void NormalizationFunc(IEnumerable<IParticle> particles);
-        /// <summary>
-        /// Resample function.
-        /// This function should be used with appropriate normalization function.
-        /// </summary>
-        /// <param name="particles">Particles.</param>
-        /// <returns>Particles with renormalized weights.</returns>
-        public delegate IEnumerable<TParticle> ResampleFunc(IEnumerable<TParticle> particles);
-
-        public WeightFunc WeightAssigner
-        {
-            get;
-            set;
-        }
-
-        public NormalizationFunc Normalizer
-        {
-            get;
-            set;
-        }
-
-        public ResampleFunc Resampler
-        {
-            get;
-            set;
+            var sumSqr = weights.Sum(x => x * x);
+            return /*1 if weights are normalized*/ weights.Sum() / sumSqr;
         }
 
         #endregion

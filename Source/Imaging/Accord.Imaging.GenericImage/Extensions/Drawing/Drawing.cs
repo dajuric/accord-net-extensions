@@ -158,18 +158,26 @@ namespace Accord.Imaging
         /// <param name="image">Input image.</param>
         /// <param name="lines">Lines</param>
         /// <param name="width">Line thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, TColor color, float width)
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, TColor color, float width, bool connectLines = true)
             where TColor : IColor3
         {
             var pointPairs = new List<AForge.Point>();
 
-            foreach (var line in lines)
+            if (connectLines)
             {
-                pointPairs.Add(line.Start);
-                pointPairs.Add(line.End);
-            }
+                foreach (var line in lines)
+                {
+                    pointPairs.Add(line.Start);
+                    pointPairs.Add(line.End);
+                }
 
-            Draw(image, pointPairs.Select(x=> new PointF(x.X, x.Y)), color, width);
+                Draw(image, pointPairs.Select(x => new PointF(x.X, x.Y)), color, width);
+            }
+            else
+            {
+                var bgr = new Bgr(getColor(color));
+                Draw(image, lines, width, (_) => bgr);
+            }
         }
 
         /// <summary>
@@ -178,26 +186,44 @@ namespace Accord.Imaging
         /// <param name="image">Input image.</param>
         /// <param name="lines">Line segments (treated as vectors)</param>
         /// <param name="width">Line thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, List<LineSegment> lines, float width)
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, float width)
             where TColor : IColor3
-        { 
+        {
+            Func<LineSegment, Bgr> colorFunc = (segment) => 
+            {
+                /************** calculate angle ************/
+                var diff = segment.End - segment.Start;
+                var angle = System.Math.Atan2(diff.Y, diff.X);
+                angle = angle * 180 / System.Math.PI; //to degrees
+                angle = (angle < 0) ? angle + 360 : angle;
+                /************** calculate angle ************/
+
+                var rgbColor = new HSL((int)angle, 0.5f, 0.5f).ToRGB();
+                return new Bgr(rgbColor.Color);
+            };
+
+            Draw(image, lines, width, colorFunc);
+        }
+
+        /// <summary>
+        /// Draws lines in various colors regarding user specified function.
+        /// </summary>
+        /// <param name="image">Input image.</param>
+        /// <param name="lines">Line segments (treated as vectors)</param>
+        /// <param name="width">Line thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, float width, Func<LineSegment, Bgr> colorFunc)
+            where TColor : IColor3
+        {
             var bmp = image.ToBitmap(false, true);
             using (Graphics g = Graphics.FromImage(bmp))
             {
-                for (int i = 0; i < lines.Count; i++)
+                foreach (var line in lines)
                 {
-                    /************** calculate angle ************/
-                    var diff = lines[i].End - lines[i].Start;
-                    var angle = System.Math.Atan2(diff.Y, diff.X);
-                    angle = angle * 180 / System.Math.PI; //to degrees
-                    angle = (angle < 0) ? angle + 360 : angle;
-                    /************** calculate angle ************/
+                    var color = getColor(colorFunc(line));
+                    Pen pen = new Pen(color, width);
 
-                    var rgbColor = new HSL((int)angle, 0.5f, 0.5f).ToRGB();
-                    Pen pen = new Pen(rgbColor.Color, width);
-
-                    g.DrawLine(pen, lines[i].Start.X, lines[i].Start.Y,
-                                    lines[i].End.X, lines[i].End.Y);
+                    g.DrawLine(pen, line.Start.X, line.Start.Y,
+                                    line.End.X, line.End.Y);
                 }
             }
         }

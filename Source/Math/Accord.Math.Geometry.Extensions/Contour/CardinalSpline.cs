@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using PointF = AForge.Point;
+using RangeF = AForge.Range;
 
 namespace Accord.Math.Geometry
 {
@@ -159,7 +160,7 @@ namespace Accord.Math.Geometry
         /// <returns>Normal direction at interpolated point.</returns>
         public PointF NormalDirection(float index)
         {
-            return NormalDirection(this.controlPoints, Tension, index);
+            return NormalAt(this.controlPoints, Tension, index);
         }
 
         /// <summary>
@@ -213,6 +214,16 @@ namespace Accord.Math.Geometry
         }
 
         /// <summary>
+        /// Interpolates points and defined indices.
+        /// </summary>
+        /// <param name="indices">Indices where to interpolate values.</param>
+        /// <returns>Interpolated points.</returns>
+        public static IEnumerable<PointF> Interpolate(IList<PointF> controlPoints, float tension, IEnumerable<float> indices)
+        {
+            return indices.Select(x => CardinalSpline.Interpolate(controlPoints, tension, x));
+        }
+
+        /// <summary>
         /// Interpolates at indices which are obtained using <see cref="samplingStep"/>.
         /// <para>Distances between points do not have to be equal because control points may not be equaly distributed.</para>
         /// <para>For equaly distributed points please use: <seealso cref="GetEqualyDistributedPoints"/>.</para>
@@ -247,6 +258,8 @@ namespace Accord.Math.Geometry
 
             int idx = (int)index + 1;
             float u = index - (int)index;
+            if (index == (int)index) //if control point is choosen then u == 0 so:
+                u += 1E-1f;
 
             var dU = new float[] { 3 * u * u, 2 * u, 1, 0 };
             var MC = new float[,] 
@@ -272,7 +285,7 @@ namespace Accord.Math.Geometry
         /// </summary>
         /// <param name="index">Index between two control points.</param>
         /// <returns>Normal direction at interpolated point.</returns>
-        public static PointF NormalDirection(IList<PointF> controlPoints, float tension, float index)
+        public static PointF NormalAt(IList<PointF> controlPoints, float tension, float index)
         {
             var derivPt = DerivativeAt(controlPoints, tension, index);
 
@@ -335,11 +348,25 @@ EXIT:
             return indices;
         }
 
-
         public static RectangleF GetBoundingRect(IList<PointF> controlPoints, float tension, int numPoints, float samplingStep = 0.3f)
         {
             var boundingRect = Interpolate(controlPoints, tension, numPoints, samplingStep).BoundingRect();
             return boundingRect;     
+        }
+
+        /// <summary>
+        /// Gets valid indices range for interpolation.
+        /// <para>Valid range is: [MIN_INDEX.. (count-1-MAX_INDEX_OFFSET)]</para>
+        /// </summary>
+        /// <param name="controlPointsCount">Control points count.</param>
+        /// <returns>Valid indices range for interpolation.</returns>
+        public static RangeF ValidIndicesRange(int controlPointsCount)
+        {
+            return new RangeF 
+            {
+                 Min = MIN_INDEX,
+                 Max = (controlPointsCount - 1) - MAX_INDEX_OFFSET
+            };
         }
 
         #endregion

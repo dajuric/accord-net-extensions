@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 
 namespace Accord.Statistics.Filters
 {
-    public static class FilterMethods<TParticle, TState>
-        where TParticle : Particle<TState>, new()
-        where TState : ICloneable
+    public static partial class ParticleFilter
     {
         /// <summary>
         /// Particle states are initialized randomly according to provied ranges <see cref="ranges"/>
@@ -18,104 +16,95 @@ namespace Accord.Statistics.Filters
         /// <param name="numberOfParticles">Number of particles to create.</param>
         /// <param name="model">Process model.</param>
         /// <param name="ranges">Bound for each process state dimension.</param>
-        public static ParticleFilter<TParticle, TState>.InitializerFunc UnifromParticleSpreadInitializer(DoubleRange[] ranges, Func<double[], TState> converter)
+        public static IEnumerable<TParticle> UnifromParticleSpreadInitializer<TParticle>(int numberOfParticles, DoubleRange[] ranges, Func<double[], TParticle> creator)
+              where TParticle : class, IParticle
         {
-            return (int numberOfParticles) =>
+            List<double[]> randomRanges = new List<double[]>(numberOfParticles);
+            for (int pIdx = 0; pIdx < numberOfParticles; pIdx++)
             {
-                List<double[]> randomRanges = new List<double[]>(numberOfParticles);
+                randomRanges.Add(new double[ranges.Length]);
+            }
+
+            /*************** initialize states by random value ******************/
+            int stateDimensionIdx = 0;
+            foreach (var range in ranges)
+            {
+                var unifromDistribution = new UniformContinuousDistribution(range.Min, range.Max);
+
                 for (int pIdx = 0; pIdx < numberOfParticles; pIdx++)
                 {
-                    randomRanges.Add(new double[ranges.Length]);
+                    randomRanges[pIdx][stateDimensionIdx] = unifromDistribution.Generate();
                 }
 
-                /*************** initialize states by random value ******************/
-                int stateDimensionIdx = 0;
-                foreach (var range in ranges)
-                {
-                    var unifromDistribution = new UniformContinuousDistribution(range.Min, range.Max);
-
-                    for (int pIdx = 0; pIdx < numberOfParticles; pIdx++)
-                    {
-                        randomRanges[pIdx][stateDimensionIdx] = unifromDistribution.Generate();
-                    }
-
-                    stateDimensionIdx++;
-                }
-                /*************** initialize states by random value ******************/
+                stateDimensionIdx++;
+            }
+            /*************** initialize states by random value ******************/
 
 
-                var particles = new List<TParticle>(numberOfParticles);
+            var particles = new List<TParticle>(numberOfParticles);
 
-                /**************** make particles *****************/
-                double initialWeight = 1d / numberOfParticles;
-                for (int i = 0; i < numberOfParticles; i++)
-                {
-                    particles.Add(new TParticle
-                    {
-                        State = converter(randomRanges[i]),
-                        Weight = initialWeight
-                    });
-                }
-                /**************** make particles *****************/
+            /**************** make particles *****************/
+            double initialWeight = 1d / numberOfParticles;
+            for (int i = 0; i < numberOfParticles; i++)
+            {
+                var p = creator(randomRanges[i]);
+                p.Weight = initialWeight;
 
-                return particles;
-            };
+                particles.Add(p);
+            }
+            /**************** make particles *****************/
+
+            return particles;
         }
 
         /// <summary>
         /// Draw particles according to particle's weight.
         /// </summary>
-        public static ParticleFilter<TParticle, TState>.ResampleFunc SimpleResampler()
+        public static IEnumerable<TParticle> SimpleResampler<TParticle>(IList<TParticle> particles, IList<double> normalizedWeights)
+              where TParticle : class, IParticle
         {
-            return (IEnumerable<TParticle> _particles) =>
+            /*************** calculate cumulative weights ****************/
+            double[] cumulativeWeights = new double[particles.Count];
+            cumulativeWeights[0] = normalizedWeights.First();
+
+            for (int i = 1; i < particles.Count; i++)
             {
-                //Console.WriteLine(_particles.OrderByDescending(x => x.Weight).First().Weight);
+                cumulativeWeights[i] = cumulativeWeights[i - 1] + normalizedWeights[i];
+            }
+            /*************** calculate cumulative weights ****************/
 
-                var particles = _particles.ToList();
 
-                /*************** calculate cumulative weights ****************/
-                double[] cumulativeWeights = new double[particles.Count];
-                cumulativeWeights[0] = particles[0].Weight;
+            /*************** resample particles ****************/
+            var resampledParticles = new List<TParticle>();
+            double initialWeight = 1d / particles.Count;
 
-                for (int i = 1; i < particles.Count; i++)
+            Random rand = new Random();
+
+            for (int i = 0; i < particles.Count; i++)
+            {
+                var randWeight = cumulativeWeights.First() + rand.NextDouble() * (cumulativeWeights.Last() - cumulativeWeights.First());
+
+                int particleIdx = 0;
+                while (cumulativeWeights[particleIdx] < randWeight) //find particle's index
                 {
-                    cumulativeWeights[i] = cumulativeWeights[i - 1] + particles[i].Weight;
+                    particleIdx++;
                 }
-                /*************** calculate cumulative weights ****************/
 
+                var newParticle = (TParticle)particles[particleIdx].Clone();
+                //newParticle.Weight = initialWeight;
 
-                /*************** resample particles ****************/
-                var resampledParticles = new List<TParticle>();
-                double initialWeight = 1d / particles.Count;
+                resampledParticles.Add(newParticle);
+            }
+            /*************** resample particles ****************/
 
-                Random rand = new Random();
-
-                for (int i = 0; i < particles.Count; i++)
-                {
-                    var randWeight = cumulativeWeights.First() +  rand.NextDouble() * (cumulativeWeights.Last() - cumulativeWeights.First());
-
-                    int particleIdx = 0;
-                    while (cumulativeWeights[particleIdx] < randWeight) //find particle's index
-                    {
-                        particleIdx++;
-                    }
-
-                    var newParticle = (TParticle)particles[particleIdx].Clone();
-                    //newParticle.Weight = initialWeight;
-
-                    resampledParticles.Add(newParticle);
-                }
-                /*************** resample particles ****************/
-
-                return resampledParticles;
-            };
+            return resampledParticles;
         }
 
-        public static ParticleFilter<TParticle, TState>.NormalizationFunc SimpleNormalizer()
+        public static IList<double> SimpleNormalizer(IEnumerable<IParticle> particles)
         {
-            return (IEnumerable<IParticle> particles) =>
-            {
-                /*double maxLogProb = this.Particles.Max(x => x.Weight);
+            List<double> normalizedWeights = new List<double>();
+
+            /*double maxLogProb = this.Particles.Max(x => x.Weight);
            
                  this.Particles.ForEach(p => 
                  {
@@ -123,12 +112,15 @@ namespace Accord.Statistics.Filters
                      p.Weight = expProb; 
                  });*/
 
-                var weightSum = particles.Sum(x => x.Weight);
-                foreach (var p in particles)
-                {
-                    p.Weight = p.Weight / weightSum;
-                }
-            };
+            var weightSum = particles.Sum(x => x.Weight);
+
+            foreach (var p in particles)
+            {
+                var normalizedWeight = p.Weight / weightSum;
+                normalizedWeights.Add(normalizedWeight);
+            }
+
+            return normalizedWeights;
         }
     }
 }
