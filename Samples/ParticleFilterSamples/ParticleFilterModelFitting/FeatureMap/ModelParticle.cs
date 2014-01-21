@@ -29,7 +29,7 @@ namespace ParticleFilterModelFitting
         public int ModelTypeIndex { get; set; }
         public short Scale { get; set; }
         /// <summary>
-        /// Gets or sets angle offset, not the absoulte value.
+        /// Gets or sets angle offset, not the absolute value.
         /// </summary>
         public short Angle { get; set; }
 

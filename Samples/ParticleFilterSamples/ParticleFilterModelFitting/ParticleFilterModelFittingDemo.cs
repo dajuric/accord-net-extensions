@@ -17,6 +17,7 @@ namespace ParticleFilterModelFitting
 {
     public partial class ParticleFilterModelFittingDemo : Form
     {
+        const int NUMBER_OF_PARTICLES = 1000;
         Size imgSize = new Size(640 / 2, 480 / 2);
         Image<Bgr, byte> debugImg;
 
@@ -40,7 +41,7 @@ namespace ParticleFilterModelFitting
             
             Console.WriteLine("Initializing particle filter!");
             particleFilter = ParticleFilter.UnifromParticleSpreadInitializer(
-                                                    1000,
+                                                    NUMBER_OF_PARTICLES,
                                                     new DoubleRange[] 
                                                     { 
                                                         //template type
@@ -52,7 +53,7 @@ namespace ParticleFilterModelFitting
                                                         //rotation
                                                         new DoubleRange(-15, 15)
                                                     },
-                                                    ModelParticle.FromParameters).Distinct().ToList();
+                                                    ModelParticle.FromParameters)/*.Distinct().ToList()*/;
 
             //particleFilter = templates.Select(x => ModelParticle.FromParameters(x.Key.ModelTypeIndex, x.Key.Scale, x.Key.Angle)).ToList();
 
@@ -67,7 +68,7 @@ namespace ParticleFilterModelFitting
                 (
                    //drift
                    (p) => p.Drift(),
-                   //difuse
+                   //diffuse
                    (p) => 
                    {
                        if (bestParticles == null || bestParticles.Contains(p) == false)
@@ -88,13 +89,15 @@ namespace ParticleFilterModelFitting
                     particles => measure(linPyr, particles.ToList()),
                     //normalize
                     particles => ParticleFilter.SimpleNormalizer(particles.Skip(nBestParticles)),
-                    //resample
+                    //re-sample
                     (particles, normalizedWeights) => 
                     {
                         var sortedParticles = particles.OrderByDescending(x => x.Weight).ToList();
                         bestParticles = sortedParticles.Take(nBestParticles).ToList();
 
-                        var sampledParticles = ParticleFilter.SimpleResampler(sortedParticles.Skip(nBestParticles).ToList(), normalizedWeights.ToList());
+                        var sampledParticles = ParticleFilter.SimpleResampler(sortedParticles.Skip(nBestParticles).ToList(), 
+                                                                              normalizedWeights.ToList(), 
+                                                                              NUMBER_OF_PARTICLES);
 
                         return bestParticles.Concat(sampledParticles);
                     }
@@ -141,10 +144,28 @@ namespace ParticleFilterModelFitting
 
             debugImg.Clear();
 
-            exec1(linPyr);
+            exec0(linPyr);
+            //exec1(linPyr);
             //exec2(linPyr);
 
             this.pictureBoxDebug.Image = debugImg.ToBitmap();
+        }
+
+        private void exec0(LinearizedMapPyramid linPyr)
+        {
+            predict();
+            measure(linPyr, particleFilter.ToList());
+            update();
+
+            var sortedParticles = particleFilter.OrderByDescending(x => x.Weight);
+            var p = sortedParticles.First();
+
+            if (p.Weight < 0.5) return;
+            if (p.MetaData != null)
+                frame.Draw(p.MetaData, new Bgr(Color.Red), 1);
+
+            Console.WriteLine(String.Format("W: {0:0.00}, S:{1:00}, A:{2:00}",
+                                       p.Weight, p.ModelParameters.Scale, p.ModelParameters.Angle));
         }
 
         private void exec1(LinearizedMapPyramid linPyr)
@@ -205,14 +226,14 @@ namespace ParticleFilterModelFitting
         {
             InitializeComponent();
 
+            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "SIMDArrayInstructions.dll")) == false)
+            {
+                MessageBox.Show("Copy SIMDArrayInstructions.dll to your bin directory!");
+                return;
+            }
+
             debugImg = new Image<Bgr, byte>(imgSize);
             init();
-
-            /*frame = Bitmap.FromFile("C:/proba2Images/scene00189.png").ToImage<Bgr, byte>().GetSubRect(new Rectangle(0,0, 320, 320));
-            exec(frame);
-            //exec(frame);
-            pictureBox.Image = frame.ToBitmap();
-            return;*/
 
             try
             {

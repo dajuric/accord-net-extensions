@@ -58,9 +58,18 @@ namespace Accord.Statistics.Filters
         }
 
         /// <summary>
-        /// Draw particles according to particle's weight.
+        /// Draws particles according to particle's weight.
         /// </summary>
         public static IEnumerable<TParticle> SimpleResampler<TParticle>(IList<TParticle> particles, IList<double> normalizedWeights)
+              where TParticle : class, IParticle
+        {
+            return SimpleResampler(particles, normalizedWeights, particles.Count);
+        }
+
+        /// <summary>
+        /// Draws particles according to particle's weight.
+        /// </summary>
+        public static IEnumerable<TParticle> SimpleResampler<TParticle>(IList<TParticle> particles, IList<double> normalizedWeights, int nSamples)
               where TParticle : class, IParticle
         {
             /*************** calculate cumulative weights ****************/
@@ -80,7 +89,7 @@ namespace Accord.Statistics.Filters
 
             Random rand = new Random();
 
-            for (int i = 0; i < particles.Count; i++)
+            for (int i = 0; i < nSamples; i++)
             {
                 var randWeight = cumulativeWeights.First() + rand.NextDouble() * (cumulativeWeights.Last() - cumulativeWeights.First());
 
