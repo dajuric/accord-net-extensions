@@ -39,8 +39,7 @@ namespace LINE2D
         }
 
         /// <summary>
-        ///   Groups possibly near rectangles into a smaller
-        ///   set of distinct and averaged rectangles.
+        /// Groups near matches into a group.
         /// </summary>
         /// 
         /// <param name="strucutures">The structures to group.</param>

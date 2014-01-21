@@ -10,9 +10,13 @@ namespace Accord.Math.Geometry
         public float Radius;
 
         public CircleF(PointF position, float radius)
+            :this(position.X, position.Y, radius)
+        {}
+
+        public CircleF(float x, float y, float radius)
         {
-            this.X = position.X;
-            this.Y = position.Y;
+            this.X = x;
+            this.Y = y;
             this.Radius = radius;
         }
     }
@@ -24,9 +28,13 @@ namespace Accord.Math.Geometry
         public int Radius;
 
         public Circle(Point position, int radius)
+            :this(position.X, position.Y, radius)
+        {}
+
+         public Circle(int x, int y, int radius)
         {
-            this.X = position.X;
-            this.Y = position.Y;
+            this.X = x;
+            this.Y = y;
             this.Radius = radius;
         }
     }

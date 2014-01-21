@@ -22,17 +22,17 @@ namespace SimpleParticleFilterDemo
             public double Weight { get; set; }
             public PointF Position { get; set; }
 
-            public static void Drift(ColorParticle p)
+            public void Drift()
             {
                 //we do not have velocity (or something else), so nothing :)
             }
 
-            public static void Difuse(ColorParticle p)
+            public void Difuse()
             {
-                p.Position = new PointF
+                this.Position = new PointF
                 {
-                    X = p.Position.X + 25 * (float)normalDistribution.Generate(),
-                    Y = p.Position.Y + 25 * (float)normalDistribution.Generate(),
+                    X = this.Position.X + 25 * (float)normalDistribution.Generate(),
+                    Y = this.Position.Y + 25 * (float)normalDistribution.Generate(),
                 };
             }
 
@@ -83,9 +83,9 @@ namespace SimpleParticleFilterDemo
             particleFilter.Predict
                (
                    //drift
-                   p => ColorParticle.Drift(p),
+                   p => p.Drift(),
                    //difuse
-                   p => ColorParticle.Difuse(p)
+                   p => p.Difuse()
                );
         }
 

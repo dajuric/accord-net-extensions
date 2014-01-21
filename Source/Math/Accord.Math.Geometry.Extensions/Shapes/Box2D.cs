@@ -7,6 +7,11 @@ namespace Accord.Math.Geometry
     [StructLayout(LayoutKind.Sequential)]
     public struct Box2D
     {
+         /// <summary>
+        /// Gets empty structure.
+        /// </summary>
+        public static readonly Box2D Empty = new Box2D();
+
         /// <summary>
         /// Area center.
         /// </summary>
@@ -25,7 +30,7 @@ namespace Accord.Math.Geometry
         /// </summary>
         /// <param name="rect">Area.</param>
         /// <param name="angle">Angle in degrees.</param>
-        public Box2D(Rectangle rect, float angle)
+        public Box2D(RectangleF rect, float angle)
         {
             var center = rect.Center();
 
@@ -34,12 +39,9 @@ namespace Accord.Math.Geometry
             this.Angle = angle;
         }
 
-        /// <summary>
-        /// Gets empty structure.
-        /// </summary>
-        public static Box2D Empty
+        public bool IsEmpty
         {
-            get { return new Box2D(); }
+            get { return this.Equals(Empty); }
         }
 
         /// <summary>
@@ -89,6 +91,29 @@ namespace Accord.Math.Geometry
                 new PointF(this.Center.X + offsetX, this.Center.Y + offsetY), //right-bottom
                 new PointF(this.Center.X - offsetX, this.Center.Y + offsetY) //left-bottom
             };
+        }
+
+        public static implicit operator Box2D(Rectangle rect)
+        {
+            return new Box2D(rect, 0);
+        }
+
+        public static implicit operator Box2D(RectangleF rect)
+        {
+            return new Box2D(rect, 0);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Box2D == false) return false;
+
+            var b = (Box2D)obj;
+            return b.Center.Equals(this.Center) && b.Angle.Equals(this.Angle);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

@@ -251,7 +251,7 @@ namespace Accord.Imaging
             var bmp = image.ToBitmap(false, true);
             using (Graphics g = Graphics.FromImage(bmp))
             {
-                g.DrawLines(pen, contour.ToArray());
+                g.DrawCurve(pen, contour.ToArray());
             }
         }
 
@@ -261,7 +261,8 @@ namespace Accord.Imaging
         /// <param name="image">Input image.</param>
         /// <param name="contour">Line segments (treated as vectors)</param>
         /// <param name="width">Contours thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<PointF> contour, TColor color, float width)
+        /// <param name="connectPoints">Connect points and draw contour or draw points as circles.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<PointF> contour, TColor color, float width, bool connectPoints = true)
             where TColor : IColor3
         {
             var contourArr = contour.ToArray();
@@ -272,9 +273,23 @@ namespace Accord.Imaging
             Pen pen = new Pen(drawingColor, width);
 
             var bmp = image.ToBitmap(false, true);
-            using (Graphics g = Graphics.FromImage(bmp))
+
+            if (connectPoints)
             {
-                g.DrawLines(pen, contour.ToArray());
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.DrawCurve(pen, contour.ToArray());
+                }
+            }
+            else
+            {
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    foreach (var p in contour)
+                    {
+                        g.DrawEllipse(pen, p.X - width, p.Y - width, width * 2, width * 2);
+                    }
+                }
             }
         }
 
@@ -318,7 +333,7 @@ namespace Accord.Imaging
             {
                 foreach (var c in circles)
 	            {
-                    g.DrawEllipse(pen, c.X, c.Y, c.Radius * 2, c.Radius * 2);
+                    g.DrawEllipse(pen, c.X - c.Radius, c.Y - c.Radius, c.Radius * 2, c.Radius * 2);
                 }
             }
         }

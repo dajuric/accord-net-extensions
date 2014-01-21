@@ -24,7 +24,7 @@ namespace Accord.Math.Geometry
         /// <param name="pB">End point.</param>
         /// <param name="cumulativePathLength">Contour cumulative path length.</param>
         /// <returns>Distance from start to end point (by following contour points).</returns>
-        public static double GetPathLength(this List<Point> pts, int pA, int pB, List<float> cumulativePathLength)
+        public static double GetPathLength(this IList<Point> pts, int pA, int pB, List<float> cumulativePathLength)
         {
             if (pB - pA > 0)
             {
@@ -45,7 +45,7 @@ namespace Accord.Math.Geometry
         /// <param name="pts">Contour.</param>
         /// /// <param name="treatAsClosed">Treat as closed contour (distance from the last to the first point is added).</param>
         /// <returns>Cumulative distance.</returns>
-        public static List<float> CumulativeEuclideanDistance(this List<Point> pts, bool treatAsClosed = true)
+        public static List<float> CumulativeEuclideanDistance(this IList<Point> pts, bool treatAsClosed = true)
         {
             var cumulativeDistances = new List<float>();
             var maxOffset = treatAsClosed ? 0 : -1;
@@ -69,7 +69,7 @@ namespace Accord.Math.Geometry
         /// <param name="pts">Contour.</param>
         /// /// <param name="treatAsClosed">Treat as closed contour (distance from the last to the first point is added).</param>
         /// <returns>Cumulative distance.</returns>
-        public static List<float> CumulativeEuclideanDistance(this List<PointF> pts, bool treatAsClosed = true)
+        public static List<float> CumulativeEuclideanDistance(this IList<PointF> pts, bool treatAsClosed = true)
         {
             var cumulativeDistances = new List<float>();
             var maxOffset = treatAsClosed ? 0 : -1;
@@ -97,7 +97,7 @@ namespace Accord.Math.Geometry
         /// <param name="direction">Search direction. If &gt 0 then search continoues in the positive direction, if &lt 0 then search is continoued toward negative indeces.</param>
         /// <param name="scale">A good value is ~15. A specified region will be searched every time to avoid local minima.</param>
         /// <returns>Closest point index regarding <see cref="ptIdx"/>,</returns>
-        public static int GetClosestPoint(this List<Point> contour, int ptIdx, int startIdx, int direction, int scale)
+        public static int GetClosestPoint(this IList<Point> contour, int ptIdx, int startIdx, int direction, int scale)
         {
             double distance;
             return GetClosestPoint(contour, ptIdx, startIdx, direction, scale, out distance);
@@ -114,7 +114,7 @@ namespace Accord.Math.Geometry
         /// <param name="scale">A good value is ~15. A specified region will be searched every time to avoid local minima.</param>
         /// <param name="distance">Distance from <see cref="ptIdx"/> to returned point index.</param>
         /// <returns>Closest point index regarding <see cref="ptIdx"/>,</returns>
-        public static int GetClosestPoint(this List<Point> contour, int ptIdx, int startIdx, int direction, int scale, out double distance)
+        public static int GetClosestPoint(this IList<Point> contour, int ptIdx, int startIdx, int direction, int scale, out double distance)
         {
             double minDist = Double.MaxValue;
             int closestPt = -1;
@@ -154,7 +154,7 @@ namespace Accord.Math.Geometry
         /// <param name="searchSegment">Contour segment to search.</param>
         /// <param name="distance">Distance from <see cref="ptIdx"/> to returned point index.</param>
         /// <returns>Closest point index regarding <see cref="ptIdx"/>,</returns>
-        public static int GetClosestPoint(this List<Point> contour, int ptIdx, Range searchSegment, out double distance)
+        public static int GetClosestPoint(this IList<Point> contour, int ptIdx, Range searchSegment, out double distance)
         {
             double minDist = Double.MaxValue;
             int closestPt = -1;
@@ -200,7 +200,7 @@ namespace Accord.Math.Geometry
         ///     scale, out peakIndeces, out valeyIndeces);
         /// </code>
         /// </remarks>
-        public static void FindExtremaIndices(this List<Point> contourPts, Func<float, bool, bool> selector, int scale,
+        public static void FindExtremaIndices(this IList<Point> contourPts, Func<float, bool, bool> selector, int scale,
                                               out List<int> peaks, out List<int> valeys)
         {
             peaks = new List<int>(); valeys = new List<int>();
@@ -246,7 +246,7 @@ namespace Accord.Math.Geometry
         /// <param name="scale">Used for <see cref="GetClosestPoint"/>. A good value is ~20. A specified region will be searched every time to avoid local minima.</param>
         /// <param name="humpPeaks">Found hump peaks.</param>
         /// <returns>Humps contour indeces.</returns>
-        public static List<Range> GetHumps(this List<Point> contour, List<int> peaks, List<int> valeys, int scale, out List<int> humpPeaks)
+        public static List<Range> GetHumps(this IList<Point> contour, List<int> peaks, List<int> valeys, int scale, out List<int> humpPeaks)
         {
             List<Range> humps = new List<Range>();
             humpPeaks = new List<int>();
@@ -294,7 +294,7 @@ namespace Accord.Math.Geometry
         /// <param name="clusterRange">Maximum successive point disatnce.</param>
         /// <param name="cumulativeDistance">Cumulative contour distance. If not specified it will be automatically calculated.</param>
         /// <returns>Point clusters.</returns>
-        public static List<List<int>> ClusterPoints(this List<Point> contour, List<int> ptIndeces, double clusterRange, List<float> cumulativeDistance = null)
+        public static List<List<int>> ClusterPoints(this IList<Point> contour, List<int> ptIndeces, double clusterRange, List<float> cumulativeDistance = null)
         {
             cumulativeDistance = cumulativeDistance ?? contour.CumulativeEuclideanDistance();
 
@@ -393,6 +393,32 @@ namespace Accord.Math.Geometry
             }
 
             return new Rectangle(minX, minY, maxX - minX, maxY - minY);
+        }
+
+        /// <summary>
+        /// Gets equaly distributed points allong a contour.
+        /// </summary>
+        /// <param name="points">Contout points.</param>
+        /// <param name="numberOfPoints">Number of points to take.</param>
+        /// <param name="treatAsClosed">Treat contour as closed meaning that the distance between the last and the first point will be also calculated.</param>
+        /// <param name="takeFirstPoint">Force to include the first point. Otherwise it may not be included.</param>
+        /// <returns>Equaly distibuted points.</returns>
+        public static IEnumerable<PointF> GetEqualyDistributedPoints(this IList<PointF> points, int numberOfPoints, bool treatAsClosed = true, bool takeFirstPoint = false)
+        {
+            var cumulativeDistance = CumulativeEuclideanDistance(points, treatAsClosed);
+            var distanceBetween = cumulativeDistance.Last() / (numberOfPoints + (takeFirstPoint ? 0: 0.5));
+
+            var previousDist = takeFirstPoint ? (cumulativeDistance.First() - distanceBetween): 0;
+            for (int i = 0; i < cumulativeDistance.Count; i++)
+            {
+                var dist = cumulativeDistance[i] - previousDist;
+                if (dist > distanceBetween)
+                {
+                    var error = System.Math.Abs(distanceBetween - dist);
+                    previousDist = cumulativeDistance[i] - error; //correct feature distance between points
+                    yield return points[i];
+                }
+            }
         }
 
     }

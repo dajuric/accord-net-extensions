@@ -85,8 +85,6 @@ namespace Accord.Math.Geometry
             // Start by classifying rectangles according to distance
             classify(strucutures); // assign label for near rectangles
 
-            int[] neighborCount;
-
             // Average the rectangles contained in each labelled group
             GroupMatch<T>[] output = average(strucutures);
 

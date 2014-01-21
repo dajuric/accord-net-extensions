@@ -91,10 +91,10 @@ namespace Accord.Math.Geometry
 
         public PointF Add(PointF point)
         {
-            return Add(this, point);
+            return Add(point, this);
         }
 
-        public static PointF Add(Vector2D vector, PointF point)
+        public static PointF Add(PointF point, Vector2D vector)
         {
             return new PointF 
             {
@@ -103,9 +103,9 @@ namespace Accord.Math.Geometry
             };
         }
 
-        public static PointF operator +(Vector2D vector, PointF point)
+        public static PointF operator +(PointF point, Vector2D vector)
         {
-            return Add(vector, point);
+            return Add(point, vector);
         }
 
         #endregion
@@ -135,6 +135,16 @@ namespace Accord.Math.Geometry
             if (v == null) return false;
 
             return this.X == v.X && this.Y == v.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public static explicit operator PointF(Vector2D vector)
+        {
+            return new PointF(vector.X, vector.Y);
         }
     }
 }

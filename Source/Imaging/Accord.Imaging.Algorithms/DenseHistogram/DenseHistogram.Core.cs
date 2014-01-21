@@ -162,8 +162,8 @@ namespace Accord.Imaging
                 if (hist2Ptr[i] != 0)
                     ratioHistPtr[i] = (hist1Ptr[i] / (hist2Gain * hist2Ptr[i])) * histogramsNormalizationFactor;
                 else
-                    //ratioHistPtr[i] = 0; //in original Accord's implementation. Why ?
-                    ratioHistPtr[i] = hist1Ptr[i];
+                    ratioHistPtr[i] = 0; //in original Accord's implementation. Why ?
+                    //ratioHistPtr[i] = hist1Ptr[i];
 
                 ratioHistPtr[i] = System.Math.Min(histogramsNormalizationFactor, ratioHistPtr[i]);
             }

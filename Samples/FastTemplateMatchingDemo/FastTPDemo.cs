@@ -26,7 +26,7 @@ namespace FastTemplateMatchingDemo
         int threshold = 85;
         int minDetectionsPerGroup = 0; //for match grouping (postprocessing)
 
-        Capture videoCapture;
+        CaptureBase videoCapture;
         List<TemplatePyramid> templPyrs;
 
         /// <summary>
@@ -119,7 +119,8 @@ namespace FastTemplateMatchingDemo
 
             try
             {
-                videoCapture = new Capture();
+                //videoCapture = new Capture();
+                videoCapture = new ImageSequenceCapture("C:/probaImages", ".jpg", 30); 
             }
             catch (Exception)
             {
@@ -135,15 +136,14 @@ namespace FastTemplateMatchingDemo
         }
 
         Image<Bgr, byte> frame;
-        Font font = new Font("Arial", 12);
+        Font font = new Font("Arial", 12); int i = 0;
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
             if (!hasNewFrame)
                 return;
 
-            frame = videoCapture.QueryFrame().Clone();
-            //frame = Bitmap.FromFile("C:/proba.jpg").ToImage<Bgr, byte>();
+            frame = videoCapture.QueryFrame().Clone(); var b = frame.Clone();
 
             long preprocessTime, matchTime;
             var bestRepresentatives = findObjects(frame, out preprocessTime, out matchTime);
@@ -168,7 +168,7 @@ namespace FastTemplateMatchingDemo
                 }
                 else
                 {
-                    frame.Draw(m, new Bgr(Color.Blue), 3, 3);
+                    frame.Draw(m, new Bgr(Color.Blue), 3, true, new Bgr(Color.Red));
                 }
 
                 Console.WriteLine("Best template: " + m.Template.ClassLabel + " score: " + m.Score);
@@ -179,7 +179,8 @@ namespace FastTemplateMatchingDemo
             /************************************ drawing ****************************************/
 
             this.pictureBox.Image = frame.ToBitmap(); //it will be just casted (data is shared) 24bpp color
-          
+
+            //frame.Save(String.Format("C:/probaImages/imgMarked_{0}.jpg", i)); b.Save(String.Format("C:/probaImages/img_{0}.jpg", i)); i++;
             GC.Collect();
         }
 

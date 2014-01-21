@@ -64,10 +64,9 @@
     <Compile Include="FFT\FFT.cs" />
     <Compile Include="FFT\FFT.Float.cs" />
     <Compile Include="Filters\Kalman\DiscreteKalmanFilter.cs" />
-    <Compile Include="Filters\Kalman\Interfaces\IKalman.cs" />
-    <Compile Include="Filters\Kalman\Interfaces\KalmanFilter.cs" />
-    <Compile Include="Filters\Models\LinearAcceleration1DModel.cs" />
-    <Compile Include="Filters\Models\LinearAcceleration2DModel.cs" />
+    <Compile Include="Filters\Kalman\Base\KalmanFilter.cs" />
+    <Compile Include="Filters\Models\ConstantAcceleration2DModel.cs" />
+    <Compile Include="Filters\Models\ConstantVelocity2DModel.cs" />
     <Compile Include="Filters\ParticleFilter\Particle.cs" />
     <Compile Include="Filters\ParticleFilter\ParticleFilter.cs" />
     <Compile Include="Filters\ParticleFilter\ParticleFilterMethods.cs" />

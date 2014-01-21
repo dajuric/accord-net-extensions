@@ -123,36 +123,4 @@ namespace Accord.Vision
         }
     }
 
-    public static class IEnumerableExtensions
-    {
-        public static T[] Get<T>(this T[] src, IEnumerable<int> indicies)
-        {
-            T[] arr = new T[indicies.Count()];
-
-            int i = 0;
-            foreach (var idx in indicies)
-            {
-                arr[i++] = src[idx];
-            }
-
-            return arr;
-        }
-
-        public static void Set<T>(this T[] src, IEnumerable<int> indicies, T[] newValues)
-        {
-            int i = 0;
-            foreach (var idx in indicies)
-            {
-                src[idx] = newValues[i++];
-            }
-        }
-
-        public static void ApplyInPlace<T>(this T[] src, IEnumerable<int> indicies, Func<T,T> func)
-        {
-            foreach (var idx in indicies)
-            {
-                src[idx] = func(src[idx]);
-            }
-        }
-    }
 }

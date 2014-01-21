@@ -8,141 +8,117 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Accord.Math.Geometry;
 using LineSegment2DF = AForge.Math.Geometry.LineSegment;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
+using Range = AForge.IntRange;
 using LINE2D;
 
 namespace ParticleFilterModelFitting
 {
-    public class OpenHandTemplate
+    public class OpenHandTemplate: ITemplate
     {
-        #region Prototype (model) Loading
-
         const float CONTOUR_TENSION = 0f;
-        const int N_SAMPLE_POINTS = 100;
+        const int N_SAMPLE_POINTS = 100 + CardinalSpline.MIN_INDEX + CardinalSpline.MAX_INDEX_OFFSET + 1/*we are using integer indeces*/;
 
-        static IList<PointF> prototypeControlPoints;
-        static IList<float> prototypeIndices;
-        static RectangleF prototypeBoundingBox;
-
-        static IList<PointF> prototypePoints;
-        static PointF leftUpperPoint;
-        static IList<PointF> prototypeOrientations;
-
-        public static void LoadPrototype(IList<PointF> controlPoints)
+        public static Dictionary<ModelParams, ITemplate> CreateRange(string imagePath, string extension, IEnumerable<int> scaleRange, IEnumerable<int> rotationRange)
         {
-            prototypeControlPoints = controlPoints;
-            prototypeIndices = CardinalSpline.GetEqualyDistributedPoints(controlPoints, CONTOUR_TENSION, N_SAMPLE_POINTS).ToList();
+            var fileNames = Directory.GetFiles(imagePath, extension);
 
-            prototypePoints = prototypeIndices.Select(x => CardinalSpline.Interpolate(controlPoints, CONTOUR_TENSION, x)).ToList();
-            leftUpperPoint = new PointF
+            var dict = new Dictionary<ModelParams, ITemplate>();
+
+            int idx = 0;
+            foreach (var fileName in fileNames)
             {
-                X = prototypePoints.Min(x => x.X),
-                Y = prototypePoints.Min(x => x.Y)
-            };
+                using (var img = Bitmap.FromFile(fileName).ToImage<Gray, byte>())
+                {
+                    createRange(dict, img, idx, scaleRange, rotationRange);
+                }
+                idx++;
+            }
 
-            prototypeOrientations = prototypeIndices.Select(x => CardinalSpline.NormalAt(controlPoints, CONTOUR_TENSION, x)).ToList();
-            prototypeBoundingBox = prototypePoints.BoundingRect();
-        } 
-
-        public static void LoadPrototype(string fileName)
-        {
-            var points = readCoordinates(fileName);
-            LoadPrototype(points.ToList());
+            return dict;
         }
 
-        private static IEnumerable<PointF> readCoordinates(string fileName)
+        private static void createRange(Dictionary<ModelParams, ITemplate> dict, Image<Gray, byte> templateImg,
+                                        int templateIdx, IEnumerable<int> scaleRange, IEnumerable<int> rotationRange, string label = "")
         {
-            using (TextReader txtReader = new StreamReader(fileName))
-            {
-                string line;
-                while ((line = txtReader.ReadLine()) != null)
-                {
-                    var coord = line
-                                .Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries)
-                                .Select(x => Single.Parse(x, System.Globalization.CultureInfo.InvariantCulture));
+            var contour = findContour(templateImg);
+            var pts = contour.GetEqualyDistributedPoints(N_SAMPLE_POINTS, treatAsClosed: false);
+            pts = pts.Normalize();
 
-                    yield return new PointF
-                    {
-                        X = coord.First(),
-                        Y = coord.Last()
-                    };
+            foreach(var s in scaleRange)
+            {
+                foreach(var r in rotationRange)
+                {
+                    var template = create(pts, s, r, label);
+                    var mParams = new ModelParams(templateIdx, (short)s, (short)r);
+
+                    dict.Add(mParams, template);
                 }
             }
         }
 
-        #endregion
-
-        #region Template creating (from prototype)
-
-        public IList<Point> Points {get; private set;}
-        public RectangleF BoundingBox { get; private set; }
-        public IList<int> Orientations { get; private set; }
-        public IList<Feature> Features { get; private set; }
-
-        private OpenHandTemplate()
-        {}
-
-        public static OpenHandTemplate Create(float scaleX, float scaleY, 
-                                              int rotationZ) 
+        private static List<PointF> findContour(Image<Gray, byte> templateImg)
         {
-            if (prototypePoints == null)
-                throw new Exception("Prototype control points must be loaded");
+            var contour = templateImg.FindContour(minGradientStrength: 150).Select(x => (PointF)x).ToList();
 
-            var initialTranslation = new PointF //so the template left-upper point goes to (0,0) 
+            /*********** cut bottom border and shift contour beginning to the first non-border point ***************/
+            int firstIdx = -1;
+            int lastIdx = -1;
+
+            for (int i = 0; i < contour.Count; i++)
             {
-                X = -leftUpperPoint.X * scaleX,
-                Y = -leftUpperPoint.Y * scaleY
-            };
+                if (contour[i].Y == (templateImg.Height - 1))
+                {
+                    if (firstIdx == -1) firstIdx = i;
+                    lastIdx = i;
+                }
+            }
 
+            //return contour;
+            return new CircularList<PointF>(contour).GetRange(new Range(lastIdx, firstIdx));
+        }
+
+        private static ITemplate create(IEnumerable<PointF> normalizedPoints,
+                                        int scale,
+                                        int rotation,
+                                        string label = "")
+        {
             var pointTransform = Transforms2D.Combine
                             (
-                               Transforms2D.Scale(scaleX, scaleY),
-
-                               Transforms2D.Rotation((float)Angle.ToRadians(rotationZ)),
-                                                              
-                               Transforms2D.Translation(initialTranslation.X, initialTranslation.Y)
+                               Transforms2D.Scale(scale, scale),
+                               Transforms2D.Rotation((float)Angle.ToRadians(rotation))
                             );
 
-            var rotationTransform = Transforms2D.Combine
-                            (
-                               Transforms2D.Rotation((float)Angle.ToRadians(rotationZ))                           
-                            );
+            var transformedPts = normalizedPoints.Transform(pointTransform).ToList();
 
-            var transformedPoints = prototypePoints.Transform(pointTransform);
-            var orientations = prototypeOrientations.Transform(rotationTransform).Select(x => (int)Angle.ToDegrees(System.Math.Atan2(x.Y, x.X)));
-                                       
-            /*var transfromedControlPoints = prototypeControlPoints
-                                            .Transform(Transforms.Scale(scaleX, scaleY))
-                                            .Transform(Transforms.RotationX((float)Angle.ToRadians(rotationX)))
-                                            .Transform(Transforms.RotationY((float)Angle.ToRadians(rotationY)))
-                                            .Transform(Transforms.RotationZ((float)Angle.ToRadians(rotationZ)));
+            var boundingRect = transformedPts.BoundingRect();
+            var offset = boundingRect.Location;
+            transformedPts = transformedPts.Transform(Transforms2D.Translation(-offset.X, -offset.Y)).ToList();
 
-            var orientations = prototypeIndices.Select(x => CardinalSpline.NormalDirection(transformedPoints.ToList(), CONTOUR_TENSION, x)); */                           
+            var template = new OpenHandTemplate();
 
-            //var quantizedOrientations = orientations.Select(x => quantizeOrientation(x));
+            var features = new List<Feature>();
+            //var validIdxRange = CardinalSpline.ValidIndicesRange(transformedPts.Count);
+            //for (int i = validIdxRange.Min; i <= validIdxRange.Max; i++)
+            for (int i = CardinalSpline.MIN_INDEX; i < (transformedPts.Count - 1 - CardinalSpline.MAX_INDEX_OFFSET); i++)
+            {
+                var intPt = transformedPts[i].Round();
 
-           //vrati u 0,0
-           var br = transformedPoints.BoundingRect();
-           transformedPoints=transformedPoints.Transform(Transforms2D.Translation(-br.X, -br.Y));
+                var direction = CardinalSpline.NormalAt(transformedPts, CONTOUR_TENSION, i);
+                var orientDeg = (int)Angle.ToDegrees(Math.Atan2(direction.Y, direction.X));
+                orientDeg = (int)Angle.NormalizeDegrees(orientDeg + 180);
 
-           var template = new OpenHandTemplate();
-           template.Points = transformedPoints.Select(x=>x.Round()).ToList();
-           template.Orientations = orientations.ToList();
-           template.BoundingBox = transformedPoints.BoundingRect();
+                var feature = createFeature(intPt.X, intPt.Y, orientDeg);
+                features.Add(feature);
+            }
 
-           var features = new List<Feature>();
-           for (int i = 0; i < template.Points.Count; i++)
-           {
-               var f = createFeature(template.Points[i].X, template.Points[i].Y, template.Orientations[i]);
-               features.Add(f);
-           }
+            template.Features = features.ToArray();
+            template.Size = Size.Round(boundingRect.Size);
+            template.ClassLabel = label;
 
-           template.Features = features;
-
-           return template;
+            return template;
         }
 
         private static Feature createFeature(int x, int y, int orientationDeg)
@@ -153,44 +129,29 @@ namespace ParticleFilterModelFitting
             return new Feature(x, y, binaryIndex);
         }
 
-        #endregion
-
-        #region Drawing
-
-        private static LineSegment2DF getLine(int derivativeOrientation, PointF centerPoint, float length)
-        { 
-            Vector2D vec = new Vector2D(Angle.ToRadians(derivativeOrientation)).Multiply(length / 2);
-            var p1 = vec.Add(centerPoint);
-            var p2 = vec.Negate().Add(centerPoint);
-
-            return new LineSegment2DF(p1, p2);
-        }
-
-        public void Draw(Image<Bgr, byte> image)
+        public Feature[] Features
         {
-            /********************  contour and control points *********************/
-            var points = new List<PointF>();
-            foreach (var idx in EnumerableMethods.GetRange(CardinalSpline.MIN_INDEX, this.Points.Count - 1 + CardinalSpline.MAX_INDEX_OFFSET, 0.1f))
-            {
-                var pt = CardinalSpline.Interpolate(this.Points.Select(x=>new PointF(x.X, x.Y)).ToList(), CONTOUR_TENSION, idx);
-                points.Add(pt);
-            }
-
-            image.Draw(points.Select(x => new System.Drawing.PointF(x.X, x.Y)).ToArray(),
-                       new Bgr(Color.Blue),
-                       3);
-            
-            image.Draw(this.Points.Select(x => new CircleF(x, 3)), new Bgr(Color.Red), 3);
-            /********************  contour and control points *********************/
-
-            for (int i = 0; i < Points.Count; i++)
-            {
-                var normal = getLine(Orientations[i], Points[i], 30);
-                image.Draw(normal, new Bgr(Color.Green), 3);
-            }
+            get;
+            private set;
         }
 
-        #endregion
+        public Size Size
+        {
+            get;
+            private set;
+        }
 
+        public string ClassLabel
+        {
+            get;
+            private set;
+        }
+
+        void ITemplate.Initialize(Feature[] features, Size size, string classLabel)
+        {
+            this.Features = features;
+            this.Size = size;
+            this.ClassLabel = classLabel;
+        }
     }
 }

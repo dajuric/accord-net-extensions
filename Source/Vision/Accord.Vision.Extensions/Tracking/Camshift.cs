@@ -57,17 +57,19 @@ namespace Accord.Vision
         /// <returns>Object position, size and angle packed into a structure.</returns>
         public static Box2D Process(Image<Gray, byte> probabilityMap, Rectangle roi)
         {
-            return Process(probabilityMap, roi, Meanshift.DEFAULT_TERM);
+            CentralMoments centralMoments;
+            return Process(probabilityMap, roi, Meanshift.DEFAULT_TERM, out centralMoments);
         }
 
         /// <summary>
         /// Camshift algorithm
         /// </summary>
-        /// <param name="probabilityMap">Probability map [0-1].</param>
+        /// <param name="probabilityMap">Probability map [0-255].</param>
         /// <param name="roi">Initial Search area</param>
         /// <param name="termCriteria">Mean shift termination criteria (PLEASE DO NOT REMOVE (but you can move it) THIS CLASS; PLEASE!!!)</param>
+        /// <param name="centralMoments">Calculated central moments (up to order 2).</param>
         /// <returns>Object position, size and angle packed into a structure.</returns>
-        public static Box2D Process(Image<Gray, byte> probabilityMap, Rectangle roi, TermCriteria termCriteria)
+        public static Box2D Process(Image<Gray, byte> probabilityMap, Rectangle roi, TermCriteria termCriteria, out CentralMoments centralMoments)
         {
             int width = probabilityMap.Width;
             int height = probabilityMap.Height;
@@ -75,11 +77,10 @@ namespace Accord.Vision
             Rectangle imageArea = new Rectangle(0, 0, width, height);
          
             // Compute mean shift
-            CentralMoments moments;
-            Rectangle objArea = Meanshift.Process(probabilityMap, roi, termCriteria, out moments);
+            Rectangle objArea = Meanshift.Process(probabilityMap, roi, termCriteria, out centralMoments);
 
             float objAngle;
-            SizeF objSize = moments.GetSizeAndOrientation(out objAngle);
+            SizeF objSize = centralMoments.GetSizeAndOrientation(out objAngle);
 
             if (Single.IsNaN(objSize.Width) || Single.IsNaN(objSize.Height) ||
                 Single.IsNaN(objAngle) || objSize.Width < 1 || objSize.Height < 1)

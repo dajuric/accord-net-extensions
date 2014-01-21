@@ -1,23 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Accord.Math;
+﻿using Accord.Math;
+using System;
 
 namespace Accord.Statistics.Filters
 {
-    public class DiscreteKalmanFilter: KalmanFilter
+    public class DiscreteKalmanFilter<TState, TMeasurement>: KalmanFilter<TState, TMeasurement>
     {
         /// <summary>
         /// Creates Discrete Kalman filter.
         /// </summary>
         /// <param name="initialState">The best estimate of the initial state. [n x 1] vector. It's dimension is - n.</param>
+        /// <param name="initialStateError">Initial error for a state: (assumed values – actual values)^2 + the variance of the values.
+        /// <para>e.g. if using ConstantAccelerationModel it can be specified as: Matrix.Diagonal(StateVectorDimension, [x, y, vX, vY, aX, aY]);</para> 
+        /// </param>
         /// <param name="processNoiseCovariance">The covariance of the initial state estimate. [n x n] matrix.</param>
-        ///<param name="measurementVectorDimension">Dimensionality of the measurement vector - p.</param>
+        /// <param name="measurementVectorDimension">Dimensionality of the measurement vector - p.</param>
         /// <param name="controlVectorDimension">Dimensionality of the control vector - k. If there is no external control put 0.</param>
-        public DiscreteKalmanFilter(double[,] initialState, int measurementVectorDimension, int controlVectorDimension)
-            :base(initialState, measurementVectorDimension, controlVectorDimension)
+        /// <param name="stateConvertFunc">State conversion function: TState => double[]</param>
+        /// <param name="stateConvertBackFunc">State conversion function: double[] => TState</param>
+        /// <param name="measurementConvertFunc">Measurement conversion function: TMeasurement => double[]</param>
+        public DiscreteKalmanFilter(TState initialState, double[,] initialStateError, 
+                                    int measurementVectorDimension, int controlVectorDimension,
+                                    Func<TState, double[]> stateConvertFunc, Func<double[], TState> stateConvertBackFunc, Func<TMeasurement, double[]> measurementConvertFunc)
+            :base(initialState, initialStateError, 
+                  measurementVectorDimension, controlVectorDimension, 
+                  stateConvertFunc, stateConvertBackFunc, measurementConvertFunc)
         {}
 
         /// <summary>
@@ -26,14 +32,14 @@ namespace Accord.Statistics.Filters
         /// x'(k) = A * x(k-1) + B * u(k).
         /// P'(k) = A * P(k-1) * At + Q 
         /// </summary>
-        public override void Predict(double[,] controlVector)
+        protected override void predict(double[] controlVector)
         {
-            this.PredictedState = this.TransitionMatrix.Multiply(this.CorrectedState);
+            this.state = this.TransitionMatrix.Multiply(this.state);
                 
             if(controlVector != null)
-                this.PredictedState = this.PredictedState.Add(this.ControlMatrix.Multiply(controlVector));
+                this.state = this.state.Add(this.ControlMatrix.Multiply(controlVector));
 
-            this.PrioriErrorCovariance = this.TransitionMatrix.Multiply(this.PosterioriErrorCovariance).Multiply(this.TransitionMatrix.Transpose()).Add(this.ProcessNoiseCovariance);
+            this.ErrorCovariance = this.TransitionMatrix.Multiply(this.ErrorCovariance).Multiply(this.TransitionMatrix.Transpose()).Add(this.ProcessNoise);
         }
 
         /// <summary>
@@ -44,19 +50,19 @@ namespace Accord.Statistics.Filters
         /// P(k) =(I - K(k) * H) * P'(k)
         /// </summary>
         /// <param name="measurement">Obtained measurement vector.</param>
-        public override void Correct(double[,] measurement)
+        protected override void correct(double[] measurement)
         {
             var measurementMatrixTransponsed = this.MeasurementMatrix.Transpose();
 
-            var S = this.MeasurementMatrix.Multiply(this.PrioriErrorCovariance).Multiply(measurementMatrixTransponsed).Add(this.MeasurementNoiseCovariance);
-            this.KalmanGain = this.PrioriErrorCovariance.Multiply(measurementMatrixTransponsed).Multiply(S.Inverse());
+            var S = this.MeasurementMatrix.Multiply(this.ErrorCovariance).Multiply(measurementMatrixTransponsed).Add(this.MeasurementNoise);
+            this.KalmanGain = this.ErrorCovariance.Multiply(measurementMatrixTransponsed).Multiply(S.Inverse());
 
-            var predictedMeasurement = this.MeasurementMatrix.Multiply(this.PredictedState);
+            var predictedMeasurement = this.MeasurementMatrix.Multiply(this.state);
             var measurementError = measurement.Subtract(predictedMeasurement);
-            this.CorrectedState = this.PredictedState.Add(this.KalmanGain.Multiply(measurementError));
+            this.state = this.state.Add(this.KalmanGain.Multiply(measurementError));
 
             var identity = Matrix.Identity(this.StateVectorDimension);
-            this.PosterioriErrorCovariance = (identity.Subtract(this.KalmanGain.Multiply(this.MeasurementMatrix))).Multiply(this.PrioriErrorCovariance.Transpose());
+            this.ErrorCovariance = (identity.Subtract(this.KalmanGain.Multiply(this.MeasurementMatrix))).Multiply(this.ErrorCovariance.Transpose());
         }
     }
 }

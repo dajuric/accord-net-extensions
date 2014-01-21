@@ -36,7 +36,7 @@ namespace Accord.Vision
             //get hue channel from search area
             var hsvImg = frame.Convert<Hsv, byte>(); //<<parallel operation>>
             //user constraints...
-            Image<Gray, byte> mask = hsvImg.InRange(new Hsv(0, 0, minV), new Hsv(0, 0, maxV), 2);
+            Image<Gray, byte> mask = hsvImg.InRange(new Hsv(0, 0, minV), new Hsv(0, 0, maxV), Byte.MaxValue, 2);
 
             originalObjHist.Calculate(hsvImg.GetSubRect(roi).SplitChannels(0, 1), !false, mask.GetSubRect(roi));
             originalObjHist.Scale((float)1 / roi.Area());
@@ -65,7 +65,7 @@ namespace Accord.Vision
             probabilityMap = ratioHist.BackProject(hsvImg.SplitChannels(0, 1)); //or new Image<Gray, byte>[]{ hsvImg[0], hsvImg[1]...} //<<parallel operation>>
 
             //user constraints...
-            Image<Gray, byte> mask = hsvImg.InRange(new Hsv(0, 0, minV), new Hsv(0, 0, maxV), 2);
+            Image<Gray, byte> mask = hsvImg.InRange(new Hsv(0, 0, minV), new Hsv(0, 0, maxV), Byte.MaxValue, 2);
             probabilityMap.And(mask, inPlace:true);
 
             //run Camshift algorithm to find new object position, size and angle
@@ -80,21 +80,6 @@ namespace Accord.Vision
 
         public CamshiftDemo()
         {
-            /*byte[,] mat = new byte[,] 
-            {
-                {0, 0, 0, 0},
-                {1, 1, 1, 1},
-                {0, 0, 0, 0}
-            };*/
-
-            //var matImg = mat.AsImage();
-            /*var matImg = ((Bitmap)Bitmap.FromFile("C:/elipse.bmp")).ToImage<Gray, byte>();
-
-            Camshift.Process(matImg, new Rectangle(Point.Empty, matImg.Size));
-            Accord.Imaging.Moments.CentralMoments c = new Imaging.Moments.CentralMoments(3);
-            c.Compute(matImg);
-            var size = c.GetSize();*/
-
             InitializeComponent();
             bar_ValueChanged(null, null); //write values to variables
             init(); //create histograms

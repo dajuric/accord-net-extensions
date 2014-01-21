@@ -11,5 +11,15 @@ namespace Accord.Statistics.Filters
         /// Particle's weight.
         /// </summary>
         double Weight { get; set; }
+
+        /// <summary>
+        /// Applies model transition without noise to a particle's state.
+        /// </summary>
+        void Drift();
+
+        /// <summary>
+        /// Applies noise to a particle's state.
+        /// </summary>
+        void Difuse();
     }
 }

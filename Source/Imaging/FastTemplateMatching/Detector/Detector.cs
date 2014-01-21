@@ -12,21 +12,6 @@ using Accord.Core;
 
 namespace LINE2D
 {
-    public static class ImageMatchExtensions
-    {
-        public static void Draw(this Image<Bgr, Byte> image, Match match, Bgr color, int featureRadius, int thickness)
-        {
-            var circles = match.Template.Features.Select(x => new CircleF
-                                                                {
-                                                                    X = x.X + match.X,
-                                                                    Y = x.Y + match.Y,
-                                                                    Radius = featureRadius
-                                                                });
-
-            image.Draw(circles, color, thickness);
-        }
-    }
-
     public unsafe class Detector
     {
         #region TemplatePyrmaid matching (public)

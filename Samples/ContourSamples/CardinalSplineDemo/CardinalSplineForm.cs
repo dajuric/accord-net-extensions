@@ -21,6 +21,15 @@ namespace CardinalSplineDemo
 
             var resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
             var pts = readCoordinates(Path.Combine(resourceDir, "handControlPoints.txt"));
+            /*var pts = new PointF[] //rectangle
+            {
+                new PointF(0, 0),
+                new PointF(0, 1),
+                new PointF(1, 1),
+                new PointF(1, 0)
+            }.ToList(); 
+            CardinalSpline.AddTensionPoints(pts); */
+
             modelPts = pts.Normalize().ToArray();
 
             timer.Enabled = true;
@@ -51,19 +60,19 @@ namespace CardinalSplineDemo
 
         #region Drawing
 
-        private void drawContour(IList<PointF> controlPoints, Image<Bgr, byte> image)
+        private static void drawContour(IList<PointF> controlPoints, Image<Bgr, byte> image)
         {
             const float CONTOUR_TENSION = 0;
 
             /********************  contour and control points *********************/
             var pointIndices = CardinalSpline.GetEqualyDistributedPoints(controlPoints, CONTOUR_TENSION, 500);
-            var points = CardinalSpline.Interpolate(controlPoints, CONTOUR_TENSION, pointIndices);
+            var points = CardinalSpline.InterpolateAt(controlPoints, CONTOUR_TENSION, pointIndices);
 
             var normals = new List<LineSegment2DF>();
             var normalIndices = CardinalSpline.GetEqualyDistributedPoints(controlPoints, CONTOUR_TENSION, 100);
             foreach (var idx in normalIndices)
             {
-                var pt = CardinalSpline.Interpolate(controlPoints, CONTOUR_TENSION, idx);
+                var pt = CardinalSpline.InterpolateAt(controlPoints, CONTOUR_TENSION, idx);
                 var normalDirection = CardinalSpline.NormalAt(controlPoints, CONTOUR_TENSION, idx);
                 var orientation = (int)Angle.ToDegrees(System.Math.Atan2(normalDirection.Y, normalDirection.X));
                 var normal = getLine(orientation, pt, 20);
@@ -95,6 +104,8 @@ namespace CardinalSplineDemo
         int dScale = 1, dAngle = -1;
         private void timer_Tick(object sender, EventArgs e)
         {
+            const int BORDER_OFFSET = 20;
+
             scale += 10 * dScale; if (scale > 300) dScale = -1; if (scale < 100) dScale = 1;
             angle += 5 * dAngle;  if (angle > 360) dAngle = -1; if (dAngle < 0) dAngle = 1;
 
@@ -107,9 +118,9 @@ namespace CardinalSplineDemo
             IEnumerable<PointF> pts = modelPts.Transform(transformation);
 
             var box = pts.BoundingRect(); //maybe apply it to bounding box instead of points (expensive)
-            pts = pts.Transform(Transforms2D.Translation(-box.X, -box.Y));
+            pts = pts.Transform(Transforms2D.Translation(-box.X + BORDER_OFFSET, -box.Y + BORDER_OFFSET));
 
-            var image = new Image<Bgr, byte>(scale, scale);
+            var image = new Image<Bgr, byte>(scale + BORDER_OFFSET * 2, scale + BORDER_OFFSET * 2);
             drawContour(pts.ToList(), image);
             pictureBox.Image = image.ToBitmap();
         }

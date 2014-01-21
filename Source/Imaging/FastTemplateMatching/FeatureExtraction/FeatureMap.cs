@@ -85,8 +85,13 @@ namespace LINE2D
         /// Take only those orientations that have MINIMAL_NUM_OF_SAME_ORIENTED_PIXELS in 3x3 negborhood.
         /// Perfroms angle transformation into binary form ([0..7] -> [1, 2, 4, 8, ..., 128]) as well.
         /// </summary>
-        private static Image<Gray, Byte> RetainImportantQuantizedOrientations(Image<Gray, Byte> qunatizedOrientionImg)
+        /// <param name="qunatizedOrientionImg">Quantized orientation image where angles are represented by lables [0..GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS] (invalid orientation label included).</param>
+        /// <param name="minSameOrientations">Minimal number of same orientations for 3x3 neigborhood. The range is: [0..9] (3x3 neigborhood).</param>
+        private static Image<Gray, Byte> RetainImportantQuantizedOrientations(Image<Gray, Byte> qunatizedOrientionImg, int minSameOrientations)
         {
+            if (minSameOrientations < 0 || minSameOrientations > 9 /*3x3 neigborhood*/)
+                throw new Exception("Minimal number of same orientations should be in: [0..9].");
+
             //debugImg = new Image<Hsv, byte>(orientDegImg.Width, orientDegImg.Height);
             //debugImg = null;
             int qOrinetStride = qunatizedOrientionImg.Stride;
@@ -98,8 +103,6 @@ namespace LINE2D
             byte* qOrinetFilteredPtr = (byte*)quantizedFilteredOrient.ImageData + qOrinetStride + 1;
 
  //Debug.Assert(qunatizedOrientionImg.Stride == quantizedFilteredOrient.Stride);
-
-            const int MINIMAL_NUM_OF_SAME_ORIENTED_PIXELS = 4;
 
             int imgWidth = qunatizedOrientionImg.Width;
             int imgHeight = qunatizedOrientionImg.Height;
@@ -113,7 +116,7 @@ namespace LINE2D
                         byte[] histogram = new byte[INVALID_QUANTIZED_ORIENTATION + 1]; //gleda se susjedstvo 3x3
 
                         histogram[qOrinetUnfilteredPtr[-qOrinetStride - 1]]++; histogram[qOrinetUnfilteredPtr[-qOrinetStride + 0]]++; histogram[qOrinetUnfilteredPtr[-qOrinetStride + 1]]++;
-                        histogram[qOrinetUnfilteredPtr[-1]]++; histogram[qOrinetUnfilteredPtr[0]]++; histogram[qOrinetUnfilteredPtr[+1]]++;
+                        histogram[qOrinetUnfilteredPtr[-1]]++;                 histogram[qOrinetUnfilteredPtr[0]]++;                  histogram[qOrinetUnfilteredPtr[+1]]++;
                         histogram[qOrinetUnfilteredPtr[+qOrinetStride - 1]]++; histogram[qOrinetUnfilteredPtr[+qOrinetStride + 0]]++; histogram[qOrinetUnfilteredPtr[+qOrinetStride + 1]]++;
 
                         int maxBinVotes = 0; byte quantizedAngle = 0;
@@ -126,7 +129,7 @@ namespace LINE2D
                             }
                         }
 
-                        if (maxBinVotes >= MINIMAL_NUM_OF_SAME_ORIENTED_PIXELS)
+                        if (maxBinVotes >= minSameOrientations)
                             *qOrinetFilteredPtr = (byte)(1 << quantizedAngle); //[1,2,4,8...128] (8 orientations)
 
                         //*qOrinetFilteredPtr = (byte)(1 << *qOrinetUnfilteredPtr); //[1,2,4,8...128] (8 orientations)
@@ -204,10 +207,10 @@ namespace LINE2D
 
         #endregion
 
-        public static Image<Gray, byte> Caclulate(Image<Gray, int> orientationDegImg, int spreadNeigborhood)
+        public static Image<Gray, byte> Caclulate(Image<Gray, int> orientationDegImg, int spreadNeigborhood, int minSameOrientations = 4)
         {
             Image<Gray, Byte> quantizedOrient = FeatureMap.QuantizeOrientations(orientationDegImg);
-            Image<Gray, Byte> importantQuantizedOrient = FeatureMap.RetainImportantQuantizedOrientations(quantizedOrient);
+            Image<Gray, Byte> importantQuantizedOrient = FeatureMap.RetainImportantQuantizedOrientations(quantizedOrient, minSameOrientations);
 
             Image<Gray, Byte> sprededQuantizedOrient = importantQuantizedOrient;
             if(spreadNeigborhood > 1)

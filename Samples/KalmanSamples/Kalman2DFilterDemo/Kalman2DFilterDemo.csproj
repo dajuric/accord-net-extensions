@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConstantVelocityProcess.cs" />
     <Compile Include="Kalman2dDemo.cs">
       <SubType>Form</SubType>
     </Compile>

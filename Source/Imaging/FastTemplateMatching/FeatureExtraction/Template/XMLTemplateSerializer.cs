@@ -11,6 +11,10 @@ using System.Xml.Serialization;
 
 namespace LINE2D
 {
+    /// <summary>
+    /// Serializes and deserializes list of template pyramids into/from XML file.
+    /// If a template implements <see cref="IXmlSerializable"/> interface additional data provided by a user may be serialized/deserialized as well.
+    /// </summary>
     public class XMLTemplateSerializer<TTemplatePyramid, TTemplate>
         where TTemplatePyramid: ITemplatePyramid<TTemplate>, new()
         where TTemplate: ITemplate, new()
@@ -39,16 +43,19 @@ namespace LINE2D
                 xElem.Add(SerializeTemplateFeature(feature));
             }
 
-            XElement xElemAditionalData = new XElement("AditionalData");
-            using (var v = xElemAditionalData.CreateWriter())
+            if (t is IXmlSerializable)
             {
-                t.WriteXml(v);
-                v.Flush(); 
-            }
+                XElement xElemAditionalData = new XElement("AditionalData");
+                using (var v = xElemAditionalData.CreateWriter())
+                {
+                    ((IXmlSerializable)t).WriteXml(v);
+                    v.Flush();
+                }
 
-            if (string.IsNullOrEmpty(xElemAditionalData.Value) ==  false)
-            {
-                xElem.Add(xElemAditionalData);
+                if (string.IsNullOrEmpty(xElemAditionalData.Value) == false)
+                {
+                    xElem.Add(xElemAditionalData);
+                }
             }
 
             return xElem;
@@ -165,10 +172,12 @@ namespace LINE2D
             TTemplate t = new TTemplate();
             t.Initialize(features.ToArray(), new System.Drawing.Size(width, height), templateClass);
 
-            XElement aditionalDataNode = templateNode.Descendants("AditionalData").FirstOrDefault();
-            if (aditionalDataNode != null)
-                t.ReadXml(aditionalDataNode.CreateReader());
-
+            if (t is IXmlSerializable)
+            {
+                XElement aditionalDataNode = templateNode.Descendants("AditionalData").FirstOrDefault();
+                if (aditionalDataNode != null)
+                    ((IXmlSerializable)t).ReadXml(aditionalDataNode.CreateReader());
+            }
             return t;
         }
 

@@ -12,10 +12,10 @@ namespace Accord.Vision
         /// <summary>
         /// Meanshift algorithm
         /// </summary>
-        /// <param name="probabilityMap">Probability map [0-1].</param>
+        /// <param name="probabilityMap">Probability map [0-255].</param>
         /// <param name="roi">Initial search area</param>
-        /// <param name="termCriteria">Mean shift termination criteria (PLEASE DO NOT REMOVE (but you can move it) THIS CLASS; PLEASE!!!)</param>
-        /// <param name="centralMoments">Calculated central moments.</param>
+        /// <param name="termCriteria">Mean shift termination criteria</param>
+        /// <param name="centralMoments">Calculated central moments (up to order 2).</param>
         /// <returns>Object area.</returns>
         public static Rectangle Process(Image<Gray, byte> probabilityMap, Rectangle roi, TermCriteria termCriteria, out CentralMoments centralMoments)
         {

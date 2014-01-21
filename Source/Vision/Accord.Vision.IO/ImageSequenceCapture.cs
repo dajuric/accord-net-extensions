@@ -24,22 +24,20 @@ namespace Accord.Vision
         {
             this.SupportsPausing = true;
 
-            string ext = "." + extension.TrimStart('.', '*');
+            string ext = "*." + extension.TrimStart('.', '*');
             DirectoryInfo directoryInfo = new DirectoryInfo(filePath);
 
             IEnumerable<string> files = null;
 
             if (useNaturalSorting)
             {
-                files = directoryInfo.EnumerateFiles()
-                        .Where(f=>f.Extension == ext)
+                files = directoryInfo.EnumerateFiles(ext, SearchOption.TopDirectoryOnly)
                         .OrderBy(f => f.Name, new NaturalSortComparer<string>())
-                        .Select(f=>f.FullName);            
+                        .Select(f => f.FullName);            
             }
             else
             { 
-                 files = from file in directoryInfo.EnumerateFiles()
-                         where file.Extension == ext
+                 files = from file in directoryInfo.EnumerateFiles(ext, SearchOption.TopDirectoryOnly)
                          select file.FullName;
             }
 

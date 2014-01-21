@@ -19,12 +19,12 @@ namespace Accord.Math.Geometry
             return deg;
         }
 
-        public static double NormalizeDegrees(double angleDeg)
+        public static double NormalizeDegrees(double angleDeg, float angleMaxVal = 360)
         {
-            angleDeg %= 360;
+            angleDeg %= angleMaxVal;
 
             if (angleDeg < 0)
-                angleDeg += 360;
+                angleDeg += angleMaxVal;
 
             return angleDeg;
         }
@@ -32,6 +32,13 @@ namespace Accord.Math.Geometry
         public static double ToRadians(double angleDeg)
         {
             return angleDeg * System.Math.PI / 180;
+        }
+
+        public static double DistanceDeg(double angleDegA, double angleDegB)
+        {
+            var dist = angleDegB - angleDegA;
+            dist = (dist + 180) % 360 - 180;
+            return dist;
         }
     }
 }
