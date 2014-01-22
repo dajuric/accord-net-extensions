@@ -77,8 +77,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FeatureMap\ModelParticle.cs" />
-    <Compile Include="FeatureMap\OpenHandTemplate.cs" />
+    <Compile Include="Model\ModelParams.cs" />
+    <Compile Include="Particle\ModelParticle.cs" />
+    <Compile Include="Model\ModelRepository.cs" />
+    <Compile Include="Model\OpenHandTemplate.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.ForEach.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.MaxBy.cs" />
     <Compile Include="ParticleFilterModelFittingDemo.cs">

@@ -5,6 +5,12 @@ using System.Threading.Tasks;
 
 namespace Accord.Statistics.Filters
 {
+    /// <summary>
+    /// Contains extensions methods that operate on collection of particles.
+    /// </summary>
+    /// <remarks>
+    /// See lectures: <see cref="http://www.kev-smith.com/teaching/L7_ParticleFilters.pdf"/>
+    /// </remarks>
     public static partial class ParticleFilter
     {      
         #region Predict Methods

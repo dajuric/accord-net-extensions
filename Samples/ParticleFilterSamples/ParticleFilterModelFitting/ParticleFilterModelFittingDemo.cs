@@ -249,7 +249,8 @@ namespace ParticleFilterModelFitting
             videoCapture.VideoSize = imgSize; //set new Size(0,0) for the lowest one
 
             this.FormClosing += ColorParticleDemo_FormClosing;
-            Application.Idle += videoCapture_ProcessFrame;
+            //Application.Idle += videoCapture_ProcessFrame;
+            videoCapture.NewFrame += videoCapture_ProcessFrame;
             videoCapture.Start();
         }
 
