@@ -22,7 +22,6 @@ namespace ParticleFilterModelFitting
         Image<Bgr, byte> debugImg;
 
         IEnumerable<ModelParticle> particleFilter;
-        IEnumerable<ModelParticle> bestParticles;
 
         LinearizedMapPyramid linPyr = null;
         static MatchClustering matchClustering = new MatchClustering();
@@ -53,13 +52,13 @@ namespace ParticleFilterModelFitting
                                                         //rotation
                                                         new DoubleRange(-15, 15)
                                                     },
-                                                    ModelParticle.FromParameters)/*.Distinct().ToList()*/;
+                                                    ModelParticle.FromParameters).Distinct().ToList();
 
             //particleFilter = templates.Select(x => ModelParticle.FromParameters(x.Key.ModelTypeIndex, x.Key.Scale, x.Key.Angle)).ToList();
 
             //initalParticles = particleFilter.Select(x => (ModelParticle)x.Clone()).ToList();
 
-            //particleFilter2 = particleFilter.Select(x => (ModelParticle)x.Clone()).ToList();
+            particleFilter2 = particleFilter.Select(x => (ModelParticle)x.Clone()).ToList();
         }
 
         private void predict()
@@ -69,37 +68,28 @@ namespace ParticleFilterModelFitting
                    //drift
                    (p) => p.Drift(),
                    //diffuse
-                   (p) => 
-                   {
-                       if (bestParticles == null || bestParticles.Contains(p) == false)
-                       {
-                           p.Difuse();
-                       }
-                   }
+                   (p) => p.Difuse()
                 );
+
+            particleFilter = particleFilter.Distinct(); //some particles can be the same
         }
 
         private void update()
         {
-            var nBestParticles = 0;
-
-            particleFilter.Update
+            particleFilter = particleFilter.Update
                 (
                     //measure
                     particles => measure(linPyr, particles.ToList()),
                     //normalize
-                    particles => ParticleFilter.SimpleNormalizer(particles.Skip(nBestParticles)),
+                    particles => ParticleFilter.SimpleNormalizer(particles),
                     //re-sample
                     (particles, normalizedWeights) => 
                     {
-                        var sortedParticles = particles.OrderByDescending(x => x.Weight).ToList();
-                        bestParticles = sortedParticles.Take(nBestParticles).ToList();
-
-                        var sampledParticles = ParticleFilter.SimpleResampler(sortedParticles.Skip(nBestParticles).ToList(), 
+                        var sampledParticles = ParticleFilter.SimpleResampler(particleFilter.ToList(), 
                                                                               normalizedWeights.ToList(), 
                                                                               NUMBER_OF_PARTICLES);
 
-                        return bestParticles.Concat(sampledParticles);
+                        return sampledParticles;
                     }
                 );
         }
@@ -137,6 +127,7 @@ namespace ParticleFilterModelFitting
             //frame.Save("C:/bla.jpg");
         }
 
+        int a = 0;
         private void exec(Image<Bgr, byte> img)
         {
             var grayIm = img.Convert<Gray, byte>();
@@ -144,9 +135,13 @@ namespace ParticleFilterModelFitting
 
             debugImg.Clear();
 
+
             exec0(linPyr);
             //exec1(linPyr);
             //exec2(linPyr);
+            //frame.Save(String.Format("C:/results/image_{0}.png", a));
+
+            a++;
 
             this.pictureBoxDebug.Image = debugImg.ToBitmap();
         }
@@ -154,7 +149,6 @@ namespace ParticleFilterModelFitting
         private void exec0(LinearizedMapPyramid linPyr)
         {
             predict();
-            measure(linPyr, particleFilter.ToList());
             update();
 
             var sortedParticles = particleFilter.OrderByDescending(x => x.Weight);
@@ -162,7 +156,7 @@ namespace ParticleFilterModelFitting
 
             if (p.Weight < 0.5) return;
             if (p.MetaData != null)
-                frame.Draw(p.MetaData, new Bgr(Color.Red), 1);
+                frame.Draw(p.MetaData, new Bgr(Color.Blue), 1);
 
             Console.WriteLine(String.Format("W: {0:0.00}, S:{1:00}, A:{2:00}",
                                        p.Weight, p.ModelParameters.Scale, p.ModelParameters.Angle));
@@ -237,7 +231,7 @@ namespace ParticleFilterModelFitting
 
             try
             {
-                videoCapture = new ImageSequenceCapture("C:/probaImages", ".jpg", 500); 
+                videoCapture = new ImageSequenceCapture("C:/probaImages", ".jpg", 1); 
                 //videoCapture = new Capture();
             }
             catch (Exception)

@@ -29,7 +29,7 @@ namespace ParticleFilterModelFitting
         {}
 
         public void Difuse()
-        { 
+        {
             var angle = ModelParameters.Angle + rand.Next(-15, +15 + 1);
             ModelParameters.Angle = (short)angle;
 
@@ -97,7 +97,9 @@ namespace ParticleFilterModelFitting
                 //ITemplate
                 Size = this.Size,
                 Features = this.Features,
-                ClassLabel = this.ClassLabel
+                ClassLabel = this.ClassLabel,
+                //meta-data
+                MetaData = this.MetaData
             };
         }
 

@@ -1,6 +1,7 @@
 ﻿using Accord.Statistics.Distributions.Univariate;
 using AForge;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Accord.Statistics.Filters
     public static partial class ParticleFilter
     {
         /// <summary>
-        /// Particle states are initialized randomly according to provied ranges <see cref="ranges"/>
+        /// Particle states are initialized randomly according to provided ranges <see cref="ranges"/>
         /// </summary>
         /// <param name="numberOfParticles">Number of particles to create.</param>
         /// <param name="model">Process model.</param>
@@ -68,22 +69,30 @@ namespace Accord.Statistics.Filters
 
         /// <summary>
         /// Draws particles according to particle's weight.
+        /// <param name="particles">Particles from which to draw samples. If they are already sorted.</param>
         /// </summary>
-        public static IEnumerable<TParticle> SimpleResampler<TParticle>(IList<TParticle> particles, IList<double> normalizedWeights, int nSamples)
+        public static IEnumerable<TParticle> SimpleResampler<TParticle>(IList<TParticle> particles, IList<double> normalizedWeights, int nSamples, bool sortParticles = true)
               where TParticle : class, IParticle
         {
+            Int32[] sortedIndices = Enumerable.Range(0, particles.Count).ToArray();
+            if (sortParticles)
+            {
+                Array.Sort(sortedIndices, (a, b) => particles[a].Weight.CompareTo(particles[b].Weight));     
+            }
+
             /*************** calculate cumulative weights ****************/
             double[] cumulativeWeights = new double[particles.Count];
-            cumulativeWeights[0] = normalizedWeights.First();
 
-            for (int i = 1; i < particles.Count; i++)
+            int cumSumIdx = 0;
+            double cumSum = 0;
+            foreach (var idx in sortedIndices)
             {
-                cumulativeWeights[i] = cumulativeWeights[i - 1] + normalizedWeights[i];
+                cumSum +=normalizedWeights[idx];
+                cumulativeWeights[cumSumIdx++] = cumSum;
             }
             /*************** calculate cumulative weights ****************/
 
-
-            /*************** resample particles ****************/
+            /*************** re-sample particles ****************/
             var resampledParticles = new List<TParticle>();
             double initialWeight = 1d / particles.Count;
 
@@ -91,20 +100,20 @@ namespace Accord.Statistics.Filters
 
             for (int i = 0; i < nSamples; i++)
             {
-                var randWeight = cumulativeWeights.First() + rand.NextDouble() * (cumulativeWeights.Last() - cumulativeWeights.First());
-
+                var randWeight = cumulativeWeights[0] + rand.NextDouble() * (cumulativeWeights[particles.Count - 1] - cumulativeWeights[0]);
+               
                 int particleIdx = 0;
                 while (cumulativeWeights[particleIdx] < randWeight) //find particle's index
                 {
                     particleIdx++;
                 }
 
-                var newParticle = (TParticle)particles[particleIdx].Clone();
+                var newParticle = (TParticle)particles[sortedIndices[particleIdx]].Clone();
                 //newParticle.Weight = initialWeight;
 
                 resampledParticles.Add(newParticle);
             }
-            /*************** resample particles ****************/
+            /*************** re-sample particles ****************/
 
             return resampledParticles;
         }
