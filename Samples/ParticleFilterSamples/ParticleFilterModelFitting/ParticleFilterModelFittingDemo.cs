@@ -151,12 +151,17 @@ namespace ParticleFilterModelFitting
             predict();
             update();
 
-            var sortedParticles = particleFilter.OrderByDescending(x => x.Weight);
-            var p = sortedParticles.First();
+            var p = particleFilter.MaxBy(x => x.Weight);
 
             if (p.Weight < 0.5) return;
             if (p.MetaData != null)
+            {
                 frame.Draw(p.MetaData, new Bgr(Color.Blue), 1);
+
+                var text = String.Format("W: {0:0.00}, S:{1:00}, A:{2:00}",
+                                         p.Weight, p.ModelParameters.Scale, p.ModelParameters.Angle);
+                frame.DrawAnnotation(p.MetaData.BoundingRect, text, 125);
+            }
 
             Console.WriteLine(String.Format("W: {0:0.00}, S:{1:00}, A:{2:00}",
                                        p.Weight, p.ModelParameters.Scale, p.ModelParameters.Angle));

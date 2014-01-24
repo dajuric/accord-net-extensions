@@ -14,7 +14,14 @@ namespace Accord.Imaging
 {
     public static class DrawingExtensions
     {
-        private static Color getColor<TColor>(TColor color)
+        /// <summary>
+        /// Gets System.Drawing.Color from TColor
+        /// </summary>
+        /// <typeparam name="TColor">Member of IColor</typeparam>
+        /// <param name="color">Color.</param>
+        /// <param name="opacity">Opacity. If color has 4 channels opacity is discarded.</param>
+        /// <returns>System.Drawing.Color</returns>
+        private static Color getColor<TColor>(TColor color, byte opacity = 255)
             where TColor : IColor
         {
             int[] colorArr = HelperMethods.ColorToArray<TColor, int>(color);
@@ -23,11 +30,11 @@ namespace Accord.Imaging
             switch (colorArr.Length)
             { 
                 case 1:
-                    return Color.FromArgb(0, 0, colorArr[0]);
+                    return Color.FromArgb(opacity, 0, colorArr[0]);
                 case 2:
-                    return Color.FromArgb(0, colorArr[0], colorArr[1]);
+                    return Color.FromArgb(opacity, colorArr[0], colorArr[1]);
                 case 3:
-                    return Color.FromArgb(colorArr[0], colorArr[1], colorArr[2]);
+                    return Color.FromArgb(opacity, colorArr[0], colorArr[1], colorArr[2]);
                 case 4:
                     return Color.FromArgb(colorArr[0], colorArr[1], colorArr[2], colorArr[3]);
             }
@@ -55,20 +62,24 @@ namespace Accord.Imaging
         /// <param name="image">Input image.</param>
         /// <param name="rect">Rectangle.</param>
         /// <param name="color">Object's color.</param>
-        /// <param name="width">Border thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, RectangleF rect, TColor color, float width)
+        /// <param name="width">Border thickness. If less than zero strcuture will be filled.</param>
+        /// <param name="opacity">Opacity for color. If color is 4 channel color, parameter value is discarded.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, RectangleF rect, TColor color, float width, byte opacity = Byte.MaxValue)
             where TColor: IColor3
         {
             if (float.IsNaN(rect.X) || float.IsNaN(rect.Y))
                 return;
 
-            Color drawingColor = getColor(color);
+            Color drawingColor = getColor(color, opacity);
             Pen pen = new Pen(drawingColor, width);
 
             var bmp = image.ToBitmap(false, true);
             using (Graphics g = Graphics.FromImage(bmp))
             {
-                g.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
+                if (width > 0)
+                    g.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
+                else
+                    g.FillRectangle(new SolidBrush(drawingColor), rect);
             }
         }
 
@@ -87,20 +98,20 @@ namespace Accord.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, string text, Font font, PointF leftUpperPoint, TColor color)
             where TColor : IColor3
         {
-            try
-            {
-                Color drawingColor = getColor(color);
-                Brush brush = new SolidBrush(drawingColor);
+            var region = new RectangleF(leftUpperPoint, SizeF.Empty);
+            Draw(image, text, font, region, color);
+        }
 
-                var bmp = image.ToBitmap(false, true);
-                using (Graphics g = Graphics.FromImage(bmp))
-                {
-                    g.DrawString(text, font, brush, leftUpperPoint);
-                }
-            }
-            catch (Exception) 
+        public static void Draw<TColor>(this Image<TColor, byte> image, string text, Font font, RectangleF region, TColor color)
+           where TColor : IColor3
+        {
+            Color drawingColor = getColor(color);
+            Brush brush = new SolidBrush(drawingColor);
+
+            var bmp = image.ToBitmap(false, true);
+            using (Graphics g = Graphics.FromImage(bmp))
             {
-                Console.WriteLine("String drawing exception!");
+                g.DrawString(text, font, brush, region);
             }
         }
 
@@ -136,7 +147,6 @@ namespace Accord.Imaging
         }
 
         #endregion
-
 
         #region Line
 
@@ -336,6 +346,36 @@ namespace Accord.Imaging
                     g.DrawEllipse(pen, c.X - c.Radius, c.Y - c.Radius, c.Radius * 2, c.Radius * 2);
                 }
             }
+        }
+
+        #endregion
+
+        #region Annotations
+
+        /// <summary>
+        /// Draws rectangle annotation.
+        /// </summary>
+        /// <param name="image">Image.</param>
+        /// <param name="rect">User specified area to annotate.</param>
+        /// <param name="text">Label.</param>
+        /// <param name="annotationWidth">Width of annotation rectangle.</param>
+        /// <param name="color">Color for rectangle. Label area is filled. Default color is yellow-green.</param>
+        /// <param name="textColor">Label color. Default color is black.</param>
+        /// <param name="font">Font to use. Default is "Arial" of size 10.</param>
+        public static void DrawAnnotation(this Image<Bgr, byte> image, Rectangle rect, string text, int annotationWidth = 100, Bgr color = default(Bgr), Bgr textColor = default(Bgr), Font font = null)
+        {
+            color = color.Equals(default(Bgr)) ? new Bgr(Color.YellowGreen) : color;
+            textColor = textColor.Equals(default(Bgr)) ? new Bgr(Color.Black) : color;
+            font = font ?? new Font("Arial", 10);
+
+            var annotationHeight = (int)(font.SizeInPoints + 3 + 3);
+            var annotationRect = new Rectangle(rect.X, rect.Y - annotationHeight, annotationWidth, annotationHeight);
+
+            image.Draw(annotationRect, color, 1);
+            image.Draw(rect, color, 1);
+            image.Draw(annotationRect, color, -1, 80);
+
+            image.Draw(text, font, annotationRect, textColor);
         }
 
         #endregion
