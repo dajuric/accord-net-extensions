@@ -17,7 +17,7 @@ namespace ParticleFilterModelFitting
 {
     public partial class ParticleFilterModelFittingDemo : Form
     {
-        const int NUMBER_OF_PARTICLES = 1000;
+        const int NUMBER_OF_PARTICLES = 200;
         Size imgSize = new Size(640 / 2, 480 / 2);
         Image<Bgr, byte> debugImg;
 
