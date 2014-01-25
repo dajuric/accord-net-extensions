@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System;
 using Accord.Core;
+using System.Collections.Generic;
+
 
 namespace LINE2D
 {
@@ -18,6 +20,15 @@ namespace LINE2D
         public Rectangle BoundingRect
         {
             get { return GetBoundingRect(this as Match<ITemplate>); }
+        }
+
+        public IEnumerable<AForge.Point> Points
+        {
+            get 
+            {
+                return Template.Features
+                       .Select(x => new AForge.Point(X + x.X, Y + x.Y));
+            }
         }
 
         public static Rectangle GetBoundingRect(Match<ITemplate> m)

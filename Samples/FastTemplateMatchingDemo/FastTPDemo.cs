@@ -1,7 +1,6 @@
 ﻿using Accord.Imaging;
 using Accord.Vision;
 using LINE2D;
-using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +9,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PointF = AForge.Point;
+
 
 //with template mask
 /*using Template = LINE2D.ImageTemplateWithMask;

@@ -29,7 +29,7 @@ namespace LINE2D
                                             (image, minFeatures, maxFeatures, label) => 
                                             {
                                                 var t = new T();
-                                                t.Initialize(sourceImage, minFeatureStrength, maxFeatures, label, null);
+                                                t.Initialize(sourceImage, minFeatureStrength, maxFeatures, label);
                                                 return t;
                                             },
                                             minNumberOfFeatures, maxNumberOfFeaturesPerLevel);
@@ -41,7 +41,7 @@ namespace LINE2D
                                             (image, minFeatures, maxFeatures, label) =>
                                             {
                                                 var t = new T();
-                                                t.Initialize(sourceImage, minFeatureStrength, maxFeatures, label, null);
+                                                t.Initialize(sourceImage, minFeatureStrength, maxFeatures, label);
                                                 return t;
                                             },
                                             minNumberOfFeatures, maxNumberOfFeaturesPerLevel);

@@ -12,6 +12,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using PointF = AForge.Point;
 
 namespace ParticleFilterModelFitting
 {
@@ -119,7 +120,7 @@ namespace ParticleFilterModelFitting
                 if (particle.Weight < score)
                 {
                     particle.Weight = score; //1 particle may correspond to several matches
-                    particle.MetaData = m; //WARNING: circular reference
+                    particle.MetaData = m; //WARNING: circular reference (template inside match is particle again)
                 }
             }
             bestGroup.Representative = bestGroup.Detections.MaxBy(x => x.Score);
@@ -128,15 +129,17 @@ namespace ParticleFilterModelFitting
         }
 
         int a = 0;
-        private void exec(Image<Bgr, byte> img)
+        private void exec(Image<Bgr, byte> img, out long matchTimeMs)
         {
             var grayIm = img.Convert<Gray, byte>();
             linPyr = LinearizedMapPyramid.CreatePyramid(grayIm); //prepare linear-pyramid maps
 
             debugImg.Clear();
 
-
-            exec0(linPyr);
+            matchTimeMs = measure
+            (
+                () => exec0(linPyr)
+            );
             //exec1(linPyr);
             //exec2(linPyr);
             //frame.Save(String.Format("C:/results/image_{0}.png", a));
@@ -153,14 +156,15 @@ namespace ParticleFilterModelFitting
 
             var p = particleFilter.MaxBy(x => x.Weight);
 
-            if (p.Weight < 0.5) return;
+            if (p.Weight == 0) return;
             if (p.MetaData != null)
             {
-                frame.Draw(p.MetaData, new Bgr(Color.Blue), 1);
+                //frame.Draw(p.MetaData, new Bgr(Color.Blue), 1);
+                frame.Draw(p.MetaData.Points, new Bgr(Color.Blue), 3);
 
-                var text = String.Format("W: {0:0.00}, S:{1:00}, A:{2:00}",
+                var text = String.Format("W: {0:0.00}, \nS:{1:00}, A:{2:00}",
                                          p.Weight, p.ModelParameters.Scale, p.ModelParameters.Angle);
-                frame.DrawAnnotation(p.MetaData.BoundingRect, text, 125);
+                frame.DrawAnnotation(p.MetaData.BoundingRect, text, 80);
             }
 
             Console.WriteLine(String.Format("W: {0:0.00}, S:{1:00}, A:{2:00}",
@@ -236,8 +240,8 @@ namespace ParticleFilterModelFitting
 
             try
             {
-                videoCapture = new ImageSequenceCapture("C:/probaImages", ".jpg", 1); 
-                //videoCapture = new Capture();
+                //videoCapture = new ImageSequenceCapture("C:/probaImages", ".jpg", 1); 
+                videoCapture = new Capture();
             }
             catch (Exception)
             {
@@ -265,12 +269,13 @@ namespace ParticleFilterModelFitting
 
             long start = DateTime.Now.Ticks;
 
-            exec(frame);
+            long matchTimeMs;
+            exec(frame, out matchTimeMs);
 
             long end = DateTime.Now.Ticks;
             long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
 
-            frame.Draw("Processed: " + elapsedMs + " ms", font, new System.Drawing.PointF(15, 10), new Bgr(0, 255, 0));
+            frame.Draw("Processed: " + matchTimeMs /*elapsedMs*/ + " ms", font, new PointF(15, 10), new Bgr(0, 255, 0));
             this.pictureBox.Image = frame.ToBitmap();
 
             GC.Collect();
@@ -302,6 +307,17 @@ namespace ParticleFilterModelFitting
                     img.Save(fileName);
                 }
             }
+        }
+
+        private static long measure(Action action)
+        {
+            long start = DateTime.Now.Ticks;
+
+            action();
+
+            long end = DateTime.Now.Ticks;
+            long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
+            return elapsedMs;
         }
 
         #endregion

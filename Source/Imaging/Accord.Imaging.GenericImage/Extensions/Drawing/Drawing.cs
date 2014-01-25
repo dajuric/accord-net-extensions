@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using AForge.Math.Geometry;
 using AForge.Imaging;
 using Accord.Core;
+using Point = AForge.IntPoint;
+using PointF = AForge.Point;
 
 namespace Accord.Imaging
 {
@@ -52,6 +54,16 @@ namespace Accord.Imaging
                 colorArr[2] = temp;
             }
 
+        }
+
+        private static System.Drawing.Point getPt(Point pt)
+        {
+            return new System.Drawing.Point(pt.X, pt.Y);
+        }
+
+        private static System.Drawing.PointF getPt(PointF pt)
+        {
+            return new System.Drawing.PointF(pt.X, pt.Y);
         }
 
         #region Rectangle
@@ -98,7 +110,7 @@ namespace Accord.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, string text, Font font, PointF leftUpperPoint, TColor color)
             where TColor : IColor3
         {
-            var region = new RectangleF(leftUpperPoint, SizeF.Empty);
+            var region = new RectangleF(getPt(leftUpperPoint), SizeF.Empty);
             Draw(image, text, font, region, color);
         }
 
@@ -132,7 +144,7 @@ namespace Accord.Imaging
             Color drawingColor = getColor(color);
             Pen pen = new Pen(drawingColor, width);
 
-            PointF[] vertices = box.GetVertices();
+            System.Drawing.PointF[] vertices = box.GetVertices();
 
             var bmp = image.ToBitmap(false, true);
             using (Graphics g = Graphics.FromImage(bmp))
@@ -251,7 +263,7 @@ namespace Accord.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<Point> contour, TColor color, float width)
             where TColor : IColor3
         {
-            var contourArr = contour.ToArray();
+            var contourArr = contour.Select(x => getPt(x)).ToArray();
             if (contourArr.Length < 2)
                 return;
 
@@ -261,7 +273,7 @@ namespace Accord.Imaging
             var bmp = image.ToBitmap(false, true);
             using (Graphics g = Graphics.FromImage(bmp))
             {
-                g.DrawCurve(pen, contour.ToArray());
+                g.DrawCurve(pen, contourArr);
             }
         }
 
@@ -275,7 +287,7 @@ namespace Accord.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<PointF> contour, TColor color, float width, bool connectPoints = true)
             where TColor : IColor3
         {
-            var contourArr = contour.ToArray();
+            var contourArr = contour.Select(x => getPt(x)).ToArray();
             if (contourArr.Length < 2)
                 return;
 
@@ -288,7 +300,7 @@ namespace Accord.Imaging
             {
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
-                    g.DrawCurve(pen, contour.ToArray());
+                    g.DrawCurve(pen, contourArr);
                 }
             }
             else
@@ -361,14 +373,15 @@ namespace Accord.Imaging
         /// <param name="annotationWidth">Width of annotation rectangle.</param>
         /// <param name="color">Color for rectangle. Label area is filled. Default color is yellow-green.</param>
         /// <param name="textColor">Label color. Default color is black.</param>
-        /// <param name="font">Font to use. Default is "Arial" of size 10.</param>
+        /// <param name="font">Font to use. Default is "Arial" of size 10, style: Bold.</param>
         public static void DrawAnnotation(this Image<Bgr, byte> image, Rectangle rect, string text, int annotationWidth = 100, Bgr color = default(Bgr), Bgr textColor = default(Bgr), Font font = null)
         {
             color = color.Equals(default(Bgr)) ? new Bgr(Color.YellowGreen) : color;
             textColor = textColor.Equals(default(Bgr)) ? new Bgr(Color.Black) : color;
-            font = font ?? new Font("Arial", 10);
+            font = font ?? new Font("Arial", 10, FontStyle.Bold);
 
-            var annotationHeight = (int)(font.SizeInPoints + 3 + 3);
+            var nLines = text.Where(x => x.Equals('\n')).Count() + 1;
+            var annotationHeight = (int)(3 + (font.SizeInPoints + 3) * nLines + 3);
             var annotationRect = new Rectangle(rect.X, rect.Y - annotationHeight, annotationWidth, annotationHeight);
 
             image.Draw(annotationRect, color, 1);

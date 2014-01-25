@@ -24,16 +24,22 @@ namespace LINE2D
             this.ClassLabel = label;
         }
 
-        public virtual void Initialize(Image<Bgr, byte> sourceImage, int minFeatureStrength, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        public virtual void Initialize(Image<Bgr, byte> sourceImage, int minFeatureStrength, int maxNumberOfFeatures, string classLabel)
         {
-            Image<Gray, int> orientationImg = GradientComputation.ComputeOrientation(sourceImage, minFeatureStrength);
+            Image<Gray, int> sqrMagImg;
+            Image<Gray, int> orientationImg = GradientComputation.Compute(sourceImage, out sqrMagImg, minFeatureStrength);
+
+            Func<Feature, int> featureImportanceFunc = (feature) => *(byte*)sqrMagImg.GetData(feature.Y, feature.X);
 
             Initialize(orientationImg, maxNumberOfFeatures, classLabel, featureImportanceFunc);
         }
 
-        public virtual void Initialize(Image<Gray, byte> sourceImage, int minFeatureStrength, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
+        public virtual void Initialize(Image<Gray, byte> sourceImage, int minFeatureStrength, int maxNumberOfFeatures, string classLabel)
         {
-            Image<Gray, int> orientationImg = GradientComputation.ComputeOrientation(sourceImage, minFeatureStrength);
+            Image<Gray, int> sqrMagImg;
+            Image<Gray, int> orientationImg = GradientComputation.Compute(sourceImage, out sqrMagImg, minFeatureStrength);
+
+            Func<Feature, int> featureImportanceFunc = (feature) => *(byte*)sqrMagImg.GetData(feature.Y, feature.X);
 
             Initialize(orientationImg, maxNumberOfFeatures, classLabel, featureImportanceFunc);
         }
@@ -42,7 +48,7 @@ namespace LINE2D
         public void Initialize(Image<Gray, int> orientation, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
             maxNumberOfFeatures = Math.Max(0, Math.Min(maxNumberOfFeatures, GlobalParameters.MAX_NUM_OF_FEATURES));
-            featureImportanceFunc = (feature) => 0;
+            featureImportanceFunc = (featureImportanceFunc != null) ? featureImportanceFunc: (feature) => 0;
 
             Image<Gray, Byte> importantQuantizedOrient = FeatureMap.Caclulate(orientation, 0);
             List<Feature> features = ExtractTemplate(importantQuantizedOrient, maxNumberOfFeatures, featureImportanceFunc);

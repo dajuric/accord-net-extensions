@@ -31,7 +31,8 @@ namespace Accord.Math.Geometry
             };
         }
 
-        public static Point UpScale(this Point p, int levels, double factor = 2)
+
+        public static Point UpScale(this Point p, int levels = 1, double factor = 2)
         {
             var upscaleFactor = (float)System.Math.Pow(factor, levels);
 
@@ -42,7 +43,7 @@ namespace Accord.Math.Geometry
             };
         }
 
-        public static Point DownScale(this Point p, int levels, double factor = 2)
+        public static Point DownScale(this Point p, int levels = 1, double factor = 2)
         {
             var downscaleFactor = (float)(1 / System.Math.Pow(factor, levels));
 

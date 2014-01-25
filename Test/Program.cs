@@ -23,15 +23,15 @@ namespace Test
         [STAThread]
         unsafe static void Main()
         {
-            var bmp1 = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile("nature-spring.jpg");
+            /*var bmp1 = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile("nature-spring.jpg");
             var image1 = bmp1.ToImage<Gray, float>();
 
             var res1 = ResizeNearsetNeighbur.Resize(image1, new Size(640, 480));
             ImageBox.Show("Interpolated image", res1.ToBitmap());
 
-            /*var res = new Image<Bgr, float>(320, 200);
+            var res = new Image<Bgr, float>(320, 200);
             image1.GetRectSubPix(new PointF(1.9f, 1.9f), res);
-            ImageBox.Show("Interpolated image", res.ToBitmap());*/
+            ImageBox.Show("Interpolated image", res.ToBitmap());
 
             var kernel1 = SobelExtensions.Sobel_3x3_X;
 
@@ -39,9 +39,10 @@ namespace Test
 
             res.ToBitmap().Save("bla.bmp");
             ImageBox.Show(res.ToBitmap());
-            return;
+            return;*/
 
             Test t = new Test();
+            t.TestLKFlow();
 
             Console.WriteLine("Supported paths:"); //TODO: (critical) should forbid some paths 
             t.WriteAllConversionPaths();

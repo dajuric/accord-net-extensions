@@ -243,7 +243,7 @@ namespace KalmanObjectTracking
             long end = DateTime.Now.Ticks;
             long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
 
-            frame.Draw("Processed: " + elapsedMs + " ms", font, new System.Drawing.PointF(15, 10), new Bgr(0, 255, 0));
+            frame.Draw("Processed: " + elapsedMs + " ms", font, new PointF(15, 10), new Bgr(0, 255, 0));
             frame.Draw(prevSearchArea, new Bgr(0, 0, 255), 3);
             frame.Draw(foundBox, new Bgr(0, 255, 0), 5); Console.WriteLine("angle: " + foundBox.Angle);
             this.pictureBox.Image = frame.ToBitmap(); //it will be just casted (data is shared) 24bpp color

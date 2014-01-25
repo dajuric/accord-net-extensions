@@ -80,7 +80,7 @@ namespace CardinalSplineDemo
             }
             /********************  contour and control points *********************/
 
-            image.Draw(points.Select(x => new System.Drawing.PointF(x.X, x.Y)).ToArray(),
+            image.Draw(points.ToArray(),
                        new Bgr(Color.Blue),
                        3);
 

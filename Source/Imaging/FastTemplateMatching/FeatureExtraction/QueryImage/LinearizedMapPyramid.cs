@@ -20,14 +20,22 @@ namespace LINE2D
         public static LinearizedMapPyramid CreatePyramid(Image<Gray, Byte> sourceImage, int minGradientMagnitude = 35, params int[] neigborhoodPerLevel)
         {
             return CreatePyramid(sourceImage, 
-                                 source => GradientComputation.ComputeOrientation(sourceImage, minGradientMagnitude),
+                                 source => 
+                                 {
+                                     Image<Gray, int> sqrMagImg;
+                                     return GradientComputation.Compute(sourceImage, out sqrMagImg, minGradientMagnitude);
+                                 },
                                  neigborhoodPerLevel);
         }
 
         public static LinearizedMapPyramid CreatePyramid(Image<Bgr, Byte> sourceImage, int minGradientMagnitude = 35, params int[] neigborhoodPerLevel)
         {
             return CreatePyramid(sourceImage,
-                                 source => GradientComputation.ComputeOrientation(sourceImage, minGradientMagnitude),
+                                  source =>
+                                  {
+                                      Image<Gray, int> sqrMagImg;
+                                      return GradientComputation.Compute(sourceImage, out sqrMagImg, minGradientMagnitude);
+                                  },
                                  neigborhoodPerLevel);
         }
 

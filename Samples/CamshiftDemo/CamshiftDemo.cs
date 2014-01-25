@@ -4,10 +4,11 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using AForge;
-using Point = System.Drawing.Point;
 using Accord.Imaging.Converters;
 using Accord.Math.Geometry;
 using System.Threading;
+using Point = AForge.IntPoint;
+using PointF = AForge.Point;
 
 namespace Accord.Vision
 {
@@ -170,7 +171,7 @@ namespace Accord.Vision
 
         Rectangle roi = Rectangle.Empty;
         bool isROISelected = false;
-        Point ptFirst;
+        System.Drawing.Point ptFirst;
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             ptFirst = e.Location;
@@ -179,7 +180,7 @@ namespace Accord.Vision
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            roi.Intersect(new Rectangle(Point.Empty, frame.Size));
+            roi.Intersect(new Rectangle(System.Drawing.Point.Empty, frame.Size));
             isROISelected = true;
         }
 
@@ -188,7 +189,7 @@ namespace Accord.Vision
             if (e.Button != MouseButtons.Left)
                 return;
 
-            Point ptSecond = e.Location;
+            var ptSecond = e.Location;
 
             roi = new Rectangle 
             {

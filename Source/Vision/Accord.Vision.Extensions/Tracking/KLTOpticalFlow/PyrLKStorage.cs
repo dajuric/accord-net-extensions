@@ -17,7 +17,7 @@ namespace Accord.Vision
         /// <summary>
         /// Creates LK storage.
         /// </summary>
-        /// <param name="pyrLevels"></param>
+        /// <param name="pyrLevels">Number of pyramid levels. Minimal is 0 - only current image will be used.</param>
         public PyrLKStorage(int pyrLevels)
         {
             this.PyrLevels = pyrLevels;

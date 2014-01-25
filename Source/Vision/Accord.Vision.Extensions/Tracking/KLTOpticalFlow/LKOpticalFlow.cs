@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Linq;
 using Accord.Core;
+using Point = AForge.IntPoint;
+using PointF = AForge.Point;
 
 namespace Accord.Vision
 {
@@ -221,7 +223,7 @@ namespace Accord.Vision
 
         private static bool isInsideImage(RectangleF featureArea, Size imageSize)
         {
-            RectangleF imageArea = new RectangleF(PointF.Empty, imageSize);
+            RectangleF imageArea = new RectangleF(System.Drawing.PointF.Empty, imageSize);
 
             if (featureArea.IntersectionPercent(imageArea) < (1 - 1E-2))
                 return false;

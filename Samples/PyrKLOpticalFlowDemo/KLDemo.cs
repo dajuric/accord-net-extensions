@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Point = AForge.IntPoint;
+using PointF = AForge.Point;
 
 using FlowColor = Accord.Imaging.Gray;
 
@@ -14,7 +16,7 @@ namespace PyrKLOpticalFlowDemo
     {
         Capture videoCapture;
         PyrLKStorage<FlowColor> lkStorage;
-        int winSize = 21;
+        int winSize = 15;
 
         private void processImage(Image<FlowColor, float> prevIm, Image<FlowColor, float> currIm, List<PointF> oldPositions, out List<PointF> newPositions)
         {
@@ -23,14 +25,14 @@ namespace PyrKLOpticalFlowDemo
             PointF[] currFeatures;
             float[] error;
             KLTFeatureStatus[] featureStatus;
-            /*LKOpticalFlow<FlowColor>.EstimateFlow(lkStorage, oldPositions.ToArray(), 
+            LKOpticalFlow<FlowColor>.EstimateFlow(lkStorage, oldPositions.ToArray(), 
                                                   out currFeatures, out featureStatus, out error,
-                                                  winSize);*/
+                                                  winSize);
 
 
-            PyrLKOpticalFlow<FlowColor>.EstimateFlow(lkStorage, oldPositions.ToArray(),
+            /*PyrLKOpticalFlow<FlowColor>.EstimateFlow(lkStorage, oldPositions.ToArray(),
                                                      out currFeatures, out featureStatus, out error, 
-                                                     winSize);
+                                                     winSize);*/
 
             newPositions = new List<PointF>();
             for (int i = 0; i < currFeatures.Length; i++)
@@ -48,7 +50,7 @@ namespace PyrKLOpticalFlowDemo
         {
             InitializeComponent();
 
-            lkStorage = new PyrLKStorage<Gray>(pyrLevels: 1);
+            lkStorage = new PyrLKStorage<FlowColor>(pyrLevels: 0);
             
             try
             {
@@ -63,7 +65,7 @@ namespace PyrKLOpticalFlowDemo
             videoCapture.VideoSize = new Size(640, 480); //set new Size(0,0) for the lowest one
 
             oldPositions = new List<PointF>();
-            prevIm = new Image<Gray, float>(videoCapture.VideoSize);
+            prevIm = new Image<FlowColor, float>(videoCapture.VideoSize);
 
             this.FormClosing += CamshiftDemo_FormClosing;
             Application.Idle += videoCapture_NewFrame;
@@ -128,7 +130,7 @@ namespace PyrKLOpticalFlowDemo
         {
             lock (oldPositions)
             {
-                oldPositions.Add(e.Location);
+                oldPositions.Add(new PointF(e.Location.X, e.Location.Y));
             }
         }
 

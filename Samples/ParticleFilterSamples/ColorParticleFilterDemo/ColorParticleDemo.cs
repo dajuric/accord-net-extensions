@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using PointF = AForge.Point;
 
 namespace SimpleParticleFilterDemo
 {
@@ -108,7 +109,7 @@ namespace SimpleParticleFilterDemo
         private void updateParticleWeight(ColorParticle p)
         { 
             double[] distanceVector = new double[] { 255, 255, 255 };
-            var location = System.Drawing.Point.Round(p.Position);
+            var location = p.Position.Round();
 
             //check if a particle got outside the image boundaries
             if (location.X >= 0 && location.X < imgSize.Width &&

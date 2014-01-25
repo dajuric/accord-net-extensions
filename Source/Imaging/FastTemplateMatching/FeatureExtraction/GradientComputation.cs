@@ -9,24 +9,29 @@ using Accord.Imaging;
 using Accord.Imaging.Filters;
 using Accord.Math;
 using Accord.Math.Geometry;
+using Accord.Core;
 
 namespace LINE2D
 {
     public unsafe static class GradientComputation
     {
-        public static Image<Gray, int> ComputeOrientation(Image<Bgr, Byte> frame, int minValidMagnitude)
+        public static Image<Gray, int> Compute<TColor>(Image<TColor, Byte> frame, out Image<Gray, int> magnitudeSqrImage, int minValidMagnitude)
+            where TColor: IColor3
         {
             int minValidMagSqr = minValidMagnitude * minValidMagnitude;
 
-            Image<Bgr, short> dx = frame.Sobel(1, 0, 3);
-            Image<Bgr, short> dy = frame.Sobel(0, 1, 3);
+            Image<TColor, short> dx = frame.Sobel(1, 0, 3);
+            Image<TColor, short> dy = frame.Sobel(0, 1, 3);
 
             short* dxPtr = (short*)dx.ImageData;
             short* dyPtr = (short*)dy.ImageData;
             int dxyImgAllignStride = dx.Stride / sizeof(short) - dx.Width * dx.ColorInfo.NumberOfChannels;
 
-            Image<Gray, int> orientImg = new Image<Gray, int>(dx.Width, dx.Height);
+            var orientImg = new Image<Gray, int>(dx.Width, dx.Height, 0); //TODO: low priority - rewrite to remove constrain stride = 0
             int* orientImgPtr = (int*)orientImg.ImageData;
+
+            magnitudeSqrImage = new Image<Gray, int>(dx.Width, dx.Height, 0); //TODO: low priority - rewrite to remove constrain stride = 0
+            int* magSqrImgPtr = (int*)magnitudeSqrImage.ImageData;
 
             int imgWidth = dx.Width;
             int imgHeight = dx.Height;
@@ -66,10 +71,11 @@ namespace LINE2D
                         //if (*orientImgPtr < 0)
                         //    *orientImgPtr += 360;
                         *orientImgPtr = MathExtensions.Atan2Aprox(*dyPtr, *dxPtr); //faster
+                        *magSqrImgPtr = magSqr;
                     }
 
                     dxPtr += 3; dyPtr += 3;
-                    orientImgPtr += 1;
+                    orientImgPtr += 1; magSqrImgPtr += 1;
                 }
 
                 dxPtr += dxyImgAllignStride;
@@ -81,7 +87,7 @@ namespace LINE2D
             return orientImg;
         }
 
-        public static Image<Gray, int> ComputeOrientation(Image<Gray, Byte> frame, int minValidMagnitude)
+        public static Image<Gray, int> Compute(Image<Gray, Byte> frame, out Image<Gray, int> magnitudeSqrImage, int minValidMagnitude)
         {
             int minValidMagSqr = minValidMagnitude * minValidMagnitude;
 
@@ -92,8 +98,11 @@ namespace LINE2D
             short* dyPtr = (short*)dy.ImageData;
             int dxyImgAllignStride = dx.Stride / sizeof(short) - dx.Width;
 
-            Image<Gray, int> orientImg = new Image<Gray, int>(frame.Size);
+            Image<Gray, int> orientImg = new Image<Gray, int>(frame.Size, 0); //TODO: low priority - rewrite to remove constrain stride = 0
             int* orientImgPtr = (int*)orientImg.ImageData;
+
+            magnitudeSqrImage = new Image<Gray, int>(dx.Width, dx.Height, 0); //TODO: low priority - rewrite to remove constrain stride = 0
+            int* magSqrImgPtr = (int*)magnitudeSqrImage.ImageData;
 
             int imgWidth = frame.Width;
             int imgHeight = frame.Height;
@@ -113,10 +122,12 @@ namespace LINE2D
                         /*if (*orientImgPtr < 0)
                             *orientImgPtr += 360;*/
                         //ne treba ?
+
+                        *magSqrImgPtr = magSqr;
                     }
 
                     dxPtr += 1; dyPtr += 1;
-                    orientImgPtr += 1;
+                    orientImgPtr += 1; magSqrImgPtr += 1;
                 }
 
                 dxPtr += dxyImgAllignStride;

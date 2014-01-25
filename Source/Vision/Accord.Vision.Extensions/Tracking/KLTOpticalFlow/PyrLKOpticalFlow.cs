@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Accord.Math.Geometry;
+using Point = AForge.IntPoint;
+using PointF = AForge.Point;
 
 namespace Accord.Vision
 {
@@ -77,7 +80,7 @@ namespace Accord.Vision
             error = new float[prevFeatures.Length];
             status = new KLTFeatureStatus[prevFeatures.Length];
 
-            var scaledPrevFeatures = prevFeatures.Apply(x => x.PyrDown(storage.PyrLevels));
+            var scaledPrevFeatures = prevFeatures.Apply(x => x.DownScale(storage.PyrLevels));
             var usedIndicies = Enumerable.Range(0, prevFeatures.Length).ToArray(); 
 
             for (int pyrLevel = storage.PyrLevels; pyrLevel >= 0; pyrLevel--)
@@ -96,8 +99,8 @@ namespace Accord.Vision
                 
                 if (pyrLevel != 0)
                 {
-                    scaledPrevFeatures.ApplyInPlace(usedIndicies, x => x.PyrUp());
-                    currFeatures.ApplyInPlace(usedIndicies, x => x.PyrUp());
+                    scaledPrevFeatures.ApplyInPlace(usedIndicies, x => x.UpScale());
+                    currFeatures.ApplyInPlace(usedIndicies, x => x.UpScale());
 
                     initialEstimate = Sub(currFeatures, scaledPrevFeatures);
                     usedIndicies = getValidFeatureIndicies(status);
