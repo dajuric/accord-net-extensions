@@ -20,7 +20,7 @@ namespace Accord.Vision
 
         #region Initialization
 
-        public ImageSequenceCapture(string filePath, string extension, int frameDelayTime = 1, bool useNaturalSorting = true)
+        public ImageSequenceCapture(string filePath, string extension, int frameDelayMilliseconds = 1, bool useNaturalSorting = true)
         {
             this.SupportsPausing = true;
 
@@ -42,7 +42,7 @@ namespace Accord.Vision
             }
 
             this.fileNames = files.ToArray();
-            this.fps = frameDelayTime;
+            this.fps = frameDelayMilliseconds;
         }
 
         #endregion

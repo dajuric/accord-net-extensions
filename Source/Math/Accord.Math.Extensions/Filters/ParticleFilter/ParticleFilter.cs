@@ -92,7 +92,9 @@ namespace Accord.Statistics.Filters
             var normalizedWeights = normalize(particles);
 
             var newParticles = particles;
-            if ((double)EffectiveParticleCount(normalizedWeights) / particles.Count() < effectiveCountMinRatio)
+            var effectiveCountRatio = (double)EffectiveParticleCount(normalizedWeights) / particles.Count();
+            if (effectiveCountRatio > Single.Epsilon && //do not resample if all particle weights are zero
+                effectiveCountRatio < effectiveCountMinRatio)
             {
                 newParticles = resample(particles, normalizedWeights);
             }
@@ -102,7 +104,7 @@ namespace Accord.Statistics.Filters
 
         private static double EffectiveParticleCount(IEnumerable<double> weights)
         {
-            var sumSqr = weights.Sum(x => x * x);
+            var sumSqr = weights.Sum(x => x * x) + Single.Epsilon;
             return /*1 if weights are normalized*/ weights.Sum() / sumSqr;
         }
 

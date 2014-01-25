@@ -124,6 +124,7 @@ namespace LINE2D
                         //ne treba ?
 
                         *magSqrImgPtr = magSqr;
+                        //*magSqrImgPtr = (int)Math.Sqrt(magSqr); if (*magSqrImgPtr > 255) *magSqrImgPtr = 255;
                     }
 
                     dxPtr += 1; dyPtr += 1;

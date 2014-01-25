@@ -44,7 +44,7 @@ namespace ParticleFilterModelFitting
                             )
                             .ToArray();
 
-
+            PrototypeCount = sortedScales.Count();
             ScaleRange = new Range(sortedScales.Select(x => x.First()).Min(), sortedScales.Select(x => x.Last()).Max());
             AngleRange = new Range(sortedAngles.Select(x => x.First()).Min(), sortedAngles.Select(x => x.Last()).Max());
         }
@@ -86,6 +86,7 @@ namespace ParticleFilterModelFitting
             return sortedCollection[index];
         }
 
+        public static int PrototypeCount { get; private set; }
         public static Range ScaleRange { get; private set; }
         public static Range AngleRange { get; private set; }
     }

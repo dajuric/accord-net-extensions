@@ -23,13 +23,16 @@ namespace ParticleFilterModelFitting
         static Random rand = new Random();
 
         public ModelParams ModelParameters { get; set; }
-        public Match MetaData { get; set; }
+        public WeakReference<Match> MetaDataRef { get; set; }
 
         public void Drift()    
         {}
 
         public void Difuse()
         {
+            var id = (ModelParameters.ModelTypeIndex + rand.Next(ModelRepository.PrototypeCount)) % ModelRepository.PrototypeCount;
+            ModelParameters.ModelTypeIndex = id;
+
             var angle = ModelParameters.Angle + rand.Next(-15, +15 + 1);
             ModelParameters.Angle = (short)angle;
 
@@ -73,7 +76,7 @@ namespace ParticleFilterModelFitting
             var p = obj as ModelParticle;
             if (p == null)
                 return false;
-
+            
             return p.ModelParameters.Equals(this.ModelParameters);
         }
 
@@ -99,7 +102,7 @@ namespace ParticleFilterModelFitting
                 Features = this.Features,
                 ClassLabel = this.ClassLabel,
                 //meta-data
-                MetaData = this.MetaData
+                MetaDataRef = this.MetaDataRef
             };
         }
 
@@ -133,5 +136,17 @@ namespace ParticleFilterModelFitting
         }
 
         #endregion
+
+        public void OverwriteWith(ModelParticle particle)
+        {
+            this.ModelParameters = (ModelParams)particle.ModelParameters.Clone();
+            this.Weight = particle.Weight;
+
+            this.Size = particle.Size;
+            this.Features = particle.Features;
+            this.ClassLabel = particle.ClassLabel;
+
+            this.MetaDataRef = particle.MetaDataRef;
+        }
     }
 }

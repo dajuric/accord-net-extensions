@@ -16,7 +16,7 @@ namespace PyrKLOpticalFlowDemo
     {
         Capture videoCapture;
         PyrLKStorage<FlowColor> lkStorage;
-        int winSize = 15;
+        int winSize = 21;
 
         private void processImage(Image<FlowColor, float> prevIm, Image<FlowColor, float> currIm, List<PointF> oldPositions, out List<PointF> newPositions)
         {

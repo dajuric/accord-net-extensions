@@ -24,7 +24,7 @@ namespace FastTemplateMatchingDemo
 {
     public partial class FastTPDemo : Form
     {
-        int threshold = 85;
+        int threshold = 88;
         int minDetectionsPerGroup = 0; //for match grouping (postprocessing)
 
         CaptureBase videoCapture;
@@ -44,7 +44,7 @@ namespace FastTemplateMatchingDemo
         {
             var list = new List<TemplatePyramid>();
 
-            string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "OpenHandLeft_BW_temp");
+            string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "OpenHandLeft_BW");
             string[] files = Directory.GetFiles(resourceDir, "*.bmp");
 
             object syncObj = new object();
@@ -120,8 +120,8 @@ namespace FastTemplateMatchingDemo
 
             try
             {
-                //videoCapture = new Capture();
-                videoCapture = new ImageSequenceCapture("C:/probaImages", ".jpg", 30); 
+                videoCapture = new Capture();
+                //videoCapture = new ImageSequenceCapture("C:/probaImages", ".jpg", 30); 
             }
             catch (Exception)
             {
@@ -144,7 +144,7 @@ namespace FastTemplateMatchingDemo
             if (!hasNewFrame)
                 return;
 
-            frame = videoCapture.QueryFrame().Clone(); var b = frame.Clone();
+            frame = videoCapture.QueryFrame().Clone(); 
 
             long preprocessTime, matchTime;
             var bestRepresentatives = findObjects(frame, out preprocessTime, out matchTime);

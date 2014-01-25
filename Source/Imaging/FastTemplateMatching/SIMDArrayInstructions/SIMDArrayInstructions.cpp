@@ -6,7 +6,7 @@ extern "C" __declspec(dllexport) void AddByteToShortVector(unsigned char* srcAdd
 const int SSE_DATA_SIZE = 128 / 8;
 const int AVX_DATA_SIZE = 256 / 8;
 
-#define USE_AVX 0 //AVX2 is needed!!!! (Core iX 3rd generation+ - IvyBridge, Haswell...)
+#define USE_AVX 0 //AVX2 is needed!!!! (Core iX 3rd generation+ - IvyBridge, Haswell...) - NOT TESTED!
                   //if 0 => fallback to SSE
 
 //--------------------------- FAST ADD BYTE + BYTE ARRAYS ----------------------------------------//

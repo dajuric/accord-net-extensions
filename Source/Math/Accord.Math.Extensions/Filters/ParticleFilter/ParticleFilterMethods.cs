@@ -60,20 +60,13 @@ namespace Accord.Statistics.Filters
 
         /// <summary>
         /// Draws particles according to particle's weight.
-        /// </summary>
-        public static IEnumerable<TParticle> SimpleResampler<TParticle>(IList<TParticle> particles, IList<double> normalizedWeights)
-              where TParticle : class, IParticle
-        {
-            return SimpleResampler(particles, normalizedWeights, particles.Count);
-        }
-
-        /// <summary>
-        /// Draws particles according to particle's weight.
         /// <param name="particles">Particles from which to draw samples. If they are already sorted.</param>
         /// </summary>
-        public static IEnumerable<TParticle> SimpleResampler<TParticle>(IList<TParticle> particles, IList<double> normalizedWeights, int nSamples, bool sortParticles = true)
+        public static IEnumerable<TParticle> SimpleResampler<TParticle>(IList<TParticle> particles, IList<double> normalizedWeights, bool sortParticles = true, Func<int, TParticle, TParticle> newParticleCreator = null)
               where TParticle : class, IParticle
         {
+            newParticleCreator = newParticleCreator ?? ((idx, p) => (TParticle)p.Clone());
+
             Int32[] sortedIndices = Enumerable.Range(0, particles.Count).ToArray();
             if (sortParticles)
             {
@@ -98,7 +91,7 @@ namespace Accord.Statistics.Filters
 
             Random rand = new Random();
 
-            for (int i = 0; i < nSamples; i++)
+            for (int i = 0; i < particles.Count; i++)
             {
                 var randWeight = cumulativeWeights[0] + rand.NextDouble() * (cumulativeWeights[particles.Count - 1] - cumulativeWeights[0]);
                
@@ -108,7 +101,9 @@ namespace Accord.Statistics.Filters
                     particleIdx++;
                 }
 
-                var newParticle = (TParticle)particles[sortedIndices[particleIdx]].Clone();
+                var idx = sortedIndices[particleIdx];
+                var p = particles[idx];
+                var newParticle = newParticleCreator(idx, p);
                 //newParticle.Weight = initialWeight;
 
                 resampledParticles.Add(newParticle);
@@ -130,7 +125,7 @@ namespace Accord.Statistics.Filters
                      p.Weight = expProb; 
                  });*/
 
-            var weightSum = particles.Sum(x => x.Weight);
+            var weightSum = particles.Sum(x => x.Weight) + Single.Epsilon;
 
             foreach (var p in particles)
             {

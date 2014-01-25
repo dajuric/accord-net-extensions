@@ -8,6 +8,7 @@ using LINE2D;
 using MoreLinq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -20,19 +21,24 @@ namespace ParticleFilterModelFitting
     {
         const int NUMBER_OF_PARTICLES = 200;
         Size imgSize = new Size(640 / 2, 480 / 2);
-        Image<Bgr, byte> debugImg;
 
-        IEnumerable<ModelParticle> particleFilter;
+        List<ModelParticle> particleFilter;
+
+        /************************************** "tracking" reset ******************************************************/
+        //particle are spreading after time to cover as much states as possible, but if we lost object I want to start from initial states (hand upright)
+        List<ModelParticle> initialParticles;
+        Stopwatch resetClock;
+        const int MAX_NONOBJ_TIME = (int)(2.5 * 1000); //X seconds => set it to Int32.MaxValue to avoid resetting particle states
+        /************************************** "tracking" reset ******************************************************/
 
         LinearizedMapPyramid linPyr = null;
         static MatchClustering matchClustering = new MatchClustering();
 
-        IEnumerable<ModelParticle> initalParticles = null;
         private void init()
         {
             var path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "PrototypeTemplatesBW");
             var generatedScales = EnumerableExtensions.GetRange(60, 170, 3);
-            var generatedOrientations = EnumerableExtensions.GetRange(-90, +90, (int)((180f / GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS) / 2 / 2 /*user factor*/));
+            var generatedOrientations = EnumerableExtensions.GetRange(-90, +90, (int)((180f / GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS) / 2 / 2 /*user factor - last "2"*/));
 
             Console.WriteLine("Generating templates.... Please wait!");
             var templates = OpenHandTemplate.CreateRange(path, "*.bmp", generatedScales, generatedOrientations);
@@ -45,7 +51,7 @@ namespace ParticleFilterModelFitting
                                                     new DoubleRange[] 
                                                     { 
                                                         //template type
-                                                        new DoubleRange(0, 0),
+                                                        new DoubleRange(0, ModelRepository.PrototypeCount - 1),
 
                                                         //scale
                                                         new DoubleRange(70, 150),
@@ -53,13 +59,10 @@ namespace ParticleFilterModelFitting
                                                         //rotation
                                                         new DoubleRange(-15, 15)
                                                     },
-                                                    ModelParticle.FromParameters).Distinct().ToList();
+                                                    ModelParticle.FromParameters).ToList();
 
-            //particleFilter = templates.Select(x => ModelParticle.FromParameters(x.Key.ModelTypeIndex, x.Key.Scale, x.Key.Angle)).ToList();
-
-            //initalParticles = particleFilter.Select(x => (ModelParticle)x.Clone()).ToList();
-
-            particleFilter2 = particleFilter.Select(x => (ModelParticle)x.Clone()).ToList();
+            initialParticles = particleFilter.Select(x => (ModelParticle)x.Clone()).ToList();
+            resetClock = new Stopwatch(); resetClock.Start();
         }
 
         private void predict()
@@ -71,13 +74,11 @@ namespace ParticleFilterModelFitting
                    //diffuse
                    (p) => p.Difuse()
                 );
-
-            particleFilter = particleFilter.Distinct(); //some particles can be the same
         }
 
         private void update()
         {
-            particleFilter = particleFilter.Update
+           particleFilter = particleFilter.Update
                 (
                     //measure
                     particles => measure(linPyr, particles.ToList()),
@@ -86,29 +87,28 @@ namespace ParticleFilterModelFitting
                     //re-sample
                     (particles, normalizedWeights) => 
                     {
-                        var sampledParticles = ParticleFilter.SimpleResampler(particleFilter.ToList(), 
-                                                                              normalizedWeights.ToList(), 
-                                                                              NUMBER_OF_PARTICLES);
+                        var sampledParticles = ParticleFilter.SimpleResampler(particles.ToList(), 
+                                                                              normalizedWeights.ToList());
 
                         return sampledParticles;
                     }
-                );
+                ).ToList();
         }
 
         private void measure(LinearizedMapPyramid linPyr, List<ModelParticle> particles)
         {
             particles.ForEach(x => x.Weight = 0);
 
-            var matches = Detector.MatchTemplates(linPyr.PyramidalMaps.First(), particles, 85);
+            IDictionary<ModelParams, IEnumerable<ModelParticle>> nonDistinctMembers;
+            var uniqueParticles = getDistinctParticles(particles, out nonDistinctMembers); //get distint particles (there is no need to match the same templates)
+
+            var matches = Detector.MatchTemplates(linPyr.PyramidalMaps.First(), uniqueParticles, 86);
             if (matches.Count == 0)
-            {
-                //particleFilter = initalParticles;
                 return;
-            }
 
             var groups = matchClustering.Group(matches.ToArray(), MatchClustering.COMPARE_BY_SIZE);
 
-            var bestGroup = groups.MaxBy(x => x.Neighbours); //for now
+            var bestGroup = groups.Where(x=>x.Neighbours > 3).MaxBy(x => x.Neighbours); //for now
             var largestSize = bestGroup.Representative.Template.Size;
             var scaleFactor = 1f / (largestSize.Width * largestSize.Height);
 
@@ -120,108 +120,59 @@ namespace ParticleFilterModelFitting
                 if (particle.Weight < score)
                 {
                     particle.Weight = score; //1 particle may correspond to several matches
-                    particle.MetaData = m; //WARNING: circular reference (template inside match is particle again)
+                    particle.MetaDataRef = new WeakReference<Match>(m); //avoid circular reference (template inside match is particle again)
                 }
             }
-            bestGroup.Representative = bestGroup.Detections.MaxBy(x => x.Score);
-            //frame.Draw(bestGroup.Representative, new Bgr(Color.Blue), 1, true, new Bgr(Color.Red));
-            //frame.Save("C:/bla.jpg");
+
+            updateNonDistintParticleData(uniqueParticles, nonDistinctMembers); //update the rest of particles (which are the same) if any
         }
 
-        int a = 0;
-        private void exec(Image<Bgr, byte> img, out long matchTimeMs)
+        private void processFrame(Image<Bgr, byte> img, out long matchTimeMs)
         {
             var grayIm = img.Convert<Gray, byte>();
             linPyr = LinearizedMapPyramid.CreatePyramid(grayIm); //prepare linear-pyramid maps
 
-            debugImg.Clear();
-
-            matchTimeMs = measure
+            /******************************* match templates + particle filter stuff ******************************/
+            matchTimeMs = measureTime
             (
-                () => exec0(linPyr)
+                () => 
+                {
+                    predict();
+                    update();
+                }
             );
-            //exec1(linPyr);
-            //exec2(linPyr);
-            //frame.Save(String.Format("C:/results/image_{0}.png", a));
+            /******************************* match templates + particle filter stuff ******************************/
 
-            a++;
-
-            this.pictureBoxDebug.Image = debugImg.ToBitmap();
-        }
-
-        private void exec0(LinearizedMapPyramid linPyr)
-        {
-            predict();
-            update();
-
+            /******************************* reset tracking (if necessary) ******************************/
             var p = particleFilter.MaxBy(x => x.Weight);
-
-            if (p.Weight == 0) return;
-            if (p.MetaData != null)
+            if (p.Weight == 0)
             {
-                //frame.Draw(p.MetaData, new Bgr(Color.Blue), 1);
-                frame.Draw(p.MetaData.Points, new Bgr(Color.Blue), 3);
+                if (resetClock.ElapsedMilliseconds > MAX_NONOBJ_TIME)
+                    particleFilter = initialParticles;
+
+                return;
+            }
+            resetClock.Restart();
+            /******************************* reset tracking (if necessary) ******************************/
+
+            /********************************* output **************************************/
+            var metaData = getData(p.MetaDataRef);
+            //if (metaData != null)
+            {
+                //img.Draw(p.MetaData, new Bgr(Color.Blue), 1);
+                img.Draw(metaData.Points, new Bgr(Color.Blue), 3);
 
                 var text = String.Format("W: {0:0.00}, \nS:{1:00}, A:{2:00}",
                                          p.Weight, p.ModelParameters.Scale, p.ModelParameters.Angle);
-                frame.DrawAnnotation(p.MetaData.BoundingRect, text, 80);
+                img.DrawAnnotation(metaData.BoundingRect, text, annotationWidth: 80);
             }
 
             Console.WriteLine(String.Format("W: {0:0.00}, S:{1:00}, A:{2:00}",
-                                       p.Weight, p.ModelParameters.Scale, p.ModelParameters.Angle));
+                                      p.Weight, p.ModelParameters.Scale, p.ModelParameters.Angle));
+            /********************************* output **************************************/
         }
 
-        private void exec1(LinearizedMapPyramid linPyr)
-        {
-            measure(linPyr, particleFilter.ToList());
-            var sortedParticles = particleFilter.OrderByDescending(x => x.Weight);
-            var bestP = sortedParticles.First();
-
-            var p = bestP;
-            {
-                if (p.Weight < 0.5) return;
-
-                var rect = new Rectangle(imgSize.Width / 2, imgSize.Height / 2, 0, 0);
-                rect.Inflate(p.Size.Width / 2, p.Size.Height / 2);
-
-                debugImg.Draw(rect, new Bgr(Color.Red), 3);
-
-                if (p.MetaData != null)
-                    debugImg.Draw(p.MetaData, new Bgr(Color.Red), 1);
-            }//);
-
-            Console.WriteLine(String.Format("W: {0:0.00}, S:{1:00}, A:{2:00}",
-                                        bestP.Weight, bestP.ModelParameters.Scale, bestP.ModelParameters.Angle));
-        }
-
-        List<ModelParticle> particleFilter2 = null;
-        private void exec2(LinearizedMapPyramid linPyr)
-        {
-            measure(linPyr, particleFilter2);
-            var sortedParticles = particleFilter2.OrderByDescending(x => x.Weight);
-            var bestP = sortedParticles.First();
-
-            if(bestP.MetaData != null)
-                frame.Draw(bestP.MetaData, new Bgr(Color.Blue), 1);
-
-            var newParticles = new List<ModelParticle>();
-            for (int i = bestP.ModelParameters.Scale - 15; i <= bestP.ModelParameters.Scale + 15; i += 3)
-            {
-                //int i = 10;
-                for (int j = bestP.ModelParameters.Angle - 15; j <= bestP.ModelParameters.Angle + 15; j += 5)
-                {
-                    var np = ModelParticle.FromParameters(0, i, j);
-                    newParticles.Add(np);
-                }
-            }
-
-            Console.WriteLine(String.Format("W: {0:0.00}, S:{1:00}, A:{2:00} GeneratedForNext: S: [{3:00}..{4:00}], A: [{5:00}..{6:00}]",
-                                          bestP.Weight, bestP.ModelParameters.Scale, bestP.ModelParameters.Angle,
-                                          newParticles.Min(x => x.ModelParameters.Scale), newParticles.Max(x => x.ModelParameters.Scale),
-                                          newParticles.Min(x => x.ModelParameters.Angle), newParticles.Max(x => x.ModelParameters.Angle)));
-
-            particleFilter2 = newParticles;
-        }
+        #region GUI
 
         CaptureBase videoCapture;
 
@@ -231,17 +182,18 @@ namespace ParticleFilterModelFitting
 
             if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "SIMDArrayInstructions.dll")) == false)
             {
-                MessageBox.Show("Copy SIMDArrayInstructions.dll to your bin directory!");
+                MessageBox.Show("Copy SIMDArrayInstructions.dll to your bin directory! (project LINE2D)");
                 return;
             }
 
-            debugImg = new Image<Bgr, byte>(imgSize);
             init();
 
             try
             {
-                //videoCapture = new ImageSequenceCapture("C:/probaImages", ".jpg", 1); 
-                videoCapture = new Capture();
+                string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
+
+                videoCapture = new ImageSequenceCapture(Path.Combine(resourceDir, "SampleVideo"), ".jpg", 1); 
+                //videoCapture = new Capture();
             }
             catch (Exception)
             {
@@ -258,7 +210,7 @@ namespace ParticleFilterModelFitting
         }
 
         Image<Bgr, byte> frame;
-        Font font = new Font("Arial", 12);
+        Font font = new Font("Arial", 12); int a = 0;
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
             bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
@@ -267,16 +219,21 @@ namespace ParticleFilterModelFitting
 
             frame = videoCapture.QueryFrame().Clone();//.GetSubRect(new Rectangle(0, 0, 200, 200));
 
+            frame.Save("C:/image_" + a + ".jpg");
+
             long start = DateTime.Now.Ticks;
 
             long matchTimeMs;
-            exec(frame, out matchTimeMs);
+            processFrame(frame, out matchTimeMs);
 
             long end = DateTime.Now.Ticks;
             long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
 
             frame.Draw("Processed: " + matchTimeMs /*elapsedMs*/ + " ms", font, new PointF(15, 10), new Bgr(0, 255, 0));
             this.pictureBox.Image = frame.ToBitmap();
+
+            frame.Save("C:/imageAnn_" + a + ".jpg");
+            a++;
 
             GC.Collect();
         }
@@ -287,6 +244,7 @@ namespace ParticleFilterModelFitting
                 videoCapture.Stop();
         }
 
+        #endregion
 
         #region Debuging
 
@@ -309,7 +267,7 @@ namespace ParticleFilterModelFitting
             }
         }
 
-        private static long measure(Action action)
+        private static long measureTime(Action action)
         {
             long start = DateTime.Now.Ticks;
 
@@ -318,6 +276,46 @@ namespace ParticleFilterModelFitting
             long end = DateTime.Now.Ticks;
             long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
             return elapsedMs;
+        }
+
+        #endregion
+
+        #region Helper function
+
+        private static T getData<T>(WeakReference<T> wr)
+            where T: class
+        {
+            if (wr == null) return null;
+
+            T val;
+            wr.TryGetTarget(out val);
+            return val;
+        }
+
+        private static IEnumerable<ModelParticle> getDistinctParticles(IEnumerable<ModelParticle> particles, out  IDictionary<ModelParams, IEnumerable<ModelParticle>> otherGroupMembers)
+        {
+            var groups = from p in particles
+                         group p by p.ModelParameters into uniqueGroup
+                         select new
+                         {
+                             Representative = uniqueGroup.First(),
+                             OtherMembers = uniqueGroup.Skip(1)
+                         };
+
+            otherGroupMembers = groups.ToDictionary(x => x.Representative.ModelParameters, x => x.OtherMembers);
+            return groups.Select(x => x.Representative);
+        }
+
+        private static void updateNonDistintParticleData(IEnumerable<ModelParticle> uniqueParticles, IDictionary<ModelParams, IEnumerable<ModelParticle>> nonDistinctParticles)
+        {
+            foreach (var uniqueParticle in uniqueParticles)
+            {
+                foreach (var p in nonDistinctParticles[uniqueParticle.ModelParameters])
+                {
+                    p.MetaDataRef = new WeakReference<Match>(getData(uniqueParticle.MetaDataRef));
+                    p.Weight = uniqueParticle.Weight;
+                }
+            }
         }
 
         #endregion

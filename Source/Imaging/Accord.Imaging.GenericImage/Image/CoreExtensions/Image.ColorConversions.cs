@@ -49,13 +49,13 @@ namespace Accord.Imaging
         public IImage Convert(ColorInfo destColor, bool copyAlways = false)
         {
             var conversionPath = ColorConverter.GetMostInexepnsiveConversionPath(this.ColorInfo, destColor);
-            var convertedIm = ColorConverter.Convert(this, conversionPath.ToArray(), copyAlways);
 
-            if (convertedIm == null)
+            if (conversionPath == null)
             {
                 throw new Exception(String.Format("Image does not support conversion from {0} to {1}", this.ColorInfo.ColorType, destColor.ColorType));
             }
 
+            var convertedIm = ColorConverter.Convert(this, conversionPath.ToArray(), copyAlways);
             return convertedIm;
         }
     }
