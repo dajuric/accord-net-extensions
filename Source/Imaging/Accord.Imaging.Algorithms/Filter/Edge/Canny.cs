@@ -23,17 +23,10 @@ namespace Accord.Imaging
             where TColor : IColor
             where TDepth : struct
         {
-            var res = im.CopyBlank();
-
             CannyEdgeDetector canny = new CannyEdgeDetector(lowThreshold, highThreshold, sigma);
             canny.GaussianSize = gaussianSize;
-            
-            canny.Apply(
-                im.ToAForgeImage(copyAlways: false, failIfCannotCast: true),
-                res.ToAForgeImage(copyAlways: false, failIfCannotCast: true)
-                      );
-          
-            return res;
+
+            return im.ApplyFilter(canny);
         }
 
 

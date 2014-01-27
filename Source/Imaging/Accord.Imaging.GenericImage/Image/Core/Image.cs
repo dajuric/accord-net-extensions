@@ -66,7 +66,7 @@ namespace Accord.Imaging
         /// <param name="im">Generic image.</param>
         /// <param name="width">Image width.</param>
         /// <param name="height">Image height.</param>
-        /// <param name="strideAllignment">Stride allignment. Usual practice is that every image row ends with address alligned with 4.</param>
+        /// <param name="strideAllignment">Stride alignment. Usual practice is that every image row ends with address aligned with 4.</param>
         protected static void Initialize(GenericImageBase im, int width, int height, int strideAllignment = 4)
         {
             int stride = calculateStride(im.ColorInfo, width, strideAllignment);

@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 namespace Accord.Core
 {
     /// <summary>
-    /// Represents a set of cache decoratated methods 
+    /// Represents a set of cache decorated methods 
     /// Taken from: http://www.codeproject.com/Articles/195369/Simple-Method-Caching 
     /// and slightly modified.
     /// </summary>
@@ -102,7 +102,7 @@ namespace Accord.Core
         /// </summary>        
         /// <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
         /// <param name="function">The target method to decorate.</param>
-        /// <returns>A function delagate that represents the cached version of the target method.</returns>
+        /// <returns>A function delegate that represents the cached version of the target method.</returns>
         public static Func<TResult> Decorate<TResult>(Func<TResult> function)
         {
             var lazyValue = new Lazy<TResult>(function, true);
@@ -117,7 +117,7 @@ namespace Accord.Core
         /// <typeparam name="T">The type of the parameter of the method that this delegate encapsulates.</typeparam>
         /// <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
         /// <param name="function">The target method to decorate.</param>
-        /// <returns>A function delagate that represents the cached version of the target method.</returns>
+        /// <returns>A function delegate that represents the cached version of the target method.</returns>
         public static Func<T, TResult> Decorate<T, TResult>(Func<T, TResult> function)
         {
             var cache = new ConcurrentDictionary<T, TResult>();
@@ -132,7 +132,7 @@ namespace Accord.Core
         /// <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
         /// <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
         /// <param name="function">The target method to decorate.</param>
-        /// <returns>A function delagate that represents the cached version of the target method.</returns>
+        /// <returns>A function delegate that represents the cached version of the target method.</returns>
         public static Func<T1, T2, TResult> Decorate<T1, T2, TResult>(Func<T1, T2, TResult> function)
         {
             var cache = new ConcurrentDictionary<Tuple<T1, T2>, TResult>();
@@ -148,7 +148,7 @@ namespace Accord.Core
         /// <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
         /// <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
         /// <param name="function">The target method to decorate.</param>
-        /// <returns>A function delagate that represents the cached version of the target method.</returns>
+        /// <returns>A function delegate that represents the cached version of the target method.</returns>
         public static Func<T1, T2, T3, TResult> Decorate<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> function)
         {
             var cache = new ConcurrentDictionary<Tuple<T1, T2, T3>, TResult>();
@@ -165,7 +165,7 @@ namespace Accord.Core
         /// <typeparam name="T4">The type of the forth parameter of the method that this delegate encapsulates.</typeparam>
         /// <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
         /// <param name="function">The target method to decorate.</param>
-        /// <returns>A function delagate that represents the cached version of the target method.</returns>
+        /// <returns>A function delegate that represents the cached version of the target method.</returns>
         public static Func<T1, T2, T3, T4, TResult> Decorate<T1, T2, T3, T4, TResult>(Func<T1, T2, T3, T4, TResult> function)
         {
             var cache = new ConcurrentDictionary<Tuple<T1, T2, T3, T4>, TResult>();

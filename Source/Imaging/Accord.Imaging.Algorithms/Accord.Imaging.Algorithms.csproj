@@ -78,6 +78,8 @@
     <Compile Include="DenseHistogram\DenseHistogram.Backpropagate.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Calculate.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Core.cs" />
+    <Compile Include="Filter\ColorFilters\ContrastStretch.cs" />
+    <Compile Include="Filter\ColorFilters\CorrectContrast.cs" />
     <Compile Include="Filter\Edge\Canny.cs" />
     <Compile Include="Filter\FindNonZeroExtensions.cs" />
     <Compile Include="Filter\NonMaximaSupressionExtensions.cs" />

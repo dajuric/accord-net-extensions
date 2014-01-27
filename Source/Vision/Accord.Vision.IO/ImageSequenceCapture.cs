@@ -10,7 +10,7 @@ using Accord.Core;
 
 namespace Accord.Vision
 {
-   public class ImageSequenceCapture: CaptureBase
+   public class ImageSequenceCapture: CaptureBase, IDisposable
     {
         string[] fileNames = null;
         int fps = 0;
@@ -66,7 +66,7 @@ namespace Accord.Vision
 
         public override void Stop()
         {
-            timer.Dispose();
+            timer.Stop();
             currentFrame = 0;
         }
 
@@ -120,6 +120,24 @@ namespace Accord.Vision
             set
             {
                 throw new NotImplementedException();
+            }
+        }
+
+        public void Dispose()
+        {
+            if (timer != null)
+            {
+                timer.Dispose();
+                timer = null;
+            }
+        }
+
+        ~ImageSequenceCapture()
+        {
+            if (timer != null)
+            {
+                timer.Dispose();
+                timer = null;
             }
         }
     }

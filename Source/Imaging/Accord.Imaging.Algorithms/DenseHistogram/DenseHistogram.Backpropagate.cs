@@ -33,7 +33,7 @@ namespace Accord.Imaging
         private Image<Gray, TDepth> BackProject<TDepth>(Image<Gray, TDepth>[] srcs) 
             where TDepth : struct
         {
-            var destColor = ColorInfo.GetInfo(typeof(Gray), typeof(TDepth));
+            var destColor = ColorInfo.GetInfo<Gray, TDepth>();
 
             BackpropagateFunc backpropagateFunc = null;
             if (backpropagateFuncs.TryGetValue(destColor.ChannelType, out backpropagateFunc) == false)

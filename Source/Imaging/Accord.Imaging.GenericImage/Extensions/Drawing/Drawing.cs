@@ -378,7 +378,7 @@ namespace Accord.Imaging
         {
             color = color.Equals(default(Bgr)) ? new Bgr(Color.YellowGreen) : color;
             textColor = textColor.Equals(default(Bgr)) ? new Bgr(Color.Black) : color;
-            font = font ?? new Font("Arial", 10, FontStyle.Bold);
+            font = font ?? new Font("Arial", 8, FontStyle.Bold);
 
             var nLines = text.Where(x => x.Equals('\n')).Count() + 1;
             var annotationHeight = (int)(3 + (font.SizeInPoints + 3) * nLines + 3);

@@ -23,6 +23,10 @@ namespace Test
         [STAThread]
         unsafe static void Main()
         {
+            var resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
+            var imgColor = Bitmap.FromFile(Path.Combine(resourceDir, "testColorBig.jpg")).ToImage<Bgr, byte>();
+            imgColor = imgColor.CorrectContrast(105);
+
             /*var bmp1 = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile("nature-spring.jpg");
             var image1 = bmp1.ToImage<Gray, float>();
 

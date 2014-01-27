@@ -108,7 +108,7 @@ namespace ParticleFilterModelFitting
 
             var groups = matchClustering.Group(matches.ToArray(), MatchClustering.COMPARE_BY_SIZE);
 
-            var bestGroup = groups.Where(x=>x.Neighbours > 3).MaxBy(x => x.Neighbours); //for now
+            var bestGroup = groups/*.Where(x=>x.Neighbours > 3)*/.MaxBy(x => x.Neighbours); //for now
             var largestSize = bestGroup.Representative.Template.Size;
             var scaleFactor = 1f / (largestSize.Width * largestSize.Height);
 
@@ -157,7 +157,7 @@ namespace ParticleFilterModelFitting
 
             /********************************* output **************************************/
             var metaData = getData(p.MetaDataRef);
-            //if (metaData != null)
+            if (metaData != null)
             {
                 //img.Draw(p.MetaData, new Bgr(Color.Blue), 1);
                 img.Draw(metaData.Points, new Bgr(Color.Blue), 3);
@@ -210,16 +210,16 @@ namespace ParticleFilterModelFitting
         }
 
         Image<Bgr, byte> frame;
-        Font font = new Font("Arial", 12); int a = 0;
+        Font font = new Font("Arial", 12); //int a = 0;
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
             bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
             if (!hasNewFrame)
                 return;
 
-            frame = videoCapture.QueryFrame().Clone();//.GetSubRect(new Rectangle(0, 0, 200, 200));
+            frame = videoCapture.QueryFrame();//.CorrectContrast(25);
 
-            frame.Save("C:/image_" + a + ".jpg");
+            //frame.Save("C:/image_" + a + ".jpg");
 
             long start = DateTime.Now.Ticks;
 
@@ -232,8 +232,8 @@ namespace ParticleFilterModelFitting
             frame.Draw("Processed: " + matchTimeMs /*elapsedMs*/ + " ms", font, new PointF(15, 10), new Bgr(0, 255, 0));
             this.pictureBox.Image = frame.ToBitmap();
 
-            frame.Save("C:/imageAnn_" + a + ".jpg");
-            a++;
+            //frame.Save("C:/imageAnn_" + a + ".jpg");
+            //a++;
 
             GC.Collect();
         }
