@@ -193,7 +193,7 @@ namespace LINE2D
                     neighbourMap.AddTo(buffer, mapPoint);
                     nAddsInBuffer++;
 
-                    if (nAddsInBuffer / SIMDArithemtics.MAX_SUPPORTED_NUM_OF_FEATURES_ADDDED_AS_BYTE != 0)
+                    if (nAddsInBuffer / GlobalParameters.MAX_SUPPORTED_NUM_OF_FEATURES_ADDDED_AS_BYTE != 0)
                     {
                         buffer.AddTo(similarityMap);
                         buffer.Clear();
@@ -202,7 +202,7 @@ namespace LINE2D
                     }
                 }
 
-                bool finalAdd = (template.Features.Length % SIMDArithemtics.MAX_SUPPORTED_NUM_OF_FEATURES_ADDDED_AS_BYTE != 0) ? true : false;
+                bool finalAdd = (template.Features.Length % GlobalParameters.MAX_SUPPORTED_NUM_OF_FEATURES_ADDDED_AS_BYTE != 0) ? true : false;
                 if (finalAdd)
                 {
                     buffer.AddTo(similarityMap);

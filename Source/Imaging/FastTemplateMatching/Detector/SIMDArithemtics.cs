@@ -71,6 +71,5 @@ namespace LINE2D
             }
         }
 
-        public static int MAX_SUPPORTED_NUM_OF_FEATURES_ADDDED_AS_BYTE = Byte.MaxValue / GlobalParameters.MAX_FEATURE_SIMILARITY;
     }
 }

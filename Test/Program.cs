@@ -23,6 +23,10 @@ namespace Test
         [STAThread]
         unsafe static void Main()
         {
+            Test t44 = new Test();
+            t44.Bla();
+            return;
+
             var resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
             var imgColor = Bitmap.FromFile(Path.Combine(resourceDir, "testColorBig.jpg")).ToImage<Bgr, byte>();
             imgColor = imgColor.CorrectContrast(105);

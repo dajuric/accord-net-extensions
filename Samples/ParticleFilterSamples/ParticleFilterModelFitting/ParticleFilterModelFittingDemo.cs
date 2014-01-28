@@ -19,7 +19,8 @@ namespace ParticleFilterModelFitting
 {
     public partial class ParticleFilterModelFittingDemo : Form
     {
-        const int NUMBER_OF_PARTICLES = 200;
+        const int NUMBER_OF_PARTICLES = 250;
+        const int MATCHING_MIN_THRESHOLD = 85;
         Size imgSize = new Size(640 / 2, 480 / 2);
 
         List<ModelParticle> particleFilter;
@@ -102,13 +103,14 @@ namespace ParticleFilterModelFitting
             IDictionary<ModelParams, IEnumerable<ModelParticle>> nonDistinctMembers;
             var uniqueParticles = getDistinctParticles(particles, out nonDistinctMembers); //get distint particles (there is no need to match the same templates)
 
-            var matches = Detector.MatchTemplates(linPyr.PyramidalMaps.First(), uniqueParticles, 86);
+            var matches = Detector.MatchTemplates(linPyr.PyramidalMaps.First(), uniqueParticles, MATCHING_MIN_THRESHOLD);
             if (matches.Count == 0)
                 return;
 
             var groups = matchClustering.Group(matches.ToArray(), MatchClustering.COMPARE_BY_SIZE);
 
-            var bestGroup = groups/*.Where(x=>x.Neighbours > 3)*/.MaxBy(x => x.Neighbours); //for now
+            //var bestGroup = groups/*.Where(x=>x.Neighbours > 3)*/.MaxBy(x => x.Neighbours); //for now
+            var bestGroup = groups.MaxBy(x => x.Representative.BoundingRect.Area());
             var largestSize = bestGroup.Representative.Template.Size;
             var scaleFactor = 1f / (largestSize.Width * largestSize.Height);
 
@@ -192,8 +194,8 @@ namespace ParticleFilterModelFitting
             {
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
 
-                videoCapture = new ImageSequenceCapture(Path.Combine(resourceDir, "SampleVideo"), ".jpg", 1); 
-                //videoCapture = new Capture();
+                //videoCapture = new ImageSequenceCapture(Path.Combine(resourceDir, "SampleVideo"), ".jpg", 1); 
+                videoCapture = new Capture();
             }
             catch (Exception)
             {
@@ -217,7 +219,7 @@ namespace ParticleFilterModelFitting
             if (!hasNewFrame)
                 return;
 
-            frame = videoCapture.QueryFrame();//.CorrectContrast(25);
+            frame = videoCapture.QueryFrame().StretchContrast();
 
             //frame.Save("C:/image_" + a + ".jpg");
 

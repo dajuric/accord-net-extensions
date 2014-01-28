@@ -105,6 +105,7 @@
     <Compile Include="Test.ColorConversions.cs" />
     <Compile Include="Test.LKFlow.cs" />
     <Compile Include="Test.Performance.cs" />
+    <Compile Include="Test.Temp.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

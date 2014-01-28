@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace LINE2D
 {
@@ -25,6 +26,10 @@ namespace LINE2D
         /// </summary>
         public const int MAX_NUM_OF_FEATURES = short.MaxValue / MAX_FEATURE_SIMILARITY;
 
+        /// <summary>
+        /// Max number of features that can be added to a buffer of type Byte.
+        /// </summary>
+        public const int MAX_SUPPORTED_NUM_OF_FEATURES_ADDDED_AS_BYTE = Byte.MaxValue / GlobalParameters.MAX_FEATURE_SIMILARITY;
 
         static GlobalParameters()
         {
