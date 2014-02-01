@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Accord.Extensions.Imaging.Helper;
-using MethodCache = Accord.Extensions.Core.MethodCache;
+using MethodCache = Accord.Extensions.MethodCache;
 using System.Drawing;
-using Accord.Extensions.Core;
+using Accord.Extensions;
 
 namespace Accord.Extensions.Imaging.Converters
 {

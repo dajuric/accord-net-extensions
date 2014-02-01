@@ -1,6 +1,9 @@
 ﻿using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Accord.Extensions;
+using PointF = AForge.Point;
+using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Math.Geometry
 {

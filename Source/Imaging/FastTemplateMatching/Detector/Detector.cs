@@ -3,12 +3,12 @@ using Accord.Extensions.Math.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Threading.Tasks;
 using System.Linq;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
-using Accord.Extensions.Core;
+using Accord.Extensions;
+using Accord.Extensions;
 
 namespace LINE2D
 {
@@ -52,7 +52,7 @@ namespace LINE2D
 
             //match at the lowest level
             int lowestLevelIdx = linPyr.PyramidalMaps.Length - 1; 
-            var searchArea = new Rectangle(System.Drawing.Point.Empty, linPyr.PyramidalMaps[lowestLevelIdx].ImageSize); //search whole image
+            var searchArea = new Rectangle(new Point(), linPyr.PyramidalMaps[lowestLevelIdx].ImageSize); //search whole image
             pyrMatches[lowestLevelIdx] = matchTemplate(linPyr.PyramidalMaps[lowestLevelIdx], templPyr.Templates[lowestLevelIdx], searchArea, minMatchingPercentage, true);
 
             //refine matches
@@ -97,7 +97,7 @@ namespace LINE2D
 
         public static List<Match> MatchTemplates(LinearizedMaps linMaps, IEnumerable<ITemplate> templates, int minMatchingPercentage, bool inParallel = true)
         {
-            var searchArea = new Rectangle(System.Drawing.Point.Empty, linMaps.ImageSize);
+            var searchArea = new Rectangle(new Point(), linMaps.ImageSize);
 
             List<Match> matches = new List<Match>();
 
@@ -125,7 +125,7 @@ namespace LINE2D
 
         public static List<Match> MatchTemplate(LinearizedMaps linMaps, ITemplate template, Rectangle searchArea, int minMatchingPercentage)
         {
-            if (searchArea.IntersectionPercent(new Rectangle(System.Drawing.Point.Empty, linMaps.ImageSize)) < 1)
+            if (searchArea.IntersectionPercent(new Rectangle(new Point(), linMaps.ImageSize)) < 1)
             {
                 throw new Exception("Search area must be within image size!");
             }
@@ -135,7 +135,7 @@ namespace LINE2D
 
         public static List<Match> MatchTemplate(LinearizedMaps linMaps, ITemplate template, int minMatchingPercentage)
         {
-            var searchArea = new Rectangle(System.Drawing.Point.Empty, linMaps.ImageSize);
+            var searchArea = new Rectangle(new Point(), linMaps.ImageSize);
 
             return matchTemplate(linMaps, template, searchArea, minMatchingPercentage);
         }

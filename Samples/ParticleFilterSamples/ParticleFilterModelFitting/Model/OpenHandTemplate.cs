@@ -1,10 +1,10 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
+using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math;
 using Accord.Extensions.Math.Geometry;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -30,7 +30,7 @@ namespace ParticleFilterModelFitting
             int idx = 0;
             foreach (var fileName in fileNames)
             {
-                using (var img = Bitmap.FromFile(fileName).ToImage<Gray, byte>())
+                using (var img = System.Drawing.Bitmap.FromFile(fileName).ToImage<Gray, byte>())
                 {
                     createRange(dict, img, idx, scaleRange, rotationRange);
                 }

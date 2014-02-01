@@ -67,8 +67,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +115,10 @@
     <ProjectReference Include="..\..\Math\Math\Math.csproj">
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
       <Name>Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Imaging.AForgeCompatibillity\Imaging.AForgeCompatibillity.csproj">
+      <Project>{f4e40964-c640-4c87-9e3e-a1f1266fbc73}</Project>
+      <Name>Imaging.AForgeCompatibillity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Imaging.GenericImage\Imaging.GenericImage.csproj">
       <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>

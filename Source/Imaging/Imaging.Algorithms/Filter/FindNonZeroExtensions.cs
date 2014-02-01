@@ -1,11 +1,11 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Imaging
 {
@@ -50,9 +50,8 @@ namespace Accord.Extensions.Imaging
                                                               lock (_values)
                                                               {
                                                                   locationsPatch.ForEach(x => 
-                                                                  {
-                                                                      x.Offset(area.Location);
-                                                                      locations.Add(x);
+                                                                  { 
+                                                                      locations.Add(x + area.Location);
                                                                   });
 
                                                                   _values.AddRange(valuesPatch  as IList<TDepth>);

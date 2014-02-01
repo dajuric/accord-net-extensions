@@ -2,9 +2,9 @@
 using Accord.Extensions.Vision;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Accord.Extensions;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 
@@ -75,7 +75,7 @@ namespace PyrKLOpticalFlowDemo
         Image<FlowColor, float> prevIm = null;
         List<PointF> oldPositions = null;
 
-        Font font = new Font("Arial", 12);
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
@@ -120,7 +120,7 @@ namespace PyrKLOpticalFlowDemo
                 var rect = new RectangleF(pt.X, pt.Y, 1, 1);
                 rect.Inflate(winSize / 2, winSize / 2);
 
-                im.Draw(rect, new Bgr(Color.Red), 3);
+                im.Draw(rect, System.Drawing.Color.Red.ToBgr(), 3);
             }
         }
 

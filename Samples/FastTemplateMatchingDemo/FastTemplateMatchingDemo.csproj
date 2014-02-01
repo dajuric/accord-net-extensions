@@ -116,6 +116,10 @@
       <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
       <Name>Imaging.Algorithms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Source\Imaging\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj">
+      <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
+      <Name>Imaging.BitmapCompatibility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj">
       <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
       <Name>Imaging.GenericImage</Name>
@@ -128,9 +132,9 @@
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
       <Name>Math</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\Vision\Vision.IO\Vision.IO.csproj">
-      <Project>{0db826e1-cae4-4802-a579-1e12d7a60348}</Project>
-      <Name>Vision.IO</Name>
+    <ProjectReference Include="..\..\Source\Vision\Vision.IO.Windows\Vision.IO.Windows.csproj">
+      <Project>{ed70a44e-9443-4a28-9b95-31299f8b2d08}</Project>
+      <Name>Vision.IO.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Vision\Vision\Vision.csproj">
       <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>

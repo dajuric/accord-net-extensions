@@ -1,4 +1,4 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
 using Accord.Extensions.Imaging.Helper;
 using System;
 using System.Collections.Generic;
@@ -99,7 +99,7 @@ namespace Accord.Extensions.Imaging
             if(img.Width != bmp.Width || img.Height != bmp.Height)
                 throw new Exception(string.Format("Image sizes must match!"));
 
-            BitmapData bmpData = bmp.LockBits(new Rectangle(Point.Empty, bmp.Size), ImageLockMode.ReadOnly, bmp.PixelFormat);
+            BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(Point.Empty, bmp.Size), ImageLockMode.ReadOnly, bmp.PixelFormat);
             HelperMethods.CopyImage(bmpData.Scan0, img.ImageData, bmpData.Stride, img.Stride, img.Width * img.ColorInfo.Size, img.Height);
             bmp.UnlockBits(bmpData);
         }
@@ -203,7 +203,7 @@ namespace Accord.Extensions.Imaging
             else
             {
                 bmp = new Bitmap(convertedIm.Width, convertedIm.Height, destPixelFormat);
-                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, convertedIm.Width, convertedIm.Height), ImageLockMode.WriteOnly, destPixelFormat);
+                BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, convertedIm.Width, convertedIm.Height), ImageLockMode.WriteOnly, destPixelFormat);
 
                 HelperMethods.CopyImage(convertedIm.ImageData, bmpData.Scan0, convertedIm.Stride, bmpData.Stride, bmpData.Stride, convertedIm.Height);
 
@@ -217,7 +217,7 @@ namespace Accord.Extensions.Imaging
             return bmp;
         }
 
-        internal static IImage ToBitmapCompatibilityImage(IImage srcImg, PixelFormat[] preferedDestinationFormats, out bool isJustCasted)
+        public static IImage ToBitmapCompatibilityImage(IImage srcImg, PixelFormat[] preferedDestinationFormats, out bool isJustCasted)
         {
             var preferedDestinationColors = from preferedFormat in preferedDestinationFormats
                                             let preferedColor = PixelFormatMappings.Where(x => x.PixelFormat == preferedFormat).Select(x => x.ColorInfo).FirstOrDefault()

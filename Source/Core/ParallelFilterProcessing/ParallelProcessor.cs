@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using Accord.Extensions;
 using System.Linq;
 using System.Threading.Tasks;
+using Point = AForge.IntPoint;
 
-namespace Accord.Extensions.Core
+namespace Accord.Extensions
 {
     /// <summary>
     /// Represents options for parallel patch computing.
@@ -142,7 +143,7 @@ namespace Accord.Extensions.Core
             }
             else //process sequential
             {
-                processPatch(image, destImg, new Rectangle(Point.Empty, imageSize));
+                processPatch(image, destImg, new Rectangle(new Point(), imageSize));
             }
 
             return destImg;

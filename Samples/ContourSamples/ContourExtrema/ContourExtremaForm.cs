@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Core;
+using Accord.Extensions;
 using System.Threading;
 
 namespace ContourExtremaDemo
@@ -65,19 +65,19 @@ namespace ContourExtremaDemo
             for (int i = 0; i < humps.Count; i++)
             {
                 var slice = contour.ToCircularList().GetRange(humps[i]);
-                image.Draw(slice, new Bgr(Color.Green), 5);
+                image.Draw(slice, Bgr8.Green, 5);
             }
 
             //draw valeys
             for (int i = 0; i < valeyIndeces.Count; i++)
             {
-                image.Draw(new CircleF(contour[valeyIndeces[i]], 3), new Bgr(Color.Red), 3);
+                image.Draw(new CircleF(contour[valeyIndeces[i]], 3), Bgr8.Red, 3);
             }
 
             //draw peaks
             for (int i = 0; i < peakIndeces.Count; i++)
             {
-                image.Draw(new CircleF(contour[peakIndeces[i]], 3), new Bgr(Color.Blue), 3);
+                image.Draw(new CircleF(contour[peakIndeces[i]], 3), Bgr8.Blue, 3);
             }
 
             //draw contour

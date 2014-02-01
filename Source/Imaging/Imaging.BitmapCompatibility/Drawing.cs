@@ -2,15 +2,21 @@
 using Accord.Extensions.Imaging.Helper;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AForge.Math.Geometry;
-using AForge.Imaging;
-using Accord.Extensions.Core;
+using Accord.Extensions;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
+using AForge.Imaging;
+using Accord.Extensions.Imaging;
+
+using Pen = System.Drawing.Pen;
+using Brush = System.Drawing.Brush;
+using Color = System.Drawing.Color;
+using Graphics = System.Drawing.Graphics;
+using Font = System.Drawing.Font;
 
 namespace Accord.Extensions.Imaging
 {
@@ -23,7 +29,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="color">Color.</param>
         /// <param name="opacity">Opacity. If color has 4 channels opacity is discarded.</param>
         /// <returns>System.Drawing.Color</returns>
-        private static Color getColor<TColor>(TColor color, byte opacity = 255)
+        private static System.Drawing.Color getColor<TColor>(TColor color, byte opacity = 255)
             where TColor : IColor
         {
             int[] colorArr = HelperMethods.ColorToArray<TColor, int>(color);
@@ -56,16 +62,6 @@ namespace Accord.Extensions.Imaging
 
         }
 
-        private static System.Drawing.Point getPt(Point pt)
-        {
-            return new System.Drawing.Point(pt.X, pt.Y);
-        }
-
-        private static System.Drawing.PointF getPt(PointF pt)
-        {
-            return new System.Drawing.PointF(pt.X, pt.Y);
-        }
-
         #region Rectangle
 
         /// <summary>
@@ -82,16 +78,16 @@ namespace Accord.Extensions.Imaging
             if (float.IsNaN(rect.X) || float.IsNaN(rect.Y))
                 return;
 
-            Color drawingColor = getColor(color, opacity);
-            Pen pen = new Pen(drawingColor, width);
+            var drawingColor = getColor(color, opacity);
+            var pen = new System.Drawing.Pen(drawingColor, width);
 
             var bmp = image.ToBitmap(false, true);
-            using (Graphics g = Graphics.FromImage(bmp))
+            using (var g = System.Drawing.Graphics.FromImage(bmp))
             {
                 if (width > 0)
                     g.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
                 else
-                    g.FillRectangle(new SolidBrush(drawingColor), rect);
+                    g.FillRectangle(new System.Drawing.SolidBrush(drawingColor), rect.ToRect());
             }
         }
 
@@ -110,20 +106,20 @@ namespace Accord.Extensions.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, string text, Font font, PointF leftUpperPoint, TColor color)
             where TColor : IColor3
         {
-            var region = new RectangleF(getPt(leftUpperPoint), SizeF.Empty);
+            var region = new RectangleF(leftUpperPoint, SizeF.Empty);
             Draw(image, text, font, region, color);
         }
 
         public static void Draw<TColor>(this Image<TColor, byte> image, string text, Font font, RectangleF region, TColor color)
            where TColor : IColor3
         {
-            Color drawingColor = getColor(color);
-            Brush brush = new SolidBrush(drawingColor);
+            var drawingColor = getColor(color);
+            var brush = new System.Drawing.SolidBrush(drawingColor);
 
             var bmp = image.ToBitmap(false, true);
-            using (Graphics g = Graphics.FromImage(bmp))
+            using (var g = System.Drawing.Graphics.FromImage(bmp))
             {
-                g.DrawString(text, font, brush, region);
+                g.DrawString(text, font, brush, region.ToRect());
             }
         }
 
@@ -141,13 +137,13 @@ namespace Accord.Extensions.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, Box2D box, TColor color, float width)
             where TColor : IColor3
         {
-            Color drawingColor = getColor(color);
-            Pen pen = new Pen(drawingColor, width);
+            var drawingColor = getColor(color);
+            var pen = new System.Drawing.Pen(drawingColor, width);
 
-            System.Drawing.PointF[] vertices = box.GetVertices();
+            var vertices = box.GetVertices().Select(x => x.ToPt()).ToArray();
 
             var bmp = image.ToBitmap(false, true);
-            using (Graphics g = Graphics.FromImage(bmp))
+            using (var g = System.Drawing.Graphics.FromImage(bmp))
             {
                 for (int i = 0; i < vertices.Length; i++)
                 {
@@ -197,7 +193,7 @@ namespace Accord.Extensions.Imaging
             }
             else
             {
-                var bgr = new Bgr(getColor(color));
+                var bgr = getColor(color).ToBgr();
                 Draw(image, lines, width, (_) => bgr);
             }
         }
@@ -221,7 +217,7 @@ namespace Accord.Extensions.Imaging
                 /************** calculate angle ************/
 
                 var rgbColor = new HSL((int)angle, 0.5f, 0.5f).ToRGB();
-                return new Bgr(rgbColor.Color);
+                return rgbColor.Color.ToBgr();
             };
 
             Draw(image, lines, width, colorFunc);
@@ -237,12 +233,12 @@ namespace Accord.Extensions.Imaging
             where TColor : IColor3
         {
             var bmp = image.ToBitmap(false, true);
-            using (Graphics g = Graphics.FromImage(bmp))
+            using (var g = System.Drawing.Graphics.FromImage(bmp))
             {
                 foreach (var line in lines)
                 {
                     var color = getColor(colorFunc(line));
-                    Pen pen = new Pen(color, width);
+                    var pen = new System.Drawing.Pen(color, width);
 
                     g.DrawLine(pen, line.Start.X, line.Start.Y,
                                     line.End.X, line.End.Y);
@@ -263,15 +259,15 @@ namespace Accord.Extensions.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<Point> contour, TColor color, float width)
             where TColor : IColor3
         {
-            var contourArr = contour.Select(x => getPt(x)).ToArray();
+            var contourArr = contour.Select(x => x.ToPt()).ToArray();
             if (contourArr.Length < 2)
                 return;
 
-            Color drawingColor = getColor(color);
-            Pen pen = new Pen(drawingColor, width);
+            var drawingColor = getColor(color);
+            var pen = new System.Drawing.Pen(drawingColor, width);
 
             var bmp = image.ToBitmap(false, true);
-            using (Graphics g = Graphics.FromImage(bmp))
+            using (var g = System.Drawing.Graphics.FromImage(bmp))
             {
                 g.DrawCurve(pen, contourArr);
             }
@@ -287,12 +283,12 @@ namespace Accord.Extensions.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<PointF> contour, TColor color, float width, bool connectPoints = true)
             where TColor : IColor3
         {
-            var contourArr = contour.Select(x => getPt(x)).ToArray();
+            var contourArr = contour.Select(x => x.ToPt()).ToArray();
             if (contourArr.Length < 2)
                 return;
 
-            Color drawingColor = getColor(color);
-            Pen pen = new Pen(drawingColor, width);
+            var drawingColor = getColor(color);
+            var pen = new Pen(drawingColor, width);
 
             var bmp = image.ToBitmap(false, true);
 
@@ -376,9 +372,9 @@ namespace Accord.Extensions.Imaging
         /// <param name="font">Font to use. Default is "Arial" of size 10, style: Bold.</param>
         public static void DrawAnnotation(this Image<Bgr, byte> image, Rectangle rect, string text, int annotationWidth = 100, Bgr color = default(Bgr), Bgr textColor = default(Bgr), Font font = null)
         {
-            color = color.Equals(default(Bgr)) ? new Bgr(Color.YellowGreen) : color;
-            textColor = textColor.Equals(default(Bgr)) ? new Bgr(Color.Black) : color;
-            font = font ?? new Font("Arial", 8, FontStyle.Bold);
+            color = color.Equals(default(Bgr)) ? Color.YellowGreen.ToBgr() : color;
+            textColor = textColor.Equals(default(Bgr)) ? Color.Black.ToBgr() : color;
+            font = font ?? new Font("Arial", 8, System.Drawing.FontStyle.Bold);
 
             var nLines = text.Where(x => x.Equals('\n')).Count() + 1;
             var annotationHeight = (int)(3 + (font.SizeInPoints + 3) * nLines + 3);

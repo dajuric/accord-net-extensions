@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-namespace Accord.Extensions.Core
+namespace Accord.Extensions
 {
     /// <summary>
     /// Represents a set of cache decorated methods 

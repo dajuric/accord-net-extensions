@@ -119,6 +119,10 @@
       <Project>{5f6b97f8-7ea6-4b5d-9a5d-f5581505c303}</Project>
       <Name>LINE2D</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Imaging\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj">
+      <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
+      <Name>Imaging.BitmapCompatibility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj">
       <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
       <Name>Imaging.GenericImage</Name>

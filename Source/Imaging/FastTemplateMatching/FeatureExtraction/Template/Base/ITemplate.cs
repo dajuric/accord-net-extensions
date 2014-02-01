@@ -1,14 +1,14 @@
 ﻿using Accord.Extensions.Imaging;
 using System;
-using System.Drawing;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.Linq;
 using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Core;
+using Accord.Extensions;
 using PointF = AForge.Point;
 using LineSegment2DF = AForge.Math.Geometry.LineSegment;
 using System.Collections.Generic;
+using Accord.Extensions;
 
 namespace LINE2D
 {
@@ -23,7 +23,7 @@ namespace LINE2D
 
     public static class ImageTemplateExtensions
     {
-        public static void Draw<TColor>(this Image<TColor, Byte> image, ITemplate template, System.Drawing.PointF offset, TColor color, int thickness = 2,
+        public static void Draw<TColor>(this Image<TColor, Byte> image, ITemplate template, PointF offset, TColor color, int thickness = 2,
                                         bool drawOrientations = false, TColor orientationColor = default(TColor))
             where TColor: IColor3
         {

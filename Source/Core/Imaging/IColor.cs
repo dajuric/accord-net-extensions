@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Accord.Extensions.Core
+namespace Accord.Extensions
 {
     /// <summary>
     /// Default interface for color types.

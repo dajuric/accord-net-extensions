@@ -1,10 +1,9 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
 using Accord.Extensions.Imaging.Converters;
 using Accord.Extensions.Imaging.Helper;
 using AForge.Imaging;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +20,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="unmanagedImage"> Unmanaged image</param>
         /// <returns>Generic image (interface)</returns>
         public static IImage AsImage(this UnmanagedImage unmanagedImage)
-        {
+        { 
             var imageColor = (from pixelFormatMapping in BitmapConversionExtensions.PixelFormatMappings
                               where pixelFormatMapping.PixelFormat == unmanagedImage.PixelFormat
                               select pixelFormatMapping.ColorInfo)
@@ -65,7 +64,7 @@ namespace Accord.Extensions.Imaging
         {
             //all formats (please note that during Image > Bitmap conversion DefaultPreferedDestPixelFormats are choosen for compatibility reasons.
             //put DefaultPreferedDestPixelFormats if an user encounters problems (e.g. during image saving - Bitmap does not support saving some PixelFormats)
-            PixelFormat[] preferedDestinationFormats = BitmapConversionExtensions.PixelFormatMappings.Select(x => x.PixelFormat).ToArray();
+            var preferedDestinationFormats = BitmapConversionExtensions.PixelFormatMappings.Select(x => x.PixelFormat).ToArray();
 
             bool justCast;
             IImage convertedIm = BitmapConversionExtensions.ToBitmapCompatibilityImage(img, preferedDestinationFormats, out justCast);

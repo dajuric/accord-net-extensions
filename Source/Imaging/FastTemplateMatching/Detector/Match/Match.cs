@@ -1,11 +1,12 @@
 ﻿using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
-using System.Drawing;
 using System.Linq;
 using System;
-using Accord.Extensions.Core;
+using Accord.Extensions;
+using Accord.Extensions;
 using System.Collections.Generic;
-
+using Point = AForge.IntPoint;
+using PointF = AForge.Point;
 
 namespace LINE2D
 {
@@ -55,7 +56,7 @@ namespace LINE2D
             where TColor: IColor3
             where TTemplate: ITemplate
         {
-            System.Drawing.PointF offset = new PointF(match.X, match.Y);
+            PointF offset = new PointF(match.X, match.Y);
             image.Draw(match.Template, offset, color, thickness, drawOrientations, orientationColor);
         }
 

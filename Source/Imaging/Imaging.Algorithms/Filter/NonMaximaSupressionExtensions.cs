@@ -1,4 +1,4 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Imaging
 {
@@ -48,7 +49,7 @@ namespace Accord.Extensions.Imaging
                                                                   Width = _src.Width,
                                                                   Height = area.Height + 2 * radius
                                                               };
-                                                              srcArea.Intersect(new Rectangle(Point.Empty, img.Size));
+                                                              srcArea.Intersect(new Rectangle(new Point(), img.Size));
 
                                                               supressNonMaximaFunc(img.GetSubRect(srcArea), dest.GetSubRect(srcArea), radius, discardValue);
                                                           },

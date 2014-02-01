@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Accord.Extensions.Imaging.Filters;
 using System.Linq;
-using Accord.Extensions.Core;
+using Accord.Extensions;
 
 namespace LINE2D
 {

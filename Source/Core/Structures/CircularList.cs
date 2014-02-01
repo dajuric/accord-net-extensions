@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Range = AForge.IntRange;
 
-namespace Accord.Extensions.Core
+namespace Accord.Extensions
 {
     public static class CircularListExtensions
     {

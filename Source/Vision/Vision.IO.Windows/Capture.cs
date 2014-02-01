@@ -109,7 +109,7 @@ namespace Accord.Extensions.Vision
             {
                 if (videoSource is VideoCaptureDevice)
                 {
-                    return ((VideoCaptureDevice)videoSource).VideoResolution.FrameSize;
+                    return ((VideoCaptureDevice)videoSource).VideoResolution.FrameSize.ToSize();
                 }
                 else
                 {
@@ -142,7 +142,7 @@ namespace Accord.Extensions.Vision
             float bestScore = 0;
             foreach (var c in capabilities)
             {
-                float sim = similarityFunc(c.FrameSize);
+                float sim = similarityFunc(c.FrameSize.ToSize());
 
                 if (sim > bestScore)
                 {
@@ -204,7 +204,8 @@ namespace Accord.Extensions.Vision
  
         void videoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            var bmpData = eventArgs.Frame.LockBits(new Rectangle(Point.Empty, eventArgs.Frame.Size), System.Drawing.Imaging.ImageLockMode.ReadOnly, eventArgs.Frame.PixelFormat);
+            var bmpData = eventArgs.Frame.LockBits(new System.Drawing.Rectangle(Point.Empty, eventArgs.Frame.Size), 
+                                                   System.Drawing.Imaging.ImageLockMode.ReadOnly, eventArgs.Frame.PixelFormat);
 
             base.OnVideoFrame(bmpData.AsImage());
 

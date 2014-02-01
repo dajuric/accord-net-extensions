@@ -1,4 +1,5 @@
-﻿using Accord.Extensions.Imaging;
+﻿using Accord.Extensions;
+using Accord.Extensions.Imaging;
 using Accord.Extensions.Math;
 using Accord.Extensions.Math.Geometry;
 using Accord.Math;
@@ -8,7 +9,6 @@ using Accord.Extensions.Vision;
 using AForge;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PointF = AForge.Point;
@@ -58,7 +58,7 @@ namespace SimpleParticleFilterDemo
 
         Size imgSize = new Size(640, 480);
 
-        Color referenceColor = Color.Red; //User defined color
+        Bgr referenceColor = Bgr8.Red; //User defined color
         List<ColorParticle> particleFilter;
       
         private void init()
@@ -165,7 +165,7 @@ namespace SimpleParticleFilterDemo
         }
 
         Image<Bgr, byte> frame;
-        Font font = new Font("Arial", 12);
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
             bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
@@ -192,7 +192,7 @@ namespace SimpleParticleFilterDemo
         private void drawParticles(IEnumerable<ColorParticle> particles, Image<Bgr, byte> img)
         {
             var circles = particles.Select(x => new CircleF { X = x.Position.X, Y = x.Position.Y, Radius = 1.5f });
-            img.Draw(circles, new Bgr(Color.Blue), 5);
+            img.Draw(circles, Bgr8.Blue, 5);
         }
 
         void ColorParticleDemo_FormClosing(object sender, FormClosingEventArgs e)

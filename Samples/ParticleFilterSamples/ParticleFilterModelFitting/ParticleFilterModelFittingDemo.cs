@@ -1,4 +1,5 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
+using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
 using Accord.Extensions.Statistics.Filters;
@@ -9,7 +10,6 @@ using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -162,7 +162,7 @@ namespace ParticleFilterModelFitting
             if (metaData != null)
             {
                 //img.Draw(p.MetaData, new Bgr(Color.Blue), 1);
-                img.Draw(metaData.Points, new Bgr(Color.Blue), 3);
+                img.Draw(metaData.Points, Bgr8.Blue, 3);
 
                 var text = String.Format("W: {0:0.00}, \nS:{1:00}, A:{2:00}",
                                          p.Weight, p.ModelParameters.Scale, p.ModelParameters.Angle);
@@ -212,7 +212,7 @@ namespace ParticleFilterModelFitting
         }
 
         Image<Bgr, byte> frame;
-        Font font = new Font("Arial", 12); //int a = 0;
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12); //int a = 0;
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
             bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
@@ -263,7 +263,7 @@ namespace ParticleFilterModelFitting
                 var template = pair.Value;
                 using (var img = new Image<Bgr, byte>(template.Size.Width + 2 * BORDER_OFFSET, template.Size.Height + 2 * BORDER_OFFSET))
                 {
-                    img.Draw(template, new System.Drawing.PointF(BORDER_OFFSET, BORDER_OFFSET), new Bgr(Color.Red), 2, true, new Bgr(Color.Green));
+                    img.Draw(template, new PointF(BORDER_OFFSET, BORDER_OFFSET), Bgr8.Red, 2, true, Bgr8.Green);
                     img.Save(fileName);
                 }
             }

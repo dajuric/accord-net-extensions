@@ -23,13 +23,10 @@
 namespace Accord.Extensions.Imaging.Moments
 {
     using System;
-    using System.Drawing;
-    using System.Drawing.Imaging;
-    using AForge.Imaging;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
     using AForge;
-    using Accord.Extensions.Core;
+    using Accord.Extensions;
 
     /// <summary>
     ///   Raw image moments.

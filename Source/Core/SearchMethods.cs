@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Accord.Extensions.Core
+namespace Accord.Extensions
 {
     public static class SearchMethods
     {

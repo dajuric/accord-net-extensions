@@ -1,4 +1,4 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
 using Accord.Extensions.Imaging.Converters;
 using System;
 

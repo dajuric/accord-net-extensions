@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using Accord.Extensions;
 
 namespace LINE2D
 {
@@ -170,7 +171,7 @@ namespace LINE2D
             }
 
             TTemplate t = new TTemplate();
-            t.Initialize(features.ToArray(), new System.Drawing.Size(width, height), templateClass);
+            t.Initialize(features.ToArray(), new Size(width, height), templateClass);
 
             if (t is IXmlSerializable)
             {

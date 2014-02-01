@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoreLinq;
-using Accord.Extensions.Core;
+using Accord.Extensions;
 
 namespace Accord.Extensions.Imaging
 {

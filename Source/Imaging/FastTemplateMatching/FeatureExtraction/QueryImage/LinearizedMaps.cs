@@ -1,7 +1,7 @@
-﻿using Accord.Extensions.Imaging;
+﻿using Accord.Extensions;
+using Accord.Extensions.Imaging;
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;

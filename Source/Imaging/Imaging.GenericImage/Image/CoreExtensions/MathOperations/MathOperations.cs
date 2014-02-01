@@ -1,4 +1,4 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

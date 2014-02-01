@@ -1,4 +1,4 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
 using AForge.Imaging.Filters;
 
 namespace Accord.Extensions.Imaging

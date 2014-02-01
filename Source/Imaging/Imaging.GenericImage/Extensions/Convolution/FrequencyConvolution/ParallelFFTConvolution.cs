@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Accord.Extensions.Imaging.Helper;
 using Accord.Extensions.Math;
-using Accord.Extensions.Core;
+using Accord.Extensions;
 
 namespace Accord.Extensions.Imaging
 {

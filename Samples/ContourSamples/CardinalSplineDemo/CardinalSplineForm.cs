@@ -82,12 +82,12 @@ namespace CardinalSplineDemo
             /********************  contour and control points *********************/
 
             image.Draw(points.ToArray(),
-                       new Bgr(Color.Blue),
+                       Bgr8.Blue,
                        3);
 
-            image.Draw(controlPoints.Select(x => new CircleF(x, 3)), new Bgr(Color.Red), 3);
+            image.Draw(controlPoints.Select(x => new CircleF(x, 3)), Bgr8.Red, 3);
 
-            image.Draw(normals, new Bgr(Color.Green), 3, false);
+            image.Draw(normals, Bgr8.Green, 3, false);
         }
 
         private static LineSegment2DF getLine(int derivativeOrientation, PointF centerPoint, float length)

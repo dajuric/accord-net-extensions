@@ -1,4 +1,4 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -8,13 +8,6 @@ namespace Accord.Extensions.Imaging
     [StructLayout(LayoutKind.Sequential)]
     public struct Bgr: IColor, IColor3
     {
-        public Bgr(Color color)
-        {
-            this.B = color.B;
-            this.G = color.G;
-            this.R = color.R;
-        }
-
         public Bgr(double b, double g, double r)
         {
             this.B = b;
@@ -25,6 +18,16 @@ namespace Accord.Extensions.Imaging
         public double B;
         public double G;
         public double R;
+
+        public static implicit operator Bgr(Bgr8 color)
+        {
+            return new Bgr(color.B, color.G, color.R);
+        }
+
+        public static implicit operator Bgr(Bgr32 color)
+        {
+            return new Bgr(color.B, color.G, color.R);
+        }
     }
 
     [ColorInfo(ConversionCodename = "BGR")]
@@ -34,6 +37,11 @@ namespace Accord.Extensions.Imaging
         public byte B;
         public byte G;
         public byte R;
+
+        public static readonly Bgr32 Red =   new Bgr32 { B = 0,             G = 0,             R = byte.MaxValue };
+        public static readonly Bgr32 Blue =  new Bgr32 { B = byte.MaxValue, G = 0,             R = 0             };
+        public static readonly Bgr32 Green = new Bgr32 { B = 0,             G = byte.MaxValue, R = 0             };
+
     }
 
     [ColorInfo(ConversionCodename = "BGR")]
@@ -62,4 +70,6 @@ namespace Accord.Extensions.Imaging
         public float G;
         public float R;
     }
+
+
 }

@@ -1,7 +1,7 @@
-﻿using Accord.Extensions.Imaging;
+﻿using Accord.Extensions;
+using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Filters;
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using AForge;
 using Accord.Extensions.Imaging.Converters;
@@ -126,7 +126,7 @@ namespace Accord.Extensions.Vision
             GC.Collect();
         }
 
-        Font font = new Font("Arial", 12);
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
@@ -180,7 +180,7 @@ namespace Accord.Extensions.Vision
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            roi.Intersect(new Rectangle(System.Drawing.Point.Empty, frame.Size));
+            roi.Intersect(new Rectangle(new Point(), frame.Size));
             isROISelected = true;
         }
 

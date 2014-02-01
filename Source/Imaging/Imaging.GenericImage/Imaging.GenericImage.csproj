@@ -38,15 +38,8 @@
     <Reference Include="AForge">
       <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
     </Reference>
-    <Reference Include="AForge.Imaging">
-      <HintPath>..\..\..\packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <HintPath>..\..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,7 +48,6 @@
     <Compile Include="ColorSpaces\ColorInfo.cs" />
     <Compile Include="ColorSpaces\Gray.cs" />
     <Compile Include="ColorSpaces\Hsv.cs" />
-    <Compile Include="Extensions\AForgeCompatibility\AForgeFilterProcessing.cs" />
     <Compile Include="Extensions\ArrayCompatibility\ArrayToImageExtensions.cs" />
     <Compile Include="Extensions\ArrayCompatibility\ImageToArrayExtensions.cs" />
     <Compile Include="Extensions\Basic\ClearImage.cs" />
@@ -63,7 +55,6 @@
     <Compile Include="Extensions\Basic\GetRectSubPix.cs" />
     <Compile Include="Extensions\Basic\InRange.cs" />
     <Compile Include="Extensions\Basic\PixelSetter.cs" />
-    <Compile Include="Extensions\BitmapCompatibility\SaveExtensions.cs" />
     <Compile Include="Extensions\ComplexImage\ComplexImage.Arithemtics.cs" />
     <Compile Include="Extensions\Math\Magnitude.cs" />
     <Compile Include="Extensions\Math\Max.cs" />
@@ -78,7 +69,6 @@
     <Compile Include="Image\CoreExtensions\MathOperations\MathOperations.cs" />
     <Compile Include="Extensions\Basic\ImageFlipping.cs" />
     <Compile Include="Extensions\ComplexImage\ComplexImage.FFT.cs" />
-    <Compile Include="Extensions\Drawing\Drawing.cs" />
     <Compile Include="Image\CoreExtensions\MathOperations\MathOperations.Logic.cs" />
     <Compile Include="Helper\HelperMethods.cs" />
     <Compile Include="ImageColorTypeConversions\Converters\Color\GrayComplexConverters.cs" />
@@ -96,8 +86,6 @@
     <Compile Include="ColorSpaces\Bgr.cs" />
     <Compile Include="ColorSpaces\IColor.cs" />
     <Compile Include="Image\Core\Image.cs" />
-    <Compile Include="Extensions\BitmapCompatibility\BitmapConversion.cs" />
-    <Compile Include="Extensions\AForgeCompatibility\AForgeImageConversion.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.ForEach.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.MinBy.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.Pairwise.cs" />
@@ -116,11 +104,11 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Math\Math\Math.csproj">
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
-      <Name>Accord.Math.Extensions</Name>
+      <Name>Math</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Math\Math.Geometry\Math.Geometry.csproj">
       <Project>{6713153c-8632-4951-a3ed-cd49a70c9fb3}</Project>
-      <Name>Accord.Math.Geometry.Extensions</Name>
+      <Name>Math.Geometry</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

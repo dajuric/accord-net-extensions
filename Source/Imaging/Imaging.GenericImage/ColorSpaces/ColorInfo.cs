@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Accord.Extensions.Imaging.Helper;
-using Accord.Extensions.Core;
+using Accord.Extensions;
 
 namespace Accord.Extensions.Imaging
 {

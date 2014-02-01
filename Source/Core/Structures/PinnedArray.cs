@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Accord.Extensions.Core
+namespace Accord.Extensions
 {
     /// <summary>
     /// Class that represents array that is pinned.

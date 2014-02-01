@@ -34,7 +34,7 @@ namespace Test
                                                  out currFeatures, out featureStatus, out error, 15, 15, 0.1f, 0.05f, 0.1f, 0);
 
             var debug = im2.Convert<Bgr, byte>();
-            debug[(int)currFeatures.First().Y, (int)currFeatures.First().X] = new Bgr(Color.Red);
+            debug[(int)currFeatures.First().Y, (int)currFeatures.First().X] = Bgr8.Red;
             debug.Save("bla.bmp");
         }
 

@@ -1,10 +1,10 @@
-﻿using Accord.Extensions.Imaging;
+﻿using Accord.Extensions;
+using Accord.Extensions.Imaging;
 using Accord.Extensions.Vision;
 using LINE2D;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,7 +51,7 @@ namespace FastTemplateMatchingDemo
             Parallel.ForEach(files, delegate(string file)
             //foreach(var file in files)
             {
-                Image<Gray, Byte> preparedBWImage = Bitmap.FromFile(file).ToImage<Gray, byte>();
+                Image<Gray, Byte> preparedBWImage = System.Drawing.Bitmap.FromFile(file).ToImage<Gray, byte>();
 
                 try
                 {
@@ -137,7 +137,7 @@ namespace FastTemplateMatchingDemo
         }
 
         Image<Bgr, byte> frame;
-        Font font = new Font("Arial", 12); int i = 0;
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12); int i = 0;
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
@@ -162,14 +162,14 @@ namespace FastTemplateMatchingDemo
                     var area = new Rectangle(m.X, m.Y, mask.Width, mask.Height);
                     if (area.X < 0 || area.Y < 0 || area.Right >= frame.Width || area.Bottom >= frame.Height) continue; //must be fully inside
 
-                    using (var someImage = new Image<Bgr, byte>(mask.Width, mask.Height, new Bgr(Color.Red)))
+                    using (var someImage = new Image<Bgr, byte>(mask.Width, mask.Height, Bgr8.Red))
                     {
                         someImage.Copy(frame.GetSubRect(area), mask);
                     }
                 }
                 else
                 {
-                    frame.Draw(m, new Bgr(Color.Blue), 3, true, new Bgr(Color.Red));
+                    frame.Draw(m, Bgr8.Blue, 3, true, Bgr8.Red);
                 }
 
                 Console.WriteLine("Best template: " + m.Template.ClassLabel + " score: " + m.Score);

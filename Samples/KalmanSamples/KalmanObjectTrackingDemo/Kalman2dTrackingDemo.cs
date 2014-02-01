@@ -1,4 +1,5 @@
-﻿using Accord.Extensions.Imaging;
+﻿using Accord.Extensions;
+using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Moments;
 using Accord.Extensions.Math;
 using Accord.Extensions.Math.Geometry;
@@ -7,11 +8,10 @@ using Accord.Extensions.Vision;
 using Accord.Math;
 using AForge;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using ModelState = Accord.Extensions.Statistics.Filters.ConstantVelocity2DModel;
-using Point = System.Drawing.Point;
+using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 
 namespace KalmanObjectTracking
@@ -175,7 +175,9 @@ namespace KalmanObjectTracking
             try
             {
                 string videoDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "Sequence");
-                videoCapture = new ImageSequenceCapture(videoDir, ".jpg", 30);
+                videoCapture = new ImageDirectoryCapture(videoDir, ".jpg",
+                                                        (path) => System.Drawing.Bitmap.FromFile(path).ToImage(),
+                                                         30);
 
                 //videoCapture = new Capture(0);
             }
@@ -216,7 +218,7 @@ namespace KalmanObjectTracking
             GC.Collect();
         }
 
-        Font font = new Font("Arial", 12);
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
@@ -264,13 +266,13 @@ namespace KalmanObjectTracking
         Point ptFirst;
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            ptFirst = e.Location;
+            ptFirst = e.Location.ToPt();
             isROISelected = false;
         }
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            roi.Intersect(new Rectangle(Point.Empty, frame.Size));
+            roi.Intersect(new Rectangle(new Point(), frame.Size));
             isROISelected = true;
         }
 
@@ -279,7 +281,7 @@ namespace KalmanObjectTracking
             if (e.Button != MouseButtons.Left)
                 return;
 
-            Point ptSecond = e.Location;
+            Point ptSecond = e.Location.ToPt();
 
             roi = new Rectangle
             {

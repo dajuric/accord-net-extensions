@@ -1,8 +1,10 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using Point = AForge.IntPoint;
+using PointF = AForge.Point;
 
 namespace Accord.Extensions.Imaging
 {
@@ -51,7 +53,7 @@ namespace Accord.Extensions.Imaging
                 //srcWorkingArea.Inflate(-kernel.Width / 2, -kernel.Height / 2);
             }
 
-            convolutionFunc(src, srcWorkingArea, dest, Point.Empty, kernel);
+            convolutionFunc(src, srcWorkingArea, dest, new Point(), kernel);
         }
 
         internal static IImage Convolve(IImage src, IImage kernel, ConvolutionBorder options)
@@ -78,7 +80,7 @@ namespace Accord.Extensions.Imaging
                                                    srcArea.Width -= kernel.Width;
                                                    srcArea.Height -= kernel.Height;
 
-                                                   srcArea.Intersect(new Rectangle(Point.Empty, _src.Size));
+                                                   srcArea.Intersect(new Rectangle(new Point(), _src.Size));
 
                                                    convolutionFunc(_src, srcArea, _dest, new Point(kernel.Width / 2, area.Y + kernel.Height / 2), kernel);
                                                }

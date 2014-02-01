@@ -1,4 +1,5 @@
-﻿using Accord.Extensions.Statistics.Filters;
+﻿using Accord.Extensions;
+using Accord.Extensions.Statistics.Filters;
 using LINE2D;
 using System;
 using Match = LINE2D.Match;
@@ -104,7 +105,7 @@ namespace ParticleFilterModelFitting
             private set;
         }
 
-        public System.Drawing.Size Size
+        public Size Size
         {
             get;
             private set;
@@ -116,7 +117,7 @@ namespace ParticleFilterModelFitting
             private set;
         }
 
-        void ITemplate.Initialize(Feature[] features, System.Drawing.Size size, string classLabel)
+        void ITemplate.Initialize(Feature[] features, Size size, string classLabel)
         {
             this.Features = features;
             this.Size = size;

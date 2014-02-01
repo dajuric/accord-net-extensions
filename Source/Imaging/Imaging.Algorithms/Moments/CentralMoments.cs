@@ -23,7 +23,7 @@
 namespace Accord.Extensions.Imaging.Moments
 {
     using System;
-    using System.Drawing;
+    using Accord.Extensions;
 
     /// <summary>
     ///   Central image moments.

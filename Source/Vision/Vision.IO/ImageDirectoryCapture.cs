@@ -10,7 +10,7 @@ using Accord.Extensions.Core;
 
 namespace Accord.Extensions.Vision
 {
-   public class ImageSequenceCapture: CaptureBase, IDisposable
+   public class ImageDirectoryCapture: CaptureBase, IDisposable
     {
         string[] fileNames = null;
         int fps = 0;
@@ -20,7 +20,7 @@ namespace Accord.Extensions.Vision
 
         #region Initialization
 
-        public ImageSequenceCapture(string filePath, string extension, int frameDelayMilliseconds = 1, bool useNaturalSorting = true)
+        public ImageDirectoryCapture(string filePath, string extension, int frameDelayMilliseconds = 1, bool useNaturalSorting = true)
         {
             this.SupportsPausing = true;
 
@@ -132,7 +132,7 @@ namespace Accord.Extensions.Vision
             }
         }
 
-        ~ImageSequenceCapture()
+        ~ImageDirectoryCapture()
         {
             if (timer != null)
             {

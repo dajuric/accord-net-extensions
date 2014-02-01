@@ -9,7 +9,7 @@ using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Filters;
 using Accord.Extensions.Math;
 using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Core;
+using Accord.Extensions;
 
 namespace LINE2D
 {

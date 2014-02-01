@@ -3,10 +3,10 @@ using Accord.Extensions.Imaging.IntegralImage;
 using System.Collections.Generic;
 using System.Linq;
 using Accord.Math.Geometry;
-using Accord.Extensions.Core;
+using Accord.Extensions;
 using Accord.Extensions.Math;
 using Accord.Extensions.Math.Geometry;
-using System.Drawing;
+using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Imaging
 {
@@ -34,7 +34,7 @@ namespace Accord.Extensions.Imaging
                                                                  Width = image.Width,
                                                                  Height = area.Height + winSize
                                                              };
-                                                             srcArea.Intersect(new Rectangle(Point.Empty, image.Size));
+                                                             srcArea.Intersect(new Rectangle(new Point(), image.Size));
                                                            
                                                              goodFeaturesToTrack(Dxx.GetSubRect(srcArea), Dxy.GetSubRect(srcArea), Dyy.GetSubRect(area),
                                                                                  winSize, minEigVal, strengthImg.GetSubRect(srcArea));

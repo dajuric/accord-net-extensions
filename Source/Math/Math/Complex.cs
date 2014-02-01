@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Runtime.Serialization;
 using System.Runtime.InteropServices;
-using Accord.Extensions.Core;
+using Accord.Extensions;
 
 namespace Accord.Extensions.Math
 {

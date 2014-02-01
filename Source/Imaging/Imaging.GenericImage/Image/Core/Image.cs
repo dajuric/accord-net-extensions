@@ -1,4 +1,4 @@
-﻿using Accord.Extensions.Core;
+﻿using Accord.Extensions;
 using Accord.Extensions.Imaging.Helper;
 using System;
 using System.Drawing;
@@ -51,7 +51,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="parentReference">To prevent object from deallocating use this parameter.</param>
         /// <param name="parentHandle">If using pinned object use GCHandle to release an allocated handle.</param>
         /// <returns>Generic image.</returns>
-        internal static IImage Create(ColorInfo colorInfo, IntPtr imageData, int width, int height, int stride, object parentReference, GCHandle parentHandle = default(GCHandle))
+        public static IImage Create(ColorInfo colorInfo, IntPtr imageData, int width, int height, int stride, object parentReference, GCHandle parentHandle = default(GCHandle))
         {
             var ctorInvoker = HelperMethods.GetGenericImageConstructor(typeof(Image<,>), colorInfo);
             GenericImageBase im = (GenericImageBase)ctorInvoker();

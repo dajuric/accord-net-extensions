@@ -16,7 +16,7 @@ namespace Accord.Extensions.Math.Geometry
             Rectangle newRect = rect;
 
             if (area.IsEmpty == false)
-                newRect.Intersect(new Rectangle(System.Drawing.Point.Empty, area));
+                newRect.Intersect(new Rectangle(new Point(), area));
 
             return newRect;
         }
@@ -58,7 +58,7 @@ namespace Accord.Extensions.Math.Geometry
             };
 
             if (constrainedArea.IsEmpty == false)
-                newRect.Intersect(new Rectangle(System.Drawing.Point.Empty, constrainedArea));
+                newRect.Intersect(new Rectangle(new Point(), constrainedArea));
 
             return newRect;
         }
@@ -74,7 +74,7 @@ namespace Accord.Extensions.Math.Geometry
             };
 
             if (constrainedArea.IsEmpty == false)
-                newRect.Intersect(new Rectangle(System.Drawing.Point.Empty, constrainedArea));
+                newRect.Intersect(new Rectangle(new Point(), constrainedArea));
 
             return newRect;
         }

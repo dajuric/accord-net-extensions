@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Accord.Extensions.Core
+namespace Accord.Extensions
 {
     public class NaturalSortComparer<T> : IComparer<string>, IDisposable
     {
