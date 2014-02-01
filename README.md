@@ -36,4 +36,4 @@ roadmap: //TODO list
 	implement missing overloads
 	write extension methods for existing classes/filters
 	overall look and feel
-	merge it to Accord.NET
+	prepare to relase!
