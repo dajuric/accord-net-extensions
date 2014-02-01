@@ -223,7 +223,7 @@ namespace Accord.Extensions.Vision
 
         private static bool isInsideImage(RectangleF featureArea, Size imageSize)
         {
-            RectangleF imageArea = new RectangleF(new PointF(), imageSize);
+            RectangleF imageArea = new RectangleF(new PointF(), (SizeF)imageSize);
 
             if (featureArea.IntersectionPercent(imageArea) < (1 - 1E-2))
                 return false;

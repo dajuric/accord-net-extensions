@@ -1,5 +1,4 @@
 ﻿using Accord.Extensions;
-using Accord.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -33,7 +32,7 @@ namespace Accord.Extensions.Imaging
             where TColor : IColor
             where TDepth : struct
         {
-            var destImg = new Image<TColor, float>(area.Size.ToSize());
+            var destImg = new Image<TColor, float>(SizeF.Truncate(area.Size));
             GetRectSubPix((IImage)img, area.Location, destImg);
             return destImg;
         }
