@@ -5,11 +5,11 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Accord.Imaging;
-using Accord.Imaging.Filters;
-using Accord.Math;
-using Accord.Math.Geometry;
-using Accord.Core;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Imaging.Filters;
+using Accord.Extensions.Math;
+using Accord.Extensions.Math.Geometry;
+using Accord.Extensions.Core;
 
 namespace LINE2D
 {

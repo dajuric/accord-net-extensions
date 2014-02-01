@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Accord.Vision
+namespace Accord.Extensions.Vision
 {
     static class Program
     {

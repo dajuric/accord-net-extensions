@@ -46,10 +46,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -100,28 +97,27 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Source\Accord.Core.Extensions\Accord.Core.Extensions.csproj">
+    <ProjectReference Include="..\..\..\Source\Core\Core.csproj">
       <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
-      <Name>Accord.Core.Extensions</Name>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Imaging\Accord.Imaging.Algorithms\Accord.Imaging.Algorithms.csproj">
+    <ProjectReference Include="..\..\..\Source\Imaging\Imaging.Algorithms\Imaging.Algorithms.csproj">
       <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
-      <Name>Accord.Imaging.Algorithms</Name>
+      <Name>Imaging.Algorithms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Imaging\Accord.Imaging.GenericImage\Accord.Imaging.GenericImage.csproj">
+    <ProjectReference Include="..\..\..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj">
       <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
-      <Name>Accord.Imaging.GenericImage</Name>
+      <Name>Imaging.GenericImage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Math\Accord.Math.Extensions\Accord.Math.Extensions.csproj">
-      <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
-      <Name>Accord.Math.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Math\Accord.Math.Geometry.Extensions\Accord.Math.Geometry.Extensions.csproj">
+    <ProjectReference Include="..\..\..\Source\Math\Math.Geometry\Math.Geometry.csproj">
       <Project>{6713153c-8632-4951-a3ed-cd49a70c9fb3}</Project>
-      <Name>Accord.Math.Geometry.Extensions</Name>
+      <Name>Math.Geometry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Math\Math\Math.csproj">
+      <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
+      <Name>Math</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\bwHand.bmp" />
   </ItemGroup>

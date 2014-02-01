@@ -1,8 +1,8 @@
-﻿using Accord.Core;
-using Accord.Imaging;
-using Accord.Math.Geometry;
-using Accord.Statistics.Filters;
-using Accord.Vision;
+﻿using Accord.Extensions.Core;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Math.Geometry;
+using Accord.Extensions.Statistics.Filters;
+using Accord.Extensions.Vision;
 using AForge;
 using LINE2D;
 using MoreLinq;
@@ -194,8 +194,8 @@ namespace ParticleFilterModelFitting
             {
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
 
-                videoCapture = new ImageSequenceCapture(Path.Combine(resourceDir, "SampleVideos", "1"), ".jpg", 1); 
-                //videoCapture = new Capture();
+                //videoCapture = new ImageSequenceCapture(Path.Combine(resourceDir, "SampleVideos", "2"), ".jpg", 1); 
+                videoCapture = new Capture();
             }
             catch (Exception)
             {

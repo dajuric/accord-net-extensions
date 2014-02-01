@@ -1,19 +1,7 @@
-﻿using Accord.Math.Geometry;
-using Accord.Statistics.Distributions.Univariate;
-using Accord.Statistics.Filters;
+﻿using Accord.Extensions.Statistics.Filters;
 using LINE2D;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PointF = AForge.Point;
 using Match = LINE2D.Match;
-using Accord.Imaging;
-using Range = AForge.IntRange;
-using System.Text.RegularExpressions;
 
 namespace ParticleFilterModelFitting
 {

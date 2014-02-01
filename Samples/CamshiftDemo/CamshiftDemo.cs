@@ -1,16 +1,16 @@
-﻿using Accord.Imaging;
-using Accord.Imaging.Filters;
+﻿using Accord.Extensions.Imaging;
+using Accord.Extensions.Imaging.Filters;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 using AForge;
-using Accord.Imaging.Converters;
-using Accord.Math.Geometry;
+using Accord.Extensions.Imaging.Converters;
+using Accord.Extensions.Math.Geometry;
 using System.Threading;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 
-namespace Accord.Vision
+namespace Accord.Extensions.Vision
 {
     public partial class CamshiftDemo : Form
     {

@@ -39,13 +39,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
-      <HintPath>..\..\..\packages\Accord.2.11.0.0\lib\Accord.dll</HintPath>
+      <HintPath>..\..\..\packages\Accord.2.12.0.0\lib\Accord.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Math">
-      <HintPath>..\..\..\packages\Accord.Math.2.11.0.0\lib\Accord.Math.dll</HintPath>
+      <HintPath>..\..\..\packages\Accord.Math.2.12.0.0\lib\Accord.Math.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Statistics">
-      <HintPath>..\..\..\packages\Accord.Statistics.2.11.0.0\lib\Accord.Statistics.dll</HintPath>
+      <HintPath>..\..\..\packages\Accord.Statistics.2.12.0.0\lib\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="AForge">
       <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
@@ -103,13 +103,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Source\Accord.Core.Extensions\Accord.Core.Extensions.csproj">
+    <ProjectReference Include="..\..\..\Source\Core\Core.csproj">
       <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
-      <Name>Accord.Core.Extensions</Name>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Math\Accord.Math.Extensions\Accord.Math.Extensions.csproj">
+    <ProjectReference Include="..\..\..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj">
+      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
+      <Name>Imaging.GenericImage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Math\Math.Geometry\Math.Geometry.csproj">
+      <Project>{6713153c-8632-4951-a3ed-cd49a70c9fb3}</Project>
+      <Name>Math.Geometry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Math\Math\Math.csproj">
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
-      <Name>Accord.Math.Extensions</Name>
+      <Name>Math</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

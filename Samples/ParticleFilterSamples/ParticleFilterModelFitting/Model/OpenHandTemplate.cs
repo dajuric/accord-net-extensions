@@ -1,7 +1,7 @@
-﻿using Accord.Core;
-using Accord.Imaging;
-using Accord.Math;
-using Accord.Math.Geometry;
+﻿using Accord.Extensions.Core;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Math;
+using Accord.Extensions.Math.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

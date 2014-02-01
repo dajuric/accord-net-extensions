@@ -1,5 +1,5 @@
-﻿using Accord.Imaging;
-using Accord.Vision;
+﻿using Accord.Extensions.Imaging;
+using Accord.Extensions.Vision;
 using LINE2D;
 using System;
 using System.Collections.Generic;

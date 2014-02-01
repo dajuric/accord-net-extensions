@@ -1,11 +1,11 @@
-﻿using Accord.Imaging;
+﻿using Accord.Extensions.Imaging;
 using System;
 using System.Drawing;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.Linq;
-using Accord.Math.Geometry;
-using Accord.Core;
+using Accord.Extensions.Math.Geometry;
+using Accord.Extensions.Core;
 using PointF = AForge.Point;
 using LineSegment2DF = AForge.Math.Geometry.LineSegment;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using Accord.Math.Geometry;
+﻿using Accord.Extensions.Math.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

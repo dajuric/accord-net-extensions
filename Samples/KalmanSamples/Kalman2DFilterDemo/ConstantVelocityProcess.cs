@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using Accord.Statistics.Filters;
+using Accord.Extensions.Statistics.Filters;
 using PointF = AForge.Point;
 using Accord.Statistics.Distributions.Univariate;
 

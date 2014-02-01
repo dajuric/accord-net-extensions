@@ -1,5 +1,5 @@
-﻿using Accord.Imaging;
-using Accord.Math.Geometry;
+﻿using Accord.Extensions.Imaging;
+using Accord.Extensions.Math.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
-using Accord.Core;
+using Accord.Extensions.Core;
 
 namespace LINE2D
 {

@@ -107,36 +107,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Source\Accord.Core.Extensions\Accord.Core.Extensions.csproj">
-      <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
-      <Name>Accord.Core.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Imaging\Accord.Imaging.Algorithms\Accord.Imaging.Algorithms.csproj">
-      <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
-      <Name>Accord.Imaging.Algorithms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Imaging\Accord.Imaging.GenericImage\Accord.Imaging.GenericImage.csproj">
-      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
-      <Name>Accord.Imaging.GenericImage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Math\Accord.Math.Extensions\Accord.Math.Extensions.csproj">
-      <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
-      <Name>Accord.Math.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Math\Accord.Math.Geometry.Extensions\Accord.Math.Geometry.Extensions.csproj">
-      <Project>{6713153c-8632-4951-a3ed-cd49a70c9fb3}</Project>
-      <Name>Accord.Math.Geometry.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Vision\Accord.Vision.Extensions\Accord.Vision.Extensions.csproj">
-      <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
-      <Name>Accord.Vision.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Vision\Accord.Vision.IO\Accord.Vision.IO.csproj">
-      <Project>{0db826e1-cae4-4802-a579-1e12d7a60348}</Project>
-      <Name>Accord.Vision.IO</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Resources\Sequence\image-426.jpg" />
     <Content Include="Resources\Sequence\image-427.jpg" />
     <Content Include="Resources\Sequence\image-428.jpg" />
@@ -412,6 +382,36 @@
     <Content Include="Resources\Sequence\image-698.jpg" />
     <Content Include="Resources\Sequence\image-699.jpg" />
     <Content Include="Resources\Sequence\image-700.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Source\Core\Core.csproj">
+      <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Imaging\Imaging.Algorithms\Imaging.Algorithms.csproj">
+      <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
+      <Name>Imaging.Algorithms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj">
+      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
+      <Name>Imaging.GenericImage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Math\Math.Geometry\Math.Geometry.csproj">
+      <Project>{6713153c-8632-4951-a3ed-cd49a70c9fb3}</Project>
+      <Name>Math.Geometry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Math\Math\Math.csproj">
+      <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
+      <Name>Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Vision\Vision.IO\Vision.IO.csproj">
+      <Project>{0db826e1-cae4-4802-a579-1e12d7a60348}</Project>
+      <Name>Vision.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Vision\Vision\Vision.csproj">
+      <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
+      <Name>Vision</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

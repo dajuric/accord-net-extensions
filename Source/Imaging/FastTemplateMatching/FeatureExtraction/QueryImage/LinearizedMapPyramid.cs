@@ -1,7 +1,7 @@
-﻿using Accord.Imaging;
+﻿using Accord.Extensions.Imaging;
 using System;
-using Accord.Imaging.Filters;
-using Accord.Core;
+using Accord.Extensions.Imaging.Filters;
+using Accord.Extensions.Core;
 using System.Collections.Generic;
 
 namespace LINE2D

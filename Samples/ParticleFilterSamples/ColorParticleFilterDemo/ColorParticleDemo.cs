@@ -1,9 +1,10 @@
-﻿using Accord.Imaging;
+﻿using Accord.Extensions.Imaging;
+using Accord.Extensions.Math;
+using Accord.Extensions.Math.Geometry;
 using Accord.Math;
-using Accord.Math.Geometry;
 using Accord.Statistics.Distributions.Univariate;
-using Accord.Statistics.Filters;
-using Accord.Vision;
+using Accord.Extensions.Statistics.Filters;
+using Accord.Extensions.Vision;
 using AForge;
 using System;
 using System.Collections.Generic;

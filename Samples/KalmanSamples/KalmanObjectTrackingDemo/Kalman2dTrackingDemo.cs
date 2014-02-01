@@ -1,15 +1,16 @@
-﻿using Accord.Imaging;
-using Accord.Imaging.Moments;
+﻿using Accord.Extensions.Imaging;
+using Accord.Extensions.Imaging.Moments;
+using Accord.Extensions.Math;
+using Accord.Extensions.Math.Geometry;
+using Accord.Extensions.Statistics.Filters;
+using Accord.Extensions.Vision;
 using Accord.Math;
-using Accord.Math.Geometry;
-using Accord.Statistics.Filters;
-using Accord.Vision;
 using AForge;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using ModelState = Accord.Statistics.Filters.ConstantVelocity2DModel;
+using ModelState = Accord.Extensions.Statistics.Filters.ConstantVelocity2DModel;
 using Point = System.Drawing.Point;
 using PointF = AForge.Point;
 

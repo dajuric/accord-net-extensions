@@ -1,4 +1,4 @@
-﻿using Accord.Imaging;
+﻿using Accord.Extensions.Imaging;
 using System;
 using System.Diagnostics;
 using System.Drawing;

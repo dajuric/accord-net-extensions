@@ -1,9 +1,9 @@
-﻿using Accord.Imaging;
-using Accord.Math.Geometry;
+﻿using Accord.Extensions.Imaging;
+using Accord.Extensions.Math.Geometry;
 using System.Drawing;
 using System.Linq;
 using System;
-using Accord.Core;
+using Accord.Extensions.Core;
 using System.Collections.Generic;
 
 

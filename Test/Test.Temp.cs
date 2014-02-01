@@ -1,14 +1,14 @@
-﻿using Accord.Controls;
-using Accord.Imaging;
-using Accord.Imaging.Converters;
-using Accord.Imaging.Filters;
-using Accord.Math;
+﻿using Accord.Extensions.Imaging;
+using Accord.Extensions.Imaging.Converters;
+using Accord.Extensions.Imaging.Filters;
+using Accord.Extensions.Math;
 using AForge.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -25,66 +25,68 @@ namespace Test
 
             Image<Gray, float> kernel = new float[,] { { 5, 2, 1 }, { 6, 0, 5 }, { 5, 6, 4 } }.ToImage();
             //float* kernelPtr = (float*)kernel.ImageData;
+            var bla = imgGray.Convert<Bgr, byte>();
 
-            Stopwatch s = new Stopwatch();
-            s.Start();
-
-            //var a= imgGray.Convolve(kernel);
-            var c = 0;
-            doParallel(imgGray, imgGray.CopyBlank(), (src, dst, rect) => 
+            measure(() =>
             {
-                var kernelPtr = (float*)kernel.ImageData;
-                var srcPtr = (float*)src;
-                var rez = 0f;
-
-                for (int i = 0; i < 3; i++)
+                var a = bla.Convert<Hsv, byte>();
+            },
+            () =>
+            {
+               var b = bla.ProcessPatch<Bgr, byte, byte>((srcPtr, dstPtr) =>
                 {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        rez += kernelPtr[j] * srcPtr[j];
-                    }
+                    convertBgrToHsv_Byte((Bgr8*)srcPtr, (Hsv8*)dstPtr);
+                });
 
-                    kernelPtr += 3;
-                    srcPtr += 1024 / sizeof(float);
-                }
-                c++;
-                var dstPtr = (float*)dst;
-                *dstPtr = rez;
-            });
+               //b.Save("C:/bla.bmp");
+            },
 
-            s.Stop();
-            Console.WriteLine(s.ElapsedMilliseconds);
+            100, "Old", "New");
         }
 
-        private unsafe void doParallel(Image<Gray, float> image, Image<Gray, float> dst, Action<IntPtr, IntPtr, Rectangle> func)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private unsafe static void convertBgrToHsv_Byte(Bgr8* bgr, Hsv8* hsv)
         {
-            int patchHeight = image.Height / 8;
+            byte rgbMin, rgbMax;
 
-            var srcPtr = (float*)image.ImageData;
-            var dstPtr = (float*)dst.ImageData;
-            int stride = image.Stride;
+            rgbMin = bgr->R < bgr->G ? (bgr->R < bgr->B ? bgr->R : bgr->B) : (bgr->G < bgr->B ? bgr->G : bgr->B);
+            rgbMax = bgr->R > bgr->G ? (bgr->R > bgr->B ? bgr->R : bgr->B) : (bgr->G > bgr->B ? bgr->G : bgr->B);
 
-            int w = image.Width;
-            int h = image.Height;
-
-            Rectangle rect = Rectangle.Empty;
-            Parallel.For(0, 10, (a) =>
+            hsv->V = rgbMax;
+            if (hsv->V == 0)
             {
+                hsv->H = 0;
+                hsv->S = 0;
+                return;
+            }
 
-                for (int i = 0; i < patchHeight - 3; i++)
-                {
-                    for (int j = 0; j < w - 3; j++)
-                    {
-                        func((IntPtr)(srcPtr + i), (IntPtr)(dstPtr + j), rect);
-                        //srcPtr += 4;
-                        //dstPtr +=4;
-                    }
+            hsv->S = (byte)(255 * (rgbMax - rgbMin) / rgbMax);
+            if (hsv->S == 0)
+            {
+                hsv->H = 0;
+                return;
+            }
 
-                    //srcPtr += stride;
-                    //dstPtr += stride;
-                }
+            int hue = 0;
+            if (rgbMax == bgr->R)
+            {
+                hue = 0 + 60 * (bgr->G - bgr->B) / (rgbMax - rgbMin);
+                if (hue < 0)
+                    hue += 360;
+            }
+            else if (rgbMax == bgr->G)
+            {
+                hue = 120 + 60 * (bgr->B - bgr->R) / (rgbMax - rgbMin);
+            }
+            else //rgbMax == bgr->B
+            {
+                hue = 240 + 60 * (bgr->R - bgr->G) / (rgbMax - rgbMin);
+            }
 
-            });
+            hsv->H = (byte)(hue / 2); //scale [0-360] -> [0-180] (only needed for byte!)
+
+            Debug.Assert(hue >= 0 && hue <= 360);
         }
     }
+
 }

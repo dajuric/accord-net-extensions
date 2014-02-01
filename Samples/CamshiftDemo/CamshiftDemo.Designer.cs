@@ -1,4 +1,4 @@
-﻿namespace Accord.Vision
+﻿namespace Accord.Extensions.Vision
 {
     partial class CamshiftDemo
     {

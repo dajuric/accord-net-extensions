@@ -1,5 +1,5 @@
-﻿using Accord.Imaging;
-using Accord.Vision;
+﻿using Accord.Extensions.Imaging;
+using Accord.Extensions.Vision;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 
-using FlowColor = Accord.Imaging.Gray;
+using FlowColor = Accord.Extensions.Imaging.Gray;
 
 namespace PyrKLOpticalFlowDemo
 {

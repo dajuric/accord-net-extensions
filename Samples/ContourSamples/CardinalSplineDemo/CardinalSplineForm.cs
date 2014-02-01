@@ -1,5 +1,6 @@
-﻿using Accord.Imaging;
-using Accord.Math.Geometry;
+﻿using Accord.Extensions.Imaging;
+using Accord.Extensions.Math;
+using Accord.Extensions.Math.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

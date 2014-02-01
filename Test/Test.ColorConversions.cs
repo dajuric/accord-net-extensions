@@ -1,6 +1,6 @@
-﻿using Accord.Imaging;
-using Accord.Imaging.Converters;
-using Accord.Math;
+﻿using Accord.Extensions.Imaging;
+using Accord.Extensions.Imaging.Converters;
+using Accord.Extensions.Math;
 using System;
 using System.Collections.Generic;
 using System.Linq;

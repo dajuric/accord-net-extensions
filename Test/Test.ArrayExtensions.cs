@@ -1,4 +1,4 @@
-﻿using Accord.Imaging;
+﻿using Accord.Extensions.Imaging;
 using System.Diagnostics;
 
 namespace Test

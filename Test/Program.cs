@@ -1,8 +1,7 @@
-﻿using Accord.Controls;
-using Accord.Imaging;
-using Accord.Imaging.Converters;
-using Accord.Imaging.Filters;
-using Accord.Math;
+﻿using Accord.Extensions.Imaging;
+using Accord.Extensions.Imaging.Converters;
+using Accord.Extensions.Imaging.Filters;
+using Accord.Extensions.Math;
 using AForge.Imaging;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using ColorConverter = Accord.Imaging.Converters.ColorConverter;
+using ColorConverter = Accord.Extensions.Imaging.Converters.ColorConverter;
 
 namespace Test
 {

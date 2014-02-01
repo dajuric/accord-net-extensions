@@ -1,10 +1,10 @@
-﻿using Accord.Imaging;
+﻿using Accord.Extensions.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Accord.Imaging.Filters;
+using Accord.Extensions.Imaging.Filters;
 using System.Linq;
-using Accord.Core;
+using Accord.Extensions.Core;
 
 namespace LINE2D
 {

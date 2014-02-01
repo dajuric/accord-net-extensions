@@ -1,13 +1,14 @@
-﻿using Accord.Imaging;
+﻿using Accord.Extensions.Imaging;
 using AForge.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Accord.Math;
-using Accord.Imaging.Filters;
+using Accord.Extensions.Math;
+using Accord.Extensions.Imaging.Filters;
 using System.Drawing;
+using Accord.Math;
 
 namespace Test
 {

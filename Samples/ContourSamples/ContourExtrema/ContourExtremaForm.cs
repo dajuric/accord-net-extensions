@@ -1,4 +1,4 @@
-﻿using Accord.Imaging;
+﻿using Accord.Extensions.Imaging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,8 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Accord.Math.Geometry;
-using Accord.Core;
+using Accord.Extensions.Math.Geometry;
+using Accord.Extensions.Core;
 using System.Threading;
 
 namespace ContourExtremaDemo

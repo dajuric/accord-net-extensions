@@ -10,9 +10,9 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
-using Accord.Statistics.Filters;
+using Accord.Extensions.Statistics.Filters;
 using PointF = AForge.Point;
-using ModelState = Accord.Statistics.Filters.ConstantVelocity2DModel;
+using ModelState = Accord.Extensions.Statistics.Filters.ConstantVelocity2DModel;
 
 namespace Kalman2DFilterDemo
 {
