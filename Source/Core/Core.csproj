@@ -45,10 +45,11 @@
     <Compile Include="MethodCache.cs" />
     <Compile Include="NaturalSortComparer.cs" />
     <Compile Include="ParallelFilterProcessing\ParallelProcessor.cs" />
-    <Compile Include="Structures\CircularList.cs" />
-    <Compile Include="Structures\Geometry\Rectangle.cs" />
-    <Compile Include="Structures\Geometry\Size.cs" />
-    <Compile Include="Structures\PinnedArray.cs" />
+    <Compile Include="Collections\CircularList.cs" />
+    <Compile Include="Structures\Rectangle.cs" />
+    <Compile Include="Structures\Size.cs" />
+    <Compile Include="Collections\History.cs" />
+    <Compile Include="Collections\PinnedArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchMethods.cs" />
   </ItemGroup>

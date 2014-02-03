@@ -171,10 +171,10 @@ namespace Accord.Extensions.Vision
 
         Rectangle roi = Rectangle.Empty;
         bool isROISelected = false;
-        System.Drawing.Point ptFirst;
+        Point ptFirst;
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            ptFirst = e.Location;
+            ptFirst = e.Location.ToPt();
             isROISelected = false;
         }
 

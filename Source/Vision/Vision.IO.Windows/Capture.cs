@@ -72,7 +72,7 @@ namespace Accord.Extensions.Vision
         public static FilterInfo[] GetVideoDevices()
         {
             var videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            
+        
             var devicesArr = new FilterInfo[videoDevices.Count];
             for (int i = 0; i < videoDevices.Count; i++)
             {
