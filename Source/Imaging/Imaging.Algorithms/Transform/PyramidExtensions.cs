@@ -1,6 +1,4 @@
-﻿using Accord.Extensions;
-using Accord.Extensions;
-using PointF = AForge.Point;
+﻿using PointF = AForge.Point;
 
 namespace Accord.Extensions.Imaging.Filters
 {

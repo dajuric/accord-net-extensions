@@ -21,8 +21,8 @@ namespace Accord.Extensions.Imaging
 
             if(mask != null)
             {
-                maskedA = imageA.CopyBlank(); imageA.Copy(maskedA, mask);
-                maskedB = imageB.CopyBlank(); imageB.Copy(maskedB, mask);
+                maskedA = imageA.CopyBlank(); imageA.CopyTo(maskedA, mask);
+                maskedB = imageB.CopyBlank(); imageB.CopyTo(maskedB, mask);
             }
 
             Image<Gray, TDepth>[] imgA_channels = maskedA.SplitChannels(), imgB_channels = maskedB.SplitChannels();
@@ -51,8 +51,8 @@ namespace Accord.Extensions.Imaging
 
             if (mask != null)
             {
-                maskedA = imageA.CopyBlank(); imageA.Copy(maskedA, mask);
-                maskedB = imageB.CopyBlank(); imageB.Copy(maskedB, mask);
+                maskedA = imageA.CopyBlank(); imageA.CopyTo(maskedA, mask);
+                maskedB = imageB.CopyBlank(); imageB.CopyTo(maskedB, mask);
             }
 
             Image<Gray, TDepth>[] imgA_channels = maskedA.SplitChannels(), imgB_channels = maskedB.SplitChannels();

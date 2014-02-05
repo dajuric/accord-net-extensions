@@ -1,30 +1,25 @@
 ﻿using Accord.Extensions.Imaging;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Timers;
-using Accord.Extensions;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Accord.Extensions.Vision
 {
-   public class ImageDirectoryCapture: CaptureBase, IDisposable
+    public class ImageDirectoryReader: IStreamableSource
     {
         string[] fileNames = null;
-        int fps = 0;
 
         Func<string, IImage> loader;
         long currentFrame = 0;
-        Timer timer;
 
         #region Initialization
 
-        public ImageDirectoryCapture(string filePath, string extension, Func<string, IImage> loader, int frameDelayMilliseconds = 1, bool useNaturalSorting = true)
+        public ImageDirectoryReader(string filePath, string extension, Func<string, IImage> loader, bool useNaturalSorting = true)
         {
             this.loader = loader;
-            this.CanPause = true;
             
             string ext = "*." + extension.TrimStart('.', '*');
             DirectoryInfo directoryInfo = new DirectoryInfo(filePath);
@@ -44,79 +39,41 @@ namespace Accord.Extensions.Vision
             }
 
             this.fileNames = files.ToArray();
-            this.fps = frameDelayMilliseconds;
         }
 
         #endregion
 
-        public override void Start()
-        {
-            timer = new Timer(fps);
-            timer.Elapsed += timer_Elapsed;
-            timer.Enabled = true;
-        }
+        public void Open()
+        {}
 
-        protected override void Pause()
+        public void Close()
         {
-            timer.Enabled = false;
-        }
-
-        protected override void Resume()
-        {
-            timer.Enabled = true;
-        }
-
-        public override void Stop()
-        {
-            timer.Stop();
             currentFrame = 0;
         }
 
-        void timer_Elapsed(object sender, ElapsedEventArgs e)
+        public Image<TColor, TDepth> Read<TColor, TDepth>()
+            where TColor: IColor
+            where TDepth: struct
+        {
+            var image = Read();
+            return ((GenericImageBase)image).Convert<TColor, TDepth>();
+        }
+
+        public IImage Read()
         {
             if (currentFrame >= fileNames.Length)
             {
-                OnVideoFrame(null, false); /*set buffer to null*/
-                return;
+                return null;
             }
 
             IImage image = loader(fileNames[currentFrame]);
-            OnVideoFrame(image, false);
 
             currentFrame++;
+
+            return image;
         }
 
-        public override Size VideoSize
-        {
-            get
-            { 
-                return buffer.Size;
-            }
-            set
-            {
-                //not supported
-            }
-        }
-
-        public void Dispose()
-        {
-            if (timer != null)
-            {
-                timer.Dispose();
-                timer = null;
-            }
-        }
-
-        ~ImageDirectoryCapture()
-        {
-            if (timer != null)
-            {
-                timer.Dispose();
-                timer = null;
-            }
-        }
-
-        public override long Length
+        public long Length
         {
             get
             {
@@ -124,7 +81,7 @@ namespace Accord.Extensions.Vision
             }
         }
 
-        public override long Position
+        public long Position
         {
             get
             {
@@ -132,7 +89,7 @@ namespace Accord.Extensions.Vision
             }
         }
 
-        public override long Seek(long offset, SeekOrigin origin = SeekOrigin.Current)
+        public long Seek(long offset, SeekOrigin origin = SeekOrigin.Current)
         {
             long newPosition = 0;
             switch (origin)

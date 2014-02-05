@@ -34,21 +34,7 @@ namespace ObjectAnnotater
                 {
                     CaptureObj = new ImageDirectoryCapture(diag.SelectedPath, ext,
                                                    (path) => System.Drawing.Bitmap.FromFile(path).ToImage(),
-                                                    30);
-                }
-            }
-        }
-
-        private void btnFileSeq_Click(object sender, EventArgs e)
-        {
-            using (var diag = new OpenFileDialog())
-            {
-                diag.Filter = "*.avi; *.wmv";
-
-                var result = diag.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    CaptureObj = new Capture(diag.FileName);
+                                                    1);
                 }
             }
         }
@@ -68,7 +54,7 @@ namespace ObjectAnnotater
             }
         }
 
-        public CaptureBase CaptureObj { get; private set; }
+        public ImageDirectoryCapture CaptureObj { get; private set; }
         public StreamWriter AnnotationWriter { get; private set; }
     }
 }

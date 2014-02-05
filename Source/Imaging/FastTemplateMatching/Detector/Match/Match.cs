@@ -1,10 +1,8 @@
-﻿using Accord.Extensions.Imaging;
-using Accord.Extensions.Math.Geometry;
-using System.Linq;
+﻿using Accord.Extensions;
+using Accord.Extensions.Imaging;
 using System;
-using Accord.Extensions;
-using Accord.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 

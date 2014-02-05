@@ -1,6 +1,7 @@
 ﻿using Accord.Extensions.Imaging;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 
 namespace Accord.Extensions.Vision
@@ -27,13 +28,14 @@ namespace Accord.Extensions.Vision
         /// </summary>
         public abstract void Stop();
 
-        public bool SupportsPausing { get; protected set; }
+        public bool CanPause { get; protected set; }
         protected virtual void Pause() { }
         protected virtual void Resume() { }
 
         protected CaptureBase()
         {
-            SupportsPausing = false;
+            CanPause = false;
+            FlipDirection = Imaging.FlipDirection.None;
         }
 
         protected bool frameQueried = true;
@@ -46,10 +48,12 @@ namespace Accord.Extensions.Vision
             if (buffer == null)
                 return null;
 
-            if (SupportsPausing)
+            if (CanPause)
                 Resume();
 
             frameQueried = true;
+
+            FlipImage(ref buffer);
 
             var destColor = ColorInfo.GetInfo<Bgr, byte>();
             return ((GenericImageBase)buffer).Convert(destColor, false) as Image<Bgr, byte>; //it will (probably) be casted (not copied) from <Color3, byte> => <Bgr, byte>
@@ -83,17 +87,6 @@ namespace Accord.Extensions.Vision
            set;
         }
 
-        /// <summary>
-        /// Flips horizontal.
-        /// </summary>
-        public abstract bool FlipHorizontal { get; set; } //HOT TO DO IT ? (without making Image<,> methods)
-
-        /// <summary>
-        /// Flips vertical.
-        /// </summary>
-        public abstract bool FlipVertical { get; set; } //HOW TO DO IT ? (without making Image<,> methods)
-
-       
         //Image<Bgr, byte> buffer = null;
         protected object sync = new object();
         protected IImage buffer = null;
@@ -101,7 +94,7 @@ namespace Accord.Extensions.Vision
         protected void OnVideoFrame(IImage image, bool copyImage = true)
         {
             if (!SupressNewFrameEvent && frameQueried)
-            {
+            { 
                 lock (sync)
                 {
                     fillBuffer(image, copyImage);
@@ -113,7 +106,7 @@ namespace Accord.Extensions.Vision
             }
             else
             {
-                if (SupportsPausing)
+                if (CanPause)
                     Pause();
             }
         }
@@ -141,5 +134,61 @@ namespace Accord.Extensions.Vision
         /// Suppresses New frame event. Can be useful if using <see cref="NewFrame"/> event.
         /// </summary>
         public bool SupressNewFrameEvent { get; set; }
+
+
+        /// <summary>
+        /// Returns whether the stream supports random access.
+        /// Default is false.
+        /// </summary>
+        public bool CanSeek { get; protected set; }
+
+        /// <summary>
+        /// When overridden in a class moves the current position in the stream.
+        /// If the stream does not support random access it throws an <see cref="NotSupportedException"/>.
+        /// </summary>
+        /// <param name="offset">Current frame offset.</param>
+        /// <param name="origin">The seek origin.</param>
+        /// <returns>A new position in the stream.</returns>
+        public virtual long Seek(long offset, SeekOrigin origin) 
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// When overridden in a class returns the total number of frames in sequence.
+        /// If a stream is continuous returns the number of received frames.
+        /// </summary>
+        public virtual long Length
+        {
+            get;
+            protected set;
+        }
+
+        /// <summary>
+        /// When overridden in a class returns the total number of frames received.
+        /// If a stream is continuous the value is equal to the <see cref="Length"/>.
+        /// </summary>
+        public virtual long Position
+        {
+            get;
+            protected set;
+        }
+
+        /// <summary>
+        /// Flips an image. Default option is none.
+        /// </summary>
+        public FlipDirection FlipDirection { get; set; }
+
+        /// <summary>
+        /// Flips an image with default image flip function.
+        /// </summary>
+        /// <param name="image">An image to flip in place.</param>
+        protected virtual void FlipImage(ref IImage image)
+        {
+            if (FlipDirection == Imaging.FlipDirection.None)
+                return;
+
+            image.FlipImage(this.FlipDirection, inPlace: true);
+        }
     }
 }

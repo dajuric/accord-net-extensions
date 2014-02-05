@@ -9,21 +9,6 @@ namespace Accord.Extensions.Imaging
         where TDepth : struct
     {
         /// <summary>
-        /// Converts the image from source to destination color and depth.
-        /// Data may be shared if casting is used. To prevent that set <see cref="copyAlways"/> to true.
-        /// </summary>
-        /// <typeparam name="DestColor">Destination color (IColor).</typeparam>
-        /// <typeparam name="DestType">Destination type (primitive type).</typeparam>
-        /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
-        /// <returns>Converted image.</returns>
-        public Image<DestColor, DestType> Convert<DestColor, DestType>(bool copyAlways = false)
-            where DestColor : IColor
-            where DestType: struct
-        { 
-            return Convert(ColorInfo.GetInfo<DestColor, DestType>()) as Image<DestColor, DestType>;
-        }
-
-        /// <summary>
         /// Converts the image from source to destination depth. 
         /// Data may be shared if casting is used. To prevent that set <see cref="copyAlways"/> to true.
         /// </summary>
@@ -39,6 +24,21 @@ namespace Accord.Extensions.Imaging
 
     public partial class GenericImageBase
     {
+        /// <summary>
+        /// Converts the image from source to destination color and depth.
+        /// Data may be shared if casting is used. To prevent that set <see cref="copyAlways"/> to true.
+        /// </summary>
+        /// <typeparam name="DestColor">Destination color (IColor).</typeparam>
+        /// <typeparam name="DestType">Destination type (primitive type).</typeparam>
+        /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
+        /// <returns>Converted image.</returns>
+        public Image<DestColor, DestType> Convert<DestColor, DestType>(bool copyAlways = false)
+            where DestColor : IColor
+            where DestType : struct
+        {
+            return Convert(ColorInfo.GetInfo<DestColor, DestType>()) as Image<DestColor, DestType>;
+        }
+
         /// <summary>
         /// Converts the image from source to destination color and depth.
         /// Data may be shared if casting is used. To prevent that set <see cref="copyAlways"/> to true.

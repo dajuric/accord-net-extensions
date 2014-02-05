@@ -1,18 +1,13 @@
 ﻿using Accord.Extensions;
-using Accord.Extensions;
 using Accord.Extensions.Imaging;
-using Accord.Extensions.Math;
 using Accord.Extensions.Math.Geometry;
+using LINE2D;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using LineSegment2DF = AForge.Math.Geometry.LineSegment;
-using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 using Range = AForge.IntRange;
-using LINE2D;
 
 namespace ParticleFilterModelFitting
 {

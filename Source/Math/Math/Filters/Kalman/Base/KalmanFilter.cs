@@ -218,7 +218,6 @@ namespace Accord.Extensions.Statistics.Filters
             set;
         }
 
-        double[,] measurementNoiseCovariance;
         /// <summary>
         /// Gets or sets measurement noise covariance matrix (R). [p x p] matrix.
         /// <para>Variance inaccuracy of detected location. 

@@ -171,36 +171,6 @@ namespace Accord.Extensions.Vision
                 }
             }
         }
-
-        /// <summary>
-        /// Flips horizontal.
-        /// </summary>
-        public override bool FlipHorizontal //HOT TO DO IT ? (without making Image<,> methods)*/
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// Flips vertical.
-        /// </summary>
-        public override bool FlipVertical //HOT TO DO IT ? (without making Image<,> methods)*/
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
  
         void videoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {

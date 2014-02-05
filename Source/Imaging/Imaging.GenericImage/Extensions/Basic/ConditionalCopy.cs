@@ -29,14 +29,14 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="destImg">Destination image</param>
         /// <param name="mask">Mask. Color locations that need to be copied must be set to !=0 in mask.</param>
-        public static void Copy<TColor, TDepth>(this Image<TColor, TDepth> img, Image<TColor, TDepth> destImg, Image<Gray, byte> mask)
+        public static void CopyTo<TColor, TDepth>(this Image<TColor, TDepth> img, Image<TColor, TDepth> destImg, Image<Gray, byte> mask)
             where TColor:IColor
             where TDepth:struct
         {
-            Copy((IImage)img, destImg, mask);
+            CopyTo((IImage)img, destImg, mask);
         }
 
-        public static void Copy(this IImage img, IImage destImg, Image<Gray, byte> mask)
+        public static void CopyTo(this IImage img, IImage destImg, Image<Gray, byte> mask)
         {
             if (img.Size != mask.Size || img.Size != destImg.Size)
                 throw new Exception("Image, mask, destImg size must be the same!");

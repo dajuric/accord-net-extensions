@@ -28,7 +28,7 @@ namespace Accord.Extensions.Imaging
             var mask = img.InRange(minValue, maxValue);
 
             var result = img.CopyBlank(); //TODO - critical-mmedium: solve this to extend SetValue extension with mask paremeter (faster and less memory hungry)
-            valueMask.Copy(result, mask);
+            valueMask.CopyTo(result, mask);
 
             return result;
         }
@@ -50,7 +50,7 @@ namespace Accord.Extensions.Imaging
             Image<TColor, TDepth> result = new Image<TColor, TDepth>(img.Width, img.Height);
       
             var mask = img.InRange(minValue, maxValue);
-            img.Copy(result, mask); 
+            img.CopyTo(result, mask); 
 
             return result;
         }

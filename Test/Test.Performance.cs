@@ -96,7 +96,7 @@ namespace Test
                 var mask = hsvIm.InRange(new Hsv(335 / 2, 0, 0), new Hsv(180, 0, 0), 0 /*just first channel*/);
 
                 var maskedIm = image.CopyBlank();
-                image.Copy(maskedIm , mask);
+                image.CopyTo(maskedIm , mask);
             },
             () =>
             {

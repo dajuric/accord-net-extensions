@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Accord.Extensions.Imaging;
 
 namespace ObjectAnnotater
 {
@@ -19,18 +20,21 @@ namespace ObjectAnnotater
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            CaptureBase capture = null;
-            StreamWriter annotationWritter = null;
+            IStreamableSource capture = null;
+            Stream annotationStream = null;
 
-            using (var wizard = new Wizard())
+            capture = new ImageDirectoryReader("S:/images/", "*.jpg",
+                                                   (path) => System.Drawing.Bitmap.FromFile(path).ToImage());
+
+            /*using (var wizard = new Wizard())
             {
                 wizard.ShowDialog();
                 capture = wizard.CaptureObj;
                 annotationWritter = wizard.AnnotationWriter;
-            }
+            }*/
 
-            if(capture != null && annotationWritter != null)
-                Application.Run(new ObjectAnnotater(capture, annotationWritter));
+            //if(capture != null && annotationWritter != null)
+                Application.Run(new ObjectAnnotater(capture, annotationStream));
         }
     }
 }

@@ -29,22 +29,27 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Flips an input image horizontaly / verticaly / both directions / or none (data copy).
+        /// Flips an input image horizontally / vertically / both directions / or none (data copy).
         /// </summary>
         /// <param name="img">Input image.</param>
         /// <param name="flip">Flip direction.</param>
         /// <param name="inPlace">Do it in place.</param>
-        /// <returns></returns>
+        /// <returns>Returns flipped image. If <see cref="inPlace"/> was set to true the result can be omitted.</returns>
         public static Image<TColor, TDepth> FlipImage<TColor, TDepth>(this Image<TColor, TDepth> img, FlipDirection flip, bool inPlace)
             where TColor:IColor
             where TDepth:struct
+        { 
+            return FlipImage((IImage)img, flip, inPlace) as Image<TColor, TDepth>;
+        }
+
+        public static IImage FlipImage(this IImage img, FlipDirection flip, bool inPlace)
         {
             IImage dest = img;
             if (!inPlace)
                 dest = img.CopyBlank();
-
+           
             FlipImage((IImage)img, dest, flip);
-            return dest as Image<TColor, TDepth>;
+            return dest;
         }
 
         internal static void FlipImage(IImage srcImg, IImage dstImg, FlipDirection flip)

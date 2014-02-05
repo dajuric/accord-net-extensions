@@ -137,7 +137,7 @@ namespace FastTemplateMatchingDemo
         }
 
         Image<Bgr, byte> frame;
-        System.Drawing.Font font = new System.Drawing.Font("Arial", 12); int i = 0;
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
@@ -164,7 +164,7 @@ namespace FastTemplateMatchingDemo
 
                     using (var someImage = new Image<Bgr, byte>(mask.Width, mask.Height, Bgr8.Red))
                     {
-                        someImage.Copy(frame.GetSubRect(area), mask);
+                        someImage.CopyTo(frame.GetSubRect(area), mask);
                     }
                 }
                 else

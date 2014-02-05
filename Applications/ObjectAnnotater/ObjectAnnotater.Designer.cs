@@ -28,15 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjectAnnotater));
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.cmdUndo = new System.Windows.Forms.ToolStripButton();
-            this.cmdRedo = new System.Windows.Forms.ToolStripButton();
-            this.btnNextFrame = new System.Windows.Forms.ToolStripButton();
-            this.lblFrameIdx = new System.Windows.Forms.ToolStripLabel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblFrameIndex = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            this.toolStrip.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox
@@ -45,9 +41,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox.Location = new System.Drawing.Point(12, 42);
+            this.pictureBox.Location = new System.Drawing.Point(4, 0);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(640, 493);
+            this.pictureBox.Size = new System.Drawing.Size(652, 519);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 1;
             this.pictureBox.TabStop = false;
@@ -56,69 +52,35 @@
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
-            // toolStrip
+            // statusStrip1
             // 
-            this.toolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmdUndo,
-            this.cmdRedo,
-            this.btnNextFrame,
-            this.lblFrameIdx});
-            this.toolStrip.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(656, 39);
-            this.toolStrip.TabIndex = 2;
-            this.toolStrip.Text = "toolStrip";
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblFrameIndex});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 522);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(656, 25);
+            this.statusStrip1.TabIndex = 3;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // cmdUndo
+            // lblFrameIndex
             // 
-            this.cmdUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cmdUndo.Image = ((System.Drawing.Image)(resources.GetObject("cmdUndo.Image")));
-            this.cmdUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cmdUndo.Name = "cmdUndo";
-            this.cmdUndo.Size = new System.Drawing.Size(36, 36);
-            this.cmdUndo.Text = "Undo (u)";
-            // 
-            // cmdRedo
-            // 
-            this.cmdRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cmdRedo.Image = ((System.Drawing.Image)(resources.GetObject("cmdRedo.Image")));
-            this.cmdRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cmdRedo.Name = "cmdRedo";
-            this.cmdRedo.Size = new System.Drawing.Size(36, 36);
-            this.cmdRedo.Text = "Redo (r)";
-            // 
-            // btnNextFrame
-            // 
-            this.btnNextFrame.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnNextFrame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNextFrame.Image = ((System.Drawing.Image)(resources.GetObject("btnNextFrame.Image")));
-            this.btnNextFrame.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNextFrame.Name = "btnNextFrame";
-            this.btnNextFrame.Size = new System.Drawing.Size(36, 36);
-            this.btnNextFrame.Text = "Get next frame (n)";
-            // 
-            // lblFrameIdx
-            // 
-            this.lblFrameIdx.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.lblFrameIdx.Name = "lblFrameIdx";
-            this.lblFrameIdx.Size = new System.Drawing.Size(90, 36);
-            this.lblFrameIdx.Text = "Frame index";
+            this.lblFrameIndex.Name = "lblFrameIndex";
+            this.lblFrameIndex.Size = new System.Drawing.Size(90, 20);
+            this.lblFrameIndex.Text = "Frame index";
             // 
             // ObjectAnnotater
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(656, 547);
-            this.Controls.Add(this.toolStrip);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.pictureBox);
             this.Name = "ObjectAnnotater";
             this.Text = "Object Annotater";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ObjectAnnotater_FormClosing);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ObjectAnnotater_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
-            this.toolStrip.ResumeLayout(false);
-            this.toolStrip.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -127,11 +89,8 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.ToolStrip toolStrip;
-        private System.Windows.Forms.ToolStripButton cmdUndo;
-        private System.Windows.Forms.ToolStripButton cmdRedo;
-        private System.Windows.Forms.ToolStripButton btnNextFrame;
-        private System.Windows.Forms.ToolStripLabel lblFrameIdx;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel lblFrameIndex;
     }
 }
 

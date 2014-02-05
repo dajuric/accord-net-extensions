@@ -1,14 +1,11 @@
-﻿using Accord.Extensions.Imaging;
-using System;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
-using System.Linq;
+﻿using Accord.Extensions;
+using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
-using Accord.Extensions;
-using PointF = AForge.Point;
-using LineSegment2DF = AForge.Math.Geometry.LineSegment;
+using System;
 using System.Collections.Generic;
-using Accord.Extensions;
+using System.Linq;
+using LineSegment2DF = AForge.Math.Geometry.LineSegment;
+using PointF = AForge.Point;
 
 namespace LINE2D
 {
