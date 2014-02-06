@@ -20,7 +20,7 @@ namespace ObjectAnnotater
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            IStreamableSource capture = null;
+            IStreamableVideoSource capture = null;
             Stream annotationStream = null;
 
             capture = new ImageDirectoryReader("S:/images/", "*.jpg",

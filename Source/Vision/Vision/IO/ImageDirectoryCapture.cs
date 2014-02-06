@@ -10,91 +10,53 @@ using Accord.Extensions;
 
 namespace Accord.Extensions.Vision
 {
-   public class ImageDirectoryCapture: CaptureBase, IDisposable
+    public sealed class ImageDirectoryCapture : CaptureBase, IDisposable
     {
-        string[] fileNames = null;
-        int fps = 0;
-
-        Func<string, IImage> loader;
-        long currentFrame = 0;
+        int frameDelay = 0;
         Timer timer;
+        ImageDirectoryReader imageSource;
 
         #region Initialization
 
         public ImageDirectoryCapture(string filePath, string extension, Func<string, IImage> loader, int frameDelayMilliseconds = 1, bool useNaturalSorting = true)
         {
-            this.loader = loader;
-            this.CanPause = true;
-            
-            string ext = "*." + extension.TrimStart('.', '*');
-            DirectoryInfo directoryInfo = new DirectoryInfo(filePath);
+            imageSource = new ImageDirectoryReader(filePath, extension, loader, useNaturalSorting);
 
-            IEnumerable<string> files = null;
-
-            if (useNaturalSorting)
-            {
-                files = directoryInfo.EnumerateFiles(ext, SearchOption.TopDirectoryOnly)
-                        .OrderBy(f => f.Name, new NaturalSortComparer<string>())
-                        .Select(f => f.FullName);            
-            }
-            else
-            { 
-                 files = from file in directoryInfo.EnumerateFiles(ext, SearchOption.TopDirectoryOnly)
-                         select file.FullName;
-            }
-
-            this.fileNames = files.ToArray();
-            this.fps = frameDelayMilliseconds;
+            this.frameDelay = frameDelayMilliseconds;
         }
 
         #endregion
 
-        public override void Start()
+        public override void Open()
         {
-            timer = new Timer(fps);
+            imageSource.Open(); 
+
+            timer = new Timer(frameDelay);
             timer.Elapsed += timer_Elapsed;
             timer.Enabled = true;
         }
 
-        protected override void Pause()
-        {
-            timer.Enabled = false;
-        }
-
-        protected override void Resume()
-        {
-            timer.Enabled = true;
-        }
-
-        public override void Stop()
+        public override void Close()
         {
             timer.Stop();
-            currentFrame = 0;
+            imageSource.Close(); 
         }
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (currentFrame >= fileNames.Length)
-            {
-                OnVideoFrame(null, false); /*set buffer to null*/
-                return;
-            }
-
-            IImage image = loader(fileNames[currentFrame]);
-            OnVideoFrame(image, false);
-
-            currentFrame++;
+            var image = imageSource.Read();
+            base.OnFrameReceive(image, false);
         }
 
         public override Size VideoSize
         {
             get
-            { 
+            {
                 return buffer.Size;
             }
             set
             {
-                //not supported
+                throw new NotSupportedException();
             }
         }
 
@@ -116,11 +78,21 @@ namespace Accord.Extensions.Vision
             }
         }
 
+        #region Overrided base functions
+
         public override long Length
         {
             get
             {
-                return fileNames.Length;
+                return imageSource.Length;
+            }
+        }
+
+        public override bool IsLiveStream
+        {
+            get
+            {
+                return imageSource.IsLiveStream;
             }
         }
 
@@ -128,33 +100,28 @@ namespace Accord.Extensions.Vision
         {
             get
             {
-                return currentFrame;
+                return imageSource.Position;
+            }
+        }
+
+        public override bool CanSeek
+        {
+            get
+            {
+                return imageSource.CanSeek;
             }
         }
 
         public override long Seek(long offset, SeekOrigin origin = SeekOrigin.Current)
         {
-            long newPosition = 0;
-            switch (origin)
-            { 
-                case SeekOrigin.Begin:
-                    newPosition = offset;
-                    break;
-                case SeekOrigin.Current:
-                    newPosition = this.Position + offset;
-                    break;
-                case SeekOrigin.End:
-                    newPosition = this.Length + offset;
-                    break;
-            }
-
-            currentFrame = System.Math.Min(this.Length, System.Math.Max(0, newPosition));
-            return currentFrame;
+            return imageSource.Seek(offset, origin);
         }
 
-       public string CurrentImageName
+        public string CurrentImageName
         {
-            get { return fileNames[this.Position]; }
-       }
+            get { return imageSource.CurrentImageName; }
+        }
+
+        #endregion
     }
 }

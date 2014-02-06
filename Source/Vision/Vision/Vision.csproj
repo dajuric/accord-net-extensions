@@ -57,10 +57,11 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IO\CaptureBase.cs" />
+    <Compile Include="IO\Base\StremableEventBasedSource.cs" />
+    <Compile Include="IO\Base\StreamableSource.cs" />
+    <Compile Include="IO\Base\CaptureBase.cs" />
     <Compile Include="IO\ImageDirectoryCapture.cs" />
     <Compile Include="IO\ImageDirectoryReader.cs" />
-    <Compile Include="IO\IStreamableSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tracking\Camshift.cs" />
     <Compile Include="Tracking\KLTOpticalFlow\KLTFeatureStatus.cs" />

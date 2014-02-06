@@ -14,7 +14,7 @@ namespace ObjectAnnotater
 {
     public partial class ObjectAnnotater : Form
     {
-        IStreamableSource capture = null;
+        IStreamableVideoSource capture = null;
         Stream annotationStream = null;
 
         int maxAnnotationIdx = -1;
@@ -26,7 +26,7 @@ namespace ObjectAnnotater
             clearActionHistory();
         }
 
-        public ObjectAnnotater(IStreamableSource capture, Stream annotationStream)
+        public ObjectAnnotater(IStreamableVideoSource capture, Stream annotationStream)
         {
             InitializeComponent();
 
