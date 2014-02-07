@@ -48,6 +48,10 @@ namespace Accord.Extensions.Vision
             base.OnFrameReceive(image, false);
         }
 
+        /// <summary>
+        /// Gets the image size. This information is available after the initial frame.
+        /// Setting the video size is not supported; the <see cref="NotSupportedException"/> will be thrown.
+        /// </summary>
         public override Size VideoSize
         {
             get
@@ -71,14 +75,10 @@ namespace Accord.Extensions.Vision
 
         ~ImageDirectoryCapture()
         {
-            if (timer != null)
-            {
-                timer.Dispose();
-                timer = null;
-            }
+            Dispose();
         }
 
-        #region Overrided base functions
+        #region Overridden base functions
 
         public override long Length
         {

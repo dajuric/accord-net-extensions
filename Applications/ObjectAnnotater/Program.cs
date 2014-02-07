@@ -19,12 +19,12 @@ namespace ObjectAnnotater
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            IStreamableVideoSource capture = null;
+            
+            StreamableSource<IImage> capture = null;
             Stream annotationStream = null;
 
             capture = new ImageDirectoryReader("S:/images/", "*.jpg",
-                                                   (path) => System.Drawing.Bitmap.FromFile(path).ToImage());
+                                                   (path) => System.Drawing.Bitmap.FromFile(path).ToImage<Bgr, byte>());
 
             /*using (var wizard = new Wizard())
             {

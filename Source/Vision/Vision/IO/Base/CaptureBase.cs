@@ -9,11 +9,11 @@ namespace Accord.Extensions.Vision
     /// <summary>
     /// Video capture class base. 
     /// </summary>
-    public abstract class CaptureBase: EventBasedSource<IImage>
+    public abstract class CaptureBase: EventBasedStreamableSource<IImage>
     {
         protected CaptureBase()
         {
-            base.WaitUserCall = true;
+            base.UpdateOnDemand = true;
             FlipDirection = Imaging.FlipDirection.None;
         }
 

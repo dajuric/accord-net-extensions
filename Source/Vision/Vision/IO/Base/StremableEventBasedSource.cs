@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Accord.Extensions.Vision
 {
-    public abstract class EventBasedSource<TImage>: StreamableSource<TImage>
+    public abstract class EventBasedStreamableSource<TImage>: StreamableSource<TImage>
         where TImage: IImage
     {
         public delegate void NewFrameHandler(object sender, EventArgs e);
@@ -17,7 +17,7 @@ namespace Accord.Extensions.Vision
         public event NewFrameHandler NewFrame;
         protected bool frameQueried = true;
 
-        protected EventBasedSource()
+        protected EventBasedStreamableSource()
         {}
 
         protected object sync = new object();
@@ -25,7 +25,7 @@ namespace Accord.Extensions.Vision
 
         protected void OnFrameReceive(TImage image, bool copyImage = true)
         {
-            if (!WaitUserCall || frameQueried) //if waitUserCall is false always udate the buffer, otherwise just if a user called Read()
+            if (!UpdateOnDemand || frameQueried) //if waitUserCall is false always update the buffer, otherwise just if a user called Read()
             { 
                 lock (sync)
                 {
@@ -75,6 +75,6 @@ namespace Accord.Extensions.Vision
 
         public int TotalReceivedFrames { get; private set; }
 
-        public bool WaitUserCall { get; set; }
+        public bool UpdateOnDemand { get; set; }
     }
 }

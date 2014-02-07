@@ -94,7 +94,7 @@ namespace Accord.Extensions.Vision
             var maxTime = this.ReadTimeout;
 
             bool isSuccess = Read(out image);
-            while (!isSuccess || maxTime > 0)
+            while (!isSuccess && maxTime > 0)
             {
                 isSuccess = Read(out image);
 
@@ -107,7 +107,7 @@ namespace Accord.Extensions.Vision
 
     }
 
-    public static class StreamableImageSequenceSourceExtensions
+    public static class StreamableSourceExtensions
     {
         public static Image<TColor, TDepth> ReadAs<TColor, TDepth>(this StreamableSource<IImage> imageStream)
             where TColor: IColor

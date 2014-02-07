@@ -4,15 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{199259A4-217D-4057-8930-2B49A890014F}</ProjectGuid>
+    <ProjectGuid>{425C5E38-F89E-4416-BD2F-3CD2E2AAE2C3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ObjectAnnotater</RootNamespace>
-    <AssemblyName>ObjectAnnotater</AssemblyName>
+    <RootNamespace>VideoCapture</RootNamespace>
+    <AssemblyName>VideoCapture</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -36,38 +36,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge">
-      <HintPath>..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <HintPath>..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
+      <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjectAnnotater.cs">
+    <Compile Include="VideoCaptureDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ObjectAnnotater.Designer.cs">
-      <DependentUpon>ObjectAnnotater.cs</DependentUpon>
+    <Compile Include="VideoCaptureDemo.Designer.cs">
+      <DependentUpon>VideoCaptureDemo.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wizard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Wizard.Designer.cs">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="ObjectAnnotater.resx">
-      <DependentUpon>ObjectAnnotater.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -77,8 +67,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Wizard.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
+    <EmbeddedResource Include="VideoCaptureDemo.resx">
+      <DependentUpon>VideoCaptureDemo.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -95,27 +85,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Core\Core.csproj">
+    <ProjectReference Include="..\..\..\Source\Core\Core.csproj">
       <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\Imaging\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj">
+    <ProjectReference Include="..\..\..\Source\Imaging\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj">
       <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
       <Name>Imaging.BitmapCompatibility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj">
+    <ProjectReference Include="..\..\..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj">
       <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
       <Name>Imaging.GenericImage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\Math\Math.Geometry\Math.Geometry.csproj">
-      <Project>{6713153c-8632-4951-a3ed-cd49a70c9fb3}</Project>
-      <Name>Math.Geometry</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\Math\Math\Math.csproj">
-      <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
-      <Name>Math</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\Vision\Vision\Vision.csproj">
+    <ProjectReference Include="..\..\..\Source\Vision\Vision\Vision.csproj">
       <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
       <Name>Vision</Name>
     </ProjectReference>

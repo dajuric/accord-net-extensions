@@ -14,7 +14,7 @@ namespace ObjectAnnotater
 {
     public partial class ObjectAnnotater : Form
     {
-        IStreamableVideoSource capture = null;
+        StreamableSource<IImage> capture = null;
         Stream annotationStream = null;
 
         int maxAnnotationIdx = -1;
@@ -26,7 +26,7 @@ namespace ObjectAnnotater
             clearActionHistory();
         }
 
-        public ObjectAnnotater(IStreamableVideoSource capture, Stream annotationStream)
+        public ObjectAnnotater(StreamableSource<IImage> capture, Stream annotationStream)
         {
             InitializeComponent();
 
@@ -73,7 +73,7 @@ namespace ObjectAnnotater
             switch (keyData)
             { 
                 case Keys.Left:
-                    getFrame(-1);
+                    getFrame(-1 + -1);
                     break;
                 case Keys.Right:
                     getFrame();
@@ -258,7 +258,7 @@ namespace ObjectAnnotater
             }
         }
 
-        private void writeAnnotation(string imageName, Annotation annotation)
+        /*private void writeAnnotation(string imageName, Annotation annotation)
         {
             var serializedAnn = serializeAnnotation(annotation);
 
@@ -279,7 +279,7 @@ namespace ObjectAnnotater
 
         private static int findLine(Stream stream, string id, string data)
         {
-            stream.
+            //stream.
 
             using (var reader = new StreamReader(annotationStream))
             {
@@ -304,7 +304,7 @@ namespace ObjectAnnotater
 
             line.Remove(line.Length - 1);
             return line;
-        }
+        }*/
 
         private static Annotation deserializeAnnotation(string serializedRect)
         {
@@ -321,12 +321,13 @@ namespace ObjectAnnotater
 
         private static KeyValuePair<string, List<Annotation>> deserializeData(string data)
         {
-            var parts = data.Split(new char[] { SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
+            return default(KeyValuePair<string, List<Annotation>>);
+            /*var parts = data.Split(new char[] { SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
 
             var fileName = parts[0];
             var annotations = parts.Select(x => deserializeAnnotation(x)).ToList();
 
-            return new KeyValuePair<string, List<Annotation>>(fileName, annotations);
+            return new KeyValuePair<string, List<Annotation>>(fileName, annotations);*/
         }
 
         #endregion
@@ -336,8 +337,8 @@ namespace ObjectAnnotater
             if (capture != null)
                 capture.Close();
 
-            if (annotationWriter != null)
-                annotationWriter.Dispose();
+            /*if (annotationWriter != null)
+                annotationWriter.Dispose();*/
         }
     }
 }
