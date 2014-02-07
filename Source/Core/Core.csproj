@@ -37,6 +37,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumerableExtensions.cs" />
@@ -46,6 +49,7 @@
     <Compile Include="NaturalSortComparer.cs" />
     <Compile Include="ParallelFilterProcessing\ParallelProcessor.cs" />
     <Compile Include="Collections\CircularList.cs" />
+    <Compile Include="SerializationExtensions.cs" />
     <Compile Include="Structures\Rectangle.cs" />
     <Compile Include="Structures\Size.cs" />
     <Compile Include="Collections\History.cs" />

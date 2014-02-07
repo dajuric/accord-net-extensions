@@ -7,8 +7,6 @@ using System.IO;
 using System.Windows.Forms;
 using Annotation = Accord.Extensions.Rectangle;
 using Point = AForge.IntPoint;
-using System.Linq;
-using System.Collections;
 
 namespace ObjectAnnotater
 {
@@ -258,7 +256,7 @@ namespace ObjectAnnotater
             }
         }
 
-        /*private void writeAnnotation(string imageName, Annotation annotation)
+        private void writeAnnotation(string imageName, Annotation annotation)
         {
             var serializedAnn = serializeAnnotation(annotation);
 
@@ -304,7 +302,7 @@ namespace ObjectAnnotater
 
             line.Remove(line.Length - 1);
             return line;
-        }*/
+        }
 
         private static Annotation deserializeAnnotation(string serializedRect)
         {
