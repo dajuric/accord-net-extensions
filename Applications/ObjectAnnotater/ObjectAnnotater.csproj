@@ -51,7 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\CSVDatabase.cs" />
+    <Compile Include="Components\AnnotationDatabase.cs" />
+    <Compile Include="Components\CommandHistory.cs" />
     <Compile Include="ObjectAnnotater.cs">
       <SubType>Form</SubType>
     </Compile>

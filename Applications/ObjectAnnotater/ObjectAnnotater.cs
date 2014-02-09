@@ -4,6 +4,7 @@ using Accord.Extensions.Vision;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Annotation = Accord.Extensions.Rectangle;
 using Point = AForge.IntPoint;
@@ -12,51 +13,23 @@ namespace ObjectAnnotater
 {
     public partial class ObjectAnnotater : Form
     {
-        StreamableSource<IImage> capture = null;
-        Stream annotationStream = null;
+        ImageDirectoryReader capture = null;
+        AnnotationDatabase database = null;
 
-        int maxAnnotationIdx = -1;
-        List<Annotation> frameAnnotations = new List<Annotation>();
+        CommandHistory<Annotation> frameAnnotations = null;
 
         public ObjectAnnotater()
         {
-            XmlDatabase database = XmlDatabase.LoadOrCreate("C:/database.xml");
-            ImageAnnotation ann = new ImageAnnotation
-            {
-                ImageName = "bla image",
-                Annotations = new Rectangle[] 
-                            {
-                                new Rectangle(2, 3, 4, 5),
-                                new Rectangle(6, 7, 8, 9)
-                            },
-                Comment = "Comment 1"
-            };
-
-            database.AddOrUpdate(ann);
-
-            ImageAnnotation ann2 = new ImageAnnotation
-            {
-                ImageName = "bla image 2",
-                Annotations = new Rectangle[] 
-                            {
-                                new Rectangle(2, 3, 4, 5),
-                                new Rectangle(6, 7, 8, 9)
-                            },
-                Comment = "Comment 2"
-            };
-
-            database.AddOrUpdate(ann2);
-
             InitializeComponent();
-            clearActionHistory();
         }
 
-        public ObjectAnnotater(StreamableSource<IImage> capture, Stream annotationStream)
+        public ObjectAnnotater(ImageDirectoryReader capture, AnnotationDatabase database)
         {
             InitializeComponent();
 
             this.capture = capture;
-            this.annotationStream = annotationStream;
+            this.database = database;
+            this.frameAnnotations = new CommandHistory<Annotation>();
 
             capture.Open();
             getFrame();
@@ -69,9 +42,22 @@ namespace ObjectAnnotater
 
         private void getFrame(int offset = 0)
         {
-            clearActionHistory();
+            //save current annotations
+            if (offset == 0)
+            {
+                var currentAnnotations = frameAnnotations.GetValid();
+                if (currentAnnotations.Count() > 0)
+                {
+                    database.AddOrUpdate(capture.CurrentImageName, currentAnnotations);
+                    database.Commit();
+                }
+            }
 
             capture.Seek(offset);
+
+            var annotations = database.Find(capture.CurrentImageName);
+            frameAnnotations = new CommandHistory<Annotation>(annotations);
+
             frame = capture.ReadAs<Bgr, byte>();
             annotationImage = frame.Clone();
 
@@ -83,13 +69,13 @@ namespace ObjectAnnotater
 
         private void undo()
         {
-            undoAction();
+            frameAnnotations.Undo();
             pictureBox.Invalidate();
         }
 
         private void redo()
         {
-            redoAction();
+            frameAnnotations.Redo();
             pictureBox.Invalidate();
         }
 
@@ -133,7 +119,7 @@ namespace ObjectAnnotater
 
             roi.Intersect(new Rectangle(new Point(), frame.Size));
 
-            addAnnotation(roi);
+            frameAnnotations.AddOrUpdate(roi);
             roi = Rectangle.Empty;
             isSelecting = false;
         }
@@ -212,7 +198,7 @@ namespace ObjectAnnotater
 
             this.annotationImage.SetValue(frame);
 
-            foreach (var ann in getAllAnnotations())
+            foreach (var ann in frameAnnotations.GetValid())
             {
                 annotationImage.Draw(ann, Bgr8.Red, 3);
             }
@@ -225,117 +211,13 @@ namespace ObjectAnnotater
 
         #endregion
 
-        #region History handling
-
-        private void addAnnotation(Annotation annotation)
-        {
-            maxAnnotationIdx++;
-
-            if (maxAnnotationIdx == frameAnnotations.Count)
-            {
-                frameAnnotations.Add(annotation);
-            }
-            else //if undo, then add
-            {
-                frameAnnotations[maxAnnotationIdx] = annotation;
-            }
-        }
-
-        private IEnumerable<Annotation> getAllAnnotations()
-        {
-            for (int i = 0; i <= maxAnnotationIdx; i++)
-            {
-                yield return frameAnnotations[i];
-            }
-        }
-
-        private void clearActionHistory()
-        {
-            frameAnnotations.Clear();
-            maxAnnotationIdx = -1;
-        }
-
-        private void undoAction()
-        {
-            maxAnnotationIdx = Math.Max(-1, maxAnnotationIdx - 1);
-        }
-
-        private void redoAction()
-        {
-            maxAnnotationIdx = Math.Min(frameAnnotations.Count - 1, maxAnnotationIdx + 1);
-        }
-
-        #endregion
-
         #region File handling
-        Dictionary<string, List<Rectangle>> annotations;
-
-        private void readAnnotations()
-        {
-            annotations = new Dictionary<string, List<Annotation>>();
-
-            annotationStream.Seek(0, SeekOrigin.Begin);
-
-            using (var reader = new StreamReader(annotationStream))
-            {
-                var data = deserializeData(reader.ReadLine());
-                annotations.Add(data.Key, data.Value);
-            }
-        }
-
-       
-
-        private static string serializeAnnotation(Rectangle rect)
-        {
-            return String.Format("{0} {1} {2} {3}", rect.X, rect.Y, rect.Width, rect.Height);
-        }
-
-        const char SEPARATOR = ',';
-        private static string serializeFrameData(string imageName, List<Annotation> annotations)
-        {
-            string line = imageName + SEPARATOR;
-            foreach (var ann in annotations)
-            {
-                line += serializeAnnotation(ann) + SEPARATOR;
-            }
-
-            line.Remove(line.Length - 1);
-            return line;
-        }
-
-        private static Annotation deserializeAnnotation(string serializedRect)
-        {
-            var parts = serializedRect.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-            return new Annotation 
-            {
-                X =      Int32.Parse(parts[0]),
-                Y =      Int32.Parse(parts[1]),
-                Width =  Int32.Parse(parts[2]),
-                Height = Int32.Parse(parts[3])
-            };
-        }
-
-        private static KeyValuePair<string, List<Annotation>> deserializeData(string data)
-        {
-            return default(KeyValuePair<string, List<Annotation>>);
-            /*var parts = data.Split(new char[] { SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
-
-            var fileName = parts[0];
-            var annotations = parts.Select(x => deserializeAnnotation(x)).ToList();
-
-            return new KeyValuePair<string, List<Annotation>>(fileName, annotations);*/
-        }
-
         #endregion
 
         private void ObjectAnnotater_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (capture != null)
                 capture.Close();
-
-            /*if (annotationWriter != null)
-                annotationWriter.Dispose();*/
         }
     }
 }

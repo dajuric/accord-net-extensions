@@ -20,11 +20,13 @@ namespace ObjectAnnotater
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            StreamableSource<IImage> capture = null;
-            Stream annotationStream = null;
+            ImageDirectoryReader capture = null;
+            AnnotationDatabase database = null;
 
-            capture = new ImageDirectoryReader("C:/images/", "*.jpg",
+            capture = new ImageDirectoryReader("C:/images/", "*.png",
                                                    (path) => System.Drawing.Bitmap.FromFile(path).ToImage<Bgr, byte>());
+
+            database = AnnotationDatabase.LoadOrCreate("C:/database.txt");
 
             /*using (var wizard = new Wizard())
             {
@@ -34,7 +36,7 @@ namespace ObjectAnnotater
             }*/
 
             //if(capture != null && annotationWritter != null)
-                Application.Run(new ObjectAnnotater(/*capture, annotationStream*/));
+                Application.Run(new ObjectAnnotater(capture, database));
         }
     }
 }
