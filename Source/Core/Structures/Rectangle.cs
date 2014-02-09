@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 
 namespace Accord.Extensions
 {
+    [Serializable]
     [StructLayout(LayoutKind.Explicit)]
     public struct Rectangle: IEquatable<Rectangle>
     {
@@ -24,16 +27,23 @@ namespace Accord.Extensions
         [FieldOffset(12)]
         public int Height;
 
+        [XmlIgnore]
         [FieldOffset(0)]
         public Point Location;
+        [XmlIgnore]
         [FieldOffset(8)]
         public Size Size;
 
+        [XmlIgnore]
         [FieldOffset(0)]
         public int Left;
+        [XmlIgnore]
         [FieldOffset(4)]
         public int Top;
+
+        [XmlIgnore]
         public int Right { get { return X + Width; } }
+        [XmlIgnore]
         public int Bottom { get { return Y + Height; } }
 
         public Rectangle(int x, int y, int width, int height)

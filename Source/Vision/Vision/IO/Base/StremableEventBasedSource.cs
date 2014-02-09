@@ -25,7 +25,7 @@ namespace Accord.Extensions.Vision
 
         protected void OnFrameReceive(TImage image, bool copyImage = true)
         {
-            if (!UpdateOnDemand || frameQueried) //if waitUserCall is false always update the buffer, otherwise just if a user called Read()
+            if (!UpdateOnDemand || frameQueried) //if UpdateOnDemand is false always update the buffer, otherwise just if a user called Read()
             { 
                 lock (sync)
                 {

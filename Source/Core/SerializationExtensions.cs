@@ -12,7 +12,6 @@ namespace Accord.Extensions
     public static class SerializationExtensions
     {
         public static XElement ToXElement<T>(this T obj)
-            where T: Object
         {
             using (var memoryStream = new MemoryStream())
             {
@@ -28,7 +27,7 @@ namespace Accord.Extensions
         public static T FromXElement<T>(this XElement xElement)
         {
             using (var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(xElement.ToString())))
-            {
+            { 
                 var xmlSerializer = new XmlSerializer(typeof(T));
                 return (T)xmlSerializer.Deserialize(memoryStream);
             }

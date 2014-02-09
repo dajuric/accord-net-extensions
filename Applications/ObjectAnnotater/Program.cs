@@ -23,7 +23,7 @@ namespace ObjectAnnotater
             StreamableSource<IImage> capture = null;
             Stream annotationStream = null;
 
-            capture = new ImageDirectoryReader("S:/images/", "*.jpg",
+            capture = new ImageDirectoryReader("C:/images/", "*.jpg",
                                                    (path) => System.Drawing.Bitmap.FromFile(path).ToImage<Bgr, byte>());
 
             /*using (var wizard = new Wizard())
@@ -34,7 +34,7 @@ namespace ObjectAnnotater
             }*/
 
             //if(capture != null && annotationWritter != null)
-                Application.Run(new ObjectAnnotater(capture, annotationStream));
+                Application.Run(new ObjectAnnotater(/*capture, annotationStream*/));
         }
     }
 }

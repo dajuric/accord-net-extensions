@@ -20,7 +20,7 @@ namespace VideoCapture
         {
             InitializeComponent();
 
-            capture = new ImageDirectoryCapture("S:/images", "*.jpg", 
+            capture = new ImageDirectoryCapture("C:/images", "*.png", 
                                                 (x) => Bitmap.FromFile(x).ToImage<Bgr, byte>(), 
                                                 30);
 

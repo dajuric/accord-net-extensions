@@ -20,6 +20,33 @@ namespace ObjectAnnotater
 
         public ObjectAnnotater()
         {
+            XmlDatabase database = XmlDatabase.LoadOrCreate("C:/database.xml");
+            ImageAnnotation ann = new ImageAnnotation
+            {
+                ImageName = "bla image",
+                Annotations = new Rectangle[] 
+                            {
+                                new Rectangle(2, 3, 4, 5),
+                                new Rectangle(6, 7, 8, 9)
+                            },
+                Comment = "Comment 1"
+            };
+
+            database.AddOrUpdate(ann);
+
+            ImageAnnotation ann2 = new ImageAnnotation
+            {
+                ImageName = "bla image 2",
+                Annotations = new Rectangle[] 
+                            {
+                                new Rectangle(2, 3, 4, 5),
+                                new Rectangle(6, 7, 8, 9)
+                            },
+                Comment = "Comment 2"
+            };
+
+            database.AddOrUpdate(ann2);
+
             InitializeComponent();
             clearActionHistory();
         }
@@ -256,35 +283,7 @@ namespace ObjectAnnotater
             }
         }
 
-        private void writeAnnotation(string imageName, Annotation annotation)
-        {
-            var serializedAnn = serializeAnnotation(annotation);
-
-            if (annotations.ContainsKey(imageName))
-                annotations[imageName].Add(annotation);
-            else
-            { 
-                var list = new List<Annotation>();
-                list.Add(annotation);
-                annotations.Add(imageName, list);
-            }
-
-
-
-            annotationWriter.WriteLine(line);
-            annotationWriter.Flush();
-        }
-
-        private static int findLine(Stream stream, string id, string data)
-        {
-            //stream.
-
-            using (var reader = new StreamReader(annotationStream))
-            {
-                var data = deserializeData(reader.ReadLine());
-                annotations.Add(data.Key, data.Value);
-            }
-        }
+       
 
         private static string serializeAnnotation(Rectangle rect)
         {
