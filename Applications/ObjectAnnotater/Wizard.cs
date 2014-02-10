@@ -9,12 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Accord.Extensions.Imaging;
+using Accord.Extensions;
 using System.IO;
 
 namespace ObjectAnnotater
 {
     public partial class Wizard : Form
     {
+        private string imageDirPath = null;
+
         public Wizard()
         {
             InitializeComponent();
@@ -32,9 +35,11 @@ namespace ObjectAnnotater
                 var result = diag.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    CaptureObj = new ImageDirectoryCapture(diag.SelectedPath, ext,
-                                                   (path) => System.Drawing.Bitmap.FromFile(path).ToImage(),
-                                                    1);
+                    CaptureObj = new ImageDirectoryReader(diag.SelectedPath, ext,
+                                                         (path) => System.Drawing.Bitmap.FromFile(path).ToImage());
+
+                    imageDirPath = diag.SelectedPath;
+                    btnSaveAnnotations.Enabled = true;
                 }
             }
         }
@@ -43,18 +48,39 @@ namespace ObjectAnnotater
         {
             using (var diag = new SaveFileDialog())
             {
-                diag.Filter = "(*.txt)|.txt";
-             
+                diag.Filter = "(*.txt)|*.txt";
+                diag.OverwritePrompt = false;
+
                 var result = diag.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    AnnotationWriter = new StreamWriter(File.Open(diag.FileName, FileMode.Append));
-                    this.lblAnnFile.Text = diag.FileName;
+                    if (imageDirPath.IsSubfolder(new FileInfo(diag.FileName).DirectoryName, onlyStrictSubfolder: false) == false)
+                    {
+                        MessageBox.Show("Cannot find relative path of the selected image directory regarding the database path! \n" +
+                                        "The database location must be in the same or in parent folder regarding selected image directory.", 
+                                        
+                                        "Incorrect database path selection",
+                                         MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        return;
+                    }
+
+                    try
+                    {
+                        Database = AnnotationDatabase.LoadOrCreate(diag.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Database creation error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    this.lblAnnFile.Text = "Annotation file: " + diag.FileName;
                 }
             }
         }
 
-        public ImageDirectoryCapture CaptureObj { get; private set; }
-        public StreamWriter AnnotationWriter { get; private set; }
+        public ImageDirectoryReader CaptureObj { get; private set; }
+        public AnnotationDatabase Database { get; private set; }
     }
 }

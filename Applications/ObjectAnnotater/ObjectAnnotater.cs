@@ -2,7 +2,6 @@
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Vision;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -32,51 +31,51 @@ namespace ObjectAnnotater
             this.frameAnnotations = new CommandHistory<Annotation>();
 
             capture.Open();
-            getFrame();
+            getFrame(0);
         }
 
         Image<Bgr, byte> frame = null;
-        Image<Bgr, byte> annotationImage = null;
 
         #region Commands
 
-        private void getFrame(int offset = 0)
+        long lastFrameIdx = 0;
+        private void getFrame(long offset)
         {
+            var title = "";
+
             //save current annotations
-            if (offset == 0)
+            capture.Seek(lastFrameIdx, SeekOrigin.Begin);
+
+            var currentAnnotations = frameAnnotations.GetValid();
+            var alreadyExist = database.Contains(capture.CurrentImageName);
+            var isAnnEmpty = currentAnnotations.Count() == 0;
+
+            if (alreadyExist && isAnnEmpty)
             {
-                var currentAnnotations = frameAnnotations.GetValid();
-                if (currentAnnotations.Count() > 0)
-                {
-                    database.AddOrUpdate(capture.CurrentImageName, currentAnnotations);
-                    database.Commit();
-                }
+                database.Remove(capture.CurrentImageName);
+                database.Commit();
+            }
+            else if (!isAnnEmpty)
+            {
+                database.AddOrUpdate(capture.CurrentImageName, currentAnnotations);
+                database.Commit();
             }
 
-            capture.Seek(offset);
+            title = capture.CurrentImageName.GetRelativeFilePath(database.FileName); 
+
+            //get requested frame information 
+            capture.Seek(lastFrameIdx + offset, SeekOrigin.Begin);
 
             var annotations = database.Find(capture.CurrentImageName);
             frameAnnotations = new CommandHistory<Annotation>(annotations);
-
             frame = capture.ReadAs<Bgr, byte>();
-            annotationImage = frame.Clone();
 
-            this.pictureBox.Image = annotationImage.ToBitmap();
-            this.lblFrameIndex.Text = capture.Position.ToString();
+            drawAnnotations();
+            this.lblFrameIndex.Text = (this.lastFrameIdx + 1).ToString();
+            this.Text = title + " -> " + new FileInfo(database.FileName).Name;
 
+            this.lastFrameIdx = Math.Max(0, lastFrameIdx + offset);
             GC.Collect();
-        }
-
-        private void undo()
-        {
-            frameAnnotations.Undo();
-            pictureBox.Invalidate();
-        }
-
-        private void redo()
-        {
-            frameAnnotations.Redo();
-            pictureBox.Invalidate();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -84,16 +83,18 @@ namespace ObjectAnnotater
             switch (keyData)
             { 
                 case Keys.Left:
-                    getFrame(-1 + -1);
+                    getFrame(-1);
                     break;
                 case Keys.Right:
-                    getFrame();
+                    getFrame(+1);
                     break;
                 case Keys.U:
-                    undo();
+                    frameAnnotations.Undo();
+                    drawAnnotations();
                     break;
                 case Keys.R:
-                    redo();
+                    frameAnnotations.Redo();
+                    drawAnnotations();
                     break;
             }
 
@@ -109,7 +110,7 @@ namespace ObjectAnnotater
         Point ptFirst;
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            ptFirst = TranslateZoomMousePosition(this.pictureBox, e.Location.ToPt());
+            ptFirst = translateZoomMousePosition(this.pictureBox, e.Location.ToPt());
             isSelecting = true;
         }
 
@@ -129,7 +130,7 @@ namespace ObjectAnnotater
             if (e.Button != MouseButtons.Left || !isSelecting)
                 return;
 
-            var ptSecond = TranslateZoomMousePosition(this.pictureBox, e.Location.ToPt());
+            var ptSecond = translateZoomMousePosition(this.pictureBox, e.Location.ToPt());
 
             roi = new Rectangle
             {
@@ -139,11 +140,11 @@ namespace ObjectAnnotater
                 Height = System.Math.Abs(ptFirst.Y - ptSecond.Y)
             };
 
-            pictureBox.Invalidate();
+            drawAnnotations();
         }
 
         //taken from: http://www.codeproject.com/Articles/20923/Mouse-Position-over-Image-in-a-PictureBox
-        private static Point TranslateZoomMousePosition(PictureBox control, Point coordinates)
+        private static Point translateZoomMousePosition(PictureBox control, Point coordinates)
         {
             var image = control.Image;
 
@@ -192,11 +193,11 @@ namespace ObjectAnnotater
             };
         }
 
-        private void pictureBox_Paint(object sender, PaintEventArgs e)
+        private void drawAnnotations()
         {
             if (frame == null) return;
 
-            this.annotationImage.SetValue(frame);
+            var annotationImage = frame.Clone();
 
             foreach (var ann in frameAnnotations.GetValid())
             {
@@ -207,11 +208,10 @@ namespace ObjectAnnotater
             {
                 annotationImage.Draw(roi, Bgr8.Red, 3);
             }
+
+            this.pictureBox.Image = annotationImage.ToBitmap();
         }
 
-        #endregion
-
-        #region File handling
         #endregion
 
         private void ObjectAnnotater_FormClosing(object sender, FormClosingEventArgs e)

@@ -42,20 +42,21 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\PathExtensions.cs" />
     <Compile Include="Imaging\ColorAttribute.cs" />
     <Compile Include="Imaging\IColor.cs" />
     <Compile Include="MethodCache.cs" />
     <Compile Include="NaturalSortComparer.cs" />
     <Compile Include="ParallelFilterProcessing\ParallelProcessor.cs" />
     <Compile Include="Collections\CircularList.cs" />
-    <Compile Include="SerializationExtensions.cs" />
+    <Compile Include="Extensions\SerializationExtensions.cs" />
     <Compile Include="Structures\Rectangle.cs" />
     <Compile Include="Structures\Size.cs" />
     <Compile Include="Collections\History.cs" />
     <Compile Include="Collections\PinnedArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchMethods.cs" />
+    <Compile Include="Extensions\SearchMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

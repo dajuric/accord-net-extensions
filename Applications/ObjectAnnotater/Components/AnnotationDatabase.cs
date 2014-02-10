@@ -10,19 +10,17 @@ namespace ObjectAnnotater
     public class AnnotationDatabase
     {
         List<AnnotationData> data;
-        bool useRelativePath;
 
         private AnnotationDatabase() 
         {}
 
         public string FileName { get; private set; }
 
-        public static AnnotationDatabase LoadOrCreate(string fileName, bool useRelativePath = true)
+        public static AnnotationDatabase LoadOrCreate(string fileName)
         {
-            fileName = normalizePathDeliminators(fileName);
+            fileName = fileName.NormalizePathDelimiters();
 
             var database = new AnnotationDatabase();
-            database.useRelativePath = useRelativePath;
             database.FileName = fileName;
 
             if (File.Exists(fileName))
@@ -40,7 +38,7 @@ namespace ObjectAnnotater
 
         public void AddOrUpdate(string imageName, IEnumerable<Rectangle> annotations)
         {
-            imageName = getImageName(imageName);
+            imageName = getRelativePath(imageName);
 
             int index;
             find(imageName, out index);
@@ -56,10 +54,20 @@ namespace ObjectAnnotater
 
         public IEnumerable<Rectangle> Find(string imageName)
         {
-            imageName = getImageName(imageName);
+            imageName = getRelativePath(imageName);
 
             int index;
             return find(imageName, out index);
+        }
+
+        public bool Contains(string imageName)
+        {
+            imageName = getRelativePath(imageName);
+
+            int index;
+            find(imageName, out index);
+
+            return index >= 0;
         }
 
         private IEnumerable<Rectangle> find(string imageName, out int index)
@@ -79,7 +87,7 @@ namespace ObjectAnnotater
 
         public bool Remove(string imageName)
         {
-            imageName = getImageName(imageName);
+            imageName = getRelativePath(imageName);
 
             int index;
             find(imageName, out index);
@@ -129,14 +137,23 @@ namespace ObjectAnnotater
 
             using (var reader = new StreamReader(fileName))
             {
+                int lineIdx = 0;
                 while (!reader.EndOfStream)
                 {
                     var parts = reader.ReadLine().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    var record = new AnnotationData(
-                                                   parts.First().Trim(),
-                                                   parts.Skip(1).Select(x => rectFromString(x)).ToArray()
-                                                   );
+                    AnnotationData record = default(AnnotationData);
+                    try
+                    {
+                        record = new AnnotationData(
+                                                  parts.First().Trim(),
+                                                  parts.Skip(1).Select(x => rectFromString(x)).ToArray()
+                                                    );
+                    }
+                    catch
+                    {
+                        throw new Exception("Error loading database. The file-content is invalid. Line: " + lineIdx);
+                    }
 
                     if (keys.Contains(record.Key))
                         throw new Exception(String.Format("Image: {0} is duplicated! Annotation load failed!", record.Key));
@@ -144,6 +161,7 @@ namespace ObjectAnnotater
                         keys.Add(record.Key);
 
                     data.Add(record);
+                    lineIdx++;
                 }
             }
 
@@ -152,19 +170,29 @@ namespace ObjectAnnotater
 
         private static Rectangle rectFromString(string str)
         {
-            var parts = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
-
-            return new Rectangle 
+            try
             {
-                X = Int32.Parse(parts[0]),
-                Y = Int32.Parse(parts[1]),
-                Width = Int32.Parse(parts[2]),
-                Height = Int32.Parse(parts[3])
-            };
+                var parts = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
+
+                return new Rectangle
+                {
+                    X = Int32.Parse(parts[0]),
+                    Y = Int32.Parse(parts[1]),
+                    Width = Int32.Parse(parts[2]),
+                    Height = Int32.Parse(parts[3])
+                };
+            }
+            catch
+            {
+                throw new Exception("Cannot deserialize rectangle! \n");
+            }
         }
 
         private static int[] getMaxColumnLengths(string[][] lines, bool[] isCommaSeparatedColumn)
         {
+            if (lines.Length == 0)
+                return new int[0];
+
             var maxLenghts = new int[lines.Select(x => x.Length).Max()];
 
             foreach (var line in lines)
@@ -235,33 +263,14 @@ namespace ObjectAnnotater
             };
         }
 
-        private string getImageName(string imageName)
+        private string getRelativePath(string imageName)
         {
-            if (!useRelativePath)
-                return imageName;
+            string relativePath = imageName.GetRelativeFilePath(new FileInfo(this.FileName).DirectoryName);
+            if(relativePath == String.Empty)
+                throw new Exception("Cannot find relative path of an image regarding the database path!" +
+                                    "The database location must be in the same or in parent folder regarding selected image directory.");
 
-            imageName = normalizePathDeliminators(imageName);
-
-            bool isEqual = true;
-            int lastEqualIdx = -1;
-
-            while (isEqual && Math.Min(FileName.Length, imageName.Length) > (lastEqualIdx + 1))
-            {
-                if (FileName[lastEqualIdx + 1] == imageName[lastEqualIdx + 1])
-                    lastEqualIdx++;
-                else
-                    isEqual = false;
-            }
-
-            if (lastEqualIdx == -1)
-                throw new Exception("Cannot find relative path of an image and the database!");
-
-            return imageName.Substring(lastEqualIdx + 1);
-        }
-
-        private static string normalizePathDeliminators(string path)
-        {
-            return path.Replace("//", "/").Replace(@"\", "/").Replace(@"\\", "/");
+            return relativePath;
         }
     }
 

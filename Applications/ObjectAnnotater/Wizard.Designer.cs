@@ -70,7 +70,8 @@
             // 
             // btnSaveAnnotations
             // 
-            this.btnSaveAnnotations.Location = new System.Drawing.Point(52, 146);
+            this.btnSaveAnnotations.Enabled = false;
+            this.btnSaveAnnotations.Location = new System.Drawing.Point(76, 146);
             this.btnSaveAnnotations.Name = "btnSaveAnnotations";
             this.btnSaveAnnotations.Size = new System.Drawing.Size(42, 23);
             this.btnSaveAnnotations.TabIndex = 5;
@@ -91,7 +92,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Wizard";
-            this.Text = "Select video source...";
+            this.Text = "Select image folder...";
             this.ResumeLayout(false);
             this.PerformLayout();
 

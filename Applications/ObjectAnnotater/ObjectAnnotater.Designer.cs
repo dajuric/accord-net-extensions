@@ -31,6 +31,7 @@
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFrameIndex = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -47,7 +48,6 @@
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 1;
             this.pictureBox.TabStop = false;
-            this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
             this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
@@ -55,7 +55,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblFrameIndex});
+            this.lblFrameIndex,
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 522);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(656, 25);
@@ -64,9 +65,18 @@
             // 
             // lblFrameIndex
             // 
+            this.lblFrameIndex.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.lblFrameIndex.Name = "lblFrameIndex";
-            this.lblFrameIndex.Size = new System.Drawing.Size(90, 20);
+            this.lblFrameIndex.Size = new System.Drawing.Size(328, 20);
+            this.lblFrameIndex.Spring = true;
             this.lblFrameIndex.Text = "Frame index";
+            this.lblFrameIndex.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(274, 20);
+            this.toolStripStatusLabel1.Text = "<- -> image selection, u - undo, r - redo";
             // 
             // ObjectAnnotater
             // 
@@ -91,6 +101,7 @@
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblFrameIndex;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 
