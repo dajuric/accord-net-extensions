@@ -77,7 +77,7 @@ namespace Accord.Extensions.Vision
         protected abstract bool Read( out TImage image);
 
         /// <summary>
-        /// Block a calling thread until new frame arrives. <see cref="QueryFrame"/> is monitored.
+        /// Blocks a calling thread until new frame arrives. <see cref="QueryFrame"/> is monitored.
         /// </summary>
         /// <returns>Whether new frame arrived or not after <see cref="maxWaitTimeMs"/>.</returns>
         private bool tryReadFrame(out TImage image)

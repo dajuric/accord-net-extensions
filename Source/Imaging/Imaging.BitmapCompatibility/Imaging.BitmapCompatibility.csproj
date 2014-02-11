@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitmapConversion.cs" />
+    <Compile Include="ColorExtensions.cs" />
     <Compile Include="Drawing.cs" />
     <Compile Include="DrawingStructureConversions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

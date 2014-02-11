@@ -65,11 +65,11 @@ namespace Accord.Extensions.Imaging
             switch (mode)
             {
                 case InterpolationMode.NearestNeighbor:
-                    return img.ApplyFilter(new ResizeNearestNeighbor(newSize.Width, newSize.Height), (filter) => new Size(filter.NewWidth, filter.NewHeight));
+                    return img.ApplyFilter(new ResizeNearestNeighbor(newSize.Width, newSize.Height));
                 case InterpolationMode.Bilinear:
-                    return img.ApplyFilter(new ResizeBilinear(newSize.Width, newSize.Height), (filter) => new Size(filter.NewWidth, filter.NewHeight));
+                    return img.ApplyFilter(new ResizeBilinear(newSize.Width, newSize.Height));
                 case InterpolationMode.Bicubic:
-                    return img.ApplyFilter(new ResizeBicubic(newSize.Width, newSize.Height), (filter) => new Size(filter.NewWidth, filter.NewHeight));
+                    return img.ApplyFilter(new ResizeBicubic(newSize.Width, newSize.Height));
                 default:
                     throw new NotSupportedException();
             }

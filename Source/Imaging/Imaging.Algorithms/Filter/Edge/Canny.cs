@@ -25,8 +25,8 @@ namespace Accord.Extensions.Imaging
         {
             CannyEdgeDetector canny = new CannyEdgeDetector(lowThreshold, highThreshold, sigma);
             canny.GaussianSize = gaussianSize;
-
-            return im.ApplyFilter(canny);
+          
+            return im.ApplyFilter(canny, false);
         }
 
 

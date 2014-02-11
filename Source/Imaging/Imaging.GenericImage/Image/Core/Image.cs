@@ -284,13 +284,33 @@ namespace Accord.Extensions.Imaging
         /// <returns>Whether two images are equal or not.</returns>
         public bool Equals(GenericImageBase other)
         {
-            if (this.ImageData == other.ImageData &&
+            if (other != null &&
+                this.ImageData == other.ImageData &&
                 this.Size == other.Size)
             {
                 return true;
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Compares this image to another object. Internally the function overload is called.
+        /// </summary>
+        /// <param name="obj">Other.</param>
+        /// <returns>Is the image equal to an object or not.</returns>
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as GenericImageBase);
+        }
+
+        /// <summary>
+        /// Image's hash code. Pointer adress is used as hash code.
+        /// </summary>
+        /// <returns>Image's hash code.</returns>
+        public override int GetHashCode()
+        {
+            return this.ImageData.ToInt32();
         }
 
         #region Serialization Members

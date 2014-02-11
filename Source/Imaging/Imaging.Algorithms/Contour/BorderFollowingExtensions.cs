@@ -4,7 +4,7 @@ using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Imaging
 {
-    public static class ImageContourExtensions
+    public static class BorderFollowingExtensions
     {
         /// <summary>
         /// Extracts the contour from a single object in a grayscale image. (uses Accord built-in function)

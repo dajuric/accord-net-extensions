@@ -72,6 +72,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlendExtensions.cs" />
     <Compile Include="CornerFeatures\GoodFeaturesToTrackExtensions.cs" />
     <Compile Include="CornerFeatures\HarrisExtensions.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Arithmetics.cs" />
@@ -84,7 +85,7 @@
     <Compile Include="Filter\FindNonZeroExtensions.cs" />
     <Compile Include="Filter\NonMaximaSupressionExtensions.cs" />
     <Compile Include="Filter\Thresholding\BinaryThreshold.cs" />
-    <Compile Include="ImageContourExtensions.cs" />
+    <Compile Include="Contour\BorderFollowingExtensions.cs" />
     <Compile Include="IntegralImage\IntegralImageExtensions.cs" />
     <Compile Include="IntegralImage\SquaredIntegralImageExtensions.cs" />
     <Compile Include="Moments\CentralMoments.cs" />
@@ -120,11 +121,16 @@
       <Project>{f4e40964-c640-4c87-9e3e-a1f1266fbc73}</Project>
       <Name>Imaging.AForgeCompatibillity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj">
+      <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
+      <Name>Imaging.BitmapCompatibility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Imaging.GenericImage\Imaging.GenericImage.csproj">
       <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
       <Name>Imaging.GenericImage</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

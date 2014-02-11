@@ -52,7 +52,7 @@ namespace Accord.Extensions.Imaging.Helper
         /// </summary>
         /// <param name="color">Color</param>
         /// <returns>Array whose length is the same as color's number of channels.</returns>
-        public static TDepth[] ColorToArray<TColor, TDepth>(TColor color)
+        public static TDepth[] ColorToArray<TColor, TDepth>(this TColor color)
             where TColor: IColor
             where TDepth: struct
         {

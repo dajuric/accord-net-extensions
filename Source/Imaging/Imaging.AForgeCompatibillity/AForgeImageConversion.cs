@@ -102,6 +102,5 @@ namespace Accord.Extensions.Imaging
             bool isImageCopied = ColorConverter.ConversionPathCopiesData(conversionPath).Value;
             return !isImageCopied;
         }
-
     }
 }

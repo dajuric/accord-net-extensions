@@ -22,45 +22,7 @@ namespace Accord.Extensions.Imaging
 {
     public static class DrawingExtensions
     {
-        /// <summary>
-        /// Gets System.Drawing.Color from TColor
-        /// </summary>
-        /// <typeparam name="TColor">Member of IColor</typeparam>
-        /// <param name="color">Color.</param>
-        /// <param name="opacity">Opacity. If color has 4 channels opacity is discarded.</param>
-        /// <returns>System.Drawing.Color</returns>
-        private static System.Drawing.Color getColor<TColor>(TColor color, byte opacity = 255)
-            where TColor : IColor
-        {
-            int[] colorArr = HelperMethods.ColorToArray<TColor, int>(color);
-            correctValueMapping<TColor>(ref colorArr);
-            
-            switch (colorArr.Length)
-            { 
-                case 1:
-                    return Color.FromArgb(opacity, 0, colorArr[0]);
-                case 2:
-                    return Color.FromArgb(opacity, colorArr[0], colorArr[1]);
-                case 3:
-                    return Color.FromArgb(opacity, colorArr[0], colorArr[1], colorArr[2]);
-                case 4:
-                    return Color.FromArgb(colorArr[0], colorArr[1], colorArr[2], colorArr[3]);
-            }
-
-            throw new Exception("Unknown color model!");
-        }
-
-        private static void correctValueMapping<TColor>(ref int[] colorArr)
-             where TColor : IColor
-        {
-            if (ColorInfo.GetInfo<TColor, double>().ConversionCodename == "BGR") //TODO (priority: lowest): other way to do that (without harcoding) - converters ?
-            {
-                var temp = colorArr[0];
-                colorArr[0] = colorArr[2];
-                colorArr[2] = temp;
-            }
-
-        }
+       
 
         #region Rectangle
 
@@ -78,7 +40,7 @@ namespace Accord.Extensions.Imaging
             if (float.IsNaN(rect.X) || float.IsNaN(rect.Y))
                 return;
 
-            var drawingColor = getColor(color, opacity);
+            var drawingColor = color.ToColor(opacity);
             var pen = new System.Drawing.Pen(drawingColor, width);
 
             var bmp = image.ToBitmap(false, true);
@@ -113,7 +75,7 @@ namespace Accord.Extensions.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, string text, Font font, RectangleF region, TColor color)
            where TColor : IColor3
         {
-            var drawingColor = getColor(color);
+            var drawingColor = color.ToColor();
             var brush = new System.Drawing.SolidBrush(drawingColor);
 
             var bmp = image.ToBitmap(false, true);
@@ -137,7 +99,7 @@ namespace Accord.Extensions.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, Box2D box, TColor color, float width)
             where TColor : IColor3
         {
-            var drawingColor = getColor(color);
+            var drawingColor = color.ToColor();
             var pen = new System.Drawing.Pen(drawingColor, width);
 
             var vertices = box.GetVertices().Select(x => x.ToPt()).ToArray();
@@ -193,7 +155,7 @@ namespace Accord.Extensions.Imaging
             }
             else
             {
-                var bgr = getColor(color).ToBgr();
+                var bgr = color.ToColor().ToBgr();
                 Draw(image, lines, width, (_) => bgr);
             }
         }
@@ -237,7 +199,7 @@ namespace Accord.Extensions.Imaging
             {
                 foreach (var line in lines)
                 {
-                    var color = getColor(colorFunc(line));
+                    var color = colorFunc(line).ToColor();
                     var pen = new System.Drawing.Pen(color, width);
 
                     g.DrawLine(pen, line.Start.X, line.Start.Y,
@@ -263,7 +225,7 @@ namespace Accord.Extensions.Imaging
             if (contourArr.Length < 2)
                 return;
 
-            var drawingColor = getColor(color);
+            var drawingColor = color.ToColor();
             var pen = new System.Drawing.Pen(drawingColor, width);
 
             var bmp = image.ToBitmap(false, true);
@@ -287,7 +249,7 @@ namespace Accord.Extensions.Imaging
             if (contourArr.Length < 2)
                 return;
 
-            var drawingColor = getColor(color);
+            var drawingColor = color.ToColor();
             var pen = new Pen(drawingColor, width);
 
             var bmp = image.ToBitmap(false, true);
@@ -324,7 +286,7 @@ namespace Accord.Extensions.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, CircleF circle, TColor color, float width)
             where TColor : IColor3
         {
-            Color drawingColor = getColor(color);
+            Color drawingColor = color.ToColor();
             Pen pen = new Pen(drawingColor, width);
 
             var bmp = image.ToBitmap(false, true);
@@ -343,7 +305,7 @@ namespace Accord.Extensions.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<CircleF> circles, TColor color, float width)
             where TColor : IColor3
         {
-            Color drawingColor = getColor(color);
+            Color drawingColor = color.ToColor();
             Pen pen = new Pen(drawingColor, width);
 
             var bmp = image.ToBitmap(false, true);

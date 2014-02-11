@@ -74,11 +74,5 @@ namespace Accord.Extensions.Imaging
         {
             return new System.Drawing.SizeF(size.Width, size.Height);
         }
-
-
-        public static Bgr32 ToBgr(this System.Drawing.Color color)
-        {
-            return new Bgr32 { B = color.B, G = color.G, R = color.R };
-        }
     }
 }
