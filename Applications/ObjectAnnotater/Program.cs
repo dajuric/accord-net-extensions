@@ -23,12 +23,17 @@ namespace ObjectAnnotater
             ImageDirectoryReader capture = null;
             AnnotationDatabase database = null;
 
-            using (var wizard = new Wizard())
+            /*using (var wizard = new Wizard())
             {
                 wizard.ShowDialog();
                 capture = wizard.CaptureObj;
                 database = wizard.Database;
-            }
+            }*/
+
+            capture = new ImageDirectoryReader("S:/images/", "*.jpg",
+                                               (path) => System.Drawing.Bitmap.FromFile(path).ToImage());
+
+            database = AnnotationDatabase.LoadOrCreate("S:/k.txt");
 
             if(capture != null && database != null)
                 Application.Run(new ObjectAnnotater(capture, database));

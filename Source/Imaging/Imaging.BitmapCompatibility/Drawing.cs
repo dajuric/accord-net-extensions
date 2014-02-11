@@ -370,7 +370,9 @@ namespace Accord.Extensions.Imaging
         /// <param name="color">Color for rectangle. Label area is filled. Default color is yellow-green.</param>
         /// <param name="textColor">Label color. Default color is black.</param>
         /// <param name="font">Font to use. Default is "Arial" of size 10, style: Bold.</param>
-        public static void DrawAnnotation(this Image<Bgr, byte> image, Rectangle rect, string text, int annotationWidth = 100, Bgr color = default(Bgr), Bgr textColor = default(Bgr), Font font = null)
+        public static void DrawAnnotation(this Image<Bgr, byte> image, Rectangle rect, string text, 
+                                          int annotationWidth = 100, Bgr color = default(Bgr), Bgr textColor = default(Bgr), Font font = null,
+                                          int thickness = 1)
         {
             color = color.Equals(default(Bgr)) ? Color.YellowGreen.ToBgr() : color;
             textColor = textColor.Equals(default(Bgr)) ? Color.Black.ToBgr() : color;
@@ -378,10 +380,11 @@ namespace Accord.Extensions.Imaging
 
             var nLines = text.Where(x => x.Equals('\n')).Count() + 1;
             var annotationHeight = (int)(3 + (font.SizeInPoints + 3) * nLines + 3);
-            var annotationRect = new Rectangle(rect.X, rect.Y - annotationHeight, annotationWidth, annotationHeight);
+            var xOffset = (annotationWidth - rect.Width) / 2;
+            var annotationRect = new Rectangle(rect.X - xOffset, rect.Y - annotationHeight, annotationWidth, annotationHeight);
 
-            image.Draw(annotationRect, color, 1);
-            image.Draw(rect, color, 1);
+            image.Draw(annotationRect, color, thickness);
+            image.Draw(rect, color, thickness);
             image.Draw(annotationRect, color, -1, 80);
 
             image.Draw(text, font, annotationRect, textColor);

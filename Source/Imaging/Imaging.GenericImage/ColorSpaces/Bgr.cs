@@ -38,9 +38,9 @@ namespace Accord.Extensions.Imaging
         public byte G;
         public byte R;
 
-        public static readonly Bgr32 Red =   new Bgr32 { B = 0,             G = 0,             R = byte.MaxValue };
-        public static readonly Bgr32 Blue =  new Bgr32 { B = byte.MaxValue, G = 0,             R = 0             };
-        public static readonly Bgr32 Green = new Bgr32 { B = 0,             G = byte.MaxValue, R = 0             };
+        public static readonly Bgr8 Red =   new Bgr8 { B = 0,             G = 0,             R = byte.MaxValue };
+        public static readonly Bgr8 Blue = new Bgr8 { B = byte.MaxValue, G = 0, R = 0 };
+        public static readonly Bgr8 Green = new Bgr8 { B = 0,             G = byte.MaxValue, R = 0             };
 
     }
 

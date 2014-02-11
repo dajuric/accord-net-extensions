@@ -60,5 +60,16 @@ namespace ObjectAnnotater
                 yield return actions[i];
             }
         }
+
+        public T Current 
+        {
+            get 
+            {
+                if (currentAction < 0)
+                    return default(T);
+                else
+                    return actions[currentAction]; 
+            } 
+        }
     }
 }

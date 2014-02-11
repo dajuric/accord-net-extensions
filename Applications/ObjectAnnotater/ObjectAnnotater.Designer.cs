@@ -32,6 +32,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFrameIndex = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.txtLabel = new System.Windows.Forms.TextBox();
+            this.lblAnnotation = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -44,7 +46,7 @@
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Location = new System.Drawing.Point(4, 0);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(652, 519);
+            this.pictureBox.Size = new System.Drawing.Size(652, 485);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 1;
             this.pictureBox.TabStop = false;
@@ -67,7 +69,7 @@
             // 
             this.lblFrameIndex.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.lblFrameIndex.Name = "lblFrameIndex";
-            this.lblFrameIndex.Size = new System.Drawing.Size(328, 20);
+            this.lblFrameIndex.Size = new System.Drawing.Size(271, 20);
             this.lblFrameIndex.Spring = true;
             this.lblFrameIndex.Text = "Frame index";
             this.lblFrameIndex.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -75,14 +77,36 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(274, 20);
-            this.toolStripStatusLabel1.Text = "<- -> image selection, u - undo, r - redo";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(341, 20);
+            this.toolStripStatusLabel1.Text = "<- -> - image selection, Ctrl/Alt + u/r - undo/redo";
+            // 
+            // txtLabel
+            // 
+            this.txtLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtLabel.Location = new System.Drawing.Point(123, 491);
+            this.txtLabel.Name = "txtLabel";
+            this.txtLabel.Size = new System.Drawing.Size(155, 22);
+            this.txtLabel.TabIndex = 4;
+            this.txtLabel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLabel_KeyDown);
+            this.txtLabel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtLabel_KeyUp);
+            // 
+            // lblAnnotation
+            // 
+            this.lblAnnotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblAnnotation.AutoSize = true;
+            this.lblAnnotation.Location = new System.Drawing.Point(12, 494);
+            this.lblAnnotation.Name = "lblAnnotation";
+            this.lblAnnotation.Size = new System.Drawing.Size(114, 17);
+            this.lblAnnotation.TabIndex = 5;
+            this.lblAnnotation.Text = "Annotation label:";
             // 
             // ObjectAnnotater
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(656, 547);
+            this.Controls.Add(this.lblAnnotation);
+            this.Controls.Add(this.txtLabel);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.pictureBox);
             this.Name = "ObjectAnnotater";
@@ -102,6 +126,8 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblFrameIndex;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.TextBox txtLabel;
+        private System.Windows.Forms.Label lblAnnotation;
     }
 }
 

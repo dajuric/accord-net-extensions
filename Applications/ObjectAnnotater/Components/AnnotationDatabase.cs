@@ -3,13 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AnnotationData = System.Collections.Generic.KeyValuePair<string, Accord.Extensions.Rectangle[]>;
+using MoreLinq;
 
 namespace ObjectAnnotater
 {
+    public class ImageAnnotation
+    {
+        public Rectangle ROI;
+        public string Label;
+    }
+
     public class AnnotationDatabase
     {
-        List<AnnotationData> data;
+        List<KeyValuePair<string, ImageAnnotation[]>> data;
 
         private AnnotationDatabase() 
         {}
@@ -30,20 +36,20 @@ namespace ObjectAnnotater
             else
             {
                 using (File.Create(fileName)) { }
-                database.data = new List<AnnotationData>();
+                database.data = new List<KeyValuePair<string, ImageAnnotation[]>>();
             }
 
             return database;
         }
 
-        public void AddOrUpdate(string imageName, IEnumerable<Rectangle> annotations)
+        public void AddOrUpdate(string imageName, IEnumerable<ImageAnnotation> annotations)
         {
             imageName = getRelativePath(imageName);
 
             int index;
             find(imageName, out index);
 
-            var newRecord = new AnnotationData(imageName, annotations.ToArray());
+            var newRecord = new KeyValuePair<string, ImageAnnotation[]>(imageName, annotations.ToArray());
 
             if (index >= 0)
                 data[index] = newRecord;
@@ -52,7 +58,7 @@ namespace ObjectAnnotater
         }
 
 
-        public IEnumerable<Rectangle> Find(string imageName)
+        public IEnumerable<ImageAnnotation> Find(string imageName)
         {
             imageName = getRelativePath(imageName);
 
@@ -70,7 +76,7 @@ namespace ObjectAnnotater
             return index >= 0;
         }
 
-        private IEnumerable<Rectangle> find(string imageName, out int index)
+        private IEnumerable<ImageAnnotation> find(string imageName, out int index)
         {
             index = 0;
             foreach (var pair in data)
@@ -82,7 +88,7 @@ namespace ObjectAnnotater
             }
 
             index = -1;
-            return new List<Rectangle>();
+            return new List<ImageAnnotation>();
         }
 
         public bool Remove(string imageName)
@@ -130,10 +136,10 @@ namespace ObjectAnnotater
             }
         }
 
-        private static List<AnnotationData> load(string fileName)
+        private static List<KeyValuePair<string, ImageAnnotation[]>> load(string fileName)
         {
-            HashSet<string> keys = new HashSet<string>(); 
-            List<AnnotationData> data = new List<AnnotationData>();
+            HashSet<string> keys = new HashSet<string>();
+            var data = new List<KeyValuePair<string, ImageAnnotation[]>>();
 
             using (var reader = new StreamReader(fileName))
             {
@@ -142,13 +148,23 @@ namespace ObjectAnnotater
                 {
                     var parts = reader.ReadLine().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    AnnotationData record = default(AnnotationData);
+                    var record = default(KeyValuePair<string, ImageAnnotation[]>);
                     try
                     {
-                        record = new AnnotationData(
-                                                  parts.First().Trim(),
-                                                  parts.Skip(1).Select(x => rectFromString(x)).ToArray()
-                                                    );
+
+                        var imageAnnotations = new List<ImageAnnotation>();
+                        for (int i = 1; i < parts.Length; i += 2)
+                        {
+                            var ann = new ImageAnnotation
+                                             {
+                                                 ROI = rectFromString(parts[i]),
+                                                 Label = parts[i + 1].Trim().Trim('\'')
+                                             };
+
+                            imageAnnotations.Add(ann);
+                        }
+
+                        record = new KeyValuePair<string, ImageAnnotation[]>(parts.First(), imageAnnotations.ToArray());
                     }
                     catch
                     {
@@ -170,22 +186,15 @@ namespace ObjectAnnotater
 
         private static Rectangle rectFromString(string str)
         {
-            try
-            {
-                var parts = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
+            var parts = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
 
-                return new Rectangle
-                {
-                    X = Int32.Parse(parts[0]),
-                    Y = Int32.Parse(parts[1]),
-                    Width = Int32.Parse(parts[2]),
-                    Height = Int32.Parse(parts[3])
-                };
-            }
-            catch
+            return new Rectangle
             {
-                throw new Exception("Cannot deserialize rectangle! \n");
-            }
+                X = Int32.Parse(parts[0]),
+                Y = Int32.Parse(parts[1]),
+                Width = Int32.Parse(parts[2]),
+                Height = Int32.Parse(parts[3])
+            };
         }
 
         private static int[] getMaxColumnLengths(string[][] lines, bool[] isCommaSeparatedColumn)
@@ -209,7 +218,7 @@ namespace ObjectAnnotater
             return maxLenghts;
         }
 
-        private static string[][] serializeToTable(IEnumerable<AnnotationData> records, out bool[] isCommaSeparatedColumn)
+        private static string[][] serializeToTable(IEnumerable<KeyValuePair<string, ImageAnnotation[]>> records, out bool[] isCommaSeparatedColumn)
         {
             string[][] recordsParts = new string[records.Count()][];
             isCommaSeparatedColumn = new bool[0];
@@ -229,37 +238,34 @@ namespace ObjectAnnotater
             return recordsParts;
         }
 
-        private static string[] serializeAnnotationData(AnnotationData record, out bool[] isCommaSeparatedColumn)
+        private static string[] serializeAnnotationData(KeyValuePair<string, ImageAnnotation[]> record, out bool[] isCommaSeparatedColumn)
         {
+            bool[] isCommaSeparatedAnnCol = new bool[] { false /*X*/, false /*Y*/, false /*Width*/, true /*Height*/, true /*Tag*/ };
+
             List<string> parts = new List<string>();
             List<bool> isCommaSepCol = new List<bool>();
 
             parts.Add(record.Key);
             isCommaSepCol.Add(true);
 
-            int colIdx = 1;
-            foreach (var ann in record.Value)
+            foreach (var ann in record.Value) //for each annotation in an image
             {
-                foreach (var annPart in serializeAnnotation(ann))
-                {
-                    parts.Add(annPart);
-                    isCommaSepCol.Add(false);
-
-                    colIdx++;
-                }
-
-                isCommaSepCol[colIdx - 1] = true;
+                var annColumns = serializeAnnotation(ann);
+                parts.AddRange(annColumns);
+                isCommaSepCol.AddRange(isCommaSeparatedAnnCol);
             }
 
             isCommaSeparatedColumn = isCommaSepCol.ToArray();
             return parts.ToArray();
         }
 
-        private static string[] serializeAnnotation(Rectangle rect)
+        private static string[] serializeAnnotation(ImageAnnotation ann)
         {
+            var rect = ann.ROI;
+
             return new string[] 
             {
-                rect.X.ToString(), rect.Y.ToString(), rect.Width.ToString(), rect.Height.ToString()
+                rect.X.ToString(), rect.Y.ToString(), rect.Width.ToString(), rect.Height.ToString(), String.Format("'{0}'", ann.Label)
             };
         }
 
