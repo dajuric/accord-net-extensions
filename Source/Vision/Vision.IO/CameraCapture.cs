@@ -8,6 +8,7 @@ namespace Accord.Extensions.Vision
 {
     public class CameraCapture: VideoCaptureBase
     {
+        int cameraIdx = 0;
 
         /// <summary>
         /// Creates capture from camera which has index: <see cref="cameraIdx"/>
@@ -15,13 +16,20 @@ namespace Accord.Extensions.Vision
         /// <param name="cameraIdx">Camera index.</param>
         public CameraCapture(int cameraIdx = 0)
         {
+            this.cameraIdx = cameraIdx;
             this.CanSeek = false;
             this.IsLiveStream = true;
+            this.Open(); //to enable property change
         }
 
         public override void Open()
         {
-            capturePtr = CvCaptureInvoke.cvCreateCameraCapture(0);
+            if (capturePtr != IntPtr.Zero)
+                return;
+
+            capturePtr = CvCaptureInvoke.cvCreateCameraCapture(cameraIdx);
+            if (capturePtr == IntPtr.Zero)
+                throw new Exception("Cannot open CameraStream!");
         }
 
         public double Brightness

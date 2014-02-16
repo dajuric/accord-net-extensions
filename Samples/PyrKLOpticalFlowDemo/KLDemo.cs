@@ -54,7 +54,7 @@ namespace PyrKLOpticalFlowDemo
             
             try
             {
-                videoCapture = new VideoCaptureBase(0);
+                videoCapture = new CameraCapture(0);
             }
             catch (Exception)
             {
@@ -62,14 +62,15 @@ namespace PyrKLOpticalFlowDemo
                 return;
             }
 
-            videoCapture.VideoSize = new Size(640, 480); //set new Size(0,0) for the lowest one
+            if(videoCapture is CameraCapture)
+                (videoCapture as CameraCapture).FrameSize = new Size(640, 480); 
 
             oldPositions = new List<PointF>();
-            prevIm = new Image<FlowColor, float>(videoCapture.VideoSize);
+            prevIm = new Image<FlowColor, float>(videoCapture.FrameSize);
 
             this.FormClosing += CamshiftDemo_FormClosing;
             Application.Idle += videoCapture_NewFrame;
-            videoCapture.Start();
+            videoCapture.Open();
         }
 
         Image<FlowColor, float> prevIm = null;
@@ -78,12 +79,10 @@ namespace PyrKLOpticalFlowDemo
         System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
-            bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
-            if (!hasNewFrame)
+            var frame = videoCapture.ReadAs<Bgr, byte>();
+            if (frame == null)
                 return;
 
-            var frame = videoCapture.QueryFrame();
-            //var frame = Bitmap.FromFile("1.bmp").ToImage<Bgr, byte>();
             var im = frame.Convert<FlowColor, float>();//.SmoothGaussian(5); //smoothing <<parallel operation>>;
 
             long start = DateTime.Now.Ticks;
@@ -107,7 +106,7 @@ namespace PyrKLOpticalFlowDemo
         void CamshiftDemo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (videoCapture != null) 
-                videoCapture.Stop();
+                videoCapture.Dispose();
         }
 
         private void drawPoints(Image<Bgr, byte> im, List<PointF> points)

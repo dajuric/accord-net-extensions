@@ -27,7 +27,7 @@ namespace FastTemplateMatchingDemo
         int threshold = 88;
         int minDetectionsPerGroup = 0; //for match grouping (postprocessing)
 
-        CaptureBase videoCapture;
+        StreamableSource<IImage> videoCapture;
         List<TemplatePyramid> templPyrs;
 
         /// <summary>
@@ -120,8 +120,8 @@ namespace FastTemplateMatchingDemo
 
             try
             {
-                videoCapture = new VideoCaptureBase();
-                //videoCapture = new ImageSequenceCapture("C:/probaImages", ".jpg", 30); 
+                videoCapture = new CameraCapture();
+                //videoCapture = new ImageSequenceReader("C:/probaImages", ".jpg", 30); 
             }
             catch (Exception)
             {
@@ -129,22 +129,21 @@ namespace FastTemplateMatchingDemo
                 return;
             }
 
-            videoCapture.VideoSize = new Size(640 / 2, 480 / 2); //set new Size(0,0) for the lowest one
+            if(videoCapture is CameraCapture)
+                (videoCapture as CameraCapture).FrameSize = new Size(640 / 2, 480 / 2); //set new Size(0,0) for the lowest one
           
             this.FormClosing += FastTPDemo_FormClosing;
             Application.Idle += videoCapture_NewFrame;
-            videoCapture.Start();
+            videoCapture.Open();
         }
 
         Image<Bgr, byte> frame;
         System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
-            bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
-            if (!hasNewFrame)
+            frame = videoCapture.ReadAs<Bgr, byte>();
+            if (frame == null)
                 return;
-
-            frame = videoCapture.QueryFrame().Clone(); 
 
             long preprocessTime, matchTime;
             var bestRepresentatives = findObjects(frame, out preprocessTime, out matchTime);
@@ -188,7 +187,7 @@ namespace FastTemplateMatchingDemo
         void FastTPDemo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (videoCapture != null)
-                videoCapture.Stop();
+                videoCapture.Dispose();
         }
 
         #endregion

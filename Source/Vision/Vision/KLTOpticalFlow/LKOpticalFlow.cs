@@ -9,7 +9,7 @@ using Accord.Extensions;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 
-namespace Accord.Extensions.Vision
+namespace Accord.Extensions.Vision //POGLEDATI INTERPOLACIJU - možda je tamo greška => pretvaranje SizeF -> Size
 {
     /// <summary>
     /// Lucas-Kanade optical flow.

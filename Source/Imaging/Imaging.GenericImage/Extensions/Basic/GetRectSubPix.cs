@@ -32,7 +32,7 @@ namespace Accord.Extensions.Imaging
             where TColor : IColor
             where TDepth : struct
         {
-            var destImg = new Image<TColor, float>(SizeF.Truncate(area.Size));
+            var destImg = new Image<TColor, float>((Size)area.Size);
             GetRectSubPix((IImage)img, area.Location, destImg);
             return destImg;
         }

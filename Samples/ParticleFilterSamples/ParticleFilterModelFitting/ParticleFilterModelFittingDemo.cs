@@ -176,7 +176,7 @@ namespace ParticleFilterModelFitting
 
         #region GUI
 
-        CaptureBase videoCapture;
+        StreamableSource<IImage> videoCapture;
 
         public ParticleFilterModelFittingDemo()
         {
@@ -194,8 +194,8 @@ namespace ParticleFilterModelFitting
             {
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
 
-                //videoCapture = new ImageSequenceCapture(Path.Combine(resourceDir, "SampleVideos", "2"), ".jpg", 1); 
-                videoCapture = new VideoCaptureBase();
+                videoCapture = new ImageDirectoryReader<IImage>(Path.Combine(resourceDir, "SampleVideos", "1"), ".jpg", 
+                                                                (fileName) => System.Drawing.Bitmap.FromFile(fileName).ToImage()); 
             }
             catch (Exception)
             {
@@ -203,24 +203,23 @@ namespace ParticleFilterModelFitting
                 return;
             }
          
-            videoCapture.VideoSize = imgSize; //set new Size(0,0) for the lowest one
+            if(videoCapture is CameraCapture)
+                (videoCapture as CameraCapture).FrameSize = imgSize;
 
             this.FormClosing += ColorParticleDemo_FormClosing;
-            //Application.Idle += videoCapture_ProcessFrame;
-            videoCapture.NewFrame += videoCapture_ProcessFrame;
-            videoCapture.Start();
+            Application.Idle += videoCapture_ProcessFrame;
+            videoCapture.Open();
         }
 
         Image<Bgr, byte> frame;
         System.Drawing.Font font = new System.Drawing.Font("Arial", 12); //int a = 0;
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
-            bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
-            if (!hasNewFrame)
+            frame = videoCapture.ReadAs<Bgr, byte>();
+            if (frame == null)
                 return;
 
-            frame = videoCapture.QueryFrame().StretchContrast();
-
+            frame.StretchContrast(true);
             //frame.Save("C:/image_" + a + ".jpg");
 
             long start = DateTime.Now.Ticks;
@@ -231,19 +230,19 @@ namespace ParticleFilterModelFitting
             long end = DateTime.Now.Ticks;
             long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
 
-            frame.Draw("Processed: " + matchTimeMs /*elapsedMs*/ + " ms", font, new PointF(15, 10), new Bgr(0, 255, 0));
+            frame.Draw("Processed: " + /*matchTimeMs*/ elapsedMs + " ms", font, new PointF(15, 10), new Bgr(0, 255, 0));
             this.pictureBox.Image = frame.ToBitmap();
-
             //frame.Save("C:/imageAnn_" + a + ".jpg");
             //a++;
-
             GC.Collect();
+
+            //Application.RaiseIdle(new EventArgs());
         }
 
         void ColorParticleDemo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (videoCapture != null)
-                videoCapture.Stop();
+                videoCapture.Dispose();
         }
 
         #endregion

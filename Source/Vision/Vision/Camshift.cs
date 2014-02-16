@@ -3,7 +3,6 @@ using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Moments;
 using AForge;
 using System;
-using System.Drawing;
 
 namespace Accord.Extensions.Vision
 {

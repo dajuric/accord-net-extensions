@@ -121,5 +121,14 @@ namespace Accord.Extensions.Math.Geometry
             };
         }
 
+        public static bool IsEmptyArea(this Rectangle rect)
+        {
+            return rect.Width == 0 || rect.Height == 0;
+        }
+
+        public static bool IsEmptyArea(this RectangleF rect)
+        {
+            return rect.Width == 0 || rect.Height == 0;
+        }
     }
 }

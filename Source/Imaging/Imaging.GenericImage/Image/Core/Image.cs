@@ -228,6 +228,10 @@ namespace Accord.Extensions.Imaging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IntPtr GetData(int row, int col)
         {
+            if (col < 0 || col >= this.Width ||
+                row < 0 || row >= this.Height)
+                throw new ArgumentOutOfRangeException();
+
             return this.GetData(row) + col * this.ColorInfo.Size;
         }
 
@@ -239,6 +243,9 @@ namespace Accord.Extensions.Imaging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IntPtr GetData(int row)
         {
+            if (row < 0 || row >= this.Height) 
+                throw new ArgumentOutOfRangeException();
+
             return this.ImageData + row * this.Stride;
         }
 
@@ -249,6 +256,9 @@ namespace Accord.Extensions.Imaging
         /// <returns>Sub-image.</returns>
         IImage IImage.GetSubRect(Rectangle rect)
         {
+            if (rect.Right > this.Width || rect.Bottom > this.Height) //Location will be verified through GetData(...) function
+                throw new ArgumentOutOfRangeException();
+
             object objRef = this.objectReference ?? this; //always show at the root
 
             IntPtr data = GetData(rect.Y, rect.X);

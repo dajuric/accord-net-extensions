@@ -23,16 +23,17 @@ namespace Accord.Extensions.Vision
                 throw new System.IO.FileNotFoundException();
 
             this.fileName = fileName;
+            this.Open(); //to enable property change
         }
 
         public override void Open()
         {
-            capturePtr = CvCaptureInvoke.cvCreateFileCapture(fileName);
-        }
+            if (capturePtr != IntPtr.Zero)
+                return;
 
-        public Size FrameSize
-        {
-            get { return CvCaptureInvoke.GetImageSize(capturePtr); }
+            capturePtr = CvCaptureInvoke.cvCreateFileCapture(fileName);
+            if (capturePtr == IntPtr.Zero)
+                throw new Exception("Cannot open FileStream!");
         }
 
         public override long Position

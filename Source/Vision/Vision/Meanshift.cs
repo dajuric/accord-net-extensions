@@ -1,7 +1,7 @@
 ﻿using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Moments;
 using System;
-using System.Drawing;
+using Accord.Extensions.Math.Geometry;
 
 namespace Accord.Extensions.Vision
 {
@@ -57,7 +57,7 @@ namespace Accord.Extensions.Vision
             // Mean shift with fixed number of iterations
             int i = 0;
             double shift = Byte.MaxValue;
-            while (termCriteria.ShouldTerminate(i, shift) == false && !searchWindow.IsEmpty)
+            while (termCriteria.ShouldTerminate(i, shift) == false && !searchWindow.IsEmptyArea())
             {
                 // Locate first order moments
                 moments.Compute(probabilityMap.GetSubRect(searchWindow));
@@ -73,17 +73,21 @@ namespace Accord.Extensions.Vision
                 searchWindow.Intersect(imageArea);
                 
                 shift = System.Math.Abs((double)shiftX) + System.Math.Abs((double)shiftY); //for term criteria only
+                i++;
             }
 
-            // Locate second order moments and perform final shift
-            moments.Order = 2;
-            moments.Compute(probabilityMap.GetSubRect(searchWindow));
+            if (searchWindow.IsEmptyArea() == false)
+            {
+                // Locate second order moments and perform final shift
+                moments.Order = 2;
+                moments.Compute(probabilityMap.GetSubRect(searchWindow));
 
-            searchWindow.X += (int)(moments.CenterX - searchWindow.Width / 2f);
-            searchWindow.Y += (int)(moments.CenterY - searchWindow.Height / 2f);
+                searchWindow.X += (int)(moments.CenterX - searchWindow.Width / 2f);
+                searchWindow.Y += (int)(moments.CenterY - searchWindow.Height / 2f);
 
-            // Keep the search window inside the image
-            searchWindow.Intersect(imageArea);
+                // Keep the search window inside the image
+                searchWindow.Intersect(imageArea);
+            }
 
             centralMoments = new CentralMoments(moments); // moments to be used by camshift
             return searchWindow;

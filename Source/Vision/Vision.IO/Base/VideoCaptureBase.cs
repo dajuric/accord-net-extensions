@@ -53,5 +53,9 @@ namespace Accord.Extensions.Vision
             set { CvCaptureInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.ConvertRGB, value ? 0 : 1); }
         }
 
+        public Size FrameSize
+        {
+            get { return CvCaptureInvoke.GetImageSize(capturePtr); }
+        }
     }
 }

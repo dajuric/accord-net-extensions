@@ -56,7 +56,7 @@ namespace SimpleParticleFilterDemo
             }
         }
 
-        Size imgSize = new Size(640, 480);
+        Size imgSize = new Size(640 / 2, 480 / 2);
 
         Bgr referenceColor = Bgr8.Red; //User defined color
         List<ColorParticle> particleFilter;
@@ -151,15 +151,19 @@ namespace SimpleParticleFilterDemo
             {
                 videoCapture = new CameraCapture(0);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Cannot find any camera!");
+                MessageBox.Show(ex.Message);
                 return;
             }
 
+            if (videoCapture is CameraCapture)
+                (videoCapture as CameraCapture).FrameSize = imgSize;
+
+            videoCapture.Open();
+
             this.FormClosing += ColorParticleDemo_FormClosing;
             Application.Idle += videoCapture_ProcessFrame;
-            videoCapture.Open();
         }
 
         Image<Bgr, byte> frame;
@@ -167,6 +171,8 @@ namespace SimpleParticleFilterDemo
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
             frame = videoCapture.ReadAs<Bgr, byte>();
+            if (frame == null)
+                return;
 
             long start = DateTime.Now.Ticks;
 
