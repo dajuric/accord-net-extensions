@@ -14,7 +14,7 @@ namespace PyrKLOpticalFlowDemo
 {
     public partial class KLDemo : Form
     {
-        Capture videoCapture;
+        VideoCaptureBase videoCapture;
         PyrLKStorage<FlowColor> lkStorage;
         int winSize = 21;
 
@@ -54,7 +54,7 @@ namespace PyrKLOpticalFlowDemo
             
             try
             {
-                videoCapture = new Capture(0);
+                videoCapture = new VideoCaptureBase(0);
             }
             catch (Exception)
             {

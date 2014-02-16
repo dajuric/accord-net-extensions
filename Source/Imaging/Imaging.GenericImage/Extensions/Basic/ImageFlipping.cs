@@ -35,14 +35,14 @@ namespace Accord.Extensions.Imaging
         /// <param name="flip">Flip direction.</param>
         /// <param name="inPlace">Do it in place.</param>
         /// <returns>Returns flipped image. If <see cref="inPlace"/> was set to true the result can be omitted.</returns>
-        public static Image<TColor, TDepth> FlipImage<TColor, TDepth>(this Image<TColor, TDepth> img, FlipDirection flip, bool inPlace)
+        public static Image<TColor, TDepth> FlipImage<TColor, TDepth>(this Image<TColor, TDepth> img, FlipDirection flip, bool inPlace = false)
             where TColor:IColor
             where TDepth:struct
         { 
             return FlipImage((IImage)img, flip, inPlace) as Image<TColor, TDepth>;
         }
 
-        public static IImage FlipImage(this IImage img, FlipDirection flip, bool inPlace)
+        public static IImage FlipImage(this IImage img, FlipDirection flip, bool inPlace = false)
         {
             IImage dest = img;
             if (!inPlace)

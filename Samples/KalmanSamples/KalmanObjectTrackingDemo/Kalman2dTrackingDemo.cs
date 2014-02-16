@@ -9,6 +9,7 @@ using Accord.Math;
 using AForge;
 using System;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using ModelState = Accord.Extensions.Statistics.Filters.ConstantVelocity2DModel;
 using Point = AForge.IntPoint;
@@ -18,7 +19,7 @@ namespace KalmanObjectTracking
 {
     public partial class KalmanTrackingDemo : Form
     {
-        CaptureBase videoCapture;
+        StreamableSource<IImage> videoCapture;
         DenseHistogram originalObjHist, backgroundHist;
         KalmanFilter<ModelState, PointF> kalman;
 
@@ -175,9 +176,8 @@ namespace KalmanObjectTracking
             try
             {
                 string videoDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "Sequence");
-                videoCapture = new ImageDirectoryCapture(videoDir, ".jpg",
-                                                        (path) => System.Drawing.Bitmap.FromFile(path).ToImage(),
-                                                         30);
+                videoCapture = new ImageDirectoryReader<IImage>(videoDir, ".jpg",
+                                                               (path) => System.Drawing.Bitmap.FromFile(path).ToImage());
 
                 //videoCapture = new Capture(0);
             }
@@ -187,21 +187,17 @@ namespace KalmanObjectTracking
                 return;
             }
 
-            videoCapture.VideoSize = new Size(640, 480); //set new Size(0,0) for the lowest one
-
             this.FormClosing += CamshiftDemo_FormClosing;
             Application.Idle += videoCapture_InitFrame;
-            videoCapture.Start();
+            videoCapture.Open();
         }
 
         Image<Bgr, byte> frame;
         void videoCapture_InitFrame(object sender, EventArgs e)
         {
-            bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
-            if (!hasNewFrame)
+            frame = videoCapture.ReadAs<Bgr, byte>();
+            if (frame == null)
                 return;
-
-            frame = videoCapture.QueryFrame();
 
             if (isROISelected)
             { 
@@ -221,8 +217,8 @@ namespace KalmanObjectTracking
         System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
-            bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
-            if (!hasNewFrame)
+            frame = videoCapture.ReadAs<Bgr, byte>();
+            if (frame == null)
                 return;
 
             if (!isROISelected)
@@ -231,8 +227,6 @@ namespace KalmanObjectTracking
                 Application.Idle -= videoCapture_NewFrame;
                 return;
             }
-
-            frame = videoCapture.QueryFrame();
 
             long start = DateTime.Now.Ticks;
 
@@ -258,7 +252,7 @@ namespace KalmanObjectTracking
         void CamshiftDemo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (videoCapture != null) 
-                videoCapture.Stop();
+                videoCapture.Dispose();
         }
 
         Rectangle roi = Rectangle.Empty;

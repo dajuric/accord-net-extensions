@@ -42,6 +42,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Map.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\PathExtensions.cs" />
     <Compile Include="Imaging\ColorAttribute.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="ParallelFilterProcessing\ParallelProcessor.cs" />
     <Compile Include="Collections\CircularList.cs" />
     <Compile Include="Extensions\SerializationExtensions.cs" />
+    <Compile Include="SystemTools.cs" />
     <Compile Include="Structures\Rectangle.cs" />
     <Compile Include="Structures\Size.cs" />
     <Compile Include="Collections\History.cs" />

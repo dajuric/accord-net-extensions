@@ -120,7 +120,7 @@ namespace FastTemplateMatchingDemo
 
             try
             {
-                videoCapture = new Capture();
+                videoCapture = new VideoCaptureBase();
                 //videoCapture = new ImageSequenceCapture("C:/probaImages", ".jpg", 30); 
             }
             catch (Exception)

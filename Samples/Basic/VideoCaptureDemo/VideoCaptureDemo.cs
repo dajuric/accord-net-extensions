@@ -14,23 +14,29 @@ namespace VideoCapture
 {
     public partial class VideoCaptureDemo : Form
     {
-        EventBasedStreamableSource<IImage> capture;
+        StreamableSource<IImage> capture;
 
         public VideoCaptureDemo()
         {
             InitializeComponent();
 
-            capture = new ImageDirectoryCapture("S:/images", "*.png", 
-                                                (x) => Bitmap.FromFile(x).ToImage<Bgr, byte>(), 
-                                                30);
+            /*capture = new ImageDirectoryReader<IImage>("C:/images", "*.png", 
+                                                        (x) => Bitmap.FromFile(x).ToImage<Bgr, byte>());*/
 
-            capture.NewFrame += capture_NewFrame;
+            //capture = new CameraCapture(0);
+            capture = new FileCapture(@"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv");
             capture.Open();
+            Application.Idle += capture_NewFrame;
         }
 
         void capture_NewFrame(object sender, EventArgs e)
         {
             var frame = capture.Read();
+            if (frame == null)
+            {
+                Application.Idle -= capture_NewFrame;
+                return;
+            }
 
             this.pictureBox.Image = frame.ToBitmap();
             GC.Collect();

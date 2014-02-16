@@ -48,13 +48,14 @@
     <Compile Include="ColorSpaces\ColorInfo.cs" />
     <Compile Include="ColorSpaces\Gray.cs" />
     <Compile Include="ColorSpaces\Hsv.cs" />
-    <Compile Include="Extensions\ArrayCompatibility\ArrayToImageExtensions.cs" />
-    <Compile Include="Extensions\ArrayCompatibility\ImageToArrayExtensions.cs" />
+    <Compile Include="Extensions\Compatibility\ArrayCompatibility\ArrayToImageExtensions.cs" />
+    <Compile Include="Extensions\Compatibility\ArrayCompatibility\ImageToArrayExtensions.cs" />
     <Compile Include="Extensions\Basic\ClearImage.cs" />
     <Compile Include="Extensions\Basic\ConditionalCopy.cs" />
     <Compile Include="Extensions\Basic\GetRectSubPix.cs" />
     <Compile Include="Extensions\Basic\InRange.cs" />
     <Compile Include="Extensions\Basic\PixelSetter.cs" />
+    <Compile Include="Extensions\Compatibility\OpenCVCompatibility\IplImageConversions.cs" />
     <Compile Include="Extensions\ComplexImage\ComplexImage.Arithemtics.cs" />
     <Compile Include="Extensions\Math\Magnitude.cs" />
     <Compile Include="Extensions\Math\Max.cs" />

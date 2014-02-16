@@ -140,7 +140,7 @@ namespace SimpleParticleFilterDemo
 
         #region GUI...
 
-        Capture videoCapture;
+        StreamableSource<IImage> videoCapture;
 
         public SimpleParticleDemoForm()
         {
@@ -149,7 +149,7 @@ namespace SimpleParticleFilterDemo
 
             try
             {
-                videoCapture = new Capture(0);
+                videoCapture = new CameraCapture(0);
             }
             catch (Exception)
             {
@@ -157,22 +157,16 @@ namespace SimpleParticleFilterDemo
                 return;
             }
 
-            videoCapture.VideoSize = imgSize; //set new Size(0,0) for the lowest one
-
             this.FormClosing += ColorParticleDemo_FormClosing;
             Application.Idle += videoCapture_ProcessFrame;
-            videoCapture.Start();
+            videoCapture.Open();
         }
 
         Image<Bgr, byte> frame;
         System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
-            bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
-            if (!hasNewFrame)
-                return;
-
-            frame = videoCapture.QueryFrame();
+            frame = videoCapture.ReadAs<Bgr, byte>();
 
             long start = DateTime.Now.Ticks;
 
@@ -198,7 +192,7 @@ namespace SimpleParticleFilterDemo
         void ColorParticleDemo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (videoCapture != null)
-                videoCapture.Stop();
+                videoCapture.Dispose();
         }
 
         #endregion

@@ -4,7 +4,22 @@ using Accord.Extensions;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Generic color space (2 channels).
+    /// </summary>
+    [ColorInfo(ConversionCodename = "Generic", IsGenericColorSpace = true)]
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Color2 : IColor, IColor2
+    {
+        public Color2(double val0, double val1)
+        {
+            this.Val0 = val0;
+            this.Val1 = val1;
+        }
 
+        public double Val0;
+        public double Val1;
+    }
 
     /// <summary>
     /// Generic color space (3 channels).

@@ -14,7 +14,7 @@ namespace Accord.Extensions.Vision
 {
     public partial class CamshiftDemo : Form
     {
-        Capture videoCapture;
+        StreamableSource<IImage> videoCapture;
         DenseHistogram originalObjHist, backgroundHist;
 
         private void init()
@@ -87,7 +87,7 @@ namespace Accord.Extensions.Vision
 
             try
             {
-                videoCapture = new Capture(0);
+                videoCapture = new CameraCapture(0);
             }
             catch (Exception)
             {
@@ -95,21 +95,19 @@ namespace Accord.Extensions.Vision
                 return;
             }
 
-            videoCapture.VideoSize = new Size(640, 480); //set new Size(0,0) for the lowest one
+            if(videoCapture is CameraCapture)
+                (videoCapture as CameraCapture).FrameSize = new Size(640, 480); //set new Size(0,0) for the lowest one
 
             this.FormClosing += CamshiftDemo_FormClosing;
             Application.Idle += videoCapture_InitFrame;
-            videoCapture.Start();
+            videoCapture.Open();
         }
 
         Image<Bgr, byte> frame;
         void videoCapture_InitFrame(object sender, EventArgs e)
         {
-            bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
-            if (!hasNewFrame)
-                return;
-
-            frame = videoCapture.QueryFrame();
+            frame = videoCapture.ReadAs<Bgr, byte>();
+            if (frame == null) return;
 
             if (isROISelected)
             { 
@@ -129,11 +127,8 @@ namespace Accord.Extensions.Vision
         System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
-            bool hasNewFrame = videoCapture.WaitForNewFrame(); //do not process the same frame
-            if (!hasNewFrame)
-                return;
-            /*if (videoCapture.HasNewFrame == false) //do not use: Application.Idle may not be fired right away which may cause temporary freezing
-                return;*/
+            frame = videoCapture.ReadAs<Bgr, byte>()/*.SmoothGaussian(5)*/; //smoothing <<parallel operation>>
+            if (frame == null) return;
 
             if (!isROISelected)
             {
@@ -141,8 +136,6 @@ namespace Accord.Extensions.Vision
                 Application.Idle -= videoCapture_NewFrame;
                 return;
             }
-
-            frame = videoCapture.QueryFrame()/*.SmoothGaussian(5)*/; //smoothing <<parallel operation>>
 
             long start = DateTime.Now.Ticks;
 
@@ -166,7 +159,7 @@ namespace Accord.Extensions.Vision
         void CamshiftDemo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (videoCapture != null) 
-                videoCapture.Stop();
+                videoCapture.Dispose();
         }
 
         Rectangle roi = Rectangle.Empty;
