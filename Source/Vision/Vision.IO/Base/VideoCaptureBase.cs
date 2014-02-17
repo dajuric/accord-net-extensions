@@ -27,19 +27,26 @@ namespace Accord.Extensions.Vision
                 CvCaptureInvoke.cvReleaseCapture(ref capturePtr);
         }
 
+        object syncObj = new object();
         protected override bool Read(out IImage image)
         {
-           var cvFramePtr = CvCaptureInvoke.cvQueryFrame(capturePtr);
-           if (cvFramePtr == IntPtr.Zero)
-           {
-               image = default(IImage);
-               return false;
-           }
+            bool status = false;
+            image = default(IImage);
 
-           image = IplImage.FromPointer(cvFramePtr).AsImage();
+            lock (syncObj)
+            {
+                IntPtr cvFramePtr;
+                cvFramePtr = CvCaptureInvoke.cvQueryFrame(capturePtr);
 
-           this.Position++;
-           return true;
+                if (cvFramePtr != IntPtr.Zero)
+                {
+                    image = IplImage.FromPointer(cvFramePtr).AsImage();
+                    this.Position++;
+                    status = true;
+                }
+            }
+
+            return status;
         }
 
         public override long Length

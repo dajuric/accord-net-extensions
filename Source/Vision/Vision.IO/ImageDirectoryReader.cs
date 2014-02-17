@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace Accord.Extensions.Vision
 {
@@ -55,13 +56,16 @@ namespace Accord.Extensions.Vision
         object syncObj = new object();
         protected override bool Read(out TImage image)
         {
-            image = default(TImage);
+            lock (syncObj)
+            {
+                image = default(TImage);
 
-            if (this.Position >= this.Length)
-                return false;
+                if (this.Position >= this.Length)
+                    return false;
 
-            image = loader(fileNames[currentFrame]);
-            lock (syncObj) currentFrame++;
+                image = loader(fileNames[currentFrame]);
+                currentFrame++;
+            }
 
             return true;
         }

@@ -49,26 +49,26 @@ namespace Accord.Extensions.Vision
             return currentFrame;
         }
 
-        public TImage Read(out bool isExpired)
+        public Task<TImage> ReadAsync()
         {
-            /*var readTask = new Task<TImage>(() =>
+            var readTask = new Task<TImage>(() =>
             {
                 TImage result;
                 Read(out result);
                 return result;
             });
-          
+
             readTask.Start();
+            return readTask;
+        }
+
+        public TImage Read(out bool isExpired)
+        {
+            var readTask = ReadAsync();
             readTask.Wait(this.ReadTimeout);
 
             isExpired = !readTask.IsCompleted;
-            return readTask.Result;*/
-
-            isExpired = false;
-
-            TImage result;
-            Read(out result);
-            return result;
+            return readTask.Result;
         }
 
         public TImage Read() 

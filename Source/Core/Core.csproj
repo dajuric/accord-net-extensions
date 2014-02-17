@@ -54,7 +54,7 @@
     <Compile Include="Extensions\SerializationExtensions.cs" />
     <Compile Include="Structures\RectangleF.cs" />
     <Compile Include="Structures\SizeF.cs" />
-    <Compile Include="SystemTools.cs" />
+    <Compile Include="Platform.cs" />
     <Compile Include="Structures\Rectangle.cs" />
     <Compile Include="Structures\Size.cs" />
     <Compile Include="Collections\History.cs" />

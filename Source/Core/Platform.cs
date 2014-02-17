@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 namespace Accord.Extensions
 {
     /// <summary>
-    /// Contains methods for determinating platform characteristics.
+    /// Contains functions and properties for platform interoperability.
     /// </summary>
-    public static class SystemTools
+    public static class Platform
     {
         public enum OperatingSystem
         {
@@ -16,7 +16,7 @@ namespace Accord.Extensions
             MacOS
         }
 
-        static SystemTools()
+        static Platform()
         {
             RunningPlatform = getRunningPlatform();
         }
@@ -57,6 +57,40 @@ namespace Accord.Extensions
             private set;
         }
 
+        public static void AddDllSearchPath(string dllDirectory)
+        {
+            dllDirectory = dllDirectory.NormalizePathDelimiters("\\");
+
+            var path = "";
+            switch (RunningPlatform)
+            {
+                case OperatingSystem.Windows:
+                    path = "PATH";
+                    Environment.SetEnvironmentVariable(path, Environment.GetEnvironmentVariable(path) + ";" + dllDirectory);
+                    break;
+                case OperatingSystem.MacOS:
+                    path = "LD_LIBRARY_PATH";
+                    Environment.SetEnvironmentVariable(path, Environment.GetEnvironmentVariable(path) + ":" + dllDirectory); //TODO - critical: check is that valid ?
+                    //throw new NotImplementedException("How to change " + path);
+                    break;
+                case OperatingSystem.Linux:
+                    path = "DYLD_FRAMEWORK_PATH";
+                    throw new NotImplementedException("How to change " + path);
+                    break;
+            }
+        }
+
+        public static void AddDllSearchPath()
+        {
+            var baseDirectory = Path.Combine(Directory.GetCurrentDirectory(), "3rdPartyLibraries");
+            var loadDirectory = Path.Combine(baseDirectory, Platform.RunningPlatform.ToString());
+
+            if (Platform.RunningPlatform == Platform.OperatingSystem.Windows)
+                loadDirectory = Path.Combine(loadDirectory, Environment.Is64BitProcess ? "x64" : "x86");
+
+            AddDllSearchPath(loadDirectory);
+        }
+
 
         [DllImport("kernel32.dll", EntryPoint = "LoadLibrary")]
         private static extern IntPtr LoadWindowsLibrary([MarshalAs(UnmanagedType.LPStr)] string fileName);
@@ -75,7 +109,7 @@ namespace Accord.Extensions
         [DllImport("dl", EntryPoint = "dlopen")]
         private static extern IntPtr LoadUnixLibrary([MarshalAs(UnmanagedType.LPStr)] string fileName, LoadUnixLibFlags falgs);
 
-        public static IntPtr LoadLibrary(string fileName, bool addConvertExtensionToPlatformSpecific = true)
+        public static IntPtr LoadLibrary(string fileName)
         {
             var loadDir = new FileInfo(fileName).DirectoryName;
 
@@ -87,7 +121,7 @@ namespace Accord.Extensions
 
             IntPtr ptr = IntPtr.Zero;
 
-            if (!File.Exists(fileName) == false)
+            if (File.Exists(fileName))
             {
                 ptr = (RunningPlatform == OperatingSystem.Windows) ?
                                 LoadWindowsLibrary(fileName) :
@@ -104,7 +138,7 @@ namespace Accord.Extensions
             String formatString = null;
 
             switch (RunningPlatform)
-            { 
+            {
                 case OperatingSystem.Windows:
                     formatString = "{0}.dll";
                     break;

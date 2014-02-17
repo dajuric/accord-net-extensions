@@ -29,9 +29,10 @@ namespace VideoCapture
             Application.Idle += capture_NewFrame;
         }
 
-        void capture_NewFrame(object sender, EventArgs e)
+        async void capture_NewFrame(object sender, EventArgs e)
         {
-            var frame = capture.Read();
+            var frame = await capture.ReadAsync(); 
+
             if (frame == null)
             {
                 Application.Idle -= capture_NewFrame;
