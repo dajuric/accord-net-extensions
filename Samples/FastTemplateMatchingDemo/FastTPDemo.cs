@@ -27,7 +27,7 @@ namespace FastTemplateMatchingDemo
         int threshold = 88;
         int minDetectionsPerGroup = 0; //for match grouping (postprocessing)
 
-        StreamableSource<IImage> videoCapture;
+        StreamableSource videoCapture;
         List<TemplatePyramid> templPyrs;
 
         /// <summary>
@@ -109,12 +109,6 @@ namespace FastTemplateMatchingDemo
         public FastTPDemo()
         {
             InitializeComponent();
-
-            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "SIMDArrayInstructions.dll")) == false)
-            {
-                MessageBox.Show("Copy SIMDArrayInstructions.dll to your bin directory!");
-                return;
-            }
 
             initialize();
 

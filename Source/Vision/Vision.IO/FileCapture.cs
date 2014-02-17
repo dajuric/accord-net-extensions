@@ -31,26 +31,26 @@ namespace Accord.Extensions.Vision
             if (capturePtr != IntPtr.Zero)
                 return;
 
-            capturePtr = CvCaptureInvoke.cvCreateFileCapture(fileName);
+            capturePtr = CvHighGuiInvoke.cvCreateFileCapture(fileName);
             if (capturePtr == IntPtr.Zero)
                 throw new Exception("Cannot open FileStream!");
         }
 
         public override long Position
         {
-            get { return (long)CvCaptureInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.PosFrames); }
+            get { return (long)CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.PosFrames); }
             protected set { }  
         }
 
         public double FramesPerSecond
         {
-            get { return CvCaptureInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FPS); }
+            get { return CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FPS); }
         }
 
         public override long Seek(long offset, System.IO.SeekOrigin origin = SeekOrigin.Current)
         {
             var frameIndex = base.Seek(offset, origin);
-            CvCaptureInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.PosFrames, frameIndex);
+            CvHighGuiInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.PosFrames, frameIndex);
 
             return Position;
         }

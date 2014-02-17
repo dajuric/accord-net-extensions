@@ -7,9 +7,10 @@ using System.Runtime.CompilerServices;
 
 namespace Accord.Extensions.Vision
 {
-    internal static class CvCaptureInvoke
+    internal static class CvHighGuiInvoke
     {
         public const CallingConvention CvCallingConvetion = CallingConvention.Cdecl;
+        public const string OPENCV_CORE_LIBRARY = "opencv_core248";
         public const string OPENCV_HIGHGUI_LIBRARY = "opencv_highgui248";
 
         [SuppressUnmanagedCodeSecurity]
@@ -47,22 +48,34 @@ namespace Accord.Extensions.Vision
         {
             return new Size
             {
-                Width = (int)CvCaptureInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FrameWidth),
-                Height = (int)CvCaptureInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FrameHeight)
+                Width = (int)CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FrameWidth),
+                Height = (int)CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FrameHeight)
             };
         }
 
         public static bool SetImageSize(IntPtr capturePtr, Size newSize)
         {
             bool success;
-            success = CvCaptureInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.FrameWidth, newSize.Width);
-            success &= CvCaptureInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.FrameHeight, newSize.Height);
+            success = CvHighGuiInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.FrameWidth, newSize.Width);
+            success &= CvHighGuiInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.FrameHeight, newSize.Height);
 
             return success;
         }
 
 
-        static CvCaptureInvoke()
+        /************************************************ image IO ****************************************************/
+
+        [SuppressUnmanagedCodeSecurity]
+        [DllImport(OPENCV_HIGHGUI_LIBRARY, CallingConvention = CvCallingConvetion)]
+        public static extern IntPtr cvLoadImage([MarshalAs(UnmanagedType.LPStr)] String filename, ImageLoadType loadType);
+
+        [SuppressUnmanagedCodeSecurity]
+        [DllImport(OPENCV_CORE_LIBRARY, CallingConvention = CvCallingConvetion)]
+        public static extern void cvReleaseImage(ref IntPtr image);
+        /************************************************ image IO ****************************************************/
+
+
+        static CvHighGuiInvoke()
         {
             Platform.AddDllSearchPath();
         }
@@ -86,5 +99,23 @@ namespace Accord.Extensions.Vision
         /************** camera properties ******************/
 
         ConvertRGB = 16
+    }
+
+    internal enum ImageLoadType: int
+    {
+        /// <summary>
+        /// Loads the image as is (including the alpha channel if present)
+        /// </summary>
+        Unchanged = -1,
+
+        /// <summary>
+        /// Loads the image as an intensity one
+        /// </summary>
+        Grayscale = 0,
+
+        /// <summary>
+        ///  Loads the image in the RGB format
+        /// </summary>
+        Color = 1,
     }
 }

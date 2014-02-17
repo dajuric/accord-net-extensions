@@ -7,17 +7,20 @@ using System.Threading;
 
 namespace Accord.Extensions.Vision
 {
-    public class ImageDirectoryReader<TImage> : StreamableSource<TImage>
-        where TImage: IImage
+    public class ImageDirectoryReader : StreamableSource
     {
         string[] fileNames = null;
 
-        Func<string, TImage> loader;
+        Func<string, IImage> loader;
         long currentFrame = 0;
 
         #region Initialization
 
-        public ImageDirectoryReader(string filePath, string extension, Func<string, TImage> loader, bool useNaturalSorting = true)
+        public ImageDirectoryReader(string filePath, string extension, bool useNaturalSorting = true)
+            :this(filePath, extension, (x) => cvLoader(x), useNaturalSorting)
+        {}
+
+        public ImageDirectoryReader(string filePath, string extension, Func<string, IImage> loader, bool useNaturalSorting = true)
         {
             this.IsLiveStream = false;
             this.CanSeek = true;
@@ -44,6 +47,18 @@ namespace Accord.Extensions.Vision
             this.fileNames = files.ToArray();
         }
 
+        private static IImage cvLoader(string fileName)
+        {
+            var cvImg = CvHighGuiInvoke.cvLoadImage(fileName, ImageLoadType.Unchanged);
+            var image = IplImage.FromPointer(cvImg).AsImage((x) => 
+                                                      {
+                                                          if (x.ImageData == IntPtr.Zero) return;
+                                                          CvHighGuiInvoke.cvReleaseImage(ref cvImg);
+                                                      });
+
+            return image;
+        }
+
         #endregion
 
         public override void Open() { }
@@ -54,11 +69,11 @@ namespace Accord.Extensions.Vision
         }
 
         object syncObj = new object();
-        protected override bool Read(out TImage image)
+        protected override bool Read(out IImage image)
         {
             lock (syncObj)
             {
-                image = default(TImage);
+                image = default(IImage);
 
                 if (this.Position >= this.Length)
                     return false;

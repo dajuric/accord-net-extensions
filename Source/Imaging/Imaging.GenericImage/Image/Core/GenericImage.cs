@@ -96,11 +96,11 @@ namespace Accord.Extensions.Imaging
         /// <param name="height">Image height.</param>
         /// <param name="stride">Image stride.</param>
         /// <param name="parentReference">To prevent object from deallocating use this parameter.</param>
-        /// <param name="parentHandle">If using pinned object use GCHandle to release an allocated handle.</param>
-        public Image(IntPtr imageData, int width, int height, int stride, object parentReference, GCHandle parentHandle = default(GCHandle))
+        /// <param name="parentDestructor">If a parent needs to be destroyed or release use this function. (e.g. unpin object - GCHandle)</param>
+        public Image(IntPtr imageData, int width, int height, int stride, object parentReference = null, Action<object> parentDestructor = null)
             : this()
         {
-            GenericImageBase.Initialize(this, imageData, width, height, stride, parentReference, parentHandle);
+            GenericImageBase.Initialize(this, imageData, width, height, stride, parentReference, parentDestructor);
         }
 
         #endregion

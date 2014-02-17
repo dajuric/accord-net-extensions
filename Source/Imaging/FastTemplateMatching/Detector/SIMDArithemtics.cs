@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
+using Accord.Extensions;
 using Point = AForge.IntPoint;
 
 namespace LINE2D
@@ -71,5 +72,9 @@ namespace LINE2D
             }
         }
 
+        static SIMDArithemtics()
+        {
+            Platform.AddDllSearchPath();
+        }
     }
 }

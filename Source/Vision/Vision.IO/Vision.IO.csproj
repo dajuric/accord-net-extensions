@@ -44,7 +44,7 @@
     <Compile Include="Base\VideoCaptureBase.cs" />
     <Compile Include="CameraCapture.cs" />
     <Compile Include="FileCapture.cs" />
-    <Compile Include="Base\OpenCVCaptureInvoke.cs" />
+    <Compile Include="Base\CvHighGuiInvoke.cs" />
     <Compile Include="ImageDirectoryReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -62,32 +62,32 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="3rdPartyLibraries\Linux\" />
-    <Folder Include="3rdPartyLibraries\MacOS\" />
+    <Folder Include="UnmanagedLibraries\Linux\" />
+    <Folder Include="UnmanagedLibraries\MacOS\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="3rdPartyLibraries\Windows\x64\opencv_core248.dll">
+    <Content Include="UnmanagedLibraries\Windows\x64\opencv_core248.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="3rdPartyLibraries\Windows\x64\opencv_ffmpeg248_64.dll">
+    <Content Include="UnmanagedLibraries\Windows\x64\opencv_ffmpeg248_64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="3rdPartyLibraries\Windows\x64\opencv_highgui248.dll">
+    <Content Include="UnmanagedLibraries\Windows\x64\opencv_highgui248.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="3rdPartyLibraries\Windows\x64\opencv_video248.dll">
+    <Content Include="UnmanagedLibraries\Windows\x64\opencv_video248.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="3rdPartyLibraries\Windows\x86\opencv_core248.dll">
+    <Content Include="UnmanagedLibraries\Windows\x86\opencv_core248.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="3rdPartyLibraries\Windows\x86\opencv_ffmpeg248.dll">
+    <Content Include="UnmanagedLibraries\Windows\x86\opencv_ffmpeg248.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="3rdPartyLibraries\Windows\x86\opencv_highgui248.dll">
+    <Content Include="UnmanagedLibraries\Windows\x86\opencv_highgui248.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="3rdPartyLibraries\Windows\x86\opencv_video248.dll">
+    <Content Include="UnmanagedLibraries\Windows\x86\opencv_video248.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

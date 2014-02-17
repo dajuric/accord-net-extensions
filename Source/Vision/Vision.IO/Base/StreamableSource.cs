@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Accord.Extensions.Vision
 {
+    public abstract class StreamableSource: StreamableSource<IImage>
+    { }
+
     public abstract class StreamableSource<TImage>: IDisposable
         where TImage: IImage
     {

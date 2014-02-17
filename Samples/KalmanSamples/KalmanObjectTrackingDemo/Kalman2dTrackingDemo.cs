@@ -19,7 +19,7 @@ namespace KalmanObjectTracking
 {
     public partial class KalmanTrackingDemo : Form
     {
-        StreamableSource<IImage> videoCapture;
+        StreamableSource videoCapture;
         DenseHistogram originalObjHist, backgroundHist;
         KalmanFilter<ModelState, PointF> kalman;
 
@@ -176,7 +176,7 @@ namespace KalmanObjectTracking
             try
             {
                 string videoDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "Sequence");
-                videoCapture = new ImageDirectoryReader<IImage>(videoDir, ".jpg",
+                videoCapture = new ImageDirectoryReader(videoDir, ".jpg",
                                                                (path) => System.Drawing.Bitmap.FromFile(path).ToImage());
 
                 //videoCapture = new Capture(0);

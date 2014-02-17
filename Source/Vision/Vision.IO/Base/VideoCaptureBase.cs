@@ -15,7 +15,7 @@ namespace Accord.Extensions.Vision
     /// <summary>
     /// Represents the base class for video capture. 
     /// </summary>
-    public abstract class VideoCaptureBase: StreamableSource<IImage>
+    public abstract class VideoCaptureBase : StreamableSource
     {
         public const int PROPERTY_NOT_SUPPORTED = 0;
 
@@ -24,7 +24,7 @@ namespace Accord.Extensions.Vision
         public override void Close()
         {
             if (capturePtr != IntPtr.Zero)
-                CvCaptureInvoke.cvReleaseCapture(ref capturePtr);
+                CvHighGuiInvoke.cvReleaseCapture(ref capturePtr);
         }
 
         object syncObj = new object();
@@ -36,7 +36,7 @@ namespace Accord.Extensions.Vision
             lock (syncObj)
             {
                 IntPtr cvFramePtr;
-                cvFramePtr = CvCaptureInvoke.cvQueryFrame(capturePtr);
+                cvFramePtr = CvHighGuiInvoke.cvQueryFrame(capturePtr);
 
                 if (cvFramePtr != IntPtr.Zero)
                 {
@@ -51,18 +51,18 @@ namespace Accord.Extensions.Vision
 
         public override long Length
         {
-            get { return (long)CvCaptureInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FrameCount); }
+            get { return (long)CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FrameCount); }
         }
 
         public bool ConvertRgb
         {
-            get { return (int)CvCaptureInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.ConvertRGB) != 0; }
-            set { CvCaptureInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.ConvertRGB, value ? 0 : 1); }
+            get { return (int)CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.ConvertRGB) != 0; }
+            set { CvHighGuiInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.ConvertRGB, value ? 0 : 1); }
         }
 
         public Size FrameSize
         {
-            get { return CvCaptureInvoke.GetImageSize(capturePtr); }
+            get { return CvHighGuiInvoke.GetImageSize(capturePtr); }
         }
     }
 }

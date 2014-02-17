@@ -14,7 +14,7 @@ namespace Accord.Extensions.Imaging
         PinnedArray<byte> buffer = null;
 
         object objectReference = null; //prevents disposing parent object if sharing data (GetSubRect(..), casting...)
-        GCHandle parentHandle = default(GCHandle);
+        Action<object> parentDestructor = null;
 
         #region Constructor methods
 
@@ -49,14 +49,14 @@ namespace Accord.Extensions.Imaging
         /// <param name="height">Image height.</param>
         /// <param name="stride">Image stride.</param>
         /// <param name="parentReference">To prevent object from deallocating use this parameter.</param>
-        /// <param name="parentHandle">If using pinned object use GCHandle to release an allocated handle.</param>
+        /// <param name="parentDestructor">If a parent needs to be destroyed or release use this function. (e.g. unpin object - GCHandle)</param>
         /// <returns>Generic image.</returns>
-        public static IImage Create(ColorInfo colorInfo, IntPtr imageData, int width, int height, int stride, object parentReference, GCHandle parentHandle = default(GCHandle))
+        public static IImage Create(ColorInfo colorInfo, IntPtr imageData, int width, int height, int stride, object parentReference = null, Action<object> parentDestructor = null)
         {
             var ctorInvoker = HelperMethods.GetGenericImageConstructor(typeof(Image<,>), colorInfo);
             GenericImageBase im = (GenericImageBase)ctorInvoker();
 
-            Initialize(im, imageData, width, height, stride, parentReference, parentHandle);
+            Initialize(im, imageData, width, height, stride, parentReference, parentDestructor);
             return im;
         }
 
@@ -102,19 +102,15 @@ namespace Accord.Extensions.Imaging
         /// <param name="height">Image height.</param>
         /// <param name="stride">Image stride.</param>
         /// <param name="parentReference">To prevent object from deallocating use this parameter.</param>
-        /// <param name="parentHandle">If using pinned object use GCHandle to release an allocated handle.</param>
-        protected static void Initialize(GenericImageBase im, IntPtr imageData, int width, int height, int stride, object parentReference, GCHandle parentHandle = default(GCHandle))
+        /// <param name="parentDestructor">If a parent needs to be destroyed or release use this function. (e.g. unpin object - GCHandle)</param>
+        protected static void Initialize(GenericImageBase im, IntPtr imageData, int width, int height, int stride, object parentReference = null, Action<object> parentDestructor = null)
         {
             im.mustBeDisposed = false;
             im.buffer = null;
 
             initializeProperties(im, imageData, width, height, stride);
-
-            if (parentReference != null)
-            {
-                im.objectReference = parentReference;
-                im.parentHandle = parentHandle;
-            }
+            im.objectReference = parentReference;
+            im.parentDestructor = parentDestructor;
         }
 
         private static void initializeProperties(GenericImageBase im, IntPtr imageData, int width, int height, int stride)
@@ -152,8 +148,8 @@ namespace Accord.Extensions.Imaging
             }
             else
             {
-               if (this.parentHandle.IsAllocated)
-                   this.parentHandle.Free();
+                if (this.parentDestructor != null)
+                    this.parentDestructor(objectReference);
 
                this.objectReference = null;
             }

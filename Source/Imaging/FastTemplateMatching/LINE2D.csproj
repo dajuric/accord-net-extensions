@@ -152,6 +152,14 @@
       <Name>Imaging.GenericImage</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="UnmanagedLibraries\Windows\x64\SIMDArrayInstructions.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UnmanagedLibraries\Windows\x86\SIMDArrayInstructions.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

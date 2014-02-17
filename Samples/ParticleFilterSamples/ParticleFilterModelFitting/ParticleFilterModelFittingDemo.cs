@@ -176,17 +176,11 @@ namespace ParticleFilterModelFitting
 
         #region GUI
 
-        StreamableSource<IImage> videoCapture;
+        StreamableSource videoCapture;
 
         public ParticleFilterModelFittingDemo()
         {
             InitializeComponent();
-
-            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "SIMDArrayInstructions.dll")) == false)
-            {
-                MessageBox.Show("Copy SIMDArrayInstructions.dll to your bin directory! (project LINE2D)");
-                return;
-            }
 
             init();
 
@@ -194,7 +188,7 @@ namespace ParticleFilterModelFitting
             {
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
 
-                videoCapture = new ImageDirectoryReader<IImage>(Path.Combine(resourceDir, "SampleVideos", "1"), ".jpg", 
+                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "SampleVideos", "1" /*"2"*/), ".jpg", 
                                                                 (fileName) => System.Drawing.Bitmap.FromFile(fileName).ToImage()); 
             }
             catch (Exception)

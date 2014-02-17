@@ -9,29 +9,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Accord.Extensions.Imaging;
+using System.Diagnostics;
 
 namespace VideoCapture
 {
     public partial class VideoCaptureDemo : Form
     {
-        StreamableSource<IImage> capture;
+        StreamableSource capture;
 
         public VideoCaptureDemo()
         {
             InitializeComponent();
 
-            /*capture = new ImageDirectoryReader<IImage>("C:/images", "*.png", 
-                                                        (x) => Bitmap.FromFile(x).ToImage<Bgr, byte>());*/
+            capture = new ImageDirectoryReader("C:/images", "*.png");
 
             //capture = new CameraCapture(0);
-            capture = new FileCapture(@"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv");
+            //capture = new FileCapture(@"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv");
             capture.Open();
             Application.Idle += capture_NewFrame;
         }
 
         async void capture_NewFrame(object sender, EventArgs e)
         {
-            var frame = await capture.ReadAsync(); 
+            var frame = await capture.ReadAsync(); //faster
+            //var frame = capture.Read();
 
             if (frame == null)
             {

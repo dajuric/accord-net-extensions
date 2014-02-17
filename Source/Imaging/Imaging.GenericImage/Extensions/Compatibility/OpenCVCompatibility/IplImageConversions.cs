@@ -12,8 +12,12 @@ namespace Accord.Extensions.Imaging
     {
         public const uint IPL_DEPTH_SIGN = 0x80000000;
         
-        public enum IplChannelDepth : int
+        public enum IplChannelDepth : uint
         {
+            /// <summary>
+            /// Unsigned 1bit
+            /// </summary>
+            IPL_DEPTH_1U = 1,
             /// <summary>
             /// Unsigned 8-bit integer
             /// </summary>
@@ -21,7 +25,7 @@ namespace Accord.Extensions.Imaging
             /// <summary>
             /// Signed 8-bit integer
             /// </summary>
-           IPL_DEPTH_8S = -2147483640,
+           IPL_DEPTH_8S = (IPL_DEPTH_SIGN | 8),
             /// <summary>
             /// Unsigned 16-bit integer
             /// </summary>
@@ -29,11 +33,11 @@ namespace Accord.Extensions.Imaging
             /// <summary>
             /// Signed 16-bit integer
             /// </summary>
-           IPL_DEPTH_16S = -2147483632,
+           IPL_DEPTH_16S = (IPL_DEPTH_SIGN | 16),
             /// <summary>
             /// Signed 32-bit integer.
             /// </summary>
-           IPL_DEPTH_32S = -2147483616,
+           IPL_DEPTH_32S = (IPL_DEPTH_SIGN | 32),
             /// <summary>
             /// Single-precision floating point
             /// </summary>
@@ -114,19 +118,19 @@ namespace Accord.Extensions.Imaging
         /// Region Of Interest (ROI). If not NULL, only this image region will be processed.
         /// It is always null if generic image is represented as OpenCV image.
         /// </summary>
-        public void* ROI;
+        public IntPtr ROI;
         /// <summary>
         /// Must be NULL in OpenCV.
         /// </summary>
-        public void* MaskROI;
+        public IntPtr MaskROI;
         /// <summary>
         /// Must be NULL in OpenCV.
         /// </summary>
-        public void* ImageId;
+        public IntPtr ImageId;
         /// <summary>
         /// Must be NULL in OpenCV.
         /// </summary>
-        public void* TileInfo;
+        public IntPtr TileInfo;
         /// <summary>
         /// Image data size in bytes.
         /// </summary>
@@ -134,7 +138,7 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// A pointer to the aligned image data.
         /// </summary>
-        public byte* ImageData;
+        public IntPtr ImageData;
         /// <summary>
         /// The size of an aligned image row, in bytes.
         /// </summary>
@@ -151,7 +155,7 @@ namespace Accord.Extensions.Imaging
         /// A pointer to the origin of the image data (not necessarily aligned). This is used for image deallocation.
         /// During casting between generic image to OpenCV image it is set to null.
         /// </summary>
-        public byte* ImageDataOrigin;
+        public IntPtr ImageDataOrigin;
 
         internal IplImage(IImage image, Func<Type, IplChannelDepth> translationFunc)
         {
@@ -162,11 +166,11 @@ namespace Accord.Extensions.Imaging
             this.AlphaChannel = 0;
             this.DataOrder = ChannelDataOrder.INTERLEAVED;
             this.Origin = DataOrigin.TopLeft;
-            this.ROI = null;
-            this.MaskROI = null;
-            this.ImageId = null;
-            this.TileInfo = null;
-            this.ImageDataOrigin = null;
+            this.ROI = IntPtr.Zero;
+            this.MaskROI = IntPtr.Zero;
+            this.ImageId = IntPtr.Zero;
+            this.TileInfo = IntPtr.Zero;
+            this.ImageDataOrigin = IntPtr.Zero;
             /************************ default values initialization *********************************/
 
             var colorInfo = image.ColorInfo;
@@ -182,7 +186,7 @@ namespace Accord.Extensions.Imaging
             this.WidthStep = image.Stride;
             this.ImageSize = colorInfo.Size * image.Stride * image.Height;
 
-            this.ImageData = (byte*)image.ImageData;
+            this.ImageData = image.ImageData;
            
         }
 
@@ -244,13 +248,15 @@ namespace Accord.Extensions.Imaging
         }
 
 
-        public static unsafe IImage AsImage(this IplImage iplImage)
+        public static unsafe IImage AsImage(this IplImage iplImage, Action<IplImage> destructor = null)
         {
             var depthType = depthAssociations.Reverse[iplImage.ChannelDepth];
             var colorType = colorAssociations.Reverse[iplImage.NumberOfChannels];
 
             var colorInfo = ColorInfo.GetInfo(colorType, depthType);
-            return GenericImageBase.Create(colorInfo, (IntPtr)iplImage.ImageData, iplImage.Width, iplImage.Height, iplImage.WidthStep, null);
+
+            object parent = (destructor != null) ? (object)iplImage : null;
+            return GenericImageBase.Create(colorInfo, (IntPtr)iplImage.ImageData, iplImage.Width, iplImage.Height, iplImage.WidthStep, parent, (x) => destructor((IplImage)x));
         }      
     }
 }

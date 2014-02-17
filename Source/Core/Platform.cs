@@ -82,7 +82,7 @@ namespace Accord.Extensions
 
         public static void AddDllSearchPath()
         {
-            var baseDirectory = Path.Combine(Directory.GetCurrentDirectory(), "3rdPartyLibraries");
+            var baseDirectory = Path.Combine(Directory.GetCurrentDirectory(), "UnmanagedLibraries");
             var loadDirectory = Path.Combine(baseDirectory, Platform.RunningPlatform.ToString());
 
             if (Platform.RunningPlatform == Platform.OperatingSystem.Windows)
