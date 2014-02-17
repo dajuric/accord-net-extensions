@@ -30,8 +30,7 @@ namespace ObjectAnnotater
                 database = wizard.Database;
             }*/
 
-            capture = new ImageDirectoryReader("S:/images/", "*.jpg",
-                                               (path) => System.Drawing.Bitmap.FromFile(path).ToImage());
+            capture = new ImageDirectoryReader("S:/images/", "*.jpg");
 
             database = AnnotationDatabase.LoadOrCreate("S:/k.txt");
 

@@ -17,10 +17,10 @@ namespace Accord.Extensions.Vision
         #region Initialization
 
         public ImageDirectoryReader(string filePath, string extension, bool useNaturalSorting = true)
-            :this(filePath, extension, (x) => cvLoader(x), useNaturalSorting)
+            : this(filePath, extension, useNaturalSorting, (x) => cvLoader(x))
         {}
 
-        public ImageDirectoryReader(string filePath, string extension, Func<string, IImage> loader, bool useNaturalSorting = true)
+        public ImageDirectoryReader(string filePath, string extension, bool useNaturalSorting, Func<string, IImage> loader)
         {
             this.IsLiveStream = false;
             this.CanSeek = true;
@@ -50,9 +50,9 @@ namespace Accord.Extensions.Vision
         private static IImage cvLoader(string fileName)
         {
             var cvImg = CvHighGuiInvoke.cvLoadImage(fileName, ImageLoadType.Unchanged);
-            var image = IplImage.FromPointer(cvImg).AsImage((x) => 
+            var image = IplImage.FromPointer(cvImg).AsImage((_) => 
                                                       {
-                                                          if (x.ImageData == IntPtr.Zero) return;
+                                                          if (cvImg == IntPtr.Zero) return;
                                                           CvHighGuiInvoke.cvReleaseImage(ref cvImg);
                                                       });
 

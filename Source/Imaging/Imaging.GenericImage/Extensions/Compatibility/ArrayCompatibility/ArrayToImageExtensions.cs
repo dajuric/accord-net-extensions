@@ -139,7 +139,11 @@ namespace Accord.Extensions.Imaging
 
             Image<Gray, TDepth> img = new Image<Gray, TDepth>(arrHandle.AddrOfPinnedObject(),
                                                               width, height, stride,
-                                                              arr, (_) => arrHandle.Free()); //TODO: critical - test if this works!
+                                                              arr, (_) => 
+                                                              {
+                                                                  if (arrHandle.IsAllocated)
+                                                                      arrHandle.Free();
+                                                              });
            
             return img;
         }

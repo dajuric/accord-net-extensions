@@ -176,8 +176,7 @@ namespace KalmanObjectTracking
             try
             {
                 string videoDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "Sequence");
-                videoCapture = new ImageDirectoryReader(videoDir, ".jpg",
-                                                               (path) => System.Drawing.Bitmap.FromFile(path).ToImage());
+                videoCapture = new ImageDirectoryReader(videoDir, ".jpg");
 
                 //videoCapture = new Capture(0);
             }

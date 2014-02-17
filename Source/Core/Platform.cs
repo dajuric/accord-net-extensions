@@ -70,13 +70,13 @@ namespace Accord.Extensions
                     break;
                 case OperatingSystem.MacOS:
                     path = "LD_LIBRARY_PATH";
-                    Environment.SetEnvironmentVariable(path, Environment.GetEnvironmentVariable(path) + ":" + dllDirectory); //TODO - critical: check is that valid ?
-                    //throw new NotImplementedException("How to change " + path);
-                    break;
+                    //Environment.SetEnvironmentVariable(path, Environment.GetEnvironmentVariable(path) + ":" + dllDirectory); //TODO - critical: check is that valid ?
+                    throw new NotImplementedException("How to change " + path);
+                    //break;
                 case OperatingSystem.Linux:
                     path = "DYLD_FRAMEWORK_PATH";
                     throw new NotImplementedException("How to change " + path);
-                    break;
+                    //break;
             }
         }
 

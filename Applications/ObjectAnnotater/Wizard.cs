@@ -35,8 +35,7 @@ namespace ObjectAnnotater
                 var result = diag.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    CaptureObj = new ImageDirectoryReader(diag.SelectedPath, ext,
-                                                         (path) => System.Drawing.Bitmap.FromFile(path).ToImage());
+                    CaptureObj = new ImageDirectoryReader(diag.SelectedPath, ext);
 
                     imageDirPath = diag.SelectedPath;
                     btnSaveAnnotations.Enabled = true;
