@@ -1,7 +1,8 @@
-﻿using Accord.Extensions;
+﻿#define FILE_CAPTURE //comment it to enable camera capture
+
+using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Moments;
-using Accord.Extensions.Math;
 using Accord.Extensions.Math.Geometry;
 using Accord.Extensions.Statistics.Filters;
 using Accord.Extensions.Vision;
@@ -9,7 +10,6 @@ using Accord.Math;
 using AForge;
 using System;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using ModelState = Accord.Extensions.Statistics.Filters.ConstantVelocity2DModel;
 using Point = AForge.IntPoint;
@@ -49,7 +49,7 @@ namespace KalmanObjectTracking
                                                                   x => ModelState.ToArray(x), x => ModelState.FromArray(x), x => new double[] { x.X, x.Y });
 
             kalman.ProcessNoise = ModelState.GetProcessNoise(5, 10);
-            kalman.MeasurementNoise = Matrix.Diagonal<double>(kalman.MeasurementVectorDimension, 5);
+            kalman.MeasurementNoise = Matrix.Diagonal<double>(kalman.MeasurementVectorDimension, 1);
 
             kalman.MeasurementMatrix = new double[,] //just pick point coordinates for an observation [2 x 4] (look at ConstantVelocity2DModel)
                 { 
@@ -165,20 +165,21 @@ namespace KalmanObjectTracking
         {
             InitializeComponent();
 
-            /********************* MANUAL ROI SELECTION - remove this to select from image (also select camera input) ******************/
+#if FILE_CAPTURE
             roi = new Rectangle(210, 435, 90, 45); //user defined rectangle for sample video
             isROISelected = true;
-            /********************* MANUAL ROI SELECTION - remove this to select from image (also select camera input) ******************/
-
+#endif
             bar_ValueChanged(null, null); //write values to variables
             initalizeHistograms(); //create histograms
 
             try
             {
+#if FILE_CAPTURE
                 string videoDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "Sequence");
                 videoCapture = new ImageDirectoryReader(videoDir, ".jpg");
-
-                //videoCapture = new Capture(0);
+#else
+                videoCapture = new CameraCapture(0);
+#endif
             }
             catch (Exception)
             {
