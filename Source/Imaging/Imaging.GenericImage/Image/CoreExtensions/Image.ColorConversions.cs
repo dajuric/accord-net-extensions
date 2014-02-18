@@ -14,8 +14,9 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <typeparam name="DestType">Destination type (primitive type).</typeparam>
         /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
+        /// <param name="failIfCannotCast">If data copy is needed throws an exception.</param>
         /// <returns>Converted image.</returns>
-        public Image<TColor, DestType> Convert<DestType>(bool copyAlways = false)
+        public Image<TColor, DestType> Convert<DestType>(bool copyAlways = false, bool failIfCAnnotCast = false)
             where DestType : struct
         {
             return Convert(ColorInfo.GetInfo<TColor, DestType>()) as Image<TColor, DestType>;
@@ -31,8 +32,9 @@ namespace Accord.Extensions.Imaging
         /// <typeparam name="DestColor">Destination color (IColor).</typeparam>
         /// <typeparam name="DestType">Destination type (primitive type).</typeparam>
         /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
+        /// <param name="failIfCannotCast">If data copy is needed throws an exception.</param>
         /// <returns>Converted image.</returns>
-        public Image<DestColor, DestType> Convert<DestColor, DestType>(bool copyAlways = false)
+        public Image<DestColor, DestType> Convert<DestColor, DestType>(bool copyAlways = false, bool failIfCannotCast = false)
             where DestColor : IColor
             where DestType : struct
         {
@@ -45,14 +47,20 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="destColor">Destination color info.</param>
         /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
+        /// <param name="failIfCannotCast">If data copy is needed throws an exception.</param>
         /// <returns>Converted image.</returns>
-        public IImage Convert(ColorInfo destColor, bool copyAlways = false)
+        public IImage Convert(ColorInfo destColor, bool copyAlways = false, bool failIfCannotCast = false)
         {
             var conversionPath = ColorConverter.GetMostInexepnsiveConversionPath(this.ColorInfo, destColor);
-
+            
             if (conversionPath == null)
             {
                 throw new Exception(String.Format("Image does not support conversion from {0} to {1}", this.ColorInfo.ColorType, destColor.ColorType));
+            }
+
+            if (failIfCannotCast && conversionPath.ConversionPathCopiesData() == true)
+            {
+                throw new Exception("Fail if cannot cast is set to true: Image data must be copied");
             }
 
             var convertedIm = ColorConverter.Convert(this, conversionPath.ToArray(), copyAlways);

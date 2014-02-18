@@ -181,10 +181,6 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         public int Stride { get; private set; }
         /// <summary>
-        /// Gets stride allignment as the number of bits. Default value is 4.
-        /// </summary>
-        public int StrideAllignment { get; private set; }
-        /// <summary>
         /// Gets image size.
         /// </summary>
         public Size Size { get { return new Size(this.Width, this.Height); } }

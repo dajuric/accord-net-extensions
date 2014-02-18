@@ -130,5 +130,31 @@ namespace Accord.Extensions.Math.Geometry
         {
             return rect.Width == 0 || rect.Height == 0;
         }
+
+        public static RectangleF UpScale(this RectangleF rect, int level = 1, float factor = 2)
+        {
+            float pyrScale = (float)System.Math.Pow(factor, level);
+
+            return new RectangleF
+            {
+                X = rect.X * pyrScale,
+                Y = rect.Y * pyrScale,
+                Width = rect.Width * pyrScale,
+                Height = rect.Height * pyrScale
+            };
+        }
+
+        public static RectangleF DownScale(this RectangleF rect, int level = 1, float factor = 2)
+        {
+            float pyrScale = 1 / (float)System.Math.Pow(factor, level);
+
+            return new RectangleF
+            {
+                X = rect.X * pyrScale,
+                Y = rect.Y * pyrScale,
+                Width = rect.Width * pyrScale,
+                Height = rect.Height * pyrScale
+            };
+        }
     }
 }

@@ -44,41 +44,5 @@ namespace Accord.Extensions.Imaging.Filters
 
             return scales;
         }
-
-        public static PointF PyrDown(this PointF pt, int level = 1)
-        {
-            float pyrScale = (float)GetPyramidScale(level);
-
-            return new PointF
-            {
-                X = pt.X * pyrScale,
-                Y = pt.Y * pyrScale
-            };
-        }
-
-        public static PointF PyrUp(this PointF pt, int level = 1)
-        {
-            float pyrScale = (float)GetPyramidScale(level);
-
-            return new PointF
-            {
-                X = pt.X / pyrScale,
-                Y = pt.Y / pyrScale
-            };
-        }
-
-        public static RectangleF PyrDown(this RectangleF rect, int level = 1)
-        {
-            float  pyrScale = (float)GetPyramidScale(level);
-
-            return new RectangleF 
-            {
-                X = rect.X * pyrScale,
-                Y=rect.Y * pyrScale,
-                Width = rect.Width * pyrScale,
-                Height = rect.Height * pyrScale
-            };
-        }
-
     }
 }

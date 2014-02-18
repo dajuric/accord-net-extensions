@@ -1,5 +1,4 @@
 ﻿using Accord.Extensions;
-using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
 using Accord.Extensions.Statistics.Filters;

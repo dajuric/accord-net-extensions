@@ -12,7 +12,7 @@ using Accord.Extensions.Math;
 
 namespace Accord.Extensions.Imaging
 {
-    public static class BlendExtensions
+    static class BlendExtensionsBase
     {
         /// <summary>
         /// The blending filter is able to blend two images using a homography matrix.
@@ -29,11 +29,11 @@ namespace Accord.Extensions.Imaging
         /// should be blended. This can be used together with a transparency
         /// mask to selectively blend only portions of the image.</param>
         /// <returns>Blended image.</returns>
-        private static Image<TColorDest, TDepth> Blend<TColorSrc, TColorDest, TDepth>(this Image<TColorSrc, TDepth> im, Image<TColorSrc, TDepth> overlayIm, bool gradient = true, bool alphaOnly = false)
+        internal static Image<TColorDest, TDepth> Blend<TColorSrc, TColorDest, TDepth>(this Image<TColorSrc, TDepth> im, Image<TColorSrc, TDepth> overlayIm, bool gradient = true, bool alphaOnly = false)
             where TColorSrc : IColor //shuld be: Gray, IColor3, IColor4
             where TColorDest : IColor4
-            where TDepth: struct
-        { 
+            where TDepth : struct
+        {
             var fillColor = HelperMethods.ArrayToColor<TColorDest, byte>(new byte[] { 0, 0, 0, 0 });
             return Blend(im, overlayIm, new MatrixH(Matrix.Identity(3)), fillColor, gradient, alphaOnly);
         }
@@ -55,23 +55,24 @@ namespace Accord.Extensions.Imaging
         /// should be blended. This can be used together with a transparency
         /// mask to selectively blend only portions of the image.</param>
         /// <returns>Blended image.</returns>
-        private static Image<TColorDest, TDepth> Blend<TColorSrc, TColorDest, TDepth>(this Image<TColorSrc, TDepth> im, Image<TColorSrc, TDepth> overlayIm, MatrixH homography, TColorDest fillColor, bool gradient = true, bool alphaOnly = false)
-            where TColorSrc: IColor
-            where TColorDest: IColor4
-            where TDepth: struct
+        internal static Image<TColorDest, TDepth> Blend<TColorSrc, TColorDest, TDepth>(this Image<TColorSrc, TDepth> im, Image<TColorSrc, TDepth> overlayIm, MatrixH homography, TColorDest fillColor, bool gradient = true, bool alphaOnly = false)
+            where TColorSrc : IColor
+            where TColorDest : IColor4
+            where TDepth : struct
         {
             var overlay = overlayIm.ToBitmap(copyAlways: false, failIfCannotCast: true);
-           
+
             Blend blend = new Blend(homography, overlay);
             blend.AlphaOnly = alphaOnly;
             blend.Gradient = gradient;
-            blend.FillColor = fillColor.ToColor(); 
+            blend.FillColor = fillColor.ToColor();
 
-            return im.ApplyFilter<TColorSrc, TDepth, Blend, TColorDest>(blend);
+            return im.ApplyFilter<TColorSrc, TDepth, TColorDest>(blend);
         }
+    }
 
-        #region Gray
-
+    public static class BlendExtensionsGray
+    {
         /// <summary>
         /// The blending filter is able to blend two images using a homography matrix.
         /// A linear alpha gradient is used to smooth out differences between the two
@@ -115,11 +116,10 @@ namespace Accord.Extensions.Imaging
         {
             return im.Blend<Gray, TColorDest, byte>(overlayIm, homography, fillColor, gradient, alphaOnly);
         }
+    }
 
-        #endregion
-
-        #region IColor3
-
+    public static class BlendExtensionsIColor3
+    {
         /// <summary>
         /// The blending filter is able to blend two images using a homography matrix.
         /// A linear alpha gradient is used to smooth out differences between the two
@@ -136,7 +136,7 @@ namespace Accord.Extensions.Imaging
         /// mask to selectively blend only portions of the image.</param>
         /// <returns>Blended image.</returns>
         public static Image<TColorDest, byte> Blend<TColorSrc, TColorDest>(this Image<TColorSrc, byte> im, Image<TColorSrc, byte> overlayIm, bool gradient = true, bool alphaOnly = false)
-            where TColorSrc: IColor3
+            where TColorSrc : IColor3
             where TColorDest : IColor4
         {
             return im.Blend<TColorSrc, TColorDest, byte>(overlayIm, gradient, alphaOnly);
@@ -160,17 +160,16 @@ namespace Accord.Extensions.Imaging
         /// mask to selectively blend only portions of the image.</param>
         /// <returns>Blended image.</returns>
         public static Image<TColorDest, byte> Blend<TColorSrc, TColorDest>(this Image<TColorSrc, byte> im, Image<TColorSrc, byte> overlayIm, MatrixH homography, TColorDest fillColor, bool gradient = true, bool alphaOnly = false)
-            where TColorSrc: IColor3
+            where TColorSrc : IColor3
             where TColorDest : IColor4
         {
             return im.Blend<TColorSrc, TColorDest, byte>(overlayIm, homography, fillColor, gradient, alphaOnly);
         }
 
-        #endregion
+    }
 
-        /* TODO: critical: check why it dows not compile when uncommented
-        #region IColor4
-
+    public static class BlendExtensionsIColor4
+    {
         /// <summary>
         /// The blending filter is able to blend two images using a homography matrix.
         /// A linear alpha gradient is used to smooth out differences between the two
@@ -216,8 +215,5 @@ namespace Accord.Extensions.Imaging
         {
             return im.Blend<TColorSrc, TColorDest, byte>(overlayIm, homography, fillColor, gradient, alphaOnly);
         }
-
-        #endregion
-        */
     }
 }

@@ -15,7 +15,7 @@ namespace Accord.Extensions.Imaging.Converters
     /// Represents the main class for color and conversion.
     /// It uses search methods to find appropriate conversion paths.
     /// </summary>
-    public class ColorConverter
+    public static class ColorConverter
     {
         /// <summary>
         /// Contains all information for color conversion.
@@ -369,7 +369,7 @@ namespace Accord.Extensions.Imaging.Converters
         /// Null is returned if an conversion path is null.
         /// </summary>
         /// <param name="conversionPath">Conversion path</param>
-        public static bool? ConversionPathCopiesData(IEnumerable<ColorConverter.ConversionData> conversionPath)
+        public static bool? ConversionPathCopiesData(this IEnumerable<ColorConverter.ConversionData> conversionPath)
         {
             if (conversionPath == null)
                 return null; //there is no path

@@ -72,20 +72,22 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlendExtensions.cs" />
+    <Compile Include="Filters\Blend.cs" />
     <Compile Include="CornerFeatures\GoodFeaturesToTrackExtensions.cs" />
     <Compile Include="CornerFeatures\HarrisExtensions.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Arithmetics.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Backpropagate.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Calculate.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Core.cs" />
-    <Compile Include="Filter\ColorFilters\ContrastStretch.cs" />
-    <Compile Include="Filter\ColorFilters\CorrectContrast.cs" />
-    <Compile Include="Filter\Edge\Canny.cs" />
-    <Compile Include="Filter\FindNonZeroExtensions.cs" />
-    <Compile Include="Filter\NonMaximaSupressionExtensions.cs" />
-    <Compile Include="Filter\Thresholding\BinaryThreshold.cs" />
-    <Compile Include="Contour\BorderFollowingExtensions.cs" />
+    <Compile Include="Filters\ColorFilters\ContrastStretch.cs" />
+    <Compile Include="Filters\ColorFilters\CorrectContrast.cs" />
+    <Compile Include="Filters\Edge\Canny.cs" />
+    <Compile Include="Filters\FindNonZeroExtensions.cs" />
+    <Compile Include="Filters\NonMaximaSupression.cs" />
+    <Compile Include="Filters\Thresholding\BinaryThreshold.cs" />
+    <Compile Include="Contour\BorderFollowing.cs" />
+    <Compile Include="Filters\WaveletTransform.cs" />
+    <Compile Include="Filters\WhitePatch.cs" />
     <Compile Include="IntegralImage\IntegralImageExtensions.cs" />
     <Compile Include="IntegralImage\SquaredIntegralImageExtensions.cs" />
     <Compile Include="Moments\CentralMoments.cs" />
@@ -94,8 +96,8 @@
     <Compile Include="Moments\MomentsBase.cs" />
     <Compile Include="Moments\RawMoments.cs" />
     <Compile Include="Transform\PyramidExtensions.cs" />
-    <Compile Include="Filter\Smooth\SmoothGaussian.cs" />
-    <Compile Include="Filter\Edge\Sobel.cs" />
+    <Compile Include="Filters\Smooth\SmoothGaussian.cs" />
+    <Compile Include="Filters\Edge\Sobel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structures\TermCriteria.cs" />
     <Compile Include="Transform\Resize.cs" />
