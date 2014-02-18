@@ -81,9 +81,9 @@
       <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
       <Name>Imaging.GenericImage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Math\Math.Geometry\Math.Geometry.csproj">
-      <Project>{6713153c-8632-4951-a3ed-cd49a70c9fb3}</Project>
-      <Name>Math.Geometry</Name>
+    <ProjectReference Include="..\..\Math\Math\Math.csproj">
+      <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
+      <Name>Math</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

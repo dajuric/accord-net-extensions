@@ -68,6 +68,20 @@
     <Compile Include="Filters\ParticleFilter\Particle.cs" />
     <Compile Include="Filters\ParticleFilter\ParticleFilter.cs" />
     <Compile Include="Filters\ParticleFilter\ParticleFilterMethods.cs" />
+    <Compile Include="Geometry\Angle.cs" />
+    <Compile Include="Geometry\Contour\CardinalSpline.cs" />
+    <Compile Include="Geometry\Contour\ContourExtensions.cs" />
+    <Compile Include="Geometry\GroupMatching.cs" />
+    <Compile Include="Geometry\PointTransformation\PointTransfromationsExtensions.cs" />
+    <Compile Include="Geometry\PointTransformation\Transfroms.cs" />
+    <Compile Include="Geometry\Shapes\Box2D.cs" />
+    <Compile Include="Geometry\Shapes\Circle.cs" />
+    <Compile Include="Geometry\Structures\PointExtensions.cs" />
+    <Compile Include="Geometry\Structures\RangeExtensions.cs" />
+    <Compile Include="Geometry\Structures\RectangleExtensions.cs" />
+    <Compile Include="Geometry\Structures\SizeExtensions.cs" />
+    <Compile Include="Geometry\Structures\Vector2D.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.MinBy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MathExtensions.cs" />
   </ItemGroup>

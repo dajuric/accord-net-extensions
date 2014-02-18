@@ -115,7 +115,7 @@ namespace FastTemplateMatchingDemo
             try
             {
                 videoCapture = new CameraCapture();
-                //videoCapture = new ImageSequenceReader("C:/probaImages", ".jpg", 30); 
+                //videoCapture = new ImageDirectoryReader("C:/probaImages", ".jpg"); 
             }
             catch (Exception)
             {
