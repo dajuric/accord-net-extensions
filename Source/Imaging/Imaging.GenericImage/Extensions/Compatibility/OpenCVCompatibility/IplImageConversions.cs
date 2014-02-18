@@ -255,8 +255,10 @@ namespace Accord.Extensions.Imaging
 
             var colorInfo = ColorInfo.GetInfo(colorType, depthType);
 
-            object parent = (destructor != null) ? (object)iplImage : null;
-            return GenericImageBase.Create(colorInfo, (IntPtr)iplImage.ImageData, iplImage.Width, iplImage.Height, iplImage.WidthStep, parent, (x) => destructor((IplImage)x));
+            if(destructor != null)
+                return GenericImageBase.Create(colorInfo, (IntPtr)iplImage.ImageData, iplImage.Width, iplImage.Height, iplImage.WidthStep, (object)iplImage, (x) => destructor((IplImage)x));
+            else
+                return GenericImageBase.Create(colorInfo, (IntPtr)iplImage.ImageData, iplImage.Width, iplImage.Height, iplImage.WidthStep);
         }      
     }
 }
