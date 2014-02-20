@@ -1,20 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Accord.Extensions
 {
+    /// <summary>
+    /// <para>Defined functions can be used as object extensions.</para>
+    /// Provides methods for string which is treated as file and directory path.
+    /// </summary>
     public static class PathExtensions
     {
-        public static bool IsSubfolder(this string childPath, string parentPath, bool onlyStrictSubfolder = true)
+        /// <summary>
+        /// Gets whether the path is child path.
+        /// </summary>
+        /// <param name="childPath">The child path.</param>
+        /// <param name="parentPath">The parent path.</param>
+        /// <returns>True if the child path is indeed child path (or the same) as parent path, otherwise false.</returns>
+        public static bool IsSubfolder(this string childPath, string parentPath)
         {
             var parentUri = new Uri(parentPath);
-
-            var dirChild = new DirectoryInfo(childPath);
-            var childUri = (onlyStrictSubfolder) ? dirChild.Parent : dirChild;
+            var childUri = new DirectoryInfo(childPath);
                 
             while (childUri != null)
             {
@@ -57,6 +61,12 @@ namespace Accord.Extensions
             return "/" + fileName.Substring(lastEqualIdx + 1);
         }
 
+        /// <summary>
+        /// replaces path delimiters with specified one.
+        /// </summary>
+        /// <param name="path">Path to replace delimiters.</param>
+        /// <param name="normalizedDelimiter">Replacing delimiter.</param>
+        /// <returns>Path with replaced delimiters.</returns>
         public static string NormalizePathDelimiters(this string path, string normalizedDelimiter = "/")
         {
             return path.Replace("//", normalizedDelimiter)

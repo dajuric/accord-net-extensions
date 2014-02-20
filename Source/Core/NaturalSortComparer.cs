@@ -7,10 +7,17 @@ using System.Threading.Tasks;
 
 namespace Accord.Extensions
 {
-    public class NaturalSortComparer<T> : IComparer<string>, IDisposable
+    /// <summary>
+    /// Provides functions for natural string comparison.
+    /// </summary>
+    public class NaturalSortComparer: IComparer<string>
     {
         private bool isAscending;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="NaturalSortComparer"/>.
+        /// </summary>
+        /// <param name="inAscendingOrder">Sorts in ascending order, otherwise descending.</param>
         public NaturalSortComparer(bool inAscendingOrder = true)
         {
             this.isAscending = inAscendingOrder;
@@ -18,8 +25,14 @@ namespace Accord.Extensions
 
         #region IComparer<string> Members
 
+        /// <summary>
+        /// Compares two strings.
+        /// </summary>
+        /// <param name="x">First string.</param>
+        /// <param name="y">Second string.</param>
+        /// <returns>0 - the same objects, -1, +1 otherwise depending whether the first string preceds the second one or not.</returns>
         public int Compare(string x, string y)
-        {
+        { 
             throw new NotImplementedException();
         }
 
@@ -88,11 +101,5 @@ namespace Accord.Extensions
         #endregion
 
         private Dictionary<string, string[]> table = new Dictionary<string, string[]>();
-
-        public void Dispose()
-        {
-            table.Clear();
-            table = null;
-        }
     }
 }

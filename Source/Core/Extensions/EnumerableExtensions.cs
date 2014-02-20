@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Accord.Extensions
 {
+    /// <summary>
+    /// <para>Defined functions can be used as object extensions.</para>
+    /// Provides extension methods for collections.
+    /// </summary>
     public static class EnumerableExtensions
     {
         /// <summary>

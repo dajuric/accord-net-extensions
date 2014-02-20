@@ -8,7 +8,7 @@ using System.Threading;
 namespace Accord.Extensions.Vision
 {
     /// <summary>
-    /// Provides a streamable view of an image directory.
+    /// Represents directory streamable source and provides functions and properties to access data in a streamable way.
     /// </summary>
     public class ImageDirectoryReader : StreamableSource
     {
@@ -26,7 +26,7 @@ namespace Accord.Extensions.Vision
         /// <param name="extension">The image extension.</param>
         /// <param name="useNaturalSorting">Use natural sorting, otherwise raw image order is used.</param>
         /// <param name="loader">Loader image function. If null default loader is used.</param>
-        public ImageDirectoryReader(string dirPath, string extension, bool useNaturalSorting, Func<string, IImage> loader = null)
+        public ImageDirectoryReader(string dirPath, string extension, bool useNaturalSorting = true, Func<string, IImage> loader = null)
         {
             loader = loader ?? cvLoader;
             
@@ -43,7 +43,7 @@ namespace Accord.Extensions.Vision
             if (useNaturalSorting)
             {
                 files = directoryInfo.EnumerateFiles(ext, SearchOption.TopDirectoryOnly)
-                        .OrderBy(f => f.Name, new NaturalSortComparer<string>())
+                        .OrderBy(f => f.Name, new NaturalSortComparer())
                         .Select(f => f.FullName);
             }
             else

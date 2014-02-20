@@ -6,22 +6,42 @@ using System.Threading.Tasks;
 
 namespace Accord.Extensions
 {
+    /// <summary>
+    /// Represents s strongly typed list of objects. 
+    /// The collection represents history; it can be more suitable than <see cref="List"/> for object tracking where saving the detection history is common task.
+    /// </summary>
+    /// <typeparam name="T">Type object type.</typeparam>
     public class History<T> : ICloneable, IEnumerable<T>, IEnumerator<T>
     {
+        /// <summary>
+        /// Function delegate for adding an object.
+        /// </summary>
+        /// <param name="elem"></param>
         public delegate void AddElement(T elem);
+        /// <summary>
+        /// Represents an event that is fired when a new object is added.
+        /// </summary>
         public event AddElement OnAddElement;
 
         private List<T> histElems;
         int maxNumOfElems;
 
+        /// <summary>
+        /// Creates a new collection.
+        /// </summary>
+        /// <param name="maxNumOfElems">Maximum number of elements. If the maximum is reached the oldest elements are replaced.</param>
         public History(int maxNumOfElems = UInt16.MaxValue)
-        {
+        { 
             this.histElems = new List<T>();
             this.maxNumOfElems = maxNumOfElems;
         }
 
+        /// <summary>
+        /// Adds element to the collection.
+        /// </summary>
+        /// <param name="elem">The specified element.</param>
         public void Add(T elem)
-        {
+        { 
             if (histElems.Count == maxNumOfElems)
             {
                 histElems.RemoveAt(0); //remove the oldest element
@@ -33,6 +53,11 @@ namespace Accord.Extensions
                 OnAddElement(elem);
         }
 
+        /// <summary>
+        /// Gets or sets the element at specified history depth.
+        /// </summary>
+        /// <param name="histDepth">Histroy depth. Zero means current state.</param>
+        /// <returns>An element at specified index.</returns>
         public T this[int histDepth]
         {
             get
@@ -59,21 +84,36 @@ namespace Accord.Extensions
             }
         }
 
+        /// <summary>
+        /// Gets or sets the current element (depth zero).
+        /// </summary>
         public T Current
         {
             get { return this[0]; }
             set { this[0] = value; }
         }
 
+        /// <summary>
+        /// Get or sets the oldest element (maximum depth).
+        /// </summary>
         public T Oldest
         {
             get { return this[histElems.Count - 1]; }
             set { this[histElems.Count - 1] = value; }
         }
 
+        /// <summary>
+        /// Gets the number of elements.
+        /// </summary>
         public int Count { get { return this.histElems.Count; } }
+        /// <summary>
+        /// Get the number of history capacity. If th emaximum is reached newly added elements will overwrite the oldest ondes.
+        /// </summary>
         public int MaxCount { get { return this.maxNumOfElems; } }
 
+        /// <summary>
+        /// Removes all elements from the history.
+        /// </summary>
         public void Clear()
         {
             this.histElems.Clear();
@@ -95,6 +135,11 @@ namespace Accord.Extensions
             return range;
         }
 
+        /// <summary>
+        /// Removes the specified range from the histroy.
+        /// </summary>
+        /// <param name="startDepth">Starting depth.</param>
+        /// <param name="numOfElems">Number of elemets to remove. If specified more than maximum, maximum elements will be removed.</param>
         public void RemoveRange(int startDepth, int numOfElems)
         {
             if (startDepth >= this.histElems.Count)
@@ -106,11 +151,19 @@ namespace Accord.Extensions
             this.histElems.RemoveRange(index, count);
         }
 
+        /// <summary>
+        /// Gets all elements.
+        /// </summary>
+        /// <returns>The list of elements.</returns>
         public List<T> GetAllElements()
         {
             return GetRange(this.Count);
         }
 
+        /// <summary>
+        /// Gets the string representation.
+        /// </summary>
+        /// <returns>The string representation.</returns>
         public override string ToString()
         {
             string str = "";
@@ -118,11 +171,15 @@ namespace Accord.Extensions
             {
                 str += item.ToString() + ", ";
             }
-
+       
             str = str.Remove(str.Length - 3);
             return str;
         }
 
+        /// <summary>
+        /// Clones the history. The data is shared.
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             History<T> hist = new History<T>(this.maxNumOfElems);

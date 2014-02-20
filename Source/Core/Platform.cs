@@ -9,6 +9,9 @@ namespace Accord.Extensions
     /// </summary>
     public static class Platform
     {
+        /// <summary>
+        /// Operating system type.
+        /// </summary>
         public enum OperatingSystem
         {
             Windows,
@@ -57,6 +60,11 @@ namespace Accord.Extensions
             private set;
         }
 
+        /// <summary>
+        /// Adds the specified directory to unmanaged library search path for functions that load unmanaged library. <see cref="DllImport"/> attribute is also included.
+        /// Internally it changes process environmental variable.
+        /// </summary>
+        /// <param name="dllDirectory">Directory where to search unmanaged libraries.</param>
         public static void AddDllSearchPath(string dllDirectory)
         {
             dllDirectory = dllDirectory.NormalizePathDelimiters("\\");
@@ -80,6 +88,13 @@ namespace Accord.Extensions
             }
         }
 
+        /// <summary>
+        /// Adds the default directory to unmanaged library search path for functions that load unmanaged library. <see cref="DllImport"/> attribute is also included.
+        /// The default directory is platform specific:
+        /// <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
+        /// <para>  MacOS: /UnmanagedLibraries/MacOS/</para>
+        /// <para>  Linux: /UnmanagedLibraries/Linux/</para>
+        /// </summary>
         public static void AddDllSearchPath()
         {
             var baseDirectory = Path.Combine(Directory.GetCurrentDirectory(), "UnmanagedLibraries");
@@ -95,6 +110,9 @@ namespace Accord.Extensions
         [DllImport("kernel32.dll", EntryPoint = "LoadLibrary")]
         private static extern IntPtr LoadWindowsLibrary([MarshalAs(UnmanagedType.LPStr)] string fileName);
 
+        /// <summary>
+        /// Flags for <see cref="LoadUnixLibrary"/> function.
+        /// </summary>
         enum LoadUnixLibFlags
         {
             RTLD_LAZY = 0x1,
@@ -109,6 +127,11 @@ namespace Accord.Extensions
         [DllImport("dl", EntryPoint = "dlopen")]
         private static extern IntPtr LoadUnixLibrary([MarshalAs(UnmanagedType.LPStr)] string fileName, LoadUnixLibFlags falgs);
 
+        /// <summary>
+        /// Loads an unmanaged library. use <see cref="GetModuleFormatString"/> to set the appropriate extension if necessary.
+        /// </summary>
+        /// <param name="fileName">Unmanaged library file name.</param>
+        /// <returns>Pointer to an loaded library.</returns>
         public static IntPtr LoadLibrary(string fileName)
         {
             var loadDir = new FileInfo(fileName).DirectoryName;
@@ -133,6 +156,10 @@ namespace Accord.Extensions
             return ptr;
         }
 
+        /// <summary>
+        /// Gets a platform specific module format (e.g. Windows {0}.dll).
+        /// </summary>
+        /// <returns>Modlule format string.</returns>
         public static String GetModuleFormatString()
         {
             String formatString = null;

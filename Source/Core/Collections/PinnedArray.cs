@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Accord.Extensions
 {
     /// <summary>
-    /// Class that represents array that is pinned.
+    /// Class that represents the pinned array.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Generic type of an structure.</typeparam>
     public class PinnedArray<T>: IDisposable, IEquatable<PinnedArray<T>> where T: struct
     {
         GCHandle handle;
@@ -80,7 +75,7 @@ namespace Accord.Extensions
         /// </summary>
         public T[] Array { get; private set; }
         /// <summary>
-        /// Array's length in bytes.
+        /// Length of the array in bytes.
         /// </summary>
         public int SizeInBytes { get; private set; }
         /// <summary>

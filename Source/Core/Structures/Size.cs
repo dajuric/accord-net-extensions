@@ -39,6 +39,10 @@ namespace Accord.Extensions
     // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
     // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
+
+    /// <summary>
+    /// Stores an ordered pair of integer numbers, which specify a Height and Width and defines related functions.
+    /// </summary>
     [Serializable]
     [ComVisible(true)]
     public struct Size

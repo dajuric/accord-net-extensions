@@ -70,7 +70,7 @@ namespace LINE2D
                         //*orientImgPtr = (int)(Math.Atan2(maxDy, maxDx) * 180 / Math.PI);
                         //if (*orientImgPtr < 0)
                         //    *orientImgPtr += 360;
-                        *orientImgPtr = MathExtensions.Atan2Aprox(*dyPtr, *dxPtr); //faster
+                        *orientImgPtr = MathFunctions.Atan2Aprox(*dyPtr, *dxPtr); //faster
                         *magSqrImgPtr = magSqr;
                     }
 
@@ -118,7 +118,7 @@ namespace LINE2D
                     else
                     {
                         //*orientImgPtr = (int)(Math.Atan2(*dyPtr, *dxPtr) * 180 / Math.PI);
-                        *orientImgPtr = MathExtensions.Atan2Aprox(*dyPtr, *dxPtr);
+                        *orientImgPtr = MathFunctions.Atan2Aprox(*dyPtr, *dxPtr);
                         /*if (*orientImgPtr < 0)
                             *orientImgPtr += 360;*/
                         //ne treba ?

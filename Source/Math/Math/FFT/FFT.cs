@@ -13,6 +13,7 @@ namespace Accord.Extensions.Math
     //
     // Copyright © Andrew Kirillov, 2005-2009
     // andrew.kirillov@aforgenet.com
+    // darko.juric2@gmail.com
     //
     // FFT idea from Exocortex.DSP library
     // http://www.exocortex.org/dsp/

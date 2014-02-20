@@ -27,7 +27,7 @@ namespace Accord.Extensions.Vision
         /// </summary>
         /// <param name="probabilityMap">Probability map [0-1].</param>
         /// <param name="roi">Initial search area</param>
-        /// <param name="termCriteria">Mean shift termination criteria (PLEASE DO NOT REMOVE (but you can move it) THIS CLASS; PLEASE!!!)</param>
+        /// <param name="termCriteria">Mean shift termination criteria.</param>
         /// <returns>Object area.</returns>
         public static Rectangle Process(Image<Gray, byte> probabilityMap, Rectangle roi, TermCriteria termCriteria)
         {

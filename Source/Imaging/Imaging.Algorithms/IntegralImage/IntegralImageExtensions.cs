@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Accord.Extensions.Imaging.IntegralImage
 {
-    public static class IntegralImageExtensions
+    public static class IntegralImageExtensionsBase
     {
         delegate void MakeIntegralFunc(IImage src, IImage dest);
         static Dictionary<Type, Tuple<Type, MakeIntegralFunc>> makeIntegralFuncs;
 
-        static IntegralImageExtensions()
+        static IntegralImageExtensionsBase()
         {
             makeIntegralFuncs = new Dictionary<Type, Tuple<Type, MakeIntegralFunc>>();
 
@@ -21,24 +21,13 @@ namespace Accord.Extensions.Imaging.IntegralImage
             makeIntegralFuncs.Add(typeof(double), new Tuple<Type, MakeIntegralFunc>(typeof(double), makeIntegral_Double));
         }
 
-        #region Extensions Make Integral
-
-        public static Image<Gray, int> MakeIntegral(this Image<Gray, byte> img)
-        {
-            return makeIntegral(img) as Image<Gray, int>;
-        }
-
-        public static Image<Gray, float> MakeIntegral(this Image<Gray, float> img)
-        {
-            return makeIntegral(img) as Image<Gray, float>;
-        }
-
-        public static Image<Gray, double> MakeIntegral(this Image<Gray, double> img)
-        {
-            return makeIntegral(img) as Image<Gray, double>;
-        }
-
-        static IImage makeIntegral(IImage img)
+        /// <summary>
+        /// Calculates integral image. The dimensions of integral image are (width + 1, height + 1).
+        /// Use extension functions to access integral data with ease.
+        /// <see cref="GetSum"/>
+        /// </summary>
+        /// <returns>Integral image.</returns>
+        internal static IImage MakeIntegral(IImage img)
         {
             Tuple<Type, MakeIntegralFunc> makeIntegral = null;
             if (makeIntegralFuncs.TryGetValue(img.ColorInfo.ChannelType, out makeIntegral) == false)
@@ -50,44 +39,6 @@ namespace Accord.Extensions.Imaging.IntegralImage
             makeIntegral.Item2(img, dest);
             return dest;
         }
-
-        #endregion
-
-
-        #region Extensions GetSum
-
-        public unsafe static int GetSum(this Image<Gray, int> img, int x, int y, int width, int height)
-        {
-            int* a = (int*)img.GetData(y, x);                 //(x, y)
-            int* c = (int*)((byte*)a + img.Stride * height);  //(x, y+height)
-            int* b = c + width;                               //(x+width, y+height)
-            int* d = a + width;                               //(x+width, y)
-
-            return *a + *b - *c - *d;
-        }
-
-        public unsafe static float GetSum(this Image<Gray, float> img, int x, int y, int width, int height)
-        {
-            float* a = (float*)img.GetData(y, x); //(x, y)
-            float* c = (float*)((byte*)a + img.Stride * height);  //(x, y+height)
-            float* b = c + width;               //(x+width, y+height)
-            float* d = a + width;               //(x+width, y)
-
-            return *a + *b - *c - *d;
-        }
-
-        public unsafe static double GetSum(this Image<Gray, double> img, int x, int y, int width, int height)
-        {
-            double* a = (double*)img.GetData(y, x); //(x, y)
-            double* c = (double*)((byte*)a + img.Stride * height);  //(x, y+height)
-            double* b = c + width;               //(x+width, y+height)
-            double* d = a + width;               //(x+width, y)
-
-            return *a + *b - *c - *d;
-        }
-
-        #endregion
-
 
         #region MakeIntegral specific funcs
 
@@ -186,5 +137,101 @@ namespace Accord.Extensions.Imaging.IntegralImage
         }
 
         #endregion
+    }
+
+    public static class IntegralImageExtensionsColorByte
+    {
+        /// <summary>
+        /// Calculates integral image. The dimensions of integral image are (width + 1, height + 1).
+        /// Use extension functions to access integral data with ease.
+        /// <see cref="GetSum"/>
+        /// </summary>
+        /// <returns>Integral image.</returns>
+        public static Image<Gray, int> MakeIntegral(this Image<Gray, byte> img)
+        {
+            return IntegralImageExtensionsBase.MakeIntegral(img) as Image<Gray, int>;
+        }
+
+        /// <summary>
+        /// Gets sum under image region (requires only 4 lookups).
+        /// </summary>
+        /// <param name="x">Location X.</param>
+        /// <param name="y">Location Y.</param>
+        /// <param name="width">Region width.</param>
+        /// <param name="height">Region height.</param>
+        /// <returns>Sum of pixels under specified region.</returns>
+        public unsafe static int GetSum(this Image<Gray, int> img, int x, int y, int width, int height)
+        {
+            int* a = (int*)img.GetData(y, x);                 //(x, y)
+            int* c = (int*)((byte*)a + img.Stride * height);  //(x, y+height)
+            int* b = c + width;                               //(x+width, y+height)
+            int* d = a + width;                               //(x+width, y)
+
+            return *a + *b - *c - *d;
+        }
+    }
+
+    public static class IntegralImageExtensionsColorFloat
+    {
+        /// <summary>
+        /// Calculates integral image. The dimensions of integral image are (width + 1, height + 1).
+        /// Use extension functions to access integral data with ease.
+        /// <see cref="GetSum"/>
+        /// </summary>
+        /// <returns>Integral image.</returns>
+        public static Image<Gray, float> MakeIntegral(this Image<Gray, float> img)
+        {
+            return MakeIntegral(img) as Image<Gray, float>;
+        }
+
+        /// <summary>
+        /// Gets sum under image region (requires only 4 lookups).
+        /// </summary>
+        /// <param name="x">Location X.</param>
+        /// <param name="y">Location Y.</param>
+        /// <param name="width">Region width.</param>
+        /// <param name="height">Region height.</param>
+        /// <returns>Sum of pixels under specified region.</returns>
+        public unsafe static float GetSum(this Image<Gray, float> img, int x, int y, int width, int height)
+        {
+            float* a = (float*)img.GetData(y, x); //(x, y)
+            float* c = (float*)((byte*)a + img.Stride * height);  //(x, y+height)
+            float* b = c + width;               //(x+width, y+height)
+            float* d = a + width;               //(x+width, y)
+
+            return *a + *b - *c - *d;
+        }
+    }
+
+    public static class IntegralImageExtensionsColorDouble
+    {
+        /// <summary>
+        /// Calculates integral image. The dimensions of integral image are (width + 1, height + 1).
+        /// Use extension functions to access integral data with ease.
+        /// <see cref="GetSum"/>
+        /// </summary>
+        /// <returns>Integral image.</returns>
+        public static Image<Gray, double> MakeIntegral(this Image<Gray, double> img)
+        {
+            return MakeIntegral(img) as Image<Gray, double>;
+        }
+
+        /// <summary>
+        /// Gets sum under image region (requires only 4 lookups).
+        /// </summary>
+        /// <param name="x">Location X.</param>
+        /// <param name="y">Location Y.</param>
+        /// <param name="width">Region width.</param>
+        /// <param name="height">Region height.</param>
+        /// <returns>Sum of pixels under specified region.</returns>
+        public unsafe static double GetSum(this Image<Gray, double> img, int x, int y, int width, int height)
+        {
+            double* a = (double*)img.GetData(y, x); //(x, y)
+            double* c = (double*)((byte*)a + img.Stride * height);  //(x, y+height)
+            double* b = c + width;               //(x+width, y+height)
+            double* d = a + width;               //(x+width, y)
+
+            return *a + *b - *c - *d;
+        }
     }
 }

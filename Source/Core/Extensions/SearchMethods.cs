@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace Accord.Extensions
 {
+    /// <summary>
+    /// <para>Defined functions can be used as object extensions.</para>
+    /// Provides methods for graph search. 
+    /// </summary>
     public static class SearchMethods
     {
         class Node<T>

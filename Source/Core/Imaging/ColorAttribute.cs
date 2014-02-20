@@ -7,13 +7,20 @@ using System.Threading.Tasks;
 namespace Accord.Extensions
 {
     /// <summary>
-    /// Color info attribute.
+    /// Color info attribute. 
+    /// Contains informations about conversion name and specifies whether the structure is generic color space or not.
     /// </summary>
     [AttributeUsage(AttributeTargets.Struct)]
     public class ColorInfoAttribute : Attribute
     {
+        /// <summary>
+        /// Gets the default conversion name.
+        /// </summary>
         public const string DEFAULT_CONVERSION_CODENAME = null;
 
+        /// <summary>
+        /// Creates the new instance of an <see cref="ColorInfoAttribute"/>.
+        /// </summary>
         public ColorInfoAttribute()
         {
             this.ConversionCodename = DEFAULT_CONVERSION_CODENAME;

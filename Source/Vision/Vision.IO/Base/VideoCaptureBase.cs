@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 namespace Accord.Extensions.Vision
 {
     /// <summary>
-    /// Represents the base class for video capture. 
+    /// Represents the base class for video capture that shares common functions and properties with camera and file capture. 
     /// </summary>
     public abstract class VideoCaptureBase : StreamableSource
     {
@@ -21,6 +21,10 @@ namespace Accord.Extensions.Vision
 
         protected IntPtr capturePtr;
 
+        /// <summary>
+        /// Releases all resources allocated by capture.
+        /// Use <see cref="Dispose"/> function instead.
+        /// </summary>
         public override void Close()
         {
             if (capturePtr != IntPtr.Zero)
@@ -49,20 +53,37 @@ namespace Accord.Extensions.Vision
             return status;
         }
 
+        /// <summary>
+        /// Gets the length in number of frames.
+        /// </summary>
         public override long Length
         {
             get { return (long)CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FrameCount); }
         }
 
+        /// <summary>
+        /// Gets or sets whether to force conversion of an input image to <see cref="Bgr"/> color type.
+        /// </summary>
         public bool ConvertRgb
         {
             get { return (int)CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.ConvertRGB) != 0; }
             set { CvHighGuiInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.ConvertRGB, value ? 0 : 1); }
         }
 
+        /// <summary>
+        /// Gets the frame size.
+        /// </summary>
         public Size FrameSize
         {
             get { return CvHighGuiInvoke.GetImageSize(capturePtr); }
+        }
+
+        /// <summary>
+        /// Gets the frame rate.
+        /// </summary>
+        public double FrameRate
+        {
+            get { return CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FPS); }
         }
     }
 }

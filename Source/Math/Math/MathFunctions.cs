@@ -3,7 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace Accord.Extensions.Math
 {
-    public static class MathExtensions
+    /// <summary>
+    /// Provides additional math functions.
+    /// </summary>
+    public static class MathFunctions
     {
         #region ATan2 Approximation
 
@@ -46,7 +49,7 @@ namespace Accord.Extensions.Math
 
         static int[] angleTable;
 
-        static MathExtensions()
+        static MathFunctions()
         {
             angleTable = CalculateAngleTable();
         }

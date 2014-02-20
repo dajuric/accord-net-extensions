@@ -53,7 +53,7 @@ namespace ObjectAnnotater
                 var result = diag.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    if (imageDirPath.IsSubfolder(new FileInfo(diag.FileName).DirectoryName, onlyStrictSubfolder: false) == false)
+                    if (imageDirPath.IsSubfolder(new FileInfo(diag.FileName).DirectoryName) == false)
                     {
                         MessageBox.Show("Cannot find relative path of the selected image directory regarding the database path! \n" +
                                         "The database location must be in the same or in parent folder regarding selected image directory.", 

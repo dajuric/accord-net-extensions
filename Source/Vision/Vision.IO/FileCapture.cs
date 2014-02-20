@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Accord.Extensions.Vision
 {
+    /// <summary>
+    /// Represents video file streamable source and provides functions and properties to access data in a streamable way.
+    /// </summary>
     public class FileCapture: VideoCaptureBase
     {
         string fileName = null;
@@ -26,6 +29,9 @@ namespace Accord.Extensions.Vision
             this.Open(); //to enable property change
         }
 
+        /// <summary>
+        /// Opens the video file stream.
+        /// </summary>
         public override void Open()
         {
             if (capturePtr != IntPtr.Zero)
@@ -36,17 +42,21 @@ namespace Accord.Extensions.Vision
                 throw new Exception("Cannot open FileStream!");
         }
 
+        /// <summary>
+        /// Gets the current position in the stream as frame offset.
+        /// </summary>
         public override long Position
         {
             get { return (long)CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.PosFrames); }
             protected set { }  
         }
 
-        public double FramesPerSecond
-        {
-            get { return CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FPS); }
-        }
-
+        /// <summary>
+        /// Sets the position within the current stream.
+        /// </summary>
+        /// <param name="offset">A frame index offset relative to the origin parameter.</param>
+        /// <param name="origin">A value of type System.IO.SeekOrigin indicating the reference point used to obtain the new position.</param>
+        /// <returns>The new position within the current stream.</returns>
         public override long Seek(long offset, System.IO.SeekOrigin origin = SeekOrigin.Current)
         {
             var frameIndex = base.Seek(offset, origin);

@@ -15,38 +15,63 @@ namespace Accord.Extensions
         }
     }
 
+    /// <summary>
+    /// Represents s strongly typed circular list of objects meaning that any index is converted to absolute one before accessing the element - negative indices are supported.
+    /// </summary>
+    /// <typeparam name="T">The object type.</typeparam>
     public class CircularList<T> : List<T>
     {
+        /// <summary>
+        /// Creates the default instance.
+        /// </summary>
         public CircularList()
             : base()
         { }
 
+        /// <summary>
+        /// Creates the instance from collection.
+        /// </summary>
+        /// <param name="collection">The specified collection.</param>
         public CircularList(IEnumerable<T> collection)
             : base(collection)
         { }
 
+        /// <summary>
+        /// Gets or sets the element at specified index.
+        /// </summary>
+        /// <param name="index">The specified index.</param>
+        /// <returns>The element at specified inedx.</returns>
         public new T this[int index]
         {
-            get
-            {
-                return base[getNonNegativeIndex(index)];
-            }
-            set
-            {
-                base[getNonNegativeIndex(index)] = value;
-            }
+            get { return base[getNonNegativeIndex(index)]; }
+            set { base[getNonNegativeIndex(index)] = value; }
         }
 
+        /// <summary>
+        /// Removes element at index.
+        /// </summary>
+        /// <param name="index">The circular index.</param>
         public new void RemoveAt(int index)
         {
             base.RemoveAt(getNonNegativeIndex(index));
         }
 
+        /// <summary>
+        /// Gets the range of elements from specified index range.
+        /// </summary>
+        /// <param name="index">The starting index.</param>
+        /// <param name="count">The number of elements.</param>
+        /// <returns>The circular list (data is shared).</returns>
         public new CircularList<T> GetRange(int index, int count)
         {
             return GetRange(new Range(index, index + count));
         }
 
+        /// <summary>
+        /// Gets the range of elements from specified index range.
+        /// </summary>
+        /// <param name="range">The index range.</param>
+        /// <returns>The circular list (data is shared).</returns>
         public CircularList<T> GetRange(Range range)
         {
             int[] segmentIndeces, segmentLengths;
@@ -61,6 +86,11 @@ namespace Accord.Extensions
             return slice;
         }
 
+        /// <summary>
+        /// Removes range from the collection.
+        /// </summary>
+        /// <param name="index">The starting index (circular).</param>
+        /// <param name="count">The number of elements to remove.</param>
         public new void RemoveRange(int index, int count)
         {
             int[] segmentIndeces, segmentLengths;
@@ -73,11 +103,21 @@ namespace Accord.Extensions
             }
         }
 
+        /// <summary>
+        /// Inserts an element to the specified index.
+        /// </summary>
+        /// <param name="index">The specified index where to insert an element.</param>
+        /// <param name="item">The element to insert.</param>
         public new void Insert(int index, T item)
         {
             base.Insert(getNonNegativeIndex(index), item);
         }
 
+        /// <summary>
+        /// Inserts a range to the collection.
+        /// </summary>
+        /// <param name="index">The starting position (circular).</param>
+        /// <param name="collection">The collection to insert.</param>
         public new void InsertRange(int index, IEnumerable<T> collection)
         {
             base.InsertRange(getNonNegativeIndex(index), collection);

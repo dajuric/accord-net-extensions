@@ -7,6 +7,9 @@ using System.Runtime.CompilerServices;
 
 namespace Accord.Extensions.Vision
 {
+    /// <summary>
+    /// Internal class for OpenCV highgui library invocation.
+    /// </summary>
     internal static class CvHighGuiInvoke
     {
         public const CallingConvention CvCallingConvetion = CallingConvention.Cdecl;
@@ -81,6 +84,9 @@ namespace Accord.Extensions.Vision
         }
     }
 
+    /// <summary>
+    /// OpenCV capture properties for camera and video.
+    /// </summary>
     internal enum CaptureProperty: int
     {
         PosFrames = 1,
@@ -101,6 +107,9 @@ namespace Accord.Extensions.Vision
         ConvertRGB = 16
     }
 
+    /// <summary>
+    /// OpenCV image load mode.
+    /// </summary>
     internal enum ImageLoadType: int
     {
         /// <summary>

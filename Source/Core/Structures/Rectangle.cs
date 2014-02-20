@@ -38,6 +38,10 @@ namespace Accord.Extensions
     // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
     // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //
+
+    /// <summary>
+    /// Stores a set of four integer numbers that represent the location and size of a rectangle.
+    /// </summary>
     [Serializable]
     [ComVisible(true)]
     public struct Rectangle
