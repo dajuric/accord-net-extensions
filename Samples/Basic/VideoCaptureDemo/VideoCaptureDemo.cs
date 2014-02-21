@@ -21,17 +21,17 @@ namespace VideoCapture
         {
             InitializeComponent();
 
-            capture = new ImageDirectoryReader("C:/images", "*.png");
+            //capture = new ImageDirectoryReader("C:/images", "*.png");
 
             //capture = new CameraCapture(0);
-            //capture = new FileCapture(@"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv");
+            capture = new FileCapture(@"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv");
             capture.Open();
             Application.Idle += capture_NewFrame;
         }
 
         async void capture_NewFrame(object sender, EventArgs e)
         {
-            var frame = await capture.ReadAsync(); //faster
+            var frame = await capture.ReadAsync(); //faster (not for live streams)
             //var frame = capture.Read();
 
             if (frame == null)

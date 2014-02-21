@@ -140,12 +140,12 @@ namespace Accord.Extensions.Vision
         }
 
         /// <summary>
-        /// Opens the current stream. 
+        /// When overridden in a derived class, opens the current stream. 
         /// </summary>
         public abstract void Open();
 
         /// <summary>
-        /// Closes the current stream and releases any resources associated with the current stream.
+        /// When overridden in a derived class, closes the current stream and releases any resources associated with the current stream.
         /// This function is internaly called by <see cref="Dispose"/>.
         /// </summary>
         public abstract void Close();

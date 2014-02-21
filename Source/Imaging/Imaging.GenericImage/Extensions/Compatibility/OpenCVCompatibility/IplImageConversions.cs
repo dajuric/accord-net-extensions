@@ -235,7 +235,7 @@ namespace Accord.Extensions.Imaging
             return new IplImage(image, (channelType) => 
             {
                 /*if (image.IsOpenCVCompatibile() == false)
-                    throw new Exception("The image stride must be compatibile to OpenCV image stride!");*/
+                    throw new Exception("The image stride must be compatible to OpenCV image stride!");*/
 
                 IplImage.IplChannelDepth value;
                 bool exist = depthAssociations.Forward.TryGetValue(channelType, out value);

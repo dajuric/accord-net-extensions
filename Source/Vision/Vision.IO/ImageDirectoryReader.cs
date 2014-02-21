@@ -26,13 +26,17 @@ namespace Accord.Extensions.Vision
         /// <param name="extension">The image extension.</param>
         /// <param name="useNaturalSorting">Use natural sorting, otherwise raw image order is used.</param>
         /// <param name="loader">Loader image function. If null default loader is used.</param>
+        /// <exception cref="DirectoryNotFoundException">Directory can not be found.</exception>
         public ImageDirectoryReader(string dirPath, string extension, bool useNaturalSorting = true, Func<string, IImage> loader = null)
         {
+            if (Directory.Exists(dirPath) == false)
+                throw new DirectoryNotFoundException(String.Format("Dir: {0} cannot be found!", dirPath));
+
             loader = loader ?? cvLoader;
             
             this.IsLiveStream = false;
             this.CanSeek = true;
-
+         
             this.loader = loader;
 
             string ext = "*." + extension.TrimStart('.', '*');
