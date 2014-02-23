@@ -13,7 +13,7 @@ namespace Accord.Extensions.Imaging
     /// </summary>
     /// <typeparam name="TColor">Color from type <see cref="IColor"/>.</typeparam>
     /// <typeparam name="TDepth">Primitive type.</typeparam>
-    public partial class Image<TColor, TDepth> : GenericImageBase
+    public partial class Image<TColor, TDepth> : Image
                                 where TColor: IColor
                                 where TDepth: struct
     {
@@ -48,7 +48,7 @@ namespace Accord.Extensions.Imaging
             int width = channels[0].Width;
             int height = channels[0].Height;
 
-            GenericImageBase.Initialize(this, width, height);
+            Image.Initialize(this, width, height);
             ChannelMerger.MergeChannels<TColor, TDepth>(channels, this);
         }
 
@@ -60,7 +60,7 @@ namespace Accord.Extensions.Imaging
         public Image(Size size, int strideAllignment = 4)
             :this()
         {
-            GenericImageBase.Initialize(this, size.Width, size.Height, strideAllignment);
+            Image.Initialize(this, size.Width, size.Height, strideAllignment);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Accord.Extensions.Imaging
         public Image(int width, int height, int strideAllignment = 4)
             :this()
         {
-            GenericImageBase.Initialize(this, width, height, strideAllignment);
+            Image.Initialize(this, width, height, strideAllignment);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Accord.Extensions.Imaging
         public Image(int width, int height, TColor value)
             : this()
         {
-            GenericImageBase.Initialize(this, width, height);
+            Image.Initialize(this, width, height);
             ValueSetter.SetValue(this, value);
         }
 
@@ -100,7 +100,7 @@ namespace Accord.Extensions.Imaging
         public Image(IntPtr imageData, int width, int height, int stride, object parentReference = null, Action<object> parentDestructor = null)
             : this()
         {
-            GenericImageBase.Initialize(this, imageData, width, height, stride, parentReference, parentDestructor);
+            Image.Initialize(this, imageData, width, height, stride, parentReference, parentDestructor);
         }
 
         #endregion

@@ -59,7 +59,7 @@ namespace Accord.Extensions.Imaging
             var proc = new ParallelProcessor<bool, IImage>(imageA.Size,
                                                () =>
                                                {
-                                                   return GenericImageBase.Create(imageA.ColorInfo, imageA.Width, imageA.Height);
+                                                   return Image.Create(imageA.ColorInfo, imageA.Width, imageA.Height);
                                                },
                                                (bool _, IImage dest, Rectangle area) =>
                                                {

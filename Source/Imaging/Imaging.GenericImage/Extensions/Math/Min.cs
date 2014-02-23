@@ -49,7 +49,7 @@ namespace Accord.Extensions.Imaging
                                                () =>
                                                {
                                                    if (!inPlace)
-                                                       return GenericImageBase.Create(imageA.ColorInfo, imageA.Width, imageA.Height);
+                                                       return Image.Create(imageA.ColorInfo, imageA.Width, imageA.Height);
                                                    else
                                                        return imageA;
                                                },

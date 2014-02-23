@@ -93,7 +93,7 @@ namespace Accord.Extensions.Imaging
 
         private static IImage prepareSourceImage(IImage src, Size kernelSize, ConvolutionBorder options, out Rectangle validRegion)
         {
-            var preparedSrc = GenericImageBase.Create(src.ColorInfo, src.Width + kernelSize.Width, src.Height + kernelSize.Height);
+            var preparedSrc = Image.Create(src.ColorInfo, src.Width + kernelSize.Width, src.Height + kernelSize.Height);
             Rectangle centerRegion = new Rectangle(kernelSize.Width / 2, kernelSize.Height / 2, src.Width, src.Height);
             preparedSrc.GetSubRect(centerRegion).SetValue(src);
 

@@ -59,7 +59,7 @@ namespace Accord.Extensions.Imaging
                                                                                                 IImage[] channels = new IImage[channelIndicies.Length];
                                                                                                 for (int i = 0; i < channels.Length; i++)
                                                                                                 {
-                                                                                                    channels[i] = GenericImageBase.Create(channelType, img.Width, img.Height);
+                                                                                                    channels[i] = Image.Create(channelType, img.Width, img.Height);
                                                                                                 }
 
                                                                                                 return channels;

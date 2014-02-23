@@ -981,7 +981,7 @@ namespace Accord.Extensions.Imaging
         #endregion
     }
 
-    public partial class Image<TColor, TDepth> : GenericImageBase
+    public partial class Image<TColor, TDepth> : Image
         where TColor : IColor
         where TDepth : struct
     {

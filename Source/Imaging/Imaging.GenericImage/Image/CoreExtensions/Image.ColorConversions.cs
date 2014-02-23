@@ -4,7 +4,7 @@ using System;
 
 namespace Accord.Extensions.Imaging
 {
-    public partial class Image<TColor, TDepth> : GenericImageBase
+    public partial class Image<TColor, TDepth> : Image
         where TColor : IColor
         where TDepth : struct
     {
@@ -23,7 +23,7 @@ namespace Accord.Extensions.Imaging
         }
     }
 
-    public partial class GenericImageBase
+    public partial class Image
     {
         /// <summary>
         /// Converts the image from source to destination color and depth.

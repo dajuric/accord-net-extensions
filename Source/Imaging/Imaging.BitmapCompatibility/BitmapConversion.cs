@@ -64,7 +64,7 @@ namespace Accord.Extensions.Imaging
             IImage im = ToImage(bmp);
 
             //convert if necessary
-            var convertedImage = ((GenericImageBase)im).Convert(ColorInfo.GetInfo<TColor, TDepth>(), false);
+            var convertedImage = ((Image)im).Convert(ColorInfo.GetInfo<TColor, TDepth>(), false);
             return convertedImage as Image<TColor, TDepth>;
         }
 
@@ -74,7 +74,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="bmp">Input bitmap.</param>
         /// <returns>Generic image.</returns>
-        public static Image<TColor, TDepth> ToImage<TColor, TDepth>(this Image bmp)
+        public static Image<TColor, TDepth> ToImage<TColor, TDepth>(this System.Drawing.Image bmp)
             where TColor : IColor
             where TDepth : struct
         {
@@ -112,7 +112,7 @@ namespace Accord.Extensions.Imaging
         public static IImage ToImage(this Bitmap bmp)
         {
             var imageColor = bmp.GetColorInfo();
-            IImage im = GenericImageBase.Create(imageColor, bmp.Width, bmp.Height);
+            IImage im = Image.Create(imageColor, bmp.Width, bmp.Height);
             bmp.ToImage(im);
 
             return im;
@@ -128,7 +128,7 @@ namespace Accord.Extensions.Imaging
             return ToImage((Bitmap)bmp);
         }
 
-        public static ColorInfo GetColorInfo(this Image bmp)
+        public static ColorInfo GetColorInfo(this System.Drawing.Image bmp)
         {
             return GetColorInfo(bmp.PixelFormat);
         }
@@ -151,7 +151,7 @@ namespace Accord.Extensions.Imaging
         public static IImage AsImage(this BitmapData bmpData)
         {
             var colorInfo = GetColorInfo(bmpData.PixelFormat);
-            return GenericImageBase.Create(colorInfo, bmpData.Scan0, bmpData.Width, bmpData.Height, bmpData.Stride, bmpData /*can it be null ?*/);
+            return Image.Create(colorInfo, bmpData.Scan0, bmpData.Width, bmpData.Height, bmpData.Stride, bmpData /*can it be null ?*/);
         }
 
         #endregion

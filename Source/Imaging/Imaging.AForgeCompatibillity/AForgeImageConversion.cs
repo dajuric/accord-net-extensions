@@ -30,7 +30,7 @@ namespace Accord.Extensions.Imaging
             if (imageColor == null)
                 throw new Exception(string.Format("Pixel format {0} is not supported!", unmanagedImage.PixelFormat));
 
-            IImage im = GenericImageBase.Create(imageColor, 
+            IImage im = Image.Create(imageColor, 
                                                 unmanagedImage.ImageData, unmanagedImage.Width, unmanagedImage.Height, 
                                                 unmanagedImage.Stride, unmanagedImage);
 
@@ -50,7 +50,7 @@ namespace Accord.Extensions.Imaging
         {
             IImage im = AsImage(unmanagedImage);
 
-            var convertedImage = ((GenericImageBase)im).Convert(ColorInfo.GetInfo<TColor, TDepth>(), copyAlways);
+            var convertedImage = ((Image)im).Convert(ColorInfo.GetInfo<TColor, TDepth>(), copyAlways);
             return convertedImage as Image<TColor, TDepth>;
         }
 

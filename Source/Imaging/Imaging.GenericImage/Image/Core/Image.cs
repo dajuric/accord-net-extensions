@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace Accord.Extensions.Imaging
 {
-    public partial class GenericImageBase : IImage, IEquatable<GenericImageBase>, IXmlSerializable
+    public partial class Image : IImage, IEquatable<Image>, IXmlSerializable
     {
         bool mustBeDisposed;
         PinnedArray<byte> buffer = null;
@@ -18,10 +18,10 @@ namespace Accord.Extensions.Imaging
 
         #region Constructor methods
 
-        static GenericImageBase()
+        static Image()
         {}
 
-        protected GenericImageBase()
+        protected Image()
         { }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Accord.Extensions.Imaging
         public static IImage Create(ColorInfo colorInfo, int width, int height)
         {
             var ctorInvoker = HelperMethods.GetGenericImageConstructor(typeof(Image<,>), colorInfo);
-            GenericImageBase im = (GenericImageBase)ctorInvoker();
+            Image im = (Image)ctorInvoker();
 
             Initialize(im, width, height);
             return im;
@@ -54,7 +54,7 @@ namespace Accord.Extensions.Imaging
         public static IImage Create(ColorInfo colorInfo, IntPtr imageData, int width, int height, int stride, object parentReference = null, Action<object> parentDestructor = null)
         {
             var ctorInvoker = HelperMethods.GetGenericImageConstructor(typeof(Image<,>), colorInfo);
-            GenericImageBase im = (GenericImageBase)ctorInvoker();
+            Image im = (Image)ctorInvoker();
 
             Initialize(im, imageData, width, height, stride, parentReference, parentDestructor);
             return im;
@@ -67,7 +67,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="width">Image width.</param>
         /// <param name="height">Image height.</param>
         /// <param name="strideAllignment">Stride alignment. Usual practice is that every image row ends with address aligned with 4.</param>
-        protected static void Initialize(GenericImageBase im, int width, int height, int strideAllignment = 4)
+        protected static void Initialize(Image im, int width, int height, int strideAllignment = 4)
         {
             int stride = calculateStride(im.ColorInfo, width, strideAllignment);
             var buffer = new PinnedArray<byte>(stride * height);
@@ -86,7 +86,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="height">Image height.</param>
         /// <param name="stride">Image stride.</param>
         /// <param name="buffer">Image buffer.</param>
-        protected static void Initialize(GenericImageBase im, int width, int height, int stride, PinnedArray<byte> buffer)
+        protected static void Initialize(Image im, int width, int height, int stride, PinnedArray<byte> buffer)
         {
             im.mustBeDisposed = true;
             im.buffer = buffer;
@@ -103,7 +103,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="stride">Image stride.</param>
         /// <param name="parentReference">To prevent object from deallocating use this parameter.</param>
         /// <param name="parentDestructor">If a parent needs to be destroyed or release use this function. (e.g. unpin object - GCHandle)</param>
-        protected static void Initialize(GenericImageBase im, IntPtr imageData, int width, int height, int stride, object parentReference = null, Action<object> parentDestructor = null)
+        protected static void Initialize(Image im, IntPtr imageData, int width, int height, int stride, object parentReference = null, Action<object> parentDestructor = null)
         {
             im.mustBeDisposed = false;
             im.buffer = null;
@@ -113,7 +113,7 @@ namespace Accord.Extensions.Imaging
             im.parentDestructor = parentDestructor;
         }
 
-        private static void initializeProperties(GenericImageBase im, IntPtr imageData, int width, int height, int stride)
+        private static void initializeProperties(Image im, IntPtr imageData, int width, int height, int stride)
         {
             im.ImageData = imageData;
             im.Width = width;
@@ -155,7 +155,7 @@ namespace Accord.Extensions.Imaging
             }
         }
 
-        ~GenericImageBase()
+        ~Image()
         {
             Dispose();
         }
@@ -254,7 +254,7 @@ namespace Accord.Extensions.Imaging
             object objRef = this.objectReference ?? this; //always show at the root
 
             IntPtr data = GetData(rect.Y, rect.X);
-            return GenericImageBase.Create(this.ColorInfo, data, rect.Width, rect.Height, this.Stride, objRef);
+            return Image.Create(this.ColorInfo, data, rect.Width, rect.Height, this.Stride, objRef);
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         unsafe IImage IImage.Clone()
         {
-            IImage dest = GenericImageBase.Create(this.ColorInfo, this.Width, this.Height);
+            IImage dest = Image.Create(this.ColorInfo, this.Width, this.Height);
 
             HelperMethods.CopyImage(this.ImageData, dest.ImageData, this.Stride, dest.Stride, this.Width * this.ColorInfo.Size, this.Height);
 
@@ -277,7 +277,7 @@ namespace Accord.Extensions.Imaging
         /// <returns>New cloned image with blank data.</returns>
         IImage IImage.CopyBlank()
         {
-            return GenericImageBase.Create(this.ColorInfo, this.Width, this.Height);
+            return Image.Create(this.ColorInfo, this.Width, this.Height);
         }
 
         #endregion
@@ -288,7 +288,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="other">Other image.</param>
         /// <returns>Whether two images are equal or not.</returns>
-        public bool Equals(GenericImageBase other)
+        public bool Equals(Image other)
         {
             if (other != null &&
                 this.ImageData == other.ImageData &&
@@ -307,7 +307,7 @@ namespace Accord.Extensions.Imaging
         /// <returns>Is the image equal to an object or not.</returns>
         public override bool Equals(object obj)
         {
-            return this.Equals(obj as GenericImageBase);
+            return this.Equals(obj as Image);
         }
 
         /// <summary>
@@ -345,7 +345,7 @@ namespace Accord.Extensions.Imaging
             writer.WriteAttributeString("NumberOfChannels", this.ColorInfo.NumberOfChannels.ToString()); //not used (EmguCV compatibility)
             writer.WriteAttributeString("CompressionRatio", 0.ToString()); //not used (EmguCV compatibility)
 
-            using (PinnedArray<byte> buff = ((this as IImage).Clone() as GenericImageBase).buffer) //if an user selected GetSubRect(...) 
+            using (PinnedArray<byte> buff = ((this as IImage).Clone() as Image).buffer) //if an user selected GetSubRect(...) 
             {
                 writer.WriteStartElement("Bytes");
                 writer.WriteBase64(buff.Array, 0, buff.Array.Length);

@@ -74,7 +74,7 @@
     <Compile Include="ImageColorTypeConversions\Converters\Color\GrayComplexConverters.cs" />
     <Compile Include="Image\CoreExtensions\ChannelMerger.cs" />
     <Compile Include="Image\CoreExtensions\ChannelSplitter.cs" />
-    <Compile Include="ImageColorTypeConversions\ColorDepthConverterFactory.cs" />
+    <Compile Include="ImageColorTypeConversions\ColorDepthConverters.cs" />
     <Compile Include="ImageColorTypeConversions\Converters\Color\BgrHsvConverters.cs" />
     <Compile Include="ImageColorTypeConversions\Converters\Depth\FromByteDepthConverters.cs" />
     <Compile Include="Image\CoreExtensions\MathOperations\MathOperations.LogicNot.cs" />
@@ -82,7 +82,7 @@
     <Compile Include="Image\CoreExtensions\ValueSetter.cs" />
     <Compile Include="Image\CoreExtensions\Image.ColorConversions.cs" />
     <Compile Include="ImageColorTypeConversions\ColorConverter.cs" />
-    <Compile Include="Image\Core\GenericImage.cs" />
+    <Compile Include="Image\Core\Image%271.cs" />
     <Compile Include="ColorSpaces\Bgr.cs" />
     <Compile Include="ColorSpaces\IColor.cs" />
     <Compile Include="Image\Core\Image.cs" />

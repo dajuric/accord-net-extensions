@@ -176,7 +176,7 @@ namespace Accord.Extensions.Vision
             if (image == null)
                 return null;
 
-            return ((GenericImageBase)image).Convert<TColor, TDepth>(copyAlways, failIfCannotCast);
+            return ((Image)image).Convert<TColor, TDepth>(copyAlways, failIfCannotCast);
         }
     }
 }

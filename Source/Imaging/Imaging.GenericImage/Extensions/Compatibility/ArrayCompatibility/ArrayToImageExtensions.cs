@@ -50,7 +50,7 @@ namespace Accord.Extensions.Imaging
                 int dimOffset = i * arrDimStride * height;
                 IntPtr dimPtr = (IntPtr)((byte*)arrHandle.AddrOfPinnedObject() + dimOffset);
 
-                var channelImg = GenericImageBase.Create(color, width, height);
+                var channelImg = Image.Create(color, width, height);
                 HelperMethods.CopyImage(dimPtr, channelImg.ImageData, arrDimStride, channelImg.Stride, arrDimStride, height);
                 imageChannels[i] = channelImg;
             }

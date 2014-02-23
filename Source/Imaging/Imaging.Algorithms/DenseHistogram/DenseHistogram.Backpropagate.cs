@@ -44,7 +44,7 @@ namespace Accord.Extensions.Imaging
             var proc = new ParallelProcessor<IImage[], IImage>(imgSize, 
                                                             ()=> //executed once
                                                             {
-                                                                return GenericImageBase.Create(destColor, imgSize.Width, imgSize.Height);
+                                                                return Image.Create(destColor, imgSize.Width, imgSize.Height);
                                                             }, 
 
                                                             (IImage[] srcImgs, IImage destImg, Rectangle area) => //executed for each thread

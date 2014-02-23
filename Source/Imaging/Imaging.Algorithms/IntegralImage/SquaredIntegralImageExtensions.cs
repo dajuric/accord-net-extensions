@@ -44,7 +44,7 @@ namespace Accord.Extensions.Imaging.IntegralImage
                 throw new Exception(string.Format("MakeIntegral function can not process image of color depth type {0}", img.ColorInfo.ChannelType));
 
             var destColor = ColorInfo.GetInfo(img.ColorInfo.ColorType, makeIntegral.Item1);
-            IImage dest = GenericImageBase.Create(destColor, img.Width + 1, img.Height + 1);
+            IImage dest = Image.Create(destColor, img.Width + 1, img.Height + 1);
 
             makeIntegral.Item2(img, dest);
             return dest;

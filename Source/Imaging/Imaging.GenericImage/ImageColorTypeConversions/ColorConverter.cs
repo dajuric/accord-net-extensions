@@ -7,7 +7,7 @@ using MethodCache = Accord.Extensions.MethodCache;
 using System.Drawing;
 using Accord.Extensions;
 
-namespace Accord.Extensions.Imaging.Converters
+namespace Accord.Extensions.Imaging.Converters //TODO - non-critical: rewrite the code (can be written much better)
 {
     public delegate void ConvertFunction(IImage srcImg, IImage destImg);
 
@@ -182,7 +182,7 @@ namespace Accord.Extensions.Imaging.Converters
             {
                 if (this.JustNeedsCast)
                 {
-                    return GenericImageBase.Create(this.DestColorInfo, img.ImageData, img.Width, img.Height, img.Stride, img);
+                    return Image.Create(this.DestColorInfo, img.ImageData, img.Width, img.Height, img.Stride, img);
                 }
                 else
                 {
@@ -192,7 +192,7 @@ namespace Accord.Extensions.Imaging.Converters
 
                     var proc = new ParallelProcessor<IImage, IImage>(
                            img.Size,
-                           () => GenericImageBase.Create(this.DestColorInfo, img.Width, img.Height),
+                           () => Image.Create(this.DestColorInfo, img.Width, img.Height),
                            (src, dest, area) => 
                            {
                                this.DataConvertFunc(src.GetSubRect(area), dest.GetSubRect(area));
