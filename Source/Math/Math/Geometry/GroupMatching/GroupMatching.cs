@@ -6,10 +6,23 @@ using System.Threading.Tasks;
 
 namespace Accord.Extensions.Math.Geometry
 {
+    /// <summary>
+    /// Represents collections of elements in one group.
+    /// </summary>
+    /// <typeparam name="T">Type of element.</typeparam>
     public class GroupMatch<T>
     {
+        /// <summary>
+        /// Gets the number of neigbhbours within a group.
+        /// </summary>
         public int Neighbours { get { return this.Detections.Length; } }
+        /// <summary>
+        /// Gets the collection of elements within the group.
+        /// </summary>
         public T[] Detections { get; set; }
+        /// <summary>
+        /// Gets the group representative choosen by average function in group matching algorithn.
+        /// </summary>
         public T Representative { get; set; }
     }
 
@@ -102,7 +115,7 @@ namespace Accord.Extensions.Math.Geometry
         public Average AverageFunc { get; set; }
 
         /// <summary>
-        ///   Averages rectangles which belongs to the
+        ///   Averages elements which belongs to the
         ///   same class (have the same class label)
         /// </summary>
         private GroupMatch<T>[] average(T[] structures)
@@ -126,7 +139,7 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        ///   Detects rectangles which are near and 
+        ///   Detects elements which are near and 
         ///   assigns similar class labels accordingly.
         /// </summary>
         /// 
@@ -215,53 +228,16 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        ///   Checks if two rectangles are near.
+        ///   Delegates for checking whether tow elements are near.
         /// </summary>
-        /// 
+        /// <param name="t1">First element</param>
+        /// <param name="t2">Second element</param>
+        /// <param name="threshold">The minimum distance threshold to consider two structures as neighbors.</param>
         public delegate bool Near(T t1, T t2, double threshold);
+
+        /// <summary>
+        /// Gets or sets <see cref="Near"/> function.
+        /// </summary>
         public Near NearFunc { get; set; }
     }
-
-    public class RectangleGroupMatching : GroupMatching<Rectangle>
-    {
-        public RectangleGroupMatching(int minimumNeighbors = 1, double threshold = 0.2)
-            : base(AverageRectangles, AreRectanglesNear, minimumNeighbors, threshold)
-        { }
-
-        public static Rectangle AverageRectangles(Rectangle[] rects)
-        {
-            Rectangle centroid = Rectangle.Empty;
-
-            for (int i = 0; i < rects.Length; i++)
-            {
-                centroid.X += rects[i].X;
-                centroid.Y += rects[i].Y;
-                centroid.Width += rects[i].Width;
-                centroid.Height += rects[i].Height;
-            }
-
-            centroid.X = (int)System.Math.Ceiling((float)centroid.X / rects.Length);
-            centroid.Y = (int)System.Math.Ceiling((float)centroid.Y / rects.Length);
-            centroid.Width = (int)System.Math.Ceiling((float)centroid.Width / rects.Length);
-            centroid.Height = (int)System.Math.Ceiling((float)centroid.Height / rects.Length);
-
-            return centroid;
-        }
-
-        public static bool AreRectanglesNear(Rectangle r1, Rectangle r2, double threshold)
-        {
-            if (r1.Contains(r2) || r2.Contains(r1))
-                return true;
-
-            int minHeight = System.Math.Min(r1.Height, r2.Height);
-            int minWidth = System.Math.Min(r1.Width, r2.Width);
-            double delta = threshold * (minHeight + minWidth);
-
-            return System.Math.Abs(r1.X - r2.X) <= delta
-                && System.Math.Abs(r1.Y - r2.Y) <= delta
-                && System.Math.Abs(r1.Right - r2.Right) <= delta
-                && System.Math.Abs(r1.Bottom - r2.Bottom) <= delta;
-        }
-    }
-
 }

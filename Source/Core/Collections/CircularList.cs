@@ -7,8 +7,18 @@ using Range = AForge.IntRange;
 
 namespace Accord.Extensions
 {
+    /// <summary>
+    /// <para>Defined functions can be used as object extensions.</para>
+    /// Provides methods for circular list.
+    /// </summary>
     public static class CircularListExtensions
     {
+        /// <summary>
+        /// Creates <see cref="CircularList"/> from <see cref="List"/>.
+        /// </summary>
+        /// <typeparam name="T">Element type.</typeparam>
+        /// <param name="list">List of elements.</param>
+        /// <returns>New instance of <see cref="CircularList"/>. Elemets are not deep cloned.</returns>
         public static CircularList<T> ToCircularList<T>(this List<T> list)
         {
             return new CircularList<T>(list);

@@ -1,14 +1,10 @@
-﻿using System;
+﻿using MoreLinq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MoreLinq;
-using Range = AForge.IntRange;
-using RangeF = AForge.Range;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
-using System.Drawing;
+using Range = AForge.IntRange;
 
 namespace Accord.Extensions.Math.Geometry
 {
@@ -353,6 +349,11 @@ namespace Accord.Extensions.Math.Geometry
             return sortedIndeces;
         }
 
+        /// <summary>
+        /// Gets the minimum bounding rectangle around the points.
+        /// </summary>
+        /// <param name="points">Contour points.</param>
+        /// <returns>Bounding rectangle.</returns>
         public static RectangleF BoundingRect(this IEnumerable<PointF> points)
         {
             float minX = Single.MaxValue, maxX = Single.MinValue, 
@@ -374,6 +375,11 @@ namespace Accord.Extensions.Math.Geometry
             return new RectangleF(minX, minY, maxX - minX, maxY - minY);
         }
 
+        /// <summary>
+        /// Gets the minimum bounding rectangle around the points.
+        /// </summary>
+        /// <param name="points">Contour points.</param>
+        /// <returns>Bounding rectangle.</returns>
         public static Rectangle BoundingRect(this IEnumerable<Point> points)
         {
             int minX = Int32.MaxValue, maxX = Int32.MinValue, 

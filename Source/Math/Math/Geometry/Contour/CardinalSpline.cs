@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Accord.Math;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using Accord.Math;
 using PointF = AForge.Point;
 using RangeF = AForge.Range;
 
@@ -18,9 +17,9 @@ namespace Accord.Extensions.Math.Geometry
     /// </summary>
     public class CardinalSpline: ICloneable
     {
-        public const int NUM_DERIVATIVE_POINTS = 2;
         public const int MIN_INDEX = 1;
         public const int MAX_INDEX_OFFSET = 1;
+        public const int NUM_DERIVATIVE_POINTS = 2;
 
         List<PointF> controlPoints;
 
@@ -51,6 +50,9 @@ namespace Accord.Extensions.Math.Geometry
 
         #region Properties
 
+        /// <summary>
+        /// Gets the total number of points.
+        /// </summary>
         public IList<PointF> ControlPoints { get { return this.controlPoints; } }
 
         /// <summary>
@@ -64,9 +66,10 @@ namespace Accord.Extensions.Math.Geometry
         public float Tension { get; set; }
 
         /// <summary>
-        /// Gets the number of control points.
+        /// Gets the total number of points.
+        /// <para>The total number of points that can be used for interpolation is totalNumber - <see cref="NUM_DERIVATIVE_POINTS"/></para>
         /// </summary>
-        public int Count { get { return controlPoints.Count - NUM_DERIVATIVE_POINTS/*2 are derivative points*/; } } //TODO: what to do with this ?
+        public int Count { get { return controlPoints.Count; } }
 
         #endregion
 
@@ -211,7 +214,7 @@ namespace Accord.Extensions.Math.Geometry
             var pointX = mulFactor.Multiply(GHx.Transpose())[0];
             var pointY = mulFactor.Multiply(GHy.Transpose())[0];
 
-            return new PointF(pointX, pointY).Normalize();
+            return (PointF)(new Vector2D(pointX, pointY).Normalize());
         }
 
         /// <summary>

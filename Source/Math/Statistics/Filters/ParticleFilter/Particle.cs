@@ -3,7 +3,7 @@
 namespace Accord.Extensions.Statistics.Filters
 {
     /// <summary>
-    /// Non-generic particle interface
+    /// Particle interface defining common members for all particle instances.
     /// </summary>
     public interface IParticle : ICloneable
     {

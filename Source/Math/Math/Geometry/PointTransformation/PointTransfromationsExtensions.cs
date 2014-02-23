@@ -5,6 +5,10 @@ using PointF = AForge.Point;
 
 namespace Accord.Extensions.Math.Geometry
 {
+    /// <summary>
+    /// <para>Defined functions can be used as object extensions.</para>
+    /// Provides extension methods for point collection transfromation.
+    /// </summary>
     public static class PointTransfromationsExtensions
     {
         /// <summary>
@@ -55,6 +59,12 @@ namespace Accord.Extensions.Math.Geometry
 
         #region IEnumerable
 
+        /// <summary>
+        /// Transfroms each points in the specified collection according to transformation matrix (3x3).
+        /// </summary>
+        /// <param name="points">Contour points.</param>
+        /// <param name="transformationMat">Transfromation matrix.</param>
+        /// <returns>Transfromed points.</returns>
         public static IEnumerable<PointF> Transform(this IEnumerable<PointF> points, float[,] transformationMat)
         {
             foreach (var p in points)

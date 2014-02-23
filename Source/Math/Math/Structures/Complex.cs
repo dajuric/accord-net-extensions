@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using System.Runtime.Serialization;
-using System.Runtime.InteropServices;
-using Accord.Extensions;
+﻿using System.Runtime.InteropServices;
 
 namespace Accord.Extensions.Math
 {
@@ -20,24 +16,15 @@ namespace Accord.Extensions.Math
         /// </summary>
         public double Im;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="Complex"/> strucure.
+        /// </summary>
+        /// <param name="re">Real part.</param>
+        /// <param name="im">Imaginary part.</param>
         public Complex(double re, double im)
         {
             this.Re = re;
             this.Im = im;
         }
     }
-
-    public struct ComplexF
-    {
-        /// <summary>
-        /// Real part of the complex number.
-        /// </summary>
-        public float Re;
-
-        /// <summary>
-        /// Imaginary part of the complex number.
-        /// </summary>
-        public float Im;
-    }
-
 }

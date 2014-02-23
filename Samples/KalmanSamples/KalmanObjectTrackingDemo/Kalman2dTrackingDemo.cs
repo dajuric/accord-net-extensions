@@ -24,7 +24,7 @@ namespace KalmanObjectTracking
         KalmanFilter<ModelState, PointF> kalman;
 
         private void initalizeHistograms()
-        {
+        { 
             int[] binSizes = new int[] { 64, 64 }; //X bins per channel
 
             IntRange[] ranges = new IntRange[] 

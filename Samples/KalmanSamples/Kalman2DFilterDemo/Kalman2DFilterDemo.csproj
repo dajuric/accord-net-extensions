@@ -115,6 +115,10 @@
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
       <Name>Math</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Math\Statistics\Statistics.csproj">
+      <Project>{d10c7255-8bab-452f-af0f-4cec06f92a26}</Project>
+      <Name>Statistics</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

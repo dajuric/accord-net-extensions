@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Accord.Extensions.Math
 {
+
+    /// <summary>
+    /// <para>Defined functions can be used as object extensions.</para>
+    /// Provides matrix extension methods for 2D arrays.
+    /// </summary>
     public static class MatrixExtensions
     {
         /// <summary>

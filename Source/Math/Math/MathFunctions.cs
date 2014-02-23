@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 namespace Accord.Extensions.Math
 {
     /// <summary>
+    /// <para>Defined functions can be used as object extensions.</para>
     /// Provides additional math functions.
     /// </summary>
     public static class MathFunctions
@@ -67,6 +68,13 @@ namespace Accord.Extensions.Math
             return angleTable;
         }
 
+        //TODO - medium: check maxium error!
+        /// <summary>
+        /// Approximates Atan2 function. Maximum error is 90 / Y_MUL_CONST (1.4 degrees). 
+        /// </summary>
+        /// <param name="dY">Vertical offset.</param>
+        /// <param name="dX">Horizontal offset.</param>
+        /// <returns>Angle in degrees.</returns>
         public static int Atan2Aprox(int dY, int dX)
         {
             if (dY == 0) return (dX >= 0 ? 0 : PI_DEG);
@@ -94,8 +102,11 @@ namespace Accord.Extensions.Math
         }
 
         /// <summary>
+        /// Approximates Sqrt function.
         /// see: http://blog.wouldbetheologian.com/2011/11/fast-approximate-sqrt-method-in-c.html
         /// </summary>
+        /// <param name="z">Input number</param>
+        /// <returns>Square root.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Sqrt(float z)
         {

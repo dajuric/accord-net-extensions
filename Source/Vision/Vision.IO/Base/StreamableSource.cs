@@ -12,7 +12,8 @@ namespace Accord.Extensions.Vision
     { }
 
     /// <summary>
-    /// Represents image streamable source. It is the base class for classes providing image stream reading.
+    /// Represents image streamable source. 
+    /// It is the base class for classes providing image stream reading.
     /// </summary>
     /// <typeparam name="TImage">Image type.</typeparam>
     public abstract class StreamableSource<TImage>: IDisposable
