@@ -24,7 +24,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         static Image()
         {
-            ColorDepthConverterFactory.Initialize();
+            ColorDepthConverters.Initialize();
         }
 
         /// <summary>

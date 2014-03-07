@@ -41,7 +41,7 @@ namespace Accord.Extensions.Imaging
             if (img.Size != mask.Size || img.Size != destImg.Size)
                 throw new Exception("Image, mask, destImg size must be the same!");
 
-            if (ColorInfo.Equals(img.ColorInfo, destImg.ColorInfo, ColorInfo.ComparableParts.Castable) == false)
+            if (img.ColorInfo.Equals(destImg.ColorInfo, ColorInfo.ComparableParts.Castable) == false)
                 throw new Exception("Image and dest image must be castable (the same number of channels, the same channel type)!");
            
             Type depthType = img.ColorInfo.ChannelType;

@@ -23,7 +23,7 @@ namespace Accord.Extensions.Imaging
             if (img.Size != srcDataImg.Size)
                 throw new Exception("Both images must be the same size!");
 
-            if (ColorInfo.Equals(img.ColorInfo, srcDataImg.ColorInfo, ColorInfo.ComparableParts.Castable) == false)
+            if (img.ColorInfo.Equals(srcDataImg.ColorInfo, ColorInfo.ComparableParts.Castable) == false)
                 throw new Exception("Image and dest image must be cast-able (the same number of channels, the same channel type)!");
 
             int bytesPerRow = img.Width * img.ColorInfo.Size;

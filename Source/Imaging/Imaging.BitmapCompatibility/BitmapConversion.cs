@@ -7,7 +7,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ColorConverter = Accord.Extensions.Imaging.Converters.ColorConverter;
+using ColorConverter = Accord.Extensions.Imaging.Converters.ColorDepthConverter;
 
 namespace Accord.Extensions.Imaging
 {
@@ -93,7 +93,7 @@ namespace Accord.Extensions.Imaging
             if (imageColor == null)
                 throw new Exception(string.Format("Pixel format {0} is not supported!", bmp.PixelFormat));
 
-            if(ColorInfo.Equals(bmp.GetColorInfo(), img.ColorInfo, ColorInfo.ComparableParts.Castable) == false)
+            if(bmp.GetColorInfo().Equals(img.ColorInfo, ColorInfo.ComparableParts.Castable) == false)
                 throw new Exception(string.Format("Image color {0} is not valid for this bitmap pixel format!", img.ColorInfo));
 
             if(img.Width != bmp.Width || img.Height != bmp.Height)
@@ -224,15 +224,14 @@ namespace Accord.Extensions.Imaging
                                             where preferedColor != null
                                             select preferedColor;
 
-            var path = ColorConverter.GetMostInexepnsiveConversionPath(srcImg.ColorInfo,
-                                                                       preferedDestinationColors.ToArray());
+            var path = ColorConverter.GetPath(srcImg.ColorInfo, preferedDestinationColors.ToArray());
 
             if (path == null)
             {
                 throw new Exception(String.Format("Image with color: {0} cannot be converted to System.Drawing.Bitmap", srcImg.ColorInfo.ColorType.Name));
             }
 
-            isJustCasted = ColorConverter.ConversionPathCopiesData(path).Value == false;
+            isJustCasted = ColorConverter.CopiesData(path) == false;
 
             IImage convertedIm = ColorConverter.Convert(srcImg, path.ToArray(), false);
             return convertedIm;

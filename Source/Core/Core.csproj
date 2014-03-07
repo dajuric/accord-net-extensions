@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Map.cs" />
+    <Compile Include="Extensions\DictionaryMatrixExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\PathExtensions.cs" />
     <Compile Include="Imaging\ColorAttribute.cs" />

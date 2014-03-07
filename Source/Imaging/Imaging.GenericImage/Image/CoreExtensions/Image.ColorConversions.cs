@@ -51,19 +51,19 @@ namespace Accord.Extensions.Imaging
         /// <returns>Converted image.</returns>
         public IImage Convert(ColorInfo destColor, bool copyAlways = false, bool failIfCannotCast = false)
         {
-            var conversionPath = ColorConverter.GetMostInexepnsiveConversionPath(this.ColorInfo, destColor);
+            var conversionPath = ColorDepthConverter.GetPath(this.ColorInfo, destColor);
             
             if (conversionPath == null)
             {
                 throw new Exception(String.Format("Image does not support conversion from {0} to {1}", this.ColorInfo.ColorType, destColor.ColorType));
             }
 
-            if (failIfCannotCast && conversionPath.ConversionPathCopiesData() == true)
+            if (failIfCannotCast && conversionPath.CopiesData() == true)
             {
                 throw new Exception("Fail if cannot cast is set to true: Image data must be copied");
             }
 
-            var convertedIm = ColorConverter.Convert(this, conversionPath.ToArray(), copyAlways);
+            var convertedIm = ColorDepthConverter.Convert(this, conversionPath.ToArray(), copyAlways);
             return convertedIm;
         }
     }

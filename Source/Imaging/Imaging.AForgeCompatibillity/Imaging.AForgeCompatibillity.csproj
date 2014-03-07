@@ -52,6 +52,10 @@
       <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Math\Math\Math.csproj">
+      <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
+      <Name>Math</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj">
       <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
       <Name>Imaging.BitmapCompatibility</Name>

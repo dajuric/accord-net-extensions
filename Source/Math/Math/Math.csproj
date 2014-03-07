@@ -57,8 +57,12 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Geometry\Graph\Edge.cs" />
+    <Compile Include="Geometry\Graph\GraphBaseExtensions.cs" />
+    <Compile Include="Geometry\Graph\GraphSearchExtensions.cs" />
     <Compile Include="Geometry\GroupMatching\RectangleGroupMatching.cs" />
     <Compile Include="Geometry\Structures\CircleF.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.ForEach.cs" />
     <Compile Include="Structures\Complex.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
     <Compile Include="FFT\FFT.Core.cs" />

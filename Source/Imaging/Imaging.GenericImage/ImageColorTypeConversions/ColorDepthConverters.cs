@@ -1,57 +1,64 @@
 ﻿using Accord.Extensions.Math;
 using System;
+using ColorConvertData = Accord.Extensions.Imaging.Converters.ColorDepthConverter.ConversionData<Accord.Extensions.Imaging.ColorInfo>;
+using DepthConvertData = Accord.Extensions.Imaging.Converters.ColorDepthConverter.ConversionData<System.Type>;
 
 namespace Accord.Extensions.Imaging.Converters
 {
     /// <summary>
     /// Registers color and depth converters.
     /// </summary>
-    public static class ColorDepthConverterFactory
+    public static class ColorDepthConverters
     {
         static Type[] SupportedPrimitiveTypes = new Type[] { typeof(byte), typeof(short), typeof(int), typeof(float), typeof(double) };
 
         public static void Initialize()
         {
-            registerFromByteDepthConverters();
-            registerFromShortDepthConverters();
-            registerFromIntDepthConverters();
-            registerFromFloatDepthConverters();
-            registerFromDoubleDepthConverters();
+            registerDepthConverters();
+
+            #region Generic Colors
+
+            ColorDepthConverter.Add(new Color2());
+            ColorDepthConverter.Add(new Color3());
+            ColorDepthConverter.Add(new Color4());
+
+            #endregion
 
             #region Bgr <-> Hsv
 
-            ColorConverter.Register(new ColorConverter.ConversionData 
-            {
-                SourceColorInfo = ColorInfo.GetInfo<Bgr, byte>(),
-                DestColorInfo = ColorInfo.GetInfo<Hsv, byte>(),
-                DataConvertFunc = BgrHsvConverters.ConvertBgrToHsv_Byte
-            });
+            ColorDepthConverter.Add(ColorConvertData.AsConvertData
+            (
+                source:      ColorInfo.GetInfo<Bgr, byte>(),
+                destination: ColorInfo.GetInfo<Hsv, byte>(),
+                convertFunc: BgrHsvConverters.ConvertBgrToHsv_Byte
+             ));
 
-            ColorConverter.Register(new ColorConverter.ConversionData
-            {
-                SourceColorInfo = ColorInfo.GetInfo<Hsv, byte>(),
-                DestColorInfo = ColorInfo.GetInfo<Bgr, byte>(),
-                DataConvertFunc = BgrHsvConverters.ConvertHsvToBgr_Byte
-            });
+            ColorDepthConverter.Add(ColorConvertData.AsConvertData
+            (
+                source:      ColorInfo.GetInfo<Hsv, byte>(),
+                destination: ColorInfo.GetInfo<Bgr, byte>(),
+                convertFunc: BgrHsvConverters.ConvertHsvToBgr_Byte
+             ));
 
             #endregion
 
             #region Gray -> Complex
 
-            ColorConverter.Register(new ColorConverter.ConversionData
-            {
-                SourceColorInfo = ColorInfo.GetInfo<Gray, float>(),
-                DestColorInfo = ColorInfo.GetInfo<Complex, float>(),
-                DataConvertFunc = GrayComplexConverters.ConvertGrayToComplex
-            });
+            ColorDepthConverter.Add(ColorConvertData.AsConvertData
+            (
+                source: ColorInfo.GetInfo<Gray, float>(),
+                destination: ColorInfo.GetInfo<Complex, float>(),
+                convertFunc: GrayComplexConverters.ConvertGrayToComplex,
+                forceSequential: true
+             ));
 
-            ColorConverter.Register(new ColorConverter.ConversionData
-            {
-                SourceColorInfo = ColorInfo.GetInfo<Gray, double>(),
-                DestColorInfo = ColorInfo.GetInfo<Complex, double>(),
-                DataConvertFunc = GrayComplexConverters.ConvertGrayToComplex,
-                ForceSequential = true
-            });
+            ColorDepthConverter.Add(ColorConvertData.AsConvertData
+            (
+               source: ColorInfo.GetInfo<Gray, double>(),
+               destination: ColorInfo.GetInfo<Complex, double>(),
+               convertFunc: GrayComplexConverters.ConvertGrayToComplex,
+               forceSequential: true
+            ));
 
             //QUESTION: does it make sense for other depths ?
             #endregion
@@ -60,179 +67,187 @@ namespace Accord.Extensions.Imaging.Converters
 
             foreach (var spt in SupportedPrimitiveTypes)
             {
-                ColorConverter.Register(new ColorConverter.ConversionData
-                {
-                    SourceColorInfo = ColorInfo.GetInfo(typeof(Gray), spt),
-                    DestColorInfo = ColorInfo.GetInfo(typeof(Bgr), spt),
-                    DataConvertFunc = BgrGrayConverters.ConvertGrayToBgr,
-                    ForceSequential = true
-                });
+                ColorDepthConverter.Add(ColorConvertData.AsConvertData
+                (
+                    source: ColorInfo.GetInfo(typeof(Gray), spt),
+                    destination: ColorInfo.GetInfo(typeof(Bgr), spt),
+                    convertFunc: BgrGrayConverters.ConvertGrayToBgr,
+                    forceSequential: true
+                ));
             }
 
-            ColorConverter.Register(new ColorConverter.ConversionData
-            {
-                SourceColorInfo = ColorInfo.GetInfo<Bgr, byte>(),
-                DestColorInfo = ColorInfo.GetInfo<Gray, byte>(),
-                DataConvertFunc = BgrGrayConverters.ConvertBgrToGray_Byte
-            });
+            ColorDepthConverter.Add(ColorConvertData.AsConvertData
+            (
+                source: ColorInfo.GetInfo<Bgr, byte>(),
+                destination: ColorInfo.GetInfo<Gray, byte>(),
+                convertFunc: BgrGrayConverters.ConvertBgrToGray_Byte
+            ));
 
             #endregion
         }
 
+        private static void registerDepthConverters()
+        {
+            registerFromByteDepthConverters();
+            registerFromShortDepthConverters();
+            registerFromIntDepthConverters();
+            registerFromFloatDepthConverters();
+            registerFromDoubleDepthConverters();
+        }
+
         private static void registerFromByteDepthConverters()
         {
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(byte),
-                DestType = typeof(short),
-                DataConvertFunc = FromByteDepthConverters.ConvertByteToShort
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(byte),
+                destination: typeof(short),
+                convertFunc: FromByteDepthConverters.ConvertByteToShort
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(byte),
-                DestType = typeof(int),
-                DataConvertFunc = FromByteDepthConverters.ConvertByteToInt
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(byte),
+                destination: typeof(int),
+                convertFunc: FromByteDepthConverters.ConvertByteToInt
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(byte),
-                DestType = typeof(float),
-                DataConvertFunc = FromByteDepthConverters.ConvertByteToFloat
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(byte),
+                destination: typeof(float),
+                convertFunc: FromByteDepthConverters.ConvertByteToFloat
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(byte),
-                DestType = typeof(double),
-                DataConvertFunc = FromByteDepthConverters.ConvertByteToDouble
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(byte),
+                destination: typeof(double),
+                convertFunc: FromByteDepthConverters.ConvertByteToDouble
+            ));
         }
 
         private static void registerFromShortDepthConverters()
         {
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(short),
-                DestType = typeof(byte),
-                DataConvertFunc = FromShortDepthConverters.ConvertShortToByte
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(short),
+                destination: typeof(byte),
+                convertFunc: FromShortDepthConverters.ConvertShortToByte
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(short),
-                DestType = typeof(int),
-                DataConvertFunc = FromShortDepthConverters.ConvertShortToInt
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(short),
+                destination: typeof(int),
+                convertFunc: FromShortDepthConverters.ConvertShortToInt
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(short),
-                DestType = typeof(float),
-                DataConvertFunc = FromShortDepthConverters.ConvertShortToFloat
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(short),
+                destination: typeof(float),
+                convertFunc: FromShortDepthConverters.ConvertShortToFloat
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(short),
-                DestType = typeof(double),
-                DataConvertFunc = FromShortDepthConverters.ConvertShortToDouble
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(short),
+                destination: typeof(double),
+                convertFunc: FromShortDepthConverters.ConvertShortToDouble
+            ));
         }
 
         private static void registerFromIntDepthConverters()
         {
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(int),
-                DestType = typeof(byte),
-                DataConvertFunc = FromIntDepthConverters.ConvertIntToByte
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(int),
+                destination: typeof(byte),
+                convertFunc: FromIntDepthConverters.ConvertIntToByte
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(int),
-                DestType = typeof(short),
-                DataConvertFunc = FromIntDepthConverters.ConvertIntToShort
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(int),
+                destination: typeof(short),
+                convertFunc: FromIntDepthConverters.ConvertIntToShort
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(int),
-                DestType = typeof(float),
-                DataConvertFunc = FromIntDepthConverters.ConvertIntToFloat
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(int),
+                destination: typeof(float),
+                convertFunc: FromIntDepthConverters.ConvertIntToFloat
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(int),
-                DestType = typeof(double),
-                DataConvertFunc = FromIntDepthConverters.ConvertIntToDouble
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(int),
+                destination: typeof(double),
+                convertFunc: FromIntDepthConverters.ConvertIntToDouble
+            ));
         }
 
         private static void registerFromFloatDepthConverters()
         {
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(float),
-                DestType = typeof(byte),
-                DataConvertFunc = FromFloatDepthConverters.ConvertFloatToByte
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(float),
+                destination: typeof(byte),
+                convertFunc: FromFloatDepthConverters.ConvertFloatToByte
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(float),
-                DestType = typeof(short),
-                DataConvertFunc = FromFloatDepthConverters.ConvertFloatToShort
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(float),
+                destination: typeof(short),
+                convertFunc: FromFloatDepthConverters.ConvertFloatToShort
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(float),
-                DestType = typeof(int),
-                DataConvertFunc = FromFloatDepthConverters.ConvertFloatToInt
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(float),
+                destination: typeof(int),
+                convertFunc: FromFloatDepthConverters.ConvertFloatToInt
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(float),
-                DestType = typeof(double),
-                DataConvertFunc = FromFloatDepthConverters.ConvertFloatToDouble
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(float),
+                destination: typeof(double),
+                convertFunc: FromFloatDepthConverters.ConvertFloatToDouble
+            ));
         }
 
         private static void registerFromDoubleDepthConverters()
         {
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(double),
-                DestType = typeof(byte),
-                DataConvertFunc = FromDoubleDepthConverters.ConvertDoubleToByte
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(double),
+                destination: typeof(byte),
+                convertFunc: FromDoubleDepthConverters.ConvertDoubleToByte
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(double),
-                DestType = typeof(short),
-                DataConvertFunc = FromDoubleDepthConverters.ConvertDoubleToShort
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(double),
+                destination: typeof(short),
+                convertFunc: FromDoubleDepthConverters.ConvertDoubleToShort
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(double),
-                DestType = typeof(int),
-                DataConvertFunc = FromDoubleDepthConverters.ConvertDoubleToInt
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(double),
+                destination: typeof(int),
+                convertFunc: FromDoubleDepthConverters.ConvertDoubleToInt
+            ));
 
-            DepthConverter.Register(new DepthConverter.DepthConversionInfo
-            {
-                SourceType = typeof(double),
-                DestType = typeof(float),
-                DataConvertFunc = FromDoubleDepthConverters.ConvertDoubleToFloat
-            });
+            ColorDepthConverter.Add(new DepthConvertData
+            (
+                source: typeof(double),
+                destination: typeof(float),
+                convertFunc: FromDoubleDepthConverters.ConvertDoubleToFloat
+            ));
         }
-
     }
 }

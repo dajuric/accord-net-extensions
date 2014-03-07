@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using ColorConverter = Accord.Extensions.Imaging.Converters.ColorConverter;
+using ColorConverter = Accord.Extensions.Imaging.Converters.ColorDepthConverter;
 
 namespace Test
 {
@@ -22,6 +22,10 @@ namespace Test
         [STAThread]
         unsafe static void Main()
         {
+            Test test = new Test();
+            test.WriteAllConversionPaths();
+            return;
+
             Test t44 = new Test();
             t44.Bla();
             return;

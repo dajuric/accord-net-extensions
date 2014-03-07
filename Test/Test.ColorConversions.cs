@@ -54,24 +54,25 @@ namespace Test
 
         static void writeColorConversionPath(ColorInfo c1, ColorInfo c2)
         {
-            var path = ColorConverter.GetMostInexepnsiveConversionPath(c1, c2);
+            var path = ColorDepthConverter.GetPath(c1, c2);
+            //var path = ColorDepthConverter.GetMostInexepnsiveConversionPath(c1, c2);
             Console.Write("{0} => {1}:  ", c1, c2);
             Console.CursorLeft = 40;
 
-            Console.Write("Cast: {0}", !ColorConverter.ConversionPathCopiesData(path));
+            //Console.Write("Cast: {0}", !ColorDepthConverter.ConversionPathCopiesData(path));
             Console.CursorLeft = 55;
 
-            if (path == null)
+            if (path.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("NO PATH");
                 Console.ResetColor();
                 return;
             }
-            else if (path.Count == 0)
+            else if (path.CopiesData() == false)
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("return source");
+                Console.WriteLine("cast");
                 Console.ResetColor();
                 return;
             }
@@ -79,7 +80,7 @@ namespace Test
             Console.ForegroundColor = ConsoleColor.Green;
             foreach (var stage in path)
             {
-                Console.Write("=>  ({0} => {1})", stage.SourceColorInfo, stage.DestColorInfo);
+                Console.Write("=>  ({0} => {1})", stage.Source, stage.Destination);
             }
             Console.ResetColor();
 

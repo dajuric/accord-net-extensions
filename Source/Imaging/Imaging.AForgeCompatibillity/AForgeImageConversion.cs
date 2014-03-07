@@ -97,9 +97,9 @@ namespace Accord.Extensions.Imaging
         public static bool CanCastToAForgeImage(this IImage image)
         {
             ColorInfo[] preferedColors = BitmapConversionExtensions.PixelFormatMappings.Select(x => x.ColorInfo).ToArray();
-            var conversionPath = ColorConverter.GetMostInexepnsiveConversionPath(image.ColorInfo, preferedColors);
+            var conversionPath = ColorDepthConverter.GetPath(image.ColorInfo, preferedColors);
 
-            bool isImageCopied = ColorConverter.ConversionPathCopiesData(conversionPath).Value;
+            bool isImageCopied = ColorDepthConverter.CopiesData(conversionPath);
             return !isImageCopied;
         }
     }

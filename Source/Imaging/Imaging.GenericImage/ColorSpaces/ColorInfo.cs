@@ -43,6 +43,17 @@ namespace Accord.Extensions.Imaging
         public int Size { get { return this.ChannelSize * this.NumberOfChannels; } }
 
         /// <summary>
+        /// Gets color info (depth is taken from color).
+        /// </summary>
+        /// <typeparam name="TColor">Member of <see cref="IColor"/></typeparam>
+        /// <returns>Color info</returns>
+        public static ColorInfo GetInfo<TColor>()
+            where TColor : IColor
+        {
+            return GetInfo(typeof(TColor));
+        }
+
+        /// <summary>
         /// Gets color info.
         /// </summary>
         /// <typeparam name="TColor">Member of <see cref="IColor"/></typeparam>
@@ -55,6 +66,16 @@ namespace Accord.Extensions.Imaging
             return GetInfo(typeof(TColor), typeof(TDepth));
         }
 
+        /// <summary>
+        /// Gets color info (depth is taken from color).
+        /// </summary>
+        /// <param name="colorType">Color type. (member of IColor)</param>
+        /// <returns>Color info</returns>
+        public static ColorInfo GetInfo(Type colorType)
+        {
+            return MethodCache.Global.Invoke(getInfo, colorType);
+        }
+
        /// <summary>
        /// Gets color info.
        /// </summary>
@@ -64,6 +85,12 @@ namespace Accord.Extensions.Imaging
         public static ColorInfo GetInfo(Type colorType, Type depthType)
         { 
             return MethodCache.Global.Invoke(getInfo, colorType, depthType);
+        }
+
+        private static ColorInfo getInfo(Type colorType)
+        {
+            var channelTypes = colorType.GetFields().Select(x => x.FieldType).ToArray();
+            return getInfo(colorType, channelTypes.FirstOrDefault());
         }
 
         private static ColorInfo getInfo(Type colorType, Type depthType)
@@ -112,7 +139,7 @@ namespace Accord.Extensions.Imaging
 
         public bool Equals(ColorInfo other)
         {
-            return Equals(this, other, ComparableParts.Default);
+            return Equals(other, ComparableParts.Default);
         }
 
         /// <summary>
@@ -143,29 +170,28 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Compares two color infos.
         /// </summary>
-        /// <param name="c1">First color info.</param>
-        /// <param name="c2">Second color info.</param>
+        /// <param name="c2">Other color info.</param>
         /// <param name="cParts">Indicates what to compare. Default is: ComparableParts.Default. </param>
         /// <returns></returns>
-        public static bool Equals(ColorInfo c1, ColorInfo c2, ComparableParts cParts)
+        public bool Equals(ColorInfo other, ComparableParts cParts)
         {
             if(cParts == ComparableParts.Default)
             {
-                return c1.ColorType == c2.ColorType && 
-                       c1.ChannelType == c2.ChannelType;
+                return this.ColorType == other.ColorType && 
+                       this.ChannelType == other.ChannelType;
             }
 
             if (cParts == ComparableParts.Castable)
             {
-                bool sameChannels = (c1.NumberOfChannels == c2.NumberOfChannels) && (c1.ChannelType == c2.ChannelType);
-                bool colorsAreCastable = c1.IsGenericColorSpace || c2.IsGenericColorSpace || c1.ColorType == c2.ColorType;
+                bool sameChannels = (this.NumberOfChannels == other.NumberOfChannels) && (this.ChannelType == other.ChannelType);
+                bool colorsAreCastable = this.IsGenericColorSpace || other.IsGenericColorSpace || this.ColorType == other.ColorType;
                 var castable = sameChannels && colorsAreCastable;
                 return castable;
             }
 
             if (cParts == ComparableParts.Depth)
             { 
-                var depth = c1.ChannelType == c2.ChannelType;
+                var depth = this.ChannelType == other.ChannelType;
                 return depth;
             }
 

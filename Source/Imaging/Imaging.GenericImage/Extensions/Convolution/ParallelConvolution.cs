@@ -2,7 +2,7 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using ColorConverter = Accord.Extensions.Imaging.Converters.ColorConverter;
+using ColorConverter = Accord.Extensions.Imaging.Converters.ColorDepthConverter;
 
 namespace Accord.Extensions.Imaging
 {
@@ -121,7 +121,7 @@ namespace Accord.Extensions.Imaging
 
             /************************************** convert src ********************************/
             var supportedColors = supportedTypes.Select(x => ColorInfo.GetInfo(typeof(TColor), x)).ToArray();
-            var conversionPath = ColorConverter.GetMostInexepnsiveConversionPath(src.ColorInfo, supportedColors);
+            var conversionPath = ColorConverter.GetPath(src.ColorInfo, supportedColors);
             IImage convertedSrc = ColorConverter.Convert(src, conversionPath.ToArray(), false);
 
             if (convertedSrc == null)
@@ -140,7 +140,7 @@ namespace Accord.Extensions.Imaging
 
 
             /************************************** convert back ********************************/
-            var backwardConversion = ColorConverter.GetMostInexepnsiveConversionPath(dest.ColorInfo, src.ColorInfo);
+            var backwardConversion = ColorConverter.GetPath(dest.ColorInfo, src.ColorInfo);
             IImage convertedDest = ColorConverter.Convert(dest, backwardConversion.ToArray(), false);
             if (convertedDest == null)
                 throw new Exception(string.Format("Convolution does not support images of type {0}", src.ColorInfo.ChannelType));

@@ -8,6 +8,7 @@ namespace Accord.Extensions
     /// <para>Defined functions can be used as object extensions.</para>
     /// Provides methods for graph search. 
     /// </summary>
+    [Obsolete]
     public static class SearchMethods
     {
         class Node<T>

@@ -81,7 +81,7 @@
     <Compile Include="Image\Core\IImage.cs" />
     <Compile Include="Image\CoreExtensions\ValueSetter.cs" />
     <Compile Include="Image\CoreExtensions\Image.ColorConversions.cs" />
-    <Compile Include="ImageColorTypeConversions\ColorConverter.cs" />
+    <Compile Include="ImageColorTypeConversions\ColorDepthConverter.cs" />
     <Compile Include="Image\Core\Image%271.cs" />
     <Compile Include="ColorSpaces\Bgr.cs" />
     <Compile Include="ColorSpaces\IColor.cs" />
