@@ -106,7 +106,7 @@ namespace Accord.Extensions.Vision
         Image<Bgr, byte> frame;
         void videoCapture_InitFrame(object sender, EventArgs e)
         {
-            frame = videoCapture.ReadAs<Bgr, byte>().Clone();
+            frame = videoCapture.ReadAs<Bgr, byte>();
             if (frame == null) return;
 
             if (isROISelected)
@@ -114,6 +114,7 @@ namespace Accord.Extensions.Vision
                 initTracking(frame);
                 Application.Idle -= videoCapture_InitFrame;
                 Application.Idle += videoCapture_NewFrame;
+                return;
             }
             else
             {

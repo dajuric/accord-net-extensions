@@ -63,7 +63,7 @@ namespace Accord.Extensions.Imaging
                 throw new Exception("Fail if cannot cast is set to true: Image data must be copied");
             }
 
-            var convertedIm = ColorDepthConverter.Convert(this, conversionPath.ToArray(), copyAlways);
+            var convertedIm = ColorDepthConverter.Convert(conversionPath.ToArray(), this, copyAlways);
             return convertedIm;
         }
     }

@@ -2,6 +2,7 @@
 using Accord.Extensions.Vision;
 using System;
 using System.Windows.Forms;
+using Accord.Extensions.Imaging;
 
 namespace VideoCapture
 {
@@ -23,9 +24,10 @@ namespace VideoCapture
 
         async void capture_NewFrame(object sender, EventArgs e)
         {
-            var frame = await capture.ReadAsync(); //faster (not for live streams)
-            //var frame = capture.Read();
+            //var frame = await capture.ReadAsync(); //faster (not for live streams)
+            var frame = capture.Read();
 
+            //frame = (frame as Image).Convert<Bgr, byte>().Convert<Hsv, byte>();
             if (frame == null)
             {
                 Application.Idle -= capture_NewFrame;

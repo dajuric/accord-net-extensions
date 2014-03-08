@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Accord.Extensions.Imaging.Converters
 {
-    static class BgrGrayConverters
+    public static class BgrGrayConverters //TODO: critical remove public
     {
         #region Bgr8 -> Gray<byte>
 

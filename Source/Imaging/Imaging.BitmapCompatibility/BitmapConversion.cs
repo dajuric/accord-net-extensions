@@ -37,13 +37,13 @@ namespace Accord.Extensions.Imaging
 
                 {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Gray, short>(), PixelFormat = PixelFormat.Format16bppGrayScale}},
 
-                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Color3, byte>(), PixelFormat = PixelFormat.Format24bppRgb}},
+                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Bgr, byte>(), PixelFormat = PixelFormat.Format24bppRgb}},
             
-                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Color4, byte>(), PixelFormat = PixelFormat.Format32bppArgb}},
+                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Bgra, byte>(), PixelFormat = PixelFormat.Format32bppArgb}},
 
-                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Color3, short>(), PixelFormat = PixelFormat.Format48bppRgb}},
+                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Bgr, short>(), PixelFormat = PixelFormat.Format48bppRgb}},
 
-                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Color4, short>(), PixelFormat = PixelFormat.Format64bppArgb}}
+                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Bgra, short>(), PixelFormat = PixelFormat.Format64bppArgb}}
             };
 
             return mappings;
@@ -233,7 +233,7 @@ namespace Accord.Extensions.Imaging
 
             isJustCasted = ColorConverter.CopiesData(path) == false;
 
-            IImage convertedIm = ColorConverter.Convert(srcImg, path.ToArray(), false);
+            IImage convertedIm = ColorConverter.Convert(path.ToArray(), srcImg, false);
             return convertedIm;
         }
 

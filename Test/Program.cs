@@ -1,4 +1,5 @@
-﻿using Accord.Extensions.Imaging;
+﻿using Accord.Controls;
+using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Converters;
 using Accord.Extensions.Imaging.Filters;
 using Accord.Extensions.Math;
@@ -22,13 +23,26 @@ namespace Test
         [STAThread]
         unsafe static void Main()
         {
-            Test test = new Test();
-            test.WriteAllConversionPaths();
+            var resourceDir1 = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
+            var imgColor1 = Bitmap.FromFile(Path.Combine(resourceDir1, "testGrayBig.bmp")).ToImage<Gray, byte>();
+            
+            //var img = new Image<Bgr, byte>(imgColor1.Size);
+            //BgrGrayConverters.ConvertGrayToBgr(imgColor1, img);
+
+            //var cIm = imgColor1.Sobel(1, 0, 3);
+            var cIm = imgColor1.Convert<Gray, float>();
+
+            var img = (imgColor1 as Accord.Extensions.Imaging.Image).Convert<Bgr, byte>();
+            ImageBox.Show(img.ToBitmap());
             return;
 
-            Test t44 = new Test();
+            Test test = new Test();
+            test.WriteAllConversionPaths();
+            //return;
+
+            /*Test t44 = new Test();
             t44.Bla();
-            return;
+            return;*/
 
             var resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
             var imgColor = Bitmap.FromFile(Path.Combine(resourceDir, "testColorBig.jpg")).ToImage<Bgr, byte>();
