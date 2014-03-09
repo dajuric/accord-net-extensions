@@ -17,7 +17,7 @@ namespace Accord.Extensions.Vision
         /// <param name="termCriteria">Mean shift termination criteria</param>
         /// <param name="centralMoments">Calculated central moments (up to order 2).</param>
         /// <returns>Object area.</returns>
-        public static Rectangle Process(Image<Gray, byte> probabilityMap, Rectangle roi, TermCriteria termCriteria, out CentralMoments centralMoments)
+        public static Int32Rect Process(Image<Gray, byte> probabilityMap, Int32Rect roi, TermCriteria termCriteria, out CentralMoments centralMoments)
         {
             return process(probabilityMap, roi, termCriteria, out centralMoments);
         }
@@ -29,7 +29,7 @@ namespace Accord.Extensions.Vision
         /// <param name="roi">Initial search area</param>
         /// <param name="termCriteria">Mean shift termination criteria.</param>
         /// <returns>Object area.</returns>
-        public static Rectangle Process(Image<Gray, byte> probabilityMap, Rectangle roi, TermCriteria termCriteria)
+        public static Int32Rect Process(Image<Gray, byte> probabilityMap, Int32Rect roi, TermCriteria termCriteria)
         {
             CentralMoments centralMoments;
             return process(probabilityMap, roi, termCriteria, out centralMoments);
@@ -41,17 +41,17 @@ namespace Accord.Extensions.Vision
         /// <param name="probabilityMap">Probability map [0-1].</param>
         /// <param name="roi">Initial search area</param>
         /// <returns>Object area.</returns>
-        public static Rectangle Process(Image<Gray, byte> probabilityMap, Rectangle roi)
+        public static Int32Rect Process(Image<Gray, byte> probabilityMap, Int32Rect roi)
         {
             CentralMoments centralMoments;
             return process(probabilityMap, roi, DEFAULT_TERM, out centralMoments);
         }
 
-        private static Rectangle process(Image<Gray, byte> probabilityMap, Rectangle roi, TermCriteria termCriteria, out CentralMoments centralMoments)
+        private static Int32Rect process(Image<Gray, byte> probabilityMap, Int32Rect roi, TermCriteria termCriteria, out CentralMoments centralMoments)
         {
-            Rectangle imageArea = new Rectangle(0, 0, probabilityMap.Width, probabilityMap.Height);
+            Int32Rect imageArea = new Int32Rect(0, 0, probabilityMap.Width, probabilityMap.Height);
 
-            Rectangle searchWindow = roi;
+            Int32Rect searchWindow = roi;
             RawMoments moments = new RawMoments(order: 1);
 
             // Mean shift with fixed number of iterations

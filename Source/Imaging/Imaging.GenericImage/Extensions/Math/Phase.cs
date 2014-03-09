@@ -58,7 +58,7 @@ namespace Accord.Extensions.Imaging
                                                {
                                                    return Image.Create(imageA.ColorInfo, imageA.Width, imageA.Height);
                                                },
-                                               (bool _, IImage dest, Rectangle area) =>
+                                               (bool _, IImage dest, Int32Rect area) =>
                                                {
                                                    phaseFunc(imageA.GetSubRect(area), imageB.GetSubRect(area), dest.GetSubRect(area));
                                                }

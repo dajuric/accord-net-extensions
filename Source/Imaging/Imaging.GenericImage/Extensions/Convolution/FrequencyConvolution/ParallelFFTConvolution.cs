@@ -96,7 +96,7 @@ namespace Accord.Extensions.Imaging
         }
 
 
-        private static Image<Gray, TDepth> getConvolutionResult<TDepth>(Image<Complex, TDepth> convolvedImage, int fillX, int fillY, Size imageSize, bool transformImageInPlace = false)
+        private static Image<Gray, TDepth> getConvolutionResult<TDepth>(Image<Complex, TDepth> convolvedImage, int fillX, int fillY, Int32Size imageSize, bool transformImageInPlace = false)
            where TDepth : struct
         {
             Image<Complex, TDepth> iFFT_image = null; //using shorter way it could be written as: iFFT_image = convolvedImage.FFT(FourierTransform.Direction.Backward, transformImageInPlace);
@@ -110,7 +110,7 @@ namespace Accord.Extensions.Imaging
                 iFFT_image =  convolvedImage.FFT(FourierTransform.Direction.Backward, false);
             }
 
-            Rectangle validRegion = new Rectangle(fillX * 2, fillY * 2, imageSize.Width, imageSize.Height);
+            Int32Rect validRegion = new Int32Rect(fillX * 2, fillY * 2, imageSize.Width, imageSize.Height);
             //var result = convolvedImage.GetSubRect(validRegion)[0];
             var result = convolvedImage.GetSubRect(validRegion).Magnitude(); //in the most general case (when input image is indeed complex) inverse FFT image can contain Im values != 0
             return result;
@@ -127,7 +127,7 @@ namespace Accord.Extensions.Imaging
             fillX = System.Math.Min(image.Width, biggestKernelWidth / 2);
             fillY = System.Math.Min(image.Height, biggestKernelHeight / 2);
 
-            Rectangle centerRegion = new Rectangle(fillX, fillY, image.Width, image.Height);
+            Int32Rect centerRegion = new Int32Rect(fillX, fillY, image.Width, image.Height);
             Image<Gray, TDepth> paddedImage = new Image<Gray, TDepth>(FFTNumOfCols, FFTNumOfRows);
 
             //center
@@ -143,11 +143,11 @@ namespace Accord.Extensions.Imaging
             return paddedImageCmplx;  
         }
 
-        private static Image<Complex, TDepth> prepareKernel<TDepth>(Image<Gray, TDepth> kernel, Size paddedImageSize)
+        private static Image<Complex, TDepth> prepareKernel<TDepth>(Image<Gray, TDepth> kernel, Int32Size paddedImageSize)
             where TDepth : struct
         {
             Image<Complex, TDepth> preparedKernel = new Image<Complex, TDepth>(paddedImageSize);
-            Rectangle kernelRoi = new Rectangle(0, 0, kernel.Width, kernel.Height);
+            Int32Rect kernelRoi = new Int32Rect(0, 0, kernel.Width, kernel.Height);
 
             preparedKernel.GetSubRect(kernelRoi)[0] = kernel;
 

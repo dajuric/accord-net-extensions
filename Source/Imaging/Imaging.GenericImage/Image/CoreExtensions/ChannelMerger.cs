@@ -60,7 +60,7 @@ namespace Accord.Extensions.Imaging
                                                                                                 return destImg;
                                                                                             },
 
-                                                                                            (IImage[] _channels, IImage _destImg, Rectangle area) => //called for every thread
+                                                                                            (IImage[] _channels, IImage _destImg, Int32Rect area) => //called for every thread
                                                                                             {
                                                                                                 IImage[] channelsPatches = new IImage[_channels.Length];
 

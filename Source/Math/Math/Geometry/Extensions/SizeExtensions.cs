@@ -19,7 +19,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="size">Size.</param>
         /// <returns>Area.</returns>
-        public static int Area(this Size size)
+        public static int Area(this Int32Size size)
         {
             return size.Width * size.Height;
         }
@@ -36,7 +36,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="size">Size.</param>
         /// <returns>Area.</returns>
-        public static float Area(this SizeF size)
+        public static float Area(this Int32Size size)
         {
             return size.Width * size.Height;
         }

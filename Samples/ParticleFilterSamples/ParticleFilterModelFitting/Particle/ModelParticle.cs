@@ -105,7 +105,7 @@ namespace ParticleFilterModelFitting
             private set;
         }
 
-        public Size Size
+        public Int32Size Size
         {
             get;
             private set;
@@ -117,7 +117,7 @@ namespace ParticleFilterModelFitting
             private set;
         }
 
-        void ITemplate.Initialize(Feature[] features, Size size, string classLabel)
+        void ITemplate.Initialize(Feature[] features, Int32Size size, string classLabel)
         {
             this.Features = features;
             this.Size = size;

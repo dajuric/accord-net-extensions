@@ -47,16 +47,16 @@ namespace Accord.Extensions.Vision
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool cvSetCaptureProperty(IntPtr capture, CaptureProperty propertyId, double value);
 
-        public static Size GetImageSize(IntPtr capturePtr)
+        public static Int32Size GetImageSize(IntPtr capturePtr)
         {
-            return new Size
+            return new Int32Size
             {
                 Width = (int)CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FrameWidth),
                 Height = (int)CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FrameHeight)
             };
         }
 
-        public static bool SetImageSize(IntPtr capturePtr, Size newSize)
+        public static bool SetImageSize(IntPtr capturePtr, Int32Size newSize)
         {
             bool success;
             success = CvHighGuiInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.FrameWidth, newSize.Width);

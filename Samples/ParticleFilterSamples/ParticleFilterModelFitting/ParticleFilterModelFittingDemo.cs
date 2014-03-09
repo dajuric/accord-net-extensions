@@ -20,7 +20,7 @@ namespace ParticleFilterModelFitting
     {
         const int NUMBER_OF_PARTICLES = 250;
         const int MATCHING_MIN_THRESHOLD = 85;
-        Size imgSize = new Size(640 / 2, 480 / 2);
+        Int32Size imgSize = new Int32Size(640 / 2, 480 / 2);
 
         List<ModelParticle> particleFilter;
 

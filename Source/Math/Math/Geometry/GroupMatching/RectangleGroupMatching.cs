@@ -1,15 +1,15 @@
 ﻿
 namespace Accord.Extensions.Math.Geometry
 {
-    public class RectangleGroupMatching : GroupMatching<Rectangle>
+    public class RectangleGroupMatching : GroupMatching<Int32Rect>
     {
         public RectangleGroupMatching(int minimumNeighbors = 1, double threshold = 0.2)
             : base(AverageRectangles, AreRectanglesNear, minimumNeighbors, threshold)
         { }
 
-        public static Rectangle AverageRectangles(Rectangle[] rects)
+        public static Int32Rect AverageRectangles(Int32Rect[] rects)
         {
-            Rectangle centroid = Rectangle.Empty;
+            Int32Rect centroid = Int32Rect.Empty;
 
             for (int i = 0; i < rects.Length; i++)
             {
@@ -27,7 +27,7 @@ namespace Accord.Extensions.Math.Geometry
             return centroid;
         }
 
-        public static bool AreRectanglesNear(Rectangle r1, Rectangle r2, double threshold)
+        public static bool AreRectanglesNear(Int32Rect r1, Int32Rect r2, double threshold)
         {
             if (r1.Contains(r2) || r2.Contains(r1))
                 return true;

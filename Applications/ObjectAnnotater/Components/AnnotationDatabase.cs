@@ -9,7 +9,7 @@ namespace ObjectAnnotater
 {
     public class ImageAnnotation
     {
-        public Rectangle ROI;
+        public Int32Rect ROI;
         public string Label;
     }
 
@@ -184,11 +184,11 @@ namespace ObjectAnnotater
             return data;
         }
 
-        private static Rectangle rectFromString(string str)
+        private static Int32Rect rectFromString(string str)
         {
             var parts = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
 
-            return new Rectangle
+            return new Int32Rect
             {
                 X = Int32.Parse(parts[0]),
                 Y = Int32.Parse(parts[1]),

@@ -107,7 +107,7 @@ namespace ObjectAnnotater
 
         #region BoundingBox selection
 
-        Rectangle roi = Rectangle.Empty;
+        Int32Rect roi = Int32Rect.Empty;
         bool isSelecting = false;
         Point ptFirst;
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -125,10 +125,10 @@ namespace ObjectAnnotater
         {
             if (frame == null || !isSelecting) return;
 
-            roi.Intersect(new Rectangle(new Point(), frame.Size));
+            roi.Intersect(new Int32Rect(new Point(), frame.Size));
 
             frameAnnotations.AddOrUpdate(new ImageAnnotation { ROI = roi, Label = "" });
-            roi = Rectangle.Empty;
+            roi = Int32Rect.Empty;
             isSelecting = false;
 
             drawAnnotations();
@@ -141,7 +141,7 @@ namespace ObjectAnnotater
 
             var ptSecond = translateZoomMousePosition(this.pictureBox, e.Location.ToPt());
 
-            roi = new Rectangle
+            roi = new Int32Rect
             {
                 X = System.Math.Min(ptFirst.X, ptSecond.X),
                 Y = System.Math.Min(ptFirst.Y, ptSecond.Y),

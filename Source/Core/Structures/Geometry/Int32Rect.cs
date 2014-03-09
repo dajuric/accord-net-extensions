@@ -44,7 +44,7 @@ namespace Accord.Extensions
     /// </summary>
     [Serializable]
     [ComVisible(true)]
-    public struct Rectangle
+    public struct Int32Rect
     {
         private int x, y, width, height;
 
@@ -56,7 +56,7 @@ namespace Accord.Extensions
         ///	An uninitialized Rectangle Structure.
         /// </remarks>
 
-        public static readonly Rectangle Empty;
+        public static readonly Int32Rect Empty;
 
 #if TARGET_JVM
 		internal java.awt.Rectangle NativeObject {
@@ -76,7 +76,7 @@ namespace Accord.Extensions
         ///	and Height properties.
         /// </remarks>
 
-        public static Rectangle Ceiling(RectangleF value)
+        public static Int32Rect Ceiling(Rect value)
         {
             int x, y, w, h;
             checked
@@ -87,7 +87,7 @@ namespace Accord.Extensions
                 h = (int)Math.Ceiling(value.Height);
             }
 
-            return new Rectangle(x, y, w, h);
+            return new Int32Rect(x, y, w, h);
         }
 
         /// <summary>
@@ -99,10 +99,10 @@ namespace Accord.Extensions
         ///	and bottom coordinates.
         /// </remarks>
 
-        public static Rectangle FromLTRB(int left, int top,
+        public static Int32Rect FromLTRB(int left, int top,
                           int right, int bottom)
         {
-            return new Rectangle(left, top, right - left,
+            return new Int32Rect(left, top, right - left,
                           bottom - top);
         }
 
@@ -115,9 +115,9 @@ namespace Accord.Extensions
         ///	Rectangle by the specified coordinate values.
         /// </remarks>
 
-        public static Rectangle Inflate(Rectangle rect, int x, int y)
+        public static Int32Rect Inflate(Int32Rect rect, int x, int y)
         {
-            Rectangle r = new Rectangle(rect.Location, rect.Size);
+            Int32Rect r = new Int32Rect(rect.Location, rect.Size);
             r.Inflate(x, y);
             return r;
         }
@@ -132,7 +132,7 @@ namespace Accord.Extensions
 
         public void Inflate(int width, int height)
         {
-            Inflate(new Size(width, height));
+            Inflate(new Int32Size(width, height));
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Accord.Extensions
         ///	Inflates the Rectangle by a specified Size.
         /// </remarks>
 
-        public void Inflate(Size size)
+        public void Inflate(Int32Size size)
         {
             x -= size.Width;
             y -= size.Height;
@@ -160,14 +160,14 @@ namespace Accord.Extensions
         ///	Rectangles. Returns null if there is no	intersection.
         /// </remarks>
 
-        public static Rectangle Intersect(Rectangle a, Rectangle b)
+        public static Int32Rect Intersect(Int32Rect a, Int32Rect b)
         {
             // MS.NET returns a non-empty rectangle if the two rectangles
             // touch each other
             if (!a.IntersectsWithInclusive(b))
                 return Empty;
 
-            return Rectangle.FromLTRB(
+            return Int32Rect.FromLTRB(
                 Math.Max(a.Left, b.Left),
                 Math.Max(a.Top, b.Top),
                 Math.Min(a.Right, b.Right),
@@ -183,9 +183,9 @@ namespace Accord.Extensions
         ///	and another Rectangle.
         /// </remarks>
 
-        public void Intersect(Rectangle rect)
+        public void Intersect(Int32Rect rect)
         {
-            this = Rectangle.Intersect(this, rect);
+            this = Int32Rect.Intersect(this, rect);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Accord.Extensions
         ///	rounding the X, Y, Width, and Height properties.
         /// </remarks>
 
-        public static Rectangle Round(RectangleF value)
+        public static Int32Rect Round(Rect value)
         {
             int x, y, w, h;
             checked
@@ -208,7 +208,7 @@ namespace Accord.Extensions
                 h = (int)Math.Round(value.Height);
             }
 
-            return new Rectangle(x, y, w, h);
+            return new Int32Rect(x, y, w, h);
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Accord.Extensions
 
         // LAMESPEC: Should this be floor, or a pure cast to int?
 
-        public static Rectangle Truncate(RectangleF value)
+        public static Int32Rect Truncate(Rect value)
         {
             int x, y, w, h;
             checked
@@ -233,7 +233,7 @@ namespace Accord.Extensions
                 h = (int)value.Height;
             }
 
-            return new Rectangle(x, y, w, h);
+            return new Int32Rect(x, y, w, h);
         }
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace Accord.Extensions
         ///	Rectangles.
         /// </remarks>
 
-        public static Rectangle Union(Rectangle a, Rectangle b)
+        public static Int32Rect Union(Int32Rect a, Int32Rect b)
         {
             return FromLTRB(Math.Min(a.Left, b.Left),
                      Math.Min(a.Top, b.Top),
@@ -263,7 +263,7 @@ namespace Accord.Extensions
         ///	properties of the two Rectangles.
         /// </remarks>
 
-        public static bool operator ==(Rectangle left, Rectangle right)
+        public static bool operator ==(Int32Rect left, Int32Rect right)
         {
             return ((left.Location == right.Location) &&
                 (left.Size == right.Size));
@@ -279,7 +279,7 @@ namespace Accord.Extensions
         ///	properties of the two Rectangles.
         /// </remarks>
 
-        public static bool operator !=(Rectangle left, Rectangle right)
+        public static bool operator !=(Int32Rect left, Int32Rect right)
         {
             return ((left.Location != right.Location) ||
                 (left.Size != right.Size));
@@ -298,7 +298,7 @@ namespace Accord.Extensions
         ///	Creates a Rectangle from Point and Size values.
         /// </remarks>
 
-        public Rectangle(Point location, Size size)
+        public Int32Rect(Point location, Int32Size size)
         {
             x = location.X;
             y = location.Y;
@@ -315,7 +315,7 @@ namespace Accord.Extensions
         ///	width and height values.
         /// </remarks>
 
-        public Rectangle(int x, int y, int width, int height)
+        public Int32Rect(int x, int y, int width, int height)
         {
             this.x = x;
             this.y = y;
@@ -446,11 +446,11 @@ namespace Accord.Extensions
         /// </remarks>
 
         [Browsable(false)]
-        public Size Size
+        public Int32Size Size
         {
             get
             {
-                return new Size(Width, Height);
+                return new Int32Size(Width, Height);
             }
             set
             {
@@ -573,7 +573,7 @@ namespace Accord.Extensions
         ///	Rectangle.
         /// </remarks>
 
-        public bool Contains(Rectangle rect)
+        public bool Contains(Int32Rect rect)
         {
             return (rect == Intersect(this, rect));
         }
@@ -588,10 +588,10 @@ namespace Accord.Extensions
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Rectangle))
+            if (!(obj is Int32Rect))
                 return false;
 
-            return (this == (Rectangle)obj);
+            return (this == (Int32Rect)obj);
         }
 
         /// <summary>
@@ -615,13 +615,13 @@ namespace Accord.Extensions
         ///	Checks if a Rectangle intersects with this one.
         /// </remarks>
 
-        public bool IntersectsWith(Rectangle rect)
+        public bool IntersectsWith(Int32Rect rect)
         {
             return !((Left >= rect.Right) || (Right <= rect.Left) ||
                 (Top >= rect.Bottom) || (Bottom <= rect.Top));
         }
 
-        private bool IntersectsWithInclusive(Rectangle r)
+        private bool IntersectsWithInclusive(Int32Rect r)
         {
             return !((Left > r.Right) || (Right < r.Left) ||
                 (Top > r.Bottom) || (Bottom < r.Top));

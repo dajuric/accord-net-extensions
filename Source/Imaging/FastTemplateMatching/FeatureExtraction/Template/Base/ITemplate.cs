@@ -12,10 +12,10 @@ namespace LINE2D
     public interface ITemplate
     {
         Feature[] Features { get; }
-        Size Size { get; }
+        Int32Size Size { get; }
         string ClassLabel { get; }
 
-        void Initialize(Feature[] features, Size size, string classLabel);
+        void Initialize(Feature[] features, Int32Size size, string classLabel);
     }
 
     public static class ImageTemplateExtensions

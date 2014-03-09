@@ -49,7 +49,7 @@ namespace LINE2D
 
             //match at the lowest level
             int lowestLevelIdx = linPyr.PyramidalMaps.Length - 1; 
-            var searchArea = new Rectangle(new Point(), linPyr.PyramidalMaps[lowestLevelIdx].ImageSize); //search whole image
+            var searchArea = new Int32Rect(new Point(), linPyr.PyramidalMaps[lowestLevelIdx].ImageSize); //search whole image
             pyrMatches[lowestLevelIdx] = matchTemplate(linPyr.PyramidalMaps[lowestLevelIdx], templPyr.Templates[lowestLevelIdx], searchArea, minMatchingPercentage, true);
 
             //refine matches
@@ -57,7 +57,7 @@ namespace LINE2D
             {
                 LinearizedMaps maps = linPyr.PyramidalMaps[pyrLevel];
                 ITemplate template = templPyr.Templates[pyrLevel];
-                Size imageValidSize = maps.ImageValidSize;
+                Int32Size imageValidSize = maps.ImageValidSize;
                 pyrMatches[pyrLevel] = new List<Match>();
 
                 int previousNeigborhood = linPyr.PyramidalMaps[pyrLevel + 1].NeigborhoodSize;
@@ -71,7 +71,7 @@ namespace LINE2D
                     canidate.Template = template;
 
                     //translate search area to lower pyramid level
-                    searchArea = new Rectangle //in originalImageSize coordinate system
+                    searchArea = new Int32Rect //in originalImageSize coordinate system
                     {
                         X = Math.Max(0, canidate.X - previousNeigborhood),
                         Y = Math.Max(0, canidate.Y - previousNeigborhood),
@@ -94,7 +94,7 @@ namespace LINE2D
 
         public static List<Match> MatchTemplates(LinearizedMaps linMaps, IEnumerable<ITemplate> templates, int minMatchingPercentage, bool inParallel = true)
         {
-            var searchArea = new Rectangle(new Point(), linMaps.ImageSize);
+            var searchArea = new Int32Rect(new Point(), linMaps.ImageSize);
 
             List<Match> matches = new List<Match>();
 
@@ -120,9 +120,9 @@ namespace LINE2D
             return matches;
         }
 
-        public static List<Match> MatchTemplate(LinearizedMaps linMaps, ITemplate template, Rectangle searchArea, int minMatchingPercentage)
+        public static List<Match> MatchTemplate(LinearizedMaps linMaps, ITemplate template, Int32Rect searchArea, int minMatchingPercentage)
         {
-            if (searchArea.IntersectionPercent(new Rectangle(new Point(), linMaps.ImageSize)) < 1)
+            if (searchArea.IntersectionPercent(new Int32Rect(new Point(), linMaps.ImageSize)) < 1)
             {
                 throw new Exception("Search area must be within image size!");
             }
@@ -132,7 +132,7 @@ namespace LINE2D
 
         public static List<Match> MatchTemplate(LinearizedMaps linMaps, ITemplate template, int minMatchingPercentage)
         {
-            var searchArea = new Rectangle(new Point(), linMaps.ImageSize);
+            var searchArea = new Int32Rect(new Point(), linMaps.ImageSize);
 
             return matchTemplate(linMaps, template, searchArea, minMatchingPercentage);
         }
@@ -141,7 +141,7 @@ namespace LINE2D
 
         #region Match template core
 
-        private static List<Match> matchTemplate(LinearizedMaps linMaps, ITemplate template, Rectangle searchArea, int minMatchingPercentage, bool filterPartialObjects = true)
+        private static List<Match> matchTemplate(LinearizedMaps linMaps, ITemplate template, Int32Rect searchArea, int minMatchingPercentage, bool filterPartialObjects = true)
         {
             //just do matching for templates that can fit into query image
             if (template.Size.Width > linMaps.ImageValidSize.Width ||
@@ -164,7 +164,7 @@ namespace LINE2D
             return foundCandidates;
         }
 
-        private static Image<Gray, short> calculateSimilarityMap(ITemplate template, LinearizedMaps maps, Rectangle searchArea)
+        private static Image<Gray, short> calculateSimilarityMap(ITemplate template, LinearizedMaps maps, Int32Rect searchArea)
         {
             Debug.Assert(searchArea.Right <= maps.ImageSize.Width && 
                          searchArea.Bottom <= maps.ImageSize.Height);
@@ -257,13 +257,13 @@ namespace LINE2D
             return matches;
         }
 
-        private static void filterPartialShownObjects(ref List<Match> matches, Size originalImageSize)
+        private static void filterPartialShownObjects(ref List<Match> matches, Int32Size originalImageSize)
         {
             List<Match> filteredMatches = new List<Match>();
 
             foreach (Match m in matches)
             {
-                Rectangle mRect = new Rectangle(m.X, m.Y, m.Template.Size.Width, m.Template.Size.Height);
+                Int32Rect mRect = new Int32Rect(m.X, m.Y, m.Template.Size.Width, m.Template.Size.Height);
                 if (!(mRect.Right > originalImageSize.Width))
                     filteredMatches.Add(m);
             }

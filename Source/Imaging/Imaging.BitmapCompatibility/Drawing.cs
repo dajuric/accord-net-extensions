@@ -34,7 +34,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="color">Object's color.</param>
         /// <param name="width">Border thickness. If less than zero strcuture will be filled.</param>
         /// <param name="opacity">Opacity for color. If color is 4 channel color, parameter value is discarded.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, RectangleF rect, TColor color, float width, byte opacity = Byte.MaxValue)
+        public static void Draw<TColor>(this Image<TColor, byte> image, Rect rect, TColor color, float width, byte opacity = Byte.MaxValue)
             where TColor: IColor3
         {
             if (float.IsNaN(rect.X) || float.IsNaN(rect.Y))
@@ -68,11 +68,11 @@ namespace Accord.Extensions.Imaging
         public static void Draw<TColor>(this Image<TColor, byte> image, string text, Font font, PointF leftUpperPoint, TColor color)
             where TColor : IColor3
         {
-            var region = new RectangleF(leftUpperPoint, SizeF.Empty);
+            var region = new Rect(leftUpperPoint, Int32Size.Empty);
             Draw(image, text, font, region, color);
         }
 
-        public static void Draw<TColor>(this Image<TColor, byte> image, string text, Font font, RectangleF region, TColor color)
+        public static void Draw<TColor>(this Image<TColor, byte> image, string text, Font font, Rect region, TColor color)
            where TColor : IColor3
         {
             var drawingColor = color.ToColor();
@@ -332,7 +332,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="color">Color for rectangle. Label area is filled. Default color is yellow-green.</param>
         /// <param name="textColor">Label color. Default color is black.</param>
         /// <param name="font">Font to use. Default is "Arial" of size 10, style: Bold.</param>
-        public static void DrawAnnotation(this Image<Bgr, byte> image, Rectangle rect, string text, 
+        public static void DrawAnnotation(this Image<Bgr, byte> image, Int32Rect rect, string text, 
                                           int annotationWidth = 100, Bgr color = default(Bgr), Bgr textColor = default(Bgr), Font font = null,
                                           int thickness = 1)
         {
@@ -343,7 +343,7 @@ namespace Accord.Extensions.Imaging
             var nLines = text.Where(x => x.Equals('\n')).Count() + 1;
             var annotationHeight = (int)(3 + (font.SizeInPoints + 3) * nLines + 3);
             var xOffset = (annotationWidth - rect.Width) / 2;
-            var annotationRect = new Rectangle(rect.X - xOffset, rect.Y - annotationHeight, annotationWidth, annotationHeight);
+            var annotationRect = new Int32Rect(rect.X - xOffset, rect.Y - annotationHeight, annotationWidth, annotationHeight);
 
             image.Draw(annotationRect, color, thickness);
             image.Draw(rect, color, thickness);

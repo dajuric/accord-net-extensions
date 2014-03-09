@@ -33,7 +33,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="newSize">New image size.</param>
         /// <param name="mode">Interpolation mode.</param>
         /// <returns>Resized image.</returns>
-        public static Image<Gray, byte> Resize(this Image<Gray, byte> img, Size newSize, InterpolationMode mode)
+        public static Image<Gray, byte> Resize(this Image<Gray, byte> img, Int32Size newSize, InterpolationMode mode)
         {
             return Resize<Gray, byte>(img, newSize, mode);
         }
@@ -45,7 +45,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="newSize">New image size.</param>
         /// <param name="mode">Interpolation mode.</param>
         /// <returns>Resized image.</returns>
-        public static Image<TColor, byte> Resize<TColor>(this Image<TColor, byte> img, Size newSize, InterpolationMode mode)
+        public static Image<TColor, byte> Resize<TColor>(this Image<TColor, byte> img, Int32Size newSize, InterpolationMode mode)
             where TColor : IColor3
         {
             return Resize<TColor, byte>(img, newSize, mode);
@@ -58,7 +58,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="newSize">New image size.</param>
         /// <param name="mode">Interpolation mode.</param>
         /// <returns>Resized image.</returns>
-        internal static Image<TColor, TDepth> Resize<TColor, TDepth>(this Image<TColor, TDepth> img, Size newSize, InterpolationMode mode)
+        internal static Image<TColor, TDepth> Resize<TColor, TDepth>(this Image<TColor, TDepth> img, Int32Size newSize, InterpolationMode mode)
             where TColor: IColor
             where TDepth: struct
         {

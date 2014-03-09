@@ -52,11 +52,11 @@ namespace Accord.Extensions.Vision
             ratioHist = originalObjHist.CreateRatioHistogram(backgroundHist, Byte.MaxValue, 10);
 
             searchArea = roi;
-            roi = Rectangle.Empty;
+            roi = Int32Rect.Empty;
         }
 
-        Rectangle searchArea;
-        private void processImage(Image<Bgr, byte> frame, out Image<Gray, byte> probabilityMap, out Rectangle prevSearchArea, out Box2D foundBox)
+        Int32Rect searchArea;
+        private void processImage(Image<Bgr, byte> frame, out Image<Gray, byte> probabilityMap, out Int32Rect prevSearchArea, out Box2D foundBox)
         {
             prevSearchArea = searchArea;
 
@@ -71,7 +71,7 @@ namespace Accord.Extensions.Vision
 
             //run Camshift algorithm to find new object position, size and angle
             foundBox = Camshift.Process(probabilityMap, searchArea); //<<parallel operation>>
-            var foundArea = Rectangle.Round(foundBox.GetMinArea());
+            var foundArea = Int32Rect.Round(foundBox.GetMinArea());
 
             searchArea = foundArea.Inflate(0.05, 0.05, frame.Size); //inflate found area for search (X factor)...
             if (searchArea.IsEmpty) isROISelected = false; //reset tracking
@@ -96,7 +96,7 @@ namespace Accord.Extensions.Vision
             }
 
             if(videoCapture is CameraCapture)
-                (videoCapture as CameraCapture).FrameSize = new Size(640, 480); //set new Size(0,0) for the lowest one
+                (videoCapture as CameraCapture).FrameSize = new Int32Size(640, 480); //set new Size(0,0) for the lowest one
 
             this.FormClosing += CamshiftDemo_FormClosing;
             Application.Idle += videoCapture_InitFrame;
@@ -141,7 +141,7 @@ namespace Accord.Extensions.Vision
             long start = DateTime.Now.Ticks;
 
             Image<Gray, byte> probabilityMap;
-            Rectangle prevSearchArea;
+            Int32Rect prevSearchArea;
             Box2D foundBox;
             processImage(frame, out probabilityMap, out prevSearchArea, out foundBox);
 
@@ -163,7 +163,7 @@ namespace Accord.Extensions.Vision
                 videoCapture.Dispose();
         }
 
-        Rectangle roi = Rectangle.Empty;
+        Int32Rect roi = Int32Rect.Empty;
         bool isROISelected = false;
         Point ptFirst;
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -174,7 +174,7 @@ namespace Accord.Extensions.Vision
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            roi.Intersect(new Rectangle(new Point(), frame.Size));
+            roi.Intersect(new Int32Rect(new Point(), frame.Size));
             isROISelected = true;
         }
 
@@ -185,7 +185,7 @@ namespace Accord.Extensions.Vision
 
             var ptSecond = e.Location;
 
-            roi = new Rectangle 
+            roi = new Int32Rect 
             {
                 X = System.Math.Min(ptFirst.X, ptSecond.X),
                 Y = System.Math.Min(ptFirst.Y, ptSecond.Y),

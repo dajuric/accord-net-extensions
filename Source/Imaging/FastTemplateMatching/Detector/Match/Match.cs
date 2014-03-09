@@ -16,7 +16,7 @@ namespace LINE2D
         public float Score;
         public T Template;
 
-        public Rectangle BoundingRect
+        public Int32Rect BoundingRect
         {
             get { return GetBoundingRect(this as Match<ITemplate>); }
         }
@@ -30,15 +30,15 @@ namespace LINE2D
             }
         }
 
-        public static Rectangle GetBoundingRect(Match<ITemplate> m)
+        public static Int32Rect GetBoundingRect(Match<ITemplate> m)
         {
-            Size size = m.Template.Size;
-            return new Rectangle(m.X, m.Y, size.Width, size.Height);
+            Int32Size size = m.Template.Size;
+            return new Int32Rect(m.X, m.Y, size.Width, size.Height);
         }
 
         public static Point GetCenter(Match<ITemplate> m)
         {
-            Rectangle matchRect = Match.GetBoundingRect(m);
+            Int32Rect matchRect = Match.GetBoundingRect(m);
             Point matchCenter = new Point(matchRect.X + matchRect.Width / 2, matchRect.Y + matchRect.Height / 2);
             return matchCenter;
         }

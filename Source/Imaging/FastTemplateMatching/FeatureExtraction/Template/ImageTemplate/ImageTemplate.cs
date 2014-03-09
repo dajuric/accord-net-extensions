@@ -14,10 +14,10 @@ namespace LINE2D
         public ImageTemplate() { }
 
         public Feature[] Features { get; private set; }
-        public Size Size { get; private set; }
+        public Int32Size Size { get; private set; }
         public string  ClassLabel { get; private set; }
 
-        public void Initialize(Feature[] features, Size size, string label)
+        public void Initialize(Feature[] features, Int32Size size, string label)
         {
             this.Features = features;
             this.Size = size;
@@ -44,7 +44,7 @@ namespace LINE2D
             Initialize(orientationImg, maxNumberOfFeatures, classLabel, featureImportanceFunc);
         }
 
-        protected Rectangle boundingRect = Rectangle.Empty;
+        protected Int32Rect boundingRect = Int32Rect.Empty;
         public void Initialize(Image<Gray, int> orientation, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
             maxNumberOfFeatures = Math.Max(0, Math.Min(maxNumberOfFeatures, GlobalParameters.MAX_NUM_OF_FEATURES));
@@ -145,7 +145,7 @@ namespace LINE2D
             return filteredFeatures;
         }
 
-        private static Rectangle GetBoundingRectangle(List<Feature> features)
+        private static Int32Rect GetBoundingRectangle(List<Feature> features)
         {
             int minX = int.MaxValue, minY = int.MaxValue, maxX = int.MinValue, maxY = int.MinValue;
 
@@ -170,7 +170,7 @@ namespace LINE2D
                 }
             }
 
-            return new Rectangle
+            return new Int32Rect
             {
                 X = minX,
                 Y = minY,

@@ -22,7 +22,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <summary>
         /// Area size.
         /// </summary>
-        public SizeF Size;
+        public Int32Size Size;
         /// <summary>
         /// Angle in degrees.
         /// </summary>
@@ -33,7 +33,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="rect">Area.</param>
         /// <param name="angle">Angle in degrees.</param>
-        public Box2D(RectangleF rect, float angle)
+        public Box2D(Rect rect, float angle)
         {
             var center = rect.Center();
 
@@ -50,7 +50,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <summary>
         /// Gets the minimum enclosing rectangle for this box.
         /// </summary>
-        public RectangleF GetMinArea()
+        public Rect GetMinArea()
         { 
             var vertices = this.GetVertices();
 
@@ -60,7 +60,7 @@ namespace Accord.Extensions.Math.Geometry
             float minY = vertices.Min(x => x.Y);
             float maxY = vertices.Max(x => x.Y);
 
-            return new RectangleF(minX, minY, maxX - minX, maxY - minY);
+            return new Rect(minX, minY, maxX - minX, maxY - minY);
         }
 
         /// <summary>
@@ -96,12 +96,12 @@ namespace Accord.Extensions.Math.Geometry
             };
         }
 
-        public static implicit operator Box2D(Rectangle rect)
+        public static implicit operator Box2D(Int32Rect rect)
         {
             return new Box2D(rect, 0);
         }
 
-        public static implicit operator Box2D(RectangleF rect)
+        public static implicit operator Box2D(Rect rect)
         {
             return new Box2D(rect, 0);
         }

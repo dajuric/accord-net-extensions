@@ -27,14 +27,14 @@ namespace Accord.Extensions.Imaging
                                                          () => true,
                                                          (_, __, area) =>
                                                          {
-                                                             Rectangle srcArea = new Rectangle
+                                                             Int32Rect srcArea = new Int32Rect
                                                              {
                                                                  X = 0,
                                                                  Y = area.Y,
                                                                  Width = image.Width,
                                                                  Height = area.Height + winSize
                                                              };
-                                                             srcArea.Intersect(new Rectangle(new Point(), image.Size));
+                                                             srcArea.Intersect(new Int32Rect(new Point(), image.Size));
                                                            
                                                              goodFeaturesToTrack(Dxx.GetSubRect(srcArea), Dxy.GetSubRect(srcArea), Dyy.GetSubRect(area),
                                                                                  winSize, minEigVal, strengthImg.GetSubRect(srcArea));

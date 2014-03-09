@@ -124,7 +124,7 @@ namespace FastTemplateMatchingDemo
             }
 
             if(videoCapture is CameraCapture)
-                (videoCapture as CameraCapture).FrameSize = new Size(640 / 2, 480 / 2); //set new Size(0,0) for the lowest one
+                (videoCapture as CameraCapture).FrameSize = new Int32Size(640 / 2, 480 / 2); //set new Size(0,0) for the lowest one
           
             this.FormClosing += FastTPDemo_FormClosing;
             Application.Idle += videoCapture_NewFrame;
@@ -152,7 +152,7 @@ namespace FastTemplateMatchingDemo
                     var mask = ((ImageTemplateWithMask)m.Template).BinaryMask;
                     if (mask == null) continue; //just draw bounding boxes
 
-                    var area = new Rectangle(m.X, m.Y, mask.Width, mask.Height);
+                    var area = new Int32Rect(m.X, m.Y, mask.Width, mask.Height);
                     if (area.X < 0 || area.Y < 0 || area.Right >= frame.Width || area.Bottom >= frame.Height) continue; //must be fully inside
 
                     using (var someImage = new Image<Bgr, byte>(mask.Width, mask.Height, Bgr8.Red))

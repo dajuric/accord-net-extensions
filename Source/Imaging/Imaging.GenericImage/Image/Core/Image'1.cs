@@ -57,7 +57,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="size">Image size.</param>
         /// <param name="strideAllignment">Stride alignment. Usual practice is that every image row ends with address aligned with 4.</param>
-        public Image(Size size, int strideAllignment = 4)
+        public Image(Int32Size size, int strideAllignment = 4)
             :this()
         {
             Image.Initialize(this, size.Width, size.Height, strideAllignment);
@@ -149,7 +149,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="rect">Area of an image for sub-image creation.</param>
         /// <returns>Sub-image.</returns>
-        public Image<TColor, TDepth> GetSubRect(Rectangle rect)
+        public Image<TColor, TDepth> GetSubRect(Int32Rect rect)
         {
             return ((IImage)this).GetSubRect(rect) as Image<TColor, TDepth>;
         }

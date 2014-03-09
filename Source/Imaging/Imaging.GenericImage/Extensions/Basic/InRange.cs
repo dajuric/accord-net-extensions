@@ -67,7 +67,7 @@ namespace Accord.Extensions.Imaging
                                                                                              return destImg;
                                                                                          },
 
-                                                                                         (IImage srcImg, Image<Gray, byte> dstImg, Rectangle area) => //called for every thread
+                                                                                         (IImage srcImg, Image<Gray, byte> dstImg, Int32Rect area) => //called for every thread
                                                                                          {
                                                                                              var srcPatch = srcImg.GetSubRect(area);
                                                                                              var destPatch = dstImg.GetSubRect(area);

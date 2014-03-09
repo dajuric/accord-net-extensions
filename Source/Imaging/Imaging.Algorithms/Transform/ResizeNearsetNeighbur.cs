@@ -23,7 +23,7 @@ namespace Accord.Extensions.Imaging.Filters
             resizeFuncs.Add(typeof(double), conditionalCopyDouble);*/
         }
 
-        public static Image<TColor, TDepth> Resize<TColor, TDepth>(this Image<TColor, TDepth> img, Size newSize)
+        public static Image<TColor, TDepth> Resize<TColor, TDepth>(this Image<TColor, TDepth> img, Int32Size newSize)
             where TColor : IColor
             where TDepth : struct
         {

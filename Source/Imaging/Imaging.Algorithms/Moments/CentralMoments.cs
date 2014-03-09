@@ -204,7 +204,7 @@ namespace Accord.Extensions.Imaging.Moments
         /// 
         /// <returns>The size of the ellipse containing the image.</returns>
         /// 
-        public SizeF GetSize()
+        public Int32Size GetSize()
         {
             // Compute the covariance matrix
             //
@@ -216,7 +216,7 @@ namespace Accord.Extensions.Imaging.Moments
             double s = Math.Sqrt((4.0 * b * b) + (e * e));
 
             // Compute size
-            return new SizeF((float)Math.Sqrt((d + s) * 0.5) * 4,
+            return new Int32Size((float)Math.Sqrt((d + s) * 0.5) * 4,
                              (float)Math.Sqrt((d - s) * 0.5) * 4);
         }
 
@@ -252,7 +252,7 @@ namespace Accord.Extensions.Imaging.Moments
         /// <param name="angle">The angle of orientation of the ellipse, in radians.</param>
         /// <returns>The size of the ellipse containing the image.</returns>
         /// 
-        public SizeF GetSizeAndOrientation(out float angle)
+        public Int32Size GetSizeAndOrientation(out float angle)
         {
             // Compute the covariance matrix
             //
@@ -268,7 +268,7 @@ namespace Accord.Extensions.Imaging.Moments
             if (angle < 0) angle = (float)(angle + Math.PI);
 
             // Compute size
-            return new SizeF((float)Math.Sqrt((d - s) * 0.5) * 4,
+            return new Int32Size((float)Math.Sqrt((d - s) * 0.5) * 4,
                              (float)Math.Sqrt((d + s) * 0.5) * 4);
         }
 

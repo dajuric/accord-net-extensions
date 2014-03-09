@@ -85,10 +85,10 @@ namespace KalmanObjectTracking
             ratioHist = originalObjHist.CreateRatioHistogram(backgroundHist, Byte.MaxValue, 10);
 
             searchArea = roi;
-            roi = Rectangle.Empty;
+            roi = Int32Rect.Empty;
         }
 
-        Rectangle searchArea;
+        Int32Rect searchArea;
         int nonVisibleCount = 0;
         private void trackOneStep(Image<Bgr, byte> frame, out Image<Gray, byte> probabilityMap, out Box2D foundBox)
         {
@@ -107,7 +107,7 @@ namespace KalmanObjectTracking
                 kalman.Correct(new PointF(foundBox.Center.X, foundBox.Center.Y)); //correct predicted state by measurement
                 /**************************** KALMAN correct **************************/
 
-                var foundArea = Rectangle.Round(foundBox.GetMinArea());
+                var foundArea = Int32Rect.Round(foundBox.GetMinArea());
                 searchArea = foundArea.Inflate(SEARCH_AREA_INFLATE_FACTOR, SEARCH_AREA_INFLATE_FACTOR, frame.Size); //inflate found area for search (X factor)...
                 nonVisibleCount = 0;
             }
@@ -129,7 +129,7 @@ namespace KalmanObjectTracking
             }
         }
 
-        private void trackCamshift(Image<Bgr, byte> frame, Rectangle searchArea, out Image<Gray, byte> probabilityMap, out Box2D foundBox)
+        private void trackCamshift(Image<Bgr, byte> frame, Int32Rect searchArea, out Image<Gray, byte> probabilityMap, out Box2D foundBox)
         {
             const int PROBABILITY_MIN_VAL = (int)(0.5f * 255);
 
@@ -154,9 +154,9 @@ namespace KalmanObjectTracking
             }
         }
 
-        private static Rectangle createRect(PointF centerPoint, Size size, Size frameSize)
+        private static Int32Rect createRect(PointF centerPoint, Int32Size size, Int32Size frameSize)
         {
-            return new Rectangle((int)centerPoint.X - size.Width / 2, (int)centerPoint.Y - size.Height / 2, size.Width, size.Height).Intersect(frameSize);
+            return new Int32Rect((int)centerPoint.X - size.Width / 2, (int)centerPoint.Y - size.Height / 2, size.Width, size.Height).Intersect(frameSize);
         }
 
         #region User interface...
@@ -166,7 +166,7 @@ namespace KalmanObjectTracking
             InitializeComponent();
 
 #if FILE_CAPTURE
-            roi = new Rectangle(210, 435, 90, 45); //user defined rectangle for sample video
+            roi = new Int32Rect(210, 435, 90, 45); //user defined rectangle for sample video
             isROISelected = true;
 #endif
             bar_ValueChanged(null, null); //write values to variables
@@ -230,7 +230,7 @@ namespace KalmanObjectTracking
 
             long start = DateTime.Now.Ticks;
 
-            Rectangle prevSearchArea = searchArea; //processImage overwrites searchArea
+            Int32Rect prevSearchArea = searchArea; //processImage overwrites searchArea
             bool isPredicted = nonVisibleCount > 0;
 
             Image<Gray, byte> probabilityMap;
@@ -255,7 +255,7 @@ namespace KalmanObjectTracking
                 videoCapture.Dispose();
         }
 
-        Rectangle roi = Rectangle.Empty;
+        Int32Rect roi = Int32Rect.Empty;
         bool isROISelected = false;
         Point ptFirst;
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -266,7 +266,7 @@ namespace KalmanObjectTracking
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            roi.Intersect(new Rectangle(new Point(), frame.Size));
+            roi.Intersect(new Int32Rect(new Point(), frame.Size));
             isROISelected = true;
         }
 
@@ -277,7 +277,7 @@ namespace KalmanObjectTracking
 
             Point ptSecond = e.Location.ToPt();
 
-            roi = new Rectangle
+            roi = new Int32Rect
             {
                 X = System.Math.Min(ptFirst.X, ptSecond.X),
                 Y = System.Math.Min(ptFirst.Y, ptSecond.Y),

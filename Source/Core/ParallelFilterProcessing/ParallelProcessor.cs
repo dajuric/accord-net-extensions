@@ -33,14 +33,14 @@ namespace Accord.Extensions
         /// <summary>
         /// Function that returns true if parallel processing should be used. Default one uses image size 100x100 as trigger.
         /// </summary>
-        public Func<Size, bool> ParallelTrigger { get; set; }
+        public Func<Int32Size, bool> ParallelTrigger { get; set; }
 
         /// <summary>
         /// Returns whether parallel processor executes function in parallel or not.
         /// </summary>
         /// <param name="srcSize">Source image size.</param>
         /// <returns></returns>
-        public bool ShouldProcessParallel(Size srcSize)
+        public bool ShouldProcessParallel(Int32Size srcSize)
         {
             if (!ForceSequential && ParallelTrigger(srcSize) == true)
                 return true;
@@ -67,13 +67,13 @@ namespace Accord.Extensions
         /// <param name="src">Source structure</param>
         /// <param name="dest">Destination structure</param>
         /// <param name="area">ROI for destination structure</param>
-        public delegate void ProcessPatch(TSrc src, TDest dest, Rectangle area);
+        public delegate void ProcessPatch(TSrc src, TDest dest, Int32Rect area);
 
-        private List<Rectangle> patches;
+        private List<Int32Rect> patches;
 
         protected ImageCreator destImageCreator;
         private ProcessPatch processPatch;
-        private Size imageSize;
+        private Int32Size imageSize;
         private bool runParallel;
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Accord.Extensions
         /// <param name="imageSize">2D structure size.</param>
         /// <param name="destImageCreator">Function that creates destination structure.</param>
         /// <param name="processPatch">Function that performs patch processing.</param>
-        public ParallelProcessor(Size imageSize, ImageCreator destImageCreator, ProcessPatch processPatch)
+        public ParallelProcessor(Int32Size imageSize, ImageCreator destImageCreator, ProcessPatch processPatch)
             : this(imageSize, destImageCreator, processPatch, new ParallelOptions(), 0)
         { }
 
@@ -94,7 +94,7 @@ namespace Accord.Extensions
         /// <param name="processPatch">Function that performs patch processing.</param>
         /// <param name="parallelOptions">Parallel options.</param>
         /// <param name="minPatchHeight">Minimal patch height. Patches that has lower size will not be created.</param>
-        public ParallelProcessor(Size imageSize, ImageCreator destImageCreator, ProcessPatch processPatch, ParallelOptions parallelOptions, int minPatchHeight = 0)
+        public ParallelProcessor(Int32Size imageSize, ImageCreator destImageCreator, ProcessPatch processPatch, ParallelOptions parallelOptions, int minPatchHeight = 0)
         {
             Initialize(imageSize, destImageCreator, processPatch, parallelOptions, minPatchHeight);
         }
@@ -102,7 +102,7 @@ namespace Accord.Extensions
         protected ParallelProcessor()
         { }
 
-        protected void Initialize(Size imageSize, ImageCreator destImageCreator, ProcessPatch processPatch, ParallelOptions parallelOptions, int minPatchHeight)
+        protected void Initialize(Int32Size imageSize, ImageCreator destImageCreator, ProcessPatch processPatch, ParallelOptions parallelOptions, int minPatchHeight)
         {
             this.imageSize = imageSize;
             this.destImageCreator = destImageCreator;
@@ -143,25 +143,25 @@ namespace Accord.Extensions
             }
             else //process sequential
             {
-                processPatch(image, destImg, new Rectangle(new Point(), imageSize));
+                processPatch(image, destImg, new Int32Rect(new Point(), imageSize));
             }
 
             return destImg;
         }
 
-        private void makePatches(Size imgSize, int minPatchHeight, out List<Rectangle> patches)
+        private void makePatches(Int32Size imgSize, int minPatchHeight, out List<Int32Rect> patches)
         {
             int patchHeight, verticalPatches;
             getPatchInfo(imgSize, out patchHeight, out verticalPatches);
             minPatchHeight = System.Math.Max(minPatchHeight, patchHeight);
 
-            patches = new List<Rectangle>();
+            patches = new List<Int32Rect>();
 
             for (int y = 0; y < imgSize.Height; )
             {
                 int h = System.Math.Min(patchHeight, imgSize.Height - y);
 
-                Rectangle patch = new Rectangle(0, y, imgSize.Width, h);
+                Int32Rect patch = new Int32Rect(0, y, imgSize.Width, h);
                 patches.Add(patch);
 
                 y += h;
@@ -173,7 +173,7 @@ namespace Accord.Extensions
                 var penultimate = patches[patches.Count - 1 - 1];
                 var last = patches[patches.Count - 1];
 
-                var mergedPatch = new Rectangle 
+                var mergedPatch = new Int32Rect 
                 {
                     X = penultimate.X,
                     Y = penultimate.Y,
@@ -186,7 +186,7 @@ namespace Accord.Extensions
             }
         }
 
-        private void getPatchInfo(Size imgSize, out int patchHeight, out int verticalPatches)
+        private void getPatchInfo(Int32Size imgSize, out int patchHeight, out int verticalPatches)
         {
             int numOfCores = System.Environment.ProcessorCount;
             int minNumOfPatches = numOfCores * 2;

@@ -9,12 +9,12 @@ namespace Accord.Extensions.Imaging
         int Width { get; }
         int Height { get; }
         int Stride { get; }
-        Size Size { get; }
+        Int32Size Size { get; }
         ColorInfo ColorInfo { get; }
 
         IntPtr GetData(int row, int col);
         IntPtr GetData(int row);
-        IImage GetSubRect(Rectangle rect);
+        IImage GetSubRect(Int32Rect rect);
         IImage Clone();
         IImage CopyBlank();
 

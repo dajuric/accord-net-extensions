@@ -51,7 +51,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="point">The point to clamp.</param>
         /// <param name="size">The valid region.</param>
         /// <returns>Clamped point.</returns>
-        public static Point Clamp(this Point point, Size size)
+        public static Point Clamp(this Point point, Int32Size size)
         {
             return new Point
             {
@@ -66,7 +66,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="point">The point to clamp.</param>
         /// <param name="size">The valid region.</param>
         /// <returns>Clamped point.</returns>
-        public static Point Clamp(this Point point, Rectangle rect)
+        public static Point Clamp(this Point point, Int32Rect rect)
         {
             return new Point
             {
