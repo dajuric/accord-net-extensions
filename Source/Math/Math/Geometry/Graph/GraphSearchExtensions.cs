@@ -13,7 +13,7 @@ namespace Accord.Extensions.Math.Geometry
             where TEdge : Edge<TVertex>
         {
             var edges = graph.AsEnumerable();
-            var vertices = edges.GetVertices<TVertex, TEdge>();
+            var vertices = graph.Keys;// edges.GetVertices<TVertex, TEdge>();
 
             var costMatrix = edges.ToMatrix(x => x.Source, y => y.Destination, value => distanceFunc(value));
             vertices.ForEach(x => costMatrix.Add(x, x, 0)); //add 0 path cost

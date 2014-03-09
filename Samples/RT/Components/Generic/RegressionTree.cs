@@ -3,29 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Accord.Extensions.Math;
 
 namespace RT
 {
-    public static class MathExtensions
-    {
-        public static bool IsPowerOfTwo(this ulong x)
-        {
-            return (x != 0) && ((x & (x - 1)) == 0);
-        }
-
-        public static bool IsPowerOfTwo(this uint x)
-        {
-            return IsPowerOfTwo((ulong)x);
-        }
-
-        public static bool IsPowerOfTwo(this int x)
-        {
-            if (x < 0) throw new ArgumentException("The number must be greater or equal to zero!");
-
-            return IsPowerOfTwo((ulong)x);
-        }
-    }
-
     public class RegressionNodeData<TInternalData>
     {
         public TInternalData Data { get; set; }
@@ -58,6 +39,7 @@ namespace RT
             }
 
             this.treeNodes = treeNodes.ToArray();
+            this.TreeDepth = treeNodes.GetBinaryTreeDepth() - 1 /*do not count child nodes*/; 
         }
 
         public RegressionTree(int depth)
@@ -68,12 +50,10 @@ namespace RT
 
         public float GetOutput(Func<TInternalNodeData, bool> rightNodeSelector)
         {
-            var depth = TreeDepth;
-
             var nodeIdx = 0;
-            for (int d = 0; d < depth; d++)
+            for (int d = 0; d < TreeDepth; d++)
             {
-                if (rightNodeSelector(treeNodes[d].Data))
+                if (rightNodeSelector(treeNodes[nodeIdx].Data))
                 {
                     nodeIdx = treeNodes.RightChildIndex(nodeIdx);
                 }
@@ -86,9 +66,14 @@ namespace RT
             return treeNodes[nodeIdx].OutputValue.Value;
         }
 
-        public int TreeDepth 
+        /// <summary>
+        /// Gets the depth of the tree. 
+        /// The returned value does not take leafs into account.
+        /// </summary>
+        public int TreeDepth
         {
-            get { return treeNodes.GetBinaryTreeDepth() - 1 /*do not count child nodes*/; }
+            get;
+            private set;
         }
     }
 

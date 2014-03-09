@@ -86,8 +86,12 @@
     <Reference Include="NGenerics">
       <HintPath>..\..\packages\NGenerics.1.4.1.0\lib\net35\NGenerics.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Presentation" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -96,12 +100,13 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Generic\Cascade.cs" />
     <Compile Include="Components\Generic\Detector.cs" />
     <Compile Include="Components\Generic\GentleBoost.cs" />
-    <Compile Include="Components\PicoDetector.cs" />
+    <Compile Include="Components\PicoClassifier.cs" />
     <Compile Include="Components\Generic\RegressionTree.cs" />
     <Compile Include="Components\PicoDetectorHexLoader.cs" />
     <Compile Include="HelperStructures\BinaryTreeArrayExtstensions.cs" />

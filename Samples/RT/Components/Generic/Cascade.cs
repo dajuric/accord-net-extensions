@@ -31,10 +31,11 @@ namespace RT
             confidence = 0f;
 
             int stageIdx = 0;
+            float stageThreshold = 0;
             for (stageIdx = 0; stageIdx < NumberOfStages; stageIdx++)
             {
                 var stageOutput = stageClassifierOutputFunc(stageClassifiers[stageIdx]);
-                var stageThreshold = stageThresholds[stageIdx];
+                stageThreshold = stageThresholds[stageIdx];
 
                 confidence += stageOutput;
 
@@ -42,7 +43,7 @@ namespace RT
                     return false;
             }
 
-            confidence -= stageThresholds[stageIdx];
+            confidence -= stageThreshold;
             return true;
         }
 

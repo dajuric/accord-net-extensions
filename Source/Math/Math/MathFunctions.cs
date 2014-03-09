@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Accord.Extensions.Math
@@ -122,5 +123,48 @@ namespace Accord.Extensions.Math
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// <para>Defined functions can be used as object extensions.</para>
+    /// Provides additional math functions for integer numbers to check whether they are power of two or not.
+    /// </summary>
+    public static class MathPowerofTwoExtensions
+    {
+        /// <summary>
+        /// Checks whether the specified value is power of 2. 
+        /// It uses fast arithemtics to avoid using: Math.Floor(Math.Log(x, 2))
+        /// </summary>
+        /// <param name="x">Value to check.</param>
+        /// <returns>True if the number is power of 2, false otherwise.</returns>
+        public static bool IsPowerOfTwo(this ulong x)
+        {
+            return (x != 0) && ((x & (x - 1)) == 0);
+        }
+
+        /// <summary>
+        /// Checks whether the specified value is power of 2. 
+        /// It uses fast arithemtics to avoid using: Math.Floor(Math.Log(x, 2))
+        /// </summary>
+        /// <param name="x">Value to check.</param>
+        /// <returns>True if the number is power of 2, false otherwise.</returns>
+        public static bool IsPowerOfTwo(this uint x)
+        {
+            return IsPowerOfTwo((ulong)x);
+        }
+
+        /// <summary>
+        /// Checks whether the specified value is power of 2. 
+        /// It uses fast arithemtics to avoid using: Math.Floor(Math.Log(x, 2)).
+        /// </summary>
+        /// <param name="x">Value to check.</param>
+        /// <returns>True if the number is power of 2, false otherwise.</returns>
+        /// <exception cref="ArgumentException">The specified value must be greater or equal to zero.</exception>
+        public static bool IsPowerOfTwo(this int x)
+        {
+            if (x < 0) throw new ArgumentException("The number must be greater or equal to zero!");
+
+            return IsPowerOfTwo((ulong)x);
+        }
     }
 }

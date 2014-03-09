@@ -11,7 +11,7 @@ namespace RT
 {
     public static class PicoDetectorHexLoader
     {
-        public static void FromHexFile(string fileName, out PicoDetector detector)
+        public static void FromHexFile(string fileName, out PicoClassifier detector)
         {
             string data = File.ReadAllText(fileName);
 
@@ -48,7 +48,7 @@ namespace RT
             }
         }
 
-        public static void FromByteStream(Stream stream, out PicoDetector detector)
+        public static void FromByteStream(Stream stream, out PicoClassifier detector)
         {
             BinaryReader reader = new BinaryReader(stream);
 
@@ -63,7 +63,7 @@ namespace RT
             Cascade<StageClassifier> cascade;
             loadCascade(stream, out cascade);
 
-            detector = new PicoDetector(normlizedRegion, cascade);
+            detector = new PicoClassifier(normlizedRegion, cascade);
         }
 
         private static void loadCascade(Stream stream, out Cascade<StageClassifier> cascade)

@@ -221,8 +221,8 @@ namespace Accord.Extensions.Imaging
 
             colorAssociations.Add(typeof(Gray), 1);
             colorAssociations.Add(typeof(Color2), 2);
-            colorAssociations.Add(typeof(Color3), 3);
-            colorAssociations.Add(typeof(Color4), 4);
+            colorAssociations.Add(typeof(Bgr), 3);
+            colorAssociations.Add(typeof(Bgra), 4); //TODO: critical - check if this is correct ?
         }
 
         /// <summary>

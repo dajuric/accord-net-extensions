@@ -16,16 +16,20 @@ namespace RT
         {
             this.classifier = classifier;
 
-            this.Scale = 1.1f;
+            this.Scale = 1.2f;
             this.StepFunc = (window, scaleFactor) =>
             {
-                var step = (int)Math.Max(0.5f * scaleFactor, 1);
-                return new Size(step, step);
+                var stepX = (int)Math.Max(0.1f * scaleFactor * StartSize.Width, 1);
+                var stepY = (int)Math.Max(0.1f * scaleFactor * StartSize.Height, 1);
+                return new Size(stepX, stepY);
             };
 
             this.StartSize = new Size(50, 50);
             this.EndSize = new Size(500, 500);
+            this.InParallel = false;
         }
+
+        public bool InParallel { get; set; }
 
         /// <summary>
         /// Gets or sets the stepping function.
@@ -39,7 +43,7 @@ namespace RT
         public Size StartSize { get; set; }
         public Size EndSize { get; set; }
 
-        public List<Rectangle> Detect<TImage>(TImage image,
+        public Rectangle[] Detect<TImage>(TImage image,
                                               Func<TImage, Rectangle, TClassifier, bool> classficationFunc)
             where TImage : class, IImage
         {
@@ -54,12 +58,11 @@ namespace RT
         /// <typeparam name="TPreparedImage">Prepared image type.</typeparam>
         /// <typeparam name="TOutput">Output classifier type.</typeparam>
         /// <param name="image">Input image.</param>
-        /// <param name="classficationFunc">Classifier function. It receives prepared image, current window, and the classifier. 
-        /// If an object is found within the provided window it returns <see cref="TOutput"/>, null otherwise.
+        /// <param name="classficationFunc">Classifier function. It receives original image, prepared image, current window, and the classifier. 
         /// </param>
         /// <param name="imagePreparationFunc">If an image needs some kind of preparation (e.g. calculating integral image) use this function overload.</param>
-        /// <returns>List of the classifier detections.</returns>
-        public List<Rectangle> Detect<TImage, TPreparedImage>(TImage image,
+        /// <returns>Search areas where the specified classifier function returned true.</returns>
+        public Rectangle[] Detect<TImage, TPreparedImage>(TImage image,
                                                             Func<TImage, TPreparedImage, Rectangle, TClassifier, bool> classficationFunc,
                                                             Func<TImage, TPreparedImage> imagePreparationFunc)
             where TImage : IImage
@@ -71,17 +74,30 @@ namespace RT
             var windows = generateWindows(preparedIm.Size).ToArray();
 
             var detections = new ConcurrentBag<Rectangle>();
-
-            //foreach (var window in windows)
-            Parallel.ForEach(windows, (window) =>
+            Action<Rectangle> classifyRegion = (window) => 
             {
                 var success = classficationFunc(image, preparedIm, window, classifier);
 
                 if (success)
                     detections.Add(window);
-            });
+            };
 
-            return detections.ToList();
+            if (InParallel)
+            {
+                Parallel.ForEach(windows, (window) =>
+                {
+                    classifyRegion(window);
+                });
+            }
+            else
+            {
+                foreach (var window in windows)
+                {
+                    classifyRegion(window);
+                }
+            }
+
+            return detections.ToArray();
         }
 
         private List<Rectangle> generateWindows(Size imageSize)
@@ -108,6 +124,8 @@ namespace RT
                     window.X = 0;
                     window.Y += step.Height;
                 }
+
+                window.Y = 0;
             }
 
             return windows;

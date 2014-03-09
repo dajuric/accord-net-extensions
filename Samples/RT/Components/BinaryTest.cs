@@ -8,14 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Point = AForge.IntPoint;
 using Accord.Extensions.Math.Geometry;
-using NGenerics.DataStructures.Trees;
+
+using SBytePoint = RT.Point<System.SByte>;
  
 namespace RT
 {
-    public struct BytePoint
+    public struct Point<T>
     {
-        public byte X;
-        public byte Y;
+        public T X;
+        public T Y;
     }
 
     public class Pair<T>
@@ -48,42 +49,40 @@ namespace RT
         }
     }
 
-    public class BinTestCode: Pair<BytePoint>
+    public class BinTestCode : Pair<SBytePoint>
     {
         public unsafe BinTestCode(int binaryCode)
         { 
-            byte* ptr = (byte*)&binaryCode;
+            sbyte* ptr = (sbyte*)&binaryCode;
 
             First.Y  = ptr[0]; First.X  = ptr[1];
             Second.Y = ptr[2]; Second.X = ptr[3];
         }
 
-        public void ToRealCoordinates(Rectangle region, out Point ptA, out Point ptB)
+        public void ToRealCoordinates(Point regionCenter, Size regionSize, out Point ptA, out Point ptB)
         {
-            ptA = toRealCoordinates(this.First, region);
-            ptB = toRealCoordinates(this.Second, region);
+            ptA = toRealCoordinates(this.First, regionCenter, regionSize);
+            ptB = toRealCoordinates(this.Second, regionCenter, regionSize);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Point toRealCoordinates(BytePoint point, Rectangle region)
+        private static Point toRealCoordinates(SBytePoint point, Point regionCenter, Size regionSize)
         {
             const int NORMALIZATION_CONST = Byte.MaxValue + 1;
 
             var pt = new Point 
             {
-                X = (NORMALIZATION_CONST * region.X + region.Width  * point.X) / NORMALIZATION_CONST,
-                Y = (NORMALIZATION_CONST * region.Y + region.Height * point.Y) / NORMALIZATION_CONST
+                X = (NORMALIZATION_CONST * regionCenter.X + regionSize.Width  * point.X) / NORMALIZATION_CONST,
+                Y = (NORMALIZATION_CONST * regionCenter.Y + regionSize.Height * point.Y) / NORMALIZATION_CONST
             };
 
             return pt;
         }
 
-        public unsafe bool Test(Image<Gray, byte> image, Rectangle region, bool testImageBounds = false)
+        public unsafe bool Test(Image<Gray, byte> image, Point regionCenter, Size regionSize, bool testImageBounds = false)
         {
-            return false;
-
             Point ptA, ptB;
-            ToRealCoordinates(region, out ptA, out ptB);
+            ToRealCoordinates(regionCenter, regionSize, out ptA, out ptB);
         
             if (testImageBounds)
             {
