@@ -108,7 +108,7 @@
     <Compile Include="Components\Generic\GentleBoost.cs" />
     <Compile Include="Components\PicoClassifier.cs" />
     <Compile Include="Components\Generic\RegressionTree.cs" />
-    <Compile Include="Components\PicoDetectorHexLoader.cs" />
+    <Compile Include="Components\PicoClassifierHexLoader.cs" />
     <Compile Include="HelperStructures\BinaryTreeArrayExtstensions.cs" />
     <Compile Include="Components\BinaryTest.cs" />
     <Compile Include="RTDemo.cs">
@@ -128,6 +128,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="RTDemo.resx">
+      <DependentUpon>RTDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

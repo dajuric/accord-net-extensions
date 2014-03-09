@@ -3,7 +3,6 @@ using Accord.Extensions.Imaging;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RT
@@ -26,7 +25,7 @@ namespace RT
 
             this.StartSize = new Size(50, 50);
             this.EndSize = new Size(500, 500);
-            this.InParallel = false;
+            this.InParallel = true;
         }
 
         public bool InParallel { get; set; }

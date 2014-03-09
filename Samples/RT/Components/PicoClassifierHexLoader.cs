@@ -9,7 +9,7 @@ using WeakLearner = RT.RegressionTree<RT.BinTestCode>;
 
 namespace RT
 {
-    public static class PicoDetectorHexLoader
+    public static class PicoClassifierHexLoader
     {
         public static void FromHexFile(string fileName, out PicoClassifier detector)
         {

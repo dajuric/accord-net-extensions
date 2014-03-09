@@ -23,11 +23,13 @@ namespace RT
         {
             PicoClassifier picoDetector;
 
-            /*Application.EnableVisualStyles();
+            Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new RTDemo());*/
+            Application.Run(new RTDemo());
 
-            PicoDetectorHexLoader.FromHexFile("facefinder.ea", out picoDetector);
+            return;
+
+            PicoClassifierHexLoader.FromHexFile("facefinder.ea", out picoDetector);
 
             ImageDirectoryReader reader = new ImageDirectoryReader("C:/", "*.jpg");
             reader.Open();
