@@ -44,6 +44,36 @@ namespace Accord.Extensions.Math.Geometry
 
             return filteredPoints;
         }
+
+        /// <summary>
+        /// Clamps point coordinate according to the specified size (0,0, size.Width-1, size.Height-1).
+        /// </summary>
+        /// <param name="point">The point to clamp.</param>
+        /// <param name="size">The valid region.</param>
+        /// <returns>Clamped point.</returns>
+        public static Point Clamp(this Point point, Size size)
+        {
+            return new Point
+            {
+                X = System.Math.Min(System.Math.Max(0, point.X), size.Width - 1),
+                Y = System.Math.Min(System.Math.Max(0, point.Y), size.Height - 1)
+            };
+        }
+
+        /// <summary>
+        /// Clamps point coordinate according to the specified size (rect.X, rect.Y, rect.Right-1, rect.Bottom-1).
+        /// </summary>
+        /// <param name="point">The point to clamp.</param>
+        /// <param name="size">The valid region.</param>
+        /// <returns>Clamped point.</returns>
+        public static Point Clamp(this Point point, Rectangle rect)
+        {
+            return new Point
+            {
+                X = System.Math.Min(System.Math.Max(rect.X, point.X), rect.Right - 1),
+                Y = System.Math.Min(System.Math.Max(rect.Y, point.Y), rect.Bottom - 1)
+            };
+        }
     }
 
     /// <summary>

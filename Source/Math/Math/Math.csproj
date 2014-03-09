@@ -62,6 +62,7 @@
     <Compile Include="Geometry\Graph\GraphSearchExtensions.cs" />
     <Compile Include="Geometry\GroupMatching\RectangleGroupMatching.cs" />
     <Compile Include="Geometry\Structures\CircleF.cs" />
+    <Compile Include="Geometry\Structures\Point%271.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.ForEach.cs" />
     <Compile Include="Structures\Complex.cs" />
     <Compile Include="Extensions\MatrixExtensions.cs" />
