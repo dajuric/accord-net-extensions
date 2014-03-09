@@ -21,7 +21,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="rect1">First rectangle.</param>
         /// <param name="rect2">Second rectangle.</param>
         /// <returns>Intersection percent (1 - full intersection, 0 - no intersection).</returns>
-        public static float IntersectionPercent(this Int32Rect rect1, Int32Rect rect2)
+        public static float IntersectionPercent(this Rectangle rect1, Rectangle rect2)
         {
             return RectangleFExtensions.IntersectionPercent(rect1, rect2);
         }
@@ -34,9 +34,9 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="height">Vecrtical amount.</param>
         /// <param name="constrainedArea">If specified rectangle region will be clamped.</param>
         /// <returns>Inflated rectangle.</returns>
-        public static Int32Rect Inflate(this Int32Rect rect, int width, int height, Int32Size constrainedArea = default(Int32Size))
+        public static Rectangle Inflate(this Rectangle rect, int width, int height, Size constrainedArea = default(Size))
         {
-            Int32Rect newRect = new Int32Rect
+            Rectangle newRect = new Rectangle
             {
                 X = rect.X - width,
                 Y = rect.Y - height,
@@ -45,7 +45,7 @@ namespace Accord.Extensions.Math.Geometry
             };
 
             if (constrainedArea.IsEmpty == false)
-                newRect.Intersect(new Int32Rect(new Point(), constrainedArea));
+                newRect.Intersect(new Rectangle(new Point(), constrainedArea));
 
             return newRect;
         }
@@ -58,9 +58,9 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="height">Vecrtical scale.</param>
         /// <param name="constrainedArea">If specified rectangle region will be clamped.</param>
         /// <returns>Inflated rectangle.</returns>
-        public static Int32Rect Inflate(this Int32Rect rect, double widthScale, double heightScale, Int32Size constrainedArea = default(Int32Size))
+        public static Rectangle Inflate(this Rectangle rect, double widthScale, double heightScale, Size constrainedArea = default(Size))
         {
-            Int32Rect newRect = new Int32Rect
+            Rectangle newRect = new Rectangle
             {
                 X = (int)(rect.X - rect.Width * widthScale),
                 Y = (int)(rect.Y - rect.Width * heightScale),
@@ -69,7 +69,7 @@ namespace Accord.Extensions.Math.Geometry
             };
 
             if (constrainedArea.IsEmpty == false)
-                newRect.Intersect(new Int32Rect(new Point(), constrainedArea));
+                newRect.Intersect(new Rectangle(new Point(), constrainedArea));
 
             return newRect;
         }
@@ -79,7 +79,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="rect">Rectangle.</param>
         /// <returns>Area of the rectangle.</returns>
-        public static int Area(this Int32Rect rect)
+        public static int Area(this Rectangle rect)
         {
             return rect.Width * rect.Height;
         }
@@ -89,7 +89,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="rect">Rectangle.</param>
         /// <returns>Center of the rectangle.</returns>
-        public static PointF Center(this Int32Rect rect)
+        public static PointF Center(this Rectangle rect)
         {
             return new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
         }
@@ -99,7 +99,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="rect">Rectangle.</param>
         /// <returns>Vertices.</returns>
-        public static Point[] Vertices(this Int32Rect rect)
+        public static Point[] Vertices(this Rectangle rect)
         {
             return new Point[] 
             { 
@@ -111,11 +111,11 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Gets whether the rectangle has an empty area. It is different than <see cref="Int32Rect.Empty"/> property.
+        /// Gets whether the rectangle has an empty area. It is different than <see cref="Rectangle.Empty"/> property.
         /// </summary>
         /// <param name="rect">Rectangle.</param>
         /// <returns>True if the rectangle has an empty area.</returns>
-        public static bool IsEmptyArea(this Int32Rect rect)
+        public static bool IsEmptyArea(this Rectangle rect)
         {
             return rect.Width == 0 || rect.Height == 0;
         }
@@ -133,12 +133,12 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="rect">Recatangle to intersect.</param>
         /// <param name="area">Maximum bounding box represented as size.</param>
         /// <returns>Intersected rectangle.</returns>
-        public static Int32Rect Intersect(this Int32Rect rect, Int32Size area)
+        public static Rectangle Intersect(this Rectangle rect, Size area)
         {
-            Int32Rect newRect = rect;
+            Rectangle newRect = rect;
 
             if (area.IsEmpty == false)
-                newRect.Intersect(new Int32Rect(new Point(), area));
+                newRect.Intersect(new Rectangle(new Point(), area));
 
             return newRect;
         }
@@ -149,12 +149,12 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="rect1">First rectangle.</param>
         /// <param name="rect2">Second rectangle.</param>
         /// <returns>Intersection percent (1 - full intersection, 0 - no intersection).</returns>
-        public static float IntersectionPercent(this Rect rect1, Rect rect2)
+        public static float IntersectionPercent(this RectangleF rect1, RectangleF rect2)
         {
             float rect1Area = rect1.Width * rect1.Height;
             float rect2Area = rect2.Width * rect2.Height;
 
-            Rect interesectRect = Rect.Intersect(rect1, rect2);
+            RectangleF interesectRect = RectangleF.Intersect(rect1, rect2);
             float intersectRectArea = interesectRect.Width * interesectRect.Height;
 
             float minRectArea = System.Math.Min(rect1Area, rect2Area);
@@ -167,7 +167,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="rect">Rectangle.</param>
         /// <returns>Area of the rectangle.</returns>
-        public static float Area(this Rect rect)
+        public static float Area(this RectangleF rect)
         {
             return rect.Width * rect.Height;
         }
@@ -177,7 +177,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="rect">Rectangle.</param>
         /// <returns>Center of the rectangle.</returns>
-        public static PointF Center(this Rect rect)
+        public static PointF Center(this RectangleF rect)
         {
             return new PointF(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
         }
@@ -187,7 +187,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="rect">Rectangle.</param>
         /// <returns>Vertices.</returns>
-        public static PointF[] Vertices(this Rect rect)
+        public static PointF[] Vertices(this RectangleF rect)
         {
             return new PointF[] 
             { 
@@ -199,11 +199,11 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Gets whether the rectangle has an empty area. It is different than <see cref="Int32Rect.Empty"/> property.
+        /// Gets whether the rectangle has an empty area. It is different than <see cref="Rectangle.Empty"/> property.
         /// </summary>
         /// <param name="rect">Rectangle.</param>
         /// <returns>True if the rectangle has an empty area.</returns>
-        public static bool IsEmptyArea(this Rect rect)
+        public static bool IsEmptyArea(this RectangleF rect)
         {
             return rect.Width == 0 || rect.Height == 0;
         }
@@ -215,11 +215,11 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="level">Specifies how many levels to take.</param>
         /// <param name="factor">Specifies the pyramid scale factor.</param>
         /// <returns>Transformed rectangle.</returns>
-        public static Rect UpScale(this Rect rect, int level = 1, float factor = 2)
+        public static RectangleF UpScale(this RectangleF rect, int level = 1, float factor = 2)
         {
             float pyrScale = (float)System.Math.Pow(factor, level);
 
-            return new Rect
+            return new RectangleF
             {
                 X = rect.X * pyrScale,
                 Y = rect.Y * pyrScale,
@@ -235,11 +235,11 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="level">Specifies how many levels to take.</param>
         /// <param name="factor">Specifies the pyramid scale factor.</param>
         /// <returns>Transformed rectangle.</returns>
-        public static Rect DownScale(this Rect rect, int level = 1, float factor = 2)
+        public static RectangleF DownScale(this RectangleF rect, int level = 1, float factor = 2)
         {
             float pyrScale = 1 / (float)System.Math.Pow(factor, level);
 
-            return new Rect
+            return new RectangleF
             {
                 X = rect.X * pyrScale,
                 Y = rect.Y * pyrScale,

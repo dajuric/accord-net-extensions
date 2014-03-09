@@ -171,7 +171,7 @@ namespace LINE2D
             }
 
             TTemplate t = new TTemplate();
-            t.Initialize(features.ToArray(), new Int32Size(width, height), templateClass);
+            t.Initialize(features.ToArray(), new Size(width, height), templateClass);
 
             if (t is IXmlSerializable)
             {

@@ -178,7 +178,7 @@ namespace Accord.Extensions.Vision //POGLEDATI INTERPOLACIJU - možda je tamo gr
             return;
         }
 
-        private static double[,] calcHessian(Rect prevArea)
+        private static double[,] calcHessian(RectangleF prevArea)
         {
             var derivX = storage.PrevImgPyrDerivX[storagePyrLevel].GetRectSubPix(prevArea);
             var derivY = storage.PrevImgPyrDerivY[storagePyrLevel].GetRectSubPix(prevArea);
@@ -194,7 +194,7 @@ namespace Accord.Extensions.Vision //POGLEDATI INTERPOLACIJU - možda je tamo gr
             return AtA;
         }
 
-        private static double[] calcE(Image<TColor, float> prevPatch, Image<TColor, float> currPatch, Rect currArea)
+        private static double[] calcE(Image<TColor, float> prevPatch, Image<TColor, float> currPatch, RectangleF currArea)
         {
             var pDerivX = storage.CurrImgPyrDerivX[storagePyrLevel].GetRectSubPix(currArea);
             var pDerivY = storage.CurrImgPyrDerivY[storagePyrLevel].GetRectSubPix(currArea);
@@ -208,11 +208,11 @@ namespace Accord.Extensions.Vision //POGLEDATI INTERPOLACIJU - možda je tamo gr
             return Atb;
         }
 
-        private static Rect getFeatureArea(PointF location, int winSize)
+        private static RectangleF getFeatureArea(PointF location, int winSize)
         {
             int halfWinSize = winSize / 2;
 
-            return new Rect
+            return new RectangleF
             {
                 X = location.X - halfWinSize,
                 Y = location.Y - halfWinSize,
@@ -221,9 +221,9 @@ namespace Accord.Extensions.Vision //POGLEDATI INTERPOLACIJU - možda je tamo gr
             };
         }
 
-        private static bool isInsideImage(Rect featureArea, Int32Size imageSize)
+        private static bool isInsideImage(RectangleF featureArea, Size imageSize)
         {
-            Rect imageArea = new Rect(new PointF(), (Int32Size)imageSize);
+            RectangleF imageArea = new RectangleF(new PointF(), (SizeF)imageSize);
 
             if (featureArea.IntersectionPercent(imageArea) < (1 - 1E-2))
                 return false;

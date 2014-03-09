@@ -101,7 +101,7 @@ namespace Accord.Extensions.Vision
         /// <summary>
         /// Gets or sets the frame size of the camera.
         /// </summary>
-        public new Int32Size FrameSize
+        public new Size FrameSize
         {
             get { return CvHighGuiInvoke.GetImageSize(capturePtr); }
             set { CvHighGuiInvoke.SetImageSize(capturePtr, value); }

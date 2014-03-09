@@ -34,43 +34,43 @@ namespace Accord.Extensions.Imaging
 
 
 
-        public static Int32Rect ToRect(this System.Drawing.Rectangle rect)
+        public static Rectangle ToRect(this System.Drawing.Rectangle rect)
         {
-            return new Int32Rect(rect.X, rect.Y, rect.Width, rect.Height);
+            return new Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        public static Rect ToRect(this System.Drawing.RectangleF rect)
+        public static RectangleF ToRect(this System.Drawing.RectangleF rect)
         {
-            return new Rect(rect.X, rect.Y, rect.Width, rect.Height);
+            return new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        public static Int32Size ToSize(this System.Drawing.Size size)
+        public static Size ToSize(this System.Drawing.Size size)
         {
-            return new Int32Size(size.Width, size.Height);
+            return new Size(size.Width, size.Height);
         }
 
-        public static Int32Size ToSize(this System.Drawing.SizeF size)
+        public static SizeF ToSize(this System.Drawing.SizeF size)
         {
-            return new Int32Size(size.Width, size.Height);
+            return new SizeF(size.Width, size.Height);
         }
 
 
-        public static System.Drawing.Rectangle ToRect(this Int32Rect rect)
+        public static System.Drawing.Rectangle ToRect(this Rectangle rect)
         {
             return new System.Drawing.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        public static System.Drawing.RectangleF ToRect(this Rect rect)
+        public static System.Drawing.RectangleF ToRect(this RectangleF rect)
         {
             return new System.Drawing.RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        public static System.Drawing.Size ToSize(this Int32Size size)
+        public static System.Drawing.Size ToSize(this Size size)
         {
             return new System.Drawing.Size(size.Width, size.Height);
         }
 
-        public static System.Drawing.SizeF ToSize(this Int32Size size)
+        public static System.Drawing.SizeF ToSize(this SizeF size)
         {
             return new System.Drawing.SizeF(size.Width, size.Height);
         }

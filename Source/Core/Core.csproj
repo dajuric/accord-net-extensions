@@ -54,11 +54,11 @@
     <Compile Include="ParallelFilterProcessing\ParallelProcessor.cs" />
     <Compile Include="Collections\CircularList.cs" />
     <Compile Include="Extensions\SerializationExtensions.cs" />
-    <Compile Include="Structures\Geometry\Rect.cs" />
-    <Compile Include="Structures\Geometry\Size.cs" />
+    <Compile Include="Structures\Geometry\RectangleF.cs" />
+    <Compile Include="Structures\Geometry\SizeF.cs" />
     <Compile Include="Platform.cs" />
-    <Compile Include="Structures\Geometry\Int32Rect.cs" />
-    <Compile Include="Structures\Geometry\Int32Size.cs" />
+    <Compile Include="Structures\Geometry\Rectangle.cs" />
+    <Compile Include="Structures\Geometry\Size.cs" />
     <Compile Include="Collections\History.cs" />
     <Compile Include="Collections\PinnedArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

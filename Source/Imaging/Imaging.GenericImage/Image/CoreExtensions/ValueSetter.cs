@@ -58,7 +58,7 @@ namespace Accord.Extensions.Imaging
                                                                                                 return true;
                                                                                             },
 
-                                                                                            (IImage srcImg, bool dummy, Int32Rect area) => //called for every thread
+                                                                                            (IImage srcImg, bool dummy, Rectangle area) => //called for every thread
                                                                                             {
                                                                                                 valueSetter(srcImg.GetSubRect(area), valueArr);
                                                                                             }

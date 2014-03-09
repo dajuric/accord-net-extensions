@@ -73,7 +73,7 @@ namespace Accord.Extensions.Vision
         /// <summary>
         /// Gets the frame size.
         /// </summary>
-        public Int32Size FrameSize
+        public Size FrameSize
         {
             get { return CvHighGuiInvoke.GetImageSize(capturePtr); }
         }

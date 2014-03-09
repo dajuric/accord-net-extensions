@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -42,14 +41,15 @@ namespace Accord.Extensions
     //
 
     /// <summary>
-    /// Stores an ordered pair of floating-point numbers, which specify a Height and Width and defines related functions.
+    /// Stores an ordered pair of integer numbers, which specify a Height and Width and defines related functions.
     /// </summary>
     [Serializable]
     [ComVisible(true)]
-    public struct Int32Size
+    public struct Size
     {
-        // Private height and width fields.
-        private float width, height;
+
+        // Private Height and width fields.
+        private int width, height;
 
         // -----------------------
         // Public Shared Members
@@ -60,23 +60,86 @@ namespace Accord.Extensions
         /// </summary>
         ///
         /// <remarks>
-        ///	An uninitialized SizeF Structure.
+        ///	An uninitialized Size Structure.
         /// </remarks>
 
-        public static readonly Int32Size Empty;
+        public static readonly Size Empty;
+
+        /// <summary>
+        ///	Ceiling Shared Method
+        /// </summary>
+        ///
+        /// <remarks>
+        ///	Produces a Size structure from a SizeF structure by
+        ///	taking the ceiling of the Width and Height properties.
+        /// </remarks>
+
+        public static Size Ceiling(SizeF value)
+        {
+            int w, h;
+            checked
+            {
+                w = (int)Math.Ceiling(value.Width);
+                h = (int)Math.Ceiling(value.Height);
+            }
+
+            return new Size(w, h);
+        }
+
+        /// <summary>
+        ///	Round Shared Method
+        /// </summary>
+        ///
+        /// <remarks>
+        ///	Produces a Size structure from a SizeF structure by
+        ///	rounding the Width and Height properties.
+        /// </remarks>
+
+        public static Size Round(SizeF value)
+        {
+            int w, h;
+            checked
+            {
+                w = (int)Math.Round(value.Width);
+                h = (int)Math.Round(value.Height);
+            }
+
+            return new Size(w, h);
+        }
+
+        /// <summary>
+        ///	Truncate Shared Method
+        /// </summary>
+        ///
+        /// <remarks>
+        ///	Produces a Size structure from a SizeF structure by
+        ///	truncating the Width and Height properties.
+        /// </remarks>
+
+        public static Size Truncate(SizeF value)
+        {
+            int w, h;
+            checked
+            {
+                w = (int)value.Width;
+                h = (int)value.Height;
+            }
+
+            return new Size(w, h);
+        }
 
         /// <summary>
         ///	Addition Operator
         /// </summary>
         ///
         /// <remarks>
-        ///	Addition of two SizeF structures.
+        ///	Addition of two Size structures.
         /// </remarks>
 
-        public static Int32Size operator +(Int32Size sz1, Int32Size sz2)
+        public static Size operator +(Size sz1, Size sz2)
         {
-            return new Int32Size(sz1.Width + sz2.Width,
-                      sz1.Height + sz2.Height);
+            return new Size(sz1.Width + sz2.Width,
+                     sz1.Height + sz2.Height);
         }
 
         /// <summary>
@@ -84,12 +147,12 @@ namespace Accord.Extensions
         /// </summary>
         ///
         /// <remarks>
-        ///	Compares two SizeF objects. The return value is
+        ///	Compares two Size objects. The return value is
         ///	based on the equivalence of the Width and Height 
         ///	properties of the two Sizes.
         /// </remarks>
 
-        public static bool operator ==(Int32Size sz1, Int32Size sz2)
+        public static bool operator ==(Size sz1, Size sz2)
         {
             return ((sz1.Width == sz2.Width) &&
                 (sz1.Height == sz2.Height));
@@ -100,12 +163,12 @@ namespace Accord.Extensions
         /// </summary>
         ///
         /// <remarks>
-        ///	Compares two SizeF objects. The return value is
+        ///	Compares two Size objects. The return value is
         ///	based on the equivalence of the Width and Height 
         ///	properties of the two Sizes.
         /// </remarks>
 
-        public static bool operator !=(Int32Size sz1, Int32Size sz2)
+        public static bool operator !=(Size sz1, Size sz2)
         {
             return ((sz1.Width != sz2.Width) ||
                 (sz1.Height != sz2.Height));
@@ -116,27 +179,41 @@ namespace Accord.Extensions
         /// </summary>
         ///
         /// <remarks>
-        ///	Subtracts two SizeF structures.
+        ///	Subtracts two Size structures.
         /// </remarks>
 
-        public static Int32Size operator -(Int32Size sz1, Int32Size sz2)
+        public static Size operator -(Size sz1, Size sz2)
         {
-            return new Int32Size(sz1.Width - sz2.Width,
-                      sz1.Height - sz2.Height);
+            return new Size(sz1.Width - sz2.Width,
+                     sz1.Height - sz2.Height);
         }
 
         /// <summary>
-        ///	SizeF to PointF Conversion
+        ///	Size to Point Conversion
         /// </summary>
         ///
         /// <remarks>
-        ///	Returns a PointF based on the dimensions of a given 
-        ///	SizeF. Requires explicit cast.
+        ///	Returns a Point based on the dimensions of a given 
+        ///	Size. Requires explicit cast.
         /// </remarks>
 
-        public static explicit operator PointF(Int32Size size)
+        public static explicit operator Point(Size size)
         {
-            return new PointF(size.Width, size.Height);
+            return new Point(size.Width, size.Height);
+        }
+
+        /// <summary>
+        ///	Size to SizeF Conversion
+        /// </summary>
+        ///
+        /// <remarks>
+        ///	Creates a SizeF based on the dimensions of a given 
+        ///	Size. No explicit cast is required.
+        /// </remarks>
+
+        public static implicit operator SizeF(Size p)
+        {
+            return new SizeF(p.Width, p.Height);
         }
 
 
@@ -145,42 +222,28 @@ namespace Accord.Extensions
         // -----------------------
 
         /// <summary>
-        ///	SizeF Constructor
+        ///	Size Constructor
         /// </summary>
         ///
         /// <remarks>
-        ///	Creates a SizeF from a PointF value.
+        ///	Creates a Size from a Point value.
         /// </remarks>
 
-        public Int32Size(PointF pt)
+        public Size(Point pt)
         {
             width = pt.X;
             height = pt.Y;
         }
 
         /// <summary>
-        ///	SizeF Constructor
+        ///	Size Constructor
         /// </summary>
         ///
         /// <remarks>
-        ///	Creates a SizeF from an existing SizeF value.
+        ///	Creates a Size from specified dimensions.
         /// </remarks>
 
-        public Int32Size(Int32Size size)
-        {
-            width = size.Width;
-            height = size.Height;
-        }
-
-        /// <summary>
-        ///	SizeF Constructor
-        /// </summary>
-        ///
-        /// <remarks>
-        ///	Creates a SizeF from specified dimensions.
-        /// </remarks>
-
-        public Int32Size(float width, float height)
+        public Size(int width, int height)
         {
             this.width = width;
             this.height = height;
@@ -203,7 +266,7 @@ namespace Accord.Extensions
         {
             get
             {
-                return ((width == 0.0) && (height == 0.0));
+                return ((width == 0) && (height == 0));
             }
         }
 
@@ -212,10 +275,10 @@ namespace Accord.Extensions
         /// </summary>
         ///
         /// <remarks>
-        ///	The Width coordinate of the SizeF.
+        ///	The Width coordinate of the Size.
         /// </remarks>
 
-        public float Width
+        public int Width
         {
             get
             {
@@ -232,10 +295,10 @@ namespace Accord.Extensions
         /// </summary>
         ///
         /// <remarks>
-        ///	The Height coordinate of the SizeF.
+        ///	The Height coordinate of the Size.
         /// </remarks>
 
-        public float Height
+        public int Height
         {
             get
             {
@@ -252,15 +315,15 @@ namespace Accord.Extensions
         /// </summary>
         ///
         /// <remarks>
-        ///	Checks equivalence of this SizeF and another object.
+        ///	Checks equivalence of this Size and another object.
         /// </remarks>
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Int32Size))
+            if (!(obj is Size))
                 return false;
 
-            return (this == (Int32Size)obj);
+            return (this == (Size)obj);
         }
 
         /// <summary>
@@ -273,12 +336,7 @@ namespace Accord.Extensions
 
         public override int GetHashCode()
         {
-            return (int)width ^ (int)height;
-        }
-
-        public static explicit operator Int32Size(Int32Size size)
-        {
-            return new Int32Size((int)size.Width, (int)size.Height);
+            return width ^ height;
         }
 
         /// <summary>
@@ -286,27 +344,28 @@ namespace Accord.Extensions
         /// </summary>
         ///
         /// <remarks>
-        ///	Formats the SizeF as a string in coordinate notation.
+        ///	Formats the Size as a string in coordinate notation.
         /// </remarks>
 
         public override string ToString()
         {
-            return string.Format("{{Width={0}, Height={1}}}", width.ToString(CultureInfo.CurrentCulture),
-                height.ToString(CultureInfo.CurrentCulture));
+            return String.Format("{{Width={0}, Height={1}}}", width, height);
         }
 
 #if NET_2_0
-		public static SizeF Add (SizeF sz1, SizeF sz2)
+		public static Size Add (Size sz1, Size sz2)
 		{
-			return new SizeF (sz1.Width + sz2.Width, 
-					  sz1.Height + sz2.Height);
+			return new Size (sz1.Width + sz2.Width, 
+					 sz1.Height + sz2.Height);
+
 		}
 
-		public static SizeF Subtract (SizeF sz1, SizeF sz2)
+		public static Size Subtract (Size sz1, Size sz2)
 		{
-			return new SizeF (sz1.Width - sz2.Width, 
-					  sz1.Height - sz2.Height);
+			return new Size (sz1.Width - sz2.Width, 
+					 sz1.Height - sz2.Height);
 		}
 #endif
+
     }
 }

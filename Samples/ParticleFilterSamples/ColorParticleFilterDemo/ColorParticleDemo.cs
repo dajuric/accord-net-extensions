@@ -56,7 +56,7 @@ namespace SimpleParticleFilterDemo
             }
         }
 
-        Int32Size imgSize = new Int32Size(640 / 2, 480 / 2);
+        Size imgSize = new Size(640 / 2, 480 / 2);
 
         Bgr referenceColor = Bgr8.Red; //User defined color
         List<ColorParticle> particleFilter;

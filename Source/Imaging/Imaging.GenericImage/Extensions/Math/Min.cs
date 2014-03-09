@@ -53,7 +53,7 @@ namespace Accord.Extensions.Imaging
                                                    else
                                                        return imageA;
                                                },
-                                               (bool _, IImage dest, Int32Rect area) =>
+                                               (bool _, IImage dest, Rectangle area) =>
                                                {
                                                    minFunc(imageA.GetSubRect(area), imageB.GetSubRect(area), dest.GetSubRect(area));
                                                }

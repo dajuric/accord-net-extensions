@@ -86,7 +86,7 @@ namespace Accord.Extensions.Imaging
                                                             {
                                                                 return true;
                                                             },
-                                                            (bool _, bool __, Int32Rect area) =>
+                                                            (bool _, bool __, Rectangle area) =>
                                                             {
                                                                 var src1Patch = src1.GetSubRect(area);
                                                                 var src2Patch = src2.GetSubRect(area);

@@ -15,7 +15,7 @@ namespace Accord.Extensions.Imaging.Filters
 
             double pyrScale = GetPyramidScale(level);
 
-            Int32Size newSize = new Int32Size
+            Size newSize = new Size
             {
                 Width = (int)(im.Width * pyrScale),
                 Height = (int)(im.Height * pyrScale)

@@ -63,7 +63,7 @@ namespace PyrKLOpticalFlowDemo
             }
 
             if(videoCapture is CameraCapture)
-                (videoCapture as CameraCapture).FrameSize = new Int32Size(640, 480); 
+                (videoCapture as CameraCapture).FrameSize = new Size(640, 480); 
 
             oldPositions = new List<PointF>();
             prevIm = new Image<FlowColor, float>(videoCapture.FrameSize);
@@ -116,7 +116,7 @@ namespace PyrKLOpticalFlowDemo
                 /*im[(int)pt.Y, (int)pt.X] = new Bgr(Color.Red);
                 continue;*/
                 
-                var rect = new Rect(pt.X, pt.Y, 1, 1);
+                var rect = new RectangleF(pt.X, pt.Y, 1, 1);
                 rect.Inflate(winSize / 2, winSize / 2);
 
                 im.Draw(rect, System.Drawing.Color.Red.ToBgr(), 3);

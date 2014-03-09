@@ -47,7 +47,7 @@ namespace Accord.Extensions.Imaging
                                                                 return Image.Create(destColor, imgSize.Width, imgSize.Height);
                                                             }, 
 
-                                                            (IImage[] srcImgs, IImage destImg, Int32Rect area) => //executed for each thread
+                                                            (IImage[] srcImgs, IImage destImg, Rectangle area) => //executed for each thread
                                                             {
                                                                 var channelPatches = new IImage[srcImgs.Length];
                                                                 for (int i = 0; i < channelPatches.Length; i++)

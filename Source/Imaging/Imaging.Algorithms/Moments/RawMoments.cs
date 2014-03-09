@@ -206,7 +206,7 @@ namespace Accord.Extensions.Imaging.Moments
                                                                                       {
                                                                                           return true;
                                                                                       },
-                                                                                      (IImage src, bool _, Int32Rect area) => //called for every thread
+                                                                                      (IImage src, bool _, Rectangle area) => //called for every thread
                                                                                       {
                                                                                           IntPoint offset = new IntPoint(area.X, area.Y);
 

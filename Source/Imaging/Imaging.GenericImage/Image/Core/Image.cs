@@ -183,7 +183,7 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Gets image size.
         /// </summary>
-        public Int32Size Size { get { return new Int32Size(this.Width, this.Height); } }
+        public Size Size { get { return new Size(this.Width, this.Height); } }
         /// <summary>
         /// Gets image color info.
         /// </summary>
@@ -246,7 +246,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="rect">Area of an image for sub-image creation.</param>
         /// <returns>Sub-image.</returns>
-        IImage IImage.GetSubRect(Int32Rect rect)
+        IImage IImage.GetSubRect(Rectangle rect)
         {
             if (rect.Right > this.Width || rect.Bottom > this.Height) //Location will be verified through GetData(...) function
                 throw new ArgumentOutOfRangeException();

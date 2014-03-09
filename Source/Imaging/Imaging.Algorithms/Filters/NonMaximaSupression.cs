@@ -42,14 +42,14 @@ namespace Accord.Extensions.Imaging
                                                           () => true,
                                                           (_src, _, area) =>
                                                           {
-                                                              Int32Rect srcArea = new Int32Rect
+                                                              Rectangle srcArea = new Rectangle
                                                               {
                                                                   X = 0,
                                                                   Y = area.Y,
                                                                   Width = _src.Width,
                                                                   Height = area.Height + 2 * radius
                                                               };
-                                                              srcArea.Intersect(new Int32Rect(new Point(), img.Size));
+                                                              srcArea.Intersect(new Rectangle(new Point(), img.Size));
 
                                                               supressNonMaximaFunc(img.GetSubRect(srcArea), dest.GetSubRect(srcArea), radius, discardValue);
                                                           },

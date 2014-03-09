@@ -39,7 +39,7 @@ namespace Accord.Extensions
     /// Stores a set of four floating-point numbers that represent the location and size of a rectangle.
     /// </summary>
     [Serializable]
-    public struct Rect
+    public struct RectangleF
     {
         private float x, y, width, height;
 
@@ -51,7 +51,7 @@ namespace Accord.Extensions
         ///	An uninitialized RectangleF Structure.
         /// </remarks>
 
-        public static readonly Rect Empty;
+        public static readonly RectangleF Empty;
 
 #if TARGET_JVM
 		internal java.awt.geom.Rectangle2D NativeObject {
@@ -70,10 +70,10 @@ namespace Accord.Extensions
         ///	and bottom coordinates.
         /// </remarks>
 
-        public static Rect FromLTRB(float left, float top,
+        public static RectangleF FromLTRB(float left, float top,
                            float right, float bottom)
         {
-            return new Rect(left, top, right - left, bottom - top);
+            return new RectangleF(left, top, right - left, bottom - top);
         }
 
         /// <summary>
@@ -85,10 +85,10 @@ namespace Accord.Extensions
         ///	RectangleF by the specified coordinate values.
         /// </remarks>
 
-        public static Rect Inflate(Rect rect,
+        public static RectangleF Inflate(RectangleF rect,
                           float x, float y)
         {
-            Rect ir = new Rect(rect.X, rect.Y, rect.Width, rect.Height);
+            RectangleF ir = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
             ir.Inflate(x, y);
             return ir;
         }
@@ -103,7 +103,7 @@ namespace Accord.Extensions
 
         public void Inflate(float x, float y)
         {
-            Inflate(new Int32Size(x, y));
+            Inflate(new SizeF(x, y));
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Accord.Extensions
         ///	Inflates the RectangleF by a specified Size.
         /// </remarks>
 
-        public void Inflate(Int32Size size)
+        public void Inflate(SizeF size)
         {
             x -= size.Width;
             y -= size.Height;
@@ -131,8 +131,8 @@ namespace Accord.Extensions
         ///	RectangleFs. Returns null if there is no intersection.
         /// </remarks>
 
-        public static Rect Intersect(Rect a,
-                            Rect b)
+        public static RectangleF Intersect(RectangleF a,
+                            RectangleF b)
         {
             // MS.NET returns a non-empty rectangle if the two rectangles
             // touch each other
@@ -155,9 +155,9 @@ namespace Accord.Extensions
         ///	and another RectangleF.
         /// </remarks>
 
-        public void Intersect(Rect rect)
+        public void Intersect(RectangleF rect)
         {
-            this = Rect.Intersect(this, rect);
+            this = RectangleF.Intersect(this, rect);
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Accord.Extensions
         ///	RectangleFs.
         /// </remarks>
 
-        public static Rect Union(Rect a, Rect b)
+        public static RectangleF Union(RectangleF a, RectangleF b)
         {
             return FromLTRB(Math.Min(a.Left, b.Left),
                      Math.Min(a.Top, b.Top),
@@ -187,7 +187,7 @@ namespace Accord.Extensions
         ///	properties of the two RectangleFs.
         /// </remarks>
 
-        public static bool operator ==(Rect left, Rect right)
+        public static bool operator ==(RectangleF left, RectangleF right)
         {
             return (left.X == right.X) && (left.Y == right.Y) &&
                                 (left.Width == right.Width) && (left.Height == right.Height);
@@ -203,7 +203,7 @@ namespace Accord.Extensions
         ///	properties of the two RectangleFs.
         /// </remarks>
 
-        public static bool operator !=(Rect left, Rect right)
+        public static bool operator !=(RectangleF left, RectangleF right)
         {
             return (left.X != right.X) || (left.Y != right.Y) ||
                                 (left.Width != right.Width) || (left.Height != right.Height);
@@ -217,9 +217,9 @@ namespace Accord.Extensions
         ///	Converts a Rectangle object to a RectangleF.
         /// </remarks>
 
-        public static implicit operator Rect(Int32Rect r)
+        public static implicit operator RectangleF(Rectangle r)
         {
-            return new Rect(r.X, r.Y, r.Width, r.Height);
+            return new RectangleF(r.X, r.Y, r.Width, r.Height);
         }
 
 
@@ -235,7 +235,7 @@ namespace Accord.Extensions
         ///	Creates a RectangleF from PointF and SizeF values.
         /// </remarks>
 
-        public Rect(PointF location, Int32Size size)
+        public RectangleF(PointF location, SizeF size)
         {
             x = location.X;
             y = location.Y;
@@ -252,7 +252,7 @@ namespace Accord.Extensions
         ///	width and height values.
         /// </remarks>
 
-        public Rect(float x, float y, float width, float height)
+        public RectangleF(float x, float y, float width, float height)
         {
             this.x = x;
             this.y = y;
@@ -392,11 +392,11 @@ namespace Accord.Extensions
         /// </remarks>
 
         [Browsable(false)]
-        public Int32Size Size
+        public SizeF Size
         {
             get
             {
-                return new Int32Size(width, height);
+                return new SizeF(width, height);
             }
             set
             {
@@ -519,7 +519,7 @@ namespace Accord.Extensions
         ///	RectangleF.
         /// </remarks>
 
-        public bool Contains(Rect rect)
+        public bool Contains(RectangleF rect)
         {
             return (rect == Intersect(this, rect));
         }
@@ -534,10 +534,10 @@ namespace Accord.Extensions
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Rect))
+            if (!(obj is RectangleF))
                 return false;
 
-            return (this == (Rect)obj);
+            return (this == (RectangleF)obj);
         }
 
         /// <summary>
@@ -561,13 +561,13 @@ namespace Accord.Extensions
         ///	Checks if a RectangleF intersects with this one.
         /// </remarks>
 
-        public bool IntersectsWith(Rect rect)
+        public bool IntersectsWith(RectangleF rect)
         {
             return !((Left >= rect.Right) || (Right <= rect.Left) ||
                 (Top >= rect.Bottom) || (Bottom <= rect.Top));
         }
 
-        private bool IntersectsWithInclusive(Rect r)
+        private bool IntersectsWithInclusive(RectangleF r)
         {
             return !((Left > r.Right) || (Right < r.Left) ||
                 (Top > r.Bottom) || (Bottom < r.Top));

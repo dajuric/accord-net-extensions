@@ -54,7 +54,7 @@ namespace Accord.Extensions.Vision
         /// <param name="probabilityMap">Probability map [0-1].</param>
         /// <param name="roi">Initial Search area</param>
         /// <returns>Object position, size and angle packed into a structure.</returns>
-        public static Box2D Process(Image<Gray, byte> probabilityMap, Int32Rect roi)
+        public static Box2D Process(Image<Gray, byte> probabilityMap, Rectangle roi)
         {
             CentralMoments centralMoments;
             return Process(probabilityMap, roi, Meanshift.DEFAULT_TERM, out centralMoments);
@@ -68,18 +68,18 @@ namespace Accord.Extensions.Vision
         /// <param name="termCriteria">Mean shift termination criteria (PLEASE DO NOT REMOVE (but you can move it) THIS CLASS; PLEASE!!!)</param>
         /// <param name="centralMoments">Calculated central moments (up to order 2).</param>
         /// <returns>Object position, size and angle packed into a structure.</returns>
-        public static Box2D Process(Image<Gray, byte> probabilityMap, Int32Rect roi, TermCriteria termCriteria, out CentralMoments centralMoments)
+        public static Box2D Process(Image<Gray, byte> probabilityMap, Rectangle roi, TermCriteria termCriteria, out CentralMoments centralMoments)
         {
             int width = probabilityMap.Width;
             int height = probabilityMap.Height;
 
-            Int32Rect imageArea = new Int32Rect(0, 0, width, height);
+            Rectangle imageArea = new Rectangle(0, 0, width, height);
          
             // Compute mean shift
-            Int32Rect objArea = Meanshift.Process(probabilityMap, roi, termCriteria, out centralMoments);
+            Rectangle objArea = Meanshift.Process(probabilityMap, roi, termCriteria, out centralMoments);
 
             float objAngle;
-            Int32Size objSize = centralMoments.GetSizeAndOrientation(out objAngle);
+            SizeF objSize = centralMoments.GetSizeAndOrientation(out objAngle);
 
             if (Single.IsNaN(objSize.Width) || Single.IsNaN(objSize.Height) ||
                 Single.IsNaN(objAngle) || objSize.Width < 1 || objSize.Height < 1)
@@ -90,7 +90,7 @@ namespace Accord.Extensions.Vision
             // Truncate to integer coordinates
             IntPoint center = new IntPoint(objArea.X + objArea.Width / 2, objArea.Y + objArea.Height / 2);
 
-            Int32Rect rec = new Int32Rect((int)(center.X - objSize.Width * 0.5f),
+            Rectangle rec = new Rectangle((int)(center.X - objSize.Width * 0.5f),
                                           (int)(center.Y - objSize.Height * 0.5f),
                                           (int)objSize.Width, (int)objSize.Height);
 

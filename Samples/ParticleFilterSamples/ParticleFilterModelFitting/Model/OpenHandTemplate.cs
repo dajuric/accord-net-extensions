@@ -110,7 +110,7 @@ namespace ParticleFilterModelFitting
             }
 
             template.Features = features.ToArray();
-            template.Size = Int32Size.Round(boundingRect.Size);
+            template.Size = Size.Round(boundingRect.Size);
             template.ClassLabel = label;
 
             return template;
@@ -130,7 +130,7 @@ namespace ParticleFilterModelFitting
             private set;
         }
 
-        public Int32Size Size
+        public Size Size
         {
             get;
             private set;
@@ -142,7 +142,7 @@ namespace ParticleFilterModelFitting
             private set;
         }
 
-        void ITemplate.Initialize(Feature[] features, Int32Size size, string classLabel)
+        void ITemplate.Initialize(Feature[] features, Size size, string classLabel)
         {
             this.Features = features;
             this.Size = size;

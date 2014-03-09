@@ -58,7 +58,7 @@ namespace Accord.Extensions.Imaging
                                                                                                 return destImg;
                                                                                             },
 
-                                                                                            (IImage srcImg, IImage dstImg, Int32Rect area) => //called for every thread
+                                                                                            (IImage srcImg, IImage dstImg, Rectangle area) => //called for every thread
                                                                                             {
                                                                                                 conditionalCopyFunc(srcImg.GetSubRect(area), dstImg.GetSubRect(area), mask.GetSubRect(area));
                                                                                             }

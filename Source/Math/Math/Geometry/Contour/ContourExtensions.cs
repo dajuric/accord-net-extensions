@@ -354,7 +354,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="points">Contour points.</param>
         /// <returns>Bounding rectangle.</returns>
-        public static Rect BoundingRect(this IEnumerable<PointF> points)
+        public static RectangleF BoundingRect(this IEnumerable<PointF> points)
         {
             float minX = Single.MaxValue, maxX = Single.MinValue, 
                   minY = Single.MaxValue, maxY = Single.MinValue;
@@ -372,7 +372,7 @@ namespace Accord.Extensions.Math.Geometry
                     maxY = pt.Y;
             }
 
-            return new Rect(minX, minY, maxX - minX, maxY - minY);
+            return new RectangleF(minX, minY, maxX - minX, maxY - minY);
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="points">Contour points.</param>
         /// <returns>Bounding rectangle.</returns>
-        public static Int32Rect BoundingRect(this IEnumerable<Point> points)
+        public static Rectangle BoundingRect(this IEnumerable<Point> points)
         {
             int minX = Int32.MaxValue, maxX = Int32.MinValue, 
                 minY = Int32.MaxValue, maxY = Int32.MinValue;
@@ -398,7 +398,7 @@ namespace Accord.Extensions.Math.Geometry
                     maxY = pt.Y;
             }
 
-            return new Int32Rect(minX, minY, maxX - minX, maxY - minY);
+            return new Rectangle(minX, minY, maxX - minX, maxY - minY);
         }
 
         /// <summary>

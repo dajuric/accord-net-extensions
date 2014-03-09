@@ -119,7 +119,7 @@
             }
 
             // process rows
-            var procRow = new ParallelProcessor<bool, bool>(new Int32Size(1 /*does not matter*/, height),
+            var procRow = new ParallelProcessor<bool, bool>(new Size(1 /*does not matter*/, height),
                                                             () => true,
                                                             (_, __, area) =>
                                                             {
@@ -139,7 +139,7 @@
 
             // process columns
             //(y and x are swaped => proc thinks it is diving horizontal pacthes but instead we are using them as vertical ones)
-            var procCol = new ParallelProcessor<bool, bool>(new Int32Size(1 /*does not matter*/, width),
+            var procCol = new ParallelProcessor<bool, bool>(new Size(1 /*does not matter*/, width),
                                                             () => true,
                                                             (_, __, area) =>
                                                             {

@@ -9,19 +9,19 @@ namespace Test
 {
     public static class ImagePatchProcessor
     {
-        private static void makePatches(Int32Size imgSize, int minPatchHeight, out List<Int32Rect> patches)
+        private static void makePatches(Size imgSize, int minPatchHeight, out List<Rectangle> patches)
         {
             int patchHeight, verticalPatches;
             getPatchInfo(imgSize, out patchHeight, out verticalPatches);
             minPatchHeight = System.Math.Max(minPatchHeight, patchHeight);
 
-            patches = new List<Int32Rect>();
+            patches = new List<Rectangle>();
 
             for (int y = 0; y < imgSize.Height; )
             {
                 int h = System.Math.Min(patchHeight, imgSize.Height - y);
 
-                Int32Rect patch = new Int32Rect(0, y, imgSize.Width, h);
+                Rectangle patch = new Rectangle(0, y, imgSize.Width, h);
                 patches.Add(patch);
 
                 y += h;
@@ -33,7 +33,7 @@ namespace Test
                 var penultimate = patches[patches.Count - 1 - 1];
                 var last = patches[patches.Count - 1];
 
-                var mergedPatch = new Int32Rect
+                var mergedPatch = new Rectangle
                 {
                     X = penultimate.X,
                     Y = penultimate.Y,
@@ -46,7 +46,7 @@ namespace Test
             }
         }
 
-        private static void getPatchInfo(Int32Size imgSize, out int patchHeight, out int verticalPatches)
+        private static void getPatchInfo(Size imgSize, out int patchHeight, out int verticalPatches)
         {
             int numOfCores = System.Environment.ProcessorCount;
             int minNumOfPatches = numOfCores * 2;
@@ -65,7 +65,7 @@ namespace Test
             where TDepthSrc: struct
             where TDepthDst: struct
         {
-            List<Int32Rect> patches;
+            List<Rectangle> patches;
             makePatches(image.Size, 0, out patches);
 
             int nChannels = image.ColorInfo.NumberOfChannels;

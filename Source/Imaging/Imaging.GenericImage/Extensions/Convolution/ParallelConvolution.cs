@@ -171,44 +171,44 @@ namespace Accord.Extensions.Imaging
         internal static void MirrorBorders(IImage image, IImage destImage, int mirrorWidth, int mirrorHeight)
         {
             //top
-            Int32Rect srcTop = new Int32Rect(0, 0, image.Width, mirrorHeight);
-            Int32Rect dstTop = srcTop; dstTop.Offset(mirrorWidth, 0);
+            Rectangle srcTop = new Rectangle(0, 0, image.Width, mirrorHeight);
+            Rectangle dstTop = srcTop; dstTop.Offset(mirrorWidth, 0);
             ImageFlipping.FlipImage(image.GetSubRect(srcTop), destImage.GetSubRect(dstTop), FlipDirection.Vertical);
 
             //bottom
-            Int32Rect srcBottom = new Int32Rect(0, image.Height - mirrorHeight, image.Width, mirrorHeight);
-            Int32Rect dstBottom = srcBottom; dstBottom.Offset(mirrorWidth, 2 * mirrorHeight);
+            Rectangle srcBottom = new Rectangle(0, image.Height - mirrorHeight, image.Width, mirrorHeight);
+            Rectangle dstBottom = srcBottom; dstBottom.Offset(mirrorWidth, 2 * mirrorHeight);
             ImageFlipping.FlipImage(image.GetSubRect(srcBottom), destImage.GetSubRect(dstBottom), FlipDirection.Vertical);
 
             //left
-            Int32Rect srcLeft = new Int32Rect(0, 0, mirrorWidth, image.Height);
-            Int32Rect dstLeft = srcLeft; dstLeft.Offset(0, mirrorHeight);
+            Rectangle srcLeft = new Rectangle(0, 0, mirrorWidth, image.Height);
+            Rectangle dstLeft = srcLeft; dstLeft.Offset(0, mirrorHeight);
             ImageFlipping.FlipImage(image.GetSubRect(srcLeft), destImage.GetSubRect(dstLeft), FlipDirection.Horizontal);
 
             //right
-            Int32Rect srcRight = new Int32Rect(image.Width - mirrorWidth, 0, mirrorWidth, image.Height);
-            Int32Rect dstRight = srcRight; dstRight.Offset(2 * mirrorWidth, mirrorHeight);
+            Rectangle srcRight = new Rectangle(image.Width - mirrorWidth, 0, mirrorWidth, image.Height);
+            Rectangle dstRight = srcRight; dstRight.Offset(2 * mirrorWidth, mirrorHeight);
             ImageFlipping.FlipImage(image.GetSubRect(srcRight), destImage.GetSubRect(dstRight), FlipDirection.Horizontal);
 
 
             //top-left
-            Int32Rect srcTopLeft = new Int32Rect(0, 0, mirrorWidth, mirrorHeight);
-            Int32Rect dstTopLeft = srcTopLeft; dstTopLeft.Offset(0, 0);
+            Rectangle srcTopLeft = new Rectangle(0, 0, mirrorWidth, mirrorHeight);
+            Rectangle dstTopLeft = srcTopLeft; dstTopLeft.Offset(0, 0);
             ImageFlipping.FlipImage(image.GetSubRect(srcTopLeft), destImage.GetSubRect(dstTopLeft), FlipDirection.All);
 
             //bottom-left
-            Int32Rect srcBottomLeft = new Int32Rect(0, image.Height - mirrorHeight, mirrorWidth, mirrorHeight);
-            Int32Rect dstBottomLeft = srcBottomLeft; dstBottomLeft.Offset(0, 2 * mirrorHeight);
+            Rectangle srcBottomLeft = new Rectangle(0, image.Height - mirrorHeight, mirrorWidth, mirrorHeight);
+            Rectangle dstBottomLeft = srcBottomLeft; dstBottomLeft.Offset(0, 2 * mirrorHeight);
             ImageFlipping.FlipImage(image.GetSubRect(srcBottomLeft), destImage.GetSubRect(dstBottomLeft), FlipDirection.All);
 
             //top-right
-            Int32Rect srcTopRight = new Int32Rect(image.Width - mirrorWidth, 0, mirrorWidth, mirrorHeight);
-            Int32Rect dstTopRight = srcTopRight; dstTopRight.Offset(2 * mirrorWidth, 0);
+            Rectangle srcTopRight = new Rectangle(image.Width - mirrorWidth, 0, mirrorWidth, mirrorHeight);
+            Rectangle dstTopRight = srcTopRight; dstTopRight.Offset(2 * mirrorWidth, 0);
             ImageFlipping.FlipImage(image.GetSubRect(srcTopRight), destImage.GetSubRect(dstTopRight), FlipDirection.All);
 
             //bottom-right
-            Int32Rect srcBottomRight = new Int32Rect(image.Width - mirrorWidth, image.Height - mirrorHeight, mirrorWidth, mirrorHeight);
-            Int32Rect dstBottomRight = srcBottomRight; dstBottomRight.Offset(2 * mirrorWidth, 2 * mirrorHeight);
+            Rectangle srcBottomRight = new Rectangle(image.Width - mirrorWidth, image.Height - mirrorHeight, mirrorWidth, mirrorHeight);
+            Rectangle dstBottomRight = srcBottomRight; dstBottomRight.Offset(2 * mirrorWidth, 2 * mirrorHeight);
             ImageFlipping.FlipImage(image.GetSubRect(srcBottomRight), destImage.GetSubRect(dstBottomRight), FlipDirection.All);
         }
     }

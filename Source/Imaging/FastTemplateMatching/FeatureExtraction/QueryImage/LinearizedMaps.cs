@@ -90,18 +90,18 @@ namespace LINE2D
         /// <summary>
         /// Gets original image size from which the response map is caclulated.
         /// </summary>
-        public Int32Size ImageSize { get; private set; }
+        public Size ImageSize { get; private set; }
         /// <summary>
         /// Getsvalid image size.
         /// <para>Valid size is: (imgWidth / neigborhood * neigborhood,  imgWidth / neigborhood * neigborhood) - integer divisions are used.</para>
         /// </summary>
-        public Int32Size ImageValidSize { get; private set; }
+        public Size ImageValidSize { get; private set; }
 
         /// <summary>
         /// Gets linear map size.
         /// <para>Linear size is: (imgWidth / neigborhood, imgHeight / neigborhood) - integer divisions are used.</para>
         /// </summary>
-        public Int32Size LinearMapSize { get; private set; } 
+        public Size LinearMapSize { get; private set; } 
 
         #endregion
 
@@ -115,8 +115,8 @@ namespace LINE2D
             this.NeigborhoodSize = neigborhood;
             this.ImageSize = orientationDegImg.Size;
             
-            this.LinearMapSize = new Int32Size(orientationDegImg.Width / neigborhood, orientationDegImg.Height / neigborhood);
-            this.ImageValidSize = new Int32Size(this.LinearMapSize.Width * neigborhood, this.LinearMapSize.Height * neigborhood);
+            this.LinearMapSize = new Size(orientationDegImg.Width / neigborhood, orientationDegImg.Height / neigborhood);
+            this.ImageValidSize = new Size(this.LinearMapSize.Width * neigborhood, this.LinearMapSize.Height * neigborhood);
 
             this.LinearMaps = calculate(orientationDegImg);
         }

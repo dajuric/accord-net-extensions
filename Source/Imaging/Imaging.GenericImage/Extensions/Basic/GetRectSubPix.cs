@@ -28,11 +28,11 @@ namespace Accord.Extensions.Imaging
             GetRectSubPix((IImage)img, startPt, destImg);
         }*/
 
-        public static Image<TColor, float> GetRectSubPix<TColor, TDepth>(this Image<TColor, TDepth> img, Rect area)
+        public static Image<TColor, float> GetRectSubPix<TColor, TDepth>(this Image<TColor, TDepth> img, RectangleF area)
             where TColor : IColor
             where TDepth : struct
         {
-            var destImg = new Image<TColor, float>((Int32Size)area.Size);
+            var destImg = new Image<TColor, float>((Size)area.Size);
             GetRectSubPix((IImage)img, area.Location, destImg);
             return destImg;
         }

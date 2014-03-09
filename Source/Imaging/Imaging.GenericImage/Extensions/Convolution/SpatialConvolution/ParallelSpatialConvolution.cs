@@ -12,7 +12,7 @@ namespace Accord.Extensions.Imaging
     {
         public static readonly Type[] SupportedTypes = new Type[] { /*typeof(int),*/ typeof(float)/*, typeof(double)*/ };
 
-        delegate void ConvolutionFunc(IImage src, Int32Rect sourceWorkingArea, IImage dest, Point destLoc, IImage kernel);
+        delegate void ConvolutionFunc(IImage src, Rectangle sourceWorkingArea, IImage dest, Point destLoc, IImage kernel);
         private static Dictionary<Type, ConvolutionFunc> convolutionFuncs;
 
         static ParallelSpatialConvolution()
@@ -39,13 +39,13 @@ namespace Accord.Extensions.Imaging
             return dest;
         }
 
-        public static void ConvolvePatch(IImage src, Int32Rect srcArea, IImage kernel, IImage dest, bool convolveBorders = false)
+        public static void ConvolvePatch(IImage src, Rectangle srcArea, IImage kernel, IImage dest, bool convolveBorders = false)
         {
             ConvolutionFunc convolutionFunc = null;
             if (convolutionFuncs.TryGetValue(src.ColorInfo.ChannelType, out convolutionFunc) == false)
                 throw new NotSupportedException(string.Format("Can not perform spatial convolution on an image of type {0}", src.ColorInfo.ChannelType.Name));
 
-            Int32Rect srcWorkingArea = srcArea;
+            Rectangle srcWorkingArea = srcArea;
             if (!convolveBorders)
             {
                 srcWorkingArea.Width -= kernel.Width;
@@ -62,14 +62,14 @@ namespace Accord.Extensions.Imaging
             if (convolutionFuncs.TryGetValue(src.ColorInfo.ChannelType, out convolutionFunc) == false)
                 throw new NotSupportedException(string.Format("Can not perform spatial convolution on an image of type {0}", src.ColorInfo.ChannelType.Name));
 
-            Int32Rect validRegion;
+            Rectangle validRegion;
             var preparedSrc = prepareSourceImage(src, kernel.Size, options, out validRegion);
 
             var proc = new ParallelProcessor<IImage, IImage>(src.Size,
                                                () => preparedSrc.CopyBlank(), //in-place convolution is not supported due to parallel processing (junction patches handling)
                                                (_src, _dest, area) => 
                                                {                                               
-                                                   Int32Rect srcArea = new Int32Rect
+                                                   Rectangle srcArea = new Rectangle
                                                    {
                                                        X = 0,
                                                        Y = area.Y,
@@ -80,7 +80,7 @@ namespace Accord.Extensions.Imaging
                                                    srcArea.Width -= kernel.Width;
                                                    srcArea.Height -= kernel.Height;
 
-                                                   srcArea.Intersect(new Int32Rect(new Point(), _src.Size));
+                                                   srcArea.Intersect(new Rectangle(new Point(), _src.Size));
 
                                                    convolutionFunc(_src, srcArea, _dest, new Point(kernel.Width / 2, area.Y + kernel.Height / 2), kernel);
                                                }
@@ -91,10 +91,10 @@ namespace Accord.Extensions.Imaging
             return dest.GetSubRect(validRegion);
         }
 
-        private static IImage prepareSourceImage(IImage src, Int32Size kernelSize, ConvolutionBorder options, out Int32Rect validRegion)
+        private static IImage prepareSourceImage(IImage src, Size kernelSize, ConvolutionBorder options, out Rectangle validRegion)
         {
             var preparedSrc = Image.Create(src.ColorInfo, src.Width + kernelSize.Width, src.Height + kernelSize.Height);
-            Int32Rect centerRegion = new Int32Rect(kernelSize.Width / 2, kernelSize.Height / 2, src.Width, src.Height);
+            Rectangle centerRegion = new Rectangle(kernelSize.Width / 2, kernelSize.Height / 2, src.Width, src.Height);
             preparedSrc.GetSubRect(centerRegion).SetValue(src);
 
             if (options == ConvolutionBorder.BorderMirror)
@@ -106,7 +106,7 @@ namespace Accord.Extensions.Imaging
 
         #region Float process
 
-        private static unsafe void convolveFloat(IImage src, Int32Rect sourceWorkingArea, IImage dest, Point destLoc, IImage kernel)
+        private static unsafe void convolveFloat(IImage src, Rectangle sourceWorkingArea, IImage dest, Point destLoc, IImage kernel)
         {
             int srcStride = src.Stride;
             int destStride = dest.Stride;
