@@ -1,5 +1,7 @@
 ﻿using Accord.Extensions.Imaging;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -16,7 +18,7 @@ namespace Accord.Extensions.Vision
     /// It is the base class for classes providing image stream reading.
     /// </summary>
     /// <typeparam name="TImage">Image type.</typeparam>
-    public abstract class StreamableSource<TImage>: IDisposable
+    public abstract class StreamableSource<TImage>: IDisposable, IEnumerable<TImage>
         where TImage: IImage
     {
         /// <summary>
@@ -86,7 +88,7 @@ namespace Accord.Extensions.Vision
         }
 
         /// <summary>
-        /// Creates and starts the task responnsible for frame reading.
+        /// Creates and starts the task responsible for frame reading.
         /// If this function is called <see cref="ReadTimeout"/> must be handled by a user itself.
         /// <remarks>
         /// By using this function reading from some streams can be accelerated.
@@ -147,27 +149,106 @@ namespace Accord.Extensions.Vision
 
         /// <summary>
         /// When overridden in a derived class, closes the current stream and releases any resources associated with the current stream.
-        /// This function is internaly called by <see cref="Dispose"/>.
+        /// This function is internally called by <see cref="Dispose"/>.
         /// </summary>
         public abstract void Close();
 
         /// <summary>
-        /// When overriden in a derived class returns an image and a status.
+        /// When overridden in a derived class returns an image and a status.
         /// Position is advanced.
         /// </summary>
         /// <param name="image">Read image.</param>
         /// <returns></returns>
         protected abstract bool Read(out TImage image);
+
+        #region IEnumerable
+
+        /// <summary>
+        /// Gets the enumerator for the stream.
+        /// <para>If the stream does not support seek, an exception will be thrown during iteration.</para>
+        /// </summary>
+        /// <returns>Enumerator for the stream.</returns>
+        public IEnumerator<TImage> GetEnumerator()
+        {
+            return new StreamableSourceEnumerator<TImage>(this);
+        }
+
+        /// <summary>
+        /// Gets the enumerator for the stream.
+        /// <para>If the stream does not support seek, an exception will be thrown during iteration.</para>
+        /// </summary>
+        /// <returns>Enumerator for the stream.</returns>
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator)GetEnumerator();
+        }
+
+        #endregion
+    }
+
+    public class StreamableSourceEnumerator<TImage> : IEnumerator<TImage>
+        where TImage : IImage
+    {
+        StreamableSource<TImage> streamableSource;
+        int position;
+
+        public StreamableSourceEnumerator(StreamableSource<TImage> streamableSource)
+        {
+            this.streamableSource = streamableSource;
+            Reset();
+        }
+
+        public bool MoveNext()
+        {
+            position++;
+
+            var oldPosition = streamableSource.Position;
+            var newPosition = streamableSource.Seek(position, SeekOrigin.Begin);
+
+            return newPosition > oldPosition || position == 0;
+        }
+
+        public void Reset()
+        {
+            streamableSource.Seek(0, SeekOrigin.Begin);
+            position = -1;
+        }
+
+        public TImage Current
+        {
+            get 
+            {
+                var result = streamableSource.Read();
+                streamableSource.Seek(-1, SeekOrigin.Current);
+
+                return result;
+            }
+        }
+
+        object System.Collections.IEnumerator.Current
+        {
+            get { return this.Current; }
+        }
+
+        bool isDisposed = false;
+        public void Dispose()
+        {
+            if (!isDisposed)
+            {
+                Reset();
+                isDisposed = true;
+            }
+        }
     }
 
     public static class StreamableSourceExtensions
     {
         /// <summary>
-        /// Calls read function defined in the stream and converts an returned image.
+        /// Calls read function defined by the stream and converts an returned image if necessary.
         /// </summary>
         /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
         /// <param name="failIfCannotCast">If data copy is needed throws an exception.</param>
-        /// <returns>Read converted image.</returns>
+        /// <returns>Converted image or null if the image can not be read.</returns>
         public static Image<TColor, TDepth> ReadAs<TColor, TDepth>(this StreamableSource<IImage> imageStream, bool copyAlways = false, bool failIfCannotCast = false)
             where TColor: IColor
             where TDepth: struct

@@ -34,7 +34,7 @@ namespace Accord.Extensions.Imaging.Filters
 
         private static void normalizeKernel(Image<Gray, float> kernel)
         {
-            var sum = kernel.Convert<double>().ToArray().Abs().Sum().Sum();
+            var sum = kernel.Convert<Gray, double>().ToArray().Abs().Sum().Sum();
             kernel.Div(sum / 2, inPlace: true);
         }
 
@@ -63,7 +63,7 @@ namespace Accord.Extensions.Imaging.Filters
             where TColor: IColor
         {
             //convert to short to avoid overflow
-            return im.Convert<short>().Sobel(xOrder, yOrder, apertureSize);
+            return im.Convert<TColor, short>().Sobel(xOrder, yOrder, apertureSize);
         }
 
         /// <summary>

@@ -86,7 +86,7 @@ namespace Accord.Extensions.Imaging
             {
                 for (int col = 0; col < width; col++)
                 {
-                    *dstPtr = MathFunctions.Sqrt(*srcAPtr * *srcAPtr + *srcBPtr * *srcBPtr);
+                    *dstPtr = MathExtensions.Sqrt(*srcAPtr * *srcAPtr + *srcBPtr * *srcBPtr);
 
                     srcAPtr++;
                     srcBPtr++;

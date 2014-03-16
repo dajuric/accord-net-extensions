@@ -19,11 +19,11 @@ namespace Accord.Extensions.Imaging
         public Image<TColor, DestType> Convert<DestType>(bool copyAlways = false, bool failIfCAnnotCast = false)
             where DestType : struct
         {
-            return Convert(ColorInfo.GetInfo<TColor, DestType>()) as Image<TColor, DestType>;
+            return this.Convert(ColorInfo.GetInfo<TColor, DestType>()) as Image<TColor, DestType>;
         }
     }
 
-    public partial class Image
+    public static class ImageColorExtensions
     {
         /// <summary>
         /// Converts the image from source to destination color and depth.
@@ -34,11 +34,11 @@ namespace Accord.Extensions.Imaging
         /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
         /// <param name="failIfCannotCast">If data copy is needed throws an exception.</param>
         /// <returns>Converted image.</returns>
-        public Image<DestColor, DestType> Convert<DestColor, DestType>(bool copyAlways = false, bool failIfCannotCast = false)
+        public static Image<DestColor, DestType> Convert<DestColor, DestType>(this IImage image, bool copyAlways = false, bool failIfCannotCast = false)
             where DestColor : IColor
             where DestType : struct
         {
-            return Convert(ColorInfo.GetInfo<DestColor, DestType>()) as Image<DestColor, DestType>;
+            return Convert(image, ColorInfo.GetInfo<DestColor, DestType>()) as Image<DestColor, DestType>;
         }
 
         /// <summary>
@@ -49,13 +49,13 @@ namespace Accord.Extensions.Imaging
         /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
         /// <param name="failIfCannotCast">If data copy is needed throws an exception.</param>
         /// <returns>Converted image.</returns>
-        public IImage Convert(ColorInfo destColor, bool copyAlways = false, bool failIfCannotCast = false)
+        public static IImage Convert(this IImage image, ColorInfo destColor, bool copyAlways = false, bool failIfCannotCast = false)
         {
-            var conversionPath = ColorDepthConverter.GetPath(this.ColorInfo, destColor);
+            var conversionPath = ColorDepthConverter.GetPath(image.ColorInfo, destColor);
             
             if (conversionPath == null)
             {
-                throw new Exception(String.Format("Image does not support conversion from {0} to {1}", this.ColorInfo.ColorType, destColor.ColorType));
+                throw new Exception(String.Format("Image does not support conversion from {0} to {1}", image.ColorInfo.ColorType, destColor.ColorType));
             }
 
             if (failIfCannotCast && conversionPath.CopiesData() == true)
@@ -63,7 +63,7 @@ namespace Accord.Extensions.Imaging
                 throw new Exception("Fail if cannot cast is set to true: Image data must be copied");
             }
 
-            var convertedIm = ColorDepthConverter.Convert(conversionPath.ToArray(), this, copyAlways);
+            var convertedIm = ColorDepthConverter.Convert(conversionPath.ToArray(), image, copyAlways);
             return convertedIm;
         }
     }

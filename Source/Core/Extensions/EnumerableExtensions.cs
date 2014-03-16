@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AForge;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace Accord.Extensions
 {
     /// <summary>
-    /// <para>Defined functions can be used as object extensions.</para>
+    /// <para>Some of defined functions can be used as object extensions.</para>
     /// Provides extension methods for collections.
     /// </summary>
     public static class EnumerableExtensions
@@ -48,7 +49,7 @@ namespace Accord.Extensions
         /// <param name="src">Data array.</param>
         /// <param name="indicies">User defined indices.</param>
         /// <returns>Array of values at specified indices.</returns>
-        public static T[] Get<T>(this IList<T> src, IEnumerable<int> indicies)
+        public static T[] GetAt<T>(this IList<T> src, IEnumerable<int> indicies)
         {
             T[] arr = new T[indicies.Count()];
 
@@ -67,7 +68,7 @@ namespace Accord.Extensions
         /// <param name="src">Data array.</param>
         /// <param name="indicies">User defined indices.</param>
         /// <param name="newValues">New values that replace old ones.</param>
-        public static void Set<T>(this IList<T> src, IEnumerable<int> indicies, IList<T> newValues)
+        public static void SetAt<T>(this IList<T> src, IEnumerable<int> indicies, IList<T> newValues)
         {
             int i = 0;
             foreach (var idx in indicies)
@@ -90,5 +91,67 @@ namespace Accord.Extensions
             }
         }
 
+
+        /// <summary>
+        /// Gets elements from source array at user defined indices.
+        /// </summary>
+        /// <param name="src">Data array.</param>
+        /// <param name="range">User defined range.</param>
+        /// <returns>Array of values in specified range.</returns>
+        public static T[] GetRange<T>(this IList<T> src, IntRange range)
+        {
+            T[] arr = new T[range.Length];
+
+            int i = 0;
+            for (int idx = range.Min; idx <= range.Max; idx++)
+            {
+                arr[i] = src[idx];
+            }
+
+            return arr;
+        }
+
+        /// <summary>
+        /// Gets elements from source array at user defined indices.
+        /// </summary>
+        /// <param name="src">Data array.</param>
+        /// <param name="startIndex">Start index.</param>
+        /// <param name="length">Range length.</param>
+        /// <returns>Array of values in specified range.</returns>
+        public static T[] GetRange<T>(this IList<T> src, int startIndex, int length)
+        {
+            return src.GetRange(new IntRange(startIndex, startIndex + length - 1));
+        }
+
+        /// <summary>
+        /// Gets elements from source array at user defined indices.
+        /// </summary>
+        /// <param name="src">Data array.</param>
+        /// <param name="startIndex">Start index.</param>
+        /// <returns>Array of values in specified range.</returns>
+        public static T[] GetRange<T>(this IList<T> src, int startIndex)
+        {
+            var length = src.Count;
+            return src.GetRange(new IntRange(startIndex, startIndex + length - 1));
+        }
+
+        /// <summary>
+        /// Creates a range using provided function.
+        /// </summary>
+        /// <typeparam name="T">Element type.</typeparam>
+        /// <param name="numberOfElements">Number of elements to create.</param>
+        /// <param name="creator">Element creator. Receives current element index as parameter.</param>
+        /// <returns>Array of created elements.</returns>
+        public static T[] Create<T>(int numberOfElements, Func<int, T> creator)
+        {
+            T[] arr = new T[numberOfElements];
+
+            for (int i = 0; i < numberOfElements; i++)
+            {
+                arr[i] = creator(i);
+            }
+
+            return arr;
+        }
     }
 }

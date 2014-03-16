@@ -83,7 +83,7 @@
     <Compile Include="Geometry\Structures\Vector2D.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.MinBy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MathFunctions.cs" />
+    <Compile Include="MathExtensions.cs" />
     <Compile Include="Structures\ComplexF.cs" />
   </ItemGroup>
   <ItemGroup>

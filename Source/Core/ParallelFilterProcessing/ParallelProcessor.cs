@@ -195,6 +195,7 @@ namespace Accord.Extensions
 
             //make patch look like a long stripe (it is probably more efficient to process than a square patch)
             patchHeight = (int)System.Math.Floor(avgNumPatchElements / imgSize.Width);
+            patchHeight = Math.Max(1, patchHeight); //if the image height is < num of CPUs
 
             //get number of patches
             verticalPatches = (int)System.Math.Ceiling((float)imgSize.Height / patchHeight);

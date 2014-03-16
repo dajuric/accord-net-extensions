@@ -42,9 +42,13 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Caching\LRUCache%271.cs" />
     <Compile Include="Collections\Map.cs" />
+    <Compile Include="Collections\Caching\MemoryCache%271.cs" />
     <Compile Include="Extensions\BinaryTreeArrayExtstensions.cs" />
     <Compile Include="Extensions\DictionaryMatrixExtensions.cs" />
+    <Compile Include="Extensions\Enumerable.IndexOfMax.cs" />
+    <Compile Include="Extensions\Enumerable.IndexOfMin.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\PathExtensions.cs" />
     <Compile Include="Imaging\ColorAttribute.cs" />
@@ -68,6 +72,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

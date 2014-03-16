@@ -89,7 +89,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="rect">Rectangle.</param>
         /// <returns>Center of the rectangle.</returns>
-        public static PointF Center(this Rectangle rect)
+        public static Point Center(this Rectangle rect)
         {
             return new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
         }

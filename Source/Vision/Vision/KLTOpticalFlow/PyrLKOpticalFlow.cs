@@ -90,13 +90,13 @@ namespace Accord.Extensions.Vision
                 float[] levelError;
                 KLTFeatureStatus[] levelStatus;
                 LKOpticalFlow<TColor>.EstimateFlow(storage, 
-                                                   scaledPrevFeatures.Get(usedIndicies), out levelCurrFeatures, out levelStatus, out levelError, 
+                                                   scaledPrevFeatures.GetAt(usedIndicies), out levelCurrFeatures, out levelStatus, out levelError, 
                                                    windowSize, iterations, minFeatureShift, minEigenValue, maxError, initialEstimate, pyrLevel);
 
                 //update data
-                currFeatures.Set(usedIndicies, levelCurrFeatures);
-                error.Set(usedIndicies, levelError);
-                status.Set(usedIndicies, levelStatus);
+                currFeatures.SetAt(usedIndicies, levelCurrFeatures);
+                error.SetAt(usedIndicies, levelError);
+                status.SetAt(usedIndicies, levelStatus);
                 
                 if (pyrLevel != 0)
                 {

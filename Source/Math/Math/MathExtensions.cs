@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -8,7 +9,7 @@ namespace Accord.Extensions.Math
     /// <para>Defined functions can be used as object extensions.</para>
     /// Provides additional math functions.
     /// </summary>
-    public static class MathFunctions
+    public static class MathExtensions
     {
         #region ATan2 Approximation
 
@@ -51,7 +52,7 @@ namespace Accord.Extensions.Math
 
         static int[] angleTable;
 
-        static MathFunctions()
+        static MathExtensions()
         {
             angleTable = CalculateAngleTable();
         }
@@ -76,7 +77,7 @@ namespace Accord.Extensions.Math
         /// <param name="dY">Vertical offset.</param>
         /// <param name="dX">Horizontal offset.</param>
         /// <returns>Angle in degrees.</returns>
-        public static int Atan2Aprox(int dY, int dX)
+        public static int Atan2Aprox(this int dY, int dX)
         {
             if (dY == 0) return (dX >= 0 ? 0 : PI_DEG);
 
@@ -109,7 +110,7 @@ namespace Accord.Extensions.Math
         /// <param name="z">Input number</param>
         /// <returns>Square root.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Sqrt(float z)
+        public static float Sqrt(this float z)
         {
             if (z == 0) return 0;
 
@@ -165,6 +166,57 @@ namespace Accord.Extensions.Math
             if (x < 0) throw new ArgumentException("The number must be greater or equal to zero!");
 
             return IsPowerOfTwo((ulong)x);
+        }
+    }
+
+    /// <summary>
+    /// <para>Defined functions can be used as object extensions.</para>
+    /// Provides additional math functions for collections.
+    public static class MathEnumerableExtensions
+    {
+        /// <summary>
+        /// Calculates weighted average. 
+        /// <para>In case where sum of weights is equal to zero, zero will be returned. Use a function overload to change this behavior.</para>
+        /// </summary>
+        /// <typeparam name="T">Element type.</typeparam>
+        /// <param name="collection">Collections of elements.</param>
+        /// <param name="valueSelector">Value selector. Parameters are a selected element and index of an element.</param>
+        /// <param name="weightSelector">Weight selector. Parameters are a selected element and index of an element.</param>
+        /// <returns>Weighted average of a collection.</returns>
+        public static double WeightedAverage<T>(this IEnumerable<T> collection, Func<T, int, double> valueSelector, Func<T, int, double> weightSelector)
+        {
+            return collection.WeightedAverage(valueSelector, weightSelector, () => 0);
+        }
+
+        /// <summary>
+        /// Calculates weighted average.
+        /// </summary>
+        /// <typeparam name="T">Element type.</typeparam>
+        /// <param name="collection">Collections of elements.</param>
+        /// <param name="valueSelector">Value selector. Parameters are a selected element and index of an element.</param>
+        /// <param name="weightSelector">Weight selector. Parameters are a selected element and index of an element.</param>
+        /// <param name="divisionByZeroResolver">Division by zero case resolver.</param>
+        /// <returns>Weighted average of a collection.</returns>
+        public static double WeightedAverage<T>(this IEnumerable<T> collection, Func<T, int, double> valueSelector, Func<T, int, double> weightSelector, Func<double> divisionByZeroResolver)
+        {
+            double weightedSum = 0, sumOfWeights = 0;
+
+            int idx = 0;
+            foreach (var item in collection)
+            {
+                var val = valueSelector(item, idx);
+                var w = weightSelector(item, idx);
+
+                weightedSum += val * w;
+                sumOfWeights += w;
+
+                idx++;
+            }
+
+            if (weightedSum == 0)
+                return divisionByZeroResolver();
+            else
+                return weightedSum / sumOfWeights;
         }
     }
 }

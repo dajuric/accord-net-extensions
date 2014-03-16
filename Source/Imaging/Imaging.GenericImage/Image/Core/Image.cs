@@ -10,7 +10,7 @@ namespace Accord.Extensions.Imaging
 {
     public partial class Image : IImage, IEquatable<Image>, IXmlSerializable
     {
-        bool mustBeDisposed;
+        bool mustBeDisposed; //if the buffer is allocated this variable is set to true, false otherwise (e.g. image cast)
         PinnedArray<byte> buffer = null;
 
         object objectReference = null; //prevents disposing parent object if sharing data (GetSubRect(..), casting...)
@@ -134,6 +134,8 @@ namespace Accord.Extensions.Imaging
             return stride;
         }
 
+        bool isDisposed = false;
+
         /// <summary>
         /// Disposes generic image. 
         /// In case if data is allocated it is released.
@@ -141,7 +143,9 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         public void Dispose()
         {
-            if (mustBeDisposed && buffer != null) //must be disposed AND this function is called for the first time
+            if (isDisposed) return; //if this function is called for the first time
+
+            if (mustBeDisposed) //must be disposed
             {
                 buffer.Dispose();
                 buffer = null;
@@ -151,8 +155,11 @@ namespace Accord.Extensions.Imaging
                 if (this.parentDestructor != null)
                     this.parentDestructor(objectReference);
 
+               this.parentDestructor = null;
                this.objectReference = null;
             }
+
+            isDisposed = true;
         }
 
         ~Image()
@@ -316,7 +323,10 @@ namespace Accord.Extensions.Imaging
         /// <returns>Image's hash code.</returns>
         public override int GetHashCode()
         {
-            return this.ImageData.ToInt32();
+            unchecked
+            {
+                return (int)this.ImageData.ToInt64(); //support for 64-bit architecture
+            }
         }
 
         #region Serialization Members
