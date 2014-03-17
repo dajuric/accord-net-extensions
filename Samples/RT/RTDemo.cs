@@ -19,7 +19,7 @@ namespace RT
         {
             InitializeComponent();
 
-            PicoClassifierHexDeserializer.FromHexFile("face-detector-from-genki-dataset.ea", out picoClassifier);
+            PicoClassifierHexDeserializer.FromHexFile("handfinder.ea", out picoClassifier);
             //picoClassifier.ToHexFile("faceSerialized.ea");
 
             detector = new Detector<PicoClassifier>(picoClassifier);
@@ -28,8 +28,8 @@ namespace RT
 
             groupMatching = new RectangleGroupMatching();
 
-            //videoStreamSource = new CameraCapture();
-            videoStreamSource = new FileCapture("S:/Detekcija_Ruke/Nikola.wmv");
+            videoStreamSource = new CameraCapture();
+            //videoStreamSource = new FileCapture("S:/Detekcija_Ruke/Nikola.wmv");
 
             if(videoStreamSource is CameraCapture)
                 (videoStreamSource as CameraCapture).FrameSize = new Size(640, 480);

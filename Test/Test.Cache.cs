@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Accord.Extensions;
-using Accord.Extensions.Collections.Caching;
+using Accord.Extensions.Caching;
 using Accord.Extensions.Imaging;
 using System.Threading;
 using Microsoft.VisualBasic.Devices;
@@ -55,7 +55,7 @@ namespace Test
                 int b = 0;
                 foreach (var item in memCache)
                 {
-                    Console.WriteLine(item.Value);
+                    Console.WriteLine(item.Value.Value);
                     Console.WriteLine(memCache.HardFaults);
                     //Console.WriteLine(computerInfo.AvailablePhysicalMemory / 1024 / 1024);
                     b++;

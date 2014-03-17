@@ -42,9 +42,9 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\Caching\LRUCache%271.cs" />
+    <Compile Include="Caching\LRUCache%271.cs" />
     <Compile Include="Collections\Map.cs" />
-    <Compile Include="Collections\Caching\MemoryCache%271.cs" />
+    <Compile Include="Caching\LazyMemoryCache%271.cs" />
     <Compile Include="Extensions\BinaryTreeArrayExtstensions.cs" />
     <Compile Include="Extensions\DictionaryMatrixExtensions.cs" />
     <Compile Include="Extensions\Enumerable.IndexOfMax.cs" />
@@ -53,7 +53,7 @@
     <Compile Include="Extensions\PathExtensions.cs" />
     <Compile Include="Imaging\ColorAttribute.cs" />
     <Compile Include="Imaging\IColor.cs" />
-    <Compile Include="MethodCache.cs" />
+    <Compile Include="Caching\MethodCache.cs" />
     <Compile Include="NaturalSortComparer.cs" />
     <Compile Include="ParallelFilterProcessing\ParallelProcessor.cs" />
     <Compile Include="Collections\CircularList.cs" />

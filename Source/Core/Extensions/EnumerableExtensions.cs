@@ -136,7 +136,7 @@ namespace Accord.Extensions
         }
 
         /// <summary>
-        /// Creates a range using provided function.
+        /// Creates a collection using provided function.
         /// </summary>
         /// <typeparam name="T">Element type.</typeparam>
         /// <param name="numberOfElements">Number of elements to create.</param>

@@ -80,16 +80,18 @@ namespace RT
 
             do
             {
-                threshold -= thresholdStep;
+                threshold += thresholdStep;
 
-                GetErrors(classes, stage, (_stage, index) => classifyFunc(_stage, index, threshold), out truePositiveRate, out falsePositiveRate);
+                GetErrors(classes, stage, (_stage, index) => classifyFunc(_stage, index, threshold), 
+                                                                          out truePositiveRate, out falsePositiveRate);
             }
             while (truePositiveRate < minimumTPR);
 
             return threshold;
         }
-
-        public static void GetErrors(IList<bool> classes, TStage stage, Func<TStage, int, bool> classifyFunc, out float truePositiveRate, out float falsePositiveRate)
+ 
+        public static void GetErrors(IList<bool> classes, TStage stage, Func<TStage, int, bool> classifyFunc, 
+                                     out float truePositiveRate, out float falsePositiveRate)
         {
             int nPositives = classes.Count(x => x == true);
             int nNegatives = classes.Count - nPositives;

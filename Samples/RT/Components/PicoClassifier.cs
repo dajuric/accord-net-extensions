@@ -83,9 +83,9 @@ namespace RT
 
         #region Training
 
-        public void TrainStage(IEnumerable<Image<Gray, byte>> allPositiveSamples, IEnumerable<Image<Gray, byte>> allNegativeSamples, List<Rectangle> allPositiveSampleWindows, 
+        public void AddStage(IEnumerable<Image<Gray, byte>> allPositiveSamples, IEnumerable<Image<Gray, byte>> allNegativeSamples, List<Rectangle> allPositiveSampleWindows, 
                                float minTPR, float maxFPR,
-                               int treeMaxDepth = 6, int numberOfBinaryTests = 1024)
+                               int numberOfBinaryTests = 1024, int treeMaxDepth = 6, int maxTrees = 1)
         {
             Random rand = new Random(DateTime.Now.Millisecond);
             StageClassifier stageClassifier = new StageClassifier();
@@ -94,15 +94,19 @@ namespace RT
             List<Rectangle> windows;
             List<bool> classLabels;
             List<float> confidences;
+            float tpr, fpr;
 
             int maxNumberOfNegativeSamples = 2 * allPositiveSamples.Count();
             sampleTrainingData(allPositiveSamples, allPositiveSampleWindows, allNegativeSamples, maxNumberOfNegativeSamples,
-                               out images, out windows, out classLabels, out confidences);
+                               out images, out windows, out classLabels, out confidences, out tpr, out fpr);
+
+            if (tpr >= minTPR && fpr <= maxFPR)
+                return; 
 
             float[] targetValues = classLabels.Select(x => (x == true) ? +1f : -1f).ToArray();
-
+           
             float threshold = 0;
-            stageClassifier.Train(targetValues,
+            stageClassifier.Train(targetValues, confidences.ToArray(),
 
                                   //create and train weak learner
                                   (sampleWeights) => weakLearnerTrain(treeMaxDepth, 
@@ -122,7 +126,7 @@ namespace RT
                                   (learners, learnerOutputs) => 
                                   {
                                       float truePositiveRate, falsePositiveRate;
-                                      float startThreshold = 5f, thresholdDelta = -0.005f;
+                                      float startThreshold = 5f, thresholdDelta = -0.005f; //QUESTION: od kuda ti brojevi ?
 
                                       threshold = Cascade<StageClassifier>.SearchMinTPR(classLabels, minTPR, 
                                                                                         startThreshold, thresholdDelta, 
@@ -130,7 +134,7 @@ namespace RT
                                                                                         (classifier, idx, th) => learnerOutputs[idx] > th, 
                                                                                         out truePositiveRate, out falsePositiveRate);
 
-                                      return falsePositiveRate < maxFPR;
+                                      return learners.Count > maxTrees || falsePositiveRate <= maxFPR; //if true then stop training
                                   }
                                 );
 
@@ -182,7 +186,8 @@ namespace RT
                                         IEnumerable<Image<Gray, byte>> negatives, int maxNegatives,
 
                                         out List<Image<Gray, byte>> samples, out List<Rectangle> windows,
-                                        out List<bool> classLabels         , out List<float> classifierOutputs)
+                                        out List<bool> classLabels         , out List<float> classifierOutputs,
+                                        out float truePositiveRate, out float falsePositiveRate)
         {
             samples = new List<Image<Gray, byte>>();
             windows = new List<Rectangle>();
@@ -253,8 +258,8 @@ namespace RT
             }
             /*************************** load false-positives *************************************/
 
-            var truePositiveRate  = classLabels.Where(x => x == true ).Count() / (float)nTotalPositives;
-            var falsePositiveRate = classLabels.Where(x => x == false).Count() / (float)nPickedNegatives;
+            truePositiveRate  = classLabels.Where(x => x == true ).Count() / (float)nTotalPositives;
+            falsePositiveRate = classLabels.Where(x => x == false).Count() / (float)nPickedNegatives;
         }
 
         #endregion

@@ -78,7 +78,8 @@ namespace RT
         public RegressionTree(int depth)
         {
             int capacity = 1 << (depth + 1); //depth does not take child nodes into account
-            treeNodes = new RegressionNodeData<TFeature>[capacity];
+            treeNodes = EnumerableExtensions.Create(capacity, (_) => new RegressionNodeData<TFeature>()).ToArray();
+            
             TreeDepth = depth;
         }
 
@@ -138,12 +139,37 @@ namespace RT
             growTree(sampleWeights, targetValues, nodeFeatureProvider, rightNodeSelector);
         }
 
+        /// <summary>
+        /// Function for regression tree training.
+        /// </summary>
+        /// <param name="sampleWeights">Indices of the input samples. (enumerated array - 0, 1, 2, 3, ... nSamples).</param>
+        /// <param name="targetValues">The values that need to be approximated (all values - only indices are changed).</param>
+        /// <param name="nodeFeatureProvider">Provider for features for a node. In most cases it is the constant, but can depend on every node (e.g. random features for every node).</param>
+        /// <param name="rightNodeSelector">
+        /// Function that represents the classifier. 
+        /// Parameters: feature, sample idnex. 
+        /// Returns: True if the right node should be selected, false otherwise.
+        /// </param>
         private void growTree(float[] sampleWeights, float[] targetValues, Func<TFeature[]> nodeFeatureProvider, Func<TFeature, int, bool> rightNodeSelector)
         {
             var sampleIndices = Enumerable.Range(0, sampleWeights.Length).ToArray();
-            growSubTree(sampleIndices, 0, TreeDepth, sampleWeights, targetValues, nodeFeatureProvider, rightNodeSelector);
+            growSubTree(sampleIndices, 0, 0, sampleWeights, targetValues, nodeFeatureProvider, rightNodeSelector);
         }
 
+        /// <summary>
+        /// Recursive function for regression tree training.
+        /// </summary>
+        /// <param name="indices">Sample indices.</param>
+        /// <param name="nodeIndex">A node index (container for nodes is array).</param>
+        /// <param name="depth">The current depth (first call: 0).</param>
+        /// <param name="sampleWeights">Indices of the input samples. (enumerated array - 0, 1, 2, 3, ... nSamples).</param>
+        /// <param name="targetValues">The values that need to be approximated (all values - only indices are changed).</param>
+        /// <param name="nodeFeatureProvider">Provider for features for a node. In most cases it is the constant, but can depend on every node (e.g. random features for every node).</param>
+        /// <param name="rightNodeSelector">
+        /// Function that represents the classifier. 
+        /// Parameters: feature, sample idnex. 
+        /// Returns: True if the right node should be selected, false otherwise.
+        /// </param>
         private void growSubTree(int[] indices, int nodeIndex, int depth, float[] sampleWeights, float[] targetValues, Func<TFeature[]> nodeFeatureProvider, Func<TFeature, int, bool> rightNodeSelector)
         {
             RegressionNodeData<TFeature> node = treeNodes[nodeIndex];
@@ -187,6 +213,18 @@ namespace RT
             growSubTree(indices.GetRange(splitIndex, indices.Length), treeNodes.RightChildIndex(nodeIndex), depth + 1, sampleWeights, targetValues, nodeFeatureProvider, rightNodeSelector);
         }
 
+        /// <summary>
+        /// Sorts sample indices and searches for the best splitting index for the specified feature <seealso cref="getSplitError"/>. 
+        /// The 
+        /// </summary>
+        /// <param name="feature">The classifier input (e.g. binary test).</param>
+        /// <param name="indices">Sample indices for a node (they are going tobe sorted into two clusters according classifier output).</param>
+        /// <param name="rightNodeSelector">
+        /// Function that represents the classifier. 
+        /// Parameters: feature, sample idnex. 
+        /// Returns: True if the right node should be selected, false otherwise.
+        /// </param>
+        /// <returns>The index for which the splitting error is lowest.</returns>
         private int splitTrainingData(TFeature feature, ref int[] indices, Func<TFeature, int, bool> rightNodeSelector)
         {
             bool stop = false;
@@ -224,16 +262,29 @@ namespace RT
                 }
             }
 
-            int splitIndex = 0; //TODO: check: zašto nije jednak i ?
+            int splitIndex = 0; //TODO: check: zašto nije jednak i ? trebao bi biti
             foreach (var idx in indices)
             {
                 if (!rightNodeSelector(feature, idx)) 
                     splitIndex++;
             }
-            return splitIndex;
 
+            return splitIndex;
         }
 
+        /// <summary>
+        /// Gets spliting error for a node of the regression tree.
+        /// </summary>
+        /// <param name="sampleIndicesForNode">Indices of thhe samples that belong to a node (tree branch).</param>
+        /// <param name="feature">Along with sample index represents an input (test) for a classifier.</param>
+        /// <param name="rightNodeSelector">
+        /// Function that represents the classifier. 
+        /// Parameters: feature, sample idnex. 
+        /// Returns: True if the right node should be selected, false otherwise.
+        /// </param>
+        /// <param name="sampleWeights">Weigths of the samples. The length of the array must be equal as the the number of sample indices.</param>
+        /// <param name="targetValues">Values that has to be approximated. The length of the array must be equal as the the number of sample indices.</param>
+        /// <returns>Splitting error for the specified samples and the specified feature.</returns>
         private float getSplitError(int[] sampleIndicesForNode, TFeature feature, Func<TFeature, int, bool> rightNodeSelector, float[] sampleWeights, float[] targetValues)
         {
             double weightSumL = 0, weightValSumL = 0, weightValSrqSumL = 0;

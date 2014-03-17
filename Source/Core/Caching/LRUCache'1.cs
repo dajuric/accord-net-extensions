@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Accord.Extensions.Collections.Caching
+namespace Accord.Extensions.Caching
 {
     /// <summary>
     /// Represents key value pair cache collection which is using "Least Recently Used (LRU)" element replace when the capacity is reached.

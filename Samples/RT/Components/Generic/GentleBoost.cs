@@ -57,6 +57,10 @@ namespace RT
         /// Trains GentleBoost by adding weak learners <see cref="TWeakLearner"/>.
         /// </summary>
         /// <param name="trueValues">Requested outputs (e.g. for classification the valid values are +1 and -1).</param>
+        /// <param name="outputs">
+        /// Classifier outputs for samples. Useful when using stage classifier to evaluate previous stages.
+        /// The number of elements must match <see cref="trueValues"/>.
+        /// </param>
         /// <param name="learnerCreateAndTrainFunc">
         /// Creates and trains learner. 
         /// Parameters: weights of samples. 
@@ -72,7 +76,7 @@ namespace RT
         /// Parameters: learners, learnerOutputs. 
         /// Returns: true if the training should be stopped, false otherwise.
         /// </param>
-        public void Train(float[] trueValues,
+        public void Train(float[] trueValues, float[] outputs,
                           Func<float[], TWeakLearner> learnerCreateAndTrainFunc, 
                           Func<TWeakLearner, int, float> learnerClassifyFunc,
                           Func<IList<TWeakLearner>, float[], bool> terminationFunc) 
@@ -81,7 +85,6 @@ namespace RT
             int nPositves  = trueValues.Where(x=> x > 0).Count();
             int nNegatives = nSamples - nPositves;
 
-            float[] outputs = new float[nSamples];
             float[] sampleWeights = new float[nSamples];
 
             while (terminationFunc(learners, outputs) == false)
