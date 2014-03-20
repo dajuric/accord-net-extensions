@@ -145,9 +145,9 @@ namespace RT
         /// <param name="minTPR">Minimum stage true positive rate (e.g. 0.98).</param>
         /// <param name="maxFPR">Maximum stage false positive rate (e.g. 0.5).</param>
         /// <param name="targetFPR">Target false positive rate. If the calculated FPR is less than the specified number, new stage will not be appended. (e.g. 1e-3).</param>
-        /// <param name="maxTrees">Maximum number of trees (weak learners) per stage.</param>
-        /// <param name="treeMaxDepth">Maximum depth of the regression tree (weak learner in GentleBoost).</param>
-        /// <param name="numberOfBinaryTests">Number of generated binary tests per regression tree node. Only one of the specified number of tests will be selected.</param>
+        /// <param name="maxTrees">Maximum number of trees (weak learners) per stage. (e.g. 1-5).</param>
+        /// <param name="treeMaxDepth">Maximum depth of the regression tree (weak learner in GentleBoost). (e.g. 6)</param>
+        /// <param name="numberOfBinaryTests">Number of generated binary tests per regression tree node. Only one of the specified number of tests will be selected. (e.g. 1024)</param>
         /// <returns>True if the stage is appended, false otherwise.</returns>
         public bool AddStage(IEnumerable<Image<Gray, byte>> allPositiveSamples, IEnumerable<Image<Gray, byte>> allNegativeSamples, List<Rectangle> allPositiveSampleWindows, float minTPR, float maxFPR, float targetFPR = 1e-6f, int maxTrees = 1, int treeMaxDepth = 6, int numberOfBinaryTests = 1024)
         {
