@@ -14,7 +14,7 @@ using WeakLearner = RT.RegressionTree<RT.BinTestCode>;
 namespace RT
 {
     /// <summary>
-    /// Pixel Intensity Comparison-based Object detection.
+    /// Pixel Intensity Comparison-based Object detection (PICO).
     /// For details see: <see cref="https://github.com/nenadmarkus/pico"/>.
     /// </summary>
     public class PicoClassifier
