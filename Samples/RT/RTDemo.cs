@@ -3,6 +3,7 @@ using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
 using Accord.Extensions.Vision;
 using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace RT
@@ -19,7 +20,7 @@ namespace RT
         {
             InitializeComponent();
 
-            PicoClassifierHexDeserializer.FromHexFile("handfinder.ea", out picoClassifier);
+            PicoClassifierHexDeserializer.FromHexFile("myClassifier.ea", out picoClassifier);
             //picoClassifier.ToHexFile("faceSerialized.ea");
 
             detector = new Detector<PicoClassifier>(picoClassifier);
@@ -28,8 +29,9 @@ namespace RT
 
             groupMatching = new RectangleGroupMatching();
 
-            videoStreamSource = new CameraCapture();
-            //videoStreamSource = new FileCapture("S:/Detekcija_Ruke/Nikola.wmv");
+            //videoStreamSource = new CameraCapture();
+            videoStreamSource = new FileCapture("S:/Detekcija_Ruke/Nikola.wmv");
+            //videoStreamSource = new ImageDirectoryReader(@"C:\", "*.jpg");
 
             if(videoStreamSource is CameraCapture)
                 (videoStreamSource as CameraCapture).FrameSize = new Size(640, 480);
@@ -51,20 +53,26 @@ namespace RT
            {
                float conf;
                classifier.ClassifyRegion(im, window, 0, out conf);
-               if (conf > 3)
+               if (conf > 6)
                    return true;
                else
                    return false;
            });
 
-           var groupMatches = groupMatching.Group(detections);
+           /*var groupMatches = groupMatching.Group(detections);
 
            foreach (var groupMatch in groupMatches)
            {
               image.Draw(groupMatch.Representative, Bgr8.Red, 3);
+           }*/
+
+           foreach (var d in detections)
+           {
+               image.Draw(d, Bgr8.Red, 3);
            }
 
            this.pictureBox.Image = image.ToBitmap();
+           //Thread.Sleep(1000);
         }
 
         private void RTDemo_FormClosing(object sender, FormClosingEventArgs e)

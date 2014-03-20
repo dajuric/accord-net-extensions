@@ -28,7 +28,7 @@ namespace Accord.Extensions.Imaging
 
         /// <summary>
         /// Gets images (channels) for 2D/3D array. 
-        /// <remarks> Any array that is not 2D/3D and its element iis not a primitive type is not supported.  (an exception is thrown)</remarks>
+        /// <remarks> Any array that is not 2D/3D and its element is not a primitive type is not supported.  (an exception is thrown)</remarks>
         /// </summary>
         /// <param name="arr">Input array.</param>
         /// <returns>Channels. For 2D array output will consist of an single image.</returns>
@@ -80,7 +80,7 @@ namespace Accord.Extensions.Imaging
             where TColor:IColor
             where TDepth : struct
         {
-            SetValue(img, arr);
+            SetValue((IImage)img, arr);
         }
 
         /// <summary>
@@ -148,5 +148,28 @@ namespace Accord.Extensions.Imaging
             return img;
         }
 
+
+        /// <summary>
+        /// Converts array to image (data is copied). Array elements must be primitive types.
+        /// </summary>
+        /// <param name="arr">Input array</param>
+        /// <param name="width">Width of the image. Height is automatically calculated.</param>
+        /// <returns>Image</returns>
+        public unsafe static Image<Gray, byte> ToImage(this byte[] arr, int width)
+        {
+            if (arr.Length % width != 0)
+                throw new Exception("Invalid width! (length of the array must be dividable by width)");
+
+            int height = arr.Length / (width);
+
+            var image = new Image<Gray, byte>(width, height);
+
+            fixed (byte* arrPtr = arr)
+            {                
+                HelperMethods.CopyImage((IntPtr)arrPtr, image.ImageData, image.Width, image.Stride, image.Stride, image.Height);
+            }
+
+            return image;
+        }
     }
 }

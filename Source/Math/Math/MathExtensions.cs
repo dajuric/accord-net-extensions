@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -174,6 +175,30 @@ namespace Accord.Extensions.Math
     /// Provides additional math functions for collections.
     public static class MathEnumerableExtensions
     {
+        /// <summary>
+        /// Calculates weighted average. 
+        /// <para>In case where sum of weights is equal to zero, zero will be returned. Use a function overload to change this behavior.</para>
+        /// </summary>
+        /// <param name="collection">Collections of elements.</param>
+        /// <param name="weights">Weights.</param>
+        /// <returns>Weighted average of a collection.</returns>
+        public static double WeightedAverage(this IEnumerable<float> collection, IList<float> weights)
+        {
+            return collection.WeightedAverage((e, _) => e, (_, i) => weights[i]);
+        }
+
+        /// <summary>
+        /// Calculates weighted average. 
+        /// <para>In case where sum of weights is equal to zero, zero will be returned. Use a function overload to change this behavior.</para>
+        /// </summary>
+        /// <param name="collection">Collections of elements.</param>
+        /// <param name="weights">Weights.</param>
+        /// <returns>Weighted average of a collection.</returns>
+        public static double WeightedAverage(this IEnumerable<double> collection, IList<double> weights)
+        {
+            return collection.WeightedAverage((e, _) => e, (_, i) => weights[i]);
+        }
+
         /// <summary>
         /// Calculates weighted average. 
         /// <para>In case where sum of weights is equal to zero, zero will be returned. Use a function overload to change this behavior.</para>

@@ -1,6 +1,10 @@
-﻿using System;
+﻿#define LOG
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RT
 {
@@ -105,16 +109,37 @@ namespace RT
                 //normalize weights
                 sampleWeights = sampleWeights.Select(x => x / wSum).ToArray();
 
+#if LOG
+                Console.WriteLine();
+                Console.WriteLine("\r\tGentleBoost: training weak classifier - {0} ...", this.learners.Count + 1);
+#endif
+
                 //train weak learner
                 var trainedLearner = learnerCreateAndTrainFunc(sampleWeights);
                 learners.Add(trainedLearner);
 
+#if LOG
+                Console.WriteLine();
+                int nProcessedSamples = 0;
+#endif
+
                 //update outputs
-                for (int i = 0; i < nSamples; i++)
+                Parallel.For(0, nSamples, (int i) =>
+                //for (int i = 0; i < nSamples; i++)
                 {
+#if LOG
+                    Interlocked.Increment(ref nProcessedSamples);
+                    Console.Write("\r\tGentleBoost: update outputs for samples {0} / {1}", nProcessedSamples, nSamples);
+#endif
+
                     var learnerOutput = learnerClassifyFunc(trainedLearner, i);
                     outputs[i] += learnerOutput;
-                }
+                });
+
+#if LOG
+                Console.WriteLine();
+                Console.WriteLine();
+#endif
             }
         }
 

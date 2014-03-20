@@ -133,15 +133,27 @@ namespace Accord.Extensions.Caching
             }
         }
 
+        /// <summary>
+        /// Structure that contains all objects (objects that consume memory + reference objects).
+        /// </summary>
         private ConcurrentDictionary<TKey, ILazy<TValue>> cache;
+        /// <summary>
+        /// Management strategy (LRU) that is responsible for automatically object unloading.
+        /// </summary>
         private LRUCache<TKey, LazyCacheItem<TKey, TValue>> managmentStrategy;
+        /// <summary>
+        /// Forces GC.Collect()  (user option).
+        /// </summary>
         private bool forceCollectionOnRemoval;
+        /// <summary>
+        /// Sync object, needed for non-concurrent structures.
+        /// </summary>
         object syncObj = new object();
 
         /// <summary>
         /// Constructs lazy memory cache which caches object constructor and destructor.
-        /// <para>Value loading is handled in a lazy way (JIT), and it is automatically undloaded from memory when a specified capacity is reached.</para>
-        /// <para>The memory managment is handled by LRU strategy. See: <see cref="LRUCache"/>.</para>
+        /// <para>Value loading is handled in a lazy way (JIT), and it is automatically unloaded from memory when a specified capacity is reached.</para>
+        /// <para>The memory management is handled by LRU strategy. See: <see cref="LRUCache"/>.</para>
         /// </summary>
         /// <param name="isCapacityReached">Function that returns true if the cache limit is reached and the cache should start to unload items.</param>
         /// <param name="objectSizeFunc">Function to determine object size.</param>
@@ -155,7 +167,7 @@ namespace Accord.Extensions.Caching
         /// ComputerInfo computerInfo = new ComputerInfo(); //reference to Microsoft.VisualBasic assembly.
         ///
         /// //construction
-        /// var memCache = new LazyMemoryCache<int, Image<Gray, byte>>
+        /// var memCache = new LazyMemoryCache ;lt int, Image ;lt Gray, byte ;gt;gt
         ///  (
         ///   (currentSize) =>
         ///    {
@@ -173,7 +185,7 @@ namespace Accord.Extensions.Caching
         /// //adding elements (you can also use stream as IEnuerable to populate cache)
         /// memCache.AddOrUpdate(2, () =>   
         ///        {
-        ///            var image = new Image<Gray, byte>(1 * 1024 * 1024, 1, 0);
+        ///            var image = new Image ;ltGray, byte ;gt(1 * 1024 * 1024, 1, 0);
         ///            image.SetValue(252);
         ///            return image;
         ///        }, 
@@ -201,14 +213,6 @@ namespace Accord.Extensions.Caching
         void managmentStrategy_OnRemoveItem(LRUCache<TKey, LazyCacheItem<TKey, TValue>> sender, KeyValuePair<TKey, LazyCacheItem<TKey, TValue>> item, bool userRequested)
         {
             item.Value.Unload();
-
-            if (userRequested)
-            {
-                item.Value.Dispose();
-
-                ILazy<TValue> val;
-                cache.TryRemove(item.Key, out val);
-            }
         }
 
         /// <summary>
@@ -226,6 +230,22 @@ namespace Accord.Extensions.Caching
             cache.GetOrAdd(key, item);
             managmentStrategy.Add(key, item);
         }
+
+        /*
+        /// <summary>
+        /// Adds or updates reference to already existent object in cache.
+        /// </summary>
+        /// <param name="key">Key to add.</param>
+        /// <param name="referenceKey">Reference key. Must exist.</param>
+        public bool AddOrUpdateReference(TKey key, TKey referenceKey)
+        {
+            ILazy<TValue> val;
+            if (!cache.TryGetValue(key, out val))
+                return false;
+
+            cache.GetOrAdd(key, val);
+            return true;
+        }*/
 
         void item_OnValueUnloaded(object sender, EventArgs e)
         {
@@ -246,9 +266,24 @@ namespace Accord.Extensions.Caching
         /// Unloads and removes the object from the cache.
         /// </summary>
         /// <param name="key">Object key.</param>
-        public void Remove(TKey key)
+        public bool TryRemove(TKey key)
         {
+            if (!cache.ContainsKey(key))
+                return false;
+
             managmentStrategy.Remove(key);
+
+            //if the key is the allocated object's key....
+            ILazy<TValue> val;
+            cache.TryGetValue(key, out val);
+
+            //unload from memory
+            (val as LazyCacheItem<TKey, TValue>).Dispose();
+
+            //remove item
+            cache.TryRemove(key, out val);
+
+            return true;
         }
 
         /// <summary>
@@ -301,7 +336,7 @@ namespace Accord.Extensions.Caching
         /// </summary>
         public int Count 
         {
-            get { return managmentStrategy.Count; }
+            get { return cache.Count; }
         }
 
         /// <summary>

@@ -60,16 +60,19 @@ namespace RT
         /// <returns>True if the provided center along with region size is within image boundaries, false otherwise.</returns>
         public static bool IsInBounds(Size imageSize, Point regionCenter, Size regionSize, bool isRotated = false)
         {
+            throw new Exception(); //pogledati je li ovo točno
+
             if (isRotated == false)
             {
-                return new RectangleF
+                var rect = new RectangleF
                 {
                     X = regionSize.Width / 2 + 1,
                     Y = regionSize.Height / 2 + 1,
                     Width = imageSize.Width - regionSize.Width / 2,
                     Height = imageSize.Height - regionSize.Height / 2
-                }
-                .Contains(regionCenter);
+                };
+
+                return rect.Contains(regionCenter);
             }
             else //get the worst possible case where the region is rotated by 45 degrees
             {
@@ -146,22 +149,27 @@ namespace RT
         /// If the created points are outside image boundaries they will be clipped.
         /// <para>Used for training phase. Default value (false) is for testing phase.</para>
         /// </param>
-        /// <returns>whether the image intensity for the first point is less or equal than the intensity for the second point.</returns>
+        /// <returns>True if the image intensity for the first point is less or equal than the intensity for the second point, false otherwise.</returns>
         public unsafe bool Test(Image<Gray, byte> image, Point regionCenter, Size regionSize, int angleDeg = 0, bool clipToImageBounds = false)
         {
             Point ptA = toRealCoordinates(this.First, regionCenter, regionSize, angleDeg);
             Point ptB = toRealCoordinates(this.Second, regionCenter, regionSize, angleDeg);
           
-            if (clipToImageBounds)
+            /*if (clipToImageBounds)
             {
                 ptA = ptA.Clamp(image.Size);
                 ptB = ptB.Clamp(image.Size);
-            }
+            }*/
 
             var valA = *(byte*)image.GetData(ptA.Y, ptA.X);
             var valB = *(byte*)image.GetData(ptB.Y, ptB.X);
 
             return valA <= valB;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("({0}, {1});  ({2}, {3})", First.X, First.Y, Second.X, Second.Y);
         }
     }
 

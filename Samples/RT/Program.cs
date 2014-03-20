@@ -1,4 +1,6 @@
-﻿using Accord.Controls;
+﻿#define LOG
+
+using Accord.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,10 @@ using Accord.Extensions.Vision;
 using Point = AForge.IntPoint;
 using System.IO;
 using System.Runtime.Caching;
-
+using AForge;
+using System.Runtime.InteropServices;
+using System.Globalization;
+using System.Diagnostics;
 
 namespace RT
 {
@@ -23,62 +28,66 @@ namespace RT
         [STAThread]
         static void Main()
         {
-           
+            Train();
+            //return;
 
-            /*Bla();
-            return;*/
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new RTDemo());
         }
 
-        private static void Bla()
+        static void Train()
         {
-            MemoryCache memCache = new MemoryCache("ll");
+#if LOG
+            Stopwatch stopwatch = new Stopwatch();
+#endif
 
-            var cip = new CacheItemPolicy();
-         
+            var picoClassifier = new PicoClassifier(new RectangleF(0, 0, 1, 1));
 
-            ImageDirectoryReader reader = new ImageDirectoryReader("C:/imagesConverted", "*.jpg");
-            IEnumerable<IImage> images = reader.AsEnumerable();
+#if LOG
+            Console.WriteLine();
+            Console.Write("Loading positive samples...");
+            stopwatch.Start();
+#endif
 
-            var count = images.Count();
-            Console.WriteLine(count);
+            List<Rectangle> sampleWindows;
+            List<Image<Gray, byte>> samples;
+            TrainDataLoader.LoadSampleData(@"C:\Users\Darko\Desktop\Pico\PICO_LEARNING\faces\list.txt", picoClassifier, out samples, out sampleWindows);
 
-            //var el = images.ElementAt(840);
+#if LOG
+            stopwatch.Stop();
+            Console.WriteLine(" {0} ms.", stopwatch.ElapsedMilliseconds);
+            stopwatch.Start();
+#endif
 
-            var maxWidth = images.Max(x => x.Width);
-            Console.WriteLine(maxWidth);
+#if LOG
+            Console.Write("Loading negative samples...");
+            stopwatch.Start();
+#endif
 
-            for (int i = 0; i < 800; i++)
-            {
-                using (var e = images.ElementAt(i))
-                {
-                    Console.WriteLine(e);
-                }
-            }
+            List<Image<Gray, byte>> negatives = TrainDataLoader.LoadBackgroundImages(@"C:\Users\Darko\Desktop\Pico\PICO_LEARNING\nonfaces\list.txt");
 
-            return;
+#if LOG
+            stopwatch.Stop();
+            Console.WriteLine(" {0} ms.", stopwatch.ElapsedMilliseconds);
+            Console.WriteLine();
+#endif
 
-            foreach (var im in reader.AsEnumerable())
-            {
-                Console.WriteLine(im);
-                GC.Collect();
-            }
+            /*picoClassifier.AddStage(samples, negatives, sampleWindows, minTPR: 0.995f, maxFPR: 0.1f, targetFPR: 1e-6f, maxTrees: 10, treeMaxDepth: 6);
+            picoClassifier.ToHexFile("myClassifier.ea");*/
 
-            return;
+            picoClassifier.AddStage(samples, negatives, sampleWindows, minTPR: 0.980f, maxFPR: 0.5f, targetFPR: 1e-6f, maxTrees: 1, treeMaxDepth: 6);
+            picoClassifier.ToHexFile("myClassifier.ea");
 
-            while (true)
-            {       
-                var im = reader.Read();
-                Console.WriteLine(im);
+            picoClassifier.AddStage(samples, negatives, sampleWindows, minTPR: 0.985f, maxFPR: 0.5f, targetFPR: 1e-6f, maxTrees: 1, treeMaxDepth: 6);
+            picoClassifier.ToHexFile("myClassifier.ea");
 
-                //task.Result.Convert<Gray, byte>().Save("C:/imagesConverted/" + new FileInfo(reader.CurrentImageName).Name);
-                GC.Collect();
-            }
+            /*picoClassifier.AddStage(samples, negatives, sampleWindows, minTPR: 0.990f, maxFPR: 0.5f, targetFPR: 1e-6f, maxTrees: 2, treeMaxDepth: 6);
+            picoClassifier.ToHexFile("myClassifier.ea");
 
-            return;
+            picoClassifier.AddStage(samples, negatives, sampleWindows, minTPR: 0.995f, maxFPR: 0.5f, targetFPR: 1e-6f, maxTrees: 3, treeMaxDepth: 6);
+            picoClassifier.ToHexFile("myClassifier.ea");*/
         }
     }
 }
