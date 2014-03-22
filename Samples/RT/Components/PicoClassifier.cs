@@ -149,7 +149,7 @@ namespace RT
         /// <param name="treeMaxDepth">Maximum depth of the regression tree (weak learner in GentleBoost). (e.g. 6)</param>
         /// <param name="numberOfBinaryTests">Number of generated binary tests per regression tree node. Only one of the specified number of tests will be selected. (e.g. 1024)</param>
         /// <returns>True if the stage is appended, false otherwise.</returns>
-        public bool AddStage(IEnumerable<Image<Gray, byte>> allPositiveSamples, IEnumerable<Image<Gray, byte>> allNegativeSamples, List<Rectangle> allPositiveSampleWindows, float targetFPR = 1e-6f, float minTPR = 0.980f, float maxFPR = 0.5f, int maxTrees = 1, int treeMaxDepth = 6, int numberOfBinaryTests = 1024)
+        public bool AddStage(IList<Image<Gray, byte>> allPositiveSamples, IList<Image<Gray, byte>> allNegativeSamples, IList<Rectangle> allPositiveSampleWindows, float targetFPR = 1e-6f, float minTPR = 0.980f, float maxFPR = 0.5f, int maxTrees = 1, int treeMaxDepth = 6, int numberOfBinaryTests = 1024)
         {
             Random rand = new Random(0);
             StageClassifier stageClassifier = new StageClassifier();
@@ -165,10 +165,9 @@ namespace RT
             Console.WriteLine("Stage training {0} ---------------------------------------------------------------", this.Cascade.NumberOfStages + 1);
             Console.WriteLine();
 #endif
-            resetRandom();
+
             sampleTrainingData(allPositiveSamples, allPositiveSampleWindows, allNegativeSamples, (nSelectedPositives) => (2 * allPositiveSamples.Count() - nSelectedPositives),
                                out images, out windows, out classLabels, out confidences, out tpr, out fpr, () => rand.Next() /*get_random()*/);
-            resetRandom();
 
             if (fpr <= targetFPR)
                 return false;
@@ -195,11 +194,6 @@ namespace RT
                                   //after each weak classifier training check whether the training process should be stopped
                                   (learners, learnerOutputs) => 
                                   {
-                                      /*for (int i = 0; i < learnerOutputs.Length; i++)
-                                      {
-                                          Console.WriteLine(learnerOutputs[i]);
-                                      }*/
-
                                       float startThreshold = 5f;//learnerOutputs.Max();
                                       const float THRESHOLD_SEARCH_STEP = -0.005f; //decrease by x
 
@@ -423,20 +417,6 @@ namespace RT
         }
 
         #endregion
-
-
-        int rC = 1;
-
-        int get_random()
-        {
-            rC++;
-            return rC;
-        }
-
-        void resetRandom()
-        {
-            rC = 1;
-        }
     }
 
 }
