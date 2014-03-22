@@ -43,7 +43,7 @@ namespace RT
 
         void Application_Idle(object sender, EventArgs e)
         {
-           var image = videoStreamSource.ReadAs<Bgr, byte>();
+            var image = videoStreamSource.ReadAs<Bgr, byte>();//.Resize(new Size(320, 240), InterpolationMode.Bilinear);
            if (image == null)
                return;
 
@@ -53,7 +53,7 @@ namespace RT
            {
                float conf;
                classifier.ClassifyRegion(im, window, 0, out conf);
-               if (conf > 6)
+               if (conf > 3)
                    return true;
                else
                    return false;

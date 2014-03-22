@@ -91,8 +91,8 @@ namespace RT
 
             float[] sampleWeights = new float[nSamples];
 
-            while (terminationFunc(learners, outputs) == false)
-            { 
+            do
+            {
                 //compute weights
                 float wSum = 0f;
 
@@ -141,6 +141,7 @@ namespace RT
                 Console.WriteLine();
 #endif
             }
+            while (terminationFunc(learners, outputs) == false);
         }
 
         /// <summary>

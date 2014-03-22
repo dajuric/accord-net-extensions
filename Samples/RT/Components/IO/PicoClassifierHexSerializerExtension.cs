@@ -42,6 +42,20 @@ namespace RT
             }
         }
 
+        /// <summary>
+        /// Saves Pico-classifer data to binary data file.
+        /// </summary>
+        /// <param name="fileName">Detector file path.</param>
+        /// <param name="detector">A detector to save.</param>
+        public static void ToBinaryFile(this PicoClassifier detector, string fileName)
+        {
+            using (var fileStream = new FileStream(fileName, FileMode.Create))
+            {
+                toBinaryStream(detector, new BinaryWriter(fileStream));
+                fileStream.Flush(flushToDisk: true);
+            }
+        }
+
         private static void toTextHexStream(BinaryReader binStreamReader, TextWriter textHexStreamWriter)
         {
             const int NUMBER_OF_HEX_PER_ROW = 32;

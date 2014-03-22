@@ -142,14 +142,14 @@ namespace RT
         /// <param name="allPositiveSamples">Positive samples.</param>
         /// <param name="allNegativeSamples">Negative samples.</param>
         /// <param name="allPositiveSampleWindows">Positive sample windows.</param>
+        /// <param name="targetFPR">Target false positive rate. If the calculated FPR is less than the specified number, new stage will not be appended. (e.g. 1e-3).</param>
         /// <param name="minTPR">Minimum stage true positive rate (e.g. 0.98).</param>
         /// <param name="maxFPR">Maximum stage false positive rate (e.g. 0.5).</param>
-        /// <param name="targetFPR">Target false positive rate. If the calculated FPR is less than the specified number, new stage will not be appended. (e.g. 1e-3).</param>
         /// <param name="maxTrees">Maximum number of trees (weak learners) per stage. (e.g. 1-5).</param>
         /// <param name="treeMaxDepth">Maximum depth of the regression tree (weak learner in GentleBoost). (e.g. 6)</param>
         /// <param name="numberOfBinaryTests">Number of generated binary tests per regression tree node. Only one of the specified number of tests will be selected. (e.g. 1024)</param>
         /// <returns>True if the stage is appended, false otherwise.</returns>
-        public bool AddStage(IEnumerable<Image<Gray, byte>> allPositiveSamples, IEnumerable<Image<Gray, byte>> allNegativeSamples, List<Rectangle> allPositiveSampleWindows, float minTPR, float maxFPR, float targetFPR = 1e-6f, int maxTrees = 1, int treeMaxDepth = 6, int numberOfBinaryTests = 1024)
+        public bool AddStage(IEnumerable<Image<Gray, byte>> allPositiveSamples, IEnumerable<Image<Gray, byte>> allNegativeSamples, List<Rectangle> allPositiveSampleWindows, float targetFPR = 1e-6f, float minTPR = 0.980f, float maxFPR = 0.5f, int maxTrees = 1, int treeMaxDepth = 6, int numberOfBinaryTests = 1024)
         {
             Random rand = new Random(0);
             StageClassifier stageClassifier = new StageClassifier();
@@ -160,23 +160,18 @@ namespace RT
             List<float> confidences;
             float tpr, fpr;
 
-            int maxNumberOfNegativeSamples = allPositiveSamples.Count();
-            sampleTrainingData(allPositiveSamples, allPositiveSampleWindows, allNegativeSamples, maxNumberOfNegativeSamples,
-                               out images, out windows, out classLabels, out confidences, out tpr, out fpr, () => rand.Next());
-
 #if LOG
-            Console.WriteLine("Sampling data: finished: TPR: {0}, FPR: {0}", tpr, fpr);
+            Console.WriteLine();
+            Console.WriteLine("Stage training {0} ---------------------------------------------------------------", this.Cascade.NumberOfStages + 1);
             Console.WriteLine();
 #endif
+            resetRandom();
+            sampleTrainingData(allPositiveSamples, allPositiveSampleWindows, allNegativeSamples, (nSelectedPositives) => (2 * allPositiveSamples.Count() - nSelectedPositives),
+                               out images, out windows, out classLabels, out confidences, out tpr, out fpr, () => rand.Next() /*get_random()*/);
+            resetRandom();
 
             if (fpr <= targetFPR)
                 return false;
-
-#if LOG
-            Console.WriteLine();
-            Console.WriteLine("********************** Stage training - {0} ********************************", this.Cascade.NumberOfStages + 1);
-            Console.WriteLine();
-#endif
 
             float[] targetValues = classLabels.Select(x => (x == true) ? +1f : -1f).ToArray();
            
@@ -185,7 +180,7 @@ namespace RT
 
                                   //create and train weak learner
                                   (sampleWeights) => weakLearnerTrain(treeMaxDepth, 
-                                                                      () => weakLearnerProvideFeatures(numberOfBinaryTests, () => (int)rand.Next()),
+                                                                      () => weakLearnerProvideFeatures(numberOfBinaryTests, () => (int)rand.Next() /*get_random()*/),
                                                                       targetValues, 
                                                                       sampleWeights,
                                                                       images, 
@@ -194,13 +189,18 @@ namespace RT
                                  
                                   //get output from trained learner
                                   (learner, sampleIndex) => weakLearnerClassify(learner, 
-                                                                                images[sampleIndex].Convert<Gray, byte>(),
+                                                                                images[sampleIndex],
                                                                                 windows[sampleIndex]),
                                      
                                   //after each weak classifier training check whether the training process should be stopped
                                   (learners, learnerOutputs) => 
                                   {
-                                      float startThreshold = learnerOutputs.Max();
+                                      /*for (int i = 0; i < learnerOutputs.Length; i++)
+                                      {
+                                          Console.WriteLine(learnerOutputs[i]);
+                                      }*/
+
+                                      float startThreshold = 5f;//learnerOutputs.Max();
                                       const float THRESHOLD_SEARCH_STEP = -0.005f; //decrease by x
 
 #if LOG
@@ -227,7 +227,7 @@ namespace RT
 
 #if LOG
             Console.WriteLine();
-            Console.WriteLine("******************* Stage training finished... *****************************");
+            Console.WriteLine("--------------------------------------------------------------------------------");
             Console.WriteLine();
 #endif
 
@@ -303,7 +303,11 @@ namespace RT
         /// <param name="positives">Positive sample images.</param>
         /// <param name="objectRegions">Positive sample regions.</param>
         /// <param name="negatives">Negative sample images.</param>
-        /// <param name="maxNegatives">Max. number of negatives to select.</param>
+        /// <param name="nNegativesCountSelector">
+        /// Number of negatives to selector.
+        /// Parameters: number of selected positives.
+        /// Returns: number of negatives to select.
+        /// </param>
         /// <param name="samples">Chosen positive and negative samples.</param>
         /// <param name="windows">Chosen positive sample regions and generated regions for negatives.</param>
         /// <param name="classLabels">Class labels (true - positive, false - negative).</param>
@@ -312,7 +316,7 @@ namespace RT
         /// <param name="falsePositiveRate">False positive rate.</param>
         /// <param name="nextRand">The user-random function.</param>
         private void sampleTrainingData(IEnumerable<Image<Gray, byte>> positives,    IList<Rectangle> objectRegions,
-                                        IEnumerable<Image<Gray, byte>> negatives, int maxNegatives,
+                                        IEnumerable<Image<Gray, byte>> negatives, Func<int, int> nNegativesCountSelector,
 
                                         out List<Image<Gray, byte>> samples, out List<Rectangle> windows,
                                         out List<bool> classLabels         , out List<float> classifierOutputs,
@@ -320,6 +324,10 @@ namespace RT
             
                                         Func<int> nextRand)
         {
+#if LOG
+            int nTPs = 0;
+#endif
+
             samples = new List<Image<Gray, byte>>();
             windows = new List<Rectangle>();
             classLabels = new List<bool>();
@@ -340,8 +348,21 @@ namespace RT
                     samples.Add(positives.ElementAt(i));
                     classLabels.Add(true);
                     classifierOutputs.Add(confidence);
+#if LOG
+                    nTPs++;
+#endif
                 }
+#if LOG
+                Console.Write("\rSampling positives. nTPs / nSampled: {0}, {1}", nTPs, nTotalPositives);
+#endif
             }
+
+            var nSelectedPositives = classLabels.Where(x => x == true).Count();
+            truePositiveRate = nSelectedPositives / (float)nTotalPositives;
+
+#if LOG
+            Console.WriteLine(" - TPR: {0}", truePositiveRate);
+#endif
             /*************************** load positive samples **************************************/
 
             /*************************** load false-positives *************************************/
@@ -351,7 +372,8 @@ namespace RT
             var nFPs = 0;
             var nPickedNegatives = 0;
 
-            while (nFPs < maxNegatives)
+            int nNegativesToSelect = nNegativesCountSelector(nSelectedPositives);
+            while (nFPs < nNegativesToSelect)
             { 
                 //pick random background image
                 var idx = (int)(nextRand() % nTotalNegatives);
@@ -385,15 +407,36 @@ namespace RT
                 }
 
                 nPickedNegatives++;
+
+#if LOG
+                Console.Write("\rSampling negatives. nFPs / nSampled: {0}, {1}", nFPs, nPickedNegatives);
+#endif
             }
             /*************************** load false-positives *************************************/
 
-            truePositiveRate  = classLabels.Where(x => x == true ).Count() / (float)nTotalPositives;
+           
             falsePositiveRate = classLabels.Where(x => x == false).Count() / (float)nPickedNegatives;
+
+#if LOG
+            Console.WriteLine(" - FPR: {0}", falsePositiveRate);
+#endif
         }
 
         #endregion
 
+
+        int rC = 1;
+
+        int get_random()
+        {
+            rC++;
+            return rC;
+        }
+
+        void resetRandom()
+        {
+            rC = 1;
+        }
     }
 
 }

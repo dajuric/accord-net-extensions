@@ -79,7 +79,6 @@ namespace RT
                     return false;
             }
 
-            confidence -= stageThreshold;
             return true;
         }
 

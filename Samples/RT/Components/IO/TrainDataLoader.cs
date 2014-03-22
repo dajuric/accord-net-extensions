@@ -1,8 +1,12 @@
-﻿using Accord.Extensions;
+﻿#define LOG
+
+using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 
@@ -12,6 +16,10 @@ namespace RT
     {
         public static List<Image<Gray, byte>> LoadBackgroundImages(string backgroundListPath)
         {
+#if LOG
+            int nLoadedFiles = 0;
+#endif
+
             var images = new List<Image<Gray, byte>>();
 
             var dir = new FileInfo(backgroundListPath).DirectoryName;
@@ -24,14 +32,27 @@ namespace RT
                     var imPath = Path.Combine(dir, imName);
                     var im = loadImageFromRaw(imPath);
                     images.Add(im);
+
+#if LOG
+                    nLoadedFiles++;
+                    Console.Write("\rLoaded negative samples {0}.", nLoadedFiles);
+#endif
                 }
             }
+
+#if LOG
+            Console.WriteLine();
+#endif
 
             return images;
         }
 
         public static void LoadSampleData(string listPath, PicoClassifier picoClassifier, out List<Image<Gray, byte>> images, out List<Rectangle> windows, bool onlyReferenceSamples = true)
         {
+#if LOG
+            int nLoadedFiles = 0;
+#endif
+
             var dir = new FileInfo(listPath).DirectoryName;
 
             windows = new List<Rectangle>();
@@ -46,18 +67,26 @@ namespace RT
                     List<Rectangle> sampleWindows;
                     loadSampleData(dir, sampleDataFileName, picoClassifier, out sampleImage, out sampleWindows);
 
-                    for (int i = 0; i < sampleWindows.Count; i++)
+                    foreach (var window in sampleWindows)
                     {
-                        Rectangle window = sampleWindows[i].Intersect(sampleImage.Size);
                         windows.Add(window);
 
                         if (onlyReferenceSamples)
                             images.Add(sampleImage);
                         else
                             images.Add(sampleImage.Clone());
+
+#if LOG
+                        nLoadedFiles++;
+                        Console.Write("\rLoaded positive samples {0}.", nLoadedFiles);
+#endif
                     }
                 }
             }
+
+#if LOG
+            Console.WriteLine();
+#endif
         }
 
         private static void loadSampleData(string dirPath, string sampleDataFileName, PicoClassifier picoClassifier, out Image<Gray, byte> image, out List<Rectangle> windows)
@@ -84,6 +113,10 @@ namespace RT
                         },
                         Single.Parse(rcs[2], CultureInfo.InvariantCulture));
 
+                    /*if (rect.Right > image.Width || rect.Bottom > image.Height)
+                        Console.WriteLine();*/
+
+                    rect = rect.Intersect(image.Size); //ensure that the window is inside the image
                     windows.Add(rect);
                 }
             }

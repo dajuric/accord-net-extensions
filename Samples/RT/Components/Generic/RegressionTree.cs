@@ -80,9 +80,10 @@ namespace RT
         /// <param name="depth">The depth of the regression tree. Does not take leaf nodes into account.</param>
         public RegressionTree(int depth)
         {
-            int capacity = (1 << (depth + 1)) - 1; //depth does not take child nodes into account
-            treeNodes = EnumerableExtensions.Create(capacity, (_) => new RegressionNodeData<TFeature>()).ToArray();
-            
+            int nNodes = (1 << (depth + 1)) - 1; //depth does not take child nodes into account
+            //treeNodes = EnumerableExtensions.Create(nNodes, (_) => new RegressionNodeData<TFeature>()).ToArray();
+            treeNodes = new RegressionNodeData<TFeature>[nNodes];
+
             TreeDepth = depth;
         }
 
@@ -186,7 +187,7 @@ namespace RT
             if (nProcessedNodes == this.treeNodes.Length)
                 Console.WriteLine();
 #endif
-
+            treeNodes[nodeIndex] = new RegressionNodeData<TFeature>(); 
             RegressionNodeData<TFeature> node = treeNodes[nodeIndex];
 
             if (depth == this.TreeDepth) //compute output: weighted average
@@ -223,7 +224,7 @@ namespace RT
             });
 
             var indexOfMinError = splitErrors.IndexOfMin();
-            node.Data = features[indexOfMinError];
+            node.Data = features[indexOfMinError]; 
             /****************** find the best split error (minimum error) ********************************/
 
             //get split index for the selected feature
@@ -332,7 +333,7 @@ namespace RT
             }
 
             if (weightSumL == 0 || weightSumR == 0 || weightSum == 0)
-                return 0;
+                return Single.MaxValue;
 
             //Nenad
             var errL = weightValSrqSumL - (weightValSumL * weightValSumL) / weightSumL;
@@ -343,6 +344,9 @@ namespace RT
             /*var errL = weightValSrqSumL - 2 * weightValSumL + (weightValSumL * weightValSumL) / weightSumL;
             var errR = weightValSrqSumR - 2 * weightValSumR + (weightValSumR * weightValSumR) / weightSumR;
             var error = errL + errR;*/
+
+            if (Math.Abs(error) < 1e-3)
+                error = 0;
 
             return (float)error;
         }

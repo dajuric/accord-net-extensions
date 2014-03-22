@@ -28,8 +28,8 @@ namespace RT
         [STAThread]
         static void Main()
         {
-            Train();
-            //return;
+            /*Train();
+            return;*/
 
 
             Application.EnableVisualStyles();
@@ -44,6 +44,8 @@ namespace RT
 #endif
 
             var picoClassifier = new PicoClassifier(new RectangleF(0, 0, 1, 1));
+            //PicoClassifier picoClassifier;
+            //PicoClassifierHexDeserializer.FromBinaryFile("d", out picoClassifier);
 
 #if LOG
             Console.WriteLine();
@@ -56,38 +58,67 @@ namespace RT
             TrainDataLoader.LoadSampleData(@"C:\Users\Darko\Desktop\Pico\PICO_LEARNING\faces\list.txt", picoClassifier, out samples, out sampleWindows);
 
 #if LOG
-            stopwatch.Stop();
             Console.WriteLine(" {0} ms.", stopwatch.ElapsedMilliseconds);
-            stopwatch.Start();
+            stopwatch.Restart();
 #endif
 
 #if LOG
             Console.Write("Loading negative samples...");
-            stopwatch.Start();
+            stopwatch.Restart();
 #endif
 
             List<Image<Gray, byte>> negatives = TrainDataLoader.LoadBackgroundImages(@"C:\Users\Darko\Desktop\Pico\PICO_LEARNING\nonfaces\list.txt");
 
 #if LOG
-            stopwatch.Stop();
-            Console.WriteLine(" {0} ms.", stopwatch.ElapsedMilliseconds);
-            Console.WriteLine();
+            Console.WriteLine(" {0} ms.\n", stopwatch.ElapsedMilliseconds);
+            stopwatch.Restart();
 #endif
 
-            /*picoClassifier.AddStage(samples, negatives, sampleWindows, minTPR: 0.995f, maxFPR: 0.1f, targetFPR: 1e-6f, maxTrees: 10, treeMaxDepth: 6);
-            picoClassifier.ToHexFile("myClassifier.ea");*/
+            /*int a = 0;
+            while (a < 3)
+            {
+                picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.990f, maxFPR: 0.5f, maxTrees: 1, treeMaxDepth: 4);
+                a++;
+            }*/
 
-            picoClassifier.AddStage(samples, negatives, sampleWindows, minTPR: 0.980f, maxFPR: 0.5f, targetFPR: 1e-6f, maxTrees: 1, treeMaxDepth: 6);
+            //picoClassifier.ToBinaryFile("d");
+            //picoClassifier.ToHexFile("myClassifier.ea");
+
+            picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.980f, maxFPR: 0.5f, maxTrees: 1, treeMaxDepth: 6);
             picoClassifier.ToHexFile("myClassifier.ea");
 
-            picoClassifier.AddStage(samples, negatives, sampleWindows, minTPR: 0.985f, maxFPR: 0.5f, targetFPR: 1e-6f, maxTrees: 1, treeMaxDepth: 6);
+            picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.985f, maxFPR: 0.5f, maxTrees: 1, treeMaxDepth: 6);
             picoClassifier.ToHexFile("myClassifier.ea");
 
-            /*picoClassifier.AddStage(samples, negatives, sampleWindows, minTPR: 0.990f, maxFPR: 0.5f, targetFPR: 1e-6f, maxTrees: 2, treeMaxDepth: 6);
+            picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.990f, maxFPR: 0.5f, maxTrees: 2, treeMaxDepth: 6);
             picoClassifier.ToHexFile("myClassifier.ea");
 
-            picoClassifier.AddStage(samples, negatives, sampleWindows, minTPR: 0.995f, maxFPR: 0.5f, targetFPR: 1e-6f, maxTrees: 3, treeMaxDepth: 6);
-            picoClassifier.ToHexFile("myClassifier.ea");*/
+            picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.995f, maxFPR: 0.5f, maxTrees: 3, treeMaxDepth: 6);
+            picoClassifier.ToHexFile("myClassifier.ea");
+
+            /*int nStages = 0;
+            bool isStageAdded = true;
+            while (nStages < 6 && isStageAdded)
+            {
+                isStageAdded = picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.997f, maxFPR: 0.5f, maxTrees: 10, treeMaxDepth: 6);
+                picoClassifier.ToHexFile("myClassifier.ea");
+
+                nStages++;
+            }*/
+
+            /*nStages = 0;
+            while (nStages < 10 && isStageAdded)
+            {
+                isStageAdded = picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.999f, maxFPR: 0.5f, maxTrees: 20, treeMaxDepth: 6);
+                picoClassifier.ToHexFile("myClassifier.ea");
+
+                nStages++;
+            }*/
+
+#if LOG
+            stopwatch.Stop();
+            Console.WriteLine("Cascade training finished in: {0}.", stopwatch.Elapsed);
+#endif
         }
     }
 }

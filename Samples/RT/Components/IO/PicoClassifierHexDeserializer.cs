@@ -73,11 +73,24 @@ namespace RT
             //load data
             using (var reader = new BinaryReader(new MemoryStream(buffer)))
             {
-                fromByteStream(reader, out detector);
+                fromBinaryStream(reader, out detector);
             }
         }
 
-        private static void fromByteStream(BinaryReader reader, out PicoClassifier detector)
+        /// <summary>
+        /// Loads Pico-classifer data from binary data file.
+        /// </summary>
+        /// <param name="fileName">Detector file path.</param>
+        /// <param name="detector">Loaded detector.</param>
+        public static void FromBinaryFile(string fileName, out PicoClassifier detector)
+        {
+            using (var fileStream = new FileStream(fileName, FileMode.Open))
+            {
+                fromBinaryStream(new BinaryReader(fileStream), out detector);
+            }
+        }
+
+        private static void fromBinaryStream(BinaryReader reader, out PicoClassifier detector)
         {
             float row = reader.ReadSingle(); float col = reader.ReadSingle();
             float rowScale = reader.ReadSingle(); float colScale = reader.ReadSingle(); 

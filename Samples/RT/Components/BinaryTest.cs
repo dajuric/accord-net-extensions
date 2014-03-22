@@ -101,8 +101,11 @@ namespace RT
 
             First.Y  = ptr[0]; First.X  = ptr[1];
             Second.Y = ptr[2]; Second.X = ptr[3];
+
+            val = binaryCode;
         }
 
+        public int val;
         public unsafe int ToInt32()
         {
             int binaryCode = 0;
