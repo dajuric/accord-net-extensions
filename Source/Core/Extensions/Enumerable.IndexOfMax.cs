@@ -60,6 +60,7 @@ namespace Accord.Extensions
         public static int IndexOfMax<TSource, TKey>(this IEnumerable<TSource> collection, Func<TSource, int, TKey> selector, IComparer<TKey> comparer)
         {
             int idx = 0;
+            int idxOfMax = 0;
             using (var sourceIterator = collection.GetEnumerator())
             {
                 if (!sourceIterator.MoveNext())
@@ -69,18 +70,19 @@ namespace Accord.Extensions
 
                 while (sourceIterator.MoveNext())
                 {
+                    idx++;
+
                     var item = sourceIterator.Current;
                     var key = selector(item, idx);
 
                     if (comparer.Compare(key, minKey) > 0)
                     {
                         minKey = key;
+                        idxOfMax = idx;
                     }
-
-                    idx++;
                 }
 
-                return idx;
+                return idxOfMax;
             }
         }
     }

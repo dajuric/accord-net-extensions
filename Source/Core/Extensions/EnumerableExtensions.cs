@@ -100,12 +100,13 @@ namespace Accord.Extensions
         /// <returns>Array of values in specified range.</returns>
         public static T[] GetRange<T>(this IList<T> src, IntRange range)
         {
-            T[] arr = new T[range.Length];
+            T[] arr = new T[range.Max - range.Min + 1];
 
             int i = 0;
             for (int idx = range.Min; idx <= range.Max; idx++)
             {
                 arr[i] = src[idx];
+                i++;
             }
 
             return arr;

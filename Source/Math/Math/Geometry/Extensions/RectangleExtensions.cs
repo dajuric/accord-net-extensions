@@ -128,9 +128,10 @@ namespace Accord.Extensions.Math.Geometry
     public static class RectangleFExtensions
     {
         /// <summary>
-        /// Caclulates intersected rectangle from specified area (transformed into rectangle with location (0,0)).
+        /// Calculates intersected rectangle from specified area (transformed into rectangle with location (0,0)) 
+        /// which can be useful for image area intersections.
         /// </summary>
-        /// <param name="rect">Recatangle to intersect.</param>
+        /// <param name="rect">Rectangle to intersect.</param>
         /// <param name="area">Maximum bounding box represented as size.</param>
         /// <returns>Intersected rectangle.</returns>
         public static Rectangle Intersect(this Rectangle rect, Size area)
@@ -138,7 +139,7 @@ namespace Accord.Extensions.Math.Geometry
             Rectangle newRect = rect;
 
             if (area.IsEmpty == false)
-                newRect.Intersect(new Rectangle(new Point(), area));
+                newRect.Intersect(new Rectangle(0, 0, area.Width, area.Height));
 
             return newRect;
         }

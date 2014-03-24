@@ -16,7 +16,7 @@ namespace Test
         public void TestMemCache()
         {
             ComputerInfo computerInfo = new ComputerInfo();
-
+    
             var memCache = new LazyMemoryCache<int, Image<Gray, byte>>
                 (
                 (currentSize) =>
