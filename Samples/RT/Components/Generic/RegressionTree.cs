@@ -284,14 +284,19 @@ namespace RT
                 }
             }
 
-            int splitIndex = 0; //TODO: check: zašto nije jednak i ? trebao bi biti - ne 
+            /*int splitIndex = 0; //TODO: check: zašto nije jednak i ? da
             foreach (var idx in indices)
             {
                 if (!rightNodeSelector(feature, idx)) 
                     splitIndex++;
             }
 
-            return splitIndex;
+            if (i != splitIndex)
+                Console.WriteLine();
+
+            return splitIndex;*/
+
+            return i; //splitIndex
         }
 
         /// <summary>

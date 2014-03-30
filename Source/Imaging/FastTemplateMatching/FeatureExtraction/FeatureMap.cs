@@ -8,7 +8,7 @@ namespace LINE2D
     /// Orientation feature map.
     /// <para>Feature map creatign has 3 stages:</para>
     /// <para>     1) Orientation quantization: [0..360] => [0..NUM_OF_QUNATIZED_ORIENTATIONS].</para>
-    /// <para>     2) Filtering qunatized orientations (neigborhood must be the same oriented) 
+    /// <para>     2) Filtering quantized orientations (neigborhood must be the same oriented) 
     ///               and representing them in a binary form: [0..NUM_OF_QUNATIZED_ORIENTATIONS] => [1, 2, 4, 8, 16...]</para>
     /// <para>     3) Spreading binary represented orientations to local neigborhood. This is a trade-off between accuracy and the noise resistance.</para>
     /// </summary>

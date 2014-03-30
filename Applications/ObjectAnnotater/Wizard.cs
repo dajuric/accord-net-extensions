@@ -47,7 +47,7 @@ namespace ObjectAnnotater
         {
             using (var diag = new SaveFileDialog())
             {
-                diag.Filter = "(*.txt)|*.txt";
+                diag.Filter = "(*.xml)|*.xml";
                 diag.OverwritePrompt = false;
 
                 var result = diag.ShowDialog();
@@ -66,7 +66,7 @@ namespace ObjectAnnotater
 
                     try
                     {
-                        Database = AnnotationDatabase.LoadOrCreate(diag.FileName);
+                        DatabaseFileName = diag.FileName;
                     }
                     catch (Exception ex)
                     {
@@ -80,6 +80,6 @@ namespace ObjectAnnotater
         }
 
         public ImageDirectoryReader CaptureObj { get; private set; }
-        public AnnotationDatabase Database { get; private set; }
+        public string DatabaseFileName { get; private set; }
     }
 }

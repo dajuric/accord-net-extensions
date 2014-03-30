@@ -6,9 +6,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Accord.Extensions.Imaging;
+using Point = AForge.IntPoint;
+using Accord.Extensions;
+using System.Xml.Serialization;
+using Accord.Extensions.Math.Geometry;
 
 namespace ObjectAnnotater
 {
+   
+
     static class Program
     {
         /// <summary>
@@ -21,21 +27,37 @@ namespace ObjectAnnotater
             Application.SetCompatibleTextRenderingDefault(false);
             
             ImageDirectoryReader capture = null;
-            AnnotationDatabase database = null;
+            string databaseFileName = null;
 
-            /*using (var wizard = new Wizard())
+            using (var wizard = new Wizard())
             {
                 wizard.ShowDialog();
+
                 capture = wizard.CaptureObj;
-                database = wizard.Database;
-            }*/
+                databaseFileName = wizard.DatabaseFileName;
+            }
 
-            capture = new ImageDirectoryReader("S:/images/", "*.jpg");
+            /*capture = new ImageDirectoryReader("S:/images/", "*.jpg");
+            var databaseFileName = "S:/k.txt";*/
 
-            database = AnnotationDatabase.LoadOrCreate("S:/k.txt");
+            if (capture == null && databaseFileName == null)
+            {
+                MessageBox.Show("Capture or database file name is null!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            if(capture != null && database != null)
-                Application.Run(new ObjectAnnotater(capture, database));
+            capture.Open();
+
+            if (capture.Length == 0)
+            {
+                MessageBox.Show("The directory does not contain images!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if(capture != null && databaseFileName != null)
+                Application.Run(new ObjectAnnotater(capture, databaseFileName));
+
+            capture.Close();
         }
     }
 }

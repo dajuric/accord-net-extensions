@@ -27,11 +27,11 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Infaltes the rectangle by specified width and height (can be negative) and automaticaly clamps rectangle coordinates.
+        /// Inflates the rectangle by specified width and height (can be negative) and automatically clamps rectangle coordinates.
         /// </summary>
         /// <param name="rect">Rectangle to inflate.</param>
         /// <param name="width">Horizontal amount.</param>
-        /// <param name="height">Vecrtical amount.</param>
+        /// <param name="height">Vertical amount.</param>
         /// <param name="constrainedArea">If specified rectangle region will be clamped.</param>
         /// <returns>Inflated rectangle.</returns>
         public static Rectangle Inflate(this Rectangle rect, int width, int height, Size constrainedArea = default(Size))
@@ -51,11 +51,11 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Infaltes the rectangle by specified width and height (can be negative) and automaticaly clamps rectangle coordinates.
+        /// Inflates the rectangle by specified width and height (can be negative) and automatically clamps rectangle coordinates.
         /// </summary>
         /// <param name="rect">Rectangle to inflate.</param>
         /// <param name="width">Horizontal scale.</param>
-        /// <param name="height">Vecrtical scale.</param>
+        /// <param name="height">Vertical scale.</param>
         /// <param name="constrainedArea">If specified rectangle region will be clamped.</param>
         /// <returns>Inflated rectangle.</returns>
         public static Rectangle Inflate(this Rectangle rect, double widthScale, double heightScale, Size constrainedArea = default(Size))
@@ -119,14 +119,7 @@ namespace Accord.Extensions.Math.Geometry
         {
             return rect.Width == 0 || rect.Height == 0;
         }
-    }
 
-    /// <summary>
-    /// <para>Defined functions can be used as object extensions.</para>
-    /// Provides extension methods for <see cref="Recatngle"/>.
-    /// </summary>
-    public static class RectangleFExtensions
-    {
         /// <summary>
         /// Calculates intersected rectangle from specified area (transformed into rectangle with location (0,0)) 
         /// which can be useful for image area intersections.
@@ -144,6 +137,39 @@ namespace Accord.Extensions.Math.Geometry
             return newRect;
         }
 
+        /// <summary>
+        /// Tries to create rectangle from four point polygon. 
+        /// Polygon points which has to be clock-wise oriented staring from left-upper corner like produced by <seealso cref="Vertices"/> function.
+        /// </summary>
+        /// <param name="poly">Four points polygon.</param>
+        /// <param name="rect">Created rectangle.</param>
+        /// <returns>True if the rectangle is created, false otherwise.</returns>
+        public static bool ToRect(this IList<Point> poly, out Rectangle rect)
+        {
+            if (poly.Count != 4)
+            {
+                rect = Rectangle.Empty;
+                return false;
+            }
+
+            rect = new Rectangle
+            {
+                X = poly[0].X,
+                Y = poly[0].Y,
+                Width = poly[1].X - poly[0].X,
+                Height = poly[2].Y - poly[1].Y
+            };
+
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// <para>Defined functions can be used as object extensions.</para>
+    /// Provides extension methods for <see cref="Recatngle"/>.
+    /// </summary>
+    public static class RectangleFExtensions
+    {
         /// <summary>
         /// Gets intersection percent of two rectangles.
         /// </summary>
@@ -197,6 +223,32 @@ namespace Accord.Extensions.Math.Geometry
                 new PointF(rect.X, rect.Bottom), //left-bottom
                 new PointF(rect.Right, rect.Bottom) //right-bottom
             };
+        }
+
+        /// <summary>
+        /// Tries to create rectangle from four point polygon. 
+        /// Polygon points which has to be clock-wise oriented staring from left-upper corner like produced by <seealso cref="Vertices"/> function.
+        /// </summary>
+        /// <param name="poly">Four points polygon.</param>
+        /// <param name="rect">Created rectangle.</param>
+        /// <returns>True if the rectangle is created, false otherwise.</returns>
+        public static bool ToRect(this IList<PointF> poly, out RectangleF rect)
+        {
+            if (poly.Count != 4)
+            {
+                rect = Rectangle.Empty;
+                return false;
+            }
+
+            rect = new RectangleF
+            {
+                X = poly[0].X,
+                Y = poly[0].Y,
+                Width = poly[1].X - poly[0].X,
+                Height = poly[2].Y - poly[1].Y
+            };
+
+            return true;
         }
 
         /// <summary>

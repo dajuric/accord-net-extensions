@@ -10,6 +10,7 @@ namespace RT
     /// <summary>
     /// Generic object detector which uses user provided classifier <see cref="TClassifier"/> to classify between object and non-object.
     /// The sliding window with scale change is used to cover all regions in image. 
+    /// <para>Region classification is executed in parallel.</para>
     /// </summary>
     /// <typeparam name="TClassifier">Classifier type.</typeparam>
     public class Detector<TClassifier>
@@ -34,14 +35,7 @@ namespace RT
 
             this.StartSize = new Size(50, 50);
             this.EndSize = new Size(500, 500);
-            this.InParallel = true;
         }
-
-        /// <summary>
-        /// Run detector in parallel or not.
-        /// <para>Default value is true.</para>
-        /// </summary>
-        public bool InParallel { get; set; }
 
         /// <summary>
         /// Gets or sets the stepping function.
@@ -101,100 +95,22 @@ namespace RT
             where TImage : IImage
             where TPreparedImage : IImage
         {
-            validateProperties();
-
             var preparedIm = imagePreparationFunc(image);
-            var windows = generateWindows(preparedIm.Size).ToArray();
 
             var detections = new ConcurrentBag<Rectangle>();
-            Action<Rectangle> classifyRegion = (window) => 
+
+            var windows = preparedIm.Size.GenerateRegions(StartSize, EndSize, Scale, StepFunc);
+            var windowPartitioner = Partitioner.Create<Rectangle>(windows, true);
+
+            Parallel.ForEach(windowPartitioner, (window) =>
             {
                 var success = classficationFunc(image, preparedIm, window, classifier);
 
                 if (success)
                     detections.Add(window);
-            };
-
-            if (InParallel)
-            {
-                Parallel.ForEach(windows, (window) =>
-                {
-                    classifyRegion(window);
-                });
-            }
-            else
-            {
-                foreach (var window in windows)
-                {
-                    classifyRegion(window);
-                }
-            }
+            });
 
             return detections.ToArray();
-        }
-
-        private List<Rectangle> generateWindows(Size imageSize)
-        {
-            var windows = new List<Rectangle>();
-            Rectangle window = new Rectangle(0, 0, StartSize.Width, StartSize.Height);
-
-            foreach (var factor in generateScales(imageSize))
-            {
-                window.Width = (int)Math.Floor(StartSize.Width * factor);
-                window.Height = (int)Math.Floor(StartSize.Height * factor);
-
-                var step = StepFunc(window, factor);
-
-                while(window.Bottom < imageSize.Height)
-                {
-                    while(window.Right < imageSize.Width)
-                    {
-                        windows.Add(window);
-
-                        window.X += step.Width;
-                    }
-
-                    window.X = 0;
-                    window.Y += step.Height;
-                }
-
-                window.Y = 0;
-            }
-
-            return windows;
-        }
-
-        private IEnumerable<float> generateScales(Size imageSize)
-        {
-            var maxSize = new Size
-            {
-                Width = Math.Min(imageSize.Width, EndSize.Width),
-                Height = Math.Min(imageSize.Height, EndSize.Height)
-            };
-
-            float start = 1f;
-            float maxFactor = Math.Min(maxSize.Width / StartSize.Width, maxSize.Height / StartSize.Height);
-
-            for (float f = start; f < maxFactor; f *= Scale)
-                yield return f;
-        }
-
-        private void validateProperties()
-        {
-            if (this.Scale != 1 && this.StartSize.Equals(this.EndSize))
-                throw new Exception("Scale should be different than 1, if the start size is not equal to destination size.");
-
-            if(this.Scale >= 1 && 
-               ((this.StartSize.Width > this.EndSize.Width) || (this.StartSize.Height > this.EndSize.Height)))
-            {
-                throw new Exception("StartSize is bigger than EndSize, but the scale factor is bigger or equal to 1!");
-            }
-
-            if(this.Scale <= 1 && 
-               ((this.StartSize.Width < this.EndSize.Width) || (this.StartSize.Height < this.EndSize.Height)))
-            {
-                throw new Exception("StartSize is smaller than EndSize, but the scale factor is smaller or equal to 1!");
-            }
         }
     }
 }

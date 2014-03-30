@@ -4,76 +4,91 @@ using Accord.Extensions.Vision;
 using System;
 using System.IO;
 using System.Linq;
+using Accord.Extensions.Math.Geometry;
 using System.Windows.Forms;
 using Point = AForge.IntPoint;
+using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<ObjectAnnotater.Annotation>>;
 
 namespace ObjectAnnotater
 {
     public partial class ObjectAnnotater : Form
     {
         ImageDirectoryReader capture = null;
-        AnnotationDatabase database = null;
-
-        CommandHistory<ImageAnnotation> frameAnnotations = null;
+        CommandHistory<Annotation> frameAnnotations = null;
+        Database database = null;
+        string databaseFileName = null;
 
         public ObjectAnnotater()
         {
             InitializeComponent();
         }
 
-        public ObjectAnnotater(ImageDirectoryReader capture, AnnotationDatabase database)
+        public ObjectAnnotater(ImageDirectoryReader capture, string databaseFileName)
         {
             InitializeComponent();
 
             this.capture = capture;
-            this.database = database;
-            this.frameAnnotations = new CommandHistory<ImageAnnotation>();
 
-            capture.Open();
-            getFrame(0);
+            this.databaseFileName = databaseFileName;
+            this.database = new Database();
+            database.Load(databaseFileName);
+
+            this.frameAnnotations = new CommandHistory<Annotation>();
+
+            loadCurrentImageAnnotations();
+            showCurrentInfo();
         }
 
         Image<Bgr, byte> frame = null;
 
         #region Commands
 
-        private void getFrame(long offset)
+        private void loadCurrentImageAnnotations()
         {
-            //save current annotations
-            var currentAnnotations = frameAnnotations.GetValid();
-            var alreadyExist = database.Contains(capture.CurrentImageName);
-            var isAnnEmpty = currentAnnotations.Count() == 0;
+            var imageKey = capture.CurrentImageName.GetRelativeFilePath(databaseFileName);
 
-            if (alreadyExist && isAnnEmpty && offset != 0)
-            {
-                database.Remove(capture.CurrentImageName);
-                database.Commit();
-            }
-            else if (!isAnnEmpty)
-            {
-                database.AddOrUpdate(capture.CurrentImageName, currentAnnotations);
-                database.Commit();
-            }
+            if (database.ContainsKey(imageKey) == false)
+                frameAnnotations = new CommandHistory<Annotation>();
+            else
+                frameAnnotations = new CommandHistory<Annotation>(database[imageKey]);
 
-            //get requested frame information 
-            capture.Seek(offset);
-
-            var annotations = database.Find(capture.CurrentImageName);
-            frameAnnotations = new CommandHistory<ImageAnnotation>(annotations);
             frame = capture.ReadAs<Bgr, byte>();
             capture.Seek(-1); //do not move position
+        }
 
+        private void showCurrentInfo()
+        {
             drawAnnotations();
             this.lblFrameIndex.Text = (this.capture.Position + 1).ToString();
-            this.Text = capture.CurrentImageName.GetRelativeFilePath(database.FileName) + " -> " + new FileInfo(database.FileName).Name;
+            this.Text = capture.CurrentImageName.GetRelativeFilePath(databaseFileName) + " -> " + new FileInfo(databaseFileName).Name;
 
             if (frameAnnotations.Current != null)
             {
                 this.txtLabel.Text = frameAnnotations.Current.Label;
                 this.txtLabel.SelectionStart = this.txtLabel.SelectionLength = 0;
             }
+        }
 
-            GC.Collect();
+        private void saveCurrentImageAnnotations()
+        {
+            var imageKey = capture.CurrentImageName.GetRelativeFilePath(databaseFileName);
+
+            var annotations = frameAnnotations.GetValid().ToList();
+            if (annotations.Count == 0 && !database.ContainsKey(imageKey))
+                return; //do not save images that does not have annotations
+
+            database[imageKey] = annotations.ToList();
+            database.Save(databaseFileName);
+        }
+
+        private void getFrame(long offset)
+        {
+            saveCurrentImageAnnotations();
+
+            capture.Seek(offset);
+            loadCurrentImageAnnotations();
+
+            showCurrentInfo();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -115,8 +130,6 @@ namespace ObjectAnnotater
             if (e.Button != MouseButtons.Left)
                 return;
       
-            this.txtLabel.Text = "";
-
             ptFirst = translateZoomMousePosition(this.pictureBox, e.Location.ToPt());
             isSelecting = true;
         }
@@ -125,9 +138,9 @@ namespace ObjectAnnotater
         {
             if (frame == null || !isSelecting) return;
 
-            roi.Intersect(new Rectangle(new Point(), frame.Size));
+            roi.Intersect(frame.Size);
 
-            frameAnnotations.AddOrUpdate(new ImageAnnotation { ROI = roi, Label = "" });
+            frameAnnotations.AddOrUpdate(new Annotation { Label = this.txtLabel.Text, Polygon = roi.Vertices() });
             roi = Rectangle.Empty;
             isSelecting = false;
 
@@ -207,13 +220,19 @@ namespace ObjectAnnotater
             if (frame == null) return;
 
             var annotationImage = frame.Clone();
+            var drawingFont = new System.Drawing.Font("Arial", 8, System.Drawing.FontStyle.Bold);
 
             foreach (var ann in frameAnnotations.GetValid())
             {
+                var annLabelWidth = TextRenderer.MeasureText(ann.Label, drawingFont).Width;
+
+                Rectangle rect;
+                ann.Polygon.ToRect(out rect);
+
                 if(ann == frameAnnotations.Current)
-                    annotationImage.DrawAnnotation(ann.ROI, ann.Label, 100, Bgr8.Red);
+                    annotationImage.DrawAnnotation(rect, ann.Label, annLabelWidth, Bgr8.Red, Bgr8.Black, drawingFont);
                 else
-                    annotationImage.DrawAnnotation(ann.ROI, ann.Label);
+                    annotationImage.DrawAnnotation(rect, ann.Label, annLabelWidth, Bgr8.Black, Bgr8.Black, drawingFont);
             }
 
             if (!roi.IsEmpty)
@@ -228,8 +247,7 @@ namespace ObjectAnnotater
 
         private void ObjectAnnotater_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (capture != null)
-                capture.Close();
+            saveCurrentImageAnnotations();
         }
 
         private void txtLabel_KeyDown(object sender, KeyEventArgs e)

@@ -1,9 +1,9 @@
 ﻿#define LOG
 
 using Accord.Controls;
+using System.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Accord.Extensions.Imaging;
@@ -28,6 +28,26 @@ namespace RT
         [STAThread]
         static void Main()
         {
+            /*Random rand = new Random();
+
+            var windows = new List<Rectangle>[1000];
+
+            for (int imgIdx = 0; imgIdx < windows.Length; imgIdx++)
+            {
+                var imageWindows = new List<Rectangle>();
+
+                for (int imgWndIdx = 0; imgWndIdx < 1000 * 1000; imgWndIdx++)
+                {
+                    imageWindows.Add(new Rectangle(rand.Next(), rand.Next(), rand.Next(), rand.Next()));
+                }
+
+                windows[imgIdx] = imageWindows;
+            }
+
+
+            Console.WriteLine(windows);
+            return;*/
+
             /*Train();
             return;*/
 
@@ -96,7 +116,7 @@ namespace RT
             picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.995f, maxFPR: 0.5f, maxTrees: 3, treeMaxDepth: 6);
             picoClassifier.ToHexFile("myClassifier.ea");
 
-            /*int nStages = 0;
+            int nStages = 0;
             bool isStageAdded = true;
             while (nStages < 6 && isStageAdded)
             {
@@ -104,7 +124,7 @@ namespace RT
                 picoClassifier.ToHexFile("myClassifier.ea");
 
                 nStages++;
-            }*/
+            }
 
             /*nStages = 0;
             while (nStages < 10 && isStageAdded)

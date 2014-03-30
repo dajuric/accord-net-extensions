@@ -56,7 +56,8 @@
     <Compile Include="Imaging\IColor.cs" />
     <Compile Include="Caching\MethodCache.cs" />
     <Compile Include="NaturalSortComparer.cs" />
-    <Compile Include="ParallelFilterProcessing\ParallelProcessor.cs" />
+    <Compile Include="ParallelProcessing\ParallelExtensions.cs" />
+    <Compile Include="ParallelProcessing\ParallelProcessor.cs" />
     <Compile Include="Collections\CircularList.cs" />
     <Compile Include="Extensions\SerializationExtensions.cs" />
     <Compile Include="Structures\Geometry\RectangleF.cs" />

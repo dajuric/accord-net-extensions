@@ -42,6 +42,8 @@ namespace Accord.Extensions.Imaging
         public static readonly Bgr8 Blue = new Bgr8 { B = byte.MaxValue, G = 0, R = 0 };
         public static readonly Bgr8 Green = new Bgr8 { B = 0,             G = byte.MaxValue, R = 0             };
 
+        public static readonly Bgr8 Black = new Bgr8 { B = 0, G = 0, R = 0 };
+        public static readonly Bgr8 White = new Bgr8 { B = byte.MaxValue, G = byte.MaxValue, R = byte.MaxValue };
     }
 
     [ColorInfo(ConversionCodename = "BGR")]

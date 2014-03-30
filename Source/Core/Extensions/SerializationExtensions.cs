@@ -16,15 +16,21 @@ namespace Accord.Extensions
         /// </summary>
         /// <typeparam name="T">An object generic type.</typeparam>
         /// <param name="obj">An input object.</param>
+        /// <param name="writeEmptyNamespace">Writes empty name-space attribute instead of standard w3.org name-space.</param>
         /// <returns>Serialized object.</returns>
-        public static XElement ToXElement<T>(this T obj)
+        public static XElement ToXElement<T>(this T obj, bool writeEmptyNamespace = false)
         {
             using (var memoryStream = new MemoryStream())
             {
                 using (TextWriter streamWriter = new StreamWriter(memoryStream))
                 {
                     var xmlSerializer = new XmlSerializer(typeof(T));
-                    xmlSerializer.Serialize(streamWriter, obj);
+                    var ns = new XmlSerializerNamespaces(); 
+                    
+                    if(writeEmptyNamespace)
+                        ns.Add("", "");
+
+                    xmlSerializer.Serialize(streamWriter, obj, ns);
                     return XElement.Parse(Encoding.ASCII.GetString(memoryStream.ToArray()));
                 }
             }
