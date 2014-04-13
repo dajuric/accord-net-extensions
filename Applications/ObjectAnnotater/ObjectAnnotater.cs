@@ -16,7 +16,7 @@ namespace ObjectAnnotater
 {
     public partial class ObjectAnnotater : Form
     {
-        ImageDirectoryReader capture = null;
+        StreamableSource capture = null;
         Database database = null;
         string databaseFileName = null;
 
@@ -28,7 +28,7 @@ namespace ObjectAnnotater
             InitializeComponent();
         }
 
-        public ObjectAnnotater(ImageDirectoryReader capture, string databaseFileName)
+        public ObjectAnnotater(StreamableSource capture, string databaseFileName)
         {
             InitializeComponent();
 
@@ -42,18 +42,6 @@ namespace ObjectAnnotater
 
             loadCurrentImageAnnotations();
             showCurrentInfo();
-
-            var nAnns = database.NumberOfAnnotations(x => x.Contains("Car"));
-            Console.WriteLine(nAnns);
-
-            /*var proceesedSamples = database.ProcessSamples(2.15f, 
-                                                           new Pair<RangeF>(new RangeF(-0.05f, +0.05f), new RangeF(-0.05f, +0.05f)),
-                                                           new Pair<RangeF>(new RangeF(0.9f, 1.1f), new RangeF(0.9f, 1.1f)), 
-                                                           5, 
-                                                           0.1f);
-
-            proceesedSamples.Save("S:\\procsssedImagesAnnotations.xml");
-            database = proceesedSamples;*/
         }
 
         Image<Bgr, byte> frame = null;
@@ -65,7 +53,7 @@ namespace ObjectAnnotater
             if (capture.Position == capture.Length)
                 return;
 
-            var imageKey = capture.CurrentImageName.GetRelativeFilePath(new FileInfo(databaseFileName).Directory);
+            var imageKey = getCurrentImageKey();
 
             if (database.ContainsKey(imageKey) == false)
                 frameAnnotations = new List<Annotation>();
@@ -83,7 +71,7 @@ namespace ObjectAnnotater
 
             drawAnnotations();
             this.lblFrameIndex.Text = (this.capture.Position + 1).ToString();
-            this.Text = capture.CurrentImageName.GetRelativeFilePath(new FileInfo(databaseFileName).Directory) + " -> " + new FileInfo(databaseFileName).Name;
+            this.Text = getCurrentImageKey() + " -> " + new FileInfo(databaseFileName).Name;
 
             if (selectedAnnotation != null)
             {
@@ -97,7 +85,7 @@ namespace ObjectAnnotater
             if (capture.Position == capture.Length)
                 return;
 
-            var imageKey = capture.CurrentImageName.GetRelativeFilePath(new FileInfo(databaseFileName).Directory);
+            var imageKey = getCurrentImageKey();
 
             if (frameAnnotations.Count == 0 && !database.ContainsKey(imageKey))
                 return; //do not save images that does not have annotations
@@ -134,6 +122,24 @@ namespace ObjectAnnotater
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private string getCurrentImageKey()
+        { 
+            string imageKey =null;
+
+            if (capture is ImageDirectoryReader)
+            {
+                imageKey = (capture as ImageDirectoryReader).CurrentImageName.GetRelativeFilePath(new FileInfo(databaseFileName).Directory);
+            }
+            else if (capture is FileCapture)
+            {
+                imageKey = (capture.Position - 1).ToString();
+            }
+            else
+                throw new NotSupportedException("Unsupported image stream reader!");
+
+            return imageKey;
         }
 
         #endregion

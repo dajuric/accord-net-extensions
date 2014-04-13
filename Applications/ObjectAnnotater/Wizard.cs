@@ -43,6 +43,39 @@ namespace ObjectAnnotater
             }
         }
 
+        private void isAnnotationFileValid(string annFilePath)
+        {
+            if (btnSelectVideo.Checked)
+                return;
+
+            //if images...
+            if (imageDirPath.IsSubfolder(new FileInfo(annFilePath).DirectoryName) == false)
+            {
+                MessageBox.Show("Cannot find relative path of the selected image directory regarding the database path! \n" +
+                                "The database location must be in the same or in parent folder regarding selected image directory.",
+
+                                "Incorrect database path selection",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return;
+            }
+        }
+
+        private void btnVideo_Click(object sender, EventArgs e)
+        {
+            using (var diag = new OpenFileDialog())
+            {
+                diag.Filter = "*.avi|*.avi | *.mp4|*.mp4 | *.wmv|*.wmv  |  All Files (*.*)|*.*";
+
+                var result = diag.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    CaptureObj = new FileCapture(diag.FileName);
+                    btnSaveAnnotations.Enabled = true;
+                }
+            }
+        }
+
         private void btnSaveAnnotations_Click(object sender, EventArgs e)
         {
             using (var diag = new SaveFileDialog())
@@ -53,33 +86,27 @@ namespace ObjectAnnotater
                 var result = diag.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    if (imageDirPath.IsSubfolder(new FileInfo(diag.FileName).DirectoryName) == false)
-                    {
-                        MessageBox.Show("Cannot find relative path of the selected image directory regarding the database path! \n" +
-                                        "The database location must be in the same or in parent folder regarding selected image directory.", 
-                                        
-                                        "Incorrect database path selection",
-                                         MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    isAnnotationFileValid(diag.FileName);
 
-                        return;
-                    }
-
-                    try
-                    {
-                        DatabaseFileName = diag.FileName;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Database creation error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
+                    DatabaseFileName = diag.FileName;
                     this.lblAnnFile.Text = "Annotation file:" + "\n" + new FileInfo(diag.FileName).Name;
                 }
             }
         }
 
-        public ImageDirectoryReader CaptureObj { get; private set; }
+        public StreamableSource CaptureObj { get; private set; }
         public string DatabaseFileName { get; private set; }
+
+        private void btnSelectImages_Click(object sender, EventArgs e)
+        {
+            gpBoxImageSequence.Enabled = true;
+            gpBoxVideo.Enabled = false;
+        }
+
+        private void btnSelectVideo_Click(object sender, EventArgs e)
+        {
+            gpBoxImageSequence.Enabled = false;
+            gpBoxVideo.Enabled = true;
+        }
     }
 }

@@ -24,19 +24,19 @@ namespace ObjectAnnotater
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            ImageDirectoryReader capture = null;
+            StreamableSource capture = null;
             string databaseFileName = null;
 
-            /*using (var wizard = new Wizard())
+            using (var wizard = new Wizard())
             {
                 wizard.ShowDialog();
 
                 capture = wizard.CaptureObj;
                 databaseFileName = wizard.DatabaseFileName;
-            }*/
+            }
 
-            capture = new ImageDirectoryReader("S:/images/", "*.jpg");
-            databaseFileName = "S:/imagesAnnotations.xml";
+            //capture = new ImageDirectoryReader("S:/images/", "*.jpg");
+            //databaseFileName = "S:/imagesAnnotations.xml";
 
             if (capture == null && databaseFileName == null) //a user clicked "X" without data selection
             {
