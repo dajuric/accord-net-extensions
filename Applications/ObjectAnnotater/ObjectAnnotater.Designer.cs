@@ -50,6 +50,7 @@
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 1;
             this.pictureBox.TabStop = false;
+            this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseClick);
             this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
@@ -69,7 +70,7 @@
             // 
             this.lblFrameIndex.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.lblFrameIndex.Name = "lblFrameIndex";
-            this.lblFrameIndex.Size = new System.Drawing.Size(271, 20);
+            this.lblFrameIndex.Size = new System.Drawing.Size(300, 20);
             this.lblFrameIndex.Spring = true;
             this.lblFrameIndex.Text = "Frame index";
             this.lblFrameIndex.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

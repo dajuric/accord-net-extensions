@@ -148,22 +148,12 @@ namespace RT
         /// <param name="regionCenter">Region center.</param>
         /// <param name="regionSize">Region size.</param>
         /// <param name="angleDeg">Rotation in degrees for the test.</param>
-        /// <param name="clipToImageBounds">
-        /// If the created points are outside image boundaries they will be clipped.
-        /// <para>Used for training phase. Default value (false) is for testing phase.</para>
-        /// </param>
         /// <returns>True if the image intensity for the first point is less or equal than the intensity for the second point, false otherwise.</returns>
-        public unsafe bool Test(Image<Gray, byte> image, Point regionCenter, Size regionSize, int angleDeg = 0, bool clipToImageBounds = false)
+        public unsafe bool Test(Image<Gray, byte> image, Point regionCenter, Size regionSize, int angleDeg = 0)
         {
             Point ptA = toRealCoordinates(this.First, regionCenter, regionSize, angleDeg);
             Point ptB = toRealCoordinates(this.Second, regionCenter, regionSize, angleDeg);
           
-            /*if (clipToImageBounds)
-            {
-                ptA = ptA.Clamp(image.Size);
-                ptB = ptB.Clamp(image.Size);
-            }*/
-
             var valA = *(byte*)image.GetData(ptA.Y, ptA.X);
             var valB = *(byte*)image.GetData(ptB.Y, ptB.X);
 

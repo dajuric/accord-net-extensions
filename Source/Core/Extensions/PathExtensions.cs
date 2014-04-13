@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Accord.Extensions
@@ -37,28 +39,30 @@ namespace Accord.Extensions
         /// Gets relative file path regarding specified directory.
         /// </summary>
         /// <param name="fileName">Full file name and path.</param>
-        /// <param name="directoryPath">Directory path which serves as root directory.</param>
+        /// <param name="path">
+        /// Directory path which serves as root.
+        /// </param>
         /// <returns>Relative file path. In case the relative path could not be find the empty string is returned.</returns>
-        public static string GetRelativeFilePath(this string fileName, string directoryPath)
+        public static string GetRelativeFilePath(this string fileName, DirectoryInfo dirInfo)
         {
-            fileName = fileName.NormalizePathDelimiters();
-            directoryPath = directoryPath.NormalizePathDelimiters(); 
+            Stack<string> folders = new Stack<string>();
 
-            bool isEqual = true;
-            int lastEqualIdx = -1;
+            var fileDirInfo = new FileInfo(fileName).Directory;
 
-            while (isEqual && Math.Min(directoryPath.Length, fileName.Length) > (lastEqualIdx + 1))
+            var currDirInfo = fileDirInfo;
+            while (currDirInfo != null)
             {
-                if (directoryPath[lastEqualIdx + 1] == fileName[lastEqualIdx + 1])
-                    lastEqualIdx++;
-                else
-                    isEqual = false;
+                if (currDirInfo.FullName.Equals(dirInfo.FullName))
+                    break;
+
+                folders.Push(currDirInfo.Name);
+                currDirInfo = currDirInfo.Parent;
             }
 
-            if (lastEqualIdx == -1)
-                return String.Empty;
+            var folderPath = Path.Combine(folders.ToArray());
+            var relativeFilePath = Path.Combine(folderPath,  new FileInfo(fileName).Name);
 
-            return "/" + fileName.Substring(lastEqualIdx + 1);
+            return (Path.DirectorySeparatorChar + relativeFilePath).NormalizePathDelimiters();
         }
 
         /// <summary>
@@ -73,6 +77,33 @@ namespace Accord.Extensions
                        .Replace(@"\", normalizedDelimiter)
                        .Replace(@"\\", normalizedDelimiter)
                        .Replace(@"/" , normalizedDelimiter);
+        }
+
+        /// <summary>
+        /// Checks whether the path is file or directory.
+        /// </summary>
+        /// <param name="path">File or directory path.</param>
+        /// <returns>
+        /// True if the path is directory, false if the path is file. 
+        /// Null is returned if the path does not exist or in case of an internal error.
+        /// </returns>
+        private static bool? IsDirectory(this string path)
+        {
+            try
+            {
+                System.IO.FileAttributes fa = System.IO.File.GetAttributes(path);
+                bool isDirectory = false;
+                if ((fa & FileAttributes.Directory) != 0)
+                {
+                    isDirectory = true;
+                }
+
+                return isDirectory;
+            }
+            catch 
+            {
+                return null;
+            }
         }
     }
 }

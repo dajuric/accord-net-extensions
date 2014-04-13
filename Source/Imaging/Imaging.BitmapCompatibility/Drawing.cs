@@ -32,21 +32,21 @@ namespace Accord.Extensions.Imaging
         /// <param name="image">Input image.</param>
         /// <param name="rect">Rectangle.</param>
         /// <param name="color">Object's color.</param>
-        /// <param name="width">Border thickness. If less than zero strcuture will be filled.</param>
+        /// <param name="thickness">Border thickness. If less than zero strcuture will be filled.</param>
         /// <param name="opacity">Opacity for color. If color is 4 channel color, parameter value is discarded.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, RectangleF rect, TColor color, float width, byte opacity = Byte.MaxValue)
+        public static void Draw<TColor>(this Image<TColor, byte> image, RectangleF rect, TColor color, float thickness, byte opacity = Byte.MaxValue)
             where TColor: IColor3
         {
             if (float.IsNaN(rect.X) || float.IsNaN(rect.Y))
                 return;
 
             var drawingColor = color.ToColor(opacity);
-            var pen = new System.Drawing.Pen(drawingColor, width);
+            var pen = new System.Drawing.Pen(drawingColor, thickness);
 
             var bmp = image.ToBitmap(false, true);
             using (var g = System.Drawing.Graphics.FromImage(bmp))
             {
-                if (width > 0)
+                if (thickness > 0)
                     g.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
                 else
                     g.FillRectangle(new System.Drawing.SolidBrush(drawingColor), rect.ToRect());
@@ -95,12 +95,12 @@ namespace Accord.Extensions.Imaging
         /// <param name="image">Input image.</param>
         /// <param name="box">Box 2D.</param>
         /// <param name="color">Object's color.</param>
-        /// <param name="width">Border thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, Box2D box, TColor color, float width)
+        /// <param name="thickness">Border thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, Box2D box, TColor color, float thickness)
             where TColor : IColor3
         {
             var drawingColor = color.ToColor();
-            var pen = new System.Drawing.Pen(drawingColor, width);
+            var pen = new System.Drawing.Pen(drawingColor, thickness);
 
             var vertices = box.GetVertices().Select(x => x.ToPt()).ToArray();
 
@@ -125,11 +125,11 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="line">Line</param>
-        /// <param name="width">Line thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, LineSegment line, TColor color, float width)
+        /// <param name="thickness">Line thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, LineSegment line, TColor color, float thickness)
             where TColor : IColor3
         {
-            Draw(image, new LineSegment[] { line }, color, width);
+            Draw(image, new LineSegment[] { line }, color, thickness);
         }
 
         /// <summary>
@@ -137,8 +137,8 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="lines">Lines</param>
-        /// <param name="width">Line thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, TColor color, float width, bool connectLines = true)
+        /// <param name="thickness">Line thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, TColor color, float thickness, bool connectLines = true)
             where TColor : IColor3
         {
             var pointPairs = new List<AForge.Point>();
@@ -151,12 +151,12 @@ namespace Accord.Extensions.Imaging
                     pointPairs.Add(line.End);
                 }
 
-                Draw(image, pointPairs.Select(x => new PointF(x.X, x.Y)), color, width);
+                Draw(image, pointPairs.Select(x => new PointF(x.X, x.Y)), color, thickness);
             }
             else
             {
                 var bgr = color.ToColor().ToBgr();
-                Draw(image, lines, width, (_) => bgr);
+                Draw(image, lines, thickness, (_) => bgr);
             }
         }
 
@@ -165,8 +165,8 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="lines">Line segments (treated as vectors)</param>
-        /// <param name="width">Line thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, float width)
+        /// <param name="thickness">Line thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, float thickness)
             where TColor : IColor3
         {
             Func<LineSegment, Bgr> colorFunc = (segment) => 
@@ -182,7 +182,7 @@ namespace Accord.Extensions.Imaging
                 return rgbColor.Color.ToBgr();
             };
 
-            Draw(image, lines, width, colorFunc);
+            Draw(image, lines, thickness, colorFunc);
         }
 
         /// <summary>
@@ -190,8 +190,8 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="lines">Line segments (treated as vectors)</param>
-        /// <param name="width">Line thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, float width, Func<LineSegment, Bgr> colorFunc)
+        /// <param name="thickness">Line thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, float thickness, Func<LineSegment, Bgr> colorFunc)
             where TColor : IColor3
         {
             var bmp = image.ToBitmap(false, true);
@@ -200,7 +200,7 @@ namespace Accord.Extensions.Imaging
                 foreach (var line in lines)
                 {
                     var color = colorFunc(line).ToColor();
-                    var pen = new System.Drawing.Pen(color, width);
+                    var pen = new System.Drawing.Pen(color, thickness);
 
                     g.DrawLine(pen, line.Start.X, line.Start.Y,
                                     line.End.X, line.End.Y);
@@ -217,8 +217,8 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="contour">Contour points.</param>
-        /// <param name="width">Contours thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<Point> contour, TColor color, float width)
+        /// <param name="thickness">Contours thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<Point> contour, TColor color, float thickness)
             where TColor : IColor3
         {
             var contourArr = contour.Select(x => x.ToPt()).ToArray();
@@ -226,7 +226,7 @@ namespace Accord.Extensions.Imaging
                 return;
 
             var drawingColor = color.ToColor();
-            var pen = new System.Drawing.Pen(drawingColor, width);
+            var pen = new System.Drawing.Pen(drawingColor, thickness);
 
             var bmp = image.ToBitmap(false, true);
             using (var g = System.Drawing.Graphics.FromImage(bmp))
@@ -240,9 +240,9 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="contour">Line segments (treated as vectors)</param>
-        /// <param name="width">Contours thickness.</param>
+        /// <param name="thickness">Contours thickness.</param>
         /// <param name="connectPoints">Connect points and draw contour or draw points as circles.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<PointF> contour, TColor color, float width, bool connectPoints = true)
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<PointF> contour, TColor color, float thickness, bool connectPoints = true)
             where TColor : IColor3
         {
             var contourArr = contour.Select(x => x.ToPt()).ToArray();
@@ -250,7 +250,7 @@ namespace Accord.Extensions.Imaging
                 return;
 
             var drawingColor = color.ToColor();
-            var pen = new Pen(drawingColor, width);
+            var pen = new Pen(drawingColor, thickness);
 
             var bmp = image.ToBitmap(false, true);
 
@@ -267,7 +267,7 @@ namespace Accord.Extensions.Imaging
                 {
                     foreach (var p in contour)
                     {
-                        g.DrawEllipse(pen, p.X - width, p.Y - width, width * 2, width * 2);
+                        g.DrawEllipse(pen, p.X - thickness, p.Y - thickness, thickness * 2, thickness * 2);
                     }
                 }
             }
@@ -282,12 +282,12 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="circle">Circle</param>
-        /// <param name="width">Contours thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, CircleF circle, TColor color, float width)
+        /// <param name="thickness">Contours thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, CircleF circle, TColor color, float thickness)
             where TColor : IColor3
         {
             Color drawingColor = color.ToColor();
-            Pen pen = new Pen(drawingColor, width);
+            Pen pen = new Pen(drawingColor, thickness);
 
             var bmp = image.ToBitmap(false, true);
             using (Graphics g = Graphics.FromImage(bmp))
@@ -301,12 +301,12 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="circles">Circles</param>
-        /// <param name="width">Contours thickness.</param>
-        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<CircleF> circles, TColor color, float width)
+        /// <param name="thickness">Contours thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<CircleF> circles, TColor color, float thickness)
             where TColor : IColor3
         {
             Color drawingColor = color.ToColor();
-            Pen pen = new Pen(drawingColor, width);
+            Pen pen = new Pen(drawingColor, thickness);
 
             var bmp = image.ToBitmap(false, true);
             using (Graphics g = Graphics.FromImage(bmp))

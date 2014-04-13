@@ -106,9 +106,9 @@
   <ItemGroup>
     <Compile Include="Components\Generic\Cascade.cs" />
     <Compile Include="Components\Generic\Detector.cs" />
+    <Compile Include="Components\Generic\Extensions\RandomRegionCreator.cs" />
     <Compile Include="Components\Generic\GentleBoost.cs" />
     <Compile Include="Components\Generic\Random.cs" />
-    <Compile Include="Components\Generic\Random\ParallelRandom.cs" />
     <Compile Include="Components\IO\PicoClassifierHexSerializerExtension.cs" />
     <Compile Include="Components\IO\TrainDataLoader.cs" />
     <Compile Include="Components\PicoClassifier.cs" />

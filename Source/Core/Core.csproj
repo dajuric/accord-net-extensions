@@ -48,10 +48,11 @@
     <Compile Include="Diagnostics\Diagnostics.cs" />
     <Compile Include="Extensions\BinaryTreeArrayExtstensions.cs" />
     <Compile Include="Extensions\DictionaryMatrixExtensions.cs" />
-    <Compile Include="Extensions\Enumerable.IndexOfMax.cs" />
-    <Compile Include="Extensions\Enumerable.IndexOfMin.cs" />
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\Enumerable\Enumerable.IndexOfMax.cs" />
+    <Compile Include="Extensions\Enumerable\Enumerable.IndexOfMin.cs" />
+    <Compile Include="Extensions\Enumerable\EnumerableExtensions.cs" />
     <Compile Include="Extensions\PathExtensions.cs" />
+    <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Imaging\ColorAttribute.cs" />
     <Compile Include="Imaging\IColor.cs" />
     <Compile Include="Caching\MethodCache.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="ParallelProcessing\ParallelProcessor.cs" />
     <Compile Include="Collections\CircularList.cs" />
     <Compile Include="Extensions\SerializationExtensions.cs" />
+    <Compile Include="ParallelProcessing\ParallelRandom.cs" />
     <Compile Include="Structures\Geometry\RectangleF.cs" />
     <Compile Include="Structures\Geometry\SizeF.cs" />
     <Compile Include="Platform.cs" />

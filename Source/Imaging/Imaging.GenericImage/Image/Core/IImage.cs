@@ -4,7 +4,7 @@ using System.Drawing;
 namespace Accord.Extensions.Imaging
 {
     /// <summary>
-    /// Represents interface to the <see cref="Image"/> and <see cref="Image<TColor, TDepth>"/> class.
+    /// Represents interface to the <see cref="Image"/> and <see cref="Image&lt;TColor, TDepth&gt;"/> class.
     /// </summary>
     public interface IImage: IDisposable
     {

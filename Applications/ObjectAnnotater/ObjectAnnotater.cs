@@ -1,22 +1,27 @@
 ﻿using Accord.Extensions;
 using Accord.Extensions.Imaging;
+using Accord.Extensions.Math.Geometry;
 using Accord.Extensions.Vision;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Accord.Extensions.Math.Geometry;
 using System.Windows.Forms;
+using MoreLinq;
+using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 using Point = AForge.IntPoint;
-using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<ObjectAnnotater.Annotation>>;
+using RangeF = AForge.Range;
 
 namespace ObjectAnnotater
 {
     public partial class ObjectAnnotater : Form
     {
         ImageDirectoryReader capture = null;
-        CommandHistory<Annotation> frameAnnotations = null;
         Database database = null;
         string databaseFileName = null;
+
+        Annotation selectedAnnotation = null;
+        List<Annotation> frameAnnotations = null;
 
         public ObjectAnnotater()
         {
@@ -33,10 +38,22 @@ namespace ObjectAnnotater
             this.database = new Database();
             database.Load(databaseFileName);
 
-            this.frameAnnotations = new CommandHistory<Annotation>();
+            this.frameAnnotations = new List<Annotation>();
 
             loadCurrentImageAnnotations();
             showCurrentInfo();
+
+            var nAnns = database.NumberOfAnnotations(x => x.Contains("Car"));
+            Console.WriteLine(nAnns);
+
+            /*var proceesedSamples = database.ProcessSamples(2.15f, 
+                                                           new Pair<RangeF>(new RangeF(-0.05f, +0.05f), new RangeF(-0.05f, +0.05f)),
+                                                           new Pair<RangeF>(new RangeF(0.9f, 1.1f), new RangeF(0.9f, 1.1f)), 
+                                                           5, 
+                                                           0.1f);
+
+            proceesedSamples.Save("S:\\procsssedImagesAnnotations.xml");
+            database = proceesedSamples;*/
         }
 
         Image<Bgr, byte> frame = null;
@@ -45,12 +62,15 @@ namespace ObjectAnnotater
 
         private void loadCurrentImageAnnotations()
         {
-            var imageKey = capture.CurrentImageName.GetRelativeFilePath(databaseFileName);
+            if (capture.Position == capture.Length)
+                return;
+
+            var imageKey = capture.CurrentImageName.GetRelativeFilePath(new FileInfo(databaseFileName).Directory);
 
             if (database.ContainsKey(imageKey) == false)
-                frameAnnotations = new CommandHistory<Annotation>();
+                frameAnnotations = new List<Annotation>();
             else
-                frameAnnotations = new CommandHistory<Annotation>(database[imageKey]);
+                frameAnnotations = new List<Annotation>(database[imageKey]);
 
             frame = capture.ReadAs<Bgr, byte>();
             capture.Seek(-1); //do not move position
@@ -58,32 +78,38 @@ namespace ObjectAnnotater
 
         private void showCurrentInfo()
         {
+            if (capture.Position == capture.Length)
+                return;
+
             drawAnnotations();
             this.lblFrameIndex.Text = (this.capture.Position + 1).ToString();
-            this.Text = capture.CurrentImageName.GetRelativeFilePath(databaseFileName) + " -> " + new FileInfo(databaseFileName).Name;
+            this.Text = capture.CurrentImageName.GetRelativeFilePath(new FileInfo(databaseFileName).Directory) + " -> " + new FileInfo(databaseFileName).Name;
 
-            if (frameAnnotations.Current != null)
+            if (selectedAnnotation != null)
             {
-                this.txtLabel.Text = frameAnnotations.Current.Label;
+                this.txtLabel.Text = selectedAnnotation.Label;
                 this.txtLabel.SelectionStart = this.txtLabel.SelectionLength = 0;
             }
         }
 
         private void saveCurrentImageAnnotations()
         {
-            var imageKey = capture.CurrentImageName.GetRelativeFilePath(databaseFileName);
+            if (capture.Position == capture.Length)
+                return;
 
-            var annotations = frameAnnotations.GetValid().ToList();
-            if (annotations.Count == 0 && !database.ContainsKey(imageKey))
+            var imageKey = capture.CurrentImageName.GetRelativeFilePath(new FileInfo(databaseFileName).Directory);
+
+            if (frameAnnotations.Count == 0 && !database.ContainsKey(imageKey))
                 return; //do not save images that does not have annotations
 
-            database[imageKey] = annotations.ToList();
-            database.Save(databaseFileName);
+            database[imageKey] = frameAnnotations.ToList();
+            //database.Save(databaseFileName); //slows to much at fast viewing (only at app closing)
         }
 
         private void getFrame(long offset)
         {
-            saveCurrentImageAnnotations();
+            this.selectedAnnotation = null;
+            saveCurrentImageAnnotations(); 
 
             capture.Seek(offset);
             loadCurrentImageAnnotations();
@@ -101,26 +127,18 @@ namespace ObjectAnnotater
                 case Keys.Right:
                     getFrame(+1);
                     break;
-                case (Keys.Control | Keys.U):
-                case (Keys.Alt | Keys.U):
-                    frameAnnotations.Undo();
-                    drawAnnotations();
-                    break;
-                case (Keys.Control | Keys.R):
-                case (Keys.Alt | Keys.R):
-                    frameAnnotations.Redo();
-                    drawAnnotations();
+                case Keys.Delete:
+                    if (selectedAnnotation != null)
+                        frameAnnotations.Remove(selectedAnnotation);
                     break;
             }
-
-            this.txtLabel.Text = frameAnnotations.Current != null ? frameAnnotations.Current.Label : "";
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
         #endregion
 
-        #region BoundingBox selection
+        #region Object selection
 
         Rectangle roi = Rectangle.Empty;
         bool isSelecting = false;
@@ -134,13 +152,19 @@ namespace ObjectAnnotater
             isSelecting = true;
         }
 
+        const int MIN_RECT_SIZE = 5;
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             if (frame == null || !isSelecting) return;
 
-            roi.Intersect(frame.Size);
+            roi = roi.Intersect(frame.Size);
 
-            frameAnnotations.AddOrUpdate(new Annotation { Label = this.txtLabel.Text, Polygon = roi.Vertices() });
+            if (roi.Width >= MIN_RECT_SIZE && roi.Height > MIN_RECT_SIZE)
+            {
+                selectedAnnotation = new Annotation { Label = this.txtLabel.Text, Polygon = roi.Vertices() };
+                frameAnnotations.Add(selectedAnnotation);
+            }
+
             roi = Rectangle.Empty;
             isSelecting = false;
 
@@ -222,14 +246,13 @@ namespace ObjectAnnotater
             var annotationImage = frame.Clone();
             var drawingFont = new System.Drawing.Font("Arial", 8, System.Drawing.FontStyle.Bold);
 
-            foreach (var ann in frameAnnotations.GetValid())
+            foreach (var ann in frameAnnotations)
             {
                 var annLabelWidth = TextRenderer.MeasureText(ann.Label, drawingFont).Width;
 
-                Rectangle rect;
-                ann.Polygon.ToRect(out rect);
+                Rectangle rect = ann.Polygon.BoundingRect();
 
-                if(ann == frameAnnotations.Current)
+                if(ann == selectedAnnotation)
                     annotationImage.DrawAnnotation(rect, ann.Label, annLabelWidth, Bgr8.Red, Bgr8.Black, drawingFont);
                 else
                     annotationImage.DrawAnnotation(rect, ann.Label, annLabelWidth, Bgr8.Black, Bgr8.Black, drawingFont);
@@ -248,24 +271,36 @@ namespace ObjectAnnotater
         private void ObjectAnnotater_FormClosing(object sender, FormClosingEventArgs e)
         {
             saveCurrentImageAnnotations();
+            database.Save(databaseFileName);
         }
 
         private void txtLabel_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Control || e.Alt || frameAnnotations.Current == null)
+            if (e.Control || e.Alt || selectedAnnotation == null)
                 e.Handled = true;
         }
 
         private void txtLabel_KeyUp(object sender, KeyEventArgs e)
         {
-            if (frameAnnotations.Current == null)
-            {
-                txtLabel.Text = "";
+            if (selectedAnnotation == null)
                 return;
-            }
 
-            frameAnnotations.Current.Label = txtLabel.Text;
+            selectedAnnotation.Label = txtLabel.Text;
             drawAnnotations();
+        }
+
+        private void pictureBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            var imagePt = translateZoomMousePosition(this.pictureBox, e.Location.ToPt());
+            selectedAnnotation = frameAnnotations.Where(x => 
+            {
+                Rectangle rect = x.Polygon.BoundingRect();
+                return rect.Contains(imagePt);
+            })
+            .FirstOrDefault();
+
+            if (selectedAnnotation != null)
+                this.txtLabel.Text = selectedAnnotation.Label;
         }
     }
 }

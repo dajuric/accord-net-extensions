@@ -70,8 +70,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnnotationDatabase\Annotation.cs" />
+    <Compile Include="AnnotationDatabase\AnnotationDatabaseExtensions.cs" />
+    <Compile Include="AnnotationDatabase\AnnotationXmlDatabaseExtensions.cs" />
     <Compile Include="Filters\Blend.cs" />
     <Compile Include="CornerFeatures\GoodFeaturesToTrackExtensions.cs" />
     <Compile Include="CornerFeatures\HarrisExtensions.cs" />
@@ -97,6 +101,7 @@
     <Compile Include="Moments\IMoments.cs" />
     <Compile Include="Moments\MomentsBase.cs" />
     <Compile Include="Moments\RawMoments.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.ForEach.cs" />
     <Compile Include="Transform\PyramidExtensions.cs" />
     <Compile Include="Filters\Smooth\SmoothGaussian.cs" />
     <Compile Include="Filters\Edge\Sobel.cs" />

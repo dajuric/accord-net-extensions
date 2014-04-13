@@ -52,7 +52,7 @@ namespace Accord.Extensions.Imaging
         #region Conversion from Bitmap
 
         /// <summary>
-        /// Converts a bitmap to an image (copied data). 
+        /// Converts a bitmap to an image (copies data). 
         /// If an output color is not matched with bitmap pixel format additional conversion may be applied.
         /// </summary>
         /// <param name="bmp">Input bitmap.</param>
@@ -69,7 +69,7 @@ namespace Accord.Extensions.Imaging
         }
 
          /// <summary>
-        /// Converts a bitmap to an image (copied data). 
+        /// Converts a bitmap to an image (copies data). 
         /// If an output color is not matched with bitmap pixel format additional conversion may be applied.
         /// </summary>
         /// <param name="bmp">Input bitmap.</param>
@@ -82,7 +82,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Converts a bitmap to an image (copied data). Color type depeneds on bitmap pixel format.
+        /// Converts a bitmap to an image (copies data). Color type depends on bitmap pixel format.
         /// </summary>
         /// <param name="bmp">Input bitmap.</param>
         /// <param name="img">Destination generic image.</param>
@@ -105,7 +105,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Converts a bitmap to an image (copied data). Color type depeneds on bitmap pixel format.
+        /// Converts a bitmap to an image (copies data). Color type depends on bitmap pixel format.
         /// </summary>
         /// <param name="bmp">Input bitmap.</param>
         /// <returns>Generic image.</returns>
@@ -119,7 +119,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Converts a bitmap to an image (copied data). Color type depeneds on bitmap pixel format.
+        /// Converts a bitmap to an image (copies data). Color type depends on bitmap pixel format.
         /// </summary>
         /// <param name="bmp">Input bitmap.</param>
         /// <returns>Generic image.</returns>

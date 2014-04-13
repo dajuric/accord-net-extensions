@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Accord.Extensions;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
+using RangeF = AForge.Range;
 
 namespace Accord.Extensions.Math.Geometry
 {
@@ -62,10 +60,10 @@ namespace Accord.Extensions.Math.Geometry
         {
             Rectangle newRect = new Rectangle
             {
-                X = (int)(rect.X - rect.Width * widthScale),
-                Y = (int)(rect.Y - rect.Width * heightScale),
-                Width = (int)(rect.Width + 2 * rect.Width * widthScale),
-                Height = (int)(rect.Height + 2 * rect.Height * heightScale)
+                X = (int)(rect.X - rect.Width * widthScale / 2),
+                Y = (int)(rect.Y - rect.Height * heightScale / 2),
+                Width = (int)(rect.Width + rect.Width * widthScale),
+                Height = (int)(rect.Height + rect.Height * heightScale)
             };
 
             if (constrainedArea.IsEmpty == false)
@@ -121,46 +119,53 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
+        /// Intersects the rectangle with other rectangle and returns intersected rectangle.
+        /// </summary>
+        /// <param name="rect">The input rectangle.</param>
+        /// <param name="other">The rectangle to intersect with.</param>
+        /// <param name="cropEqualy">
+        /// If true the size components will be cropped by equal amount.
+        /// If false the size ratio will not be checked.
+        /// </param>
+        /// <returns>Intersected rectangle.</returns>
+        public static Rectangle Intersect(this Rectangle rect, Rectangle other, bool cropEqualy = false)
+        {
+            var croppedRect = rect;
+            croppedRect.Intersect(other);
+
+            if (!cropEqualy)
+                return croppedRect;
+
+            var hDiff = rect.Width - croppedRect.Width;
+            var vDiff = rect.Height - croppedRect.Height;
+
+            if (hDiff >= vDiff)
+            {
+                croppedRect.Height += vDiff - hDiff;
+            }
+            else
+            {
+                croppedRect.Width += hDiff - vDiff;
+            }
+
+            return croppedRect;
+        }
+
+        /// <summary>
         /// Calculates intersected rectangle from specified area (transformed into rectangle with location (0,0)) 
         /// which can be useful for image area intersections.
         /// </summary>
         /// <param name="rect">Rectangle to intersect.</param>
         /// <param name="area">Maximum bounding box represented as size.</param>
+        /// <param name="cropEqualy">
+        /// If true the size components will be cropped by equal amount.
+        /// If false the size ratio will not be checked.
+        /// </param>
         /// <returns>Intersected rectangle.</returns>
-        public static Rectangle Intersect(this Rectangle rect, Size area)
+        public static Rectangle Intersect(this Rectangle rect, Size area, bool cropEqualy = false)
         {
-            Rectangle newRect = rect;
-
-            if (area.IsEmpty == false)
-                newRect.Intersect(new Rectangle(0, 0, area.Width, area.Height));
-
+            Rectangle newRect = rect.Intersect(new Rectangle(0, 0, area.Width, area.Height), cropEqualy);
             return newRect;
-        }
-
-        /// <summary>
-        /// Tries to create rectangle from four point polygon. 
-        /// Polygon points which has to be clock-wise oriented staring from left-upper corner like produced by <seealso cref="Vertices"/> function.
-        /// </summary>
-        /// <param name="poly">Four points polygon.</param>
-        /// <param name="rect">Created rectangle.</param>
-        /// <returns>True if the rectangle is created, false otherwise.</returns>
-        public static bool ToRect(this IList<Point> poly, out Rectangle rect)
-        {
-            if (poly.Count != 4)
-            {
-                rect = Rectangle.Empty;
-                return false;
-            }
-
-            rect = new Rectangle
-            {
-                X = poly[0].X,
-                Y = poly[0].Y,
-                Width = poly[1].X - poly[0].X,
-                Height = poly[2].Y - poly[1].Y
-            };
-
-            return true;
         }
     }
 
@@ -226,32 +231,6 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Tries to create rectangle from four point polygon. 
-        /// Polygon points which has to be clock-wise oriented staring from left-upper corner like produced by <seealso cref="Vertices"/> function.
-        /// </summary>
-        /// <param name="poly">Four points polygon.</param>
-        /// <param name="rect">Created rectangle.</param>
-        /// <returns>True if the rectangle is created, false otherwise.</returns>
-        public static bool ToRect(this IList<PointF> poly, out RectangleF rect)
-        {
-            if (poly.Count != 4)
-            {
-                rect = Rectangle.Empty;
-                return false;
-            }
-
-            rect = new RectangleF
-            {
-                X = poly[0].X,
-                Y = poly[0].Y,
-                Width = poly[1].X - poly[0].X,
-                Height = poly[2].Y - poly[1].Y
-            };
-
-            return true;
-        }
-
-        /// <summary>
         /// Gets whether the rectangle has an empty area. It is different than <see cref="Rectangle.Empty"/> property.
         /// </summary>
         /// <param name="rect">Rectangle.</param>
@@ -299,6 +278,122 @@ namespace Accord.Extensions.Math.Geometry
                 Width = rect.Width * pyrScale,
                 Height = rect.Height * pyrScale
             };
+        }
+
+        /// <summary>
+        /// Randomizes rectangle position and scale and returns randomized rectangles.
+        /// </summary>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="locationOffset">Minimum location offset for horizontal and vertical direction.</param>
+        /// <param name="sizeOffset">Minimum size offset for horizontal and vertical direction.</param>
+        /// <param name="nRandomizedRectangles">Number of randomized rectangles to generate.</param>
+        /// <param name="rand">Random generator. If null the instance will be generated.</param>
+        /// <returns>Randomized rectangles.</returns>
+        public static IEnumerable<RectangleF> Randomize(this RectangleF rect, RangeF locationOffset, RangeF sizeOffset, int nRandomizedRectangles, Random rand = null)
+        {
+            return Randomize(rect, new Pair<RangeF>(locationOffset, locationOffset), new Pair<RangeF>(sizeOffset, sizeOffset), nRandomizedRectangles, rand);
+        }
+
+        /// <summary>
+        /// Randomizes rectangle position and scale and returns randomized rectangles.
+        /// </summary>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="locationOffset">Minimum location offset for horizontal and vertical direction respectively.</param>
+        /// <param name="sizeOffset">Minimum size offset for horizontal and vertical direction respectively.</param>
+        /// <param name="nRandomizedRectangles">Number of randomized rectangles to generate.</param>
+        /// <param name="rand">Random generator. If null the instance will be generated.</param>
+        /// <returns>Randomized rectangles.</returns>
+        /// <example>
+        /// var img = new Image&lt;Bgr, byte&gt;(640, 480);
+        ///
+        /// var rect = new RectangleF(50, 50, 100, 50);
+        ///
+        /// var locationOffsets = new Range(-0.05f, +0.05f);
+        /// var sizeOffsets = new Range(0.9f, 1.1f);
+        /// var randomizedRects = rect.Randomize(new Pair&lt;Range&gt;(locationOffsets, locationOffsets), new Pair&lt;Range&gt;(sizeOffsets, sizeOffsets), 5);
+        /// randomizedRects = randomizedRects.Select(x =&gt; x.SetScaleTo(rect.Size));
+        ///
+        /// img.Draw(rect, Bgr8.Red, 3);
+        ///
+        /// foreach (var randomizedRect in randomizedRects)
+        /// {
+        ///    img.Draw(randomizedRect, Bgr8.Green, 1);
+        /// }
+        ///
+        /// ImageBox.Show(img.ToBitmap(), PictureBoxSizeMode.AutoSize);
+        /// return;
+        /// </example>
+        public static IEnumerable<RectangleF> Randomize(this RectangleF rect, Pair<RangeF> locationOffset, Pair<RangeF> sizeOffset, int nRandomizedRectangles, Random rand = null)
+        {
+            rand = rand ?? new Random();
+
+            for (int i = 0; i < nRandomizedRectangles; i++)
+            {
+                var randRect = new RectangleF
+                {
+                    X = rect.X + rect.Width * (float)rand.NextDouble(locationOffset.First.Min, locationOffset.First.Max),
+                    Y = rect.Y + rect.Height * (float)rand.NextDouble(locationOffset.Second.Min, locationOffset.Second.Max),
+
+                    Width = rect.Width * (float)rand.NextDouble(sizeOffset.First.Min, sizeOffset.First.Max),
+                    Height = rect.Height* (float)rand.NextDouble(sizeOffset.Second.Min, sizeOffset.Second.Max)
+                };
+
+                yield return randRect;
+            }
+        }
+
+        /// <summary>
+        /// Changes rectangle scale by a minimum amount in term of area change to match the scale of the user-specified size scale.
+        /// </summary>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="other">Size from which the scale is taken.</param>
+        /// <param name="correctLocation">Moves rectangle to minimize the impact of scaling regarding original location.</param>
+        /// <returns>Rectangle that has the same scale as </returns>
+        public static RectangleF ScaleTo(this RectangleF rect, SizeF other, bool correctLocation = false)
+        {
+            return ScaleTo(rect, other.Width / other.Height);
+        }
+
+        /// <summary>
+        /// Changes rectangle scale by a minimum amount in term of area change to match the scale of the user-specified size scale.
+        /// </summary>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="widthHeightRatio">Width / height ratio that must be satisfied.</param>
+        /// <param name="correctLocation">Moves rectangle to minimize the impact of scaling regarding original location.</param>
+        /// <returns>Rectangle that has the same scale as </returns>
+        public static RectangleF ScaleTo(this RectangleF rect, float widthHeightRatio, bool correctLocation = false)
+        {
+            var sizeScale = widthHeightRatio;
+
+            var newWidthCandidate = rect.Height * sizeScale;
+            var newHeightCandidate = rect.Width * (1 / sizeScale);
+
+            //if we choose newWidth...
+            var newWidthAreaChangeFactor = rect.Area() / (newWidthCandidate * rect.Height);
+            newWidthAreaChangeFactor = newWidthAreaChangeFactor - 1; //for how much the area will change (+/- X percent)
+
+            //if we choose newHeight...
+            var newHeightAreaChangeFactor = rect.Area() / (newHeightCandidate * rect.Width);
+            newHeightAreaChangeFactor = newHeightAreaChangeFactor - 1; //for how much the area will change (+/- X percent)
+
+            if (System.Math.Abs(newWidthAreaChangeFactor) < System.Math.Abs(newHeightAreaChangeFactor))
+            {
+                var xOffset = 0f;
+
+                if (correctLocation)
+                    xOffset = -(newWidthCandidate - rect.Width) / 2;
+
+                return new RectangleF(rect.X + xOffset, rect.Y, newWidthCandidate, rect.Height);
+            }
+            else
+            {
+                var yOffset = 0f;
+
+                if (correctLocation)
+                    yOffset = -(newHeightCandidate - rect.Height) / 2;
+
+                return new RectangleF(rect.X, rect.Y + yOffset, rect.Width, newHeightCandidate);
+            }
         }
     }
 }

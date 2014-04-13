@@ -13,8 +13,6 @@ using Accord.Extensions.Math.Geometry;
 
 namespace ObjectAnnotater
 {
-   
-
     static class Program
     {
         /// <summary>
@@ -29,20 +27,20 @@ namespace ObjectAnnotater
             ImageDirectoryReader capture = null;
             string databaseFileName = null;
 
-            using (var wizard = new Wizard())
+            /*using (var wizard = new Wizard())
             {
                 wizard.ShowDialog();
 
                 capture = wizard.CaptureObj;
                 databaseFileName = wizard.DatabaseFileName;
-            }
+            }*/
 
-            /*capture = new ImageDirectoryReader("S:/images/", "*.jpg");
-            var databaseFileName = "S:/k.txt";*/
+            capture = new ImageDirectoryReader("S:/images/", "*.jpg");
+            databaseFileName = "S:/imagesAnnotations.xml";
 
-            if (capture == null && databaseFileName == null)
+            if (capture == null && databaseFileName == null) //a user clicked "X" without data selection
             {
-                MessageBox.Show("Capture or database file name is null!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Capture or database file name is null!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

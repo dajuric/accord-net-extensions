@@ -67,25 +67,23 @@ namespace Accord.Extensions
         /// <param name="dllDirectory">Directory where to search unmanaged libraries.</param>
         public static void AddDllSearchPath(string dllDirectory)
         {
-            dllDirectory = dllDirectory.NormalizePathDelimiters("\\");
+            dllDirectory = dllDirectory.NormalizePathDelimiters(Path.DirectorySeparatorChar.ToString());
 
             var path = "";
             switch (RunningPlatform)
             {
                 case OperatingSystem.Windows:
-                    path = "PATH";
-                    Environment.SetEnvironmentVariable(path, Environment.GetEnvironmentVariable(path) + ";" + dllDirectory);
+                    path = "PATH";  
                     break;
                 case OperatingSystem.MacOS:
                     path = "LD_LIBRARY_PATH";
-                    //Environment.SetEnvironmentVariable(path, Environment.GetEnvironmentVariable(path) + ":" + dllDirectory); //TODO - critical: check is that valid ?
-                    throw new NotImplementedException("How to change " + path);
-                    //break;
+                    break;
                 case OperatingSystem.Linux:
                     path = "DYLD_FRAMEWORK_PATH";
-                    throw new NotImplementedException("How to change " + path);
-                    //break;
+                    break;
             }
+
+            Environment.SetEnvironmentVariable(path, Environment.GetEnvironmentVariable(path) + Path.PathSeparator + dllDirectory);
         }
 
         /// <summary>

@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge">
@@ -40,13 +42,16 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\StreamableSource.cs" />
-    <Compile Include="Base\VideoCaptureBase.cs" />
-    <Compile Include="CameraCapture.cs" />
-    <Compile Include="FileCapture.cs" />
+    <Compile Include="Base\Abstract\ImageStream.cs" />
+    <Compile Include="Base\Abstract\StreamableDestination.cs" />
+    <Compile Include="Base\Abstract\StreamableSource.cs" />
+    <Compile Include="Readers\VideoCaptureBase.cs" />
+    <Compile Include="Readers\CameraCapture.cs" />
+    <Compile Include="Readers\FileCapture.cs" />
     <Compile Include="Base\CvHighGuiInvoke.cs" />
-    <Compile Include="ImageDirectoryReader.cs" />
+    <Compile Include="Readers\ImageDirectoryReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Writers\VideoWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj">

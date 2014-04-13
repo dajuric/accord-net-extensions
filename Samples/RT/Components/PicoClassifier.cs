@@ -1,7 +1,5 @@
 ﻿#define LOG
 
-using Match = System.Tuple<Accord.Extensions.Imaging.Image<Accord.Extensions.Imaging.Gray, byte>, Accord.Extensions.Rectangle, float>;
-
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
@@ -15,6 +13,8 @@ using PointF = AForge.Point;
 using StageClassifier = RT.GentleBoost<RT.RegressionTree<RT.BinTestCode>>;
 using WeakLearner = RT.RegressionTree<RT.BinTestCode>;
 using System.Threading.Tasks;
+
+using MyImage = Accord.Extensions.Imaging.Image<Accord.Extensions.Imaging.Gray, byte>;
 
 namespace RT
 {
@@ -121,7 +121,7 @@ namespace RT
         /// <param name="angleDeg">To detect rotated object, specify the value different than 0. The angle is specified in degrees.</param>
         /// <param name="confidence">Classification confidence. The value is not normalized.</param>
         /// <returns>True if the confidence is greater than 0, false if this is not the case or the region is specified outside valid image boundaries.</returns>
-        public bool ClassifyRegion(Image<Gray, byte> image, Point regionCenter, Size regionSize, int angleDeg, out float confidence)
+        public bool ClassifyRegion(MyImage image, Point regionCenter, Size regionSize, int angleDeg, out float confidence)
         {
             return Cascade.Classify(stageClassifier =>
                                     stageClassifier.GetOutput(weakLearner =>
@@ -135,12 +135,52 @@ namespace RT
 
         #region Training
 
+        public bool AddStage(IList<MyImage> allPositiveSamples, IList<List<Rectangle>> windows, 
+                             float targetFPR = 1e-6f, float minTPR = 0.980f, float maxFPR = 0.5f, int maxTrees = 1, int treeMaxDepth = 6, int numberOfBinaryTests = 1024)
+        {
+            Size minSize = new Size(10, 10);
+
+            var positives = new List<ImageSample<MyImage>>();
+            for (int imgIdx = 0; imgIdx < allPositiveSamples.Count; imgIdx++)
+            {
+                var imageWindows = windows[imgIdx];
+                for (int annIdx = 0; annIdx < imageWindows.Count; annIdx++)
+                {
+                    var p = new ImageSample<MyImage> { Image = allPositiveSamples[imgIdx], ROI = imageWindows[annIdx] };
+                    positives.Add(p);
+                }          
+            }
+
+            var tpSamplingResult = Cascade.GetTruePositives(positives, classify);
+
+            var nFPsToPick = 2 * positives.Count - tpSamplingResult.ClassifedSamples.Count;
+
+            var fpSamplingResult = Cascade.SampleFalsePositives
+                                            (
+                                            positives:             allPositiveSamples,
+                                            windowCreator:         (sampleIdx) => allPositiveSamples[sampleIdx].Size.CreateRandomRegion(this.NormalizedRegion.Width, minSize), //NormalizedRegion treba li (je li dovoljno samo widthScale) ???
+                                            forbidenImageRegions:  windows,
+                                            classificationFunc:    (imgIdx, imgSample) => classify(imgSample),
+                                            terminationFunc:       (nFPs) => nFPs >= nFPsToPick
+                                            );
+
+            return AddStage
+                (
+                //true-positive sampler
+                   tpSamplingResult,
+                //false-positive sampler
+                   fpSamplingResult,
+                //parameters
+                   targetFPR, minTPR, maxFPR, maxTrees, treeMaxDepth, numberOfBinaryTests
+                );
+        }
+
         /// <summary>
         /// Trains and adds new stage to the current cascaded classifier.
         /// </summary>
         /// <param name="allPositiveSamples">Positive samples.</param>
-        /// <param name="allNegativeSamples">Negative samples.</param>
         /// <param name="allPositiveSampleWindows">Positive sample windows.</param>
+        /// <param name="allNegativeSamples">Negative samples.</param>
         /// <param name="targetFPR">Target false positive rate. If the calculated FPR is less than the specified number, new stage will not be appended. (e.g. 1e-3).</param>
         /// <param name="minTPR">Minimum stage true positive rate (e.g. 0.98).</param>
         /// <param name="maxFPR">Maximum stage false positive rate (e.g. 0.5).</param>
@@ -148,37 +188,82 @@ namespace RT
         /// <param name="treeMaxDepth">Maximum depth of the regression tree (weak learner in GentleBoost). (e.g. 6)</param>
         /// <param name="numberOfBinaryTests">Number of generated binary tests per regression tree node. Only one of the specified number of tests will be selected. (e.g. 1024)</param>
         /// <returns>True if the stage is appended, false otherwise.</returns>
-        public bool AddStage(IList<Image<Gray, byte>> allPositiveSamples, IList<Image<Gray, byte>> allNegativeSamples, IList<Rectangle> allPositiveSampleWindows, float targetFPR = 1e-6f, float minTPR = 0.980f, float maxFPR = 0.5f, int maxTrees = 1, int treeMaxDepth = 6, int numberOfBinaryTests = 1024 * 4)
+        public bool AddStage(IList<MyImage> allPositiveSamples, IList<Rectangle> allPositiveSampleWindows, 
+                             IList<Image<Gray, byte>> allNegativeSamples, 
+                             float targetFPR = 1e-6f, float minTPR = 0.980f, float maxFPR = 0.5f, int maxTrees = 1, int treeMaxDepth = 6, int numberOfBinaryTests = 1024)
         {
-            Random rand = new Random(0);
-            StageClassifier stageClassifier = new StageClassifier();
+           Size minSize = new Size(24, 24);
+            
+            var positives = allPositiveSamples
+                            .Select((_, index) => new ImageSample<MyImage>
+                            {
+                                Image =  allPositiveSamples[index], 
+                                ROI = allPositiveSampleWindows[index] 
+                            })
+                            .ToList();
 
+            var tpSamplingResult = Cascade.GetTruePositives(positives, classify);
+
+            var nFPsToPick = 2 * positives.Count - tpSamplingResult.ClassifedSamples.Count;
+
+            var fpSamplingResult = Cascade.SampleFalsePositives
+                                            (
+                                                allNegativeSamples,
+                                                (sampleIdx) => allNegativeSamples[sampleIdx].Size.CreateRandomRegion(this.NormalizedRegion.Width, minSize), //NormalizedRegion treba li (je li dovoljno samo widthScale) ???
+                                                (imgIdx, imgSample) => classify(imgSample),
+                                                (nFPs) => nFPs >= nFPsToPick
+                                            );
+
+            return AddStage
+                (
+                //true-positive sampler
+                   tpSamplingResult,
+                //false-positive sampler
+                   fpSamplingResult,
+                //parameters
+                   targetFPR, minTPR, maxFPR, maxTrees, treeMaxDepth, numberOfBinaryTests
+                );
+        }
+
+        public bool AddStage(SamplingResult<ImageSample<MyImage>> tpSamplingResult, SamplingResult<ImageSample<MyImage>> fpSamplingResult,                       
+                             float targetFPR = 1e-6f, float minTPR = 0.980f, float maxFPR = 0.5f, int maxTrees = 1, int treeMaxDepth = 6, int numberOfBinaryTests = 1024)
+        {
+            StageClassifier stageClassifier = new StageClassifier();
+            
 #if LOG
             Console.WriteLine();
             Console.WriteLine("Stage training {0} ---------------------------------------------------------------", this.Cascade.NumberOfStages + 1);
             Console.WriteLine();
 #endif
-            float tpr;
-            var truePositives = getTruePositives(allPositiveSamples, allPositiveSampleWindows, out tpr);
-
-            float fpr;
-            var nFPsToPick = 2 * allPositiveSamples.Count - truePositives.Count(); 
-            var falsePositives = sampleFalsePositives(allNegativeSamples, (nFPs) => nFPs >= nFPsToPick, out fpr);
-
-            if (fpr <= targetFPR)
+            if (fpSamplingResult.PrecisionRate <= targetFPR)
                 return false;
 
-            var matches = truePositives.Concat(falsePositives).ToList();
+            var matches = tpSamplingResult.ClassifedSamples.Concat(fpSamplingResult.ClassifedSamples).ToList();
+            var classLabels = matches.Select(x => x.ClassLabel > 0).ToList(); //true for positives, false for negatives
 
             return addStage
                 (
-                   matches.Select(x => x.Item1).ToList(),
-                   matches.Select(x => x.Item2).ToList(),
-                   matches.Select(x => x.Item3).ToList(),
-                   EnumerableExtensions.Create(truePositives.Count(), (_) => true).Concat(EnumerableExtensions.Create(falsePositives.Count(), (_) => false)).ToList(),
+                   matches.Select(x => x.Sample.Image).ToList(),
+                   matches.Select(x => x.Sample.ROI).ToList(),
+                   matches.Select(x => x.Confidence).ToList(),
+                   classLabels,
                    minTPR, maxFPR, maxTrees, treeMaxDepth, numberOfBinaryTests
                 );
         }
+
+        private ClassifiedSample<ImageSample<MyImage>> classify(ImageSample<MyImage> imgSample)
+        {
+            float confidence;
+            bool isTruePositive = this.ClassifyRegion(imgSample.Image, imgSample.ROI, out confidence);
+
+            return new ClassifiedSample<ImageSample<MyImage>>
+            {
+                Sample = imgSample,
+                Confidence = confidence,
+                ClassLabel = isTruePositive ? ClassifiedSample<ImageSample<MyImage>>.POSITIVE : ClassifiedSample<ImageSample<MyImage>>.NEGATIVE
+            };
+        }
+
 
         /// <summary>
         /// Trains and adds new stage to the current cascaded classifier.
@@ -260,8 +345,7 @@ namespace RT
         /// <returns>An array of features (binary tests) to select from.</returns>
         private static BinTestCode[] weakLearnerProvideFeatures(int numberOfBinaryTests)
         {
-            var rand = new Random();
-            return EnumerableExtensions.Create(numberOfBinaryTests, (_) => new BinTestCode(rand.Next()));
+            return EnumerableExtensions.Create(numberOfBinaryTests, (_) => new BinTestCode(ParallelRandom.Next()));
         }
 
         /// <summary>
@@ -274,7 +358,7 @@ namespace RT
         /// <param name="images">The array of positive and negative samples.</param>
         /// <param name="windows">The array of regions of positive and negative samples.</param>
         /// <returns>Trained weak learner (regression tree).</returns>
-        private static WeakLearner weakLearnerTrain(int treeMaxDepth, Func<BinTestCode[]> nodeFeatureProvider, float[] targetValues, float[] sampleWeights, IEnumerable<Image<Gray, byte>> images, IList<Rectangle> windows)
+        private static WeakLearner weakLearnerTrain(int treeMaxDepth, Func<BinTestCode[]> nodeFeatureProvider, float[] targetValues, float[] sampleWeights, IEnumerable<MyImage> images, IList<Rectangle> windows)
         {
             var learner = new WeakLearner(treeMaxDepth);
             learner.Train
@@ -287,7 +371,7 @@ namespace RT
                        var image = images.ElementAt(sampleIndex);
                        var window = windows[sampleIndex];
 
-                       return binTest.Test(image, window.Center(), window.Size, angleDeg: 0, clipToImageBounds: true);
+                       return binTest.Test(image, window.Center(), window.Size);
                    },
                 //target values
                    targetValues: targetValues,
@@ -305,153 +389,17 @@ namespace RT
         /// <param name="image">Input image.</param>
         /// <param name="window">Region to classify.</param>
         /// <returns>Weak learner confidence.</returns>
-        private static float weakLearnerClassify(WeakLearner learner, Image<Gray, byte> image, Rectangle window)
+        private static float weakLearnerClassify(WeakLearner learner, MyImage image, Rectangle window)
         {
             var output = learner.GetOutput(binTest =>
                             {
                                 //classify each image using binary test
-                                return binTest.Test(image, window.Center(), window.Size, angleDeg: 0, clipToImageBounds: false);
+                                return binTest.Test(image, window.Center(), window.Size);
                             });
 
             return output;
         }
    
-        /// <summary>
-        /// Gets true positive samples from positive samples.
-        /// </summary>
-        /// <param name="positives">Object samples.</param>
-        /// <param name="objectRegions">Object regions within an image.</param>
-        /// <param name="truePositiveRate">True positive rate.</param>
-        /// <returns>True positive samples.</returns>
-        private IEnumerable<Match> getTruePositives(IEnumerable<Image<Gray, byte>> positives, IList<Rectangle> objectRegions,
-                                                    out float truePositiveRate)
-        {
-#if LOG
-            int nSampled = 0;
-#endif
-
-            int nTPs = 0;
-            var truePositives = new ConcurrentBag<Match>();
-
-            /*************************** load positive samples **************************************/
-            var nTotalPositives = positives.Count();
-
-            Parallel.For(0, nTotalPositives, (i) => 
-            {
-                var im = positives.ElementAt(i);
-
-                float confidence;
-                var classifiedAsPositive = this.ClassifyRegion(im, objectRegions[i], out confidence, 0);
-
-                if (classifiedAsPositive)
-                {
-                    truePositives.Add(new Match
-                        (
-                           positives.ElementAt(i),
-                           objectRegions.ElementAt(i),
-                           confidence)
-                        );
-
-                    Interlocked.Increment(ref nTPs);
-                }
-#if LOG
-                Interlocked.Increment(ref nSampled);
-
-                if(nSampled % 1000 == 0)
-                    Console.Write("\rSampling positives. nTPs / nTotalPositives: {0} / {1}", nTPs, nTotalPositives);
-#endif
-            });
-
-            truePositiveRate = nTPs / (float)nTotalPositives;
-
-#if LOG
-            Console.Write("\rSampling positives. nTPs / nTotalPositives: {0} / {1}", nTPs, nTotalPositives);
-            Console.WriteLine(" - TPR: {0}", truePositiveRate);
-#endif
-            /*************************** load positive samples **************************************/
-
-            return truePositives;
-        }
-
-        /// <summary>
-        /// Samples false-positive samples by random selecting the image and region and evaluating the classifier on each picked sample.
-        /// </summary>
-        /// <param name="negatives">Negative samples (background).</param>
-        /// <param name="terminationFunc">
-        /// Termination function. 
-        /// Parameters: current number of sampled false positive samples.
-        /// Returns: True if the termination is wanted, false otherwise.
-        /// </param>
-        /// <param name="falsePositiveRate">False positive rate.</param>
-        /// <returns>False positive samples.</returns>
-        private IEnumerable<Match> sampleFalsePositives(IEnumerable<Image<Gray, byte>> negatives, Func<int, bool> terminationFunc,
-                                                        out float falsePositiveRate)
-        {
-            var falsePositives = new ConcurrentBag<Match>();
-
-            /*************************** load false-positives *************************************/
-            const int MIN_WINDOW_SIZE = 24;
-
-            var nTotalNegatives = negatives.Count();
-            var nFPs = 0;
-            var nPickedNegatives = 0;
-
-            ParallelExtensions.While(() => terminationFunc(nFPs) == false,
-                (loopState) =>
-                {
-                    //pick random background image
-                    var idx = (int)(ParallelRandom.Next() % nTotalNegatives);
-                    var negativeSample = negatives.ElementAt(idx);
-
-                    //pick random window
-                    var row = ParallelRandom.Next() % negativeSample.Height;
-                    var col = ParallelRandom.Next() % negativeSample.Width;
-                    var scale = ParallelRandom.Next() % (2 * Math.Min(Math.Min(row, negativeSample.Height - row), Math.Min(col, negativeSample.Width - col)) + 1);
-
-                    var window = GetRegion(new PointF(col, row), scale);
-
-                    if (scale < MIN_WINDOW_SIZE)
-                    {
-                        return; //continue;
-                    }
-
-                    //classify the region
-                    float confidence;
-                    var classifiedAsPositive = this.ClassifyRegion(negativeSample, window, out confidence);
-
-                    //it is a false-positive
-                    if (classifiedAsPositive)
-                    {
-                        falsePositives.Add(new Match
-                            (
-                               negativeSample,
-                               window, 
-                               confidence
-                            ));
-
-                        Interlocked.Increment(ref nFPs);
-                    }
-
-                    Interlocked.Increment(ref nPickedNegatives);
-
-#if LOG
-                    if(nPickedNegatives % 1000 == 0)
-                        Console.Write("\rSampling negatives. nFPs / nTotalNegatives: {0} / {1}", nFPs, nPickedNegatives);
-#endif
-                });
-            /*************************** load false-positives *************************************/
-
-
-            falsePositiveRate = nFPs / (float)nPickedNegatives;
-
-#if LOG
-            Console.Write("\rSampling negatives. nFPs / nTotalNegatives: {0} / {1}", nFPs, nPickedNegatives);
-            Console.WriteLine(" - FPR: {0}", falsePositiveRate);
-#endif
-
-            return falsePositives;
-        }
-
         #endregion
     }
 }

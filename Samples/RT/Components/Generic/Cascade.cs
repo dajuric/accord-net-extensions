@@ -1,4 +1,11 @@
-﻿using System;
+﻿#define LOG
+
+using Accord.Extensions;
+using Accord.Extensions.Math.Geometry;
+using Accord.Math.Geometry;
+using Accord.Extensions.Imaging;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,6 +13,29 @@ using System.Threading.Tasks;
 
 namespace RT
 {
+    public class SamplingResult<TSample>
+    {
+        public IList<ClassifiedSample<TSample>> ClassifedSamples { get; set; }
+        public float PrecisionRate { get; set; }
+    }
+
+    public class ClassifiedSample<TSample>
+    {
+        public const int POSITIVE = 1;
+        public const int NEGATIVE = -1;
+
+        public TSample Sample { get; set; }
+        public float Confidence { get; set; }
+        public int ClassLabel { get; set; }
+    }
+
+    public class ImageSample<TImage>
+        where TImage: IImage
+    {
+        public TImage Image { get; set; }
+        public Rectangle ROI { get; set; }
+    }
+
     /// <summary>
     /// Represents the container for array of stages and their thresholds, and provides helper methods for cascade training and classification.
     /// </summary>
@@ -162,6 +192,166 @@ namespace RT
 
             truePositiveRate = nTPs / (float)nPositives;
             falsePositiveRate = nFPs / (float)nNegatives;
+        }
+
+        public SamplingResult<ImageSample<TImage>> SampleFalsePositives<TImage>(IEnumerable<TImage> positives, Func<int, Rectangle> windowCreator, IList<List<Rectangle>> forbidenImageRegions,
+                                                                                Func<int, ImageSample<TImage>, ClassifiedSample<ImageSample<TImage>>> classificationFunc,
+                                                                                Func<int, bool> terminationFunc
+                                                                                )
+            where TImage : IImage
+        {
+            Func<int, Rectangle> allowedWindowCreator = (sampleIdx) => 
+            {
+                var sample = positives.ElementAt(sampleIdx);
+                var forbidenRegions = forbidenImageRegions[sampleIdx];
+
+                Rectangle window;
+                while (true)
+                {
+                    window = windowCreator(sampleIdx);
+
+                    if (forbidenRegions.All(x => !x.IntersectsWith(window)))
+                        break;
+                }
+
+                return window;
+            };
+
+            return SampleFalsePositives(positives,
+                                        allowedWindowCreator,
+                                        classificationFunc,
+                                        terminationFunc);
+        }
+
+        /// <summary>
+        /// Samples false positives from negative images.
+        /// </summary>
+        /// <typeparam name="TImage">Image type.</typeparam>
+        /// <param name="negatives">Negative image collection.</param>
+        /// <param name="windowCreator">
+        /// Window creation function.
+        /// Parameters: sample index.
+        /// Returns: random window.
+        /// </param>
+        /// <param name="classificationFunc">
+        /// Classification function.
+        /// Parameters: image index, image sample
+        /// Returns: classified sample. 
+        /// </param>
+        /// <param name="terminationFunc">
+        /// Termination function. 
+        /// Parameters: current number of sampled false positive samples.
+        /// Returns: True if the termination is wanted, false otherwise.
+        /// </param>
+        /// <returns>The collection of selected false positive images (image, window), the classifier confidence  and false positive rate.</returns>
+        public SamplingResult<ImageSample<TImage>> SampleFalsePositives<TImage>(IEnumerable<TImage> negatives, Func<int, Rectangle> windowCreator, 
+                                                                                Func<int, ImageSample<TImage>, ClassifiedSample<ImageSample<TImage>>> classificationFunc, 
+                                                                                Func<int, bool> terminationFunc)
+            where TImage: IImage
+        {
+            var falsePositives = new ConcurrentBag<ClassifiedSample<ImageSample<TImage>>>();
+
+            /*************************** load false-positives *************************************/
+            var nTotalNegatives = negatives.Count();
+            var nFPs = 0;
+            var nPickedNegatives = 0;
+
+            ParallelExtensions.While(() => terminationFunc(nFPs) == false,
+                (loopState) =>
+                {
+                    //pick random background image
+                    var idx = (int)(ParallelRandom.Next() % nTotalNegatives);
+                    var negativeSample = negatives.ElementAt(idx);
+
+                    //pick random window
+                    var window = windowCreator(idx);
+
+                    //classify the region
+                    var classificationResult = classificationFunc(idx, new ImageSample<TImage> { Image = negativeSample, ROI = window });
+
+                    //it is a false-positive
+                    if (classificationResult.ClassLabel == ClassifiedSample<ImageSample<TImage>>.POSITIVE)
+                    {
+                        classificationResult.ClassLabel = ClassifiedSample<ImageSample<TImage>>.NEGATIVE; //correct class label
+                        falsePositives.Add(classificationResult);
+
+                        Interlocked.Increment(ref nFPs);
+                    }
+
+                    Interlocked.Increment(ref nPickedNegatives);
+
+#if LOG
+                    if(nPickedNegatives % 1000 == 0)
+                        Console.Write("\rSampling negatives. nFPs / nTotalNegatives: {0} / {1}", nFPs, nPickedNegatives);
+#endif
+                });
+            /*************************** load false-positives *************************************/
+
+
+            var falsePositiveRate = nFPs / (float)nPickedNegatives;
+
+#if LOG
+            Console.Write("\rSampling negatives. nFPs / nTotalNegatives: {0} / {1}", nFPs, nPickedNegatives);
+            Console.WriteLine(" - FPR: {0}", falsePositiveRate);
+#endif
+
+            return new SamplingResult<ImageSample<TImage>> 
+            { 
+                ClassifedSamples = falsePositives.ToList(), 
+                PrecisionRate = falsePositiveRate 
+            };
+        }
+
+        /// <summary>
+        /// Gets true positive samples from positive samples.
+        /// </summary>
+        /// <param name="positives">Object samples.</param>
+        /// <param name="objectRegions">Object regions within an image.</param>
+        /// <returns>True positive samples and true positive rate.</returns>
+        public SamplingResult<ImageSample<TImage>> GetTruePositives<TImage>(IEnumerable<ImageSample<TImage>> positives, 
+                                                                            Func<ImageSample<TImage>, ClassifiedSample<ImageSample<TImage>>> classificationFunc)
+            where TImage: IImage
+        {
+#if LOG
+            int nSampled = 0;
+#endif
+
+            int nTPs = 0;
+            var truePositives = new ConcurrentBag<ClassifiedSample<ImageSample<TImage>>>();
+
+            /*************************** load positive samples **************************************/
+            var nTotalPositives = positives.Count();
+
+            Parallel.For(0, nTotalPositives, (i) =>
+            {
+                var classificationResult = classificationFunc(positives.ElementAt(i));
+
+                if (classificationResult.ClassLabel == ClassifiedSample<ImageSample<TImage>>.POSITIVE)
+                {
+                    truePositives.Add(classificationResult);
+                    Interlocked.Increment(ref nTPs);
+                }
+#if LOG
+                Interlocked.Increment(ref nSampled);
+
+                if (nSampled % 1000 == 0)
+                    Console.Write("\rSampling positives. nTPs / nTotalPositives: {0} / {1}", nTPs, nTotalPositives);
+#endif
+            });
+
+            var truePositiveRate = nTPs / (float)nTotalPositives;
+
+#if LOG
+            Console.Write("\rSampling positives. nTPs / nTotalPositives: {0} / {1}", nTPs, nTotalPositives);
+            Console.WriteLine(" - TPR: {0}", truePositiveRate);
+#endif
+            /*************************** load positive samples **************************************/
+
+            return new SamplingResult<ImageSample<TImage>>
+            {
+                ClassifedSamples = truePositives.ToList(),
+                PrecisionRate = truePositiveRate
+            };
         }
     }
 }

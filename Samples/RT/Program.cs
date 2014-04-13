@@ -1,22 +1,16 @@
 ﻿#define LOG
+using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 
 using Accord.Controls;
-using System.Linq;
+using Accord.Extensions;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Math.Geometry;
+using AForge;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Accord.Extensions.Imaging;
-using Accord.Extensions;
-using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Vision;
-using Point = AForge.IntPoint;
-using System.IO;
-using System.Runtime.Caching;
-using AForge;
-using System.Runtime.InteropServices;
-using System.Globalization;
 using System.Diagnostics;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace RT
 {
@@ -28,26 +22,8 @@ namespace RT
         [STAThread]
         static void Main()
         {
-            /*Random rand = new Random();
-
-            var windows = new List<Rectangle>[1000];
-
-            for (int imgIdx = 0; imgIdx < windows.Length; imgIdx++)
-            {
-                var imageWindows = new List<Rectangle>();
-
-                for (int imgWndIdx = 0; imgWndIdx < 1000 * 1000; imgWndIdx++)
-                {
-                    imageWindows.Add(new Rectangle(rand.Next(), rand.Next(), rand.Next(), rand.Next()));
-                }
-
-                windows[imgIdx] = imageWindows;
-            }
-
-
-            Console.WriteLine(windows);
-            return;*/
-
+            //trainCarSamples();
+            //return;
             /*Train();
             return;*/
 
@@ -104,23 +80,23 @@ namespace RT
             //picoClassifier.ToBinaryFile("d");
             //picoClassifier.ToHexFile("myClassifier.ea");
 
-            picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.980f, maxFPR: 0.5f, maxTrees: 1, treeMaxDepth: 6);
+            picoClassifier.AddStage(samples, sampleWindows, negatives, targetFPR: 1e-6f, minTPR: 0.980f, maxFPR: 0.5f, maxTrees: 1, treeMaxDepth: 6);
             picoClassifier.ToHexFile("myClassifier.ea");
 
-            picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.985f, maxFPR: 0.5f, maxTrees: 1, treeMaxDepth: 6);
+            picoClassifier.AddStage(samples, sampleWindows, negatives, targetFPR: 1e-6f, minTPR: 0.985f, maxFPR: 0.5f, maxTrees: 1, treeMaxDepth: 6);
             picoClassifier.ToHexFile("myClassifier.ea");
 
-            picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.990f, maxFPR: 0.5f, maxTrees: 2, treeMaxDepth: 6);
+            picoClassifier.AddStage(samples, sampleWindows, negatives, targetFPR: 1e-6f, minTPR: 0.990f, maxFPR: 0.5f, maxTrees: 2, treeMaxDepth: 6);
             picoClassifier.ToHexFile("myClassifier.ea");
 
-            picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.995f, maxFPR: 0.5f, maxTrees: 3, treeMaxDepth: 6);
+            picoClassifier.AddStage(samples, sampleWindows, negatives, targetFPR: 1e-6f, minTPR: 0.995f, maxFPR: 0.5f, maxTrees: 3, treeMaxDepth: 6);
             picoClassifier.ToHexFile("myClassifier.ea");
 
             int nStages = 0;
             bool isStageAdded = true;
             while (nStages < 6 && isStageAdded)
             {
-                isStageAdded = picoClassifier.AddStage(samples, negatives, sampleWindows, targetFPR: 1e-6f, minTPR: 0.997f, maxFPR: 0.5f, maxTrees: 10, treeMaxDepth: 6);
+                isStageAdded = picoClassifier.AddStage(samples, sampleWindows, negatives, targetFPR: 1e-6f, minTPR: 0.997f, maxFPR: 0.5f, maxTrees: 10, treeMaxDepth: 6);
                 picoClassifier.ToHexFile("myClassifier.ea");
 
                 nStages++;
@@ -134,6 +110,67 @@ namespace RT
 
                 nStages++;
             }*/
+
+#if LOG
+            stopwatch.Stop();
+            Console.WriteLine("Cascade training finished in: {0}.", stopwatch.Elapsed);
+#endif
+        }
+
+        private static void getCarSamples(out List<Image<Gray, byte>> images, out List<List<Rectangle>> annotations)
+        {
+            Database db = new Database();
+            db.Load("S:/processedImagesAnnotations.xml");
+
+            db.Export((imgKey) => 
+            {
+                var filePath = "S:" + imgKey;
+                var image = System.Drawing.Bitmap.FromFile(filePath).ToImage<Gray, byte>();
+                return image;
+
+            }, out images, out annotations);
+        }
+
+        static void trainCarSamples()
+        {
+#if LOG
+            Stopwatch stopwatch = new Stopwatch();
+#endif
+
+            var picoClassifier = new PicoClassifier(new RectangleF(0, 0, 2.2f, 1));
+            
+#if LOG
+            Console.WriteLine();
+            Console.Write("Loading samples...");
+            stopwatch.Start();
+#endif
+
+            List<List<Rectangle>> sampleWindows;
+            List<Image<Gray, byte>> samples;
+            getCarSamples(out samples, out sampleWindows);
+
+
+            picoClassifier.AddStage(samples, sampleWindows, targetFPR: 1e-6f, minTPR: 0.980f, maxFPR: 0.5f, maxTrees: 1, treeMaxDepth: 6);
+            picoClassifier.ToHexFile("myClassifier.ea");
+
+            picoClassifier.AddStage(samples, sampleWindows, targetFPR: 1e-6f, minTPR: 0.985f, maxFPR: 0.5f, maxTrees: 1, treeMaxDepth: 6);
+            picoClassifier.ToHexFile("myClassifier.ea");
+
+            picoClassifier.AddStage(samples, sampleWindows, targetFPR: 1e-6f, minTPR: 0.990f, maxFPR: 0.5f, maxTrees: 2, treeMaxDepth: 6);
+            picoClassifier.ToHexFile("myClassifier.ea");
+
+            picoClassifier.AddStage(samples, sampleWindows, targetFPR: 1e-6f, minTPR: 0.995f, maxFPR: 0.5f, maxTrees: 3, treeMaxDepth: 6);
+            picoClassifier.ToHexFile("myClassifier.ea");
+
+            int nStages = 0;
+            bool isStageAdded = true;
+            while (nStages < 6 && isStageAdded)
+            {
+                isStageAdded = picoClassifier.AddStage(samples, sampleWindows, targetFPR: 1e-6f, minTPR: 0.997f, maxFPR: 0.5f, maxTrees: 10, treeMaxDepth: 6);
+                picoClassifier.ToHexFile("myClassifier.ea");
+
+                nStages++;
+            }
 
 #if LOG
             stopwatch.Stop();

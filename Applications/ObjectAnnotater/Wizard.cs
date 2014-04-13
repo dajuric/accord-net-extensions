@@ -74,7 +74,7 @@ namespace ObjectAnnotater
                         return;
                     }
 
-                    this.lblAnnFile.Text = "Annotation file: " + diag.FileName;
+                    this.lblAnnFile.Text = "Annotation file:" + "\n" + new FileInfo(diag.FileName).Name;
                 }
             }
         }

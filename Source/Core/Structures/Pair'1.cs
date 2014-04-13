@@ -11,6 +11,18 @@ namespace Accord.Extensions
         public T First;
         public T Second;
 
+        public Pair()
+        {
+            this.First = default(T);
+            this.Second = default(T);
+        }
+
+        public Pair(T first, T second)
+        {
+            this.First = first;
+            this.Second = second;
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null || obj is Pair<T> == false)

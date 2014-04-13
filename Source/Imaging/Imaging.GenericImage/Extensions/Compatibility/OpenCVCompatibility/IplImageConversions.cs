@@ -226,7 +226,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Casts an image top OpeCV image. No data copy is involved.
+        /// Casts an image to OpeCV image (IplImage). No data copy is involved.
         /// </summary>
         /// <param name="image">Generic image.</param>
         /// <returns>OpeCV image format.</returns>

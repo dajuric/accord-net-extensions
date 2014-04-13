@@ -5,8 +5,6 @@ using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 
@@ -116,7 +114,7 @@ namespace RT
                     /*if (rect.Right > image.Width || rect.Bottom > image.Height)
                         Console.WriteLine();*/
 
-                    rect = rect.Intersect(image.Size); //ensure that the window is inside the image
+                    rect = rect.Intersect(image.Size, cropEqualy: true); //ensure that the window is inside the image
                     windows.Add(rect);
                 }
             }

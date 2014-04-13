@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.btnImageSeq = new System.Windows.Forms.Button();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.boxImageFormatSelection = new System.Windows.Forms.ComboBox();
             this.lblAnnFile = new System.Windows.Forms.Label();
             this.btnSaveAnnotations = new System.Windows.Forms.Button();
@@ -61,12 +60,12 @@
             // 
             // lblAnnFile
             // 
-            this.lblAnnFile.AutoSize = true;
-            this.lblAnnFile.Location = new System.Drawing.Point(50, 126);
+            this.lblAnnFile.Location = new System.Drawing.Point(12, 107);
             this.lblAnnFile.Name = "lblAnnFile";
-            this.lblAnnFile.Size = new System.Drawing.Size(102, 17);
+            this.lblAnnFile.Size = new System.Drawing.Size(189, 36);
             this.lblAnnFile.TabIndex = 4;
             this.lblAnnFile.Text = "Annotation file:";
+            this.lblAnnFile.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // btnSaveAnnotations
             // 
@@ -92,16 +91,14 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Wizard";
-            this.Text = "Select image folder...";
+            this.Text = "Annotater";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button btnImageSeq;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.ComboBox boxImageFormatSelection;
         private System.Windows.Forms.Label lblAnnFile;
         private System.Windows.Forms.Button btnSaveAnnotations;
