@@ -4,50 +4,32 @@ using System;
 namespace Accord.Extensions.Vision
 {
     /// <summary>
-    /// Video writer that writes color images into video file.
-    /// </summary>
-    public class VideoWriter : VideoWriter<Image<Bgr, byte>>
-    {
-        /// <summary>
-        /// Creates new video writer.
-        /// </summary>
-        /// <param name="fileName">Video file name.</param>
-        /// <param name="frameSize">Video frame size.</param>
-        /// <param name="fps">Specifies the number of frames per second.</param>
-        public VideoWriter(string fileName, Size frameSize, float fps = 30)
-            : base(fileName, frameSize, true, fps)
-        { }
-
-        /// <summary>
-        /// Creates new video writer.
-        /// </summary>
-        /// <param name="fileName">Video file name.</param>
-        /// <param name="frameSize">Video frame size.</param>
-        /// <param name="fps">Specifies the number of frames per second.</param>
-        /// <param name="videoCodec">Specifies used codec for video encoding.</param>
-        public VideoWriter(string fileName, Size frameSize, float fps, VideoCodec videoCodec)
-            : base(fileName, frameSize, true, fps, videoCodec)
-        {}
-    }
-
-    /// <summary>
     /// Video writer that writes images into video file.
     /// </summary>
-    /// <typeparam name="TImage">Image type.</typeparam>
-    public class VideoWriter<TImage>: StreamableDestination<TImage>
-        where TImage: IImage
+    public class VideoWriter: StreamableDestination
     {
         object syncObj = new object();
+        IntPtr videoObjPtr = IntPtr.Zero;
 
-         string fileName = null;
-         IntPtr videoObjPtr = IntPtr.Zero;
-         bool isColor;
-         int codec;
+        /// <summary>
+        /// Gets the output file name.
+        /// </summary>
+         public string OutputFileName { get; private set; }
+
+        /// <summary>
+        /// Gets whether the frame must consist of 3-channels (color) or from just one (grayscale).
+        /// </summary>
+         public bool ColorFrames { get; private set; }
+
+        /// <summary>
+        /// Gets the codec used to encode frames.
+        /// </summary>
+         public VideoCodec Codec { get; private set; }
 
         /// <summary>
         /// Gets the number of frames per second.
         /// </summary>
-         public float FramesPerSecond { get; private set; }
+         public float FrameRate { get; private set; }
 
         /// <summary>
         /// Gets the frame size.
@@ -59,10 +41,10 @@ namespace Accord.Extensions.Vision
         /// </summary>
         /// <param name="fileName">Video file name.</param>
         /// <param name="frameSize">Video frame size.</param>
-        /// <param name="isColor">Specifies whether the image is color image (3 channels) or grayscale image (one channel).</param>
-        /// <param name="fps">Specifies the number of frames per second.</param>
-         public VideoWriter(string fileName, Size frameSize, bool isColor = true, float fps = 30)
-             :this(fileName, frameSize, isColor, fps, VideoCodec.IntelYUV)
+         /// <param name="fps">Specifies the number of frames per second.</param>
+         /// <param name="isColor">Specifies whether the image is color image (3 channels) or grayscale image (one channel).</param>
+         public VideoWriter(string fileName, Size frameSize, float fps = 30, bool isColor = true)
+             : this(fileName, frameSize, fps, isColor, VideoCodec.MotionJpeg)
          {}
 
         /// <summary>
@@ -70,19 +52,19 @@ namespace Accord.Extensions.Vision
         /// </summary>
         /// <param name="fileName">Video file name.</param>
         /// <param name="frameSize">Video frame size.</param>
-        /// <param name="isColor">Specifies whether the image is color image (3 channels) or grayscale image (one channel).</param>
-        /// <param name="fps">Specifies the number of frames per second.</param>
+         /// <param name="fps">Specifies the number of frames per second.</param>
+         /// <param name="isColor">Specifies whether the image is color image (3 channels) or grayscale image (one channel).</param>
         /// <param name="videoCodec">Specifies used codec for video encoding.</param>
-         public VideoWriter(string fileName, Size frameSize, bool isColor, float fps, VideoCodec videoCodec)
+         public VideoWriter(string fileName, Size frameSize, float fps, bool isColor, VideoCodec videoCodec)
          {
              this.CanSeek = false;
              this.IsLiveStream = true;
 
-             this.fileName = fileName;
-             this.isColor = isColor;
-             this.codec = (int)videoCodec;
+             this.OutputFileName = fileName;
+             this.ColorFrames = isColor;
+             this.Codec = videoCodec;
              this.FrameSize = frameSize;
-             this.FramesPerSecond = fps;
+             this.FrameRate = fps;
 
              this.Open(); //to enable property change
          }
@@ -95,9 +77,9 @@ namespace Accord.Extensions.Vision
             if (videoObjPtr != IntPtr.Zero)
                 return;
 
-            videoObjPtr = CvHighGuiInvoke.cvCreateVideoWriter(fileName, codec, FramesPerSecond, FrameSize, isColor);
+            videoObjPtr = CvHighGuiInvoke.cvCreateVideoWriter(OutputFileName, (int)Codec, FrameRate, FrameSize, ColorFrames);
             if (videoObjPtr == IntPtr.Zero)
-                throw new Exception("Cannot open FileStream!");
+                throw new Exception(String.Format("Cannot open FileStream! Please check that the selected codec ({0}) is supported.", Codec));
         }
 
         /// <summary>
@@ -117,23 +99,20 @@ namespace Accord.Extensions.Vision
             get { return this.Position; }
         }
 
-        protected unsafe override bool WriteInternal(TImage image)
+        protected unsafe override bool WriteInternal(IImage image)
         {
             bool isSuccessful;
 
             lock (syncObj)
             {
-                /*if (image.ColorInfo.NumberOfChannels == 3 && !isColor)
-                    return false;
-                    //throw new Exception("Image must be color!");
+                if (image.ColorInfo.NumberOfChannels == 3 && !ColorFrames)
+                    throw new Exception("Image must be color!");
 
-                if (image.ColorInfo.NumberOfChannels == 1 && isColor)
-                    return false;
-                    //throw new Exception("Image must be grayscale!");
+                if (image.ColorInfo.NumberOfChannels == 1 && ColorFrames)
+                    throw new Exception("Image must be grayscale!");
 
                 if (!image.Size.Equals(FrameSize))
-                    return false;
-                    //throw new Exception("Input image must be the same size as defined frame size!");*/
+                    throw new Exception("Input image must be the same size as defined frame size!");
 
                 this.Position++;
 

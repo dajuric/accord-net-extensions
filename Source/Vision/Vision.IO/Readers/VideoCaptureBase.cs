@@ -81,9 +81,9 @@ namespace Accord.Extensions.Vision
         /// <summary>
         /// Gets the frame rate.
         /// </summary>
-        public double FrameRate
+        public float FrameRate
         {
-            get { return CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FPS); }
+            get { return (float)CvHighGuiInvoke.cvGetCaptureProperty(capturePtr, CaptureProperty.FPS); }
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Security;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Accord.Extensions.Vision
 {
@@ -12,9 +9,9 @@ namespace Accord.Extensions.Vision
         public static readonly VideoCodec MPEG1 = VideoCodec.FromName('P', 'I', 'M', '1');
         public static readonly VideoCodec MotionJpeg = VideoCodec.FromName('M', 'J', 'P', 'G');
         public static readonly VideoCodec IntelYUV = VideoCodec.FromName('I', 'Y', 'U', 'V');
-        //public static readonly VideoCodec WMV = VideoCodec.FromName('W', 'M', 'V', '3'); //TODO: does it exist ?
         public static readonly VideoCodec UserSelection = new VideoCodec(-1);
 
+        private const int CODEC_NAME_LENGTH = 4;
         int codec;
 
         /// <summary>
@@ -36,7 +33,7 @@ namespace Accord.Extensions.Vision
         /// <returns>Video codec.</returns>
         public static VideoCodec FromName(char c1, char c2, char c3, char c4)
         {
-            int codec = (((c1) & 255) + (((c2) & 255) << 8) + (((c3) & 255) << 16) + (((c4) & 255) << 24));
+            int codec = (c1 & 255) + ((c2 & 255) << 8) + ((c3 & 255) << 16) + ((c4 & 255) << 24);
             return new VideoCodec(codec);
         }
 
@@ -47,7 +44,7 @@ namespace Accord.Extensions.Vision
         /// <returns>Video codec.</returns>
         public static VideoCodec FromName(string codecName)
         {
-            if (codecName.Length != 4)
+            if (codecName.Length != CODEC_NAME_LENGTH)
                 throw new Exception("Codec name is 4-characters long!");
 
             return VideoCodec.FromName(codecName[0], codecName[1], codecName[2], codecName[3]);
@@ -68,6 +65,17 @@ namespace Accord.Extensions.Vision
             return VideoCodec.FromName(code);
         }
 
+        public override string ToString()
+        {
+            unsafe 
+            {
+                fixed (int* intPtr = &this.codec)
+                {
+                    sbyte* chPtr = (sbyte*)intPtr;
+                    return new string(chPtr, 0, CODEC_NAME_LENGTH);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -140,7 +148,7 @@ namespace Accord.Extensions.Vision
         public static extern void cvReleaseImage(ref IntPtr image);
         /************************************************ image IO ****************************************************/
 
-        /************************************************ videWriter IO ****************************************************/
+        /************************************************ videoWriter IO ****************************************************/
 
         /// <summary>
         /// Creates video writer structure.
@@ -151,6 +159,7 @@ namespace Accord.Extensions.Vision
         /// <param name="frameSize">Size of video frames.</param>
         /// <param name="isColor">If true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames </param>
         /// <returns>The video writer</returns>
+        [SuppressUnmanagedCodeSecurity]
         [DllImport(OPENCV_HIGHGUI_LIBRARY, CallingConvention = CvCallingConvention)]
         public static extern IntPtr cvCreateVideoWriter([MarshalAs(UnmanagedType.LPStr)] String filename, int fourcc, double fps, Size frameSize, [MarshalAs(UnmanagedType.Bool)] bool isColor);
 
@@ -160,6 +169,7 @@ namespace Accord.Extensions.Vision
         /// <param name="writer">video writer structure.</param>
         /// <param name="image">the written frame</param>
         /// <returns>True on success, false otherwise</returns>
+        [SuppressUnmanagedCodeSecurity]
         [DllImport(OPENCV_HIGHGUI_LIBRARY, CallingConvention = CvCallingConvention)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool cvWriteFrame(IntPtr writer, IntPtr image);
@@ -168,10 +178,11 @@ namespace Accord.Extensions.Vision
         /// Finishes writing to video file and releases the structure.
         /// </summary>
         /// <param name="writer">pointer to video file writer structure</param>
+        [SuppressUnmanagedCodeSecurity]
         [DllImport(OPENCV_HIGHGUI_LIBRARY, CallingConvention = CvCallingConvention)]
         public static extern void cvReleaseVideoWriter(ref IntPtr writer);
 
-        /************************************************ videWriter IO ****************************************************/
+        /************************************************ videoWriter IO ****************************************************/
 
         static CvHighGuiInvoke()
         {
