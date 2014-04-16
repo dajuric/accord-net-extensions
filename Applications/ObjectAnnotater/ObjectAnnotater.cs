@@ -119,6 +119,10 @@ namespace ObjectAnnotater
                     if (selectedAnnotation != null)
                         frameAnnotations.Remove(selectedAnnotation);
                     break;
+                case Keys.Control | Keys.A:
+                    showAnnLabels = !showAnnLabels;
+                    drawAnnotations();
+                    break;
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -245,6 +249,7 @@ namespace ObjectAnnotater
             };
         }
 
+        bool showAnnLabels = true;
         private void drawAnnotations()
         {
             if (frame == null) return;
@@ -254,14 +259,15 @@ namespace ObjectAnnotater
 
             foreach (var ann in frameAnnotations)
             {
-                var annLabelWidth = TextRenderer.MeasureText(ann.Label, drawingFont).Width;
-
                 Rectangle rect = ann.Polygon.BoundingRect();
 
+                var annLabel = showAnnLabels ? ann.Label : "";
+                var annLabelWidth = showAnnLabels ? TextRenderer.MeasureText(ann.Label, drawingFont).Width : 0;
+
                 if(ann == selectedAnnotation)
-                    annotationImage.DrawAnnotation(rect, ann.Label, annLabelWidth, Bgr8.Red, Bgr8.Black, drawingFont);
+                    annotationImage.DrawAnnotation(rect, annLabel, annLabelWidth, Bgr8.Red, Bgr8.Black, drawingFont);
                 else
-                    annotationImage.DrawAnnotation(rect, ann.Label, annLabelWidth, Bgr8.Black, Bgr8.Black, drawingFont);
+                    annotationImage.DrawAnnotation(rect, annLabel, annLabelWidth, Bgr8.Black, Bgr8.Black, drawingFont);
             }
 
             if (!roi.IsEmpty)
@@ -282,7 +288,7 @@ namespace ObjectAnnotater
 
         private void txtLabel_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Control || e.Alt || selectedAnnotation == null)
+            if (e.Control || e.Alt || e.KeyData == Keys.Delete || selectedAnnotation == null)
                 e.Handled = true;
         }
 

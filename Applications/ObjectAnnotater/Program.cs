@@ -35,8 +35,11 @@ namespace ObjectAnnotater
                 databaseFileName = wizard.DatabaseFileName;
             }
 
-            //capture = new ImageDirectoryReader("S:/images/", "*.jpg");
-            //databaseFileName = "S:/imagesAnnotations.xml";
+            /*capture = new ImageDirectoryReader("S:/images/", "*.jpg");
+            databaseFileName = "S:/imagesAnnotations.xml";*/
+
+            /*capture = new FileCapture(@"S:\Detekcija_Ruke\WIN_20140311_121008.mp4");
+            databaseFileName = @"\\darko-pc\Users\Darko\Google disk\bla.xml";*/
 
             if (capture == null && databaseFileName == null) //a user clicked "X" without data selection
             {

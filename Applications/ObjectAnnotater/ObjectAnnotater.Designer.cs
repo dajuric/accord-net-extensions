@@ -70,7 +70,7 @@
             // 
             this.lblFrameIndex.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.lblFrameIndex.Name = "lblFrameIndex";
-            this.lblFrameIndex.Size = new System.Drawing.Size(300, 20);
+            this.lblFrameIndex.Size = new System.Drawing.Size(279, 20);
             this.lblFrameIndex.Spring = true;
             this.lblFrameIndex.Text = "Frame index";
             this.lblFrameIndex.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -78,8 +78,8 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(341, 20);
-            this.toolStripStatusLabel1.Text = "<- -> - image selection, Ctrl/Alt + u/r - undo/redo";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(362, 20);
+            this.toolStripStatusLabel1.Text = "<- -> - image selection, Ctrl + A - toggle annotations";
             // 
             // txtLabel
             // 
