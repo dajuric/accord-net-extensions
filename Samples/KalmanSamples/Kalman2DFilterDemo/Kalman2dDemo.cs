@@ -34,19 +34,19 @@ namespace Kalman2DFilterDemo
 
         private void initializeKalman()
         {
-            float positionNoise = (float)numPositionNoise.Value, velocityNoise = (float)numVelocityNoise.Value;
+            float accelNoise = (float)numProcessNoise.Value;
             float measurementNoise = (float)numMeasurementNoise.Value;
 
             var measurementDimension = 2; //just coordinates
 
-            var initialState = process.GetNoisyState(positionNoise, velocityNoise); //assuming we measured process params (noise)
-            var initialStateError = ModelState.GetProcessNoise(positionNoise, velocityNoise).ElementwisePower(2); //assuming we measured process params (noise) - ^2 => variance
+            var initialState = process.GetNoisyState(accelNoise); //assuming we measured process params (noise)
+            var initialStateError = ModelState.GetProcessNoise(accelNoise);
 
             kalman = new DiscreteKalmanFilter<ModelState, PointF>(initialState, initialStateError,
                                                                   measurementDimension /*(position)*/, 0 /*no control*/,
                                                                   x => ModelState.ToArray(x), x => ModelState.FromArray(x), x => new double[] { x.X, x.Y });
 
-            kalman.ProcessNoise = ModelState.GetProcessNoise(positionNoise, velocityNoise).ElementwisePower(2); //assuming we measured process params (noise) - ^2 => variance
+            kalman.ProcessNoise = ModelState.GetProcessNoise(accelNoise);
             kalman.MeasurementNoise = Matrix.Diagonal<double>(kalman.MeasurementVectorDimension, measurementNoise).ElementwisePower(2); //assuming we measured process params (noise) - ^2 => variance
 
             kalman.MeasurementMatrix = new double[,] //just pick point coordinates for an observation [2 x 4] (look at ConstantVelocity2DModel)
@@ -168,11 +168,11 @@ namespace Kalman2DFilterDemo
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            float positionNoise = (float)numPositionNoise.Value, velocityNoise = (float)numVelocityNoise.Value;
+            float accelNoise = (float)numProcessNoise.Value;
             float measurementNoise = (float)numMeasurementNoise.Value;
 
             /**************************************** get data *******************************************/
-            var processPosition = process.GetNoisyState(positionNoise, velocityNoise).Position;
+            var processPosition = process.GetNoisyState(accelNoise).Position;
 
             bool measurementExist;
             var measurement = process.TryGetNoisyMeasurement(measurementNoise, out measurementExist);

@@ -43,13 +43,13 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="data">Database.</param>
         /// <returns>Annotations from all images.</returns>
-        public static IEnumerable<Annotation> GetAnnotations(this Database data, Func<string, bool> imgKeySelector, Func<Annotation, bool> annotationSelector)
+        public static IEnumerable<KeyValuePair<string, Annotation>> GetAnnotations(this Database data, Func<string, bool> imgKeySelector, Func<Annotation, bool> annotationSelector)
         {
             var annotations = from pair in data
-                              where imgKeySelector(pair.Key)
-                              from ann in pair.Value
-                              where annotationSelector(ann)
-                              select ann;
+                                where imgKeySelector(pair.Key)
+                                from ann in pair.Value
+                                    where annotationSelector(ann)
+                                    select new KeyValuePair<string, Annotation>(pair.Key, ann);
 
             return annotations;
         }
@@ -58,7 +58,7 @@ namespace Accord.Extensions.Imaging
         /// Gets annotations from all images (flattens the database).
         /// </summary>
         /// <param name="data">Database.</param>
-        public static IEnumerable<Annotation> GetAnnotations(this Database data)
+        public static IEnumerable<KeyValuePair<string, Annotation>> GetAnnotations(this Database data)
         {
             return GetAnnotations(data, (_) => true, (_) => true);
         }

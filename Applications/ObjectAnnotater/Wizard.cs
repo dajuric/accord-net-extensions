@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Accord.Extensions.Imaging;
 using Accord.Extensions;
 using System.IO;
+using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 
 namespace ObjectAnnotater
 {
@@ -65,7 +66,7 @@ namespace ObjectAnnotater
         {
             using (var diag = new OpenFileDialog())
             {
-                diag.Filter = "*.avi|*.avi | *.mp4|*.mp4 | *.wmv|*.wmv  |  All Files (*.*)|*.*";
+                diag.Filter = "Video files (*.avi, *.mp4, *.wmv, *.mxf)|*.avi;*.mp4;*.wmv;*.mxf|All Files (*.*)|*.*";
 
                 var result = diag.ShowDialog();
                 if (result == DialogResult.OK)
@@ -88,7 +89,7 @@ namespace ObjectAnnotater
                 {
                     isAnnotationFileValid(diag.FileName);
 
-                    DatabaseFileName = diag.FileName;
+                    this.DatabaseFileName = diag.FileName;
                     this.lblAnnFile.Text = "Annotation file:" + "\n" + new FileInfo(diag.FileName).Name;
                 }
             }

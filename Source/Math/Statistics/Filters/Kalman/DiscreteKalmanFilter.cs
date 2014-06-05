@@ -1,4 +1,5 @@
 ﻿using Accord.Math;
+using Accord.Extensions.Math;
 using System;
 
 namespace Accord.Extensions.Statistics.Filters
@@ -31,38 +32,96 @@ namespace Accord.Extensions.Statistics.Filters
         /// 
         /// x'(k) = A * x(k-1) + B * u(k).
         /// P'(k) = A * P(k-1) * At + Q 
+        /// K(k) = P'(k) * Ht * (H * P'(k) * Ht + R)^(-1)
         /// </summary>
-        protected override void predict(double[] controlVector)
+        protected override void predictInternal(double[] controlVector)
         {
-            this.state = this.TransitionMatrix.Multiply(this.state);
-                
+            //x'(k) = A * x(k-1)
+            this.state = this.state.Multiply(this.TransitionMatrix);
+
+            //x'(k) =  x'(k) + B * u(k)
             if(controlVector != null)
                 this.state = this.state.Add(this.ControlMatrix.Multiply(controlVector));
 
+           //P'(k) = A * P(k-1) * At + Q 
            this.ErrorCovariance = this.TransitionMatrix.Multiply(this.ErrorCovariance).Multiply(this.TransitionMatrix.Transpose()).Add(this.ProcessNoise);
+
+           /******* calculate Kalman gain **********/
+           var measurementMatrixTransponsed = this.MeasurementMatrix.Transpose();
+
+           //S(k) = H * P'(k) * Ht + R
+           this.CovarianceMatrix = this.MeasurementMatrix.Multiply(this.ErrorCovariance).Multiply(measurementMatrixTransponsed).Add(this.MeasurementNoise);
+           this.CovarianceMatrixInv = this.CovarianceMatrix.Inverse();
+
+           //K(k) = P'(k) * Ht * S(k)^(-1)
+           this.KalmanGain = this.ErrorCovariance.Multiply(measurementMatrixTransponsed).Multiply(this.CovarianceMatrixInv);
+           /******* calculate Kalman gain **********/
         }
 
         /// <summary>
         /// The function adjusts the stochastic model state on the basis of the given measurement of the model state <see cref="CorrectedState"/>.
         /// 
-        /// K(k) = P'(k) * Ht * (H * P'(k) * Ht + R)^(-1)
         /// x(k) = x'(k) + K(k) * (z(k) - H * x'(k))
         /// P(k) =(I - K(k) * H) * P'(k)
         /// </summary>
         /// <param name="measurement">Obtained measurement vector.</param>
-        protected override void correct(double[] measurement)
+        protected override void correctInternal(double[] measurement)
         {
-            var measurementMatrixTransponsed = this.MeasurementMatrix.Transpose();
+            //innovation vector (measurement error)
+            var delta = this.CalculatePredictionError(measurement);
+            correct(delta);
+        }
 
-            var S = this.MeasurementMatrix.Multiply(this.ErrorCovariance).Multiply(measurementMatrixTransponsed).Add(this.MeasurementNoise);
-            this.KalmanGain = this.ErrorCovariance.Multiply(measurementMatrixTransponsed).Multiply(S.Inverse());
+        private void correct(double[] innovationVector)
+        {
+            if (innovationVector.Length != this.MeasurementVectorDimension)
+                throw new Exception("PredicitionError error vector (innovation vector) must have the same length as measurement.");
 
-            var predictedMeasurement = this.MeasurementMatrix.Multiply(this.state);
-            var measurementError = measurement.Subtract(predictedMeasurement);
-            this.state = this.state.Add(this.KalmanGain.Multiply(measurementError));
+            //correct state using Kalman gain
+            this.state = this.state.Add(this.KalmanGain.Multiply(innovationVector));
 
             var identity = Matrix.Identity(this.StateVectorDimension);
             this.ErrorCovariance = (identity.Subtract(this.KalmanGain.Multiply(this.MeasurementMatrix))).Multiply(this.ErrorCovariance.Transpose());
+        }
+
+        /// <summary>
+        /// Corrects the state error covariance based on innovation vector and Kalman update.
+        /// </summary>
+        /// <param name="innovationVector">The difference between predicted state and measurement.</param>
+        internal void Correct(double[] innovationVector)
+        {
+            //innovationVector error handled by correct(...)
+
+            checkPrerequisites();
+            correct(innovationVector);
+        }
+
+        /// <summary>
+        /// Corrects the state error covariance based on innovation vector and Kalman update.
+        /// </summary>
+        /// <param name="innovationVector">The difference between predicted state and measurement.</param>
+        /// <param name="covarianceMixtureFactor">Covariance mixture factor. Used in JPDAF. For Kalman filter default value is 0.</param>
+        /// <param name="innovationCovariance">The innovation covariance matrix. Used primary by JPDAF.</param>
+        internal void Correct(double[] innovationVector, double covarianceMixtureFactor, double[,] innovationCovariance)
+        {
+            //innovationVector error handled by correct(...)
+
+            if (innovationCovariance.ColumnCount() != this.MeasurementVectorDimension ||
+                innovationCovariance.RowCount()    != this.MeasurementVectorDimension)
+            {
+                throw new ArgumentException("Innovation matrix must have the same dimensions and the dimension must be equal to the measurement vector length.");
+            }
+
+            checkPrerequisites();
+
+            var priorErrorCovariance = this.ErrorCovariance.Multiply(covarianceMixtureFactor);
+
+            this.correct(innovationVector);
+            var posterioriErrorCovariance = this.ErrorCovariance.Multiply(1 - covarianceMixtureFactor);
+
+            var innovationCov = this.KalmanGain.Multiply(innovationCovariance).Multiply(this.KalmanGain.Transpose());
+
+            this.ErrorCovariance = priorErrorCovariance.Add(posterioriErrorCovariance).Add(innovationCov);
         }
     }
 }

@@ -106,7 +106,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="contour">Contour.</param>
         /// <param name="ptIdx">Point index for which to find the closest point.</param>
         /// <param name="startIdx">Start point from which the search begins.</param>
-        /// <param name="direction">Search direction. If &gt 0 then search continoues in the positive direction, if &lt 0 then search is continoued toward negative indeces.</param>
+        /// <param name="direction">Search direction. If &gt 0 then search continues in the positive direction, if &lt 0 then search is continued toward negative indeces.</param>
         /// <param name="scale">A good value is ~15. A specified region will be searched every time to avoid local minima.</param>
         /// <param name="distance">Distance from <see cref="ptIdx"/> to returned point index.</param>
         /// <returns>Closest point index regarding <see cref="ptIdx"/>,</returns>

@@ -1,6 +1,7 @@
 ﻿using Accord.Extensions.Math.Geometry;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Moments;
+using Accord.Math;
 using AForge;
 using System;
 
@@ -69,33 +70,23 @@ namespace Accord.Extensions.Vision
         /// <param name="centralMoments">Calculated central moments (up to order 2).</param>
         /// <returns>Object position, size and angle packed into a structure.</returns>
         public static Box2D Process(Image<Gray, byte> probabilityMap, Rectangle roi, TermCriteria termCriteria, out CentralMoments centralMoments)
-        {
-            int width = probabilityMap.Width;
-            int height = probabilityMap.Height;
-
-            Rectangle imageArea = new Rectangle(0, 0, width, height);
-         
+        {         
             // Compute mean shift
             Rectangle objArea = Meanshift.Process(probabilityMap, roi, termCriteria, out centralMoments);
 
-            float objAngle;
-            SizeF objSize = centralMoments.GetSizeAndOrientation(out objAngle);
+            //fit ellipse
+            Ellipse ellipse = centralMoments.GetEllipse();
+            ellipse.Center = objArea.Center();
 
-            if (Single.IsNaN(objSize.Width) || Single.IsNaN(objSize.Height) ||
-                Single.IsNaN(objAngle) || objSize.Width < 1 || objSize.Height < 1)
+            //return empty structure is the object is lost
+            var sz = ellipse.Size;
+            if (Single.IsNaN(sz.Width) || Single.IsNaN(sz.Height) ||
+                sz.Width < 1 || sz.Height < 1)
             {
                 return Box2D.Empty;
             }
 
-            // Truncate to integer coordinates
-            IntPoint center = new IntPoint(objArea.X + objArea.Width / 2, objArea.Y + objArea.Height / 2);
-
-            Rectangle rec = new Rectangle((int)(center.X - objSize.Width * 0.5f),
-                                          (int)(center.Y - objSize.Height * 0.5f),
-                                          (int)objSize.Width, (int)objSize.Height);
-
-            var objAngleDeg = (float)Angle.ToDegrees(objAngle);
-            return new Box2D(rec, (float)Angle.NormalizeDegrees(objAngleDeg - 90)); //rotate uses screen coordinate system (controlled by parameter)
+            return (Box2D)ellipse;
         }
     }
 

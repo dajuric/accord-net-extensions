@@ -4,12 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Accord.Extensions.Math;
+using Accord.Math;
+using Accord.Extensions.Math.Geometry;
+using Accord.Math.Decompositions;
+using Accord.Statistics.Distributions.Univariate;
+using PointF = AForge.Point;
 
 namespace Accord.Extensions.Statistics.Filters
 {  
     /// <summary>
     /// A Kalman filter is a recursive solution to the general dynamic estimation problem for the
-    /// important special case of linear system models and gaussian noise.
+    /// important special case of linear system models and Gaussian noise.
     /// <para>The Kalman Filter uses a predictor-corrector structure, in which
     /// if a measurement of the system is available at time <italic>t</italic>,
     /// we first call the Predict function, to estimate the state of the system
@@ -36,8 +41,8 @@ namespace Accord.Extensions.Statistics.Filters
         /// <param name="stateConvertBackFunc">State conversion function: double[] => TState</param>
         /// <param name="measurementConvertFunc">Measurement conversion function: TMeasurement => double[]</param>
         protected KalmanFilter(TState initialState, double[,] initialStateError, 
-                            int measurementVectorDimension, int controlVectorDimension, 
-                            Func<TState, double[]> stateConvertFunc, Func<double[], TState> stateConvertBackFunc, Func<TMeasurement, double[]> measurementConvertFunc)
+                               int measurementVectorDimension, int controlVectorDimension, 
+                               Func<TState, double[]> stateConvertFunc, Func<double[], TState> stateConvertBackFunc, Func<TMeasurement, double[]> measurementConvertFunc)
         {
             initalize(initialState, initialStateError,
                       measurementVectorDimension, controlVectorDimension, 
@@ -62,7 +67,7 @@ namespace Accord.Extensions.Statistics.Filters
             this.measurementConvertFunc = measurementConvertFunc;
         }
 
-        private void checkPrerequisites()
+        protected void checkPrerequisites()
         {
             /************************** TRANSITION MATRIX ***************************/
             if (this.TransitionMatrix == null)
@@ -120,6 +125,26 @@ namespace Accord.Extensions.Statistics.Filters
         }
 
         /// <summary>
+        /// Gets Kalman covariance matrix (S). [p x p] matrix.
+        /// This matrix servers for Kalman gain calculation.
+        /// <para>The matrix along with innovation vector can be used to achieve gating in JPDAF. See: <see cref="JPDAF.Kalman"/> filter.</para>
+        /// </summary>
+        public double[,] CovarianceMatrix 
+        {
+            get; 
+            protected set; 
+        }
+
+        /// <summary>
+        /// Gets the inverse of covariance matrix. See: <see cref="CovarianceMatrix"/>.
+        /// </summary>
+        public double[,] CovarianceMatrixInv
+        {
+            get;
+            protected set;
+        }
+
+        /// <summary>
         /// Gets Kalman gain matrix (K). [n x p] matrix.
         /// </summary>
         public double[,] KalmanGain
@@ -141,7 +166,7 @@ namespace Accord.Extensions.Statistics.Filters
 
         /// <summary>
         /// Estimates the subsequent model state. 
-        /// This function is implementation dependent.
+        /// This function is implementation-dependent.
         /// </summary>
         public void Predict()
         {
@@ -150,27 +175,31 @@ namespace Accord.Extensions.Statistics.Filters
 
         /// <summary>
         /// Estimates the subsequent model state.
-        /// This function is implementation dependent.
+        /// This function is implementation-dependent.
         /// </summary>
         public void Predict(double[] controlVector)
         {
             checkPrerequisites();
-            predict(controlVector);
+            predictInternal(controlVector);
         }
 
-        protected abstract void predict(double[] controlVector);
+        protected abstract void predictInternal(double[] controlVector);
 
         #endregion
 
         #region Correct methods
 
+        /// <summary>
+        /// Corrects the state error covariance based on innovation vector and Kalman update.
+        /// </summary>
+        /// <param name="innovationVector">The measurement.</param>
         public void Correct(TMeasurement measurement) 
         {
             checkPrerequisites();
-            correct(measurementConvertFunc(measurement));
+            correctInternal(measurementConvertFunc(measurement));
         }
 
-        protected abstract void correct(double[] measurement);
+        protected abstract void correctInternal(double[] measurement);
 
         #endregion
 
@@ -234,7 +263,7 @@ namespace Accord.Extensions.Statistics.Filters
         #region IKalmanDataInfo Members
 
         /// <summary>
-        /// Gets state dimensionionality.
+        /// Gets state dimensionality.
         /// </summary>
         public int StateVectorDimension
         {
@@ -243,7 +272,7 @@ namespace Accord.Extensions.Statistics.Filters
         }
 
         /// <summary>
-        /// Gets measurement dimensionionality.
+        /// Gets measurement dimensionality.
         /// </summary>
         public int MeasurementVectorDimension
         {
@@ -252,12 +281,62 @@ namespace Accord.Extensions.Statistics.Filters
         }
 
         /// <summary>
-        /// Gets control vector dimensionionality.
+        /// Gets control vector dimensionality.
         /// </summary>
         public int ControlVectorDimension
         {
             get;
             private set;
+        }
+
+        #endregion
+
+        #region Misc methods
+
+        public double[] CalculatePredictionError(TMeasurement measurement)
+        {
+            checkPrerequisites();
+
+            var m = measurementConvertFunc(measurement);
+            return CalculatePredictionError(m);
+        }
+
+        internal double[] CalculatePredictionError(double[] measurement)
+        {
+            //innovation vector (measurement error)
+            var predictedMeasurement = this.MeasurementMatrix.Multiply(this.state);
+            var measurementError = measurement.Subtract(predictedMeasurement);
+            return measurementError;
+        }
+
+        public double CalculateEntropy()
+        {
+            return CalculateEntropy(this.ErrorCovariance);
+        }
+
+        public static double CalculateEntropy(double[,] errorCovariance)
+        {
+            if (errorCovariance == null || errorCovariance.RowCount() != errorCovariance.ColumnCount())
+                throw new ArgumentException("Error covariance matrix (P) must have the same number of rows and columns.");
+
+            var stateVectorDim = errorCovariance.RowCount();
+
+            var errorCovDet = errorCovariance.Determinant();
+            double entropy = (float)stateVectorDim / 2 * System.Math.Log(4 * System.Math.PI) + (float)1 / 2 * System.Math.Log(errorCovDet);
+            return entropy;
+        }
+
+        public Ellipse GetEllipse(Func<TState, PointF> positionSelector, double confidence = 0.99, double[,] positionSelectionMatrix = null)
+        {
+            positionSelectionMatrix = positionSelectionMatrix ?? this.MeasurementMatrix;
+
+            var measurementErrorCov = positionSelectionMatrix.Multiply(this.ErrorCovariance).Multiply(positionSelectionMatrix.Transpose());
+            var chiSquare = new ChiSquareDistribution(2).InverseDistributionFunction(confidence);
+
+            var cov = measurementErrorCov.Multiply(chiSquare);
+            var ellipse = Ellipse.Fit(cov);
+            ellipse.Center = positionSelector(this.State);
+            return ellipse;
         }
 
         #endregion

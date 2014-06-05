@@ -9,7 +9,7 @@ using Database = System.Collections.Generic.Dictionary<string, System.Collection
 namespace Accord.Extensions.Imaging
 {
     /// <summary>
-    /// <para>methods of this class can be used as extensions.</para>
+    /// <para>Methods of this class can be used as extensions.</para>
     /// Provides extension methods for the annotation database structure:
     /// <para>    Dictionary(imageKey, list of annotations).</para>
     /// </summary>
@@ -50,6 +50,7 @@ namespace Accord.Extensions.Imaging
             foreach (var imageAnnotations in elems)
             {
                 data[imageAnnotations.ImageKey] = imageAnnotations.Annotations;
+                //data[(Int32.Parse(imageAnnotations.ImageKey) - 3).ToString()] = imageAnnotations.Annotations;
             }
         }
 

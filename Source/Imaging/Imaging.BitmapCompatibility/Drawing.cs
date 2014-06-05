@@ -87,7 +87,7 @@ namespace Accord.Extensions.Imaging
 
         #endregion
 
-        #region Box
+        #region Box & Ellipse
 
         /// <summary>
         /// Draws Box2D.
@@ -113,6 +113,33 @@ namespace Accord.Extensions.Imaging
 
                     g.DrawLine(pen, vertices[i], vertices[idx2]);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Draws ellipse.
+        /// </summary>
+        /// <param name="image">Input image.</param>
+        /// <param name="ellipse">Ellipse.</param>
+        /// <param name="color">Object's color.</param>
+        /// <param name="thickness">Border thickness.</param>
+        public static void Draw<TColor>(this Image<TColor, byte> image, Ellipse ellipse, TColor color, float thickness)
+            where TColor : IColor3
+        {
+            var drawingColor = color.ToColor();
+            var pen = new System.Drawing.Pen(drawingColor, thickness);
+
+            var bmp = image.ToBitmap(false, true);
+            using (var g = System.Drawing.Graphics.FromImage(bmp))
+            {
+                g.ResetTransform();                             
+                g.TranslateTransform(ellipse.Center.X, ellipse.Center.Y);
+                g.RotateTransform(ellipse.Angle);  
+                g.DrawEllipse(pen,
+                              -ellipse.Size.Width / 2,
+                              -ellipse.Size.Height / 2,
+                              ellipse.Size.Width, 
+                              ellipse.Size.Height);
             }
         }
 

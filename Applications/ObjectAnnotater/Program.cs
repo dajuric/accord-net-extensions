@@ -41,7 +41,7 @@ namespace ObjectAnnotater
             /*capture = new FileCapture(@"S:\Detekcija_Ruke\WIN_20140311_121008.mp4");
             databaseFileName = @"\\darko-pc\Users\Darko\Google disk\bla.xml";*/
 
-            if (capture == null && databaseFileName == null) //a user clicked "X" without data selection
+            if (capture == null) //a user clicked "X" without data selection
             {
                 //MessageBox.Show("Capture or database file name is null!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -55,8 +55,29 @@ namespace ObjectAnnotater
                 return;
             }
 
-            if(capture != null && databaseFileName != null)
-                Application.Run(new ObjectAnnotater(capture, databaseFileName));
+            if (capture != null && databaseFileName != null)
+            {
+                ObjectAnnotater form = null;
+                try
+                {
+                    form = new ObjectAnnotater(capture, databaseFileName);
+                    Application.Run(form);
+                }
+                catch (Exception)
+                {
+                    var fInfo = new FileInfo(databaseFileName);
+                    var autosaveName = fInfo.Name.Replace(fInfo.Extension, String.Empty) + "-autosave" + fInfo.Extension;
+
+                    autosaveName = Path.Combine(fInfo.DirectoryName, autosaveName);
+                    form.Database.Save(autosaveName);
+
+                    var msg = "Unfortunately not your fault :/" + "\r\n" +
+                              "However your work is successfully saved to:" + "\r\n" +
+                              autosaveName;
+
+                    MessageBox.Show(msg, "Fatal error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
 
             capture.Close();
         }

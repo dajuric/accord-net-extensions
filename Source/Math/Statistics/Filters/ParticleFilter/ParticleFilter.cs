@@ -40,7 +40,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// <param name="measure">Assign weight to each particle.</param>
         /// <param name="normalize">Normalization function.</param>
         /// <param name="resample">Resample particles (creates new swarm).</param>
-        /// <param name="effectiveCountMinRatio">If caclualted effective count ratio is lower than user specified value resampling will occur, otherwise not.
+        /// <param name="effectiveCountMinRatio">If calculated effective count ratio is lower than user specified value resampling will occur, otherwise not.
         /// <para>The range is [0..1]. If resampling must occur every time put 1.</para>
         /// </param>
         public static IEnumerable<TParticle> Update<TParticle>(this IEnumerable<TParticle> particles, 
@@ -77,7 +77,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// <param name="measure">Assign weight to each particle.</param>
         /// <param name="normalize">Normalization function.</param>
         /// <param name="resample">Resample particles (creates new swarm).</param>
-        /// <param name="effectiveCountMinRatio">If caclualted effective count ratio is lower than user specified value resampling will occur, otherwise not.
+        /// <param name="effectiveCountMinRatio">If calculated effective count ratio is lower than user specified value resampling will occur, otherwise not.
         /// <para>The range is [0..1]. If resampling must occur every time put 1.</para>
         /// </param>
         public static IEnumerable<TParticle> Update<TParticle>(this IEnumerable<TParticle> particles,

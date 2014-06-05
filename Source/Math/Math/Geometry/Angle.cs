@@ -48,7 +48,7 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Caclulates absolute distance in degrees for two angles in degrees.
+        /// Calculates absolute distance in degrees for two angles in degrees.
         /// </summary>
         /// <param name="angleDegA">First angle in degrees.</param>
         /// <param name="angleDegB">Second angle in degrees.</param>

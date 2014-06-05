@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using Accord.Extensions.Statistics.Filters;
 using PointF = AForge.Point;
+using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
 
 namespace Kalman2DFilterDemo
@@ -67,27 +68,30 @@ namespace Kalman2DFilterDemo
             currentState = nextState;
         }
 
-        public ConstantVelocity2DModel GetNoisyState(double positionNoise, double velocityNoise)
+        public ConstantVelocity2DModel GetNoisyState(double accelerationNoise)
         {
+            var processNoiseMat = ConstantVelocity2DModel.GetProcessNoise(accelerationNoise);
+            var noise = normalDistribution.Generate(ConstantVelocity2DModel.Dimension).Multiply(processNoiseMat);
+            
             return new ConstantVelocity2DModel
             {
                 Position = new PointF 
                 {
-                    X = currentState.Position.X + (float)normalDistribution.Generate() * (float)positionNoise,
-                    Y = currentState.Position.Y + (float)normalDistribution.Generate() * (float)positionNoise
+                    X = currentState.Position.X + (float)noise[0],
+                    Y = currentState.Position.Y + (float)noise[2]
                 },
 
                 Velocity = new PointF
                 {
-                    X = currentState.Velocity.X + (float)normalDistribution.Generate() * (float)velocityNoise,
-                    Y = currentState.Velocity.Y + (float)normalDistribution.Generate() * (float)velocityNoise
+                    X = currentState.Velocity.X + (float)noise[1],
+                    Y = currentState.Velocity.Y + (float)noise[3]
                 }
             };
         }
 
-        public PointF TryGetNoisyMeasurement(double measurementNoise, out bool isSuccess)
+        public PointF TryGetNoisyMeasurement(double measurementNoise, out bool isSuccess, double missingMeasurementProbability = 0.2)
         {
-            isSuccess = rand.NextDouble() > 0.2;
+            isSuccess = rand.NextDouble() > missingMeasurementProbability;
             if (!isSuccess)
                 return new PointF();
 

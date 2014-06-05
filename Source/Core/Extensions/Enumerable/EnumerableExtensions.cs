@@ -137,6 +137,36 @@ namespace Accord.Extensions
         }
 
         /// <summary>
+        /// Removes user-specified elements from the list.
+        /// </summary>
+        /// <typeparam name="T">Element type.</typeparam>
+        /// <param name="src">Data collection.</param>
+        /// <param name="elements">Elements to remove.</param>
+        public static void Remove<T>(this IList<T> src, IEnumerable<T> elements)
+            where T: class
+        {
+            var readOnlyElements = elements.ToList(); //support if the elements is the same collection as src
+
+            foreach (var e in readOnlyElements)
+            {
+                src.Remove(e);
+            }
+        }
+
+        /// <summary>
+        /// Removes user-specified element indices from the collection.
+        /// </summary>
+        /// <typeparam name="T">Element type.</typeparam>
+        /// <param name="src">Data collection.</param>
+        /// <param name="elementIndices">Indices of the elements to remove.</param>
+        public static void RemoveAt<T>(this IList<T> src, IEnumerable<int> elementIndices)
+            where T: class
+        {
+            var elementsToRemove = src.GetAt(elementIndices); //TODO - noncritical: make a better implementation
+            src.Remove(elementsToRemove);
+        }
+
+        /// <summary>
         /// Creates a collection using provided function.
         /// </summary>
         /// <typeparam name="T">Element type.</typeparam>

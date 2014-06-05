@@ -74,6 +74,20 @@ namespace Accord.Extensions.Math.Geometry
                 Y = System.Math.Min(System.Math.Max(rect.Y, point.Y), rect.Bottom - 1)
             };
         }
+
+        /// <summary>
+        /// Negates point coordinates.
+        /// </summary>
+        /// <param name="point">The point to negate.</param>
+        /// <returns>Point with negated coordinates.</returns>
+        public static Point Negate(this Point point)
+        {
+            return new Point
+            {
+                X = -point.X,
+                Y = -point.Y
+            };
+        }
     }
 
     /// <summary>
@@ -164,6 +178,20 @@ namespace Accord.Extensions.Math.Geometry
             double rotatedY = p.X * sin + p.Y * cos;
 
             return new PointF((float)rotatedX, (float)rotatedY);
+        }
+
+        /// <summary>
+        /// Negates point coordinates.
+        /// </summary>
+        /// <param name="point">The point to negate.</param>
+        /// <returns>Point with negated coordinates.</returns>
+        public static PointF Negate(this PointF point)
+        {
+            return new PointF
+            {
+                X = -point.X,
+                Y = -point.Y
+            };
         }
     }
 

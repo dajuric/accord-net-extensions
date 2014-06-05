@@ -24,6 +24,8 @@ namespace Accord.Extensions.Imaging.Moments
 {
     using System;
     using Accord.Extensions;
+    using Accord.Extensions.Math.Geometry;
+    using PointF = AForge.Point;
 
     /// <summary>
     ///   Central image moments.
@@ -172,7 +174,7 @@ namespace Accord.Extensions.Imaging.Moments
         {
             float x = moments.CenterX;
             float y = moments.CenterY;
-
+            
             Mu00 = moments.M00;
 
             Mu01 = Mu10 = 0;
@@ -199,78 +201,18 @@ namespace Accord.Extensions.Imaging.Moments
         }
 
         /// <summary>
-        ///   Gets the size of the ellipse containing the image.
+        /// Gets the size and the orientation of the ellipse computed from covariance matrix.
+        /// The ellipse center is at (0,0).
         /// </summary>
-        /// 
-        /// <returns>The size of the ellipse containing the image.</returns>
-        /// 
-        public SizeF GetSize()
+        /// <returns></returns>
+        public Ellipse GetEllipse()
         {
             // Compute the covariance matrix
-            //
             double a = Mu20 * invM00; //                | a    b |
             double b = Mu11 * invM00; //  Cov[I(x,y)] = |        |
             double c = Mu02 * invM00; //                | b    c |
 
-            double d = a + c, e = a - c;
-            double s = Math.Sqrt((4.0 * b * b) + (e * e));
-
-            // Compute size
-            return new SizeF((float)Math.Sqrt((d + s) * 0.5) * 4,
-                             (float)Math.Sqrt((d - s) * 0.5) * 4);
+            return Ellipse.Fit(a, b, c);
         }
-
-        /// <summary>
-        ///   Gets the orientation of the ellipse containing the image.
-        /// </summary>
-        /// 
-        /// <returns>The angle of orientation of the ellipse, in radians.</returns>
-        /// 
-        public float GetOrientation()
-        {
-            // Compute the covariance matrix
-            //
-            double a = Mu20 * invM00; //                | a    b |
-            double b = Mu11 * invM00; //  Cov[I(x,y)] = |        |
-            double c = Mu02 * invM00; //                | b    c |
-
-            // Compute eigenvalues of the covariance matrix
-            double d = a + c, e = a - c;
-            double s = Math.Sqrt((4.0 * b * b) + (e * e));
-
-            // Compute angle
-            float angle = (float)Math.Atan2(2.0 * b, e + s);
-            if (angle < 0) angle = (float)(angle + Math.PI);
-
-            return angle;
-        }
-
-        /// <summary>
-        ///   Gets both size and orientation of the ellipse containing the image.
-        /// </summary>
-        /// 
-        /// <param name="angle">The angle of orientation of the ellipse, in radians.</param>
-        /// <returns>The size of the ellipse containing the image.</returns>
-        /// 
-        public SizeF GetSizeAndOrientation(out float angle)
-        {
-            // Compute the covariance matrix
-            //
-            double a = Mu20 * invM00; //                | a    b |
-            double b = Mu11 * invM00; //  Cov[I(x,y)] = |        |
-            double c = Mu02 * invM00; //                | b    c |
-
-            double d = a + c, e = a - c;
-            double s = Math.Sqrt((4.0 * b * b) + (e * e));
-
-            // Compute angle
-            angle = (float)Math.Atan2(2.0 * b, e + s);
-            if (angle < 0) angle = (float)(angle + Math.PI);
-
-            // Compute size
-            return new SizeF((float)Math.Sqrt((d - s) * 0.5) * 4,
-                             (float)Math.Sqrt((d + s) * 0.5) * 4);
-        }
-
     }
 }

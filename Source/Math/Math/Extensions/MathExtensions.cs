@@ -125,6 +125,40 @@ namespace Accord.Extensions.Math
         }
 
         #endregion
+
+        /// <summary>
+        /// Calculates Jacobian matrix.
+        /// The size of an Jacobian matrix is [func output length x arg length]
+        /// </summary>
+        /// <param name="evalFunc">
+        /// Evaluation function.
+        /// arg: starting point 
+        /// returns: function result.
+        /// </param>
+        /// <param name="arg">Starting point.</param>
+        /// <param name="eps">Delta between two points.</param>
+        /// <returns>Jacobian matrix.</returns>
+        public static double[,] CalculateJacobian(Func<double[], double[]> evalFunc, double[] arg, double eps = 1e-8)
+        {
+            var originalResult = evalFunc(arg);
+            var jacobian = new double[originalResult.Length, arg.Length];
+
+            //derivations for arg parts
+            for (int j = 0; j < arg.Length; j++)
+            {
+                var argShift = (double[])arg.Clone();
+                argShift[j] += eps;
+
+                //derivations for func
+                var result = evalFunc(argShift);
+                for (int i = 0; i < result.Length; i++)
+                {
+                    jacobian[j, i] = (result[i] - originalResult[i]) / eps;
+                }
+            }
+
+            return jacobian;
+        }
     }
 
     /// <summary>

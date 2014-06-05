@@ -13,7 +13,7 @@ namespace Accord.Extensions
         /// </summary>
         /// <param name="action">User specified action.</param>
         /// <returns></returns>
-        public static long Measure(Action action)
+        public static long MeasureTime(Action action)
         {
             long s = DateTime.Now.Ticks;
 

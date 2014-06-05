@@ -1,4 +1,6 @@
 ﻿using Accord.Statistics.Distributions.Univariate;
+using Accord.Extensions.Math;
+using Accord.Math;
 using AForge;
 using System;
 using System.Collections;
@@ -6,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Accord.Statistics.Distributions.Multivariate;
 
 namespace Accord.Extensions.Statistics.Filters
 {
@@ -62,11 +65,9 @@ namespace Accord.Extensions.Statistics.Filters
         /// Draws particles according to particle's weight.
         /// <param name="particles">Particles from which to draw samples. If they are already sorted.</param>
         /// </summary>
-        public static IEnumerable<TParticle> SimpleResampler<TParticle>(IList<TParticle> particles, IList<double> normalizedWeights, bool sortParticles = true, Func<int, TParticle, TParticle> newParticleCreator = null)
+        public static IEnumerable<TParticle> SimpleResampler<TParticle>(IList<TParticle> particles, IList<double> normalizedWeights, bool sortParticles = true)
               where TParticle : class, IParticle
         {
-            newParticleCreator = newParticleCreator ?? ((idx, p) => (TParticle)p.Clone());
-
             Int32[] sortedIndices = Enumerable.Range(0, particles.Count).ToArray();
             if (sortParticles)
             {
@@ -103,8 +104,9 @@ namespace Accord.Extensions.Statistics.Filters
 
                 var idx = sortedIndices[particleIdx];
                 var p = particles[idx];
-                var newParticle = newParticleCreator(idx, p);
-                //newParticle.Weight = initialWeight;
+
+                var newParticle = (TParticle)p.Clone();
+                newParticle.Weight = initialWeight;
 
                 resampledParticles.Add(newParticle);
             }
@@ -135,5 +137,45 @@ namespace Accord.Extensions.Statistics.Filters
 
             return normalizedWeights;
         }
+
+        /// <summary>
+        /// Calculates Renyi's quadratic entropy of a particle set.
+        /// </summary>
+        /// <param name="particles">particle filter.</param>
+        /// <param name="stateSelector">Particle state selector function (e.g. [x, y, vX, vY]).</param>
+        /// <returns>Renyi's quadratic entropy of a particle set.</returns>
+        public static double CalculateEntropy<TParticle>(this IEnumerable<TParticle> particles, Func<TParticle, double[]> stateSelector)
+            where TParticle: class, IParticle
+        { 
+            var nParticles = particles.Count();
+
+            /***************** kernel function calculation ******************/
+            var dKrnl = 4;
+            var eKrnl = 1 / (4 + dKrnl);
+            var hKrnl = System.Math.Pow(4 / (dKrnl + 2), eKrnl) * System.Math.Pow(nParticles, -eKrnl); //scaling param
+            
+            var states = particles.Select(x=> stateSelector(x)).ToList();
+            var kernel = states.ToMatrix().Covariance().Multiply(System.Math.Pow(hKrnl, dKrnl)); //particle filter kernel
+            /***************** kernel function calculation ******************/
+
+            var mean = new double[kernel.ColumnCount()];
+            var normalDistribution = new MultivariateNormalDistribution(mean, kernel.Multiply(2));
+
+            var entropy = 0d;
+            for (int i = 0; i < nParticles; i++)
+            {
+                for (int j = 0; j < nParticles; j++)
+                {
+                    var stateDiff = states[i].Subtract(states[j]);
+                    var kernelVal = normalDistribution.ProbabilityDensityFunction(stateDiff);
+
+                    entropy += kernelVal;
+                }
+            }
+
+            entropy = -System.Math.Log10(entropy / (nParticles * nParticles));
+            return entropy;
+        }
+
     }
 }

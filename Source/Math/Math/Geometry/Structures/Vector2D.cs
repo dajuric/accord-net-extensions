@@ -15,6 +15,8 @@ namespace Accord.Extensions.Math.Geometry //TODO: update Vector2D class accordin
     /// </summary>
     public class Vector2D
     {
+        public static readonly Vector2D Empty = new Vector2D(0f, 0f); 
+
         /// <summary>
         /// Creates new <see cref="Vector2D"/> structure.
         /// </summary>
@@ -83,7 +85,7 @@ namespace Accord.Extensions.Math.Geometry //TODO: update Vector2D class accordin
         }
 
         /// <summary>
-        /// Calcualtes angle between vectors (in radians).
+        /// Calculates angle between vectors (in radians).
         /// <seealso cref="Angle"/>
         /// </summary>
         /// <param name="v1">First vector.</param>

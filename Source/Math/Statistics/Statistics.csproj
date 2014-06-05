@@ -50,12 +50,18 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Filters\MotionModels\PerspectiveProjectionCoordinateTransform.cs" />
+    <Compile Include="Filters\TrackAssociation\JPDAF.Kalman.cs" />
+    <Compile Include="Filters\MotionModels\I2DConstantVelocityModel.cs" />
+    <Compile Include="Filters\TrackAssociation\JPDAF.Base.cs" />
+    <Compile Include="Filters\TrackAssociation\JPDAF.ParticleFilter.cs" />
     <Compile Include="Filters\Kalman\Base\KalmanFilter.cs" />
     <Compile Include="Filters\Kalman\DiscreteKalmanFilter.cs" />
-    <Compile Include="Filters\Models\ConstantAcceleration2DModel.cs" />
-    <Compile Include="Filters\Models\ConstantVelocity2DModel.cs" />
+    <Compile Include="Filters\MotionModels\ConstantAcceleration2DModel.cs" />
+    <Compile Include="Filters\MotionModels\ConstantVelocity2DModel.cs" />
     <Compile Include="Filters\ParticleFilter\Particle.cs" />
     <Compile Include="Filters\ParticleFilter\ParticleFilter.cs" />
     <Compile Include="Filters\ParticleFilter\ParticleFilter.Methods.cs" />
@@ -65,6 +71,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj">
+      <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Math\Math.csproj">
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
       <Name>Math</Name>

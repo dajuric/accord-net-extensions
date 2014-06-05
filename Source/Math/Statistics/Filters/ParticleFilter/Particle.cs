@@ -22,4 +22,13 @@ namespace Accord.Extensions.Statistics.Filters
         /// </summary>
         void Difuse();
     }
+
+    /// <summary>
+    /// Particle interface defining common members for all particle instances.
+    /// </summary>
+    /// <typeparam name="TState">State type.</typeparam>
+    public interface IParticle<TState> : IParticle
+    {
+        TState State { get; set; }
+    }
 }

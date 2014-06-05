@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Linq;
+﻿using System.Linq;
 using System.Runtime.InteropServices;
 using Accord.Extensions;
 using PointF = AForge.Point;
@@ -34,11 +33,19 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="rect">Area.</param>
         /// <param name="angle">Angle in degrees.</param>
         public Box2D(RectangleF rect, float angle)
-        {
-            var center = rect.Center();
+            :this(rect.Center(), rect.Size, angle)
+        {}
 
+        /// <summary>
+        /// Creates new structure from area and angle.
+        /// </summary>
+        /// <param name="center">Box2D center.</param>
+        /// <param name="size">Box 2D size.</param>
+        /// <param name="angle">Angle in degrees.</param>
+        public Box2D(PointF center, SizeF size, float angle)
+        {
             this.Center = new PointF(center.X, center.Y);
-            this.Size = rect.Size;
+            this.Size = size;
             this.Angle = angle;
         }
 

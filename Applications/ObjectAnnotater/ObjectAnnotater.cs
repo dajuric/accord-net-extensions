@@ -17,11 +17,12 @@ namespace ObjectAnnotater
     public partial class ObjectAnnotater : Form
     {
         StreamableSource capture = null;
-        Database database = null;
         string databaseFileName = null;
 
         Annotation selectedAnnotation = null;
         List<Annotation> frameAnnotations = null;
+
+        public Database Database { get; private set; }
 
         public ObjectAnnotater()
         {
@@ -35,8 +36,8 @@ namespace ObjectAnnotater
             this.capture = capture;
 
             this.databaseFileName = databaseFileName;
-            this.database = new Database();
-            database.Load(databaseFileName);
+            Database = new Database();
+            Database.Load(databaseFileName);
 
             this.frameAnnotations = new List<Annotation>();
 
@@ -53,31 +54,41 @@ namespace ObjectAnnotater
             if (capture.Position == capture.Length)
                 return;
 
+            frame = capture.ReadAs<Bgr, byte>(); //the order is relevant (position is automatically increased)
+
             var imageKey = getCurrentImageKey();
 
-            if (database.ContainsKey(imageKey) == false)
+            if (Database.ContainsKey(imageKey) == false)
                 frameAnnotations = new List<Annotation>();
             else
-                frameAnnotations = new List<Annotation>(database[imageKey]);
-
-            frame = capture.ReadAs<Bgr, byte>();
-            capture.Seek(-1); //do not move position
+                frameAnnotations = new List<Annotation>(Database[imageKey]);
         }
 
         private void showCurrentInfo()
         {
-            if (capture.Position == capture.Length)
-                return;
+            /*if (capture.Position == capture.Length)
+                return;*/
 
             drawAnnotations();
-            this.lblFrameIndex.Text = (this.capture.Position + 1).ToString();
+           
             this.Text = getCurrentImageKey() + " -> " + new FileInfo(databaseFileName).Name;
 
             if (selectedAnnotation != null)
             {
-                this.txtLabel.Text = selectedAnnotation.Label;
-                this.txtLabel.SelectionStart = this.txtLabel.SelectionLength = 0;
+                this.txtAnnotationLabel.Text = selectedAnnotation.Label;
+                this.txtAnnotationLabel.SelectionStart = this.txtAnnotationLabel.SelectionLength = 0;
             }
+
+            showFrameInfo();
+        }
+
+        private void showFrameInfo()
+        {
+            this.slider.Value = (int)Math.Max(0, this.capture.Position - 1);
+            this.slider.Maximum = (int)(capture.Length - 1);
+
+            this.lblCurrentFrame.Text = this.slider.Value.ToString();
+            this.lblTotalFrames.Text = this.slider.Maximum.ToString();
         }
 
         private void saveCurrentImageAnnotations()
@@ -87,58 +98,40 @@ namespace ObjectAnnotater
 
             var imageKey = getCurrentImageKey();
 
-            if (frameAnnotations.Count == 0 && !database.ContainsKey(imageKey))
+            if (frameAnnotations.Count == 0 && !Database.ContainsKey(imageKey))
                 return; //do not save images that does not have annotations
 
-            database[imageKey] = frameAnnotations.ToList();
-            //database.Save(databaseFileName); //slows to much at fast viewing (only at app closing)
+            Database[imageKey] = frameAnnotations.ToList();
         }
 
         private void getFrame(long offset)
         {
             this.selectedAnnotation = null;
-            saveCurrentImageAnnotations(); 
+            saveCurrentImageAnnotations();
 
-            capture.Seek(offset);
+            if(offset != capture.Position) //faster when reading video
+                capture.Seek(offset, SeekOrigin.Begin);
+
             loadCurrentImageAnnotations();
 
             showCurrentInfo();
-        }
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            switch (keyData)
-            { 
-                case Keys.Left:
-                    getFrame(-1);
-                    break;
-                case Keys.Right:
-                    getFrame(+1);
-                    break;
-                case Keys.Delete:
-                    if (selectedAnnotation != null)
-                        frameAnnotations.Remove(selectedAnnotation);
-                    break;
-                case Keys.Control | Keys.A:
-                    showAnnLabels = !showAnnLabels;
-                    drawAnnotations();
-                    break;
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
+            GC.Collect();
         }
 
         private string getCurrentImageKey()
-        { 
-            string imageKey =null;
+        {
+            string imageKey = null;
 
             if (capture is ImageDirectoryReader)
             {
-                imageKey = (capture as ImageDirectoryReader).CurrentImageName.GetRelativeFilePath(new FileInfo(databaseFileName).Directory);
+                capture.Seek(-1);
+                imageKey = (capture as ImageDirectoryReader).CurrentImageName;
+                imageKey = new FileInfo(imageKey).Name;
+                capture.Seek(+1);
             }
             else if (capture is FileCapture)
             {
-                imageKey = (capture.Position - 1).ToString();
+                imageKey = Math.Max(0, capture.Position - 1).ToString();
             }
             else
                 throw new NotSupportedException("Unsupported image stream reader!");
@@ -171,8 +164,9 @@ namespace ObjectAnnotater
 
             if (roi.Width >= MIN_RECT_SIZE && roi.Height > MIN_RECT_SIZE)
             {
-                selectedAnnotation = new Annotation { Label = this.txtLabel.Text, Polygon = roi.Vertices() };
+                selectedAnnotation = new Annotation { Label = this.txtAnnotationLabel.Text, Polygon = roi.Vertices() };
                 frameAnnotations.Add(selectedAnnotation);
+                enableSave();
             }
 
             roi = Rectangle.Empty;
@@ -202,17 +196,18 @@ namespace ObjectAnnotater
         //taken from: http://www.codeproject.com/Articles/20923/Mouse-Position-over-Image-in-a-PictureBox
         private static Point translateZoomMousePosition(PictureBox control, Point coordinates)
         {
-            var image = control.Image;
+            //check if it is null
+            if (control.Image == null) return coordinates;
+            // try get size
+            Size imageSize = control.Image.Size.ToSize();
 
-            // test to make sure our image is not null
-            if (image == null) return coordinates;
             // Make sure our control width and height are not 0 and our 
             // image width and height are not 0
-            if (control.Width == 0 || control.Height == 0 || control.Image.Width == 0 || control.Image.Height == 0) return coordinates;
+            if (control.Width == 0 || control.Height == 0 || imageSize.Width == 0 || imageSize.Height == 0) return coordinates;
             // This is the one that gets a little tricky. Essentially, need to check 
             // the aspect ratio of the image to the aspect ratio of the control
             // to determine how it is being rendered
-            float imageAspect = (float)control.Image.Width / control.Image.Height;
+            float imageAspect = (float)imageSize.Width / imageSize.Height;
             float controlAspect = (float)control.Width / control.Height;
             float newX = coordinates.X;
             float newY = coordinates.Y;
@@ -220,10 +215,10 @@ namespace ObjectAnnotater
             {
                 // This means that we are limited by width, 
                 // meaning the image fills up the entire control from left to right
-                float ratioWidth = (float)control.Image.Width / control.Width;
+                float ratioWidth = (float)imageSize.Width / control.Width;
                 newX *= ratioWidth;
                 float scale = (float)control.Width / control.Image.Width;
-                float displayHeight = scale * control.Image.Height;
+                float displayHeight = scale * imageSize.Height;
                 float diffHeight = control.Height - displayHeight;
                 diffHeight /= 2;
                 newY -= diffHeight;
@@ -233,9 +228,9 @@ namespace ObjectAnnotater
             {
                 // This means that we are limited by height, 
                 // meaning the image fills up the entire control from top to bottom
-                float ratioHeight = (float)control.Image.Height / control.Height;
+                float ratioHeight = (float)imageSize.Height / control.Height;
                 newY *= ratioHeight;
-                float scale = (float)control.Height / control.Image.Height;
+                float scale = (float)control.Height / imageSize.Height;
                 float displayWidth = scale * control.Image.Width;
                 float diffWidth = control.Width - displayWidth;
                 diffWidth /= 2;
@@ -249,10 +244,10 @@ namespace ObjectAnnotater
             };
         }
 
-        bool showAnnLabels = true;
         private void drawAnnotations()
         {
             if (frame == null) return;
+            bool showAnnLabels = btnToggleLabels.Checked;
 
             var annotationImage = frame.Clone();
             var drawingFont = new System.Drawing.Font("Arial", 8, System.Drawing.FontStyle.Bold);
@@ -275,15 +270,20 @@ namespace ObjectAnnotater
                 annotationImage.Draw(roi, Bgr8.Red, 3);
             }
 
-            this.pictureBox.Image = annotationImage.ToBitmap();
+            this.pictureBox.Image = annotationImage.ToBitmap(copyAlways: true);
         }
 
         #endregion
 
         private void ObjectAnnotater_FormClosing(object sender, FormClosingEventArgs e)
         {
-            saveCurrentImageAnnotations();
-            database.Save(databaseFileName);
+            if (isModified)
+            {
+                var result = MessageBox.Show("Do you want to save current changes ?", "Save annotations", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                    saveToFile();
+            }
         }
 
         private void txtLabel_KeyDown(object sender, KeyEventArgs e)
@@ -297,7 +297,7 @@ namespace ObjectAnnotater
             if (selectedAnnotation == null)
                 return;
 
-            selectedAnnotation.Label = txtLabel.Text;
+            selectedAnnotation.Label = txtAnnotationLabel.Text;
             drawAnnotations();
         }
 
@@ -312,7 +312,64 @@ namespace ObjectAnnotater
             .FirstOrDefault();
 
             if (selectedAnnotation != null)
-                this.txtLabel.Text = selectedAnnotation.Label;
+                this.txtAnnotationLabel.Text = selectedAnnotation.Label;
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Delete:
+                    if (selectedAnnotation != null)
+                    {
+                        frameAnnotations.Remove(selectedAnnotation);
+                        drawAnnotations();
+                        enableSave();
+                    }
+                    break;
+
+                case Keys.Control | Keys.A:
+                    this.btnToggleLabels.Checked = !btnToggleLabels.Checked;
+                    drawAnnotations();
+                    break;
+
+                case Keys.Control | Keys.S:
+                    saveToFile();
+                    break;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void btnToggleLabels_CheckedChanged(object sender, EventArgs e)
+        {
+            drawAnnotations();
+        }
+
+        private void enableSave()
+        {
+            isModified = true;
+            this.btnSave.Enabled = true;
+        }
+
+        bool isModified = false;
+        private void saveToFile()
+        {
+            saveCurrentImageAnnotations();
+            Database.Save(databaseFileName);
+
+            isModified = false;
+            this.btnSave.Enabled = false;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            saveToFile();          
+        }
+
+        private void slider_ValueChanged(object sender, EventArgs e)
+        {
+            getFrame(slider.Value);
         }
     }
 }

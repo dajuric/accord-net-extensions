@@ -66,12 +66,22 @@ namespace Accord.Extensions
         }
 
         /// <summary>
-        /// replaces path delimiters with specified one.
+        /// Replaces path delimiters with platform-specific one defined in <see cref="Path.DirectorySeparatorChar"/>.
+        /// </summary>
+        /// <param name="path">Path to replace delimiters.</param>
+        /// <returns>Path with replaced delimiters.</returns>
+        public static string NormalizePathDelimiters(this string path)
+        {
+            return NormalizePathDelimiters(path, Path.DirectorySeparatorChar.ToString());
+        }
+
+        /// <summary>
+        /// Replaces path delimiters with specified one.
         /// </summary>
         /// <param name="path">Path to replace delimiters.</param>
         /// <param name="normalizedDelimiter">Replacing delimiter.</param>
         /// <returns>Path with replaced delimiters.</returns>
-        public static string NormalizePathDelimiters(this string path, string normalizedDelimiter = "/")
+        public static string NormalizePathDelimiters(this string path, string normalizedDelimiter)
         {
             return path.Replace("//", normalizedDelimiter)
                        .Replace(@"\", normalizedDelimiter)

@@ -25,7 +25,7 @@ namespace KalmanObjectTracking
 
         private void initalizeHistograms()
         { 
-            int[] binSizes = new int[] { 64, 64 }; //X bins per channel
+            int[] binSizes = new int[] { 32, 32 }; //X bins per channel
 
             IntRange[] ranges = new IntRange[] 
             { 
@@ -42,13 +42,13 @@ namespace KalmanObjectTracking
             var measurementDimension = 2; //just coordinates
 
             var initialState = new ModelState { Position = startPoint, Velocity = new PointF()};
-            var initialStateError = ModelState.GetProcessNoise(0, 0);
+            var initialStateError = ModelState.GetProcessNoise(0);
 
             kalman = new DiscreteKalmanFilter<ModelState, PointF>(initialState, initialStateError, 
                                                                   measurementDimension /*(position)*/, 0 /*no control*/,
                                                                   x => ModelState.ToArray(x), x => ModelState.FromArray(x), x => new double[] { x.X, x.Y });
 
-            kalman.ProcessNoise = ModelState.GetProcessNoise(5, 10);
+            kalman.ProcessNoise = ModelState.GetProcessNoise(0.2);
             kalman.MeasurementNoise = Matrix.Diagonal<double>(kalman.MeasurementVectorDimension, 1);
 
             kalman.MeasurementMatrix = new double[,] //just pick point coordinates for an observation [2 x 4] (look at ConstantVelocity2DModel)
@@ -77,12 +77,15 @@ namespace KalmanObjectTracking
             //originalObjHist.Normalize(Byte.MaxValue);
 
             var backgroundArea = roi.Inflate(1.5, 1.5, frame.Size);
+            var backgroundMask = mask.GetSubRect(backgroundArea).Clone();
+            backgroundMask.GetSubRect(new Rectangle(Point.Subtract(roi.Location, backgroundArea.Location), roi.Size)).SetValue(0);
+
             backgroundHist.Calculate(hsvImg.GetSubRect(backgroundArea).SplitChannels(0, 1), false, mask.GetSubRect(backgroundArea));
-            backgroundHist.Scale((float)1 / backgroundArea.Area());
+            backgroundHist.Scale((float)1 / (backgroundArea.Area() - roi.Area()));
             //backgroundHist.Normalize(Byte.MaxValue);
             
             //how good originalObjHist and objHist match (suppresses possible selected background)
-            ratioHist = originalObjHist.CreateRatioHistogram(backgroundHist, Byte.MaxValue, 10);
+            ratioHist = originalObjHist.CreateRatioHistogram(backgroundHist, Byte.MaxValue, 5);
 
             searchArea = roi;
             roi = Rectangle.Empty;
@@ -101,7 +104,7 @@ namespace KalmanObjectTracking
 
             trackCamshift(frame, searchArea, out probabilityMap, out foundBox);
 
-            if (foundBox.IsEmpty ==  false)
+            if (!foundBox.IsEmpty)
             {
                 /**************************** KALMAN correct **************************/
                 kalman.Correct(new PointF(foundBox.Center.X, foundBox.Center.Y)); //correct predicted state by measurement
@@ -131,7 +134,7 @@ namespace KalmanObjectTracking
 
         private void trackCamshift(Image<Bgr, byte> frame, Rectangle searchArea, out Image<Gray, byte> probabilityMap, out Box2D foundBox)
         {
-            const int PROBABILITY_MIN_VAL = (int)(0.5f * 255);
+            const int PROBABILITY_MIN_VAL = (int)(0.3f * Byte.MaxValue);
 
             //convert to HSV
             var hsvImg = frame.Convert<Hsv, byte>(); //<<parallel operation>>

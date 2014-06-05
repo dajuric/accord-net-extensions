@@ -149,6 +149,10 @@
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
       <Name>Math</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Source\Math\Statistics\Statistics.csproj">
+      <Project>{d10c7255-8bab-452f-af0f-4cec06f92a26}</Project>
+      <Name>Statistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Source\Vision\Vision\Vision.csproj">
       <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
       <Name>Vision</Name>
