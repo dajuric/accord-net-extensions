@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjectAnnotater));
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.lblCurrentFrame = new System.Windows.Forms.ToolStripLabel();
             this.lblSlash = new System.Windows.Forms.ToolStripLabel();
@@ -42,9 +42,10 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.btnToggleLabels = new System.Windows.Forms.ToolStripButton();
+            this.btnPrepareSamples = new System.Windows.Forms.ToolStripButton();
             this.slider = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            this.toolStrip1.SuspendLayout();
+            this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,11 +66,12 @@
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
-            // toolStrip1
+            // toolStrip
             // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStrip.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.lblCurrentFrame,
             this.lblSlash,
@@ -80,13 +82,14 @@
             this.toolStripLabel2,
             this.toolStripSeparator1,
             this.btnSave,
-            this.btnToggleLabels});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 501);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(687, 27);
-            this.toolStrip1.Stretch = true;
-            this.toolStrip1.TabIndex = 6;
-            this.toolStrip1.Text = "toolStrip";
+            this.btnToggleLabels,
+            this.btnPrepareSamples});
+            this.toolStrip.Location = new System.Drawing.Point(0, 501);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(687, 27);
+            this.toolStrip.Stretch = true;
+            this.toolStrip.TabIndex = 6;
+            this.toolStrip.Text = "toolStrip";
             // 
             // toolStripLabel1
             // 
@@ -148,7 +151,7 @@
             this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(23, 24);
+            this.btnSave.Size = new System.Drawing.Size(24, 24);
             this.btnSave.Text = "Save";
             this.btnSave.ToolTipText = "Save (Ctrl + S)";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -164,10 +167,22 @@
             this.btnToggleLabels.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnToggleLabels.Margin = new System.Windows.Forms.Padding(0, 1, 20, 2);
             this.btnToggleLabels.Name = "btnToggleLabels";
-            this.btnToggleLabels.Size = new System.Drawing.Size(23, 24);
+            this.btnToggleLabels.Size = new System.Drawing.Size(24, 24);
             this.btnToggleLabels.Text = "toolStripButton1";
             this.btnToggleLabels.ToolTipText = "Toggle labels (Ctrl + A)";
             this.btnToggleLabels.CheckedChanged += new System.EventHandler(this.btnToggleLabels_CheckedChanged);
+            // 
+            // btnPrepareSamples
+            // 
+            this.btnPrepareSamples.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnPrepareSamples.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPrepareSamples.Image = ((System.Drawing.Image)(resources.GetObject("btnPrepareSamples.Image")));
+            this.btnPrepareSamples.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPrepareSamples.Margin = new System.Windows.Forms.Padding(0, 1, 50, 2);
+            this.btnPrepareSamples.Name = "btnPrepareSamples";
+            this.btnPrepareSamples.Size = new System.Drawing.Size(24, 24);
+            this.btnPrepareSamples.Text = "Prepare Samples";
+            this.btnPrepareSamples.Click += new System.EventHandler(this.btnPrepareSamples_Click);
             // 
             // slider
             // 
@@ -188,15 +203,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(687, 528);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.slider);
             this.Controls.Add(this.pictureBox);
             this.Name = "ObjectAnnotater";
             this.Text = "Object Annotater";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ObjectAnnotater_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -206,7 +221,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox txtAnnotationLabel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -219,6 +234,7 @@
         private System.Windows.Forms.ToolStripLabel lblTotalFrames;
         private System.Windows.Forms.ToolStripButton btnSave;
         private System.Windows.Forms.ToolStripButton btnToggleLabels;
+        private System.Windows.Forms.ToolStripButton btnPrepareSamples;
     }
 }
 

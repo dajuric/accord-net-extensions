@@ -108,7 +108,7 @@ namespace Accord.Extensions.Imaging.Helper
         /// <summary>
         /// Copies unmanaged data.
         /// </summary>
-        /// <param name="srcPtr">Surce pointer.</param>
+        /// <param name="srcPtr">Source pointer.</param>
         /// <param name="destPtr">Destination pointer.</param>
         /// <param name="srcStride">Source stride.</param>
         /// <param name="destStride">Destination stride.</param>

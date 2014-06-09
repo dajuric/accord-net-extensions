@@ -74,11 +74,11 @@
     <Compile Include="SampleGeneration\SampleExtraction.Designer.cs">
       <DependentUpon>SampleExtraction.cs</DependentUpon>
     </Compile>
-    <Compile Include="SampleGeneration\SampleRandomization.cs">
+    <Compile Include="SampleGeneration\SamplePreparation.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SampleGeneration\SampleRandomization.Designer.cs">
-      <DependentUpon>SampleRandomization.cs</DependentUpon>
+    <Compile Include="SampleGeneration\SamplePreparation.Designer.cs">
+      <DependentUpon>SamplePreparation.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizard.cs">
       <SubType>Form</SubType>
@@ -98,6 +98,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SampleGeneration\SamplePreparation.resx">
+      <DependentUpon>SamplePreparation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
     </EmbeddedResource>
@@ -146,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\label.png" />
+    <Content Include="Resources\prepare.png" />
     <Content Include="Resources\save.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -349,7 +349,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="other">Size from which the scale is taken.</param>
         /// <param name="correctLocation">Moves rectangle to minimize the impact of scaling regarding original location.</param>
         /// <returns>Rectangle that has the same scale as </returns>
-        public static RectangleF ScaleTo(this RectangleF rect, SizeF other, bool correctLocation = false)
+        public static RectangleF ScaleTo(this RectangleF rect, SizeF other, bool correctLocation = true)
         {
             return ScaleTo(rect, other.Width / other.Height);
         }
@@ -361,7 +361,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="widthHeightRatio">Width / height ratio that must be satisfied.</param>
         /// <param name="correctLocation">Moves rectangle to minimize the impact of scaling regarding original location.</param>
         /// <returns>Rectangle that has the same scale as </returns>
-        public static RectangleF ScaleTo(this RectangleF rect, float widthHeightRatio, bool correctLocation = false)
+        public static RectangleF ScaleTo(this RectangleF rect, float widthHeightRatio, bool correctLocation = true)
         {
             var sizeScale = widthHeightRatio;
 

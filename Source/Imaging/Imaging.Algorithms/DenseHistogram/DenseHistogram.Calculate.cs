@@ -19,6 +19,17 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Calculates histogram.
         /// </summary>
+        /// <param name="channel">Image channel.</param>
+        /// <param name="accumulate">Accumulate or erase histogram before.</param>
+        /// <param name="mask">Mask for image color locations.</param>
+        public void Calculate(Image<Gray, byte> channel, bool accumulate, Image<Gray, byte> mask = null)
+        {
+            Calculate<byte>(new Image<Gray, byte>[] { channel }, accumulate, mask);
+        }
+
+        /// <summary>
+        /// Calculates histogram.
+        /// </summary>
         /// <param name="channels">Image channels.</param>
         /// <param name="accumulate">Accumulate or erase histogram before.</param>
         /// <param name="mask">Mask for image color locations.</param>

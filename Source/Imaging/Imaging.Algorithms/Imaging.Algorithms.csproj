@@ -86,6 +86,7 @@
     <Compile Include="Filters\ColorFilters\ContrastStretch.cs" />
     <Compile Include="Filters\ColorFilters\CorrectContrast.cs" />
     <Compile Include="Filters\Edge\Canny.cs" />
+    <Compile Include="Filters\Edge\Laplace.cs" />
     <Compile Include="Filters\FindNonZeroExtensions.cs" />
     <Compile Include="Filters\GaborFilter.cs" />
     <Compile Include="Filters\NonMaximaSupression.cs" />

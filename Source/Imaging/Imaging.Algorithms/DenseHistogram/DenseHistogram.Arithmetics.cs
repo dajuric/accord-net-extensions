@@ -1,4 +1,5 @@
 ﻿using System;
+using Accord.Extensions.Math;
 
 namespace Accord.Extensions.Imaging
 {
@@ -97,5 +98,36 @@ namespace Accord.Extensions.Imaging
                 bins++;
             }
         }
+
+        /// <summary>
+        /// Calculates the mean value of the histogram.
+        /// </summary>
+        /// <returns>Mean of the histogram.</returns>
+        public float Mean()
+        {
+            return (float)this.HistogramArray.WeightedAverage((val, idx) => idx, (val, idx) => val);
+        }
+
+        /// <summary>
+        /// Calculates deviation of the histogram.
+        /// </summary>
+        /// <param name="mean">Histogram mean value.</param>
+        /// <returns>Deviation of the histogram.</returns>
+        public float Deviation(float mean)
+        {
+            return (float)this.HistogramArray.WeightedAverage((val, idx) => (idx - mean), (val, idx) => val);
+        }
+
+        /// <summary>
+        /// Calculates deviation of the histogram.
+        /// <para>If the mean value is already calculated use the function overload to reduce performance penalties.</para>
+        /// </summary>
+        /// <returns>Deviation of the histogram.</returns>
+        public float Deviation()
+        {
+            var mean = this.Mean();
+            return Deviation(mean);
+        }
+
     }
 }

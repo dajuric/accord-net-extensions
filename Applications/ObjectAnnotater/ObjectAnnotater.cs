@@ -371,5 +371,11 @@ namespace ObjectAnnotater
         {
             getFrame(slider.Value);
         }
+
+        private void btnPrepareSamples_Click(object sender, EventArgs e)
+        {
+            var prepareSamplesForm = new SampleGeneration.SamplePreparation(this.Database);
+            prepareSamplesForm.ShowDialog(this);
+        }
     }
 }

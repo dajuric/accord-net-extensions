@@ -99,7 +99,13 @@ namespace Accord.Extensions.Imaging
                     randRects = randRects.Select(x => x.ScaleTo(widthHeightRatio, correctLocation: true));
 
                     //create annotations from a original annotation
-                    randRects.ForEach(x => newData[imgAnns.Key].Add(new Annotation { Label = imgAnn.Label, Tag = imgAnn.Tag, Polygon = Rectangle.Round(x).Vertices() }));
+                    randRects.ForEach(x => newData[imgAnns.Key].Add(new Annotation 
+                                                        { 
+                                                            Label = imgAnn.Label, 
+                                                            Tag = imgAnn.Tag, 
+                                                            Polygon = Rectangle.Round(x).Vertices() 
+                                                        })
+                                     );
                 }
             }
 
@@ -150,11 +156,11 @@ namespace Accord.Extensions.Imaging
                 images.Add(im);
                 boundingRects.Add(imAnns);
 
-                foreach (var imgAnn in imAnns)
+                /*foreach (var imgAnn in imAnns)
                 {
                     if (imgAnn.X < 0 || imgAnn.Y < 0)
                         Console.WriteLine();
-                }
+                }*/
             }
         }
 

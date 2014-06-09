@@ -23,7 +23,11 @@ namespace ObjectAnnotater
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
+            /*var prepareSamplesForm = new SampleGeneration.SampleRandomization();
+            prepareSamplesForm.ShowDialog();
+            return;*/
+
             StreamableSource capture = null;
             string databaseFileName = null;
 
