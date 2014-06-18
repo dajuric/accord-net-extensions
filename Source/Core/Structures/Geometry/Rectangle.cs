@@ -196,7 +196,6 @@ namespace Accord.Extensions
         ///	Produces a Rectangle structure from a RectangleF by
         ///	rounding the X, Y, Width, and Height properties.
         /// </remarks>
-
         public static Rectangle Round(RectangleF value)
         {
             int x, y, w, h;

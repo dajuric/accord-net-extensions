@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Accord.Extensions.Imaging.Helper;
 using Accord.Extensions;
+using System.Reflection;
 
 namespace Accord.Extensions.Imaging
 {
@@ -118,7 +119,10 @@ namespace Accord.Extensions.Imaging
         {
             numberOfChannels = 0;
 
-            var channelTypes = colorType.GetFields().Select(x => x.FieldType).ToArray();
+            var channelTypes = colorType
+                               .GetFields(BindingFlags.Public | ~BindingFlags.Static)
+                               .Select(x => x.FieldType)
+                               .ToArray();
 
             //ensure that all types are the same
             var _depthType = channelTypes[0];

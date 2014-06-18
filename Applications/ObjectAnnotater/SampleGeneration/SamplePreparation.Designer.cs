@@ -46,16 +46,24 @@
             this.label3 = new System.Windows.Forms.Label();
             this.nLocMinX = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
-            this.nSanples = new System.Windows.Forms.NumericUpDown();
+            this.nSamples = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.gpRandomization = new System.Windows.Forms.GroupBox();
             this.btnSaveAs = new System.Windows.Forms.Button();
             this.gpInflate = new System.Windows.Forms.GroupBox();
             this.nInflateFactor = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.nWidhtHeightRatio = new System.Windows.Forms.NumericUpDown();
+            this.gpUnifyScales = new System.Windows.Forms.GroupBox();
+            this.nWidthHeightRatio = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
+            this.chkInflate = new System.Windows.Forms.CheckBox();
+            this.chkRandomize = new System.Windows.Forms.CheckBox();
+            this.chkUnifiyScales = new System.Windows.Forms.CheckBox();
+            this.gpClamp = new System.Windows.Forms.GroupBox();
+            this.nImageWidth = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
+            this.nImageHeight = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
             this.gpScale.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nScaleMaxHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nScaleMinHeight)).BeginInit();
@@ -66,12 +74,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.nLocMinY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nLocMaxX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nLocMinX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nSanples)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nSamples)).BeginInit();
             this.gpRandomization.SuspendLayout();
             this.gpInflate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nInflateFactor)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nWidhtHeightRatio)).BeginInit();
+            this.gpUnifyScales.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nWidthHeightRatio)).BeginInit();
+            this.gpClamp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nImageWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nImageHeight)).BeginInit();
             this.SuspendLayout();
             // 
             // gpScale
@@ -137,7 +148,7 @@
             0,
             0,
             131072});
-            this.nScaleMinHeight.Location = new System.Drawing.Point(67, 55);
+            this.nScaleMinHeight.Location = new System.Drawing.Point(73, 55);
             this.nScaleMinHeight.Maximum = new decimal(new int[] {
             10,
             0,
@@ -161,11 +172,11 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(15, 57);
+            this.label11.Location = new System.Drawing.Point(9, 57);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(44, 17);
+            this.label11.Size = new System.Drawing.Size(62, 17);
             this.label11.TabIndex = 4;
-            this.label11.Text = "From:";
+            this.label11.Text = "H: From:";
             // 
             // nScaleMaxWidth
             // 
@@ -213,7 +224,7 @@
             0,
             0,
             131072});
-            this.nScaleMinWidth.Location = new System.Drawing.Point(65, 23);
+            this.nScaleMinWidth.Location = new System.Drawing.Point(71, 23);
             this.nScaleMinWidth.Maximum = new decimal(new int[] {
             10,
             0,
@@ -237,11 +248,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 25);
+            this.label1.Location = new System.Drawing.Point(9, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 17);
+            this.label1.Size = new System.Drawing.Size(65, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "From:";
+            this.label1.Text = "W: From:";
             // 
             // gpLocation
             // 
@@ -410,18 +421,18 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "X: From:";
             // 
-            // nSanples
+            // nSamples
             // 
-            this.nSanples.Location = new System.Drawing.Point(165, 212);
-            this.nSanples.Minimum = new decimal(new int[] {
+            this.nSamples.Location = new System.Drawing.Point(165, 212);
+            this.nSamples.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.nSanples.Name = "nSanples";
-            this.nSanples.Size = new System.Drawing.Size(67, 22);
-            this.nSanples.TabIndex = 9;
-            this.nSanples.Value = new decimal(new int[] {
+            this.nSamples.Name = "nSamples";
+            this.nSamples.Size = new System.Drawing.Size(67, 22);
+            this.nSamples.TabIndex = 9;
+            this.nSamples.Value = new decimal(new int[] {
             5,
             0,
             0,
@@ -439,7 +450,7 @@
             // gpRandomization
             // 
             this.gpRandomization.Controls.Add(this.gpScale);
-            this.gpRandomization.Controls.Add(this.nSanples);
+            this.gpRandomization.Controls.Add(this.nSamples);
             this.gpRandomization.Controls.Add(this.label7);
             this.gpRandomization.Controls.Add(this.gpLocation);
             this.gpRandomization.Location = new System.Drawing.Point(12, 67);
@@ -451,7 +462,7 @@
             // 
             // btnSaveAs
             // 
-            this.btnSaveAs.Location = new System.Drawing.Point(131, 371);
+            this.btnSaveAs.Location = new System.Drawing.Point(110, 438);
             this.btnSaveAs.Name = "btnSaveAs";
             this.btnSaveAs.Size = new System.Drawing.Size(107, 33);
             this.btnSaveAs.TabIndex = 11;
@@ -502,35 +513,35 @@
             this.label8.TabIndex = 4;
             this.label8.Text = "Inflate factor:";
             // 
-            // groupBox1
+            // gpUnifyScales
             // 
-            this.groupBox1.Controls.Add(this.nWidhtHeightRatio);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Location = new System.Drawing.Point(12, 315);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(329, 50);
-            this.groupBox1.TabIndex = 13;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "3) Unify scales";
+            this.gpUnifyScales.Controls.Add(this.nWidthHeightRatio);
+            this.gpUnifyScales.Controls.Add(this.label9);
+            this.gpUnifyScales.Location = new System.Drawing.Point(12, 315);
+            this.gpUnifyScales.Name = "gpUnifyScales";
+            this.gpUnifyScales.Size = new System.Drawing.Size(329, 50);
+            this.gpUnifyScales.TabIndex = 13;
+            this.gpUnifyScales.TabStop = false;
+            this.gpUnifyScales.Text = "3) Unify scales ";
             // 
-            // nWidhtHeightRatio
+            // nWidthHeightRatio
             // 
-            this.nWidhtHeightRatio.DecimalPlaces = 1;
-            this.nWidhtHeightRatio.Location = new System.Drawing.Point(165, 21);
-            this.nWidhtHeightRatio.Maximum = new decimal(new int[] {
+            this.nWidthHeightRatio.DecimalPlaces = 1;
+            this.nWidthHeightRatio.Location = new System.Drawing.Point(165, 21);
+            this.nWidthHeightRatio.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.nWidhtHeightRatio.Minimum = new decimal(new int[] {
+            this.nWidthHeightRatio.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.nWidhtHeightRatio.Name = "nWidhtHeightRatio";
-            this.nWidhtHeightRatio.Size = new System.Drawing.Size(67, 22);
-            this.nWidhtHeightRatio.TabIndex = 7;
-            this.nWidhtHeightRatio.Value = new decimal(new int[] {
+            this.nWidthHeightRatio.Name = "nWidthHeightRatio";
+            this.nWidthHeightRatio.Size = new System.Drawing.Size(67, 22);
+            this.nWidthHeightRatio.TabIndex = 7;
+            this.nWidthHeightRatio.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -545,18 +556,133 @@
             this.label9.TabIndex = 6;
             this.label9.Text = "Width - height ratio:";
             // 
-            // SampleRandomization
+            // chkInflate
+            // 
+            this.chkInflate.AutoSize = true;
+            this.chkInflate.Checked = true;
+            this.chkInflate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkInflate.Location = new System.Drawing.Point(317, 8);
+            this.chkInflate.Name = "chkInflate";
+            this.chkInflate.Size = new System.Drawing.Size(18, 17);
+            this.chkInflate.TabIndex = 6;
+            this.chkInflate.UseVisualStyleBackColor = true;
+            this.chkInflate.CheckedChanged += new System.EventHandler(this.chkInflate_CheckedChanged);
+            // 
+            // chkRandomize
+            // 
+            this.chkRandomize.AutoSize = true;
+            this.chkRandomize.Checked = true;
+            this.chkRandomize.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRandomize.Location = new System.Drawing.Point(317, 65);
+            this.chkRandomize.Name = "chkRandomize";
+            this.chkRandomize.Size = new System.Drawing.Size(18, 17);
+            this.chkRandomize.TabIndex = 7;
+            this.chkRandomize.UseVisualStyleBackColor = true;
+            this.chkRandomize.CheckedChanged += new System.EventHandler(this.chkRandomize_CheckedChanged);
+            // 
+            // chkUnifiyScales
+            // 
+            this.chkUnifiyScales.AutoSize = true;
+            this.chkUnifiyScales.Checked = true;
+            this.chkUnifiyScales.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUnifiyScales.Location = new System.Drawing.Point(316, 312);
+            this.chkUnifiyScales.Name = "chkUnifiyScales";
+            this.chkUnifiyScales.Size = new System.Drawing.Size(18, 17);
+            this.chkUnifiyScales.TabIndex = 8;
+            this.chkUnifiyScales.UseVisualStyleBackColor = true;
+            this.chkUnifiyScales.CheckedChanged += new System.EventHandler(this.chkUnifiyScales_CheckedChanged);
+            // 
+            // gpClamp
+            // 
+            this.gpClamp.Controls.Add(this.nImageHeight);
+            this.gpClamp.Controls.Add(this.label13);
+            this.gpClamp.Controls.Add(this.nImageWidth);
+            this.gpClamp.Controls.Add(this.label12);
+            this.gpClamp.Location = new System.Drawing.Point(12, 371);
+            this.gpClamp.Name = "gpClamp";
+            this.gpClamp.Size = new System.Drawing.Size(337, 50);
+            this.gpClamp.TabIndex = 14;
+            this.gpClamp.TabStop = false;
+            this.gpClamp.Text = "4) Clamp";
+            // 
+            // nImageWidth
+            // 
+            this.nImageWidth.Location = new System.Drawing.Point(96, 21);
+            this.nImageWidth.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nImageWidth.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nImageWidth.Name = "nImageWidth";
+            this.nImageWidth.Size = new System.Drawing.Size(67, 22);
+            this.nImageWidth.TabIndex = 7;
+            this.nImageWidth.Value = new decimal(new int[] {
+            640,
+            0,
+            0,
+            0});
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(12, 23);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(86, 17);
+            this.label12.TabIndex = 6;
+            this.label12.Text = "Image width:";
+            // 
+            // nImageHeight
+            // 
+            this.nImageHeight.Location = new System.Drawing.Point(264, 21);
+            this.nImageHeight.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nImageHeight.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nImageHeight.Name = "nImageHeight";
+            this.nImageHeight.Size = new System.Drawing.Size(67, 22);
+            this.nImageHeight.TabIndex = 9;
+            this.nImageHeight.Value = new decimal(new int[] {
+            480,
+            0,
+            0,
+            0});
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(171, 23);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(93, 17);
+            this.label13.TabIndex = 8;
+            this.label13.Text = "Image height:";
+            // 
+            // SamplePreparation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(350, 413);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.gpInflate);
+            this.ClientSize = new System.Drawing.Size(361, 497);
+            this.Controls.Add(this.gpClamp);
+            this.Controls.Add(this.chkUnifiyScales);
+            this.Controls.Add(this.chkRandomize);
+            this.Controls.Add(this.chkInflate);
+            this.Controls.Add(this.gpUnifyScales);
             this.Controls.Add(this.btnSaveAs);
             this.Controls.Add(this.gpRandomization);
+            this.Controls.Add(this.gpInflate);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
-            this.Name = "SampleRandomization";
+            this.Name = "SamplePreparation";
             this.Text = "Sample Preparation";
             this.gpScale.ResumeLayout(false);
             this.gpScale.PerformLayout();
@@ -570,16 +696,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.nLocMinY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nLocMaxX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nLocMinX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nSanples)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nSamples)).EndInit();
             this.gpRandomization.ResumeLayout(false);
             this.gpRandomization.PerformLayout();
             this.gpInflate.ResumeLayout(false);
             this.gpInflate.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nInflateFactor)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nWidhtHeightRatio)).EndInit();
+            this.gpUnifyScales.ResumeLayout(false);
+            this.gpUnifyScales.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nWidthHeightRatio)).EndInit();
+            this.gpClamp.ResumeLayout(false);
+            this.gpClamp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nImageWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nImageHeight)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -599,19 +730,27 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown nLocMinX;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown nSanples;
+        private System.Windows.Forms.NumericUpDown nSamples;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox gpRandomization;
         private System.Windows.Forms.Button btnSaveAs;
         private System.Windows.Forms.GroupBox gpInflate;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gpUnifyScales;
         private System.Windows.Forms.NumericUpDown nInflateFactor;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.NumericUpDown nWidhtHeightRatio;
+        private System.Windows.Forms.NumericUpDown nWidthHeightRatio;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown nScaleMaxHeight;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown nScaleMinHeight;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox chkRandomize;
+        private System.Windows.Forms.CheckBox chkInflate;
+        private System.Windows.Forms.CheckBox chkUnifiyScales;
+        private System.Windows.Forms.GroupBox gpClamp;
+        private System.Windows.Forms.NumericUpDown nImageWidth;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown nImageHeight;
+        private System.Windows.Forms.Label label13;
     }
 }

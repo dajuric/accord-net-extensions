@@ -28,6 +28,10 @@ namespace Accord.Extensions.Imaging
         {
             return new Bgr(color.B, color.G, color.R);
         }
+
+        public const int IdxB = 0;
+        public const int IdxG = 1;
+        public const int IdxR = 2;
     }
 
     [ColorInfo(ConversionCodename = "BGR")]

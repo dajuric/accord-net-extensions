@@ -153,20 +153,20 @@ namespace Accord.Extensions.Imaging
         /// Converts array to image (data is copied). Array elements must be primitive types.
         /// </summary>
         /// <param name="arr">Input array</param>
-        /// <param name="width">Width of the image. Height is automatically calculated.</param>
+        /// <param name="width">Image width.</param>
+        /// <param name="height">Image height.</param>
         /// <returns>Image</returns>
-        public unsafe static Image<Gray, byte> ToImage(this byte[] arr, int width)
+        public unsafe static Image<TColor, byte> ToImage<TColor>(this byte[] arr, int width, int height)
+            where TColor: IColor
         {
-            if (arr.Length % width != 0)
-                throw new Exception("Invalid width! (length of the array must be dividable by width)");
+            var colorSize = ColorInfo.GetInfo<TColor, byte>().Size;
+            int srcStride = arr.Length / height;
 
-            int height = arr.Length / (width);
-
-            var image = new Image<Gray, byte>(width, height);
+            var image = new Image<TColor, byte>(width, height);
 
             fixed (byte* arrPtr = arr)
             {                
-                HelperMethods.CopyImage((IntPtr)arrPtr, image.ImageData, image.Width, image.Stride, image.Stride, image.Height);
+                HelperMethods.CopyImage((IntPtr)arrPtr, image.ImageData, srcStride, image.Stride, image.Width * colorSize, image.Height);
             }
 
             return image;

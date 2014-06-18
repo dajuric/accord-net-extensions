@@ -98,6 +98,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SampleGeneration\SampleExtraction.resx">
+      <DependentUpon>SampleExtraction.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SampleGeneration\SamplePreparation.resx">
       <DependentUpon>SamplePreparation.cs</DependentUpon>
     </EmbeddedResource>

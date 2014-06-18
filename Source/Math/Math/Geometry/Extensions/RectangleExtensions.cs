@@ -4,6 +4,7 @@ using Accord.Extensions;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 using RangeF = AForge.Range;
+using System.Diagnostics;
 
 namespace Accord.Extensions.Math.Geometry
 {
@@ -18,7 +19,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="rect1">First rectangle.</param>
         /// <param name="rect2">Second rectangle.</param>
-        /// <returns>Intersection percent (1 - full intersection, 0 - no intersection).</returns>
+        /// <returns>Intersection percent (e.g. 1 - full intersection, 0 - no intersection).</returns>
         public static float IntersectionPercent(this Rectangle rect1, Rectangle rect2)
         {
             return RectangleFExtensions.IntersectionPercent(rect1, rect2);
@@ -123,32 +124,34 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="rect">The input rectangle.</param>
         /// <param name="other">The rectangle to intersect with.</param>
-        /// <param name="cropEqualy">
+        /// <param name="preserveScale">
         /// If true the size components will be cropped by equal amount.
         /// If false the size ratio will not be checked.
         /// </param>
         /// <returns>Intersected rectangle.</returns>
-        public static Rectangle Intersect(this Rectangle rect, Rectangle other, bool cropEqualy = false)
+        public static Rectangle Intersect(this Rectangle rect, Rectangle other, bool preserveScale = false)
         {
             var croppedRect = rect;
             croppedRect.Intersect(other);
 
-            if (!cropEqualy)
+            if (!preserveScale)
                 return croppedRect;
 
-            var hDiff = rect.Width - croppedRect.Width;
-            var vDiff = rect.Height - croppedRect.Height;
+            var originalWidthHeightRatio = (float)rect.Width / rect.Height;
+            var newRect = croppedRect;
 
-            if (hDiff >= vDiff)
+            var dW = croppedRect.Width - croppedRect.Height * originalWidthHeightRatio;
+            if (dW > 0)
             {
-                croppedRect.Height += vDiff - hDiff;
+                newRect.Width -= (int)System.Math.Round(dW);
             }
             else
             {
-                croppedRect.Width += hDiff - vDiff;
+                var dH = croppedRect.Height - croppedRect.Width * (1 / originalWidthHeightRatio);
+                newRect.Height -= (int)System.Math.Round(dH);
             }
 
-            return croppedRect;
+            return newRect;
         }
 
         /// <summary>
@@ -157,14 +160,14 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="rect">Rectangle to intersect.</param>
         /// <param name="area">Maximum bounding box represented as size.</param>
-        /// <param name="cropEqualy">
+        /// <param name="preserveScale">
         /// If true the size components will be cropped by equal amount.
         /// If false the size ratio will not be checked.
         /// </param>
         /// <returns>Intersected rectangle.</returns>
-        public static Rectangle Intersect(this Rectangle rect, Size area, bool cropEqualy = false)
+        public static Rectangle Intersect(this Rectangle rect, Size area, bool preserveScale = false)
         {
-            Rectangle newRect = rect.Intersect(new Rectangle(0, 0, area.Width, area.Height), cropEqualy);
+            Rectangle newRect = rect.Intersect(new Rectangle(0, 0, area.Width, area.Height), preserveScale);
             return newRect;
         }
     }

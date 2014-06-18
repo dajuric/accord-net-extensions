@@ -24,7 +24,7 @@ namespace ObjectAnnotater
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            /*var prepareSamplesForm = new SampleGeneration.SampleRandomization();
+            /*var prepareSamplesForm = new SampleGeneration.SamplePreparation();
             prepareSamplesForm.ShowDialog();
             return;*/
 

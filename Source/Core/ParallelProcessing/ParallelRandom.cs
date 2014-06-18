@@ -70,5 +70,14 @@ namespace Accord.Extensions
         {
             return ParallelRandom<Random>.Local.Next();
         }
+
+        /// <summary>
+        /// Fills the provided array of bytes with random values.
+        /// </summary>
+        /// <param name="buffer">Buffer to fill with random numbers.</param>
+        public static void NextBytes(byte[] buffer)
+        {
+            ParallelRandom<Random>.Local.NextBytes(buffer);
+        }
     }
 }

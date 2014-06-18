@@ -9,7 +9,7 @@ namespace Accord.Extensions.Imaging
     /// <para>Used during training process. See ObjectAnnotater application in samples.</para>
     /// </summary>
     [Serializable]
-    public class Annotation
+    public class Annotation: ICloneable
     {
         /// <summary>
         /// Gets or sets the annotation label
@@ -25,5 +25,15 @@ namespace Accord.Extensions.Imaging
         /// Additional annotation data.
         /// </summary>
         public object Tag { get; set; }
+
+        public object Clone()
+        {
+            return new Annotation 
+            {
+                Label = this.Label,
+                Polygon = (Point[])this.Polygon.Clone(),
+                Tag = this.Tag
+            };
+        }
     }
 }

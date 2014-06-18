@@ -11,6 +11,16 @@ namespace Accord.Extensions.Imaging
     public static class AnnotationDatabaseExtensions
     {
         /// <summary>
+        /// Clones the database (tag is not cloned).
+        /// </summary>
+        /// <param name="data">Database to clone.</param>
+        /// <returns>Cloned database.</returns>
+        public static Database Clone(this Database data)
+        {
+            return data.ModifyAnnotations(x => (Annotation)x.Clone());
+        }
+
+        /// <summary>
         /// Gets the number of annotations in the database.
         /// </summary>
         /// <param name="data"></param>
@@ -61,6 +71,52 @@ namespace Accord.Extensions.Imaging
         public static IEnumerable<KeyValuePair<string, Annotation>> GetAnnotations(this Database data)
         {
             return GetAnnotations(data, (_) => true, (_) => true);
+        }
+
+        public static Database ModifyAnnotations(this Database data, Func<Annotation, Annotation> modifierFunc)
+        {
+            var newData = new Database();
+
+            foreach (var imgAnns in data)
+            {
+                newData[imgAnns.Key] = new List<Annotation>();
+
+                foreach (var imgAnn in imgAnns.Value)
+                {
+                    var modifiedAnn = modifierFunc(imgAnn);
+                    newData[imgAnns.Key].Add(modifiedAnn);
+                }
+            }
+
+            return newData;
+        }
+
+        public static Database Randomize(this Database data, Pair<RangeF> locationRand, Pair<RangeF> scaleRand, int nRandsPerSample)
+        {
+            var newData = new Database();
+
+            foreach (var imgAnns in data)
+            {
+                newData[imgAnns.Key] = new List<Annotation>();
+
+                foreach (var imgAnn in imgAnns.Value)
+                {
+                    var rect = (RectangleF)imgAnn.Polygon.BoundingRect();
+
+                    //randomize
+                    var randRects = rect.Randomize(locationRand, scaleRand, nRandsPerSample);
+
+                    //create annotations from a original annotation
+                    randRects.ForEach(x => newData[imgAnns.Key].Add(new Annotation
+                    {
+                        Label = imgAnn.Label,
+                        Tag = imgAnn.Tag,
+                        Polygon = Rectangle.Round(x).Vertices()
+                    }));
+                }
+            }
+
+            return newData;
         }
 
         /// <summary>
@@ -142,12 +198,13 @@ namespace Accord.Extensions.Imaging
                 }
             }
         }
-        public static void Export<TImage>(this Database data, Func<string, TImage> imageGrabberFunc, out List<TImage> images, out List<List<Rectangle>> boundingRects)
+        public static void Export<TImage>(this Database data, Func<string, TImage> imageGrabberFunc, out List<TImage> images, out List<List<Rectangle>> boundingRects, Action<float> onDoneSampleLoad = null)
             where TImage : IImage
         {
             images = new List<TImage>();
             boundingRects = new List<List<Rectangle>>();
 
+            var idx = 0;
             foreach (var pair in data)
             {
                 var im = imageGrabberFunc(pair.Key);
@@ -155,12 +212,16 @@ namespace Accord.Extensions.Imaging
 
                 images.Add(im);
                 boundingRects.Add(imAnns);
+                idx++;
 
                 /*foreach (var imgAnn in imAnns)
                 {
                     if (imgAnn.X < 0 || imgAnn.Y < 0)
                         Console.WriteLine();
                 }*/
+
+                if (onDoneSampleLoad != null)
+                    onDoneSampleLoad((float)idx / data.Keys.Count);
             }
         }
 
