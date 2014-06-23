@@ -133,7 +133,7 @@
                                                                     dataPatchPtr += stride / sizeof(ComplexF);
                                                                 }
                                                             },
-                                                            new ParallelOptions { ParallelTrigger = (size) => size.Height >= MIN_PATCH_SIZE
+                                                            new ParallelOptions2D { ParallelTrigger = (size) => size.Height >= MIN_PATCH_SIZE
                                                                                   /*,ForceSequential = true*/}
                                                               );
 
@@ -172,7 +172,7 @@
                                                                     }
                                                                 }
                                                             },
-                                                            new ParallelOptions { ParallelTrigger = (size) => size.Height >= MIN_PATCH_SIZE
+                                                            new ParallelOptions2D { ParallelTrigger = (size) => size.Height >= MIN_PATCH_SIZE
                                                                                  /*,ForceSequential = true */}
                                                             );
 

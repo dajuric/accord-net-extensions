@@ -29,7 +29,7 @@ namespace Accord.Extensions
         /// </summary>
         /// <typeparam name="T3">First key type.</typeparam>
         /// <typeparam name="T4">Second key type.</typeparam>
-        public class Indexer<T3, T4>
+        public class Indexer<T3, T4>: IEnumerable<T3>
         {
             private Dictionary<T3, T4> dictionary;
             /// <summary>
@@ -71,6 +71,16 @@ namespace Accord.Extensions
             public bool Contains(T3 index)
             {
                 return dictionary.ContainsKey(index);
+            }
+
+            public IEnumerator<T3> GetEnumerator()
+            {
+                return dictionary.Keys.GetEnumerator();
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
             }
         }
         

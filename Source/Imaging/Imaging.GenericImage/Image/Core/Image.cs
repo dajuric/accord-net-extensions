@@ -183,7 +183,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         public int Height { get; private set; }
         /// <summary>
-        /// Gets image stride.
+        /// Gets image stride - number of bytes per image row.
         /// </summary>
         public int Stride { get; private set; }
         /// <summary>

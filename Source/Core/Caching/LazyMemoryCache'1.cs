@@ -182,7 +182,7 @@ namespace Accord.Extensions.Caching
         ///    
         ///    (image) => (ulong)(image.Stride * image.Height * image.ColorInfo.Size));
         ///    
-        /// //adding elements (you can also use stream as IEnuerable to populate cache)
+        /// //adding elements (you can also use stream as IEnumerable to populate cache)
         /// memCache.AddOrUpdate(2, () =>   
         ///        {
         ///            var image = new Image ;ltGray, byte ;gt(1 * 1024 * 1024, 1, 0);
