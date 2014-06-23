@@ -17,7 +17,7 @@ namespace Accord.Extensions.Statistics.Filters
     /// important special case of linear system models and Gaussian noise.
     /// <para>The Kalman Filter uses a predictor-corrector structure, in which
     /// if a measurement of the system is available at time <italic>t</italic>,
-    /// we first call the Predict function, to estimate the state of the system
+    /// We first call the Predict function, to estimate the state of the system
     /// at time <italic>t</italic>. We then call the Correct function to
     /// correct the estimate of state, based on the noisy measurement.</para>
     /// </summary>

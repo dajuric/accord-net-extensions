@@ -6,7 +6,7 @@ namespace Accord.Extensions
     /// <summary>
     /// Class that represents the pinned array.
     /// </summary>
-    /// <typeparam name="T">Generic type of an structure.</typeparam>
+    /// <typeparam name="T">Generic type of an structure. The structure must have blittable types.</typeparam>
     public class PinnedArray<T>: IDisposable, IEquatable<PinnedArray<T>> where T: struct
     {
         GCHandle handle;

@@ -84,7 +84,7 @@ namespace Accord.Extensions.Imaging
 
                                                    convolutionFunc(_src, srcArea, _dest, new Point(kernel.Width / 2, area.Y + kernel.Height / 2), kernel);
                                                }
-                                               ,new ParallelOptions { ForceSequential = true });
+                                               ,new ParallelOptions2D { ForceSequential = true });
 
             var dest = proc.Process(preparedSrc);
 

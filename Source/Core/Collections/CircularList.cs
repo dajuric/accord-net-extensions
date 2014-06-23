@@ -73,7 +73,7 @@ namespace Accord.Extensions
         /// <param name="count">The number of elements.</param>
         /// <returns>The circular list (data is shared).</returns>
         public new CircularList<T> GetRange(int index, int count)
-        {
+        { 
             return GetRange(new Range(index, index + count));
         }
 
@@ -146,7 +146,7 @@ namespace Accord.Extensions
             if (realIdxB < this.Count && realIdxA <= realIdxB)
             {
                 segmentIndeces = new int[1]; segmentIndeces[0] = realIdxA;
-                segmentLengths = new int[1]; segmentLengths[0] = realIdxB - realIdxA;
+                segmentLengths = new int[1]; segmentLengths[0] = realIdxB - realIdxA + 1;
             }
             else
             {
