@@ -25,13 +25,6 @@ namespace Test
         {
             Test test = new Test();
 
-            //test.TestLRU();
-            test.TestMemCache();
-            return;
-
-            test.WriteAllConversionPaths();
-            //return;
-
             /*Test t44 = new Test();
             t44.Bla();
             return;*/
@@ -61,45 +54,7 @@ namespace Test
             Test t = new Test();
             t.TestLKFlow();
 
-            Console.WriteLine("Supported paths:"); //TODO: (critical) should forbid some paths 
-            t.WriteAllConversionPaths();
-            Console.WriteLine();
-
-            Console.WriteLine("******************************************* AForge vs Image<,> - performance ********************************************");
-            Console.WriteLine();
-
-            Console.WriteLine("Color conversions...");
-            t.TestColorConversion();
-            Console.WriteLine();
-
-            Console.WriteLine("FFT...");
-            t.TestFFT();
-            Console.WriteLine();
-
-            Console.WriteLine("Color filtering...");
-            t.TestColorFiltering();
-            Console.WriteLine();
-
-            Console.WriteLine("Channel modifier...");
-            t.TestChannelModifier();
-            Console.WriteLine();
-
-            Console.WriteLine("Small kernel...");
-            t.TestConvolve(11);
-            Console.WriteLine();
-
-            Console.WriteLine("Big kernel... (please be very patient) - few minutes");
-            t.TestConvolve(99);
-            Console.WriteLine();
-
-            Console.WriteLine("**********************************************************************************************************");
-            Console.WriteLine();
-
-            //fast casting 
-            Console.WriteLine("Color casting...");
-            t.TestColorCasting();
-            Console.WriteLine();
-
+          
             return; //uncomment if you want execute functions below
 
             var bmp = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile("nature-spring.jpg");
