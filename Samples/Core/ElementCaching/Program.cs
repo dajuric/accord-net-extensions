@@ -3,6 +3,7 @@ using Accord.Extensions.Caching;
 using Accord.Extensions.Imaging;
 using Microsoft.VisualBasic.Devices;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace ElementCaching
@@ -11,10 +12,14 @@ namespace ElementCaching
     {
         static void Main(string[] args)
         {
-            runCacheTest();
+            //testLRUCache();
+            testLazyMemCache();
         }
 
-        static void runCacheTest()
+        /// <summary>
+        /// Creates and tests lazy memory cache where elements are constructed on demand and evicted based on LRU strategy only if the RAM usage above specified limits.
+        /// </summary>
+        static void testLazyMemCache()
         {
             ComputerInfo computerInfo = new ComputerInfo(); //reference to Microsoft.VisualBasic assembly.
             
@@ -84,6 +89,67 @@ namespace ElementCaching
                 Console.WriteLine(lazyVal.Value);
                 Console.WriteLine(memCache.HardFaults);
             }*/
+        }
+
+        /// <summary>
+        /// Creates a new instance of LRU cache where elements are evicted based on least frequently usage.
+        /// </summary>
+        static void testLRUCache()
+        {
+            ComputerInfo computerInfo = new ComputerInfo(); //reference to Microsoft.VisualBasic assembly.
+
+            var lru = new LRUCache<int, Image<Gray, byte>>(
+                                                    (currentSize) =>
+                                                    {
+                                                        var occupied = computerInfo.TotalPhysicalMemory - computerInfo.AvailablePhysicalMemory;
+                                                        var occupiedPercentage = (float)occupied / computerInfo.TotalPhysicalMemory;
+
+                                                        if (occupiedPercentage > 0.85)
+                                                            return true;
+
+                                                        return false;
+                                                    },
+                                                    (img) => (ulong)(img.Stride * img.Height));
+
+            lru.OnRemoveItem += lru_OnRemoveItem;
+
+            /***************** add some elements ****************/
+            var image = new Image<Gray, byte>(5 * 1024 * 1024, 1, 0);
+            image.SetValue(5 % 256);
+            lru.Add(1, image);
+
+            image = new Image<Gray, byte>(5 * 1024 * 1024, 1, 0);
+            image.SetValue(5 % 256);
+            lru.Add(1, image);
+            /***************** add some elements ****************/
+
+            List<Image<Gray, byte>> a = new List<Image<Gray, byte>>();
+
+            Random rand = new Random();
+
+            int i = 0;
+            while (i < 10000)
+            {
+                image = new Image<Gray, byte>(1024 * 1024, 1, 0);
+                image.SetValue(i % 256);
+                lru.Add(i, image);
+
+                //Thread.Sleep(1);
+                Console.WriteLine(computerInfo.AvailablePhysicalMemory / 1024 / 1024);
+                i++;
+            }
+
+            //discover more properties and methods!
+        }
+
+        static void lru_OnRemoveItem(LRUCache<int, Image<Gray, byte>> sender, KeyValuePair<int, Image<Gray, byte>> item, bool userRequested)
+        {
+            //return;
+
+            sender.Oldest.Value.Dispose();
+            GC.Collect();
+
+            Console.WriteLine("Kicked out!");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Accord.Extensions
 {
@@ -105,6 +106,21 @@ namespace Accord.Extensions
                     yield return val;
                 }
             }
+        }
+
+        public static IEnumerable<TKey> GetKeys<TKey, TValue>(this Dictionary<TKey, Dictionary<TKey, TValue>> mat)
+        {
+            var keys = new List<TKey>();
+
+            foreach (var srcKey in mat.Keys)
+            {
+                keys.Add(srcKey);
+
+                var dstKeys = mat[srcKey].Keys;
+                keys.AddRange(dstKeys);
+            }
+
+            return keys.Distinct();
         }
     }
 }

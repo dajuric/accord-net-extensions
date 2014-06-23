@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Accord.Extensions;
+using System.IO;
 
 namespace Misc
 {
@@ -11,15 +10,11 @@ namespace Misc
     {
         static void Main(string[] args)
         {
-            testStringPathExtensions(); //TODO: finish
-        }
+            Console.WriteLine("\n********** Path extensions ************");
+            PathExtensionsTest.Test();
 
-        static void testStringPathExtensions()
-        {
-            string filePath = @"C:/Some folder/Some child folder\file.txt";
-
-            Console.WriteLine("Normalized delimiters: " + filePath.NormalizePathDelimiters());
-            //Console.WriteLine("Normalized delimiters: " + filePath.NormalizePathDelimiters());
+            Console.WriteLine("\n********** Platform ************");
+            PlatformTest.Test();    
         }
     }
 }

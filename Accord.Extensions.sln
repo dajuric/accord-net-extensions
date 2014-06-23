@@ -109,6 +109,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JPDAF_Demo", "Experimental\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RT", "Experimental\RT\RT.csproj", "{531C3A68-6830-47CB-894A-203971BFD576}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericImageSamples", "Samples\Imaging\GenericImageSamples\GenericImageSamples.csproj", "{096BB366-DD5F-4535-AB15-9B975AB9E87E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -472,6 +474,18 @@ Global
 		{531C3A68-6830-47CB-894A-203971BFD576}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{531C3A68-6830-47CB-894A-203971BFD576}.Release|Win32.ActiveCfg = Release|Any CPU
 		{531C3A68-6830-47CB-894A-203971BFD576}.Release|x64.ActiveCfg = Release|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Release|Win32.ActiveCfg = Release|Any CPU
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -520,5 +534,6 @@ Global
 		{83816CC9-DB98-4048-888D-E81CB08178D7} = {5441734A-F5BE-4358-AB2D-B35DA258331C}
 		{77CC7BED-254D-4E96-86D9-29379A1AA104} = {EA48A5F3-CBB8-4115-9726-A835402D5983}
 		{531C3A68-6830-47CB-894A-203971BFD576} = {EA48A5F3-CBB8-4115-9726-A835402D5983}
+		{096BB366-DD5F-4535-AB15-9B975AB9E87E} = {5441734A-F5BE-4358-AB2D-B35DA258331C}
 	EndGlobalSection
 EndGlobal

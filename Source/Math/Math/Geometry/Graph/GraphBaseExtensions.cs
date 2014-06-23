@@ -5,6 +5,12 @@ namespace Accord.Extensions.Math.Geometry
 {
     public static class GraphBaseExtensions
     {
+        public static IEnumerable<TVertex> GetVertices<TVertex, TEdge>(this Dictionary<TVertex, Dictionary<TVertex, TEdge>> graph)
+           where TEdge : Edge<TVertex>
+        {
+            return graph.GetKeys<TVertex, TEdge>();
+        }
+
         public static IEnumerable<TVertex> GetVertices<TVertex, TEdge>(this IEnumerable<TEdge> edges)
            where TEdge : Edge<TVertex>
         {

@@ -11,11 +11,11 @@ namespace VideoCapture
         VideoCaptureBase capture;
         StreamableDestination writer;
 
-        public VideoCaptureDemo()
+        public VideoCaptureDemo() //TODO: critical polish sample (add sample videos and DirectoryReader)
         {
             InitializeComponent();
 
-            //capture = new CameraCapture(0);
+            //capture = new CameraCapture(0); //capture from camera
             capture = new FileCapture(@"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv");
             capture.Open();
 

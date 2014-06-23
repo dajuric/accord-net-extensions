@@ -1,4 +1,5 @@
-﻿using Accord.Extensions.Math.Geometry;
+﻿using Accord.Extensions.Math;
+using Accord.Extensions.Math.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,7 +165,7 @@ namespace Accord.Extensions.Imaging.Converters
 
         private static void addDepthConversions()
         {
-            var colors = graph.Keys.ToArray();
+            var colors = graph.GetVertices<ColorInfo, ConversionData<ColorInfo>>().ToList();
 
             foreach (var color in colors)
             {
@@ -178,7 +179,7 @@ namespace Accord.Extensions.Imaging.Converters
 
         private static void addGenericConversions()
         {
-            var colors = graph.Keys.ToArray();
+            var colors = graph.GetVertices<ColorInfo, ConversionData<ColorInfo>>().ToList();
 
             foreach (var genericColor in genericColors)
             {
@@ -206,7 +207,7 @@ namespace Accord.Extensions.Imaging.Converters
 
         private static void addSelfPaths()
         {
-            var colors = graph.Keys.ToArray();
+            var colors = graph.GetVertices<ColorInfo, ConversionData<ColorInfo>>().ToList();
 
             foreach (var color in colors)
             {
@@ -292,7 +293,7 @@ namespace Accord.Extensions.Imaging.Converters
             {
                 var castedIm = convertedIm;
                 convertedIm = castedIm.Clone();
-                //castedIm.Dispose(); //TODO. should I dispose it ? (I would dispose srcImage -> not good)
+                //castedIm.Dispose(); //TODO. should I dispose it ? (It would dispose srcImage -> not good)
             }
 
             return convertedIm;
