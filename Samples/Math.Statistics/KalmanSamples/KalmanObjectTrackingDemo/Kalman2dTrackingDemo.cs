@@ -10,6 +10,7 @@ using Accord.Math;
 using AForge;
 using System;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using ModelState = Accord.Extensions.Statistics.Filters.ConstantVelocity2DModel;
 using Point = AForge.IntPoint;
@@ -41,14 +42,14 @@ namespace KalmanObjectTracking
         {
             var measurementDimension = 2; //just coordinates
 
-            var initialState = new ModelState { Position = startPoint, Velocity = new PointF()};
+            var initialState = new ModelState { Position = startPoint, Velocity = new PointF(0.5f, -2f)};
             var initialStateError = ModelState.GetProcessNoise(0);
 
             kalman = new DiscreteKalmanFilter<ModelState, PointF>(initialState, initialStateError, 
                                                                   measurementDimension /*(position)*/, 0 /*no control*/,
                                                                   x => ModelState.ToArray(x), x => ModelState.FromArray(x), x => new double[] { x.X, x.Y });
 
-            kalman.ProcessNoise = ModelState.GetProcessNoise(0.2);
+            kalman.ProcessNoise = ModelState.GetProcessNoise(2);
             kalman.MeasurementNoise = Matrix.Diagonal<double>(kalman.MeasurementVectorDimension, 1);
 
             kalman.MeasurementMatrix = new double[,] //just pick point coordinates for an observation [2 x 4] (look at ConstantVelocity2DModel)
@@ -85,7 +86,7 @@ namespace KalmanObjectTracking
             //backgroundHist.Normalize(Byte.MaxValue);
             
             //how good originalObjHist and objHist match (suppresses possible selected background)
-            ratioHist = originalObjHist.CreateRatioHistogram(backgroundHist, Byte.MaxValue, 5);
+            ratioHist = originalObjHist.CreateRatioHistogram(backgroundHist, Byte.MaxValue, 3);
 
             searchArea = roi;
             roi = Rectangle.Empty;
@@ -107,7 +108,7 @@ namespace KalmanObjectTracking
             if (!foundBox.IsEmpty)
             {
                 /**************************** KALMAN correct **************************/
-                kalman.Correct(new PointF(foundBox.Center.X, foundBox.Center.Y)); //correct predicted state by measurement
+                //kalman.Correct(new PointF(foundBox.Center.X, foundBox.Center.Y)); //correct predicted state by measurement
                 /**************************** KALMAN correct **************************/
 
                 var foundArea = Rectangle.Round(foundBox.GetMinArea());
@@ -151,7 +152,7 @@ namespace KalmanObjectTracking
 
              //stopping conditions
             float avgIntensity = centralMoments.Mu00 / (foundBox.Size.Area() + Single.Epsilon);
-            if (avgIntensity < PROBABILITY_MIN_VAL || foundBox.Size.IsEmpty)
+            if (avgIntensity < PROBABILITY_MIN_VAL || foundBox.Size.IsEmpty || foundBox.GetMinArea().Area() < 5 * 5)
             {
                 foundBox = Box2D.Empty; //invalid box
             }
@@ -169,7 +170,7 @@ namespace KalmanObjectTracking
             InitializeComponent();
 
 #if FILE_CAPTURE
-            roi = new Rectangle(210, 435, 90, 45); //user defined rectangle for sample video
+            roi = new Rectangle(220, 445, 80, 25); //user defined rectangle for sample video
             isROISelected = true;
 #endif
             bar_ValueChanged(null, null); //write values to variables
@@ -201,6 +202,8 @@ namespace KalmanObjectTracking
             frame = videoCapture.ReadAs<Bgr, byte>();
             if (frame == null)
                 return;
+
+            videoCapture.Seek(-1, SeekOrigin.Current);
 
             if (isROISelected)
             { 
@@ -250,6 +253,7 @@ namespace KalmanObjectTracking
             this.pbProbabilityImage.Image = probabilityMap.ToBitmap(); //it will be just casted (data is shared) 8bpp gray
 
             GC.Collect();
+            //Thread.Sleep(100);
         }
     
         void CamshiftDemo_FormClosing(object sender, FormClosingEventArgs e)

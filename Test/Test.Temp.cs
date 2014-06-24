@@ -87,6 +87,38 @@ namespace Test
 
             Debug.Assert(hue >= 0 && hue <= 360);
         }
+
+        private static long measure(Action action, int numberOfTimes, bool writeMessage = false)
+        {
+            long s = DateTime.Now.Ticks;
+
+            for (int i = 0; i < numberOfTimes; i++)
+            {
+                action();
+            }
+
+            long e = DateTime.Now.Ticks;
+            long elapsed = (e - s) / TimeSpan.TicksPerMillisecond;
+
+            if (writeMessage)
+                Console.WriteLine("Per call ~{0} ms", (float)elapsed / numberOfTimes);
+
+            return elapsed;
+        }
+
+        private static void measure(Action action1, Action action2, int numberOfTimes, string action1Name, string action2Name)
+        {
+            Console.WriteLine("Measuring {0}", action1Name);
+            var elapsed1 = measure(action1, numberOfTimes);
+
+            Console.WriteLine("Measuring {0}", action2Name);
+            var elapsed2 = measure(action2, numberOfTimes);
+
+            if (elapsed1 < elapsed2)
+                Console.WriteLine("{0} is faster than {1} ~{2} times. Per call: ~{3} ms", action1Name, action2Name, (float)elapsed2 / elapsed1, (float)elapsed1 / numberOfTimes);
+            else
+                Console.WriteLine("{0} is slower than {1} ~{2} times. Per call: ~{3} ms", action1Name, action2Name, (float)elapsed1 / elapsed2, (float)elapsed1 / numberOfTimes);
+        }
     }
 
 }

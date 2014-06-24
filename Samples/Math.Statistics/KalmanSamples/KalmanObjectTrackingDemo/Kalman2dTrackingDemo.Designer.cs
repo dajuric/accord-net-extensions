@@ -75,7 +75,7 @@
             this.barVMax.Size = new System.Drawing.Size(255, 24);
             this.barVMax.TabIndex = 7;
             this.barVMax.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.barVMax.Value = 220;
+            this.barVMax.Value = 150;
             this.barVMax.ValueChanged += new System.EventHandler(this.bar_ValueChanged);
             // 
             // barVMin

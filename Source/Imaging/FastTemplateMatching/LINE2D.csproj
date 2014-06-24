@@ -149,7 +149,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="UnmanagedLibraries\Windows\x64\SIMDArrayInstructions.dll" />
+    <Content Include="UnmanagedLibraries\Windows\x64\SIMDArrayInstructions.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="UnmanagedLibraries\Windows\x86\SIMDArrayInstructions.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -37,7 +37,8 @@ namespace Accord.Extensions.Statistics.Filters
         protected override void predictInternal(double[] controlVector)
         {
             //x'(k) = A * x(k-1)
-            this.state = this.state.Multiply(this.TransitionMatrix);
+            //this.state = this.state.Multiply(this.TransitionMatrix);
+            this.state = this.TransitionMatrix.Multiply(this.state);
 
             //x'(k) =  x'(k) + B * u(k)
             if(controlVector != null)

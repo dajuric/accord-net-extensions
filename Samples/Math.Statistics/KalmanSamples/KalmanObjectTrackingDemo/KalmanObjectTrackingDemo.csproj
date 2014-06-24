@@ -101,16 +101,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Sequence\image-426.jpg" />
-    <Content Include="Resources\Sequence\image-427.jpg" />
-    <Content Include="Resources\Sequence\image-428.jpg" />
-    <Content Include="Resources\Sequence\image-429.jpg" />
-    <Content Include="Resources\Sequence\image-430.jpg" />
-    <Content Include="Resources\Sequence\image-431.jpg" />
-    <Content Include="Resources\Sequence\image-432.jpg" />
-    <Content Include="Resources\Sequence\image-433.jpg" />
-    <Content Include="Resources\Sequence\image-434.jpg" />
-    <Content Include="Resources\Sequence\image-435.jpg" />
     <Content Include="Resources\Sequence\image-436.jpg" />
     <Content Include="Resources\Sequence\image-437.jpg" />
     <Content Include="Resources\Sequence\image-438.jpg" />
