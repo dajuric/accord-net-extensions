@@ -5,4 +5,6 @@ See first (basic samples):
    Core => ElementCaching
    Core => ParallelArrayProcessor
 
+   Imaging => GenericImageSamples
+
    Video.IO => VideoCaptureDemo
