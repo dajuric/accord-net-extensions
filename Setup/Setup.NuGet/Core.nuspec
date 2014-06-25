@@ -1,0 +1,30 @@
+﻿<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Extensions.Core</id>
+    <version>$version$</version>
+    <title>Accord Extensions (core library)</title>
+    <authors>Accord.NET Extensions</authors>
+    <owners>Accord.NET Extensions</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      The core of the Accord.NET Extensions Framework. 
+      Contains classes needed for other libraries such as: collections, structures, strcutures for parallel processing and extensions shared across libraries. Accord.NET Extensions is an extension framework for Accord.NET and AForge.NET.
+    </description>
+    <summary>Accord.NET Extensions Framework core library.</summary>
+    <tags>accord.net framework extensions</tags>
+
+    <dependencies>
+      <dependency id="AForge"                 version="2.2.5" />
+    </dependencies>
+  </metadata>
+  
+  <files>
+    <file src="..\..\bin\Release\Accord.Extensions.Core.dll" target="lib\Accord.Extensions.Core.dll" />
+    <file src="..\..\bin\Release\Accord.Extensions.Core.xml" target="lib\Accord.Extensions.Core.xml" />
+  </files>
+</package>
