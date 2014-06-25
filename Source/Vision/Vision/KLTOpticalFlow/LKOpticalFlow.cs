@@ -1,11 +1,6 @@
-﻿using Accord.Extensions.Imaging;
-using Accord.Extensions.Imaging.Filters;
+﻿using System.Threading.Tasks;
+using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
-using System;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Linq;
-using Accord.Extensions;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 

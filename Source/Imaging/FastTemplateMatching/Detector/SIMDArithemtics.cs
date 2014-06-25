@@ -1,9 +1,8 @@
-﻿using Accord.Extensions.Imaging;
-using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using Accord.Extensions;
+using Accord.Extensions.Imaging;
 using Point = AForge.IntPoint;
 
 namespace LINE2D

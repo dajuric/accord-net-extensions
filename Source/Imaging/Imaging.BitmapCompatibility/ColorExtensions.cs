@@ -1,10 +1,6 @@
-﻿using Accord.Extensions.Imaging.Helper;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Accord.Extensions.Imaging.Helper;
 
 namespace Accord.Extensions.Imaging
 {

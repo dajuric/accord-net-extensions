@@ -1,10 +1,6 @@
-﻿using Accord.Extensions.Imaging;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Accord.Extensions.Imaging;
 
 namespace Accord.Extensions.Vision
 {
@@ -67,7 +63,7 @@ namespace Accord.Extensions.Vision
                     break;
             }
 
-            var currentFrame = System.Math.Min(this.Length, System.Math.Max(0, newPosition));
+            var currentFrame = System.Math.Min(this.Length - 1, System.Math.Max(0, newPosition));
             return currentFrame;
         }
 

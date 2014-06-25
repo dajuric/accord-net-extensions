@@ -1,6 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System;
-using Accord.Extensions;
 
 namespace Accord.Extensions.Imaging
 {

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using Accord.Extensions.Statistics.Filters;
-using PointF = AForge.Point;
 using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
+using PointF = AForge.Point;
 
 namespace Kalman2DFilterDemo
 {

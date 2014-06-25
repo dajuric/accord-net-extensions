@@ -1,7 +1,4 @@
-﻿using Accord.Extensions;
-using System;
-
-namespace Accord.Extensions.Imaging
+﻿namespace Accord.Extensions.Imaging
 {
     public static partial class MathOperations
     {

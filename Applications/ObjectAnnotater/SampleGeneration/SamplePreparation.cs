@@ -1,8 +1,8 @@
-﻿using Accord.Extensions;
+﻿using System;
+using System.Windows.Forms;
+using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
-using System;
-using System.Windows.Forms;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 using RangeF = AForge.Range;
 

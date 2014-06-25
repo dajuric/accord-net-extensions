@@ -1,16 +1,9 @@
-﻿using Accord.Controls;
-using Accord.Extensions.Imaging;
-using Accord.Extensions.Imaging.Converters;
-using Accord.Extensions.Imaging.Filters;
-using Accord.Extensions.Math;
-using AForge.Imaging;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Imaging.Filters;
+using AForge.Imaging;
 using ColorConverter = Accord.Extensions.Imaging.Converters.ColorDepthConverter;
 
 namespace Test

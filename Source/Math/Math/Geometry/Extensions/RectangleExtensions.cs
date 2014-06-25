@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Accord.Extensions;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 using RangeF = AForge.Range;
-using System.Diagnostics;
 
 namespace Accord.Extensions.Math.Geometry
 {

@@ -1,6 +1,6 @@
-﻿using Accord.Math;
+﻿using System;
 using Accord.Extensions.Math;
-using System;
+using Accord.Math;
 using PointF = AForge.Point;
 
 namespace Accord.Extensions.Statistics.Filters

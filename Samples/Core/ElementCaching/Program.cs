@@ -1,10 +1,10 @@
-﻿using Accord.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using Accord.Extensions;
 using Accord.Extensions.Caching;
 using Accord.Extensions.Imaging;
 using Microsoft.VisualBasic.Devices;
-using System;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace ElementCaching
 {

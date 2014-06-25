@@ -1,7 +1,5 @@
-﻿using Accord.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Runtime.CompilerServices;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;

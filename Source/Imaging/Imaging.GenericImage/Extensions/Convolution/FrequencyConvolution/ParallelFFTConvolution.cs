@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using Accord.Extensions.Imaging.Helper;
 using Accord.Extensions.Math;
-using Accord.Extensions;
 
 namespace Accord.Extensions.Imaging
 {

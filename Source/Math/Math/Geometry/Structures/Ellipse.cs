@@ -1,13 +1,7 @@
-﻿using System.Linq;
+﻿using System;
 using System.Runtime.InteropServices;
-using Accord.Extensions;
-using Accord.Extensions.Math;
-using Accord.Math.Decompositions;
-using Accord.Extensions.Math.Geometry;
 using PointF = AForge.Point;
 using Point = AForge.IntPoint;
-using System;
-using System.Diagnostics;
 
 namespace Accord.Extensions.Math.Geometry
 {

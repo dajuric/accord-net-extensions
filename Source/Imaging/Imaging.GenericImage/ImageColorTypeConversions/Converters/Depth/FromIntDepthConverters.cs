@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Accord.Extensions.Imaging.Converters
+﻿namespace Accord.Extensions.Imaging.Converters
 {
     class FromIntDepthConverters
     {

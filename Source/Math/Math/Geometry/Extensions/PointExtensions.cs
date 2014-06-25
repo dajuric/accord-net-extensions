@@ -1,5 +1,5 @@
-﻿using AForge;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using AForge;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 

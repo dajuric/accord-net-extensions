@@ -1,15 +1,9 @@
-﻿using Accord.Extensions.Vision;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Accord.Extensions.Imaging;
+using Accord.Extensions.Vision;
 using Point = AForge.IntPoint;
-using Accord.Extensions;
-using System.Xml.Serialization;
-using Accord.Extensions.Math.Geometry;
 
 namespace ObjectAnnotater
 {

@@ -1,10 +1,10 @@
-﻿using Accord.Extensions.Math;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Accord.Extensions.Math;
 using Accord.Math;
 using Accord.Statistics.Distributions.Multivariate;
 using Accord.Statistics.Distributions.Univariate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Accord.Extensions.Statistics.Filters
 {

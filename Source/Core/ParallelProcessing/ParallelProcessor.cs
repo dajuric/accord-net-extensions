@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Accord.Extensions;
 using System.Linq;
 using System.Threading.Tasks;
 using Point = AForge.IntPoint;

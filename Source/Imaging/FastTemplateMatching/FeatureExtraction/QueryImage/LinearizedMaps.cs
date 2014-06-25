@@ -1,10 +1,8 @@
-﻿using Accord.Extensions;
-using Accord.Extensions.Imaging;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security;
+using Accord.Extensions;
+using Accord.Extensions.Imaging;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 

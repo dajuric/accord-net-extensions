@@ -1,5 +1,5 @@
-﻿using Accord.Extensions.Imaging;
-using System;
+﻿using System;
+using Accord.Extensions.Imaging;
 
 namespace Accord.Extensions.Vision
 {

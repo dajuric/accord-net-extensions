@@ -1,14 +1,14 @@
-﻿using Accord.Extensions;
-using Accord.Extensions.Imaging;
-using Accord.Extensions.Vision;
-using LINE2D;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Accord.Extensions;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Vision;
+using LINE2D;
 using PointF = AForge.Point;
 
 

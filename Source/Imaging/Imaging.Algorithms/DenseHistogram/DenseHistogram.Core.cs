@@ -1,7 +1,7 @@
-﻿using AForge;
-using System;
+﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using AForge;
 
 namespace Accord.Extensions.Imaging
 {

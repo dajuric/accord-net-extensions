@@ -22,8 +22,6 @@
 
 namespace Accord.Extensions.Imaging.Moments
 {
-    using Accord.Extensions.Imaging;
-
     /// <summary>
     ///   Base class for image moments.
     /// </summary>

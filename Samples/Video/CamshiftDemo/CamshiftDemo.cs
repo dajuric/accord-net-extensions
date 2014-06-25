@@ -1,12 +1,8 @@
-﻿using Accord.Extensions;
-using Accord.Extensions.Imaging;
-using Accord.Extensions.Imaging.Filters;
-using System;
+﻿using System;
 using System.Windows.Forms;
-using AForge;
-using Accord.Extensions.Imaging.Converters;
+using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
-using System.Threading;
+using AForge;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 

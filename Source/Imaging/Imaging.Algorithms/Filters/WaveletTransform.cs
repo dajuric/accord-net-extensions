@@ -1,11 +1,5 @@
 ﻿using Accord.Imaging.Filters;
 using Accord.Math.Wavelets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Accord.Extensions.Imaging;
 using AForge.Imaging.Filters;
 
 namespace Accord.Extensions.Imaging.Filters

@@ -1,11 +1,4 @@
-﻿using Accord.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Accord.Extensions.Imaging
+﻿namespace Accord.Extensions.Imaging
 {
     public static class SaveExtensions
     {

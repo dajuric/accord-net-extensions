@@ -1,6 +1,6 @@
-﻿using Accord.Extensions.Imaging;
+﻿using System;
+using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Moments;
-using System;
 using Accord.Extensions.Math.Geometry;
 
 namespace Accord.Extensions.Vision

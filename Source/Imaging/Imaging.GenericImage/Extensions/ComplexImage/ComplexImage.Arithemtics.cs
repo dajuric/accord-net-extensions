@@ -1,5 +1,5 @@
-﻿using Accord.Extensions.Math;
-using System;
+﻿using System;
+using Accord.Extensions.Math;
 
 namespace Accord.Extensions.Imaging
 {

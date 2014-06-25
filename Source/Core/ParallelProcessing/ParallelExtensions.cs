@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 //taken from: http://blogs.msdn.com/b/pfxteam/archive/2009/08/12/9867246.aspx

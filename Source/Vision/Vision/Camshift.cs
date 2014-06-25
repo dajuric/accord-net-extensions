@@ -1,9 +1,7 @@
-﻿using Accord.Extensions.Math.Geometry;
+﻿using System;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Moments;
-using Accord.Math;
-using AForge;
-using System;
+using Accord.Extensions.Math.Geometry;
 
 namespace Accord.Extensions.Vision
 {

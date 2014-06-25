@@ -1,8 +1,7 @@
-﻿using Accord.Extensions.Math;
-using Accord.Extensions.Math.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Accord.Extensions.Math.Geometry;
 
 namespace Accord.Extensions.Imaging.Converters
 {

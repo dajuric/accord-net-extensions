@@ -1,14 +1,11 @@
-﻿using Accord.Statistics.Distributions.Univariate;
-using Accord.Extensions.Math;
-using Accord.Math;
-using AForge;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Accord.Extensions.Math;
+using Accord.Math;
 using Accord.Statistics.Distributions.Multivariate;
+using Accord.Statistics.Distributions.Univariate;
+using AForge;
 
 namespace Accord.Extensions.Statistics.Filters
 {

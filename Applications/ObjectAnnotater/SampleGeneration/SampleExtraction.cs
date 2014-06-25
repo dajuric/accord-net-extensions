@@ -1,12 +1,4 @@
-﻿using Accord.Extensions;
-using Accord.Extensions.Imaging;
-using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Vision;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 using Point = AForge.IntPoint;

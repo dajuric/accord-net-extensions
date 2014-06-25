@@ -1,5 +1,5 @@
-﻿using Accord.Extensions.Math;
-using System;
+﻿using System;
+using Accord.Extensions.Math;
 using ColorConvertData = Accord.Extensions.Imaging.Converters.ColorDepthConverter.ConversionData<Accord.Extensions.Imaging.ColorInfo>;
 using DepthConvertData = Accord.Extensions.Imaging.Converters.ColorDepthConverter.ConversionData<System.Type>;
 

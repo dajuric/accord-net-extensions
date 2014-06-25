@@ -1,7 +1,7 @@
-﻿using MoreLinq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 using Range = AForge.IntRange;

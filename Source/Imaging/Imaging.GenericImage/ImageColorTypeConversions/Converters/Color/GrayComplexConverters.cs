@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Accord.Extensions.Imaging.Converters
+﻿namespace Accord.Extensions.Imaging.Converters
 {
     static class GrayComplexConverters
     {

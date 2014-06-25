@@ -1,9 +1,9 @@
-﻿using Accord.Extensions.Imaging;
+﻿using System;
+using System.IO;
+using Accord.Extensions.Imaging;
 using Accord.Extensions.Math;
 using Accord.Math;
 using AForge.Imaging;
-using System;
-using System.IO;
 
 namespace GenericImage
 {

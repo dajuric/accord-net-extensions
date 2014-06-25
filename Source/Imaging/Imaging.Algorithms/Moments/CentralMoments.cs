@@ -20,11 +20,10 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.Extensions.Math.Geometry;
+
 namespace Accord.Extensions.Imaging.Moments
 {
-    using System;
-    using Accord.Extensions;
-    using Accord.Extensions.Math.Geometry;
     using PointF = AForge.Point;
 
     /// <summary>

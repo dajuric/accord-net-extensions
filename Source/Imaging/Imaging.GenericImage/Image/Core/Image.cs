@@ -1,10 +1,7 @@
-﻿using Accord.Extensions;
-using Accord.Extensions.Imaging.Helper;
-using System;
-using System.Drawing;
+﻿using System;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Xml.Serialization;
+using Accord.Extensions.Imaging.Helper;
 
 namespace Accord.Extensions.Imaging
 {

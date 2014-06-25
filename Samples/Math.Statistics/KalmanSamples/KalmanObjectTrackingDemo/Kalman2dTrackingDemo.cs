@@ -1,5 +1,8 @@
 ﻿#define FILE_CAPTURE //comment it to enable camera capture
 
+using System;
+using System.IO;
+using System.Windows.Forms;
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Moments;
@@ -8,10 +11,6 @@ using Accord.Extensions.Statistics.Filters;
 using Accord.Extensions.Vision;
 using Accord.Math;
 using AForge;
-using System;
-using System.IO;
-using System.Threading;
-using System.Windows.Forms;
 using ModelState = Accord.Extensions.Statistics.Filters.ConstantVelocity2DModel;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;

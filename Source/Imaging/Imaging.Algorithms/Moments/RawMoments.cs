@@ -20,14 +20,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using AForge;
+
 namespace Accord.Extensions.Imaging.Moments
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-    using AForge;
-    using Accord.Extensions;
-
     /// <summary>
     ///   Raw image moments.
     /// </summary>

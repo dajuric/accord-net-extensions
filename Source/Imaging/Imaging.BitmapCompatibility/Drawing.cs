@@ -1,22 +1,12 @@
-﻿using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Imaging.Helper;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Accord.Extensions.Math.Geometry;
+using AForge.Imaging;
 using AForge.Math.Geometry;
-using Accord.Extensions;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
-using AForge.Imaging;
-using Accord.Extensions.Imaging;
-
-using Pen = System.Drawing.Pen;
-using Brush = System.Drawing.Brush;
-using Color = System.Drawing.Color;
-using Graphics = System.Drawing.Graphics;
-using Font = System.Drawing.Font;
 
 namespace Accord.Extensions.Imaging
 {

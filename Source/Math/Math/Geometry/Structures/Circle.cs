@@ -1,6 +1,5 @@
 ﻿using PointF = AForge.Point;
 using Point = AForge.IntPoint;
-using AForge;
 
 namespace Accord.Extensions.Math.Geometry
 {

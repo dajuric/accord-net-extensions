@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RangeF = AForge.Range;
+﻿using RangeF = AForge.Range;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 using LineSegment2DF = AForge.Math.Geometry.LineSegment;

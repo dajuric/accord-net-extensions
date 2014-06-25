@@ -1,10 +1,4 @@
-﻿using Accord.Extensions;
-using AForge.Imaging.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AForge.Imaging.Filters;
 
 namespace Accord.Extensions.Imaging
 {

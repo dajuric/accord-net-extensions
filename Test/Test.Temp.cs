@@ -1,18 +1,9 @@
-﻿using Accord.Extensions.Imaging;
-using Accord.Extensions.Imaging.Converters;
-using Accord.Extensions.Imaging.Filters;
-using Accord.Extensions.Math;
-using AForge.Imaging;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
+using Accord.Extensions.Imaging;
 
 namespace Test
 {

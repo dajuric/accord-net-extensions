@@ -1,5 +1,5 @@
-﻿using Accord.Extensions.Imaging;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using Accord.Extensions.Imaging;
 
 namespace GenericImage
 {

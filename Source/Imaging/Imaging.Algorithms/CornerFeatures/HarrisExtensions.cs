@@ -1,11 +1,6 @@
-﻿using Accord.Imaging;
+﻿using System.Collections.Generic;
+using Accord.Imaging;
 using AForge;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Accord.Extensions.Imaging;
 
 namespace Accord.Extensions.Imaging
 {

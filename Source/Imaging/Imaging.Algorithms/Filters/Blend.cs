@@ -1,14 +1,7 @@
-﻿using Accord.Imaging;
+﻿using Accord.Extensions.Imaging.Helper;
+using Accord.Imaging;
 using Accord.Imaging.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Accord.Extensions.Imaging;
 using Accord.Math;
-using Accord.Extensions.Imaging.Helper;
-using Accord.Extensions.Math;
 
 namespace Accord.Extensions.Imaging
 {

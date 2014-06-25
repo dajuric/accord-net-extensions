@@ -1,8 +1,7 @@
-﻿using Accord.Extensions;
+﻿using System;
+using Accord.Extensions;
 using Accord.Extensions.Statistics.Filters;
 using LINE2D;
-using System;
-using Match = LINE2D.Match;
 
 namespace ParticleFilterModelFitting
 {

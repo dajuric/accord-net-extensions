@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using Accord.Math;
-using Accord.Statistics.Distributions.Univariate;
 using Accord.Extensions.Statistics.Filters;
+using Accord.Math;
 using PointF = AForge.Point;
 using ModelState = Accord.Extensions.Statistics.Filters.ConstantVelocity2DModel;
 

@@ -1,12 +1,8 @@
-﻿using Accord.Extensions;
+﻿using System;
+using System.Linq;
 using Accord.Extensions.Imaging.Converters;
 using Accord.Extensions.Imaging.Helper;
 using AForge.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Accord.Extensions.Imaging
 {

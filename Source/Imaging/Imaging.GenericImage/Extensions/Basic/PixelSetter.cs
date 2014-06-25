@@ -1,6 +1,5 @@
-﻿using Accord.Extensions;
+﻿using System;
 using Accord.Extensions.Imaging.Helper;
-using System;
 
 namespace Accord.Extensions.Imaging
 {

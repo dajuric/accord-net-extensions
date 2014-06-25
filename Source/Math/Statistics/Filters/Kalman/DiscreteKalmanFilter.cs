@@ -1,6 +1,6 @@
-﻿using Accord.Math;
+﻿using System;
 using Accord.Extensions.Math;
-using System;
+using Accord.Math;
 
 namespace Accord.Extensions.Statistics.Filters
 {

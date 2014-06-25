@@ -1,11 +1,11 @@
-﻿using Accord.Extensions;
-using Accord.Extensions.Imaging;
-using Accord.Extensions.Math.Geometry;
-using LINE2D;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Accord.Extensions;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Math.Geometry;
+using LINE2D;
 using PointF = AForge.Point;
 using Range = AForge.IntRange;
 

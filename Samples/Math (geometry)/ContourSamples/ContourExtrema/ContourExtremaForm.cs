@@ -1,16 +1,10 @@
-﻿using Accord.Extensions.Imaging;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Accord.Extensions.Math.Geometry;
 using Accord.Extensions;
-using System.Threading;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Math.Geometry;
 
 namespace ContourExtremaDemo
 {

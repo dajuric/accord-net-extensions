@@ -1,5 +1,5 @@
-﻿using Accord.Extensions;
-using System;
+﻿using System;
+using Accord.Extensions;
 
 namespace Parallel
 {

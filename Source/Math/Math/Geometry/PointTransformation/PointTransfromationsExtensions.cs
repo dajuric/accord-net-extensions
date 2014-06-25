@@ -1,6 +1,5 @@
-﻿using Accord.Math;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using Accord.Math;
 using PointF = AForge.Point;
 
 namespace Accord.Extensions.Math.Geometry

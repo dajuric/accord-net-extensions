@@ -1,16 +1,15 @@
-﻿using Accord.Extensions;
-using Accord.Extensions.Imaging;
-using Accord.Extensions.Math;
-using Accord.Extensions.Math.Geometry;
-using Accord.Math;
-using Accord.Statistics.Distributions.Univariate;
-using Accord.Extensions.Statistics.Filters;
-using Accord.Extensions.Vision;
-using AForge;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Accord.Extensions;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Math.Geometry;
+using Accord.Extensions.Statistics.Filters;
+using Accord.Extensions.Vision;
+using Accord.Math;
+using Accord.Statistics.Distributions.Univariate;
+using AForge;
 using PointF = AForge.Point;
 
 namespace SimpleParticleFilterDemo
@@ -93,16 +92,15 @@ namespace SimpleParticleFilterDemo
 
         private void update()
         {
-           particleFilter = particleFilter.Update
-               (
-                   //measure
-                   p => updateParticleWeight(p),
-                   //normalize weights
-                   particles => ParticleFilter.SimpleNormalizer(particles),
-                   //resample (if necessary)
-                   (particles, normalizedWeights) => ParticleFilter.SimpleResampler(particles.ToList(), normalizedWeights.ToList())
-               )
-               .ToList();
+           particleFilter = Enumerable.ToList(particleFilter.Update
+                   (
+                       //measure
+                       p => updateParticleWeight(p),
+                       //normalize weights
+                       particles => ParticleFilter.SimpleNormalizer(particles),
+                       //resample (if necessary)
+                       (particles, normalizedWeights) => ParticleFilter.SimpleResampler(particles.ToList(), normalizedWeights.ToList())
+                   ));
         }
 
         NormalDistribution prob = new NormalDistribution(mean: 0, stdDev: 50);

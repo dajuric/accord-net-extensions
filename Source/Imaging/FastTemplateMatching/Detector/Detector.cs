@@ -1,10 +1,10 @@
-﻿using Accord.Extensions;
-using Accord.Extensions.Imaging;
-using Accord.Extensions.Math.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Accord.Extensions;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Math.Geometry;
 using Point = AForge.IntPoint;
 
 namespace LINE2D

@@ -1,6 +1,5 @@
-﻿using Accord.Extensions;
+﻿using System;
 using Accord.Extensions.Imaging.Converters;
-using System;
 
 namespace Accord.Extensions.Imaging
 {
@@ -38,7 +37,7 @@ namespace Accord.Extensions.Imaging
             where DestColor : IColor
             where DestType : struct
         {
-            return Convert(image, ColorInfo.GetInfo<DestColor, DestType>()) as Image<DestColor, DestType>;
+            return Convert(image, ColorInfo.GetInfo<DestColor, DestType>(), copyAlways, failIfCannotCast) as Image<DestColor, DestType>;
         }
 
         /// <summary>

@@ -1,6 +1,5 @@
-﻿using Accord.Extensions.Imaging;
-using System;
-using System.Drawing;
+﻿using System;
+using Accord.Extensions.Imaging;
 
 namespace LINE2D
 {

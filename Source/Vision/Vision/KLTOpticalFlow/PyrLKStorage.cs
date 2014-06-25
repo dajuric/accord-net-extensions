@@ -1,6 +1,6 @@
-﻿using Accord.Extensions.Imaging;
+﻿using System;
+using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Filters;
-using System;
 
 namespace Accord.Extensions.Vision
 {

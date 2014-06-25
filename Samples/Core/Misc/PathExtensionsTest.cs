@@ -1,6 +1,6 @@
-﻿using Accord.Extensions;
-using System;
+﻿using System;
 using System.IO;
+using Accord.Extensions;
 
 namespace Misc
 {

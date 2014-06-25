@@ -1,10 +1,6 @@
-﻿using Accord.Extensions;
-using Accord.Extensions.Math;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using Accord.Extensions.Math;
 
 namespace Accord.Extensions.Imaging
 {

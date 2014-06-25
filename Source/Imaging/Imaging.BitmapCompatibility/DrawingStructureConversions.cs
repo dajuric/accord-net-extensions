@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Accord.Extensions;
-using Point = AForge.IntPoint;
+﻿using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 
 namespace Accord.Extensions.Imaging

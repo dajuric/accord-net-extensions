@@ -1,5 +1,5 @@
-﻿using Accord.Math;
-using System;
+﻿using System;
+using Accord.Math;
 
 namespace Accord.Extensions.Imaging.Filters
 {

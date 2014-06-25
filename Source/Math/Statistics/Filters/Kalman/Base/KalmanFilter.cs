@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Accord.Extensions.Math;
-using Accord.Math;
 using Accord.Extensions.Math.Geometry;
-using Accord.Math.Decompositions;
+using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
 using PointF = AForge.Point;
 

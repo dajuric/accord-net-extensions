@@ -1,7 +1,7 @@
-﻿using Accord.Math;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Accord.Math;
 using PointF = AForge.Point;
 using RangeF = AForge.Range;
 

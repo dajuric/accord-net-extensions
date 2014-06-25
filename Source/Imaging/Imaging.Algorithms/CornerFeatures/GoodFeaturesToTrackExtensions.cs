@@ -1,10 +1,7 @@
-﻿using Accord.Extensions.Imaging.Filters;
-using Accord.Extensions.Imaging.IntegralImage;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Accord.Math.Geometry;
-using Accord.Extensions;
-using Accord.Extensions.Math;
+using Accord.Extensions.Imaging.Filters;
+using Accord.Extensions.Imaging.IntegralImage;
 using Accord.Extensions.Math.Geometry;
 using Point = AForge.IntPoint;
 

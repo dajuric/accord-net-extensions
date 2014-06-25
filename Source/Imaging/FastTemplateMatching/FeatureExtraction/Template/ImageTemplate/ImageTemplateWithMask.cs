@@ -1,11 +1,11 @@
-﻿using Accord.Extensions.Imaging;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Accord.Extensions.Imaging;
 
 namespace LINE2D
 {

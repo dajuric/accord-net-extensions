@@ -1,5 +1,5 @@
-﻿using Accord.Imaging;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Accord.Imaging;
 using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Imaging

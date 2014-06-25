@@ -1,9 +1,9 @@
-﻿using Accord.Extensions;
-using Accord.Extensions.Imaging;
-using Accord.Extensions.Math.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Accord.Extensions;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Math.Geometry;
 using LineSegment2DF = AForge.Math.Geometry.LineSegment;
 using PointF = AForge.Point;
 

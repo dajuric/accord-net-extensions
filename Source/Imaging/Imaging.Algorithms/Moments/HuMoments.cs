@@ -22,8 +22,6 @@
 
 namespace Accord.Extensions.Imaging.Moments
 {
-    using System;
-
     /// <summary>
     ///   Hu's set of invariant image moments.
     /// </summary>
@@ -137,7 +135,7 @@ namespace Accord.Extensions.Imaging.Moments
         {
             double inv = 1.0 / moments.Mu00;
             double inv2 = 1.0 / (moments.Mu00 * moments.Mu00);
-            double inv5d2 = Math.Sqrt(inv2 * inv2 * inv);
+            double inv5d2 = System.Math.Sqrt(inv2 * inv2 * inv);
 
 
             float n20 = (float)(moments.Mu20 * inv2);

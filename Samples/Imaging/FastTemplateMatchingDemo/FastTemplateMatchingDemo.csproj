@@ -50,19 +50,8 @@
     <Reference Include="AForge.Math">
       <HintPath>..\..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
     </Reference>
-    <Reference Include="AForge.Video">
-      <HintPath>..\..\..\packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Video.DirectShow">
-      <HintPath>..\..\..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -112,10 +101,6 @@
       <Project>{5f6b97f8-7ea6-4b5d-9a5d-f5581505c303}</Project>
       <Name>LINE2D</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Imaging\Imaging.Algorithms\Imaging.Algorithms.csproj">
-      <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
-      <Name>Imaging.Algorithms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Source\Imaging\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj">
       <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
       <Name>Imaging.BitmapCompatibility</Name>
@@ -131,10 +116,6 @@
     <ProjectReference Include="..\..\..\Source\Vision\Vision.IO\Vision.IO.csproj">
       <Project>{ed70a44e-9443-4a28-9b95-31299f8b2d08}</Project>
       <Name>Vision.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Vision\Vision\Vision.csproj">
-      <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
-      <Name>Vision</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

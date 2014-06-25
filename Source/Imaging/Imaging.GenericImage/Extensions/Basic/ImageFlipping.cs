@@ -1,5 +1,4 @@
-﻿using Accord.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Accord.Extensions.Imaging

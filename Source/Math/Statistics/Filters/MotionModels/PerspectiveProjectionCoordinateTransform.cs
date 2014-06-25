@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PointF = AForge.Point;
+﻿using PointF = AForge.Point;
 
 namespace Accord.Extensions.Statistics.Filters
 {

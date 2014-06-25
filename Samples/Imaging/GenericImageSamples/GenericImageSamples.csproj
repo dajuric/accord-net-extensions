@@ -38,9 +38,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord">
-      <HintPath>..\..\..\packages\Accord.2.12.0.0\lib\Accord.dll</HintPath>
-    </Reference>
     <Reference Include="Accord.Math">
       <HintPath>..\..\..\packages\Accord.Math.2.12.0.0\lib\Accord.Math.dll</HintPath>
     </Reference>
@@ -53,9 +50,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>

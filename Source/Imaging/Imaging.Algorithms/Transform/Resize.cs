@@ -1,7 +1,5 @@
-﻿using Accord.Extensions;
+﻿using System;
 using AForge.Imaging.Filters;
-using System;
-using System.Drawing;
 
 namespace Accord.Extensions.Imaging
 {

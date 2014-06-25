@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VideoCapture
@@ -16,7 +13,15 @@ namespace VideoCapture
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new VideoCaptureDemo());
+
+            Console.WriteLine(@"********** (1 / 3) Image directory reader sample ****************");
+            Application.Run(new DirectoryReaderSample());
+
+            Console.WriteLine(@"********** (2 / 3) Video capture and recording sample ****************");
+            Application.Run(new VideoCaptureAndRecordingSample());
+
+            Console.WriteLine(@"********** (3 / 3) Video extraction sample (see 'bin\OutputSamples\' ****************");
+            ExtractVideoSample.Test();
         }
     }
 }

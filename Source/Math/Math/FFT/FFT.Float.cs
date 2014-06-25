@@ -1,9 +1,7 @@
-﻿namespace Accord.Extensions.Math
-{
-    using Accord.Extensions;
-    using AForge.Math;
-    using System;
+﻿using System;
 
+namespace Accord.Extensions.Math
+{
     public static partial class FourierTransform
     {    
         public unsafe static void FFT(ComplexF[] data, Direction direction)

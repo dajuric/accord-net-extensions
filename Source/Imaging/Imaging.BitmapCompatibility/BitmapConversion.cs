@@ -1,12 +1,9 @@
-﻿using Accord.Extensions;
-using Accord.Extensions.Imaging.Helper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Accord.Extensions.Imaging.Helper;
 using ColorConverter = Accord.Extensions.Imaging.Converters.ColorDepthConverter;
 
 namespace Accord.Extensions.Imaging
