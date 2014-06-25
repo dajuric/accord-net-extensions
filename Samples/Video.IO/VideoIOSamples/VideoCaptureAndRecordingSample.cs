@@ -16,7 +16,7 @@ namespace VideoCapture
             InitializeComponent();
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
-            //capture = new CameraCapture(0); //capture from camera
+            //reader = new CameraCapture(0); //capture from camera
             reader = new FileCapture(Path.Combine(getResourceDir(), "Welcome Accord.NET Extensions.mp4"));
             reader.Open();
          
