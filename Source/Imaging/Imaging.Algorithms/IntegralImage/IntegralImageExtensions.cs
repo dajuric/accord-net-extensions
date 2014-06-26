@@ -145,7 +145,7 @@ namespace Accord.Extensions.Imaging.IntegralImage
         /// <returns>Integral image.</returns>
         public static Image<Gray, int> MakeIntegral(this Image<Gray, byte> img)
         {
-            return IntegralImageExtensionsBase.MakeIntegral(img) as Image<Gray, int>;
+            return IntegralImageExtensionsBase.MakeIntegral((IImage)img) as Image<Gray, int>;
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Accord.Extensions.Imaging.IntegralImage
         /// <returns>Integral image.</returns>
         public static Image<Gray, float> MakeIntegral(this Image<Gray, float> img)
         {
-            return MakeIntegral(img) as Image<Gray, float>;
+            return IntegralImageExtensionsBase.MakeIntegral((IImage)img) as Image<Gray, float>;
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace Accord.Extensions.Imaging.IntegralImage
         /// <returns>Integral image.</returns>
         public static Image<Gray, double> MakeIntegral(this Image<Gray, double> img)
         {
-            return MakeIntegral(img) as Image<Gray, double>;
+            return IntegralImageExtensionsBase.MakeIntegral((IImage)img) as Image<Gray, double>;
         }
 
         /// <summary>

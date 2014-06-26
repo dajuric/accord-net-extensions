@@ -18,10 +18,6 @@ namespace Test
         {
             Test test = new Test();
 
-            /*Test t44 = new Test();
-            t44.Bla();
-            return;*/
-
             var resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
             var imgColor = Bitmap.FromFile(Path.Combine(resourceDir, "testColorBig.jpg")).ToImage<Bgr, byte>();
             imgColor = imgColor.CorrectContrast(105);
@@ -34,18 +30,9 @@ namespace Test
 
             var res = new Image<Bgr, float>(320, 200);
             image1.GetRectSubPix(new PointF(1.9f, 1.9f), res);
-            ImageBox.Show("Interpolated image", res.ToBitmap());
+            ImageBox.Show("Interpolated image", res.ToBitmap());*/
 
-            var kernel1 = SobelExtensions.Sobel_3x3_X;
-
-            var res = ParallelSpatialConvolution.Convolve(image1, new Image<Gray, float>[] { kernel1 }, ConvolutionBorder.BorderNone);
-
-            res.ToBitmap().Save("bla.bmp");
-            ImageBox.Show(res.ToBitmap());
-            return;*/
-
-            Test t = new Test();
-            t.TestLKFlow();
+            test.TestLKFlow();
 
           
             return; //uncomment if you want execute functions below

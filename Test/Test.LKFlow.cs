@@ -34,7 +34,5 @@ namespace Test
             debug[(int)currFeatures.First().Y, (int)currFeatures.First().X] = Bgr8.Red;
             debug.Save("bla.bmp");
         }
-
-       
     }
 }

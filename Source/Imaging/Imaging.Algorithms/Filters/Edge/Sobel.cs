@@ -24,14 +24,14 @@ namespace Accord.Extensions.Imaging.Filters
 
         static SobelExtensions()
         {
-            //normalizeKernel(Sobel_3x3_X);
-            //normalizeKernel(Sobel_3x3_Y);
+            normalizeKernel(Sobel_3x3_X);
+            normalizeKernel(Sobel_3x3_Y);
         }
 
         private static void normalizeKernel(Image<Gray, float> kernel)
         {
             var sum = kernel.Convert<Gray, double>().ToArray().Abs().Sum().Sum();
-            kernel.Div(sum / 2, inPlace: true);
+            kernel.Div(sum, inPlace: true);
         }
 
         /*static readonly float[][,] sobel_3x3_X = new float[][,] // is actually slower using separable kernel; WTF ? TODO: DO something! 

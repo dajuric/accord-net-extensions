@@ -25,14 +25,14 @@ namespace PyrKLOpticalFlowDemo
             PointF[] currFeatures;
             float[] error;
             KLTFeatureStatus[] featureStatus;
-            LKOpticalFlow<FlowColor>.EstimateFlow(lkStorage, oldPositions.ToArray(), 
+            /*LKOpticalFlow<FlowColor>.EstimateFlow(lkStorage, oldPositions.ToArray(), 
                                                   out currFeatures, out featureStatus, out error,
-                                                  winSize);
+                                                  winSize);*/
 
 
-            /*PyrLKOpticalFlow<FlowColor>.EstimateFlow(lkStorage, oldPositions.ToArray(),
+            PyrLKOpticalFlow<FlowColor>.EstimateFlow(lkStorage, oldPositions.ToArray(),
                                                      out currFeatures, out featureStatus, out error, 
-                                                     winSize);*/
+                                                     winSize);
 
             newPositions = new List<PointF>();
             for (int i = 0; i < currFeatures.Length; i++)
@@ -50,7 +50,7 @@ namespace PyrKLOpticalFlowDemo
         {
             InitializeComponent();
 
-            lkStorage = new PyrLKStorage<FlowColor>(pyrLevels: 0);
+            lkStorage = new PyrLKStorage<FlowColor>(pyrLevels: 1);
             
             try
             {
