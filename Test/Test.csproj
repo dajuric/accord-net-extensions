@@ -56,7 +56,6 @@
     <Compile Include="ImagePatchProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.Graph.cs" />
     <Compile Include="Test.LKFlow.cs" />
     <Compile Include="Test.Temp.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

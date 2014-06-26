@@ -36,7 +36,7 @@ namespace ParticleFilterModelFitting
 
         private void init()
         {
-            var path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "PrototypeTemplatesBW");
+            var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName, "Resources", "PrototypeTemplatesBW");
             var generatedScales = EnumerableExtensions.GetRange(60, 170, 3);
             var generatedOrientations = EnumerableExtensions.GetRange(-90, +90, (int)((180f / GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS) / 2 / 2 /*user factor - last "2"*/));
 

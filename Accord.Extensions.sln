@@ -115,6 +115,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup.NuGet", "Setup\Setup.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphSearch", "Samples\Math (geometry)\GraphSearch\GraphSearch.csproj", "{3BFF1917-CF76-477E-837D-43639A0F6F71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -502,6 +504,18 @@ Global
 		{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB}.Release|Win32.ActiveCfg = Release|Any CPU
 		{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB}.Release|x64.ActiveCfg = Release|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Release|Win32.ActiveCfg = Release|Any CPU
+		{3BFF1917-CF76-477E-837D-43639A0F6F71}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -552,5 +566,6 @@ Global
 		{425C5E38-F89E-4416-BD2F-3CD2E2AAE2C3} = {E5EB7B7F-7208-4120-AF7F-3E8818870A78}
 		{131A083D-F12A-48FA-8A7D-381C6B5C222D} = {80FC5EA1-3478-4E7F-8B05-190DF6750EA4}
 		{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB} = {C5A4976B-EABE-41F5-A855-6B887A04F333}
+		{3BFF1917-CF76-477E-837D-43639A0F6F71} = {F31E8AE8-60A6-422D-8E96-911B65213569}
 	EndGlobalSection
 EndGlobal
