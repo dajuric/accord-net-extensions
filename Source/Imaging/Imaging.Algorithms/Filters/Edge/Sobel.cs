@@ -22,17 +22,7 @@ namespace Accord.Extensions.Imaging.Filters
         }
         .ToImage();
 
-        static SobelExtensions()
-        {
-            normalizeKernel(Sobel_3x3_X);
-            normalizeKernel(Sobel_3x3_Y);
-        }
-
-        private static void normalizeKernel(Image<Gray, float> kernel)
-        {
-            var sum = kernel.Convert<Gray, double>().ToArray().Abs().Sum().Sum();
-            kernel.Div(sum, inPlace: true);
-        }
+        private static int kernelNormalizer = 1 + 2 + 1 + 1 + 2 + 1;
 
         /*static readonly float[][,] sobel_3x3_X = new float[][,] // is actually slower using separable kernel; WTF ? TODO: DO something! 
         {
@@ -54,12 +44,13 @@ namespace Accord.Extensions.Imaging.Filters
         /// <param name="xOrder">Horizontal derivative order. </param>
         /// <param name="yOrder">Vertical derivative order.</param>
         /// <param name="apertureSize">Kernel size.</param>
+        /// <param name="normalizeKernel">Normalize kernel so the sum of all elements is 1.</param>
         /// <returns>Processed image.</returns>
-        public static Image<TColor, short> Sobel<TColor>(this Image<TColor, byte> im, int xOrder, int yOrder, int apertureSize = 3)
+        public static Image<TColor, short> Sobel<TColor>(this Image<TColor, byte> im, int xOrder, int yOrder, int apertureSize = 3, bool normalizeKernel = false)
             where TColor: IColor
         {
             //convert to short to avoid overflow
-            return im.Convert<TColor, short>().Sobel(xOrder, yOrder, apertureSize);
+            return im.Convert<TColor, short>().Sobel(xOrder, yOrder, apertureSize, normalizeKernel);
         }
 
         /// <summary>
@@ -70,8 +61,9 @@ namespace Accord.Extensions.Imaging.Filters
         /// <param name="xOrder">Horizontal derivative order. </param>
         /// <param name="yOrder">Vertical derivative order.</param>
         /// <param name="apertureSize">Kernel size.</param>
+        /// <param name="normalizeKernel">Normalize kernel so the sum of all elements is 1.</param>
         /// <returns>Processed image.</returns>
-        public static Image<TColor, TDepth> Sobel<TColor, TDepth>(this Image<TColor, TDepth> im, int xOrder, int yOrder, int apertureSize = 3)
+        public static Image<TColor, TDepth> Sobel<TColor, TDepth>(this Image<TColor, TDepth> im, int xOrder, int yOrder, int apertureSize = 3, bool normalizeKernel = false)
            where TColor : IColor
            where TDepth: struct
         {
@@ -80,16 +72,18 @@ namespace Accord.Extensions.Imaging.Filters
                 throw new Exception("Unsuported aperture size!");
 
             var kernels = new List<Image<Gray, float>>();
+            var sobel_3x3_X = normalizeKernel ? Sobel_3x3_X.Div(kernelNormalizer) : Sobel_3x3_X;
+            var sobel_3x3_Y = normalizeKernel ? Sobel_3x3_Y.Div(kernelNormalizer) : Sobel_3x3_Y;
 
             while (xOrder != 0)
             {
-                kernels.Add(Sobel_3x3_X);
+                kernels.Add(sobel_3x3_X);
                 xOrder--;
             }
 
             while (yOrder != 0)
             {
-                kernels.Add(Sobel_3x3_Y);
+                kernels.Add(sobel_3x3_Y);
                 yOrder--;
             }
 

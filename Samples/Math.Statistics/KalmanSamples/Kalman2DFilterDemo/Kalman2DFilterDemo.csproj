@@ -38,6 +38,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord">
+      <HintPath>..\..\..\..\packages\Accord.2.12.0.0\lib\Accord.dll</HintPath>
+    </Reference>
     <Reference Include="Accord.Math">
       <HintPath>..\..\..\..\packages\Accord.Math.2.12.0.0\lib\Accord.Math.dll</HintPath>
     </Reference>

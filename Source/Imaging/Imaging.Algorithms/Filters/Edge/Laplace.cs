@@ -13,24 +13,16 @@ namespace Accord.Extensions.Imaging.Filters
         }
         .ToImage();
 
-        static LaplaceExtensions()
-        {
-            normalizeKernel(Laplace_3x3);
-        }
-
-        private static void normalizeKernel(Image<Gray, float> kernel)
-        {
-            var sum = kernel.Convert<Gray, double>().ToArray().Abs().Sum().Sum();
-            kernel.Div(sum / 2, inPlace: true);
-        }
+        private static int kernelNormalizer = 1 + 1 + 1 + 1 + 4;
 
         /// <summary>
         /// Calculates the Laplacian of the image with the appropriate kernel.
         /// </summary>
         /// <param name="im">Input image.</param>
         /// <param name="apertureSize">Kernel size.</param>
+        /// <param name="normalizeKernel">Normalize kernel so the sum of all elements is 1.</param>
         /// <returns>Processed image.</returns>
-        public static Image<TColor, short> Laplace<TColor>(this Image<TColor, byte> im, int apertureSize = 3)
+        public static Image<TColor, short> Laplace<TColor>(this Image<TColor, byte> im, int apertureSize = 3, bool normalizeKernel = false)
             where TColor: IColor
         {
             //convert to short to avoid overflow
@@ -42,8 +34,9 @@ namespace Accord.Extensions.Imaging.Filters
         /// </summary>
         /// <param name="im">Input image.</param>
         /// <param name="apertureSize">Kernel size.</param>
+        /// <param name="normalizeKernel">Normalize kernel so the sum of all elements is 1.</param>
         /// <returns>Processed image.</returns>
-        public static Image<TColor, TDepth> Laplace<TColor, TDepth>(this Image<TColor, TDepth> im, int apertureSize = 3)
+        public static Image<TColor, TDepth> Laplace<TColor, TDepth>(this Image<TColor, TDepth> im, int apertureSize = 3, bool normalizeKernel = false)
            where TColor : IColor
            where TDepth: struct
         {
@@ -51,7 +44,9 @@ namespace Accord.Extensions.Imaging.Filters
             if (apertureSize != 3)
                 throw new Exception("Unsuported aperture size!");
 
-            return im.Convolve(Laplace_3x3);
+            var laplace_3x3 = normalizeKernel ? Laplace_3x3.Div(kernelNormalizer) : Laplace_3x3;
+
+            return im.Convolve(laplace_3x3);
         }
 
     }

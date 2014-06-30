@@ -73,8 +73,8 @@ namespace Accord.Extensions.Vision
                 var imPyr = img.PyrDown(pyrLevel);
 
                 pyr[pyrLevel] = imPyr;
-                derivX[pyrLevel] = imPyr.Sobel(1, 0, 3);
-                derivY[pyrLevel] = imPyr.Sobel(0, 1, 3);
+                derivX[pyrLevel] = imPyr.Sobel(xOrder: 1, yOrder: 0, apertureSize: 3, normalizeKernel: true);
+                derivY[pyrLevel] = imPyr.Sobel(xOrder: 0, yOrder: 1, apertureSize: 3, normalizeKernel: true);
             }
         }
 
