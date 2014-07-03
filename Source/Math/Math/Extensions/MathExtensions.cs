@@ -190,7 +190,7 @@ namespace Accord.Extensions.Math
 
         /// <summary>
         /// Checks whether the specified value is power of 2. 
-        /// It uses fast arithemtics to avoid using: Math.Floor(Math.Log(x, 2)).
+        /// It uses fast arithmetics to avoid using: Math.Floor(Math.Log(x, 2)).
         /// </summary>
         /// <param name="x">Value to check.</param>
         /// <returns>True if the number is power of 2, false otherwise.</returns>
@@ -204,8 +204,9 @@ namespace Accord.Extensions.Math
     }
 
     /// <summary>
-    /// <para>Defined functions can be used as object extensions.</para>
     /// Provides additional math functions for collections.
+    /// <para>Defined functions can be used as object extensions.</para>
+    /// </summary>
     public static class MathEnumerableExtensions
     {
         /// <summary>

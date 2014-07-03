@@ -1,10 +1,13 @@
-﻿using System;
+﻿#define FILE_CAPTURE //comment it to enable camera capture
+
+using System;
 using System.Windows.Forms;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
 using AForge;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
+using System.IO;
 
 namespace Accord.Extensions.Vision
 {
@@ -83,7 +86,14 @@ namespace Accord.Extensions.Vision
 
             try
             {
+#if FILE_CAPTURE
+                string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
+                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), ".jpg");
+                roi = new Rectangle(180, 285, 75, 120); isROISelected = true;
+                this.barVMin.Value = 100;
+#else
                 videoCapture = new CameraCapture(0);
+#endif
             }
             catch (Exception)
             {
@@ -121,11 +131,12 @@ namespace Accord.Extensions.Vision
             GC.Collect();
         }
 
-        System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12); 
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             frame = videoCapture.ReadAs<Bgr, byte>()/*.SmoothGaussian(5)*/; //smoothing <<parallel operation>>
-            if (frame == null) return;
+            if (frame == null) 
+                return;
 
             if (!isROISelected)
             {

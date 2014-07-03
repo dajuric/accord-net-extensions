@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define FILE_CAPTURE //comment it to enable camera capture
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,7 +18,7 @@ using PointF = AForge.Point;
 /*using Template = LINE2D.ImageTemplateWithMask;
 using TemplatePyramid = LINE2D.ImageTemplatePyramid<LINE2D.ImageTemplateWithMask>;*/
 
-//without template mask (there is slightly performance gain during execution while not loading templates with binary masks)
+//without template mask (there is a slightly performance gain during runtime execution becasuse binary template masks are not loaded)
 using Template = LINE2D.ImageTemplate;
 using TemplatePyramid = LINE2D.ImageTemplatePyramid<LINE2D.ImageTemplate>;
 
@@ -42,6 +44,8 @@ namespace FastTemplateMatchingDemo
 
         List<TemplatePyramid> fromFiles()
         {
+            Console.WriteLine("Building templates from files...");
+
             var list = new List<TemplatePyramid>();
 
             string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "OpenHandLeft_BW");
@@ -114,12 +118,16 @@ namespace FastTemplateMatchingDemo
 
             try
             {
-                videoCapture = new CameraCapture();
-                //videoCapture = new ImageDirectoryReader("C:/probaImages", ".jpg"); 
+#if FILE_CAPTURE
+                string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
+                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), ".jpg");
+#else
+                videoCapture = new CameraCapture(0);
+#endif
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Cannot find any camera!");
+                MessageBox.Show(ex.Message);
                 return;
             }
 
@@ -132,12 +140,14 @@ namespace FastTemplateMatchingDemo
         }
 
         Image<Bgr, byte> frame;
-        System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12); int i = 0;
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             frame = videoCapture.ReadAs<Bgr, byte>();
             if (frame == null)
                 return;
+
+            frame.Save(String.Format("img-{0}.jpg", i)); i++;
 
             long preprocessTime, matchTime;
             var bestRepresentatives = findObjects(frame, out preprocessTime, out matchTime);

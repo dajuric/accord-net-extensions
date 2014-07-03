@@ -61,7 +61,7 @@ namespace Accord.Extensions
         }
 
         /// <summary>
-        /// Adds the specified directory to unmanaged library search path for functions that load unmanaged library. <see cref="DllImport"/> attribute is also included.
+        /// Adds the specified directory to unmanaged library search path for functions that load unmanaged library. See <paramref name="dllDirectory"/> attribute is also included.
         /// Internally it changes process environmental variable.
         /// </summary>
         /// <param name="dllDirectory">Directory where to search unmanaged libraries.</param>
@@ -87,7 +87,7 @@ namespace Accord.Extensions
         }
 
         /// <summary>
-        /// Adds the default directory to unmanaged library search path for functions that load unmanaged library. <see cref="DllImport"/> attribute is also included.
+        /// Adds the default directory to unmanaged library search path for functions that load unmanaged library. See <paramref name="dllDirectory"/> attribute is also included.
         /// The default directory is platform specific:
         /// <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
         /// <para>  MacOS: /UnmanagedLibraries/MacOS/</para>

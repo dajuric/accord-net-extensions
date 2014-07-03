@@ -111,7 +111,7 @@ namespace Accord.Extensions.Statistics.Filters
 
         /// <summary>
         /// Gets state (x(k)). [1 x n] vector.
-        /// After obtaining a measurement z(k) <see cref="PredictedState"/> will be corrected.
+        /// After obtaining a measurement z(k) predicted state will be corrected.
         /// This value is used as an ultimate result.
         /// </summary>
         public TState State
@@ -122,7 +122,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// <summary>
         /// Gets Kalman covariance matrix (S). [p x p] matrix.
         /// This matrix servers for Kalman gain calculation.
-        /// <para>The matrix along with innovation vector can be used to achieve gating in JPDAF. See: <see cref="JPDAF.Kalman"/> filter.</para>
+        /// <para>The matrix along with innovation vector can be used to achieve gating in JPDAF. See: <see cref="Accord.Extensions.Statistics.Filters.JPDAF"/> filter.</para>
         /// </summary>
         public double[,] CovarianceMatrix 
         {
@@ -178,6 +178,10 @@ namespace Accord.Extensions.Statistics.Filters
             predictInternal(controlVector);
         }
 
+        /// <summary>
+        /// Predicts the next state using the current state and <paramref name="controlVector"/>.
+        /// </summary>
+        /// <param name="controlVector">Set of data for external system control.</param>
         protected abstract void predictInternal(double[] controlVector);
 
         #endregion

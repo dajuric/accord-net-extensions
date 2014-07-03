@@ -25,12 +25,12 @@ namespace Accord.Extensions.Vision //POGLEDATI INTERPOLACIJU - možda je tamo gr
         /// <param name="status">Feature status.</param>
         /// <param name="error">Normalized tracking error [0..1].</param>
         /// <param name="windowSize">Aperture size.</param>
-        /// <param name="iterations">Maximal number of iterations. If <see cref="minFeatureShift"/> is reached then number of iterations will be lower.</param>
+        /// <param name="iterations">Maximal number of iterations. If <paramref name="minFeatureShift"/> is reached then number of iterations will be lower.</param>
         /// <param name="minFeatureShift">Minimal feature shift in horizontal or vertical direction.</param>
         /// <param name="minEigenValue">Minimal eigen value. 
         /// Eigen values could be interpreted as lengths of ellipse's axes. 
         /// If zero ellipse turn into line therefore there is no corner.</param>
-        /// <param name="maxError">Maximal allowable error for <see cref="error"/>.</param>
+        /// <param name="maxError">Maximal allowable error for <paramref name="error"/>.</param>
         /// <param name="initialEstimate">Initial estimate shifts input features by specified amount. Default is zero. 
         /// Used for pyramidal implementation.</param>
         public static void EstimateFlow(Image<TColor, float> prevImg, Image<TColor, float> currImg, 
@@ -58,13 +58,13 @@ namespace Accord.Extensions.Vision //POGLEDATI INTERPOLACIJU - možda je tamo gr
         /// <param name="status">Feature status.</param>
         /// <param name="error">Normalized tracking error [0..1].</param>
         /// <param name="windowSize">Aperture size.</param>
-        /// <param name="iterations">Maximal number of iterations. If <see cref="minFeatureShift"/> is reached then number of iterations will be lower.</param>
+        /// <param name="iterations">Maximal number of iterations. If <paramref name="minFeatureShift"/> is reached then number of iterations will be lower.</param>
         /// <param name="minFeatureShift">Minimal feature shift in horizontal or vertical direction.</param>
         /// <param name="minEigenValue">Minimal eigen value. 
         /// Eigen values could be interpreted as lengths of ellipse's axes. 
         /// If zero ellipse turn into line therefore there is no corner.</param>
-        /// <param name="maxError">Maximal allowable error for <see cref="error"/>.</param>
-        /// <param name="initialEstimate">Initial estimate shifts input features by specified amount. Default is zero. 
+        /// <param name="maxError">Maximal allowable error for <paramref name="error"/>.</param>
+        /// <param name="initialEstimate">Initial estimate shifts input features by specified amount. Default is zero.</param>
         /// <param name="storagePyrLevel">Used pyramid level for the input storage. Default is zero.</param>
         public static void EstimateFlow(PyrLKStorage<TColor> storage,
                                         PointF[] prevFeatures, out PointF[] currFeatures,

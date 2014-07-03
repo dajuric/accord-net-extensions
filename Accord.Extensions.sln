@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{80058A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{05BDC895-7F7B-4B6F-8D69-E7916837092D}"
 	ProjectSection(SolutionItems) = preProject
-		README.txt = README.txt
+		Samples\README.txt = Samples\README.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{C5A4976B-EABE-41F5-A855-6B887A04F333}"

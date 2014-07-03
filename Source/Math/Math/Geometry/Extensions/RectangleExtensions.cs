@@ -172,7 +172,7 @@ namespace Accord.Extensions.Math.Geometry
 
     /// <summary>
     /// <para>Defined functions can be used as object extensions.</para>
-    /// Provides extension methods for <see cref="Recatngle"/>.
+    /// Provides extension methods for <see cref="Accord.Extensions.Rectangle"/>.
     /// </summary>
     public static class RectangleFExtensions
     {

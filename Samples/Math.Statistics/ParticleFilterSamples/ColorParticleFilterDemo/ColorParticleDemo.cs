@@ -11,6 +11,7 @@ using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
 using AForge;
 using PointF = AForge.Point;
+using System.IO;
 
 namespace SimpleParticleFilterDemo
 {
@@ -138,7 +139,7 @@ namespace SimpleParticleFilterDemo
 
         #region GUI...
 
-        StreamableSource videoCapture;
+        StreamableSource videoCapture; 
 
         public SimpleParticleDemoForm()
         {
@@ -147,7 +148,9 @@ namespace SimpleParticleFilterDemo
 
             try
             {
-                videoCapture = new CameraCapture(0);
+                //videoCapture = new CameraCapture(0);
+                string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
+                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), ".jpg"); 
             }
             catch (Exception ex)
             {
@@ -165,7 +168,7 @@ namespace SimpleParticleFilterDemo
         }
 
         Image<Bgr, byte> frame;
-        System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12); 
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
             frame = videoCapture.ReadAs<Bgr, byte>();

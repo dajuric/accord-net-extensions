@@ -134,14 +134,11 @@ namespace ParticleFilterModelFitting
             linPyr = LinearizedMapPyramid.CreatePyramid(grayIm); //prepare linear-pyramid maps
 
             /******************************* match templates + particle filter stuff ******************************/
-            matchTimeMs = measureTime
-            (
-                () => 
+            matchTimeMs = Diagnostics.MeasureTime(() => 
                 {
                     predict();
                     update();
-                }
-            );
+                });
             /******************************* match templates + particle filter stuff ******************************/
 
             /******************************* reset tracking (if necessary) ******************************/
@@ -187,7 +184,8 @@ namespace ParticleFilterModelFitting
             {
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
 
-                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "SampleVideos", "1" /*"2"*/), ".jpg"); 
+                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "SampleVideos", "1"), ".jpg");   //1st sample
+                //videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "SampleVideos", "2"), ".jpg"); //2nd sample
             }
             catch (Exception)
             {
@@ -211,8 +209,7 @@ namespace ParticleFilterModelFitting
             if (frame == null)
                 return;
 
-            frame.StretchContrast(true);
-            //frame.Save("C:/image_" + a + ".jpg");
+            frame.StretchContrast(inPlace: true);
 
             long start = DateTime.Now.Ticks;
 
@@ -258,17 +255,6 @@ namespace ParticleFilterModelFitting
                     img.Save(fileName);
                 }
             }
-        }
-
-        private static long measureTime(Action action)
-        {
-            long start = DateTime.Now.Ticks;
-
-            action();
-
-            long end = DateTime.Now.Ticks;
-            long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
-            return elapsedMs;
         }
 
         #endregion

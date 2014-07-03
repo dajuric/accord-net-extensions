@@ -8,13 +8,13 @@ namespace Accord.Extensions.Vision
     /// </summary>
     public abstract class VideoCaptureBase : StreamableSource
     {
-        public const int PROPERTY_NOT_SUPPORTED = 0;
-
+        /// <summary>
+        /// Internal OpenCV pointer for the capture object.
+        /// </summary>
         protected IntPtr capturePtr;
 
         /// <summary>
         /// Releases all resources allocated by capture.
-        /// Use <see cref="Dispose"/> function instead.
         /// </summary>
         public override void Close()
         {

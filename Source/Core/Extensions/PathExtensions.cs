@@ -38,8 +38,8 @@ namespace Accord.Extensions
         /// Gets relative file path regarding specified directory.
         /// </summary>
         /// <param name="fileName">Full file name and path.</param>
-        /// <param name="path">
-        /// Directory path which serves as root.
+        /// <param name="dirInfo">
+        /// Directory info of a directory path which serves as root.
         /// </param>
         /// <returns>Relative file path. In case the relative path could not be find the empty string is returned.</returns>
         public static string GetRelativeFilePath(this string fileName, DirectoryInfo dirInfo)

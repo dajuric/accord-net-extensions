@@ -12,11 +12,11 @@ namespace Accord.Extensions.Statistics.Filters
     public static partial class ParticleFilter
     {
         /// <summary>
-        /// Particle states are initialized randomly according to provided ranges <see cref="ranges"/>
+        /// Particle states are initialized randomly according to provided ranges <paramref name=""ranges/>.
         /// </summary>
         /// <param name="numberOfParticles">Number of particles to create.</param>
-        /// <param name="model">Process model.</param>
         /// <param name="ranges">Bound for each process state dimension.</param>
+        /// <param name="creator">Function that creates a single particle from floating point array.</param>
         public static IEnumerable<TParticle> UnifromParticleSpreadInitializer<TParticle>(int numberOfParticles, DoubleRange[] ranges, Func<double[], TParticle> creator)
               where TParticle : class, IParticle
         {

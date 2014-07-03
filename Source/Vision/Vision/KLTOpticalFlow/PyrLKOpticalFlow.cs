@@ -24,12 +24,12 @@ namespace Accord.Extensions.Vision
         /// <param name="status">Feature status.</param>
         /// <param name="error">Normalized tracking error [0..1].</param>
         /// <param name="windowSize">Aperture size.</param>
-        /// <param name="iterations">Maximal number of iterations. If <see cref="minFeatureShift"/> is reached then number of iterations will be lower.</param>
+        /// <param name="iterations">Maximal number of iterations. If <paramref name="minFeatureShift"/> is reached then number of iterations will be lower.</param>
         /// <param name="minFeatureShift">Minimal feature shift in horizontal or vertical direction.</param>
         /// <param name="minEigenValue">Minimal eigen value. 
         /// Eigen values could be interpreted as lengths of ellipse's axes. 
         /// If zero ellipse turn into line therefore there is no corner.</param>
-        /// <param name="maxError">Maximal allowable error for <see cref="error"/>.</param>
+        /// <param name="maxError">Maximal allowable error for <paramref name="error"/>.</param>
         /// <param name="pyrLevels">Number of pyramid levels. By using 0 pyramid levels pyramidal implementation reduces to non-pyramidal one.</param>
         public static void EstimateFlow(Image<TColor, float> prevImg, Image<TColor, float> currImg,
                                        PointF[] prevFeatures, out PointF[] currFeatures,
@@ -51,19 +51,17 @@ namespace Accord.Extensions.Vision
         /// Estimates LK optical flow.
         /// </summary>
         /// <param name="storage">Used storage. Number of pyramid levels is specified within storage. Use storage to gain performance in video* by 2x! </param>
-        /// <param name="prevImg">Previous image.</param>
-        /// <param name="currImg">Current image.</param>
         /// <param name="prevFeatures">Previous features.</param>
         /// <param name="currFeatures">Current features.</param>
         /// <param name="status">Feature status.</param>
         /// <param name="error">Normalized tracking error [0..1].</param>
         /// <param name="windowSize">Aperture size.</param>
-        /// <param name="iterations">Maximal number of iterations. If <see cref="minFeatureShift"/> is reached then number of iterations will be lower.</param>
+        /// <param name="iterations">Maximal number of iterations. If <paramref name="minFeatureShift"/> is reached then number of iterations will be lower.</param>
         /// <param name="minFeatureShift">Minimal feature shift in horizontal or vertical direction.</param>
         /// <param name="minEigenValue">Minimal eigen value. 
         /// Eigen values could be interpreted as lengths of ellipse's axes. 
         /// If zero ellipse turn into line therefore there is no corner.</param>
-        /// <param name="maxError">Maximal allowable error for <see cref="error"/>.</param>
+        /// <param name="maxError">Maximal allowable error for <paramref name="error"/>.</param>
         public static void EstimateFlow(PyrLKStorage<TColor> storage,
                                         PointF[] prevFeatures, out PointF[] currFeatures,
                                         out KLTFeatureStatus[] status, out float[] error,

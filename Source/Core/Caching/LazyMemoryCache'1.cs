@@ -7,7 +7,6 @@ namespace Accord.Extensions.Caching
     /// <summary>
     /// Interface for the Lazy cache object item.
     /// </summary>
-    /// <typeparam name="ObjKey">Object key.</typeparam>
     /// <typeparam name="TObj">Object value.</typeparam>
     public interface ILazy<TObj>
     {

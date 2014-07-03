@@ -31,12 +31,12 @@ namespace Accord.Extensions.Vision
             
             capturePtr = CvHighGuiInvoke.cvCreateCameraCapture(cameraIdx);
             if (capturePtr == IntPtr.Zero)
-                throw new Exception("Cannot open CameraStream!");
+                throw new Exception("Cannot open camera stream! It seems that camera device can not be found.");
         }
 
         /// <summary>
         /// Gets or sets the brightness of the camera.
-        /// <para>If the property is not supported by device <see cref="PROPERTY_NOT_SUPPORTED"/> will be returned.</para>
+        /// <para>If the property is not supported by device 0 will be returned.</para>
         /// </summary>
         public double Brightness
         {
@@ -46,7 +46,7 @@ namespace Accord.Extensions.Vision
 
         /// <summary>
         /// Gets or sets the contrast of the camera.
-        /// <para>If the property is not supported by device <see cref="PROPERTY_NOT_SUPPORTED"/> will be returned.</para>
+        /// <para>If the property is not supported by device 0 will be returned.</para>
         /// </summary>
         public double Contrast
         {
@@ -56,7 +56,7 @@ namespace Accord.Extensions.Vision
 
         /// <summary>
         /// Gets or sets the exposure of the camera.
-        /// <para>If the property is not supported by device <see cref="PROPERTY_NOT_SUPPORTED"/> will be returned.</para>
+        /// <para>If the property is not supported by device 0 will be returned.</para>
         /// </summary>
         public double Exposure
         {
@@ -66,7 +66,7 @@ namespace Accord.Extensions.Vision
 
         /// <summary>
         /// Gets or sets the gain of the camera.
-        /// <para>If the property is not supported by device <see cref="PROPERTY_NOT_SUPPORTED"/> will be returned.</para>
+        /// <para>If the property is not supported by device 0 will be returned.</para>
         /// </summary>
         public double Gain
         {
@@ -76,7 +76,7 @@ namespace Accord.Extensions.Vision
 
         /// <summary>
         /// Gets or sets the hue of the camera.
-        /// <para>If the property is not supported by device <see cref="PROPERTY_NOT_SUPPORTED"/> will be returned.</para>
+        /// <para>If the property is not supported by device 0 will be returned.</para>
         /// </summary>
         public double Hue
         {
@@ -86,7 +86,7 @@ namespace Accord.Extensions.Vision
 
         /// <summary>
         /// Gets or sets the saturation of the camera.
-        /// <para>If the property is not supported by device <see cref="PROPERTY_NOT_SUPPORTED"/> will be returned.</para>
+        /// <para>If the property is not supported by device 0 will be returned.</para>
         /// </summary>
         public double Saturation
         {
@@ -105,7 +105,7 @@ namespace Accord.Extensions.Vision
 
         /// <summary>
         /// Gets or sets the frame rate of the camera.
-        /// <para>If the property is not supported by device <see cref="PROPERTY_NOT_SUPPORTED"/> will be returned.</para>
+        /// <para>If the property is not supported by device 0 will be returned.</para>
         /// </summary>
         public new double FrameRate
         {

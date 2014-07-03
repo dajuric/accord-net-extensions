@@ -267,7 +267,6 @@ namespace Accord.Extensions.Statistics.Filters
         /// Removes filters if an filter entropy is too big. 
         /// </summary>
         /// <typeparam name="TFilter">Filter type.</typeparam>
-        /// <typeparam name="TParticle">Particle type.</typeparam>
         /// <param name="particleFilters">Particle filters.</param>
         /// <param name="filtersEntropies">List of filter entropies. 
         /// <para>The number of entropies must match the number of filters.</para>

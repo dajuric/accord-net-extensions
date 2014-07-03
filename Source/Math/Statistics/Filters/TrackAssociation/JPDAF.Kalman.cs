@@ -146,12 +146,13 @@ namespace Accord.Extensions.Statistics.Filters
 
         /// <summary>
         /// Executes a user-specified function if new filters should be added. 
-        /// New filters should be added if the marginal measurement probability is smaller than <see cref="minMarginalMeasurementlProbability"/>.
+        /// New filters should be added if the marginal measurement probability is smaller than <paramref name="minMarginalMeasurementlProbability"/>.
         /// </summary>
         /// <typeparam name="TFilter">Filter type.</typeparam>
         /// <typeparam name="TState">Kalman filter state type.</typeparam>
         /// <typeparam name="TMeasurement">Kalman filter measurement type.</typeparam>
         /// <param name="kalmanFilters">Kalman filters.</param>
+        /// <param name="associationProbabilites">Association probability matrix of an measurement-track association probability. Size: [nMeasurements x nTracks].</param>
         /// <param name="kalmanFilterAddFunc">
         /// Kalman filter creation function.
         /// Parameters: measurement index.

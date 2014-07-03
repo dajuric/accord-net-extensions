@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define FILE_CAPTURE //comment it to enable camera capture
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -8,13 +10,16 @@ using Accord.Extensions.Vision;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 
-using FlowColor = Accord.Extensions.Imaging.Gray;
+using FlowColor = Accord.Extensions.Imaging.Gray; //switch from color <=> gray optical flow
+using System.IO;
 
 namespace PyrKLOpticalFlowDemo
 {
     public partial class KLDemo : Form
     {
-        VideoCaptureBase videoCapture;
+        Size imgSize = new Size(640, 480);
+
+        StreamableSource videoCapture;
         PyrLKStorage<FlowColor> lkStorage;
         int winSize = 21;
 
@@ -54,7 +59,20 @@ namespace PyrKLOpticalFlowDemo
             
             try
             {
+#if FILE_CAPTURE
+                string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
+                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), ".jpg");
+
+                prevIm = videoCapture.ReadAs<FlowColor, float>();
+                oldPositions = prevIm.
+                              Convert<Gray, float>().
+                              GoodFeaturesToTrack(winSize, 0.05f)
+                              .Select(x => new PointF(x.X, x.Y)).Take(100).ToList();
+#else
                 videoCapture = new CameraCapture(0);
+                oldPositions = new List<PointF>();
+                prevIm = new Image<FlowColor, float>(imgSize);
+#endif
             }
             catch (Exception)
             {
@@ -63,10 +81,7 @@ namespace PyrKLOpticalFlowDemo
             }
 
             if(videoCapture is CameraCapture)
-                (videoCapture as CameraCapture).FrameSize = new Size(640, 480); 
-
-            oldPositions = new List<PointF>();
-            prevIm = new Image<FlowColor, float>(videoCapture.FrameSize);
+                (videoCapture as CameraCapture).FrameSize = imgSize; 
 
             this.FormClosing += CamshiftDemo_FormClosing;
             Application.Idle += videoCapture_NewFrame;
@@ -77,9 +92,10 @@ namespace PyrKLOpticalFlowDemo
         List<PointF> oldPositions = null;
 
         System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
+        Image<Bgr, byte> frame = null;
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
-            var frame = videoCapture.ReadAs<Bgr, byte>();
+            frame = videoCapture.ReadAs<Bgr, byte>();
             if (frame == null)
                 return;
 
@@ -139,7 +155,10 @@ namespace PyrKLOpticalFlowDemo
             {
                 if (e.KeyChar == 'r')
                     //oldPositions = prevIm.Convert<byte>().HarrisCorners().Select(x => new PointF(x.X, x.Y)).Take(100).ToList();
-                    oldPositions = prevIm.GoodFeaturesToTrack(winSize, 0.05f).Select(x => new PointF(x.X, x.Y)).Take(100).ToList();
+                    oldPositions = prevIm.
+                                   Convert<Gray, float>().
+                                   GoodFeaturesToTrack(winSize, 0.05f)
+                                   .Select(x => new PointF(x.X, x.Y)).Take(100).ToList();
             }
         }
     }

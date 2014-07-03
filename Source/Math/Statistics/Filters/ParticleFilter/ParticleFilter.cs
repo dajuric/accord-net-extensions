@@ -19,7 +19,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// Predicts particle's state.
         /// </summary>
         /// <param name="drift">Update state from model (no noise).</param>
-        /// <param name="difuse">Apply noise to spread particles.</param>
+        /// <param name="diffuse">Apply noise to spread particles.</param>
         public static void Predict<TParticle>(this IEnumerable<TParticle> particles, Action<TParticle> drift, Action<TParticle> diffuse)
               where TParticle : class, IParticle
         {
