@@ -2,12 +2,9 @@
 
   <Target Name="CopyNativeReferences">
 
-    <!--x86-->
     <Copy SourceFiles="$(MSBuildThisFileDirectory)..\native\UnmanagedLibraries\Windows\x86\SIMDArrayInstructions.dll" 
           DestinationFolder="$(OutDir)\UnmanagedLibraries\Windows\x86\" 
           SkipUnchangedFiles="true" />
-
-    <!--x64-->
     <Copy SourceFiles="$(MSBuildThisFileDirectory)..\native\UnmanagedLibraries\Windows\x64\SIMDArrayInstructions.dll"
           DestinationFolder="$(OutDir)\UnmanagedLibraries\Windows\x64\" 
           SkipUnchangedFiles="true"/>
