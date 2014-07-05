@@ -1,0 +1,38 @@
+﻿<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Extensions.Imaging.BitmapCompatibility</id>
+    <version>$version$</version>
+    <title>Accord Extensions Bitmap Compatibility</title>
+    <authors>Accord.NET Extensions</authors>
+    <owners>Accord.NET Extensions</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Provides extensions for interoperability with System.Drawing.Bitmap, Point, PointF, Color and drawing extensions.
+    </description>
+    <summary>Interoperability extensions for System.Drawing.* and drawing extensions.</summary>
+    <tags>accord.net framework extensions imaging AForge.NET interoperability</tags>
+
+    <dependencies>
+      <dependency id="AForge"                                    version="2.2.5" />
+      <dependency id="AForge.Math"                               version="2.2.5" />
+      
+      <dependency id="Accord.Extensions.Core"                    version="$version$" /> 
+      <dependency id="Accord.Extensions.Math"                    version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.GenericImage"    version="$version$" />
+    </dependencies>
+
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing"  />
+    </frameworkAssemblies>
+  </metadata>
+  
+  <files>
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.BitmapCompatibility.dll" target="lib\Accord.Extensions.Imaging.BitmapCompatibility.dll" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.BitmapCompatibility.xml" target="lib\Accord.Extensions.Imaging.BitmapCompatibility.xml" />
+  </files>
+</package>

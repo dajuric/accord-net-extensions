@@ -24,7 +24,7 @@ namespace Accord.Extensions.Imaging.Converters
             {
                 for (int col = 0; col < width; col++)
                 {
-                    convertBgrToGray_Byte(srcPtr, dstPtr);
+                    Bgr8.ConvertBgrToGray(srcPtr, dstPtr);
 
                     srcPtr++;
                     dstPtr++;
@@ -33,18 +33,6 @@ namespace Accord.Extensions.Imaging.Converters
                 srcPtr = (Bgr8*)((byte*)srcPtr + srcShift);
                 dstPtr = (byte*)((byte*)dstPtr + dstShift);
             }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private unsafe static void convertBgrToGray_Byte(Bgr8* bgr, byte* gray)
-        {
-            int val = ((bgr->R << 1) +           //2 * red
-                       (bgr->G << 2) + bgr->G +  //5 * green
-                        bgr->B                   //1 * blue
-                      
-                      ) >> 3;                   //divide by 8
-
-            *gray = (byte)val;
         }
 
         #endregion

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Extensions.Imaging.AForgeCompatibillity</id>
+    <version>$version$</version>
+    <title>Accord Extensions AForge Compatibility</title>
+    <authors>Accord.NET Extensions</authors>
+    <owners>Accord.NET Extensions</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Provides extensions for easy interoperability between generic image and AForge UnmanagedImage.
+    </description>
+    <summary>Interoperability extensions between Accord.Extensions and AForge image format.</summary>
+    <tags>accord.net framework extensions imaging AForge.NET interoperability</tags>
+
+    <dependencies>
+      <dependency id="AForge"                                          version="2.2.5" />
+      <dependency id="AForge.Imaging"                                  version="2.2.5" />
+      
+      <dependency id="Accord.Extensions.Imaging.BitmapCompatibillity"  version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.Math"                  version="$version$" />
+    </dependencies>
+
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing"  />
+    </frameworkAssemblies>
+  </metadata>
+  
+  <files>
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.AForgeCompatibillity.dll" target="lib\Accord.Extensions.Imaging.AForgeCompatibillity.dll" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.AForgeCompatibillity.xml" target="lib\Accord.Extensions.Imaging.AForgeCompatibillity.xml" />
+  </files>
+</package>

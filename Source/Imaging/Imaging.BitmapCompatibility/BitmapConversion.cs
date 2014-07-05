@@ -209,7 +209,7 @@ namespace Accord.Extensions.Imaging
             }
 
             if (bmp.PixelFormat == PixelFormat.Format8bppIndexed)
-                AForge.Imaging.Image.SetGrayscalePalette(bmp);
+                bmp.SetGrayscalePalette();
 
             return bmp;
         }
@@ -232,6 +232,25 @@ namespace Accord.Extensions.Imaging
 
             IImage convertedIm = ColorConverter.Convert(path.ToArray(), srcImg, false);
             return convertedIm;
+        }
+
+        #endregion
+
+        #region Misc
+ 
+        /// <summary>
+        /// Replaces color palette entries with grayscale intensities (256 entries).
+        /// </summary>
+        /// <param name="image">The 8-bpp grayscale image.</param>
+        public static void SetGrayscalePalette(this Bitmap image)
+        {
+            if (image.PixelFormat != PixelFormat.Format8bppIndexed)
+                throw new ArgumentException("The provided image must have 8bpp pixel format.");
+
+            for (int i = 0; i < (Byte.MaxValue + 1); i++)
+            {
+                image.Palette.Entries[i] = Color.FromArgb(i, i, i);
+            }
         }
 
         #endregion

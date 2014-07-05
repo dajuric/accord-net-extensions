@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Accord.Extensions.Math.Geometry;
-using AForge.Imaging;
 using AForge.Math.Geometry;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
@@ -195,8 +194,8 @@ namespace Accord.Extensions.Imaging
                 angle = (angle < 0) ? angle + 360 : angle;
                 /************** calculate angle ************/
 
-                var rgbColor = new HSL((int)angle, 0.5f, 0.5f).ToRGB();
-                return rgbColor.Color.ToBgr();
+                Hsv8 hsv = new Hsv8 { H = (byte)(angle / 2), S = Byte.MaxValue / 2, V = Byte.MaxValue / 2 };
+                return hsv.ToBgr();
             };
 
             Draw(image, lines, thickness, colorFunc);

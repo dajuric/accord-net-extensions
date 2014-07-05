@@ -31,6 +31,8 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="Build.cmd" />
+    <None Include="Imaging.BitmapCompatibility.nuspec" />
+    <None Include="Imaging.AForgeCompatibility.nuspec" />
     <None Include="Core.nuspec" />
     <None Include="UpdateNuGet.cmd" />
   </ItemGroup>

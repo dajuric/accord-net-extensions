@@ -27,7 +27,7 @@ namespace Accord.Extensions.Imaging.Converters
             {
                 for (int col = 0; col < width; col++)
                 {
-                    convertBgrToHsv_Byte(srcPtr, dstPtr);
+                    Bgr8.ConvertBgrToHsv(srcPtr, dstPtr);
 
                     srcPtr++;
                     dstPtr++;
@@ -36,57 +36,6 @@ namespace Accord.Extensions.Imaging.Converters
                 srcPtr = (Bgr8*)((byte*)srcPtr + srcShift);
                 dstPtr = (Hsv8*)((byte*)dstPtr + dstShift);
             }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private unsafe static void convertBgrToHsv_Byte(Bgr8* bgr, Hsv8* hsv)
-        {
-            byte rgbMin, rgbMax;
-
-            rgbMin = bgr->R < bgr->G ? (bgr->R < bgr->B ? bgr->R : bgr->B) : (bgr->G < bgr->B ? bgr->G : bgr->B);
-            rgbMax = bgr->R > bgr->G ? (bgr->R > bgr->B ? bgr->R : bgr->B) : (bgr->G > bgr->B ? bgr->G : bgr->B);
-
-            hsv->V = rgbMax;
-            if (hsv->V == 0)
-            {
-                hsv->H = 0;
-                hsv->S = 0;
-                return;
-            }
-
-            hsv->S = (byte)(255 * (rgbMax - rgbMin) / rgbMax);
-            if (hsv->S == 0)
-            {
-                hsv->H = 0;
-                return;
-            }
-
-            int hue = 0;
-            if (rgbMax == bgr->R)
-            {
-                hue = 0 + 60 * (bgr->G - bgr->B) / (rgbMax - rgbMin);
-                if (hue < 0)
-                    hue += 360;
-            }
-            else if (rgbMax == bgr->G)
-            {
-                hue = 120 + 60 * (bgr->B - bgr->R) / (rgbMax - rgbMin);
-            }
-            else //rgbMax == bgr->B
-            {
-                hue = 240 + 60 * (bgr->R - bgr->G) / (rgbMax - rgbMin);
-            }
-
-            hsv->H = (byte)(hue / 2); //scale [0-360] -> [0-180] (only needed for byte!)
-
-            Debug.Assert(hue >= 0 && hue <= 360);
-        }
-
-        public unsafe static Hsv8 ConvertBgrToHsv(Bgr8 bgr)
-        { 
-            Hsv8 hsv;
-            convertBgrToHsv_Byte(&bgr, &hsv);
-            return hsv;
         }
 
         #endregion
@@ -112,8 +61,8 @@ namespace Accord.Extensions.Imaging.Converters
             for (int row = 0; row < height; row++)
             {
                 for (int col = 0; col < width; col++)
-                {
-                    convertHsvToBgr_Byte(srcPtr, dstPtr);
+                { 
+                    Hsv8.ConvertHsvToBgr(srcPtr, dstPtr);
 
                     srcPtr++;
                     dstPtr++;
@@ -122,57 +71,6 @@ namespace Accord.Extensions.Imaging.Converters
                 srcPtr = (Hsv8*)((byte*)srcPtr + srcShift);
                 dstPtr = (Bgr8*)((byte*)dstPtr + dstShift);
             }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private unsafe static void convertHsvToBgr_Byte(Hsv8* hsv, Bgr8* bgr)
-        {
-            if (hsv->S == 0)
-            {
-                bgr->R = hsv->V;
-                bgr->G = hsv->V;
-                bgr->B = hsv->V;
-                return;
-            }
-
-            int hue = hsv->H * 2; //move to [0-360 range] (only needed for byte!)
-
-            int hQuadrant = hue / 60; // Hue quadrant 0 - 5 (60deg)
-            int hOffset = hue % 60; // Hue position in quadrant
-            int vs = hsv->V * hsv->S;
-
-            byte p = (byte)(hsv->V - (vs / 255));
-            byte q = (byte)(hsv->V - (vs / 255 * hOffset) / 60);
-            byte t = (byte)(hsv->V - (vs / 255 * (60 - hOffset)) / 60);
-
-            switch (hQuadrant)
-            {
-                case 0:
-                    bgr->R = hsv->V; bgr->G = t; bgr->B = p;
-                    break;
-                case 1:
-                    bgr->R = q; bgr->G = hsv->V; bgr->B = p;
-                    break;
-                case 2:
-                    bgr->R = p; bgr->G = hsv->V; bgr->B = t;
-                    break;
-                case 3:
-                    bgr->R = p; bgr->G = q; bgr->B = hsv->V;
-                    break;
-                case 4:
-                    bgr->R = t; bgr->G = p; bgr->B = hsv->V;
-                    break;
-                default:
-                    bgr->R = hsv->V; bgr->G = p; bgr->B = q;
-                    break;
-            }
-        }
-
-        public unsafe static Bgr8 ConvertHsvToBgr(Hsv8 hsv)
-        {
-            Bgr8 bgr;
-            convertHsvToBgr_Byte(&hsv, &bgr);
-            return bgr;
         }
 
         #endregion
