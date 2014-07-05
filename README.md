@@ -33,5 +33,6 @@ adds support for:
    
 roadmap: //TODO list
 	  
+	update samples
 	overall look and feel
 	prepare to relase!
