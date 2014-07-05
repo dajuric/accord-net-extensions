@@ -1,0 +1,47 @@
+﻿<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Extensions.Imaging.Algorithms.LNE2D</id>
+    <version>$version$</version>
+    <title>Accord Extensions Fast template matching algorithm</title>
+    <authors>Accord.NET Extensions</authors>
+    <owners>Accord.NET Extensions</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Implements template matching algorithm (~20x faster than conventional sliding window approach).
+    </description>
+    <summary>Implements template matching algorithm (~20x faster than conventional sliding window approach).</summary>
+    <tags>accord.net framework template-matching</tags>
+
+    <dependencies>
+      <dependency id="AForge"                                         version="2.2.5" />
+      <dependency id="AForge.Math"                                    version="2.2.5" />
+      
+      <dependency id="Accord.Extensions.Core"                         version="$version$" />
+      <dependency id="Accord.Extensions.Math"                         version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.GenericImage"         version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.Algorithms"           version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.BitmapCompatibility"  version="$version$" />
+    </dependencies>
+
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing"  />
+    </frameworkAssemblies>
+  </metadata>
+  
+  <files>
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.LNE2D.dll" target="lib\Accord.Extensions.Imaging.Algorithms.LNE2D.dll" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.LNE2D.xml" target="lib\Accord.Extensions.Imaging.Algorithms.LNE2D.xml" />
+
+    <!--Unmanaged Libraries-->
+    <file src="..\..\bin\Release\UnmanagedLibraries\Windows\x86\SIMDArrayInstructions.dll" target="native\UnmanagedLibraries\Windows\x86\SIMDArrayInstructions.dll" />
+    <file src="..\..\bin\Release\UnmanagedLibraries\Windows\x64\SIMDArrayInstructions.dll" target="native\UnmanagedLibraries\Windows\x64\SIMDArrayInstructions.dll" />
+    
+    <!--PostBuild tasks-->
+    <file src="Imaging.Algorithms.LNE2D.targets" target="build\Accord.Extensions.Imaging.Algorithms.LNE2D.targets" />
+  </files>
+</package>

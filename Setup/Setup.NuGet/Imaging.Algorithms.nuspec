@@ -1,0 +1,45 @@
+﻿<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Extensions.Imaging.Algorithms</id>
+    <version>$version$</version>
+    <title>Accord Extensions Imaging Algorithms</title>
+    <authors>Accord.NET Extensions</authors>
+    <owners>Accord.NET Extensions</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+     Implements image-processing and computer-vision algorithms. 
+     Provides extensions for some image-processing algorithms implemented in AForge.NET and Accord.NET library.
+    </description>
+    <summary>Image-processing and computer-vision algorithms</summary>
+    <tags>accord.net framework extensions imaging algorithms</tags>
+
+    <dependencies>
+      <dependency id="AForge"                                          version="2.2.5" />
+      <dependency id="AForge.Math"                                     version="2.2.5" />
+      <dependency id="AForge.Imaging"                                  version="2.2.5" />
+
+      <dependency id="Accord.Math"                                     version="" />
+      <dependency id="Accord.Imaging"                                  version="" />
+      
+      <dependency id="Accord.Extensions.Core"                          version="$version$" />
+      <dependency id="Accord.Extensions.Math"                          version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.GenericImage"          version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.BitmapCompatibility"   version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.AForgeCompatibility"   version="$version$" />
+    </dependencies>
+
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing"  />
+    </frameworkAssemblies>
+  </metadata>
+  
+  <files>
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.dll" target="lib\Accord.Extensions.Imaging.Algorithms.dll" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.xml" target="lib\Accord.Extensions.Imaging.Algorithms.xml" />
+  </files>
+</package>

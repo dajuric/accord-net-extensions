@@ -113,9 +113,9 @@
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
       <Name>Math</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Imaging.AForgeCompatibillity\Imaging.AForgeCompatibillity.csproj">
+    <ProjectReference Include="..\Imaging.AForgeCompatibility\Imaging.AForgeCompatibility.csproj">
       <Project>{f4e40964-c640-4c87-9e3e-a1f1266fbc73}</Project>
-      <Name>Imaging.AForgeCompatibillity</Name>
+      <Name>Imaging.AForgeCompatibility</Name>
     </ProjectReference>
     <ProjectReference Include="..\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj">
       <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>

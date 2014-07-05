@@ -31,6 +31,21 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="Build.cmd" />
+    <None Include="Vision.IO.targets">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Vision.IO.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Vision.nuspec" />
+    <None Include="Imaging.Algorithms.nuspec" />
+    <None Include="Imaging.GenericImage.nuspec" />
+    <None Include="Statistics.nuspec" />
+    <None Include="Math.nuspec" />
+    <None Include="Imaging.Algorithms.LNE2D.targets">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Imaging.Algorithms.LNE2D.nuspec" />
     <None Include="Imaging.BitmapCompatibility.nuspec" />
     <None Include="Imaging.AForgeCompatibility.nuspec" />
     <None Include="Core.nuspec" />

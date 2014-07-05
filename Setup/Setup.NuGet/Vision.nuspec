@@ -1,0 +1,36 @@
+﻿<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Extensions.Vision</id>
+    <version>$version$</version>
+    <title>Accord Extensions Vision Algorithms</title>
+    <authors>Accord.NET Extensions</authors>
+    <owners>Accord.NET Extensions</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Provides computer vision algorithms: Pyramidal KLT tracker, Camshift, Meanshift.
+    </description>
+    <summary>Provides computer vision algorithms: Pyramidal KLT tracker, Camshift, Meanshift.</summary>
+    <tags>accord.net framework extensions computer-vision  KLT-tracker camshift, meanshift</tags>
+
+    <dependencies>
+      <dependency id="AForge"                                         version="2.2.5" />
+
+      <dependency id="Accord.Math"                                    version="" />
+      
+      <dependency id="Accord.Extensions.Core"                         version="$version$" />
+      <dependency id="Accord.Extensions.Math"                         version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.GenericImage"         version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.Algorithms"           version="$version$" />
+    </dependencies>
+  </metadata>
+  
+  <files>
+    <file src="..\..\bin\Release\Accord.Extensions.Vision.dll" target="lib\Accord.Extensions.Vision.dll" />
+    <file src="..\..\bin\Release\Accord.Extensions.Vision.xml" target="lib\Accord.Extensions.Vision.xml" />
+  </files>
+</package>

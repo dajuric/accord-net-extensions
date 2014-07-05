@@ -2,7 +2,7 @@
 
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Accord.Extensions.Imaging.AForgeCompatibillity</id>
+    <id>Accord.Extensions.Imaging.AForgeCompatibility</id>
     <version>$version$</version>
     <title>Accord Extensions AForge Compatibility</title>
     <authors>Accord.NET Extensions</authors>
@@ -21,8 +21,8 @@
       <dependency id="AForge"                                          version="2.2.5" />
       <dependency id="AForge.Imaging"                                  version="2.2.5" />
       
-      <dependency id="Accord.Extensions.Imaging.BitmapCompatibillity"  version="$version$" />
-      <dependency id="Accord.Extensions.Imaging.Math"                  version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.BitmapCompatibility"  version="$version$" />
+      <dependency id="Accord.Extensions.Math"                         version="$version$" />
     </dependencies>
 
     <frameworkAssemblies>
@@ -31,7 +31,7 @@
   </metadata>
   
   <files>
-    <file src="..\..\bin\Release\Accord.Extensions.Imaging.AForgeCompatibillity.dll" target="lib\Accord.Extensions.Imaging.AForgeCompatibillity.dll" />
-    <file src="..\..\bin\Release\Accord.Extensions.Imaging.AForgeCompatibillity.xml" target="lib\Accord.Extensions.Imaging.AForgeCompatibillity.xml" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.AForgeCompatibility.dll" target="lib\Accord.Extensions.Imaging.AForgeCompatibility.dll" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.AForgeCompatibility.xml" target="lib\Accord.Extensions.Imaging.AForgeCompatibility.xml" />
   </files>
 </package>
