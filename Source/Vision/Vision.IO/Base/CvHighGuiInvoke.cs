@@ -4,11 +4,26 @@ using System.Security;
 
 namespace Accord.Extensions.Vision
 {
+    /// <summary>
+    /// OpenCV video codec name.
+    /// </summary>
     public class VideoCodec
     {
+        /// <summary>
+        /// MPEG1 codec name: "PIM1".
+        /// </summary>
         public static readonly VideoCodec MPEG1 = VideoCodec.FromName('P', 'I', 'M', '1');
+        /// <summary>
+        /// Motion JPEG codec name: "MJPG".
+        /// </summary>
         public static readonly VideoCodec MotionJpeg = VideoCodec.FromName('M', 'J', 'P', 'G');
+        /// <summary>
+        /// Intel YUV codec name: "IYUV".
+        /// </summary>
         public static readonly VideoCodec IntelYUV = VideoCodec.FromName('I', 'Y', 'U', 'V');
+        /// <summary>
+        /// User selection - on Windows dialog will be opened. Value: -1.
+        /// </summary>
         public static readonly VideoCodec UserSelection = new VideoCodec(-1);
 
         private const int CODEC_NAME_LENGTH = 4;
@@ -50,21 +65,41 @@ namespace Accord.Extensions.Vision
             return VideoCodec.FromName(codecName[0], codecName[1], codecName[2], codecName[3]);
         }
 
+        /// <summary>
+        /// Casts video codec to an 32-bit integer.
+        /// </summary>
+        /// <param name="videoCodec">Video codec.</param>
+        /// <returns>32-bit integer representation of the video codec.</returns>
         public static implicit operator int(VideoCodec videoCodec)
         {
             return videoCodec.codec;
         }
 
+        /// <summary>
+        /// Creates video codec from the 32-bit integer.
+        /// </summary>
+        /// <param name="code">32-bit code.</param>
+        /// <returns>New codec name.</returns>
         public static explicit operator VideoCodec(int code)
         {
             return new VideoCodec(code);
         }
 
+        /// <summary>
+        /// Creates video codec from the 4-character string.
+        /// </summary>
+        /// <param name="code">4-character string.</param>
+        /// <returns>New codec name.</returns>
+        /// <exception cref="System.Exception">Invalid string length.</exception>
         public static explicit operator VideoCodec(string code)
         {
             return VideoCodec.FromName(code);
         }
 
+        /// <summary>
+        /// Gets the string representation of the codec name.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString()
         {
             unsafe 

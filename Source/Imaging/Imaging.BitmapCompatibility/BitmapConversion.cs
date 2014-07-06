@@ -247,10 +247,13 @@ namespace Accord.Extensions.Imaging
             if (image.PixelFormat != PixelFormat.Format8bppIndexed)
                 throw new ArgumentException("The provided image must have 8bpp pixel format.");
 
+            var palette = image.Palette;
             for (int i = 0; i < (Byte.MaxValue + 1); i++)
             {
-                image.Palette.Entries[i] = Color.FromArgb(i, i, i);
+                palette.Entries[i] = Color.FromArgb(i, i, i);
             }
+
+            image.Palette = palette;
         }
 
         #endregion

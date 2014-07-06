@@ -113,18 +113,31 @@ namespace Accord.Extensions.Vision
         #endregion
     }
 
+    /// <summary>
+    /// Enumerator for the image stream.
+    /// <para>Stream must support seek operation.</para>
+    /// </summary>
+    /// <typeparam name="TImage">Image type.</typeparam>
     public class StreamableSourceEnumerator<TImage> : IEnumerator<TImage>
         where TImage : IImage
     {
         StreamableSource<TImage> streamableSource;
         int position;
 
+        /// <summary>
+        /// Creates new image stream iterator.
+        /// </summary>
+        /// <param name="streamableSource">Image stream.</param>
         public StreamableSourceEnumerator(StreamableSource<TImage> streamableSource)
         {
             this.streamableSource = streamableSource;
             Reset();
         }
 
+        /// <summary>
+        /// Moves the position of the iterator by 1.
+        /// </summary>
+        /// <returns>True if the postition increment is valid, false otherwise.</returns>
         public bool MoveNext()
         {
             position++;
@@ -135,12 +148,18 @@ namespace Accord.Extensions.Vision
             return newPosition > oldPosition || position == 0;
         }
 
+        /// <summary>
+        /// Restes the enumerator,
+        /// </summary>
         public void Reset()
         {
             streamableSource.Seek(0, SeekOrigin.Begin);
             position = -1;
         }
 
+        /// <summary>
+        /// Gets the current image within the stream.
+        /// </summary>
         public TImage Current
         {
             get 
@@ -152,12 +171,18 @@ namespace Accord.Extensions.Vision
             }
         }
 
+        /// <summary>
+        /// Gets the current image within the stream.
+        /// </summary>
         object System.Collections.IEnumerator.Current
         {
             get { return this.Current; }
         }
 
         bool isDisposed = false;
+        /// <summary>
+        /// Disposes the iterator and resets the position within the stream.
+        /// </summary>
         public void Dispose()
         {
             if (!isDisposed)
@@ -168,6 +193,9 @@ namespace Accord.Extensions.Vision
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static class StreamableSourceExtensions
     {
         /// <summary>

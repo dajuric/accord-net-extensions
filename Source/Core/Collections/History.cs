@@ -6,7 +6,7 @@ namespace Accord.Extensions
 {
     /// <summary>
     /// Represents s strongly typed list of objects. 
-    /// The collection represents history; it can be more suitable than <see cref="List"/> for object tracking where saving the detection history is common task.
+    /// The collection represents history; it can be more suitable than <see cref="System.Collections.Generic.List{T}"/> for object tracking where saving the detection history is common task.
     /// </summary>
     /// <typeparam name="T">Type object type.</typeparam>
     public class History<T> : ICloneable, IEnumerable<T>, IEnumerator<T>

@@ -2,7 +2,10 @@
 
 namespace Accord.Extensions
 {
-    public class Diagnostics
+    /// <summary>
+    /// Contains methods for code performance measurement. 
+    /// </summary>
+    public static class Diagnostics
     {
         /// <summary>
         /// Executes a provided action and measures time in milliseconds that was consumed by provided action.

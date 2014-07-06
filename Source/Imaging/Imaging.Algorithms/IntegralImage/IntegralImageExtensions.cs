@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Accord.Extensions.Imaging.IntegralImage
 {
-    public static class IntegralImageExtensionsBase
+    static class IntegralImageExtensionsBase
     {
         delegate void MakeIntegralFunc(IImage src, IImage dest);
         static Dictionary<Type, Tuple<Type, MakeIntegralFunc>> makeIntegralFuncs;
@@ -20,7 +20,6 @@ namespace Accord.Extensions.Imaging.IntegralImage
         /// <summary>
         /// Calculates integral image. The dimensions of integral image are (width + 1, height + 1).
         /// Use extension functions to access integral data with ease.
-        /// <see cref="GetSum"/>
         /// </summary>
         /// <returns>Integral image.</returns>
         internal static IImage MakeIntegral(IImage img)
@@ -135,6 +134,9 @@ namespace Accord.Extensions.Imaging.IntegralImage
         #endregion
     }
 
+    /// <summary>
+    /// Provides extensions for gray integral image of type <see cref="System.Byte"/>.
+    /// </summary>
     public static class IntegralImageExtensionsColorByte
     {
         /// <summary>
@@ -167,6 +169,9 @@ namespace Accord.Extensions.Imaging.IntegralImage
         }
     }
 
+    /// <summary>
+    /// Provides extensions for gray integral image of type <see cref="System.Single"/>.
+    /// </summary>
     public static class IntegralImageExtensionsColorFloat
     {
         /// <summary>
@@ -199,6 +204,9 @@ namespace Accord.Extensions.Imaging.IntegralImage
         }
     }
 
+    /// <summary>
+    /// Provides extensions for gray integral image of type <see cref="System.Double"/>.
+    /// </summary>
     public static class IntegralImageExtensionsColorDouble
     {
         /// <summary>

@@ -14,8 +14,17 @@ namespace Accord.Extensions
         /// </summary>
         public enum OperatingSystem
         {
+            /// <summary>
+            /// Windows family.
+            /// </summary>
             Windows,
+            /// <summary>
+            /// Linux family
+            /// </summary>
             Linux,
+            /// <summary>
+            /// MacOS family
+            /// </summary>
             MacOS
         }
 

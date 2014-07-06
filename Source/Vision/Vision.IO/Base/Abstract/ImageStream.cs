@@ -8,7 +8,7 @@ namespace Accord.Extensions.Vision
         where TImage: IImage
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="ImageStream"/>.
+        /// Initializes a new instance of <see cref="ImageStream{TImage}"/>.
         /// </summary>
         protected ImageStream()
         {

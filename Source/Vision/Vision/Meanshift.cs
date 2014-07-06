@@ -7,6 +7,9 @@ namespace Accord.Extensions.Vision
 {
     public class Meanshift
     {
+        /// <summary>
+        /// Gets the default termination criteria for the mean-shift algorithm: max-iterations: 10, min-error: 1.
+        /// </summary>
         public static readonly TermCriteria DEFAULT_TERM = new TermCriteria { MaxIterations = 10, MinError = 1 /*min shift delta*/ };
 
         /// <summary>
