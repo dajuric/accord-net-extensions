@@ -8,8 +8,9 @@ namespace Accord.Extensions.Statistics.Filters
     /// <summary>
     /// Contains sttaic and extensions methods that operate on collection of particles.
     /// </summary>
+    /// 
     /// <remarks>
-    /// See lectures: <see cref="http://www.kev-smith.com/teaching/L7_ParticleFilters.pdf"/>
+    /// See lectures:  <a href="http://www.kev-smith.com/teaching/L7_ParticleFilters.pdf"/>
     /// </remarks>
     public static partial class ParticleFilter
     {      

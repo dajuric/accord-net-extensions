@@ -10,6 +10,9 @@ namespace Accord.Extensions
     /// </summary>
     public class MethodCache
     {
+        /// <summary>
+        /// Gets the global (singleton) instance of the method cache.
+        /// </summary>
         public static readonly MethodCache Global = new MethodCache();
 
         private readonly ConcurrentDictionary<Delegate, Delegate> delegates

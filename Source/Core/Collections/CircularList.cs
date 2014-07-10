@@ -10,11 +10,11 @@ namespace Accord.Extensions
     public static class CircularListExtensions
     {
         /// <summary>
-        /// Creates <see cref="CircularList"/> from <see cref="List"/>.
+        /// Creates <see cref="Accord.Extensions.CircularList{T}"/> from <see cref="System.Collections.Generic.List{T}"/>.
         /// </summary>
         /// <typeparam name="T">Element type.</typeparam>
         /// <param name="list">List of elements.</param>
-        /// <returns>New instance of <see cref="CircularList"/>. Elemets are not deep cloned.</returns>
+        /// <returns>New instance of <see cref="Accord.Extensions.CircularList{T}"/>. Elements are not deep cloned.</returns>
         public static CircularList<T> ToCircularList<T>(this List<T> list)
         {
             return new CircularList<T>(list);
@@ -46,7 +46,7 @@ namespace Accord.Extensions
         /// Gets or sets the element at specified index.
         /// </summary>
         /// <param name="index">The specified index.</param>
-        /// <returns>The element at specified inedx.</returns>
+        /// <returns>The element at specified index.</returns>
         public new T this[int index]
         {
             get { return base[getNonNegativeIndex(index)]; }

@@ -75,11 +75,21 @@ namespace Accord.Extensions
             return String.Format("<{0}, {1}>", First, Second);
         }
 
+        /// <summary>
+        /// Converts the structure into System.Tuple{T, T}.
+        /// </summary>
+        /// <param name="pair">Value pair.</param>
+        /// <returns>Tuple.</returns>
         public static implicit operator Tuple<T, T>(Pair<T> pair)
         {
             return new Tuple<T, T>(pair.First, pair.Second);
         }
 
+        /// <summary>
+        /// Converts the structure into Accord.Extensions.Pair{T}.
+        /// </summary>
+        /// <param name="tuple">Tuple.</param>
+        /// <returns>Pair.</returns>
         public static implicit operator Pair<T>(Tuple<T, T> tuple)
         {
             return new Pair<T>(tuple.Item1, tuple.Item2);

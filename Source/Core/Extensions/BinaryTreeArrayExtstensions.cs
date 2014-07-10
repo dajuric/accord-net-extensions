@@ -4,7 +4,7 @@ namespace Accord.Extensions.BinaryTree
 {
     /// <summary>
     /// Contains methods that simulate binary tree using array.
-    /// <para>All methods are extnsion on <see cref="System.Collections.Generic.IList<>"/></para>
+    /// <para>All methods are extension on <see cref="System.Collections.Generic.IList{T}"/></para>
     /// </summary>
     public static class BinaryTreeArrayExtstensions
     {
@@ -13,7 +13,7 @@ namespace Accord.Extensions.BinaryTree
         /// </summary>
         /// <typeparam name="T">Data type.</typeparam>
         /// <param name="collection">Data collection observed as binary tree.</param>
-        /// <param name="nodeIdx">Left or right child index.</param>
+        /// <param name="nodeIndex">Left or right child index.</param>
         /// <returns>Parent index.</returns>
         public static int ParentIndex<T>(this IList<T> collection, int nodeIndex)
         {
@@ -25,7 +25,7 @@ namespace Accord.Extensions.BinaryTree
         /// </summary>
         /// <typeparam name="T">Data type.</typeparam>
         /// <param name="collection">Data collection observed as binary tree.</param>
-        /// <param name="parentIdx">Parent index.</param>
+        /// <param name="parentIndex">Parent index.</param>
         /// <returns>Child index.</returns>
         public static int LeftChildIndex<T>(this IList<T> collection, int parentIndex)
         {
@@ -37,7 +37,7 @@ namespace Accord.Extensions.BinaryTree
         /// </summary>
         /// <typeparam name="T">Data type.</typeparam>
         /// <param name="collection">Data collection observed as binary tree.</param>
-        /// <param name="parentIdx">Parent index.</param>
+        /// <param name="parentIndex">Parent index.</param>
         /// <returns>Child index.</returns>
         public static int RightChildIndex<T>(this IList<T> collection, int parentIndex)
         {
@@ -50,7 +50,7 @@ namespace Accord.Extensions.BinaryTree
         /// <typeparam name="T">Data type.</typeparam>
         /// <param name="collection">Data collection observed as binary tree.</param>
         /// <param name="parentIndex">Parent index.</param>
-        /// <param name="child">Child value.</param>
+        /// <param name="node">Child value.</param>
         /// <returns>True if the child index is in collection bounds, false otherwise.</returns>
         public static bool GetLeftChild<T>(this IList<T> collection, int parentIndex, out T node)
         {
@@ -72,7 +72,7 @@ namespace Accord.Extensions.BinaryTree
         /// <typeparam name="T">Data type.</typeparam>
         /// <param name="collection">Data collection observed as binary tree.</param>
         /// <param name="parentIndex">Parent index.</param>
-        /// <param name="child">Child value.</param>
+        /// <param name="node">Child value.</param>
         /// <returns>True if the child index is in collection bounds, false otherwise.</returns>
         public static bool GetRightChild<T>(this IList<T> collection, int parentIndex, out T node)
         {

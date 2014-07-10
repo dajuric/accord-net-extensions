@@ -62,8 +62,8 @@ namespace Accord.Extensions.Caching
         /// Initializes a new instance of the LRUCache class that is empty and has the specified
         /// initial capacity.
         /// </summary>
-        /// <param name="capacityFunc"></param>
-        /// <param name="objectSizeFunc"></param>
+        /// <param name="isCapacityReached">Func that return true if the capacity is reached.</param>
+        /// <param name="objectSizeFunc">Func that returns the object size in bytes.</param>
         public LRUCache(Func<ulong, bool> isCapacityReached, Func<V, ulong> objectSizeFunc)
         {
             dict = new Dictionary<K, V>();
@@ -84,7 +84,7 @@ namespace Accord.Extensions.Caching
 
         /// <summary>
         /// Gets the total size of all items in user defined units.
-        /// <para>Default: 1 per item. <seealso cref="GetSize"/> function.</para>
+        /// <para>Default: 1 per item. </para>
         /// </summary>
         public ulong TotalSize
         {
@@ -112,7 +112,8 @@ namespace Accord.Extensions.Caching
         /// Add an item to the LRUCache, making it the newest item (i.e. the last
         /// item in the list). If the key is already in the LRUCache, its value is replaced.
         /// </summary>
-        /// <param name="item">The item that is being used.</param>
+        /// <param name="key">Key.</param>
+        /// <param name="value">Value.</param>
         /// <remarks>If the LRUCache has a nonzero capacity, and it is at its capacity, this 
         /// method will discard the oldest item, raising the DiscardingOldestItem event before 
         /// it does so.</remarks>
@@ -123,9 +124,9 @@ namespace Accord.Extensions.Caching
 
 		/// <summary>
         /// Add an item to the LRUCache, making it the newest item (i.e. the last
-        /// item in the list). If the key is already in the LRUCache, its value is replaced.
+        /// item in the list). If the key is already in the LRUCache, an exception is thrown.
         /// </summary>
-        /// <param name="item">The item that is being used.</param>
+        /// <param name="pair">The item that is being used.</param>
         /// <remarks>If the LRUCache has a nonzero capacity, and it is at its capacity, this 
         /// method will discard the oldest item, raising the DiscardingOldestItem event before 
         /// it does so.</remarks>
@@ -139,6 +140,15 @@ namespace Accord.Extensions.Caching
                 throw new Exception("The key already exist. Use AddOrUpdate command to update existing key.");
         }
 
+        /// <summary>
+        /// Add an item to the LRUCache, making it the newest item (i.e. the last
+        /// item in the list). If the key is already in the LRUCache, its value is replaced.
+        /// </summary>
+        /// <param name="key">Data key value.</param>
+        /// <param name="value">Value.</param>
+        ///  /// <remarks>If the LRUCache has a nonzero capacity, and it is at its capacity, this 
+        /// method will discard the oldest item, raising the DiscardingOldestItem event before 
+        /// it does so.</remarks>
         public void AddOrUpdate(K key, V value)
         {
             lock (syncObj)
@@ -189,7 +199,7 @@ namespace Accord.Extensions.Caching
 		/// <summary>
         /// Remove the specified item from the LRUCache.
         /// </summary>
-        /// <param name="item">The item to remove from the LRUCache.</param>
+        /// <param name="key">The key of the item to remove from the LRUCache.</param>
         /// <returns>true if the item was successfully removed from the LRUCache,
         /// otherwise false.  This method also returns false if the item was not
         /// found in the LRUCache.</returns>
@@ -217,7 +227,7 @@ namespace Accord.Extensions.Caching
         /// <param name="key">Key.</param>
         /// <param name="value">Value.</param>
         /// <returns> 
-        /// True if the System.Collections.Generic.Dictionary<TKey,TValue> contains an 
+        /// True if the System.Collections.Generic.Dictionary{TKey,TValue} contains an 
         /// element with the specified key; otherwise, false.
         /// </returns>
         public bool TryGetValue(K key, out V value)
@@ -238,7 +248,7 @@ namespace Accord.Extensions.Caching
 		/// <summary>
         /// Determines whether the LRUCache contains a specific value.
         /// </summary>
-        /// <param name="item">The item to locate in the LRUCache.</param>
+        /// <param name="key">The key of the item to locate in the LRUCache.</param>
         /// <returns>true if the item is in the LRUCache, otherwise false.</returns>
         public bool ContainsKey(K key)
         {
@@ -280,6 +290,11 @@ namespace Accord.Extensions.Caching
             }
         }
 
+        /// <summary>
+        /// Determines whether the cache contains specified item or not.
+        /// </summary>
+        /// <param name="item">Specified item.</param>
+        /// <returns>True if the item is in cache, false otherwise.</returns>
         public bool Contains(KeyValuePair<K, V> item)
         {
             lock (syncObj)

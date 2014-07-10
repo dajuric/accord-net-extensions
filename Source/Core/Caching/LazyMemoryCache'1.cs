@@ -152,7 +152,7 @@ namespace Accord.Extensions.Caching
         /// <summary>
         /// Constructs lazy memory cache which caches object constructor and destructor.
         /// <para>Value loading is handled in a lazy way (JIT), and it is automatically unloaded from memory when a specified capacity is reached.</para>
-        /// <para>The memory management is handled by LRU strategy. See: <see cref="LRUCache"/>.</para>
+        /// <para>The memory management is handled by LRU strategy. See: LRUCache.</para>
         /// </summary>
         /// <param name="isCapacityReached">Function that returns true if the cache limit is reached and the cache should start to unload items.</param>
         /// <param name="objectSizeFunc">Function to determine object size.</param>
@@ -302,7 +302,7 @@ namespace Accord.Extensions.Caching
 
         /// <summary>
         /// Gets the enumerator for the cache.
-        /// <para>By enumerating the collection objects are loaded only if the value property from <see cref="ILazyCacheItem"/> is read.</para>
+        /// <para>By enumerating the collection objects are loaded only if the value property from <see cref="Accord.Extensions.Caching.ILazy{T}"/> is read.</para>
         /// </summary>
         /// <returns>Enumerator.</returns>
         public IEnumerator<KeyValuePair<TKey, ILazy<TValue>>> GetEnumerator()
@@ -312,7 +312,7 @@ namespace Accord.Extensions.Caching
 
         /// <summary>
         /// Gets the enumerator for the cache.
-        /// <para>By enumerating the collection objects are loaded only if the value property from <see cref="ILazyCacheItem"/> is read.</para>
+        /// <para>By enumerating the collection objects are loaded only if the value property from <see cref="Accord.Extensions.Caching.ILazy{T}"/> is read.</para>
         /// </summary>
         /// <returns>Enumerator.</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

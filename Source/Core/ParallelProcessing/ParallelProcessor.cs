@@ -70,7 +70,7 @@ namespace Accord.Extensions
 
         private List<Rectangle> patches;
 
-        protected FieldCreator destImageCreator;
+        private FieldCreator destImageCreator;
         private ProcessPatch processPatch;
         private Size imageSize;
         private bool runParallel;
@@ -98,9 +98,20 @@ namespace Accord.Extensions
             Initialize(imageSize, destFieldCreator, processPatch, parallelOptions, minPatchHeight);
         }
 
+        /// <summary>
+        /// Creates new parallel processor (not-initialized).
+        /// </summary>
         protected ParallelProcessor()
         { }
 
+        /// <summary>
+        /// Initializes the parallel processor.
+        /// </summary>
+        /// <param name="imageSize">Image size.</param>
+        /// <param name="destImageCreator">Destination image creator.</param>
+        /// <param name="processPatch">Process patch func. The function will execute on every patch.</param>
+        /// <param name="parallelOptions">Parallel options.</param>
+        /// <param name="minPatchHeight">Minimal patch height. Put 0 if there are no preferences.</param>
         protected void Initialize(Size imageSize, FieldCreator destImageCreator, ProcessPatch processPatch, ParallelOptions2D parallelOptions, int minPatchHeight)
         {
             this.imageSize = imageSize;

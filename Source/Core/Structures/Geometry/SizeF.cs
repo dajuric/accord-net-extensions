@@ -272,6 +272,11 @@ namespace Accord.Extensions
             return (int)width ^ (int)height;
         }
 
+        /// <summary>
+        /// Truncates width and height value and returns integer representation of the size.
+        /// </summary>
+        /// <param name="size">Size to convert into integer Size representation.</param>
+        /// <returns>Integer Size representation.</returns>
         public static explicit operator Size(SizeF size)
         {
             return new Size((int)size.Width, (int)size.Height);

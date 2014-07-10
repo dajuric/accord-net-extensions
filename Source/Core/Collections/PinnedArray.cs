@@ -65,6 +65,9 @@ namespace Accord.Extensions
             }
         }
 
+        /// <summary>
+        /// Destructs pinned array (releases pinning handle).
+        /// </summary>
         ~PinnedArray()
         {
             Dispose();

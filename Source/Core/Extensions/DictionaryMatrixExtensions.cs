@@ -6,7 +6,7 @@ namespace Accord.Extensions
 {
     /// <summary>
     /// <para>Defined functions can be used as object extensions.</para>
-    /// Provides extension methods for <see cref="System.Collections.Generic.Dictionary"/> matrix.
+    /// Provides extension methods for <see cref="System.Collections.Generic.Dictionary{TKey, TValue}"/> matrix.
     /// </summary>
     public static class DictonaryMatExtensions
     {
@@ -132,6 +132,7 @@ namespace Accord.Extensions
         /// <summary>
         /// Creates new sparse matrix from provided collection.
         /// </summary>
+        /// <typeparam name="TSrcValue">Source value type.</typeparam>
         /// <typeparam name="TKey">Key type.</typeparam>
         /// <typeparam name="TValue">Value type.</typeparam>
         /// <param name="values"></param>

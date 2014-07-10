@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Accord.Extensions
 {
+    /// <summary>
+    /// Contains extension methods for determining the index of the minimum element in collection.
+    /// <para>All methods can be used as extensions.</para>
+    /// </summary>
     public static class IndexOfMinExtensions
     {
         /// <summary>

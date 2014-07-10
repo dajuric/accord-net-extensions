@@ -42,7 +42,7 @@ namespace Accord.Extensions
 
     /// <summary>
     /// Represents an infinite data partitioner. Returns an infinite collection of type <see cref="System.Boolean"/>.
-    /// <para>It is used in <see cref="ParallelExtensions.While"/>.</para>
+    /// <para>It is used in While function extension.</para>
     /// </summary>
     public class InfinitePartitioner : Partitioner<bool>
     {

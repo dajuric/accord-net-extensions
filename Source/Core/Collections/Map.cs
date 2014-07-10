@@ -4,13 +4,15 @@ namespace Accord.Extensions
 {
     /// <summary>
     /// Structure that sets association between two keys.
-    /// It is taken from: <see cref="http://stackoverflow.com/questions/10966331/two-way-bidirectional-dictionary-in-c"/> and modified.
+    /// <para>
+    /// It is taken from: <a href="http://stackoverflow.com/questions/10966331/two-way-bidirectional-dictionary-in-c"/> and modified.
+    /// </para>
     /// </summary>
     /// <typeparam name="T1">First key type.</typeparam>
     /// <typeparam name="T2">Second key type.</typeparam>
     /// <example>
     /// <code>
-    /// var map = new Map<int, string>();
+    /// var map = new Map &lt;int, string &gt;();
     /// map.Add(42, "Hello");
     /// 
     /// Console.WriteLine(map.Forward[42]);
@@ -31,7 +33,7 @@ namespace Accord.Extensions
         {
             private Dictionary<T3, T4> dictionary;
             /// <summary>
-            /// Creates new instance from a disctionary.
+            /// Creates new instance from a dictionary.
             /// </summary>
             /// <param name="dictionary">Association dictionary.</param>
             public Indexer(Dictionary<T3, T4> dictionary)
@@ -55,7 +57,7 @@ namespace Accord.Extensions
             /// </summary>
             /// <param name="index">Key.</param>
             /// <param name="value">Associated value (other key).</param>
-            /// <returns>Returns true if the specifed key exists, otherwise returns false.</returns>
+            /// <returns>Returns true if the specified key exists, otherwise returns false.</returns>
             public bool TryGetValue(T3 index, out T4 value)
             {
                 return dictionary.TryGetValue(index, out value);
@@ -71,11 +73,19 @@ namespace Accord.Extensions
                 return dictionary.ContainsKey(index);
             }
 
+            /// <summary>
+            /// Return the enumerator that iterates through the collection.
+            /// </summary>
+            /// <returns>Collection enumerator.</returns>
             public IEnumerator<T3> GetEnumerator()
             {
                 return dictionary.Keys.GetEnumerator();
             }
 
+            /// <summary>
+            /// Return the enumerator that iterates through the collection.
+            /// </summary>
+            /// <returns>Collection enumerator.</returns>
             System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
             {
                 return this.GetEnumerator();
@@ -86,7 +96,7 @@ namespace Accord.Extensions
         private Dictionary<T2, T1> reverse = new Dictionary<T2, T1>();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Map"/>.
+        /// Initializes a new instance of <see cref="Accord.Extensions.Map{T1, T2}"/>.
         /// </summary>
         public Map()
         {
@@ -106,16 +116,16 @@ namespace Accord.Extensions
         }
 
         /// <summary>
-        /// Gets all associations with the first <see cref="T1"/> key.
+        /// Gets all associations with the first <typeparamref name="T1"/> key.
         /// </summary>
         public Indexer<T1, T2> Forward { get; private set; }
         /// <summary>
-        /// Gets all associations with the second <see cref="T2"/> key.
+        /// Gets all associations with the second <typeparamref name="T2"/> key.
         /// </summary>
         public Indexer<T2, T1> Reverse { get; private set; }
 
         /// <summary>
-        /// Removes all associations from the <see cref="Map"/>.
+        /// Removes all associations from the <see cref="Accord.Extensions.Map{T1, T2}"/>.
         /// </summary>
         public void Clear()
         {

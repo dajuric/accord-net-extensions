@@ -35,7 +35,9 @@ namespace Accord.Extensions
 
         /// <summary>
         /// Gets operating system name.
-        /// Taken from: <see cref="http://stackoverflow.com/questions/10138040/how-to-detect-properly-windows-linux-mac-operating-systems"/> and modified.
+        /// <para>
+        /// Taken from: <a href="http://stackoverflow.com/questions/10138040/how-to-detect-properly-windows-linux-mac-operating-systems"/> and modified.
+        /// </para>
         /// </summary>
         private static OperatingSystem getRunningPlatform()
         { 
@@ -96,7 +98,7 @@ namespace Accord.Extensions
         }
 
         /// <summary>
-        /// Adds the default directory to unmanaged library search path for functions that load unmanaged library. See <paramref name="dllDirectory"/> attribute is also included.
+        /// Adds the default directory to unmanaged library search path for functions that load unmanaged library. 
         /// The default directory is platform specific:
         /// <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
         /// <para>  MacOS: /UnmanagedLibraries/MacOS/</para>

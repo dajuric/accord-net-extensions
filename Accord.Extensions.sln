@@ -34,6 +34,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SIMDArrayInstructions", "Source\Imaging\FastTemplateMatching\SIMDArrayInstructions\SIMDArrayInstructions.vcxproj", "{06DC371A-D057-4353-9D70-544329B6CFEF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINE2D", "Source\Imaging\FastTemplateMatching\LINE2D.csproj", "{5F6B97F8-7EA6-4B5D-9A5D-F5581505C303}"
+	ProjectSection(ProjectDependencies) = postProject
+		{06DC371A-D057-4353-9D70-544329B6CFEF} = {06DC371A-D057-4353-9D70-544329B6CFEF}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ContourSamples", "ContourSamples", "{B67B79DD-99D2-45DB-B005-35EA5A77ED30}"
 EndProject
