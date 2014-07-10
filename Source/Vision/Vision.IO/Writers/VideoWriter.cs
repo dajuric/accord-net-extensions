@@ -99,6 +99,11 @@ namespace Accord.Extensions.Vision
             get { return this.Position; }
         }
 
+        /// <summary>
+        /// Writes the provided image to the stream.
+        /// </summary>
+        /// <param name="image">Image to write.</param>
+        /// <returns>True, if the operation was successful, false otherwise.</returns>
         protected unsafe override bool WriteInternal(IImage image)
         {
             bool isSuccessful;

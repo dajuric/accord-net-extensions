@@ -4,6 +4,10 @@ using Accord.Extensions.Imaging;
 
 namespace Accord.Extensions.Vision
 {
+    /// <summary>
+    /// Provides the base class for the image stream.
+    /// </summary>
+    /// <typeparam name="TImage">Image type.</typeparam>
     public abstract class ImageStream<TImage>
         where TImage: IImage
     {

@@ -134,7 +134,7 @@ namespace Accord.Extensions.Imaging.Converters
             addSelfPaths();
 
             Dictionary<ColorInfo, Dictionary<ColorInfo, double>> costMatrix;
-            shorthestPaths = graph.FindAllShorthestPaths(x =>
+            shorthestPaths = graph.FindAllPaths(x =>
             {
                 var cost = (int)x.Cost;
                 if (x.Cost == ConversionCost.Cast) cost += GENERIC_COLOR_CAST_OFFSET;

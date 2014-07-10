@@ -201,6 +201,7 @@ namespace Accord.Extensions.Vision
         /// <summary>
         /// Calls read function defined by the stream and converts an returned image if necessary.
         /// </summary>
+        /// <param name="imageStream">Image stream.</param>
         /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
         /// <param name="failIfCannotCast">If data copy is needed throws an exception.</param>
         /// <returns>Converted image or null if the image can not be read.</returns>

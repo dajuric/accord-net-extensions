@@ -16,7 +16,7 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="candidates">Points sorted by importance. Points are tested by sequentially.</param>
         /// <param name="minimalDistance">Minimal enforced distance.</param>
-        /// <returns>Filtered points which are spread by minimal <see cref="minimalDistance"/></returns>
+        /// <returns>Filtered points which are spread by minimal <paramref name="minimalDistance"/>.</returns>
         public static List<Point> EnforceMinimalDistance(this IEnumerable<Point> candidates, float minimalDistance)
         {
             var minDistSqr = minimalDistance * minimalDistance;

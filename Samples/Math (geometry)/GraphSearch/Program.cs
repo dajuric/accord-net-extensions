@@ -37,7 +37,7 @@ namespace GraphSearch
             var graph = edges.ToGraph<string, TaggedEdge<string, float>>();
 
             Dictionary<string, Dictionary<string, double>> costMatrix;
-            var paths = graph.FindAllShorthestPaths(x => x.Tag, out costMatrix);
+            var paths = graph.FindAllPaths(x => x.Tag, out costMatrix);
 
             var vertices = graph.GetVertices<string, TaggedEdge<string, float>>();
 

@@ -1,6 +1,9 @@
 ﻿
 namespace Accord.Extensions.Math
 {
+    /// <summary>
+    /// Represents complex number.
+    /// </summary>
     public struct ComplexF
     {
         /// <summary>

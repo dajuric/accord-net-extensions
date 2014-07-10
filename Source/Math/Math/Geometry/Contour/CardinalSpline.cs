@@ -11,14 +11,23 @@ namespace Accord.Extensions.Math.Geometry
     /// Represents cardinal cubic spline which is a type of C(1) interpolating spline made up of cubic polynomial segments.
     /// <remarks>
     /// See: 
-    /// <para><see cref="http://research.cs.wisc.edu/graphics/Courses/559-f2004/docs/cs559-splines.pdf"/></para> and
-    /// <para><see cref="http://www.intelligence.tuc.gr/~petrakis/courses/computervision/splines.pdf"/></para>.
+    /// <para><a href="http://research.cs.wisc.edu/graphics/Courses/559-f2004/docs/cs559-splines.pdf"/></para> and
+    /// <para><a href="http://www.intelligence.tuc.gr/~petrakis/courses/computervision/splines.pdf"/></para>.
     /// </remarks>
     /// </summary>
     public class CardinalSpline: ICloneable
     {
+        /// <summary>
+        /// Minimal point index of the cardinal spline.
+        /// </summary>
         public const int MIN_INDEX = 1;
+        /// <summary>
+        /// Offset from the maximal index.
+        /// </summary>
         public const int MAX_INDEX_OFFSET = 1;
+        /// <summary>
+        /// Number of points which are used for interpolation.
+        /// </summary>
         public const int NUM_DERIVATIVE_POINTS = 2;
 
         List<PointF> controlPoints;

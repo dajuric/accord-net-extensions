@@ -2,10 +2,18 @@
 
 namespace Accord.Extensions.Math.Geometry
 {
+    /// <summary>
+    /// Contains methods for geometric transformations.
+    /// </summary>
     public static class Transforms2D
     {
         #region Rotation
 
+        /// <summary>
+        /// Gets the 3x3 rotation matrix.
+        /// </summary>
+        /// <param name="angleRad">Rotation angle in radians.</param>
+        /// <returns>Rotation matrix.</returns>
         public static float[,] Rotation(float angleRad)
         {
             var cos = (float)System.Math.Cos(angleRad);
@@ -23,6 +31,12 @@ namespace Accord.Extensions.Math.Geometry
 
         #region Translation
 
+        /// <summary>
+        /// Gets the 3x3 translation matrix.
+        /// </summary>
+        /// <param name="x">Horizontal offset.</param>
+        /// <param name="y">Vertical offset.</param>
+        /// <returns>Translation matrix.</returns>
         public static float[,] Translation(float x, float y)
         {
             return new float[,] 
@@ -37,6 +51,13 @@ namespace Accord.Extensions.Math.Geometry
 
         #region Scale
 
+        /// <summary>
+        /// Gets the 3x3 scale matrix.
+        /// </summary>
+        /// <param name="x">Horizontal scale.</param>
+        /// <param name="y">Vertical scale.</param>
+        /// <param name="z">Depth scale.</param>
+        /// <returns>Scale matrix.</returns>
         public static float[,] Scale(float x, float y, float z = 1)
         {
             return new float[,] 

@@ -2,6 +2,9 @@
 
 namespace Accord.Extensions.Math
 {
+    /// <summary>
+    /// Represents complex number.
+    /// </summary>
     [ColorInfo(ConversionCodename = "Complex")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Complex : IColor

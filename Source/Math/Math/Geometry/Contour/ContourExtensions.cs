@@ -16,6 +16,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <summary>
         /// Gets path length between specified points.
         /// </summary>
+        /// <param name="pts">Point collection.</param>
         /// <param name="pA">Start point.</param>
         /// <param name="pB">End point.</param>
         /// <param name="cumulativePathLength">Contour cumulative path length.</param>
@@ -39,7 +40,7 @@ namespace Accord.Extensions.Math.Geometry
         /// Gets cumulative distance for a contour (threated as closed contour).
         /// </summary>
         /// <param name="pts">Contour.</param>
-        /// /// <param name="treatAsClosed">Treat as closed contour (distance from the last to the first point is added).</param>
+        /// <param name="treatAsClosed">Treat as closed contour (distance from the last to the first point is added).</param>
         /// <returns>Cumulative distance.</returns>
         public static List<float> CumulativeEuclideanDistance(this IList<Point> pts, bool treatAsClosed = true)
         {
@@ -63,7 +64,7 @@ namespace Accord.Extensions.Math.Geometry
         /// Gets cumulative distance for a contour (threated as closed contour).
         /// </summary>
         /// <param name="pts">Contour.</param>
-        /// /// <param name="treatAsClosed">Treat as closed contour (distance from the last to the first point is added).</param>
+        /// <param name="treatAsClosed">Treat as closed contour (distance from the last to the first point is added).</param>
         /// <returns>Cumulative distance.</returns>
         public static List<float> CumulativeEuclideanDistance(this IList<PointF> pts, bool treatAsClosed = true)
         {
@@ -281,7 +282,7 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Clusters points. Maximum successive distance between two points is specified by <see cref="clusterRange"/>.
+        /// Clusters points. Maximum successive distance between two points is specified by <paramref name="clusterRange"/>.
         /// <para>Points must be ordered!. </para>
         /// Can be useful to group data after <see cref="FindExtremaIndices"/> is used.
         /// </summary>

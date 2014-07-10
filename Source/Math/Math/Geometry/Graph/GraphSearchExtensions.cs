@@ -7,9 +7,9 @@ namespace Accord.Extensions.Math.Geometry
 {
     public static class FloydWarshallExtensions
     {
-        public static Dictionary<TVertex, Dictionary<TVertex, List<TEdge>>> FindAllShorthestPaths<TVertex, TEdge>(this Dictionary<TVertex, Dictionary<TVertex, TEdge>> graph,
-                                                                                                                  Func<TEdge, double> distanceFunc,
-                                                                                                                  out Dictionary<TVertex, Dictionary<TVertex, double>> costMat)
+        public static Dictionary<TVertex, Dictionary<TVertex, List<TEdge>>> FindAllPaths<TVertex, TEdge>(this Dictionary<TVertex, Dictionary<TVertex, TEdge>> graph,
+                                                                                                         Func<TEdge, double> distanceFunc,
+                                                                                                         out Dictionary<TVertex, Dictionary<TVertex, double>> costMat)
             where TEdge : Edge<TVertex>
         {
             var edges = graph.AsEnumerable();
