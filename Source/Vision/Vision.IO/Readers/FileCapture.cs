@@ -49,12 +49,13 @@ namespace Accord.Extensions.Vision
 
         /// <summary>
         /// Sets the position within the current stream.
+        /// <para>Warning: the underlying OpenCV function seeks to nearest key-frame, therefore the seek operation may not be frame-accurate.</para>
         /// </summary>
         /// <param name="offset">A frame index offset relative to the origin parameter.</param>
         /// <param name="origin">A value of type System.IO.SeekOrigin indicating the reference point used to obtain the new position.</param>
         /// <returns>The new position within the current stream.</returns>
         public override long Seek(long offset, System.IO.SeekOrigin origin = SeekOrigin.Current)
-        {
+        { 
             var frameIndex = base.Seek(offset, origin);
             CvHighGuiInvoke.cvSetCaptureProperty(capturePtr, CaptureProperty.PosFrames, frameIndex);
 

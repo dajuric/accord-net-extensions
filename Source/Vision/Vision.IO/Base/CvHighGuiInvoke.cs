@@ -230,6 +230,7 @@ namespace Accord.Extensions.Vision
     /// </summary>
     internal enum CaptureProperty: int
     {
+        PosMsec = 0,
         PosFrames = 1,
         FrameWidth = 3,
         FrameHeight = 4,

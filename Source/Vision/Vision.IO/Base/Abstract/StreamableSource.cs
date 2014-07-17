@@ -137,7 +137,7 @@ namespace Accord.Extensions.Vision
         /// <summary>
         /// Moves the position of the iterator by 1.
         /// </summary>
-        /// <returns>True if the postition increment is valid, false otherwise.</returns>
+        /// <returns>True if the position increment is valid, false otherwise.</returns>
         public bool MoveNext()
         {
             position++;
