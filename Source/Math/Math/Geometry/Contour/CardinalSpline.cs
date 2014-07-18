@@ -130,6 +130,8 @@ namespace Accord.Extensions.Math.Geometry
         /// <summary>
         /// Interpolates four control points.
         /// </summary>
+        /// <param name="controlPoints">Control points of the spline.</param>
+        /// <param name="tension">Tension of the spline.</param>
         /// <param name="index">Index between two control points.</param>
         /// <returns>Interpolated point.</returns>
         public static PointF InterpolateAt(IList<PointF> controlPoints, float tension, float index)
@@ -164,6 +166,8 @@ namespace Accord.Extensions.Math.Geometry
         /// <summary>
         /// Interpolates points and defined indices.
         /// </summary>
+        /// <param name="controlPoints">Control points of the spline.</param>
+        /// <param name="tension">Tension of the spline.</param>
         /// <param name="indices">Indices where to interpolate values.</param>
         /// <returns>Interpolated points.</returns>
         public static IEnumerable<PointF> InterpolateAt(IList<PointF> controlPoints, float tension, IEnumerable<float> indices)
@@ -172,10 +176,12 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Interpolates at indices which are obtained using <see cref="samplingStep"/>.
-        /// <para>Distances between points do not have to be equal because control points may not be equaly distributed.</para>
-        /// <para>For equaly distributed points please use: <seealso cref="GetEqualyDistributedPoints"/>.</para>
+        /// Interpolates at indices which are obtained using <paramref name="samplingStep"/>.
+        /// <para>Distances between points do not have to be equal because control points may not be equally distributed.</para>
+        /// <para>For equally distributed points please use: <seealso cref="GetEqualyDistributedPoints"/>.</para>
         /// </summary>
+        /// <param name="controlPoints">Control points of the spline.</param>
+        /// <param name="tension">Tension of the spline.</param>
         /// <param name="samplingStep">Index increase factor.</param>
         /// <returns>Interpolated points.</returns>
         public static IEnumerable<PointF> Interpolate(IList<PointF> controlPoints, float tension, float samplingStep = 0.3f)
@@ -191,6 +197,8 @@ namespace Accord.Extensions.Math.Geometry
         /// <summary>
         /// Gets derivative at specified index.
         /// </summary>
+        /// <param name="controlPoints">Control points of the spline.</param>
+        /// <param name="tension">Tension of the spline.</param>
         /// <param name="index">Index between two control points.</param>
         /// <param name="approxAtControlPoint">Derivation in control point is zero. 
         /// If true a small offset will be used to avoid zero-point result if a point is control point.</param>
@@ -229,6 +237,8 @@ namespace Accord.Extensions.Math.Geometry
         /// <summary>
         /// Gets normal direction at specified point.
         /// </summary>
+        /// <param name="controlPoints">Control points of the spline.</param>
+        /// <param name="tension">Tension of the spline.</param>
         /// <param name="index">Index between two control points.</param>
         /// <param name="approxAtControlPoint">If true a small offset will be used to avoid zero-point result if a point is control point.</param>
         /// <returns>Normal direction at interpolated point.</returns>
@@ -245,8 +255,10 @@ namespace Accord.Extensions.Math.Geometry
 
         /// <summary>
         /// Gets indices for which points are evenly distributed along contour.
-        /// <para>A rough estimation is made at resolution: <see cref="samplingResolution"/> (index step).</para>
+        /// <para>A rough estimation is made at resolution: <paramref name="samplingStep"/> (index step).</para>
         /// </summary>
+        /// <param name="controlPoints">Control points of the spline.</param>
+        /// <param name="tension">Tension of the spline.</param>
         /// <param name="numPoints">Number of requested points.</param>
         /// <param name="samplingStep">Sampling resolution for calculating contour length. 
         /// <para>Distance between two points will be more accurate if the provided value is lower (sampling resolution is higher). The provided value should be fine for most splines.</para>

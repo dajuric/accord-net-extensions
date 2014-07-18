@@ -47,6 +47,9 @@ namespace Accord.Extensions.Math
         const int PI_DEG = 180;
 
         const int Y_MUL_CONST = 64;
+        /// <summary>
+        /// Degree resolution.
+        /// </summary>
         public static float DEG_RESOULTION = (float)(PI_DEG / 4) / Y_MUL_CONST;
 
 

@@ -85,15 +85,15 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Gets closest point to the <see cref="ptIdx"/> starting from a <see cref="startIdx"/> moving in the <see cref="direction"/>.
-        /// Scale <see cref="scale"/> is used to avoid local minima if contour is noisy.
+        /// Gets closest point to the <paramref name="ptIdx"/> starting from a <paramref name="startIdx"/> moving in the <paramref name="direction"/>.
+        /// Scale <paramref name="scale"/> is used to avoid local minima if contour is noisy.
         /// </summary>
         /// <param name="contour">Contour.</param>
         /// <param name="ptIdx">Point index for which to find the closest point.</param>
         /// <param name="startIdx">Start point from which the search begins.</param>
-        /// <param name="direction">Search direction. If &gt 0 then search continoues in the positive direction, if &lt 0 then search is continoued toward negative indeces.</param>
+        /// <param name="direction">Search direction. If &gt; 0 then search continues in the positive direction, if &lt; 0 then search is continued toward negative indexes.</param>
         /// <param name="scale">A good value is ~15. A specified region will be searched every time to avoid local minima.</param>
-        /// <returns>Closest point index regarding <see cref="ptIdx"/>,</returns>
+        /// <returns>Closest point index regarding <paramref name="ptIdx"/>.</returns>
         public static int GetClosestPoint(this IList<Point> contour, int ptIdx, int startIdx, int direction, int scale)
         {
             double distance;
@@ -101,16 +101,16 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Gets closest point to the <see cref="ptIdx"/> starting from a <see cref="startIdx"/> moving in the <see cref="direction"/>.
-        /// Scale <see cref="scale"/> is used to avoid local minima if contour is noisy.
+        /// Gets closest point to the <paramref name="ptIdx"/> starting from a <paramref name="startIdx"/> moving in the <paramref name="direction"/>.
+        /// Scale <paramref name="scale"/> is used to avoid local minima if contour is noisy.
         /// </summary>
         /// <param name="contour">Contour.</param>
         /// <param name="ptIdx">Point index for which to find the closest point.</param>
         /// <param name="startIdx">Start point from which the search begins.</param>
-        /// <param name="direction">Search direction. If &gt 0 then search continues in the positive direction, if &lt 0 then search is continued toward negative indeces.</param>
+        /// <param name="direction">Search direction. If &gt; 0 then search continues in the positive direction, if &lt; 0 then search is continued toward negative indexes.</param>
         /// <param name="scale">A good value is ~15. A specified region will be searched every time to avoid local minima.</param>
-        /// <param name="distance">Distance from <see cref="ptIdx"/> to returned point index.</param>
-        /// <returns>Closest point index regarding <see cref="ptIdx"/>,</returns>
+        /// <param name="distance">Distance from <paramref name="ptIdx"/> to returned point index.</param>
+        /// <returns>Closest point index regarding <paramref name="ptIdx"/>.</returns>
         public static int GetClosestPoint(this IList<Point> contour, int ptIdx, int startIdx, int direction, int scale, out double distance)
         {
             double minDist = Double.MaxValue;
@@ -144,13 +144,13 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Gets closest point to the <see cref="ptIdx"/>.
+        /// Gets closest point to the <paramref name="ptIdx"/>.
         /// </summary>
-        /// <param name="contour">Cotour.</param>
+        /// <param name="contour">Contour.</param>
         /// <param name="ptIdx">Point index for which to find the closest point.</param>
         /// <param name="searchSegment">Contour segment to search.</param>
-        /// <param name="distance">Distance from <see cref="ptIdx"/> to returned point index.</param>
-        /// <returns>Closest point index regarding <see cref="ptIdx"/>,</returns>
+        /// <param name="distance">Distance from <paramref name="ptIdx"/> to returned point index.</param>
+        /// <returns>Closest point index regarding <paramref name="ptIdx"/>.</returns>
         public static int GetClosestPoint(this IList<Point> contour, int ptIdx, Range searchSegment, out double distance)
         {
             double minDist = Double.MaxValue;
@@ -232,17 +232,17 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Finds humps in contour. Hump scale is determined by <see cref="scale"/>. 
-        /// <para>For each peak a closest valey is found. Next for that valey a closet point is found. Those three point make hump.</para>
-        /// <para>Hump searching will be successful even when only one peak and one valey are found; it can be successful where peak and valey search against convex hull does not give good results.</para>
-        /// <para></para>Peaks and valeys can be obtained by using <see cref="FindExtremaIndices"/>.
+        /// Finds humps in contour. Hump scale is determined by <paramref name="scale"/>. 
+        /// <para>For each peak a closest valley is found. Next for that valley a closet point is found. Those three point make hump.</para>
+        /// <para>Hump searching will be successful even when only one peak and one valley are found; it can be successful where peak and valley search against convex hull does not give good results.</para>
+        /// <para></para>Peaks and valleys can be obtained by using <see cref="FindExtremaIndices"/>.
         /// </summary>
         /// <param name="contour">Contour.</param>
         /// <param name="peaks">Peaks.</param>
-        /// <param name="valeys">Valeys.</param>
+        /// <param name="valeys">Valleys.</param>
         /// <param name="scale">Used for <see cref="GetClosestPoint"/>. A good value is ~20. A specified region will be searched every time to avoid local minima.</param>
         /// <param name="humpPeaks">Found hump peaks.</param>
-        /// <returns>Humps contour indeces.</returns>
+        /// <returns>Humps contour indexes.</returns>
         public static List<Range> GetHumps(this IList<Point> contour, List<int> peaks, List<int> valeys, int scale, out List<int> humpPeaks)
         {
             List<Range> humps = new List<Range>();
@@ -287,8 +287,8 @@ namespace Accord.Extensions.Math.Geometry
         /// Can be useful to group data after <see cref="FindExtremaIndices"/> is used.
         /// </summary>
         /// <param name="contour">Contour.</param>
-        /// <param name="ptIndeces">Point indeces.</param>
-        /// <param name="clusterRange">Maximum successive point disatnce.</param>
+        /// <param name="ptIndeces">Point indexes.</param>
+        /// <param name="clusterRange">Maximum successive point distance.</param>
         /// <param name="cumulativeDistance">Cumulative contour distance. If not specified it will be automatically calculated.</param>
         /// <returns>Point clusters.</returns>
         public static List<List<int>> ClusterPoints(this IList<Point> contour, List<int> ptIndeces, double clusterRange, List<float> cumulativeDistance = null)

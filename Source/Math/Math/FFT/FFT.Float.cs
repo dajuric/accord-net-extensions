@@ -3,7 +3,12 @@
 namespace Accord.Extensions.Math
 {
     public static partial class FourierTransform
-    {    
+    {
+        /// <summary>
+        /// One dimensional Fast Fourier Transform.
+        /// </summary>
+        /// <param name="data">Data to transform.</param>
+        /// <param name="direction">Transformation direction.</param>
         public unsafe static void FFT(ComplexF[] data, Direction direction)
         {
             fixed (ComplexF* dataPtr = data)
@@ -17,6 +22,7 @@ namespace Accord.Extensions.Math
         /// </summary>
         /// 
         /// <param name="data">Data to transform.</param>
+        /// <param name="length">Array length.</param>
         /// <param name="direction">Transformation direction.</param>
         /// 
         /// <remarks><para><note>The method accepts <paramref name="data"/> array of 2<sup>n</sup> size
@@ -74,6 +80,11 @@ namespace Accord.Extensions.Math
             }
         }
 
+        /// <summary>
+        /// Two dimensional Fast Fourier Transform.
+        /// </summary>
+        /// <param name="data">Data to transform.</param>
+        /// <param name="direction">Transformation direction.</param>
         public unsafe static void FFT2(ComplexF[,] data, Direction direction)
         {
             int width = data.GetLength(1);
@@ -88,7 +99,9 @@ namespace Accord.Extensions.Math
         /// <summary>
         /// Two dimensional Fast Fourier Transform.
         /// </summary>
-        /// 
+        /// <param name="width">Image width.</param> 
+        /// <param name="height">Image height.</param>
+        /// <param name="stride">Image stride.</param>
         /// <param name="data">Data to transform.</param>
         /// <param name="direction">Transformation direction.</param>
         /// 

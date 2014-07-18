@@ -64,7 +64,7 @@ namespace Accord.Extensions.Math.Geometry
         /// Clamps point coordinate according to the specified size (rect.X, rect.Y, rect.Right-1, rect.Bottom-1).
         /// </summary>
         /// <param name="point">The point to clamp.</param>
-        /// <param name="size">The valid region.</param>
+        /// <param name="rect">The valid region.</param>
         /// <returns>Clamped point.</returns>
         public static Point Clamp(this Point point, Rectangle rect)
         {

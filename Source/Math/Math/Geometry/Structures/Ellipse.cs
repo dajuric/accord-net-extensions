@@ -5,6 +5,10 @@ using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Math.Geometry
 {
+    /// <summary>
+    /// Ellipse structure.
+    /// See <see cref="Accord.Extensions.Math.Geometry.Box2D"/> also.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct Ellipse
     {
@@ -21,16 +25,32 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         public float Angle;
 
+        /// <summary>
+        /// Converts Box2D to Ellipse representation.
+        /// </summary>
+        /// <param name="box">Box to convert.</param>
+        /// <returns>Ellipse.</returns>
         public static explicit operator Ellipse(Box2D box)
         {
             return new Ellipse { Center = box.Center, Size = box.Size, Angle = box.Angle };
         }
 
+        /// <summary>
+        /// Converts Ellipse to Box2D representation.
+        /// </summary>
+        /// <param name="ellipse">Ellipse to convert.</param>
+        /// <returns>Box2D.</returns>
         public static explicit operator Box2D(Ellipse ellipse)
         {
             return new Box2D { Center = ellipse.Center, Size = ellipse.Size, Angle = ellipse.Angle };
         }
 
+        /// <summary>
+        /// Fits the covariance matrix (or 2nd moment matrix) to the ellipse by calculating eigen-vectors and values.
+        /// </summary>
+        /// <param name="covMatrix">Covariance matrix (or 2nd moment matrix).</param>
+        /// <param name="center">Center of the ellipse.</param>
+        /// <returns>Ellipse.</returns>
         public static Ellipse Fit(double[,] covMatrix, PointF center = default(PointF))
         {
             if (covMatrix.ColumnCount() != 2 || covMatrix.RowCount() != 2)
@@ -39,6 +59,15 @@ namespace Accord.Extensions.Math.Geometry
             return Fit(covMatrix[0, 0], covMatrix[0, 1], covMatrix[1, 1], center);
         }
 
+        /// <summary>
+        /// Fits the covariance matrix (or 2nd moment matrix) to the ellipse by calculating eigen-vectors and values.
+        /// </summary>
+        /// <param name="a">[0, 0] value of the covariance matrix.</param>
+        /// <param name="b">[0, 1] or [1, 0] value of the covariance matrix.</param>
+        /// <param name="c">[1, 1] value of the covariance matrix.</param>
+        /// <param name="center">Center of the ellipse.</param>
+        /// <param name="success">Returns true if both calculated eigen-values are positive.</param>
+        /// <returns>Ellipse.</returns>
         public static Ellipse Fit(double a, double b, double c, PointF center, out bool success)
         {  
             var acDiff = a - c;
@@ -66,6 +95,14 @@ namespace Accord.Extensions.Math.Geometry
             };
         }
 
+        /// <summary>
+        /// Fits the covariance matrix (or 2nd moment matrix) to the ellipse by calculating eigen-vectors and values.
+        /// </summary>
+        /// <param name="a">[0, 0] value of the covariance matrix.</param>
+        /// <param name="b">[0, 1] or [1, 0] value of the covariance matrix.</param>
+        /// <param name="c">[1, 1] value of the covariance matrix.</param>
+        /// <param name="center">Center of the ellipse.</param>
+        /// <returns>Ellipse.</returns>
         public static Ellipse Fit(double a, double b, double c, PointF center = default(PointF))
         {
             bool success;

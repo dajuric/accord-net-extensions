@@ -61,6 +61,7 @@ namespace Accord.Extensions.Math
         /// <summary>
         /// Checks if the matrix is empty and returns default value if the matrix is empty.
         /// </summary>
+        /// <param name="matrix">Matrix.</param>
         /// <param name="defaultValue">Default value to return if the matrix is empty.</param>
         /// <returns>Source matrix if the matrix is not empty, default value otherwise.</returns>
         public static T[,] DefaultIfEmpty<T>(this T[,] matrix, T[,] defaultValue)
@@ -122,7 +123,7 @@ namespace Accord.Extensions.Math
         /// </summary>
         /// <param name="leftMatrix">Left matrix</param>
         /// <param name="rightMatrix">Right matrix</param>
-        /// <returns>Wheather can be multiplied or not.</returns>
+        /// <returns>Whether can be multiplied or not.</returns>
         public static bool IsMultipliableBy(this double[,] leftMatrix, double[,] rightMatrix)
         {
             if (leftMatrix.ColumnCount() == rightMatrix.RowCount())
@@ -242,6 +243,12 @@ namespace Accord.Extensions.Math
             return mat;
         }
 
+        /// <summary>
+        /// Multiplies two vector (column  vector * row vector) resulting in 2D matrix. 
+        /// </summary>
+        /// <param name="columnVector">Column vector [n x 1].</param>
+        /// <param name="rowVector">Row vector [1 x n].</param>
+        /// <returns>Multiplication result.</returns>
         public static double[,] Multiply(this double[] columnVector, double[] rowVector)
         {
             if (columnVector.Length != rowVector.Length)

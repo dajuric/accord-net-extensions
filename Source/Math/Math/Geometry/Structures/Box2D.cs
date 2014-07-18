@@ -5,6 +5,9 @@ using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Math.Geometry
 {
+    /// <summary>
+    /// Box2D equivalent of OpenCV's Box2D Class.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct Box2D
     {
@@ -48,6 +51,9 @@ namespace Accord.Extensions.Math.Geometry
             this.Angle = angle;
         }
 
+        /// <summary>
+        /// Returns true if the structure is  empty.
+        /// </summary>
         public bool IsEmpty
         {
             get { return this.Equals(Empty); }
@@ -72,7 +78,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <summary>
         /// Gets vertices.
         /// </summary>
-        /// <param name="useScreenCoordinateSystem">During vertex rotation wheather to use standard Cartesian space or screen coordinate space (y-inverted).</param>
+        /// <param name="useScreenCoordinateSystem">During vertex rotation whether to use standard Cartesian space or screen coordinate space (y-inverted).</param>
         /// <returns>Vertices.</returns>
         public PointF[] GetVertices(bool useScreenCoordinateSystem = false)
         {
@@ -102,16 +108,31 @@ namespace Accord.Extensions.Math.Geometry
             };
         }
 
+        /// <summary>
+        /// Converts Rectangle to the Box2D representation (angle is zero).
+        /// </summary>
+        /// <param name="rect">Rectangle to convert.</param>
+        /// <returns>Box2D representation.</returns>
         public static implicit operator Box2D(Rectangle rect)
         {
             return new Box2D(rect, 0);
         }
 
+        /// <summary>
+        /// Converts RectangleF to the Box2D representation (angle is zero).
+        /// </summary>
+        /// <param name="rect">Rectangle to convert.</param>
+        /// <returns>Box2D representation.</returns>
         public static implicit operator Box2D(RectangleF rect)
         {
             return new Box2D(rect, 0);
         }
 
+        /// <summary>
+        /// Determines whether two objects are equal.
+        /// </summary>
+        /// <param name="obj">Object to test.</param>
+        /// <returns>True if two objects are equal, false otherwise.</returns>
         public override bool Equals(object obj)
         {
             if (obj is Box2D == false) return false;
@@ -120,6 +141,10 @@ namespace Accord.Extensions.Math.Geometry
             return b.Center.Equals(this.Center) && b.Angle.Equals(this.Angle);
         }
 
+        /// <summary>
+        /// Gets hash-code for the structure.
+        /// </summary>
+        /// <returns>Hash-code.</returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();

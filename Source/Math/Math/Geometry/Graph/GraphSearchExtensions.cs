@@ -5,8 +5,21 @@ using MoreLinq;
 
 namespace Accord.Extensions.Math.Geometry
 {
+    /// <summary>
+    /// Implements Floyd-Warshall algorithm as an extension function.
+    /// </summary>
     public static class FloydWarshallExtensions
     {
+        /// <summary>
+        /// Finds all paths withing the given graph by using Floyd-Warshall algorithm.
+        /// See <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm" /> for details.
+        /// </summary>
+        /// <typeparam name="TVertex">Vertex type.</typeparam>
+        /// <typeparam name="TEdge">Edge type.</typeparam>
+        /// <param name="graph">Graph.</param>
+        /// <param name="distanceFunc">Distance function between two vertices.</param>
+        /// <param name="costMat">Cost matrix.</param>
+        /// <returns>2D matrix where each element is path from a source to a destination.</returns>
         public static Dictionary<TVertex, Dictionary<TVertex, List<TEdge>>> FindAllPaths<TVertex, TEdge>(this Dictionary<TVertex, Dictionary<TVertex, TEdge>> graph,
                                                                                                          Func<TEdge, double> distanceFunc,
                                                                                                          out Dictionary<TVertex, Dictionary<TVertex, double>> costMat)

@@ -2,17 +2,21 @@
 
 namespace Accord.Extensions.Math
 {
-    // AForge Math Library
-    // AForge.NET framework
-    // http://www.aforgenet.com/framework/
-    //
-    // Copyright © Andrew Kirillov, 2005-2009
-    // andrew.kirillov@aforgenet.com
-    // darko.juric2@gmail.com
-    //
-    // FFT idea from Exocortex.DSP library
-    // http://www.exocortex.org/dsp/
-    //
+    /// <summary>
+    /// AForge Math Library
+    /// AForge.NET framework
+    /// http://www.aforgenet.com/framework/
+    ///
+    /// Copyright © Andrew Kirillov, 2005-2009
+    /// andrew.kirillov@aforgenet.com
+    /// 
+    /// FFT idea from Exocortex.DSP library
+    /// http://www.exocortex.org/dsp/
+    /// 
+    /// Copyright © Darko Jurić
+    /// darko.juric2@gmail.com
+    /// The class is taken from http://www.aforgenet.com/framework/ and modified to support parallel execution and optimized (pointers).
+    /// </summary>
     public static partial class FourierTransform
     {
         /// <summary>

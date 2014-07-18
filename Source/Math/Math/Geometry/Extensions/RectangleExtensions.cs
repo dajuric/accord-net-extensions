@@ -8,7 +8,7 @@ namespace Accord.Extensions.Math.Geometry
 {
     /// <summary>
     /// <para>Defined functions can be used as object extensions.</para>
-    /// Provides extension methods for <see cref="Recatngle"/>.
+    /// Provides extension methods for Rectangle class.
     /// </summary>
     public static class RectangleExtennsions
     {
@@ -51,8 +51,8 @@ namespace Accord.Extensions.Math.Geometry
         /// Inflates the rectangle by specified width and height (can be negative) and automatically clamps rectangle coordinates.
         /// </summary>
         /// <param name="rect">Rectangle to inflate.</param>
-        /// <param name="width">Horizontal scale.</param>
-        /// <param name="height">Vertical scale.</param>
+        /// <param name="widthScale">Horizontal scale.</param>
+        /// <param name="heightScale">Vertical scale.</param>
         /// <param name="constrainedArea">If specified rectangle region will be clamped.</param>
         /// <returns>Inflated rectangle.</returns>
         public static Rectangle Inflate(this Rectangle rect, double widthScale, double heightScale, Size constrainedArea = default(Size))

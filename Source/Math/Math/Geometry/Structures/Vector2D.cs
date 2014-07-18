@@ -10,6 +10,9 @@ namespace Accord.Extensions.Math.Geometry //TODO: update Vector2D class accordin
     /// </summary>
     public class Vector2D
     {
+        /// <summary>
+        /// Gets an empty 2D vector.
+        /// </summary>
         public static readonly Vector2D Empty = new Vector2D(0f, 0f); 
 
         /// <summary>

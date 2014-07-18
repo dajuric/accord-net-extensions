@@ -10,7 +10,7 @@ namespace Accord.Extensions.Math.Geometry
     public class GroupMatch<T>
     {
         /// <summary>
-        /// Gets the number of neigbhbours within a group.
+        /// Gets the number of neighbors within a group.
         /// </summary>
         public int Neighbours { get { return this.Detections.Length; } }
         /// <summary>
@@ -18,13 +18,13 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         public T[] Detections { get; set; }
         /// <summary>
-        /// Gets the group representative choosen by average function in group matching algorithn.
+        /// Gets the group representative chosen by average function in group matching algorithm.
         /// </summary>
         public T Representative { get; set; }
     }
 
     /// <summary>
-    ///   Group matching algorithm for detection region averging.
+    ///   Group matching algorithm for detection region averaging.
     /// </summary>
     /// 
     /// <remarks>
@@ -44,10 +44,10 @@ namespace Accord.Extensions.Math.Geometry
         private int[] equals;
 
         /// <summary>
-        ///   Creates a new <see cref="GroupMatching"/> object.
+        ///   Creates a new group matcher.
         /// </summary>
         /// <param name="averageFunc">
-        ///   The function for the averaging ner strucutres.</param>
+        ///   The function for the averaging near structures.</param>
         ///<param name="nearFunc">
         ///   The function which compares structures' distance.</param>
         /// <param name="minimumNeighbors">
@@ -84,7 +84,7 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        ///   Groups possibly near strucures into clusters.
+        ///   Groups possibly near structures into clusters.
         /// </summary>
         /// 
         /// <param name="strucutures">The structures to group.</param>
@@ -94,10 +94,10 @@ namespace Accord.Extensions.Math.Geometry
             // Start by classifying rectangles according to distance
             classify(strucutures); // assign label for near rectangles
 
-            // Average the rectangles contained in each labelled group
+            // Average the rectangles contained in each labeled group
             GroupMatch<T>[] output = average(strucutures);
 
-            // Check supression
+            // Check suppression
             if (minNeighbors > 0)
             {
                 // Discard weak rectangles which don't have enough neighbors
@@ -108,7 +108,16 @@ namespace Accord.Extensions.Math.Geometry
             return output;
         }
 
+        /// <summary>
+        /// Delegate for averaging structures (finding the representative).
+        /// </summary>
+        /// <param name="structures">Structures.</param>
+        /// <returns>Representative (average structure).</returns>
         public delegate T Average(T[] structures);
+
+        /// <summary>
+        /// Function for finding a group representative.
+        /// </summary>
         public Average AverageFunc { get; set; }
 
         /// <summary>
@@ -152,7 +161,7 @@ namespace Accord.Extensions.Math.Geometry
 
             classCount = 0;
 
-            // If two strucutres are near, or contained in
+            // If two structures are near, or contained in
             // each other, merge then in a single rectangle
             for (int i = 0; i < structures.Length - 1; i++)
             {

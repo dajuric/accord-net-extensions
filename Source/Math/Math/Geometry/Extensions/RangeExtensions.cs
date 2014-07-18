@@ -5,7 +5,7 @@ namespace Accord.Extensions.Math.Geometry
 {
     /// <summary>
     /// <para>Defined functions can be used as object extensions.</para>
-    /// Provides extension methods for <see cref="IntRange"/>.
+    /// Provides extension methods for <see cref="AForge.IntRange"/>.
     /// </summary>
     public static class RangeExtensions
     {
