@@ -41,30 +41,6 @@ namespace ObjectAnnotater
 
             loadCurrentImageAnnotations();
             showCurrentInfo();
-
-            /*foreach (var key in Database.Keys)
-            { 
-                capture.Seek(Int32.Parse(key), SeekOrigin.Begin);
-                capture.ReadAs<Bgr, byte>().Save(String.Format(@"S:\Svjetla - baza podataka - Boris\Stražnja\1\{0}.png", key));
-            }*/
-
-            /*
-            foreach (var key in Database.Keys)
-            {
-                foreach (var imgAnn in Database[key])
-                {
-                    var rect = imgAnn.Polygon.BoundingRect();
-
-                    if (Math.Abs((float)rect.Width / rect.Height - 2.2) > 1.5E-1)
-                    {
-                        throw new ArgumentException("Region size width-height ratio must be equal to WindowWidthMultiplier! (tolerance +/- 0.1)");
-                    }
-
-                    if (rect.X < 0 || rect.Y < 0 || rect.Right > 1280 || rect.Bottom > 720)
-                        throw new Exception();
-                }
-            }
-            */
         }
 
         Image<Bgr, byte> frame = null;
@@ -131,8 +107,10 @@ namespace ObjectAnnotater
             this.selectedAnnotation = null;
             saveCurrentImageAnnotations();
 
-            if(offset != capture.Position) //faster when reading video
+            if (offset != capture.Position) //faster when reading video
+            {
                 capture.Seek(offset, SeekOrigin.Begin);
+            }
 
             loadCurrentImageAnnotations();
 

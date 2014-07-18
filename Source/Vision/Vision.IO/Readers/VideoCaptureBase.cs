@@ -23,6 +23,11 @@ namespace Accord.Extensions.Vision
         }
 
         object syncObj = new object();
+        /// <summary>
+        /// Reads the next image in the stream and advances the position by one.
+        /// </summary>
+        /// <param name="image">Read image.</param>
+        /// <returns>True if the reading operation was successful, false otherwise.</returns>
         protected override bool ReadInternal(out IImage image)
         {
             bool status = false;

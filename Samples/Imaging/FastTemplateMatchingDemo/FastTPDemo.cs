@@ -140,14 +140,12 @@ namespace FastTemplateMatchingDemo
         }
 
         Image<Bgr, byte> frame;
-        System.Drawing.Font font = new System.Drawing.Font("Arial", 12); int i = 0;
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             frame = videoCapture.ReadAs<Bgr, byte>();
             if (frame == null)
                 return;
-
-            frame.Save(String.Format("img-{0}.jpg", i)); i++;
 
             long preprocessTime, matchTime;
             var bestRepresentatives = findObjects(frame, out preprocessTime, out matchTime);
