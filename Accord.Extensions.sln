@@ -120,6 +120,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphSearch", "Samples\Math
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imaging.AForgeCompatibility", "Source\Imaging\Imaging.AForgeCompatibility\Imaging.AForgeCompatibility.csproj", "{F4E40964-C640-4C87-9E3E-A1F1266FBC73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageExtractor", "Samples\Video.IO\ImageExtractor\ImageExtractor.csproj", "{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -519,6 +521,18 @@ Global
 		{F4E40964-C640-4C87-9E3E-A1F1266FBC73}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F4E40964-C640-4C87-9E3E-A1F1266FBC73}.Release|Win32.ActiveCfg = Release|Any CPU
 		{F4E40964-C640-4C87-9E3E-A1F1266FBC73}.Release|x64.ActiveCfg = Release|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Release|Win32.ActiveCfg = Release|Any CPU
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -570,5 +584,6 @@ Global
 		{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB} = {C5A4976B-EABE-41F5-A855-6B887A04F333}
 		{3BFF1917-CF76-477E-837D-43639A0F6F71} = {F31E8AE8-60A6-422D-8E96-911B65213569}
 		{F4E40964-C640-4C87-9E3E-A1F1266FBC73} = {6E2A5B5A-55B5-42C4-A308-4DC03A4095EC}
+		{51E9B1AC-5F68-40DA-8A5D-A6F41FE3BABA} = {E5EB7B7F-7208-4120-AF7F-3E8818870A78}
 	EndGlobalSection
 EndGlobal

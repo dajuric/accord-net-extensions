@@ -1,6 +1,6 @@
 ﻿namespace Accord.Extensions.Imaging
 {
-    public static class SaveExtensions
+    public static class ImageSaveExtensions
     {
         /// <summary>
         /// Save an image. Uses <see cref="ToBitmap"/>.

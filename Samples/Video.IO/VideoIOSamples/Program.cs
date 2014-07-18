@@ -14,14 +14,11 @@ namespace VideoCapture
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Console.WriteLine(@"********** (1 / 3) Image directory reader sample ****************");
+            Console.WriteLine(@"********** (1 / 2) Image directory reader sample ****************");
             Application.Run(new DirectoryReaderSample());
 
-            Console.WriteLine(@"********** (2 / 3) Video capture and recording sample ****************");
+            Console.WriteLine(@"********** (2 / 2) Video capture and recording sample ****************");
             Application.Run(new VideoCaptureAndRecordingSample());
-
-            Console.WriteLine(@"********** (3 / 3) Video extraction sample (see 'bin\OutputSamples\' ****************");
-            ExtractVideoSample.Test();
         }
     }
 }

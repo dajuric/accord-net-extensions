@@ -69,7 +69,6 @@
     <Compile Include="DirectoryReaderSample.Designer.cs">
       <DependentUpon>DirectoryReaderSample.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExtractVideoSample.cs" />
     <Compile Include="VideoCaptureAndRecordingSample.cs">
       <SubType>Form</SubType>
     </Compile>

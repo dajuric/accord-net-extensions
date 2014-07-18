@@ -122,6 +122,7 @@ namespace Accord.Extensions.Vision
         where TImage : IImage
     {
         StreamableSource<TImage> streamableSource;
+        long length = -1;
         int position;
 
         /// <summary>
@@ -131,6 +132,8 @@ namespace Accord.Extensions.Vision
         public StreamableSourceEnumerator(StreamableSource<TImage> streamableSource)
         {
             this.streamableSource = streamableSource;
+            this.length = streamableSource.Length;
+
             Reset();
         }
 
@@ -141,15 +144,11 @@ namespace Accord.Extensions.Vision
         public bool MoveNext()
         {
             position++;
-
-            var oldPosition = streamableSource.Position;
-            var newPosition = streamableSource.Seek(position, SeekOrigin.Begin);
-
-            return newPosition > oldPosition || position == 0;
+            return position < length;
         }
 
         /// <summary>
-        /// Restes the enumerator,
+        /// Resets the enumerator,
         /// </summary>
         public void Reset()
         {
@@ -164,10 +163,14 @@ namespace Accord.Extensions.Vision
         {
             get 
             {
-                var result = streamableSource.Read();
-                streamableSource.Seek(-1, SeekOrigin.Current);
+                var realPos = streamableSource.Position;
 
-                return result;
+                if (position != realPos)
+                    streamableSource.Seek(position, SeekOrigin.Begin);
+
+                var currentImage = streamableSource.Read();
+
+                return currentImage;
             }
         }
 
@@ -194,7 +197,7 @@ namespace Accord.Extensions.Vision
     }
 
     /// <summary>
-    /// 
+    /// Provides extensions for image stream.
     /// </summary>
     public static class StreamableSourceExtensions
     {
