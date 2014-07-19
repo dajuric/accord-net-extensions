@@ -2,7 +2,10 @@
 
 namespace Accord.Extensions.Imaging
 {
-    public static class ClearImage
+    /// <summary>
+    /// Contains extension methods for image value initialization.
+    /// </summary>
+    public static class ClearImageExtensions
     {
         /// <summary>
         /// Sets each image byte to zero (using kernel function memset).

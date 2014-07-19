@@ -6,7 +6,7 @@ namespace Accord.Extensions.Vision
     /// <summary>
     /// Video writer that writes images into video file.
     /// </summary>
-    public class VideoWriter: StreamableDestination
+    public class VideoWriter: ImageStreamWriter
     {
         object syncObj = new object();
         IntPtr videoObjPtr = IntPtr.Zero;

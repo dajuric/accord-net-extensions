@@ -23,5 +23,24 @@ namespace Accord.Extensions
 
             return elapsed;
         }
+
+        /// <summary>
+        ///  Executes a provided action several times and measures average time in milliseconds that was consumed by provided action.
+        /// </summary>
+        /// <param name="action">User specified action. The parameter is current execution count [0..executionCount-1].</param>
+        /// <param name="executionCount">Number of times to execute the specified action.</param>
+        /// <returns>Average elapsed time in milliseconds.</returns>
+        public static float MeasureAverageTime(Action<int> action, int executionCount = 10)
+        {
+            var totalElapsed = MeasureTime(() => 
+            {
+                for (int i = 0; i < executionCount; i++)
+                {
+                    action(i);
+                }
+            });
+
+            return totalElapsed / executionCount;
+        }
     }
 }

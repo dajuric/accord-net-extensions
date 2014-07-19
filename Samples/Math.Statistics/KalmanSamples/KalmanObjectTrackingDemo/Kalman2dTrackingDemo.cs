@@ -19,7 +19,7 @@ namespace KalmanObjectTracking
 {
     public partial class KalmanTrackingDemo : Form
     {
-        StreamableSource videoCapture;
+        ImageStreamReader videoCapture;
         DenseHistogram originalObjHist, backgroundHist;
         KalmanFilter<ModelState, PointF> kalman;
 

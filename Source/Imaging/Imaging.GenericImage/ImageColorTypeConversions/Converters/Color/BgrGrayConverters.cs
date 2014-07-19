@@ -2,7 +2,7 @@
 
 namespace Accord.Extensions.Imaging.Converters
 {
-    public static class BgrGrayConverters //TODO: critical remove public
+    internal static class BgrGrayConverters 
     {
         #region Bgr8 -> Gray<byte>
 

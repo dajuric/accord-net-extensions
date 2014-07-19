@@ -171,7 +171,7 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Compares two color infos.
         /// </summary>
-        /// <param name="c2">Other color info.</param>
+        /// <param name="other">Other color info.</param>
         /// <param name="cParts">Indicates what to compare. Default is: ComparableParts.Default. </param>
         /// <returns></returns>
         public bool Equals(ColorInfo other, ComparableParts cParts)

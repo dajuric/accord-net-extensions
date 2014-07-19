@@ -13,7 +13,7 @@ namespace Accord.Extensions.Vision
 {
     public partial class CamshiftDemo : Form
     {
-        StreamableSource videoCapture;
+        ImageStreamReader videoCapture;
         DenseHistogram originalObjHist, backgroundHist;
 
         private void init()

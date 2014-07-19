@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains image extensions methods for calculating phase image from two images (real and imaginary).
+    /// </summary>
     public static class PhaseExtensions
     {
         delegate void PhaseFunc(IImage imgX, IImage imgY, IImage phaseImg);
@@ -18,8 +21,8 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Calculates phase using Atan2 (secondImage / firstImage). 
         /// </summary>
-        /// <param name="imageA">First image.</param>
-        /// <param name="imageB">Second image.</param>
+        /// <param name="imageX">First image.</param>
+        /// <param name="imageY">Second image.</param>
         /// <returns>Phase.</returns>
         public static Image<Gray, float> Phase(this Image<Gray, float> imageX, Image<Gray, float> imageY)
         {

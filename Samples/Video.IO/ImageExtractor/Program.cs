@@ -1,10 +1,6 @@
 ﻿using Accord.Extensions.Vision;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ImageExtractor
 {
@@ -13,7 +9,8 @@ namespace ImageExtractor
         static void Main(string[] args)
         {
             //emulate input args
-            string fileName = Path.Combine(getResourceDir(), "Welcome Accord.NET Extensions.mp4");
+            string fileName = Path.Combine(@"C:\Users\Darko-Home\Desktop\HandVideos", "Toni .wmv");
+            //string fileName = Path.Combine(getResourceDir(), "Welcome Accord.NET Extensions.mp4");
 
             if (args.Length == 1)
                 fileName = args[0];
@@ -29,7 +26,7 @@ namespace ImageExtractor
 
             Console.WriteLine("Extracting video frames...");
 
-            var videoExtractor = new VideoExtractor(reader, outputDir);
+            var videoExtractor = new VideoExtractor(reader, outputDir, 90, "{0}.jpg");
             videoExtractor.Start((percentage) =>
             {
                 Console.Write("\r Completed: {0} %", (int)(percentage * 100));

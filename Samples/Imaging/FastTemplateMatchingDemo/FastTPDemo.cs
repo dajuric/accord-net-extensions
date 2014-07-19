@@ -29,7 +29,7 @@ namespace FastTemplateMatchingDemo
         int threshold = 88;
         int minDetectionsPerGroup = 0; //for match grouping (postprocessing)
 
-        StreamableSource videoCapture;
+        ImageStreamReader videoCapture;
         List<TemplatePyramid> templPyrs;
 
         /// <summary>

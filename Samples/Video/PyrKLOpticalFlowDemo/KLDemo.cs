@@ -19,7 +19,7 @@ namespace PyrKLOpticalFlowDemo
     {
         Size imgSize = new Size(640, 480);
 
-        StreamableSource videoCapture;
+        ImageStreamReader videoCapture;
         PyrLKStorage<FlowColor> lkStorage;
         int winSize = 21;
 

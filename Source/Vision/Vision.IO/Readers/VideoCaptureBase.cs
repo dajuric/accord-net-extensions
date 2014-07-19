@@ -6,7 +6,7 @@ namespace Accord.Extensions.Vision
     /// <summary>
     /// Represents the base class for video capture that shares common functions and properties with camera and file capture. 
     /// </summary>
-    public abstract class VideoCaptureBase : StreamableSource
+    public abstract class VideoCaptureBase : ImageStreamReader
     {
         /// <summary>
         /// Internal OpenCV pointer for the capture object.

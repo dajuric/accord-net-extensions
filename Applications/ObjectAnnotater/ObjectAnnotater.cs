@@ -14,7 +14,7 @@ namespace ObjectAnnotater
 {
     public partial class ObjectAnnotater : Form
     {
-        StreamableSource capture = null;
+        ImageStreamReader capture = null;
         string databaseFileName = null;
 
         Annotation selectedAnnotation = null;
@@ -27,7 +27,7 @@ namespace ObjectAnnotater
             InitializeComponent();
         }
 
-        public ObjectAnnotater(StreamableSource capture, string databaseFileName)
+        public ObjectAnnotater(ImageStreamReader capture, string databaseFileName)
         {
             InitializeComponent();
 
@@ -126,7 +126,10 @@ namespace ObjectAnnotater
             {
                 capture.Seek(-1);
                 imageKey = (capture as ImageDirectoryReader).CurrentImageName;
-                imageKey = new FileInfo(imageKey).Name;
+
+                var fileInfo = new FileInfo(imageKey);
+                imageKey = fileInfo.Name.Replace(fileInfo.Extension, String.Empty);
+
                 capture.Seek(+1);
             }
             else if (capture is FileCapture)

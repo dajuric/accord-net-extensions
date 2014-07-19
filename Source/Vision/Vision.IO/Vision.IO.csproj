@@ -42,8 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\Abstract\ImageStream.cs" />
-    <Compile Include="Base\Abstract\StreamableDestination.cs" />
-    <Compile Include="Base\Abstract\StreamableSource.cs" />
+    <Compile Include="Base\Abstract\ImageStreamWriter.cs" />
+    <Compile Include="Base\Abstract\ImageStreamReader.cs" />
     <Compile Include="Readers\VideoCaptureBase.cs" />
     <Compile Include="Readers\CameraCapture.cs" />
     <Compile Include="Readers\FileCapture.cs" />

@@ -50,6 +50,8 @@ namespace Accord.Extensions.Imaging
         /// <returns>Converted image.</returns>
         public static IImage Convert(this IImage image, ColorInfo destColor, bool copyAlways = false, bool failIfCannotCast = false)
         {
+            if (image == null) return null;
+
             var conversionPath = ColorDepthConverter.GetPath(image.ColorInfo, destColor);
             
             if (conversionPath == null)

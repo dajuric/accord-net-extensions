@@ -172,7 +172,7 @@ namespace ParticleFilterModelFitting
 
         #region GUI
 
-        StreamableSource videoCapture;
+        ImageStreamReader videoCapture;
 
         public ParticleFilterModelFittingDemo()
         {

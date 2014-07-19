@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Vision;
 using Point = AForge.IntPoint;
+using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 
 namespace ObjectAnnotater
 {
@@ -18,11 +19,7 @@ namespace ObjectAnnotater
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            /*var prepareSamplesForm = new SampleGeneration.SamplePreparation();
-            prepareSamplesForm.ShowDialog();
-            return;*/
-
-            StreamableSource capture = null;
+            ImageStreamReader capture = null;
             string databaseFileName = null;
 
             using (var wizard = new Wizard())
@@ -32,12 +29,6 @@ namespace ObjectAnnotater
                 capture = wizard.CaptureObj;
                 databaseFileName = wizard.DatabaseFileName;
             }
-
-            /*capture = new ImageDirectoryReader("S:/images/", "*.jpg");
-            databaseFileName = "S:/imagesAnnotations.xml";*/
-
-            /*capture = new FileCapture(@"S:\Detekcija_Ruke\WIN_20140311_121008.mp4");
-            databaseFileName = @"\\darko-pc\Users\Darko\Google disk\bla.xml";*/
 
             if (capture == null) //a user clicked "X" without data selection
             {
@@ -56,7 +47,7 @@ namespace ObjectAnnotater
             if (capture != null && databaseFileName != null)
             {
                 if (capture is FileCapture)
-                    MessageBox.Show("Due to seek operation issue with opencv/mmpeg seek operation may not work properly. " +  
+                    MessageBox.Show("Due to seek operation issue with opencv/mmpeg, seek operation may not work properly. " +  
                                     "If you notice frame/annotation mismatches move slider to the beginning and " + 
                                     "then hold right arrow to move to the desired position." + 
                                     "\nSee: http://code.opencv.org/issues/1419 for details.",

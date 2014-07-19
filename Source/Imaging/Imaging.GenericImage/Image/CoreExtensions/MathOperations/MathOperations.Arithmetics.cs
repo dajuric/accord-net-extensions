@@ -1,5 +1,8 @@
 ﻿namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains math operations applicable on an image.
+    /// </summary>
     public static partial class MathOperations
     {
         private static void initializeArithemticOperations() 

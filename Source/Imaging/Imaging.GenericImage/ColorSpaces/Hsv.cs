@@ -3,10 +3,19 @@ using System.Runtime.InteropServices;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Represents Hsv color type of type <see cref="System.Double"/>.
+    /// </summary>
     [ColorInfo(ConversionCodename = "HSV")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Hsv : IColor
     {
+        /// <summary>
+        /// Creates new Hsv color.
+        /// </summary>
+        /// <param name="hue">Hue</param>
+        /// <param name="saturation">Saturation</param>
+        /// <param name="value">Value.</param>
         public Hsv(double hue, double saturation, double value)
         {
             this.H = hue;
@@ -14,18 +23,44 @@ namespace Accord.Extensions.Imaging
             this.V = value;
         }
 
+        /// <summary>
+        /// Gets or sets hue.
+        /// </summary>
         public double H;
+        /// <summary>
+        /// Gets or sets saturation.
+        /// </summary>
         public double S;
+        /// <summary>
+        /// Gets or sets value.
+        /// </summary>
         public double V;
     }
 
+    /// <summary>
+    /// Represents Hsv color type of type <see cref="System.Byte"/>.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct Hsv8
     {
+        /// <summary>
+        /// Gets or sets hue.
+        /// </summary>
         public byte H;
+        /// <summary>
+        /// Gets or sets saturation.
+        /// </summary>
         public byte S;
+        /// <summary>
+        /// Gets or sets value.
+        /// </summary>
         public byte V;
 
+        /// <summary>
+        /// Converts 8-bit Hsv color to the 8-bit Bgr color.
+        /// </summary>
+        /// <param name="hsv">Source color.</param>
+        /// <param name="bgr">Destination color.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static void ConvertHsvToBgr(Hsv8* hsv, Bgr8* bgr)
         {
@@ -70,6 +105,9 @@ namespace Accord.Extensions.Imaging
             }
         }
 
+        /// <summary>
+        /// Converts 8-bit Hsv color to the 8-bit Bgr color.
+        /// </summary>
         public unsafe Bgr8 ToBgr()
         {
             Hsv8 hsv = this;  Bgr8 bgr;
@@ -78,27 +116,63 @@ namespace Accord.Extensions.Imaging
         }
     }
 
+    /// <summary>
+    /// Represents Hsv color type of type <see cref="System.Int16"/>.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct Hsv16
     {
+        /// <summary>
+        /// Gets or sets hue.
+        /// </summary>
         public short H;
+        /// <summary>
+        /// Gets or sets saturation.
+        /// </summary>
         public short S;
+        /// <summary>
+        /// Gets or sets value.
+        /// </summary>
         public short V;
     }
 
+    /// <summary>
+    /// Represents Hsv color type of type <see cref="System.Int32"/>.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct Hsv32
     {
+        /// <summary>
+        /// Gets or sets hue.
+        /// </summary>
         public int H;
+        /// <summary>
+        /// Gets or sets saturation.
+        /// </summary>
         public int S;
+        /// <summary>
+        /// Gets or sets value.
+        /// </summary>
         public int V;
     }
 
+    /// <summary>
+    /// Represents Hsv color type of type <see cref="System.Single"/>.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct Hsv32f
     {
+        /// <summary>
+        /// Gets or sets hue.
+        /// </summary>
         public float H;
+        /// <summary>
+        /// Gets or sets saturation.
+        /// </summary>
         public float S;
+        /// <summary>
+        /// Gets or sets value.
+        /// </summary>
         public float V;
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for logic NOT operation applicable on an image.
+    /// </summary>
     public static class LogicNot
     {
         delegate void NotFunc(IImage src, IImage dest, Image<Gray, byte> mask);

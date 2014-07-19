@@ -139,7 +139,7 @@ namespace SimpleParticleFilterDemo
 
         #region GUI...
 
-        StreamableSource videoCapture; 
+        ImageStreamReader videoCapture; 
 
         public SimpleParticleDemoForm()
         {

@@ -9,7 +9,7 @@ namespace Accord.Extensions.Vision
     /// <summary>
     /// Represents directory stream-able source and provides functions and properties to access data in a stream-able way.
     /// </summary>
-    public class ImageDirectoryReader : StreamableSource
+    public class ImageDirectoryReader : ImageStreamReader
     {
         string[] fileNames = null;
 

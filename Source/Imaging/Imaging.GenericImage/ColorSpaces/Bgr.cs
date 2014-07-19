@@ -4,10 +4,19 @@ using System.Runtime.InteropServices;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Represents Bgr color type of type <see cref="System.Double"/>.
+    /// </summary>
     [ColorInfo(ConversionCodename = "BGR")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Bgr: IColor, IColor3
     {
+        /// <summary>
+        /// Creates new Bgr color.
+        /// </summary>
+        /// <param name="b">Blue</param>
+        /// <param name="g">Green</param>
+        /// <param name="r">Red</param>
         public Bgr(double b, double g, double r)
         {
             this.B = b;
@@ -15,40 +24,99 @@ namespace Accord.Extensions.Imaging
             this.R = r;
         }
 
+        /// <summary>
+        /// Gets or sets the blue component.
+        /// </summary>
         public double B;
+        /// <summary>
+        /// Gets or sets the green component.
+        /// </summary>
         public double G;
+        /// <summary>
+        /// Gets or sets the red component.
+        /// </summary>
         public double R;
 
+        /// <summary>
+        /// Cast 8-bit channels to channels of type <see cref="System.Double"/>.
+        /// </summary>
+        /// <param name="color">8-bit color</param>
+        /// <returns></returns>
         public static implicit operator Bgr(Bgr8 color)
         {
             return new Bgr(color.B, color.G, color.R);
         }
 
+        /// <summary>
+        /// Cast 32-bit channels to channels of type <see cref="System.Double"/>.
+        /// </summary>
+        /// <param name="color">8-bit color</param>
+        /// <returns></returns>
         public static implicit operator Bgr(Bgr32 color)
         {
             return new Bgr(color.B, color.G, color.R);
         }
 
+        /// <summary>
+        /// Gets the index of the blue component.
+        /// </summary>
         public const int IdxB = 0;
+        /// <summary>
+        /// Gets the index of the green component.
+        /// </summary>
         public const int IdxG = 1;
+        /// <summary>
+        /// Gets the index of the red component.
+        /// </summary>
         public const int IdxR = 2;
     }
 
+    /// <summary>
+    /// Represents Bgr color type of type <see cref="System.Byte"/>.
+    /// </summary>
     [ColorInfo(ConversionCodename = "BGR")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Bgr8 
     {
+        /// <summary>
+        /// Gets or sets the blue component.
+        /// </summary>
         public byte B;
+        /// <summary>
+        /// Gets or sets the green component.
+        /// </summary>
         public byte G;
+        /// <summary>
+        /// Gets or sets the red component.
+        /// </summary>
         public byte R;
-
+        
+        /// <summary>
+        /// Gets the 8-bit red color.
+        /// </summary>
         public static readonly Bgr8 Red =   new Bgr8 { B = 0,             G = 0,             R = byte.MaxValue };
-        public static readonly Bgr8 Blue = new Bgr8 { B = byte.MaxValue, G = 0, R = 0 };
+        /// <summary>
+        /// Gets the 8-bit blue color.
+        /// </summary>
+        public static readonly Bgr8 Blue = new Bgr8 { B = byte.MaxValue,  G = 0,             R = 0             };
+        /// <summary>
+        /// Gets the 8-bit green color.
+        /// </summary>
         public static readonly Bgr8 Green = new Bgr8 { B = 0,             G = byte.MaxValue, R = 0             };
-
+        /// <summary>
+        /// Gets the 8-bit black color.
+        /// </summary>
         public static readonly Bgr8 Black = new Bgr8 { B = 0, G = 0, R = 0 };
+        /// <summary>
+        /// Gets the 8-bit white color.
+        /// </summary>
         public static readonly Bgr8 White = new Bgr8 { B = byte.MaxValue, G = byte.MaxValue, R = byte.MaxValue };
 
+        /// <summary>
+        /// Converts 8-bit Bgr to 8-bit Hsv color. Value range for 8-bit HSv color is  [0..180].
+        /// </summary>
+        /// <param name="bgr">Source color.</param>
+        /// <param name="hsv">Destination color.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static void ConvertBgrToHsv(Bgr8* bgr, Hsv8* hsv)
         {
@@ -93,6 +161,9 @@ namespace Accord.Extensions.Imaging
             Debug.Assert(hue >= 0 && hue <= 360);
         }
 
+        /// <summary>
+        /// Converts 8-bit Bgr to 8-bit Hsv color. Value range for 8-bit HSv color is  [0..180].
+        /// </summary>
         public unsafe Hsv8 ToHsv()
         {
             Bgr8 bgr = this;  Hsv8 hsv;
@@ -100,7 +171,11 @@ namespace Accord.Extensions.Imaging
             return hsv;
         }
 
-
+        /// <summary>
+        /// Converts 8-bit Bgr to 8-bit gray color. 
+        /// </summary>
+        /// <param name="bgr">Source color.</param>
+        /// <param name="gray">Destination color.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static void ConvertBgrToGray(Bgr8* bgr, byte* gray)
         {
@@ -113,6 +188,9 @@ namespace Accord.Extensions.Imaging
             *gray = (byte)val;
         }
 
+        /// <summary>
+        /// Converts 8-bit Bgr to 8-bit gray color. 
+        /// </summary>
         public unsafe byte ToGray()
         {
             Bgr8 bgr = this; byte gray;
@@ -121,32 +199,66 @@ namespace Accord.Extensions.Imaging
         }
     }
 
+    /// <summary>
+    /// Represents Bgr color type of type <see cref="System.Int16"/>.
+    /// </summary>
     [ColorInfo(ConversionCodename = "BGR")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Bgr16
     {
+        /// <summary>
+        /// Gets or sets the blue component.
+        /// </summary>
         public short B;
+        /// <summary>
+        /// Gets or sets the green component.
+        /// </summary>
         public short G;
+        /// <summary>
+        /// Gets or sets the red component.
+        /// </summary>
         public short R;
     }
 
+    /// <summary>
+    /// Represents Bgr color type of type <see cref="System.Int32"/>.
+    /// </summary>
     [ColorInfo(ConversionCodename = "BGR")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Bgr32
     {
+        /// <summary>
+        /// Gets or sets the blue component.
+        /// </summary>
         public int B;
+        /// <summary>
+        /// Gets or sets the green component.
+        /// </summary>
         public int G;
+        /// <summary>
+        /// Gets or sets the red component.
+        /// </summary>
         public int R;
     }
 
+    /// <summary>
+    /// Represents Bgr color type of type <see cref="System.Single"/>.
+    /// </summary>
     [ColorInfo(ConversionCodename = "BGR")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Bgr32f
     {
+        /// <summary>
+        /// Gets or sets the blue component.
+        /// </summary>
         public float B;
+        /// <summary>
+        /// Gets or sets the green component.
+        /// </summary>
         public float G;
+        /// <summary>
+        /// Gets or sets the red component.
+        /// </summary>
         public float R;
     }
-
-
 }

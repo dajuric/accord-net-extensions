@@ -87,7 +87,7 @@ namespace ObjectAnnotater
             }
         }
 
-        public StreamableSource CaptureObj { get; private set; }
+        public ImageStreamReader CaptureObj { get; private set; }
         public string DatabaseFileName { get; private set; }
 
         private void btnSelectImages_Click(object sender, EventArgs e)
