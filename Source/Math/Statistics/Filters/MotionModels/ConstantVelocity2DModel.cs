@@ -14,43 +14,45 @@ namespace Accord.Extensions.Statistics.Filters
     /// </summary>
     public class ConstantVelocity2DModel: ICloneable
     {
+        /// <summary>
+        /// Gets the dimension of the model.
+        /// </summary>
         public const int Dimension = 4;
 
+        /// <summary>
+        /// Gets or sets the position.
+        /// </summary>
         public PointF Position;
+        /// <summary>
+        /// Gets or sets the velocity.
+        /// </summary>
         public PointF Velocity;
 
+        /// <summary>
+        /// Constructs an empty model.
+        /// </summary>
         public ConstantVelocity2DModel()
         {
             this.Position = default(PointF);
             this.Velocity = default(PointF);
         }
 
-        public double[] ToArray()
+        /// <summary>
+        /// Evaluates the model by using the provided transition matrix.
+        /// </summary>
+        /// <param name="transitionMat">Transition matrix.</param>
+        /// <returns>New model state.</returns>
+        public ConstantVelocity2DModel Evaluate(double[,] transitionMat)
         {
-            return ToArray(this);
+            var stateVector = transitionMat.Multiply(ToArray(this));
+            return ConstantVelocity2DModel.FromArray(stateVector);
         }
 
-        public static ConstantVelocity2DModel FromArray(double[] arr)
-        {
-            return new ConstantVelocity2DModel
-            {
-                Position = new PointF((float)arr[0], (float)arr[2]),
-                Velocity = new PointF((float)arr[1], (float)arr[3]),
-            };
-        }
-
-        public static double[] ToArray(ConstantVelocity2DModel modelState)
-        {
-            return new double[] 
-                {
-                    modelState.Position.X,
-                    modelState.Velocity.X,
-
-                    modelState.Position.Y,
-                    modelState.Velocity.Y,
-                };
-        }
-
+        /// <summary>
+        /// Gets the state transition matrix [4 x 4].
+        /// </summary>
+        /// <param name="timeInterval">Time interval.</param>
+        /// <returns>State transition matrix.</returns>
         public static double[,] GetTransitionMatrix(double timeInterval = 1)
         {
             var t = timeInterval;
@@ -64,6 +66,10 @@ namespace Accord.Extensions.Statistics.Filters
                 };
         }
 
+        /// <summary>
+        /// Gets the position measurement matrix [2 x 4] used in Kalman filtering.
+        /// </summary>
+        /// <returns>Position measurement matrix.</returns>
         public static double[,] GetPositionMeasurementMatrix()
         {
             return new double[,] //just pick point coordinates for an observation [2 x 6] (look at used state model)
@@ -74,6 +80,13 @@ namespace Accord.Extensions.Statistics.Filters
                 };
         }
 
+        /// <summary>
+        /// Gets process-noise matrix [4 x 2] where the location is affected by (dt * dt) / 2 and velocity with the factor of dt - integrals of dt. 
+        /// Factor 'dt' represents time interval.
+        /// </summary>
+        /// <param name="accelerationNoise">Acceleration noise.</param>
+        /// <param name="timeInterval">Time interval.</param>
+        /// <returns>Process noise matrix.</returns>
         public static double[,] GetProcessNoise(double accelerationNoise, double timeInterval = 1)
         {
             var dt = timeInterval;
@@ -90,16 +103,45 @@ namespace Accord.Extensions.Statistics.Filters
             return processNoise;
         }
 
-        public static ConstantVelocity2DModel Evaluate(ConstantVelocity2DModel state, double[,] transitionMat, double[,] procesNoiseMat = null)
+        #region Array conversion
+
+        /// <summary>
+        /// Converts the array to the model.
+        /// </summary>
+        /// <param name="arr">Array to convert from.</param>
+        /// <returns>Model.</returns>
+        public static ConstantVelocity2DModel FromArray(double[] arr)
         {
-            var stateVector = transitionMat.Multiply(state.ToArray()); 
-
-            if (procesNoiseMat != null)
-                stateVector = stateVector.Multiply(procesNoiseMat); //TODO - critical: verify if this is correct
-
-            return ConstantVelocity2DModel.FromArray(stateVector);
+            return new ConstantVelocity2DModel
+            {
+                Position = new PointF((float)arr[0], (float)arr[2]),
+                Velocity = new PointF((float)arr[1], (float)arr[3]),
+            };
         }
 
+        /// <summary>
+        /// Converts the model to the array.
+        /// </summary>
+        /// <param name="modelState">Model to convert.</param>
+        /// <returns>Array.</returns>
+        public static double[] ToArray(ConstantVelocity2DModel modelState)
+        {
+            return new double[] 
+                {
+                    modelState.Position.X,
+                    modelState.Velocity.X,
+
+                    modelState.Position.Y,
+                    modelState.Velocity.Y,
+                };
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Clones the model.
+        /// </summary>
+        /// <returns>The copy of the model.</returns>
         public object Clone()
         {
             return new ConstantVelocity2DModel

@@ -29,7 +29,6 @@ namespace Accord.Extensions.Statistics.Filters
         /// <param name="initialStateError">Initial error for a state: (assumed values – actual values)^2 + the variance of the values.
         /// <para>e.g. if using ConstantAccelerationModel it can be specified as: Matrix.Diagonal(StateVectorDimension, [x, y, vX, vY, aX, aY]);</para> 
         /// </param>
-        /// <param name="processNoiseCovariance">The covariance of the initial state estimate. [n x n] matrix.</param>
         ///<param name="measurementVectorDimension">Dimensionality of the measurement vector - p.</param>
         /// <param name="controlVectorDimension">Dimensionality of the control vector - k. If there is no external control put 0.</param>
         /// <param name="stateConvertFunc">State conversion function: TState => double[]</param>
@@ -62,6 +61,9 @@ namespace Accord.Extensions.Statistics.Filters
             this.measurementConvertFunc = measurementConvertFunc;
         }
 
+        /// <summary>
+        /// Checks pre-conditions: matrix sizes.
+        /// </summary>
         protected void checkPrerequisites()
         {
             /************************** TRANSITION MATRIX ***************************/
@@ -107,6 +109,9 @@ namespace Accord.Extensions.Statistics.Filters
 
         #region IKalman Members
 
+        /// <summary>
+        /// State.
+        /// </summary>
         protected double[] state;
 
         /// <summary>
@@ -191,14 +196,18 @@ namespace Accord.Extensions.Statistics.Filters
         /// <summary>
         /// Corrects the state error covariance based on innovation vector and Kalman update.
         /// </summary>
-        /// <param name="innovationVector">The measurement.</param>
+        /// <param name="measurement">The measurement.</param>
         public void Correct(TMeasurement measurement) 
         {
             checkPrerequisites();
-            correctInternal(measurementConvertFunc(measurement));
+            CorrectInternal(measurementConvertFunc(measurement));
         }
 
-        protected abstract void correctInternal(double[] measurement);
+        /// <summary>
+        /// Corrects the state by using the provided measurement.
+        /// </summary>
+        /// <param name="measurement">Measurement.</param>
+        protected abstract void CorrectInternal(double[] measurement);
 
         #endregion
 
@@ -292,6 +301,11 @@ namespace Accord.Extensions.Statistics.Filters
 
         #region Misc methods
 
+        /// <summary>
+        /// Calculates the residual from the measurement and predicted state.
+        /// </summary>
+        /// <param name="measurement">Measurement.</param>
+        /// <returns>Residual, error or innovation vector.</returns>
         public double[] CalculatePredictionError(TMeasurement measurement)
         {
             checkPrerequisites();
@@ -308,11 +322,19 @@ namespace Accord.Extensions.Statistics.Filters
             return measurementError;
         }
 
+        /// <summary>
+        /// Calculates entropy from the error covariance matrix.
+        /// </summary>
         public double CalculateEntropy()
         {
             return CalculateEntropy(this.ErrorCovariance);
         }
 
+        /// <summary>
+        /// Calculates entropy from the provided error covariance matrix.
+        /// </summary>
+        /// <param name="errorCovariance">Error covariance matrix.</param>
+        /// <returns>Entropy.</returns>
         public static double CalculateEntropy(double[,] errorCovariance)
         {
             if (errorCovariance == null || errorCovariance.RowCount() != errorCovariance.ColumnCount())
@@ -325,6 +347,16 @@ namespace Accord.Extensions.Statistics.Filters
             return entropy;
         }
 
+        /// <summary>
+        /// Gets the spatial representation of the error covariance. 
+        /// </summary>
+        /// <param name="positionSelector">Position selector function.</param>
+        /// <param name="confidence">
+        /// Confidence for the Chi-square distribution. 
+        /// H * P * H' has the Chi-square distribution where H is measurement matrix and P is error covariance matrix.
+        /// </param>
+        /// <param name="positionSelectionMatrix">Measurement matrix which selects state position. If null the state measurement matrix will be used.</param>
+        /// <returns>2D representation of the error covariance.</returns>
         public Ellipse GetEllipse(Func<TState, PointF> positionSelector, double confidence = 0.99, double[,] positionSelectionMatrix = null)
         {
             positionSelectionMatrix = positionSelectionMatrix ?? this.MeasurementMatrix;

@@ -19,6 +19,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// <summary>
         /// Predicts particle's state.
         /// </summary>
+        /// <param name="particles">Particles.</param>
         /// <param name="drift">Update state from model (no noise).</param>
         /// <param name="diffuse">Apply noise to spread particles.</param>
         public static void Predict<TParticle>(this IEnumerable<TParticle> particles, Action<TParticle> drift, Action<TParticle> diffuse)
@@ -38,12 +39,14 @@ namespace Accord.Extensions.Statistics.Filters
         /// <summary>
         /// Updates particle's state.
         /// </summary>
+        /// <param name="particles">Particles.</param>
         /// <param name="measure">Assign weight to each particle.</param>
         /// <param name="normalize">Normalization function.</param>
         /// <param name="resample">Resample particles (creates new swarm).</param>
-        /// <param name="effectiveCountMinRatio">If calculated effective count ratio is lower than user specified value resampling will occur, otherwise not.
+        /// <param name="effectiveCountMinRatio">If calculated effective count ratio is lower than user specified value re-sampling will occur, otherwise not.
         /// <para>The range is [0..1]. If resampling must occur every time put 1.</para>
         /// </param>
+        /// <param name="measureInParallel">True to measure each particle state in parallel, false to measure it sequentially.</param>
         public static IEnumerable<TParticle> Update<TParticle>(this IEnumerable<TParticle> particles, 
                                                 Action<TParticle> measure, 
                                                 Func<IEnumerable<IParticle>, IEnumerable<double>> normalize, 
@@ -75,6 +78,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// <summary>
         /// Updates particle's state.
         /// </summary>
+        /// <param name="particles">Particles.</param>
         /// <param name="measure">Assign weight to each particle.</param>
         /// <param name="normalize">Normalization function.</param>
         /// <param name="resample">Resample particles (creates new swarm).</param>

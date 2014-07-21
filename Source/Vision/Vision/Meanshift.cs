@@ -5,6 +5,13 @@ using Accord.Extensions.Math.Geometry;
 
 namespace Accord.Extensions.Vision
 {
+    /// <summary>
+    /// Mean shift is a non-parametric feature-space analysis technique for locating the maxima of a density function. 
+    /// Application domains include various image-procesing and computer vision applications such as: image segmentation and object tracking.
+    /// <remarks>
+    /// See <a href="http://en.wikipedia.org/wiki/Mean-shift#Mean_shift_for_visual_tracking"/> for details.
+    /// </remarks>
+    /// </summary>
     public class Meanshift
     {
         /// <summary>

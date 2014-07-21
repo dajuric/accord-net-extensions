@@ -61,6 +61,8 @@ namespace Accord.Extensions.Statistics.Filters
         /// <summary>
         /// Draws particles according to particle's weight.
         /// <param name="particles">Particles from which to draw samples. If they are already sorted.</param>
+        ///<param name="normalizedWeights">Normalized weights of the particles.</param>
+        ///<param name="sortParticles">True to sort particles, false to leave the current order. Set to true if the particles are not sorted.</param>
         /// </summary>
         public static IEnumerable<TParticle> SimpleResampler<TParticle>(IList<TParticle> particles, IList<double> normalizedWeights, bool sortParticles = true)
               where TParticle : class, IParticle
@@ -112,6 +114,11 @@ namespace Accord.Extensions.Statistics.Filters
             return resampledParticles;
         }
 
+        /// <summary>
+        /// Normalizer function which divides each particle weight by the sum of all weights.
+        /// </summary>
+        /// <param name="particles">Particles.</param>
+        /// <returns>Normalized weights.</returns>
         public static IList<double> SimpleNormalizer(IEnumerable<IParticle> particles)
         {
             List<double> normalizedWeights = new List<double>();

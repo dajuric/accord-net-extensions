@@ -17,12 +17,27 @@ namespace Accord.Extensions.Statistics.Filters
     /// </summary>
     public class ConstantAcceleration2DModel: ICloneable //TODO: test it! (last time - wrong results)
     {
+        /// <summary>
+        /// Gets the dimension of the model.
+        /// </summary>
         public const int Dimension = 6;
 
+        /// <summary>
+        /// Gets or sets the position.
+        /// </summary>
         public PointF Position;
+        /// <summary>
+        /// Gets or sets the velocity.
+        /// </summary>
         public PointF Velocity;
+        /// <summary>
+        /// Gets or sets the acceleration.
+        /// </summary>
         public PointF Acceleration;
 
+        /// <summary>
+        /// Constructs an empty model.
+        /// </summary>
         public ConstantAcceleration2DModel()
         {
             this.Position = default(PointF);
@@ -30,35 +45,22 @@ namespace Accord.Extensions.Statistics.Filters
             this.Acceleration = default(PointF);
         }
 
-        public double[] ToArray()
+        /// <summary>
+        /// Evaluates the model by using the provided transition matrix.
+        /// </summary>
+        /// <param name="transitionMat">Transition matrix.</param>
+        /// <returns>New model state.</returns>
+        public ConstantAcceleration2DModel Evaluate(double[,] transitionMat)
         {
-            return ToArray(this);
+            var stateVector = transitionMat.Multiply(ToArray(this));
+            return ConstantAcceleration2DModel.FromArray(stateVector);
         }
 
-        public static ConstantAcceleration2DModel FromArray(double[] arr)
-        {
-            return new ConstantAcceleration2DModel
-            {
-                Position = new PointF((float)arr[0], (float)arr[3]),
-                Velocity = new PointF((float)arr[1], (float)arr[4]),
-                Acceleration = new PointF((float)arr[2], (float)arr[5])
-            };
-        }
-
-        public static double[] ToArray(ConstantAcceleration2DModel modelState)
-        {
-            return new double[] //TODO - critical: check if the matrix is valid!
-                {
-                    modelState.Position.X,
-                    modelState.Velocity.X,
-                    modelState.Acceleration.X,
-
-                    modelState.Position.Y,
-                    modelState.Velocity.Y,
-                    modelState.Acceleration.Y
-                };
-        }
-
+        /// <summary>
+        /// Gets the state transition matrix [6 x 6].
+        /// </summary>
+        /// <param name="timeInterval">Time interval.</param>
+        /// <returns>State transition matrix.</returns>
         public static double[,] GetTransitionMatrix(double timeInterval = 1)
         {
             var t = timeInterval;
@@ -75,6 +77,10 @@ namespace Accord.Extensions.Statistics.Filters
                 };
         }
 
+        /// <summary>
+        /// Gets the position measurement matrix [2 x 6] used in Kalman filtering.
+        /// </summary>
+        /// <returns>Position measurement matrix.</returns>
         public static double[,] GetPositionMeasurementMatrix()
         {
             return new double[,] //just pick point coordinates for an observation [2 x 6] (look at used state model)
@@ -85,6 +91,13 @@ namespace Accord.Extensions.Statistics.Filters
                 };
         }
 
+        /// <summary>
+        /// Gets process-noise matrix [6 x 2] where the location is affected by (dt * dt * dt) / 6, velocity with the factor of (dt * dt) / 2 and the acceleration with the factor dt - integrals of dt. 
+        /// Factor 'dt' represents time interval.
+        /// </summary>
+        /// <param name="noise">Acceleration noise.</param>
+        /// <param name="timeInterval">Time interval.</param>
+        /// <returns>Process noise matrix.</returns>
         public static double[,] GetProcessNoise(double noise, double timeInterval = 1)
         {
             var dt = timeInterval;
@@ -104,16 +117,49 @@ namespace Accord.Extensions.Statistics.Filters
             return processNoise;
         }
 
-        public static ConstantAcceleration2DModel Evaluate(ConstantAcceleration2DModel state, double[,] transitionMat, double[,] procesNoiseMat = null)
+
+        #region Array conversion
+
+        /// <summary>
+        /// Converts the array to the model.
+        /// </summary>
+        /// <param name="arr">Array to convert from.</param>
+        /// <returns>Model.</returns>
+        public static ConstantAcceleration2DModel FromArray(double[] arr)
         {
-            var stateVector = transitionMat.Multiply(state.ToArray());
-
-            if (procesNoiseMat != null)
-                stateVector = stateVector.Multiply(procesNoiseMat); //TODO - critical: verify if this is correct
-
-            return ConstantAcceleration2DModel.FromArray(stateVector);
+            return new ConstantAcceleration2DModel
+            {
+                Position = new PointF((float)arr[0], (float)arr[3]),
+                Velocity = new PointF((float)arr[1], (float)arr[4]),
+                Acceleration = new PointF((float)arr[2], (float)arr[5])
+            };
         }
 
+        /// <summary>
+        /// Converts the model to the array.
+        /// </summary>
+        /// <param name="modelState">Model to convert.</param>
+        /// <returns>Array.</returns>
+        public static double[] ToArray(ConstantAcceleration2DModel modelState)
+        {
+            return new double[] //TODO - critical: check if the matrix is valid!
+                {
+                    modelState.Position.X,
+                    modelState.Velocity.X,
+                    modelState.Acceleration.X,
+
+                    modelState.Position.Y,
+                    modelState.Velocity.Y,
+                    modelState.Acceleration.Y
+                };
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Clones the model.
+        /// </summary>
+        /// <returns>The copy of the model.</returns>
         public object Clone()
         {
             return new ConstantAcceleration2DModel

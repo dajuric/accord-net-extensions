@@ -10,7 +10,7 @@ namespace Accord.Extensions.Statistics.Filters
 {
     /// <summary>
     /// Joint probability data association filter (JPDAF).
-    /// See: <see cref="https://bib.irb.hr/datoteka/519441.MSMT_Tracking_ECMR2011.pdf"/> for details.
+    /// See: <a href="https://bib.irb.hr/datoteka/519441.MSMT_Tracking_ECMR2011.pdf"/> for details.
     /// </summary>
     public static partial class JPDAF
     {
@@ -175,7 +175,7 @@ namespace Accord.Extensions.Statistics.Filters
         }
 
         /// <summary>
-        /// Add new filters if the marginal measurement probability is smaller than <see cref="minMarginalMeasurementlProbability"/>.
+        /// Add new filters if the marginal measurement probability is smaller than <paramref name="minMarginalMeasurementlProbability"/>.
         /// </summary>
         /// <typeparam name="TFilter">Filter type.</typeparam>
         /// <typeparam name="TState">Kalman filter state type.</typeparam>
@@ -274,7 +274,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// Parameters: Kalman filter index, particle filter.
         /// Returns: true if the filter needs to be selected.
         /// </param>
-        /// <returns>Selected Kalman filter indices in the collection.</returns>
+        /// <returns>Selected Kalman filter indicies in the collection.</returns>
         public static IEnumerable<int> Select<TFilter, TState, TMeasurement>(this IEnumerable<TFilter> kalmanFilters,
                                                                              Func<int, TFilter, bool> selector)
             where TFilter : KalmanFilter<TState, TMeasurement>

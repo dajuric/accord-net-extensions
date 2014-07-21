@@ -4,6 +4,23 @@ using Accord.Math;
 
 namespace Accord.Extensions.Statistics.Filters
 {
+    /// <summary>
+    /// A Kalman filter is a recursive solution to the general dynamic estimation problem for the
+    /// important special case of linear system models and Gaussian noise.
+    /// <para>The Kalman Filter uses a predictor-corrector structure, in which
+    /// if a measurement of the system is available at time <italic>t</italic>,
+    /// We first call the Predict function, to estimate the state of the system
+    /// at time <italic>t</italic>. We then call the Correct function to
+    /// correct the estimate of state, based on the noisy measurement.</para>
+    /// 
+    /// <para>
+    /// The discrete Kalman filter can process linear models which have Gaussian noise. 
+    /// If the model is not linear then estimate transition matrix (and other parameters if necessary) in each step and update Kalman filter.
+    /// This "dynamic" version of an Discrete Kalman filter is called Extended Kalman filter and it is used for non-linear models.
+    /// If the model is highly non-linear an Unscented Kalman filter or particle filtering is used.
+    /// See: <a href="http://en.wikipedia.org/wiki/Kalman_filter"/> for details.
+    /// </para>
+    /// </summary>
     public class DiscreteKalmanFilter<TState, TMeasurement>: KalmanFilter<TState, TMeasurement>
     {
         /// <summary>
@@ -13,7 +30,6 @@ namespace Accord.Extensions.Statistics.Filters
         /// <param name="initialStateError">Initial error for a state: (assumed values – actual values)^2 + the variance of the values.
         /// <para>e.g. if using ConstantAccelerationModel it can be specified as: Matrix.Diagonal(StateVectorDimension, [x, y, vX, vY, aX, aY]);</para> 
         /// </param>
-        /// <param name="processNoiseCovariance">The covariance of the initial state estimate. [n x n] matrix.</param>
         /// <param name="measurementVectorDimension">Dimensionality of the measurement vector - p.</param>
         /// <param name="controlVectorDimension">Dimensionality of the control vector - k. If there is no external control put 0.</param>
         /// <param name="stateConvertFunc">State conversion function: TState => double[]</param>
@@ -28,7 +44,7 @@ namespace Accord.Extensions.Statistics.Filters
         {}
 
         /// <summary>
-        /// Estimates the subsequent model state <see cref="PredictedState"/>.
+        /// Estimates the subsequent model state.
         /// 
         /// x'(k) = A * x(k-1) + B * u(k).
         /// P'(k) = A * P(k-1) * At + Q 
@@ -60,13 +76,13 @@ namespace Accord.Extensions.Statistics.Filters
         }
 
         /// <summary>
-        /// The function adjusts the stochastic model state on the basis of the given measurement of the model state <see cref="CorrectedState"/>.
+        /// The function adjusts the stochastic model state on the basis of the given measurement of the model state.
         /// 
         /// x(k) = x'(k) + K(k) * (z(k) - H * x'(k))
         /// P(k) =(I - K(k) * H) * P'(k)
         /// </summary>
         /// <param name="measurement">Obtained measurement vector.</param>
-        protected override void correctInternal(double[] measurement)
+        protected override void CorrectInternal(double[] measurement)
         {
             //innovation vector (measurement error)
             var delta = this.CalculatePredictionError(measurement);

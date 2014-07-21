@@ -7,7 +7,7 @@ namespace Accord.Extensions.Statistics.Filters
 {
     /// <summary>
     /// Joint probability data association filter (JPDAF).
-    /// See: <see cref="https://bib.irb.hr/datoteka/519441.MSMT_Tracking_ECMR2011.pdf"/> for details.
+    /// See: <a href="https://bib.irb.hr/datoteka/519441.MSMT_Tracking_ECMR2011.pdf"/> for details.
     /// </summary>
     public static partial class JPDAF
     {
@@ -170,7 +170,7 @@ namespace Accord.Extensions.Statistics.Filters
 
         /// <summary>
         /// Executes a user-specified function if new filters should be added. 
-        /// New filters should be added if the marginal measurement probability is smaller than <see cref="minMarginalMeasurementlProbability"/>.
+        /// New filters should be added if the marginal measurement probability is smaller than <paramref name="minMarginalMeasurementlProbability"/>.
         /// </summary>
         /// <typeparam name="TFilter">Filter type.</typeparam>
         /// <param name="particleFilters">Particle filters.</param>
@@ -197,7 +197,7 @@ namespace Accord.Extensions.Statistics.Filters
         }
 
         /// <summary>
-        /// Add new filters if the marginal measurement probability is smaller than <see cref="minMarginalMeasurementlProbability"/>.
+        /// Add new filters if the marginal measurement probability is smaller than <paramref name="minMarginalMeasurementlProbability"/>.
         /// </summary>
         /// <typeparam name="TFilter">Filter type.</typeparam>
         /// <param name="particleFilters">Particle filters.</param>
@@ -288,7 +288,7 @@ namespace Accord.Extensions.Statistics.Filters
         #endregion
 
         /// <summary>
-        /// Selects particle filter indices by using user-specified selector function.
+        /// Selects particle filter indicies by using user-specified selector function.
         /// </summary>
         /// <typeparam name="TFilter">Filter type.</typeparam>
         /// <param name="particleFilters">Particle filters.</param>
@@ -297,7 +297,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// Parameters: particle filter index, particle filter.
         /// Returns: true if the filter needs to be selected.
         /// </param>
-        /// <returns>Selected particle filter indices in the collection.</returns>
+        /// <returns>Selected particle filter indicies in the collection.</returns>
         public static IEnumerable<int> Select<TFilter>(this IEnumerable<TFilter> particleFilters,
                                                        Func<int, TFilter, bool> selector)
             where TFilter : IEnumerable<IParticle>

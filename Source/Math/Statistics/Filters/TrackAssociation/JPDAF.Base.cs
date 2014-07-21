@@ -8,7 +8,7 @@ namespace Accord.Extensions.Statistics.Filters
 {
     /// <summary>
     /// Joint probability data association filter (JPDAF).
-    /// See: <see cref="https://bib.irb.hr/datoteka/519441.MSMT_Tracking_ECMR2011.pdf"/> for details.
+    /// See: <a href="https://bib.irb.hr/datoteka/519441.MSMT_Tracking_ECMR2011.pdf"/> for details.
     /// </summary>
     public static partial class JPDAF
     {

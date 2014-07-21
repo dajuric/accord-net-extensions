@@ -29,6 +29,9 @@ namespace Accord.Extensions.Statistics.Filters
     /// <typeparam name="TState">State type.</typeparam>
     public interface IParticle<TState> : IParticle
     {
+        /// <summary>
+        /// Gets or sets the particle's state.
+        /// </summary>
         TState State { get; set; }
     }
 }
