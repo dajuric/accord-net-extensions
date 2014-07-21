@@ -2,6 +2,9 @@
 
 namespace Accord.Extensions.Imaging.Filters
 {
+    /// <summary>
+    /// Contains Gabor filter extensions.
+    /// </summary>
     public static class GaborFilterExtensionsBase
     {
         /// <summary>
@@ -15,6 +18,7 @@ namespace Accord.Extensions.Imaging.Filters
         /// self-similar: all filters can be generated from one mother wavelet by dilation
         /// and rotation.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="size">The size of the filter</param>
         /// <param name="sigma">The Gaussian variance for the filter.</param>
         /// <param name="theta">The orientation for the filter, in radians.</param>
@@ -50,6 +54,7 @@ namespace Accord.Extensions.Imaging.Filters
         /// self-similar: all filters can be generated from one mother wavelet by dilation
         /// and rotation.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="gaborFilter">Gabor filter instance. 
         /// <para>To avoid caclulating Gabor every time use this function overload that receives instance.</para>
         /// </param>
@@ -62,6 +67,9 @@ namespace Accord.Extensions.Imaging.Filters
         }
     }
 
+    /// <summary>
+    /// Contains Gabor filter extensions.
+    /// </summary>
     public static class GaborFilterExtensionsGray
     {
         /// <summary>
@@ -75,6 +83,7 @@ namespace Accord.Extensions.Imaging.Filters
         /// self-similar: all filters can be generated from one mother wavelet by dilation
         /// and rotation.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="size">The size of the filter</param>
         /// <param name="sigma">The Gaussian variance for the filter.</param>
         /// <param name="theta">The orientation for the filter, in radians.</param>
@@ -98,6 +107,7 @@ namespace Accord.Extensions.Imaging.Filters
         /// self-similar: all filters can be generated from one mother wavelet by dilation
         /// and rotation.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="gaborFilter">Gabor filter instance. 
         /// <para>To avoid caclulating Gabor every time use this function overload that receives instance.</para>
         /// </param>

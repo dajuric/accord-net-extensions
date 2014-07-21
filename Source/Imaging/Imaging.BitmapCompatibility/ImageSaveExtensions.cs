@@ -1,9 +1,13 @@
 ﻿namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Generic image save extensions.
+    /// <para>An image is first converted to <see cref="System.Drawing.Bitmap"/> and then saved.</para>
+    /// </summary>
     public static class ImageSaveExtensions
     {
         /// <summary>
-        /// Save an image. Uses <see cref="ToBitmap"/>.
+        /// Save an image.
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="filename">File name</param>
@@ -14,7 +18,7 @@
         }
 
         /// <summary>
-        /// Save an image. Uses <see cref="ToBitmap"/>.
+        /// Save an image. 
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="filename">File name</param>

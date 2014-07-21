@@ -3,11 +3,20 @@ using System.Runtime.InteropServices;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Represents the OpenCV's IplImage structure which enables OpenCV / EmguCV interoperability.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public unsafe struct IplImage
     {
+        /// <summary>
+        /// Constant for signed data types.
+        /// </summary>
         public const uint IPL_DEPTH_SIGN = 0x80000000;
         
+        /// <summary>
+        /// Depth constants for IplImage channels.
+        /// </summary>
         public enum IplChannelDepth : uint
         {
             /// <summary>
@@ -44,6 +53,9 @@ namespace Accord.Extensions.Imaging
            IPL_DEPTH_64F = 64
         }
 
+        /// <summary>
+        /// IplImage channel data order.
+        /// </summary>
         public enum ChannelDataOrder : int
         {
             /// <summary>
@@ -56,9 +68,18 @@ namespace Accord.Extensions.Imaging
             SEPARATE = 1
         }
 
+        /// <summary>
+        /// IplImage data origin.
+        /// </summary>
         public enum DataOrigin : int
         {
+            /// <summary>
+            /// Data origin is located in the top-left corner.
+            /// </summary>
             TopLeft = 0,
+            /// <summary>
+            /// Data origin is located in the bottom-left corner (Windows bitmap).
+            /// </summary>
             BottomLeft = 1
         }
 
@@ -186,12 +207,20 @@ namespace Accord.Extensions.Imaging
            
         }
 
+        /// <summary>
+        /// Converts a pointer to an IplImage structure.
+        /// </summary>
+        /// <param name="pointerToStructure"></param>
+        /// <returns></returns>
         public static IplImage FromPointer(IntPtr pointerToStructure)
         {
             return (IplImage)Marshal.PtrToStructure(pointerToStructure, typeof(IplImage));
         }
     }
 
+    /// <summary>
+    /// Contains methods for casting an generic image to an IplImage.
+    /// </summary>
     public static class ImageOpenCVImageConversions
     {
         static Map<Type, IplImage.IplChannelDepth> depthAssociations;
@@ -243,7 +272,12 @@ namespace Accord.Extensions.Imaging
             });
         }
 
-
+        /// <summary>
+        /// Casts iplImage in generic image representation.
+        /// </summary>
+        /// <param name="iplImage">IplImage structure.</param>
+        /// <param name="destructor">Destructor which is called when created generic image is disposed.</param>
+        /// <returns>Image.</returns>
         public static unsafe IImage AsImage(this IplImage iplImage, Action<IplImage> destructor = null)
         {
             var depthType = depthAssociations.Reverse[iplImage.ChannelDepth];

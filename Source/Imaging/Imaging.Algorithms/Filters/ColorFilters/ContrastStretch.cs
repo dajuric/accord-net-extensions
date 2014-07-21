@@ -2,11 +2,15 @@
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for contrast stretching.
+    /// </summary>
     public static class ContrastStrechExtensions
     {
         /// <summary>
         /// Stretches intensity values in a linear way across full pixel range.
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="inPlace">Process in place or make not. If in place is set to true, returned value may be discarded.</param>
         /// <returns>Corrected image.</returns>
         public static Image<Gray, byte> StretchContrast(this Image<Gray, byte> im, bool inPlace = false)
@@ -17,6 +21,7 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Stretches intensity values in a linear way across full pixel range.
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="inPlace">Process in place or make not. If in place is set to true, returned value may be discarded.</param>
         /// <returns>Corrected image.</returns>
         public static Image<TColor, byte> StretchContrast<TColor>(this Image<TColor, byte> im, bool inPlace = false)

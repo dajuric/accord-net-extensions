@@ -4,6 +4,9 @@ using Accord.Extensions.Math;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for calculating an magnitude image from two images as sqrt(x * x + y * y)
+    /// </summary>
     public static class MagnitudeExtensions
     {
         delegate void MagnitudeFunc(IImage img1, IImage img2, IImage magnitudeImg);

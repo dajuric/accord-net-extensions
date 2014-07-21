@@ -4,8 +4,14 @@ using Accord.Math;
 
 namespace Accord.Extensions.Imaging.Filters
 {
+    /// <summary>
+    /// Sobel extensions.
+    /// </summary>
     public static class SobelExtensions
     {
+        /// <summary>
+        /// Sobel 3x3 for finding vertical edges.
+        /// </summary>
         public static readonly Image<Gray, float> Sobel_3x3_X = new float[,] 
         {
             {+1, 0, -1},
@@ -14,6 +20,9 @@ namespace Accord.Extensions.Imaging.Filters
         }
         .ToImage();
 
+        /// <summary>
+        /// Sobel 3x3 for finding horizontal edges.
+        /// </summary>
         public static readonly Image<Gray, float> Sobel_3x3_Y = new float[,] 
         {
             {+1, +2, +1},

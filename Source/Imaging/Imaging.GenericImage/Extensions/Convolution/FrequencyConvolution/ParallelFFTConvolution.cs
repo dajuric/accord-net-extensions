@@ -5,10 +5,24 @@ using Accord.Extensions.Math;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for FFT convolution.
+    /// </summary>
     public static class ParallelFFTConvolution
     {
+        /// <summary>
+        /// Gets supported image channel types.
+        /// </summary>
         public static readonly Type[] SupportedTypes = new Type[] { typeof(float), typeof(double) };
 
+        /// <summary>
+        /// Convolves the image with the specified kernels.
+        /// </summary>
+        /// <typeparam name="TColor">Image color type.</typeparam>
+        /// <param name="image">Image.</param>
+        /// <param name="kernelArrs">Kernels to convolve with.</param>
+        /// <param name="options">Options for resolving border pixels.</param>
+        /// <returns>Convolved image.</returns>
         public static Image<TColor, float> Convolve<TColor>(Image<TColor, float> image, float[][,] kernelArrs, ConvolutionBorder options)
             where TColor : IColor
         {
@@ -16,6 +30,14 @@ namespace Accord.Extensions.Imaging
             return Convolve<TColor, float>(image, kernels, options);
         }
 
+        /// <summary>
+        /// Convolves the image with the specified kernels.
+        /// </summary>
+        /// <typeparam name="TColor">Image color type.</typeparam>
+        /// <param name="image">Image.</param>
+        /// <param name="kernelArrs">Kernels to convolve with.</param>
+        /// <param name="options">Options for resolving border pixels.</param>
+        /// <returns>Convolved image.</returns>
         public static Image<TColor, double> Convolve<TColor>(Image<TColor, double> image, double[][,] kernelArrs, ConvolutionBorder options)
             where TColor : IColor
         {
@@ -23,19 +45,43 @@ namespace Accord.Extensions.Imaging
             return Convolve<TColor, double>(image, kernels, options);
         }
 
+        /// <summary>
+        /// Convolves the image with the specified kernels.
+        /// </summary>
+        /// <typeparam name="TColor">Image color type.</typeparam>
+        /// <param name="image">Image.</param>
+        /// <param name="kernels">Kernels to convolve with.</param>
+        /// <param name="options">Options for resolving border pixels.</param>
+        /// <returns>Convolved image.</returns>
         public static Image<TColor, float> Convolve<TColor>(Image<TColor, float> image, Image<Gray, float>[] kernels, ConvolutionBorder options)
             where TColor : IColor
         {
             return Convolve<TColor, float>(image, kernels, options);
         }
 
+        /// <summary>
+        /// Convolves the image with the specified kernels.
+        /// </summary>
+        /// <typeparam name="TColor">Image color type.</typeparam>
+        /// <param name="image">Image.</param>
+        /// <param name="kernels">Kernels to convolve with.</param>
+        /// <param name="options">Options for resolving border pixels.</param>
+        /// <returns>Convolved image.</returns>
         public static Image<TColor, double> Convolve<TColor>(Image<TColor, double> image, Image<Gray, double>[] kernels, ConvolutionBorder options)
             where TColor : IColor
         {
             return Convolve<TColor, double>(image, kernels, options);
         }
 
-
+        /// <summary>
+        /// Convolves the image with the specified kernels.
+        /// </summary>
+        /// <typeparam name="TColor">Image color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="image">Image.</param>
+        /// <param name="kernels">Kernels to convolve with.</param>
+        /// <param name="options">Options for resolving border pixels.</param>
+        /// <returns>Convolved image.</returns>
         internal static Image<TColor, TDepth> Convolve<TColor, TDepth>(Image<TColor, TDepth> image, Image<Gray, TDepth>[] kernels, ConvolutionBorder options)
            where TColor:IColor
            where TDepth : struct

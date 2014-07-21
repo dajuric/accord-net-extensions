@@ -1,49 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Accord.Extensions.Imaging.Helper;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using Accord.Extensions.Imaging.Helper;
 using ColorConverter = Accord.Extensions.Imaging.Converters.ColorDepthConverter;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Provides extension methods for converting generic image into <see cref="System.Drawing.Bitmap"/>.
+    /// </summary>
     public static class BitmapConversionExtensions
     {
-        public class PixelFormatMapping
-        {
-            public ColorInfo ColorInfo;
-            public PixelFormat PixelFormat;
-        }
-
-        public static readonly List<PixelFormatMapping> PixelFormatMappings;
-        //public static readonly Lookup<PixelFormat, ColorInfo> PixelToColorMapping;
-        //public static readonly Lookup<ColorInfo, PixelFormat> ColorToPixelMapping;
+        /// <summary>
+        /// mappings between color infos and pixel formats.
+        /// </summary>
+        public static readonly Map<ColorInfo, PixelFormat> PixelFormatMappings;
 
         static BitmapConversionExtensions()
         {
             PixelFormatMappings = initPixelFormatMappings();
-            //var color = PixelToColorMapping[PixelFormat.Canonical].First();
         }
 
-        private static List<PixelFormatMapping> initPixelFormatMappings()
+        private static Map<ColorInfo, PixelFormat> initPixelFormatMappings()
         {
-            var mappings = new List<PixelFormatMapping>
-            {
-                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Gray, byte>(), PixelFormat = PixelFormat.Format8bppIndexed}},
+            var map = new Map<ColorInfo, PixelFormat>();
 
-                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Gray, short>(), PixelFormat = PixelFormat.Format16bppGrayScale}},
+            map.Add(ColorInfo.GetInfo<Gray, byte>(),  PixelFormat.Format8bppIndexed);
+            map.Add(ColorInfo.GetInfo<Gray, short>(), PixelFormat.Format16bppGrayScale);
+            map.Add(ColorInfo.GetInfo<Bgr, byte>(),   PixelFormat.Format24bppRgb);
+            map.Add(ColorInfo.GetInfo<Bgra, byte>(),  PixelFormat.Format32bppArgb);
+            map.Add(ColorInfo.GetInfo<Bgr, short>(),  PixelFormat.Format48bppRgb);
+            map.Add(ColorInfo.GetInfo<Bgra, short>(), PixelFormat.Format64bppArgb);
 
-                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Bgr, byte>(), PixelFormat = PixelFormat.Format24bppRgb}},
-            
-                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Bgra, byte>(), PixelFormat = PixelFormat.Format32bppArgb}},
-
-                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Bgr, short>(), PixelFormat = PixelFormat.Format48bppRgb}},
-
-                {new PixelFormatMapping{ ColorInfo = ColorInfo.GetInfo<Bgra, short>(), PixelFormat = PixelFormat.Format64bppArgb}}
-            };
-
-            return mappings;
+            return map;
         }
 
         #region Conversion from Bitmap
@@ -125,26 +115,37 @@ namespace Accord.Extensions.Imaging
             return ToImage((Bitmap)bmp);
         }
 
+        /// <summary>
+        /// Gets color info by using bitmap pixel format. 
+        /// </summary>
+        /// <param name="bmp">Bitmap.</param>
+        /// <returns>Color info.</returns>
         public static ColorInfo GetColorInfo(this System.Drawing.Image bmp)
         {
             return GetColorInfo(bmp.PixelFormat);
         }
 
+        /// <summary>
+        /// Gets color info by using bitmap pixel format. 
+        /// </summary>
+        /// <param name="pixelFormat">Pixel format.</param>
+        /// <returns>Color info.</returns>
         public static ColorInfo GetColorInfo(this PixelFormat pixelFormat)
         {
-            var imageColor = (from pixelFormatMapping in PixelFormatMappings
-                              where pixelFormatMapping.PixelFormat == pixelFormat
-                              select pixelFormatMapping.ColorInfo)
-                           .DefaultIfEmpty()
-                           .FirstOrDefault();
-
-            return imageColor;
+            ColorInfo colorInfo;
+            PixelFormatMappings.Reverse.TryGetValue(pixelFormat, out colorInfo);
+            return colorInfo;
         }
 
         #endregion
 
         #region Conversion from BitmapData
 
+        /// <summary>
+        /// Converts bitmap data to generic image (data is not copied).
+        /// </summary>
+        /// <param name="bmpData">Bitmap data.</param>
+        /// <returns>Generic image.</returns>
         public static IImage AsImage(this BitmapData bmpData)
         {
             var colorInfo = GetColorInfo(bmpData.PixelFormat);
@@ -155,7 +156,11 @@ namespace Accord.Extensions.Imaging
 
         #region Conversion To Bitmap
 
-        public static readonly PixelFormat[] DefaultPreferedDestPixelFormats = new PixelFormat[] //compatibility reasons (some Bitmap functions do not work with some PixelFormats)
+        /// <summary>
+        /// Contains preferred pixel formats used when converting to <see cref="System.Drawing.Bitmap"/>.
+        /// <para>Compatibility reasons (some Bitmap functions do not work with some PixelFormats)</para>
+        /// </summary>
+        public static readonly PixelFormat[] DefaultPreferedDestPixelFormats = new PixelFormat[] 
         {
            PixelFormat.Format8bppIndexed,
            PixelFormat.Format24bppRgb,
@@ -167,7 +172,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="img">Input image.</param>
         /// <param name="copyAlways">Set to true to force data copy even if a cast is enough.</param>
-        /// <param name="failIfCannotCast">Set to true to ensure that data will not be copied. <see cref="copyAlways"/> is ommited.</param>
+        /// <param name="failIfCannotCast">Set to true to ensure that data will not be copied. <paramref name="copyAlways"/> is omitted.</param>
         /// <returns>Bitmap</returns>
         public static Bitmap ToBitmap(this IImage img, bool copyAlways = false, bool failIfCannotCast = false)
         {
@@ -179,19 +184,19 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="img">Input image.</param>
         /// <param name="copyAlways">Set to true to force data copy even if a cast is enough.</param>
-        /// <param name="failIfCannotCast">Set to true to ensure that data will not be copied. <see cref="copyAlways"/> is ommited.</param>
-        /// <param name="preferedDestinationFormats">Set prefered output format.</param>
+        /// <param name="failIfCannotCast">Set to true to ensure that data will not be copied. <paramref name="copyAlways"/> is omitted.</param>
+        /// <param name="preferedDestinationFormats">Set preferred output format.</param>
         /// <returns>Bitmap</returns>
         public static Bitmap ToBitmap(this IImage img, bool copyAlways = false, bool failIfCannotCast = false, params PixelFormat[] preferedDestinationFormats)
         {
             bool justCasted;
             IImage convertedIm = ToBitmapCompatibilityImage(img, preferedDestinationFormats, out justCasted);
-            var destPixelFormat = PixelFormatMappings.Find(x => x.ColorInfo == convertedIm.ColorInfo).PixelFormat;
+            var destPixelFormat = PixelFormatMappings.Forward[convertedIm.ColorInfo];
 
             if (failIfCannotCast && justCasted == false)
                 throw new Exception("An image can not be casted to bitmap as user requested (data must be copied)!");
 
-            copyAlways = copyAlways && !failIfCannotCast; //ommit the switch if an user setfailIfCannotCast to true
+            copyAlways = copyAlways && !failIfCannotCast; //omit the switch if an user setfailIfCannotCast to true
 
             Bitmap bmp = null;
 
@@ -214,10 +219,17 @@ namespace Accord.Extensions.Imaging
             return bmp;
         }
 
+        /// <summary>
+        /// Converts generic image into bitmap compatibility image by using provided preferred pixel formats.
+        /// </summary>
+        /// <param name="srcImg">Source image.</param>
+        /// <param name="preferedDestinationFormats">Preferred destination pixel formats.</param>
+        /// <param name="isJustCasted">True if the image is just casted. False if data must be converted.</param>
+        /// <returns>Generic image which color corresponds to one of the <paramref name="preferedDestinationFormats"/>.</returns>
         public static IImage ToBitmapCompatibilityImage(IImage srcImg, PixelFormat[] preferedDestinationFormats, out bool isJustCasted)
         {
             var preferedDestinationColors = from preferedFormat in preferedDestinationFormats
-                                            let preferedColor = PixelFormatMappings.Where(x => x.PixelFormat == preferedFormat).Select(x => x.ColorInfo).FirstOrDefault()
+                                            let preferedColor = preferedFormat.GetColorInfo()
                                             where preferedColor != null
                                             select preferedColor;
 

@@ -153,6 +153,7 @@ namespace Accord.Extensions.Imaging.IntegralImage
         /// <summary>
         /// Gets sum under image region (requires only 4 lookups).
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="x">Location X.</param>
         /// <param name="y">Location Y.</param>
         /// <param name="width">Region width.</param>
@@ -188,6 +189,7 @@ namespace Accord.Extensions.Imaging.IntegralImage
         /// <summary>
         /// Gets sum under image region (requires only 4 lookups).
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="x">Location X.</param>
         /// <param name="y">Location Y.</param>
         /// <param name="width">Region width.</param>
@@ -223,6 +225,7 @@ namespace Accord.Extensions.Imaging.IntegralImage
         /// <summary>
         /// Gets sum under image region (requires only 4 lookups).
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="x">Location X.</param>
         /// <param name="y">Location Y.</param>
         /// <param name="width">Region width.</param>

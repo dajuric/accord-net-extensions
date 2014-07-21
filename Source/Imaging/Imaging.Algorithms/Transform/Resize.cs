@@ -22,7 +22,10 @@ namespace Accord.Extensions.Imaging
         Bicubic
     }
 
-    public static class ResizeExtensionsBase
+    /// <summary>
+    /// Contains image resize extensions.
+    /// </summary>
+    internal static class ResizeExtensionsBase
     {
         /// <summary>
         /// Resizes an image using specified interpolation mode.
@@ -69,6 +72,9 @@ namespace Accord.Extensions.Imaging
         }
     }
 
+    /// <summary>
+    /// Contains image resize extensions.
+    /// </summary>
     public static class ResizeExtensions_Gray
     {
         /// <summary>
@@ -96,6 +102,9 @@ namespace Accord.Extensions.Imaging
         }
     }
 
+    /// <summary>
+    /// Contains image resize extensions.
+    /// </summary>
     public static class ResizeExtensions_Color
     {
         /// <summary>

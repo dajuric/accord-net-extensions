@@ -3,15 +3,34 @@ using System.Collections.Generic;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Flip image direction. 
+    /// They can be used as bit flags.
+    /// </summary>
     [Flags]
     public enum FlipDirection
     {
+        /// <summary>
+        /// No flipping.
+        /// </summary>
         None = 0x0,
+        /// <summary>
+        /// Horizontal flipping.
+        /// </summary>
         Horizontal = 0x1,
+        /// <summary>
+        /// Vertical flipping
+        /// </summary>
         Vertical = 0x2,
+        /// <summary>
+        /// All flipping (horizontal + vertical).
+        /// </summary>
         All = 0x3
     }
 
+    /// <summary>
+    /// Contains extension methods for image flipping.
+    /// </summary>
     public static class ImageFlipping
     {
         delegate void ImageFlipFunc(IImage srcImg, IImage dstImg, FlipDirection flip);
@@ -33,7 +52,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="img">Input image.</param>
         /// <param name="flip">Flip direction.</param>
         /// <param name="inPlace">Do it in place.</param>
-        /// <returns>Returns flipped image. If <see cref="inPlace"/> was set to true the result can be omitted.</returns>
+        /// <returns>Returns flipped image. If <paramref name="inPlace"/> was set to true the result can be omitted.</returns>
         public static Image<TColor, TDepth> FlipImage<TColor, TDepth>(this Image<TColor, TDepth> img, FlipDirection flip, bool inPlace = false)
             where TColor:IColor
             where TDepth:struct
@@ -41,6 +60,13 @@ namespace Accord.Extensions.Imaging
             return FlipImage((IImage)img, flip, inPlace) as Image<TColor, TDepth>;
         }
 
+        /// <summary>
+        /// Flips an input image horizontally / vertically / both directions / or none (data copy).
+        /// </summary>
+        /// <param name="img">Input image.</param>
+        /// <param name="flip">Flip direction.</param>
+        /// <param name="inPlace">Do it in place.</param>
+        /// <returns>Returns flipped image. If <paramref name="inPlace"/> was set to true the result can be omitted.</returns>
         public static IImage FlipImage(this IImage img, FlipDirection flip, bool inPlace = false)
         {
             IImage dest = img;

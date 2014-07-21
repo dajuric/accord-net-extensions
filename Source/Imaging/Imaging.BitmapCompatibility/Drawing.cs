@@ -9,10 +9,12 @@ using PointF = AForge.Point;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Generic image drawing extensions.
+    /// </summary>
     public static class DrawingExtensions
     {
        
-
         #region Rectangle
 
         /// <summary>
@@ -47,13 +49,14 @@ namespace Accord.Extensions.Imaging
         #region Text
 
         /// <summary>
-        /// Draws text.
+        /// Draws text on the provided image.
         /// </summary>
+        /// <typeparam name="TColor">Image color type.</typeparam>
         /// <param name="image">Input image.</param>
         /// <param name="text">User text.</param>
         /// <param name="font">Font.</param>
         /// <param name="leftUpperPoint">Upper-left point.</param>
-        /// <param name="color">Text's color.</param>
+        /// <param name="color">Text color.</param>
         public static void Draw<TColor>(this Image<TColor, byte> image, string text, Font font, PointF leftUpperPoint, TColor color)
             where TColor : IColor3
         {
@@ -61,6 +64,15 @@ namespace Accord.Extensions.Imaging
             Draw(image, text, font, region, color);
         }
 
+        /// <summary>
+        /// Draws text on the provided image.
+        /// </summary>
+        /// <typeparam name="TColor">Image color type.</typeparam>
+        /// <param name="image">Input image.</param>
+        /// <param name="text">User text.</param>
+        /// <param name="font">Font.</param>
+        /// <param name="region">Area in which the provided string will be drawn.</param>
+        /// <param name="color">Text color.</param>
         public static void Draw<TColor>(this Image<TColor, byte> image, string text, Font font, RectangleF region, TColor color)
            where TColor : IColor3
         {
@@ -141,6 +153,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="line">Line</param>
+        /// <param name="color">Line color.</param>
         /// <param name="thickness">Line thickness.</param>
         public static void Draw<TColor>(this Image<TColor, byte> image, LineSegment line, TColor color, float thickness)
             where TColor : IColor3
@@ -153,7 +166,9 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="lines">Lines</param>
+        /// <param name="color">Line color.</param>
         /// <param name="thickness">Line thickness.</param>
+        /// <param name="connectLines">True if the lines must form closed shape, false otherwise.</param>
         public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, TColor color, float thickness, bool connectLines = true)
             where TColor : IColor3
         {
@@ -207,6 +222,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="image">Input image.</param>
         /// <param name="lines">Line segments (treated as vectors)</param>
         /// <param name="thickness">Line thickness.</param>
+        /// <param name="colorFunc">Function that returns color for each line segment.</param>
         public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<LineSegment> lines, float thickness, Func<LineSegment, Bgr> colorFunc)
             where TColor : IColor3
         {
@@ -233,6 +249,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="contour">Contour points.</param>
+        /// <param name="color">Contour color.</param>
         /// <param name="thickness">Contours thickness.</param>
         public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<Point> contour, TColor color, float thickness)
             where TColor : IColor3
@@ -256,6 +273,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="contour">Line segments (treated as vectors)</param>
+        /// <param name="color">Contour color.</param>
         /// <param name="thickness">Contours thickness.</param>
         /// <param name="connectPoints">Connect points and draw contour or draw points as circles.</param>
         public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<PointF> contour, TColor color, float thickness, bool connectPoints = true)
@@ -298,6 +316,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="circle">Circle</param>
+        /// <param name="color">Circle color.</param>
         /// <param name="thickness">Contours thickness.</param>
         public static void Draw<TColor>(this Image<TColor, byte> image, CircleF circle, TColor color, float thickness)
             where TColor : IColor3
@@ -317,6 +336,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="image">Input image.</param>
         /// <param name="circles">Circles</param>
+        /// <param name="color">Circle color.</param>
         /// <param name="thickness">Contours thickness.</param>
         public static void Draw<TColor>(this Image<TColor, byte> image, IEnumerable<CircleF> circles, TColor color, float thickness)
             where TColor : IColor3
@@ -348,6 +368,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="color">Color for rectangle. Label area is filled. Default color is yellow-green.</param>
         /// <param name="textColor">Label color. Default color is black.</param>
         /// <param name="font">Font to use. Default is "Arial" of size 10, style: Bold.</param>
+        /// <param name="thickness">Rectangle thickness.</param>
         public static void DrawAnnotation(this Image<Bgr, byte> image, Rectangle rect, string text, 
                                           int annotationWidth = 100, Bgr color = default(Bgr), Bgr textColor = default(Bgr), Font font = null,
                                           int thickness = 1)

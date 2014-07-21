@@ -7,6 +7,7 @@ namespace Accord.Extensions.Imaging.Filters
         /// <summary>
         /// Applies White Patch filter for color normalization (Accord.NET function)
         /// </summary>
+        /// <param name="img">image.</param>
         /// <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
         /// <returns>Processed image.</returns>
         internal static Image<TColor, TDepth> WhitePatch<TColor, TDepth>(this Image<TColor, TDepth> img, bool inPlace = true)
@@ -18,11 +19,15 @@ namespace Accord.Extensions.Imaging.Filters
         }
     }
 
+    /// <summary>
+    /// Contains extensions for White-patch algorithm.
+    /// </summary>
     public static class WhitePatchExtensionsIColor3
     {
         /// <summary>
         /// Applies White Patch filter for color normalization (Accord.NET function)
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
         /// <returns>Processed image.</returns>
         public static Image<TColor, byte> WhitePatch<TColor>(this Image<TColor, byte> img, bool inPlace = true)
@@ -32,11 +37,15 @@ namespace Accord.Extensions.Imaging.Filters
         }
     }
 
+    /// <summary>
+    /// Contains extensions for White-patch algorithm.
+    /// </summary>
     public static class WhitePatchExtensionsIColor4
     {
         /// <summary>
         /// Applies White Patch filter for color normalization (Accord.NET function)
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
         /// <returns>Processed image.</returns>
         public static Image<TColor, byte> WhitePatch<TColor>(this Image<TColor, byte> img, bool inPlace = true)

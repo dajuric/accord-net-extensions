@@ -5,12 +5,25 @@ using Accord.Extensions.Math.Geometry;
 
 namespace Accord.Extensions.Imaging.Converters
 {
+    /// <summary>
+    /// Function delegate for image data conversion.
+    /// </summary>
+    /// <param name="srcImg">Source image.</param>
+    /// <param name="destImg">Destination image.</param>
     public delegate void ConvertDataFunc(IImage srcImg, IImage destImg);
+
+    /// <summary>
+    /// Function delegate for image creation (by casting source image, returning source or crating an empty image).
+    /// </summary>
+    /// <param name="srcImg">Source image.</param>
+    /// <param name="destColor">Destination image color info.</param>
+    /// <returns>Destination image.</returns>
     public delegate IImage CreateImageFunc(IImage srcImg, ColorInfo destColor);
 
     /// <summary>
     /// Represents the main class for color and conversion.
     /// It uses search methods to find appropriate conversion paths.
+    /// <para>Methods can be used as extensions.</para>
     /// </summary>
     public static class ColorDepthConverter
     {
@@ -19,18 +32,47 @@ namespace Accord.Extensions.Imaging.Converters
         /// </summary>
         public static int GENERIC_COLOR_CAST_OFFSET = 500;
 
+        /// <summary>
+        /// Conversion costs.
+        /// </summary>
         public enum ConversionCost: int
         {
+            /// <summary>
+            /// Source returning cost.
+            /// </summary>
             ReturnSource = 0,
+            /// <summary>
+            /// Source casting cost.
+            /// </summary>
             Cast = 1,
+            /// <summary>
+            /// Data conversion cost.
+            /// </summary>
             DataConvert = 2,
+            /// <summary>
+            /// No possible conversion (max. cost).
+            /// </summary>
             NotPossible = Int32.MaxValue
         }
 
+        /// <summary>
+        /// Contains information about the conversion for source to destination image.
+        /// represents an edge in a built graph.
+        /// </summary>
+        /// <typeparam name="T">ColorInfo for color conversion or Type for depth conversion.</typeparam>
         public class ConversionData<T> : Edge<T>
         {
             private ConversionCost cost;
 
+            /// <summary>
+            /// Creates new conversion data object (an edge in a graph).
+            /// </summary>
+            /// <param name="source">Source vertex.</param>
+            /// <param name="destination">Destination vertex.</param>
+            /// <param name="convertFunc">Data conversion function.</param>
+            /// <param name="forceSequential">Force conversion to execute sequentially.</param>
+            /// <param name="createFunc">Destination image creation function.</param>
+            /// <param name="cost">Conversion cost.</param>
             public ConversionData(T source, T destination, ConvertDataFunc convertFunc, bool forceSequential = false, CreateImageFunc createFunc = null, ConversionCost cost = ConversionCost.DataConvert)
                 :base(source, destination)
             {
@@ -40,6 +82,11 @@ namespace Accord.Extensions.Imaging.Converters
                 this.cost = cost;
             }
 
+            /// <summary>
+            /// Returns conversion data when source image has to be returned.
+            /// </summary>
+            /// <param name="source">Source's image color info.</param>
+            /// <returns>Conversion info.</returns>
             public static ConversionData<ColorInfo> AsReturnSource(ColorInfo source)
             {
                 return new ConversionData<ColorInfo>(source, 
@@ -49,6 +96,12 @@ namespace Accord.Extensions.Imaging.Converters
                                                     ConversionCost.ReturnSource);
             }
 
+            /// <summary>
+            /// Returns conversion data when source image has to be casted.
+            /// </summary>
+            /// <param name="source">Source's image color info.</param>
+            /// <param name="destination">Destination image color info.</param>
+            /// <returns>Conversion info.</returns>
             public static ConversionData<ColorInfo> AsCast(ColorInfo source, ColorInfo destination)
             {
                 if (source.Equals(destination, ColorInfo.ComparableParts.Castable) == false)
@@ -62,6 +115,14 @@ namespace Accord.Extensions.Imaging.Converters
                                                      ConversionCost.Cast);
             }
 
+            /// <summary>
+            /// Returns conversion data when source data has to be converted.
+            /// </summary>
+            /// <param name="source">Source's image color info.</param>
+            /// <param name="destination">Destination image color info.</param>
+            /// <param name="convertFunc">Data conversion function.</param>
+            /// <param name="forceSequential">Force conversion to execute sequentially.</param>
+            /// <returns>Conversion info.</returns>
             public static ConversionData<ColorInfo> AsConvertData(ColorInfo source, ColorInfo destination, ConvertDataFunc convertFunc, bool forceSequential = false)
             {
                 return new ConversionData<ColorInfo>(source, 
@@ -72,6 +133,12 @@ namespace Accord.Extensions.Imaging.Converters
                                                      ConversionCost.DataConvert);
             }
 
+            /// <summary>
+            /// Returns conversion data for color conversion with specified channel depth conversion data.
+            /// </summary>
+            /// <param name="colorType">Destination color type.</param>
+            /// <param name="depthConversionData">Channel type conversion data.</param>
+            /// <returns>Conversion info.</returns>
             public static ConversionData<ColorInfo> AsConvertDepth(Type colorType, ConversionData<Type> depthConversionData)
             {
                 CreateImageFunc creationFunc = depthConversionData.CreateFunc ??
@@ -91,9 +158,22 @@ namespace Accord.Extensions.Imaging.Converters
                        );
             }
 
+            /// <summary>
+            /// Gets or sets destination image creation function.
+            /// </summary>
             public CreateImageFunc CreateFunc { get; set; }
+            /// <summary>
+            /// Gets or sets data conversion function.
+            /// </summary>
             public ConvertDataFunc ConvertFunc { get; set; }
+            /// <summary>
+            /// Gets or sets whether data conversion has to be executed sequentially.
+            /// </summary>
             public bool ForceSequential { get; set; }
+
+            /// <summary>
+            /// Gets or sets conversion cost (edge cost).
+            /// </summary>
             public ConversionCost Cost
             {
                 get 
@@ -104,6 +184,9 @@ namespace Accord.Extensions.Imaging.Converters
                 set { cost = value; }
             }
 
+            /// <summary>
+            /// Returns true is the specified conversion copies data, false otherwise.
+            /// </summary>
             public bool CopiesData
             {
                 get { return !(Cost == ConversionCost.Cast || Cost == ConversionCost.ReturnSource); }
@@ -127,6 +210,9 @@ namespace Accord.Extensions.Imaging.Converters
             Initialize();
         }
 
+        /// <summary>
+        /// Builds a graph for added conversions (built-in conversion are added by default) and determines conversion paths by using Floyd-Warshall algorithm.
+        /// </summary>
         public static void Initialize()
         {
             addGenericConversions();
@@ -218,11 +304,19 @@ namespace Accord.Extensions.Imaging.Converters
 
         #region Graph manipulation
 
+        /// <summary>
+        /// Adds conversion info (edge) to the graph.
+        /// </summary>
+        /// <param name="conversionData"></param>
         public static void Add(ConversionData<ColorInfo> conversionData)
         {
             graph.AddEdge(conversionData);
         }
 
+        /// <summary>
+        /// Registers generic color.
+        /// </summary>
+        /// <param name="genericColor">Generic color.</param>
         public static void Add(IColor genericColor)
         {
             if (ColorInfo.GetInfo(genericColor.GetType()).IsGenericColorSpace == false)
@@ -231,11 +325,19 @@ namespace Accord.Extensions.Imaging.Converters
             genericColors.Add(genericColor);
         }
 
+        /// <summary>
+        /// Adds depth conversion info (edge) to channel conversion graph.
+        /// </summary>
+        /// <param name="depthConversionData">Depth conversion data.</param>
         public static void Add(ConversionData<Type> depthConversionData)
         {
             depthConversions.Add(depthConversionData);
         }
 
+        /// <summary>
+        /// Removes the paths forbidden by the specified rules.
+        /// </summary>
+        /// <param name="forbidRule"></param>
         public static void Remove(Func<ColorInfo, ColorInfo, List<ConversionData<ColorInfo>>, bool> forbidRule)
         {
             foreach (var v1 in shorthestPaths.Keys)
@@ -251,6 +353,12 @@ namespace Accord.Extensions.Imaging.Converters
 
         #endregion
 
+        /// <summary>
+        /// Converts an image by using specified conversion path.
+        /// </summary>
+        /// <param name="conversionData">Conversion path.</param>
+        /// <param name="img">Image to convert.</param>
+        /// <returns>Converted image.</returns>
         public static IImage Convert(this ConversionData<ColorInfo> conversionData, IImage img)
         {
             var proc = new ParallelProcessor<IImage, IImage>
@@ -298,6 +406,13 @@ namespace Accord.Extensions.Imaging.Converters
             return convertedIm;
         }
 
+        /// <summary>
+        /// Gets the conversion path.
+        /// <para>If the conversion is not allowed or does not exist an empty list is returned.</para>
+        /// </summary>
+        /// <param name="src">Source color.</param>
+        /// <param name="dst">Destination color.</param>
+        /// <returns>Conversion path.</returns>
         public static List<ConversionData<ColorInfo>> GetPath(this ColorInfo src, ColorInfo dst)
         {
             List<ConversionData<ColorInfo>> path;
@@ -348,6 +463,11 @@ namespace Accord.Extensions.Imaging.Converters
             return isImageCopied;
         }
 
+        /// <summary>
+        /// Gets the cost of the specified conversion path.
+        /// </summary>
+        /// <param name="conversionPath">Conversion path.</param>
+        /// <returns>The cost of the path.</returns>
         public static int PathCost(this IList<ConversionData<ColorInfo>> conversionPath)
         {
             if (conversionPath.Count == 0)

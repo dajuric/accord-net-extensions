@@ -5,6 +5,9 @@ using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for calculating warped image portion.
+    /// </summary>
     public static class GetRectSubPixExtensions
     {
         delegate void InterpolateRectFunc(IImage image, PointF startPt, IImage destImage);
@@ -23,6 +26,15 @@ namespace Accord.Extensions.Imaging
             GetRectSubPix((IImage)img, startPt, destImg);
         }*/
 
+        /// <summary>
+        /// Gets specified image portion. 
+        /// If the coordinates are not the rounded, they will be interpolated.
+        /// </summary>
+        /// <typeparam name="TColor">Image color type.</typeparam>
+        /// <typeparam name="TDepth">Channel depth type.</typeparam>
+        /// <param name="img">Image.</param>
+        /// <param name="area">Requested area.</param>
+        /// <returns>Interpolated image area.</returns>
         public static Image<TColor, float> GetRectSubPix<TColor, TDepth>(this Image<TColor, TDepth> img, RectangleF area)
             where TColor : IColor
             where TDepth : struct
@@ -32,6 +44,15 @@ namespace Accord.Extensions.Imaging
             return destImg;
         }
 
+        /// <summary>
+        /// Gets specified image portion. 
+        /// If the coordinates are not the rounded, they will be interpolated.
+        /// </summary>
+        /// <typeparam name="TColor">Image color type.</typeparam>
+        /// <typeparam name="TDepth">Channel depth type.</typeparam>
+        /// <param name="img">Image.</param>
+        /// <param name="startPt">Location of the area to interpolate.</param>
+        /// <param name="destImg">Destination image. The size of the destination image will be used to determine area size.</param>
         public static void GetRectSubPix<TColor, TDepth>(this Image<TColor, TDepth> img, PointF startPt, Image<TColor, float> destImg)
             where TColor : IColor
             where TDepth : struct

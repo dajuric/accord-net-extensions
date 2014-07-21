@@ -898,6 +898,17 @@
 
         #region Extensions
 
+        /// <summary>
+        /// Adds pixels of two images. The operation is executed for each channel.
+        /// <para>If using 8-bit values an overflow might happen.</para>
+        /// </summary>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">First image.</param>
+        /// <param name="img2">Second image.</param>
+        /// <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+        /// <param name="mask">Determines which image locations are going to be affected by the operation.</param>
+        /// <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
         public static Image<TColor, TDepth> Add<TColor, TDepth>(this Image<TColor, TDepth> img, Image<TColor, TDepth> img2, bool inPlace = false, Image<Gray, byte> mask = null)
             where TColor : IColor
             where TDepth : struct
@@ -910,6 +921,17 @@
             return dest as Image<TColor, TDepth>;
         }
 
+        /// <summary>
+        /// Adds pixels of the first image and specified color. The operation is executed for each channel.
+        /// </summary>
+        /// <para>If using 8-bit values an overflow might happen.</para>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">First image.</param>
+        /// <param name="value">Color to add.</param>
+        /// <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+        /// <param name="mask">Determines which image locations are going to be affected by the operation.</param>
+        /// <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
         public static Image<TColor, TDepth> Add<TColor, TDepth>(this Image<TColor, TDepth> img, TColor value, bool inPlace = false, Image<Gray, byte> mask = null)
             where TColor : IColor
             where TDepth : struct
@@ -918,6 +940,17 @@
             return Add(img, mulImg, inPlace, mask);
         }
 
+        /// <summary>
+        /// Subtracts pixels of two images. The operation is executed for each channel.
+        /// <para>If using 8-bit values an overflow might happen.</para>
+        /// </summary>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">First image.</param>
+        /// <param name="img2">Second image.</param>
+        /// <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+        /// <param name="mask">Determines which image locations are going to be affected by the operation.</param>
+        /// <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
         public static Image<TColor, TDepth> Sub<TColor, TDepth>(this Image<TColor, TDepth> img, Image<TColor, TDepth> img2, bool inPlace = false, Image<Gray, byte> mask = null)
             where TColor : IColor
             where TDepth : struct
@@ -930,6 +963,17 @@
             return dest as Image<TColor, TDepth>;
         }
 
+        /// <summary>
+        /// Subtracts pixels of the first image and specified color. The operation is executed for each channel.
+        /// </summary>
+        /// <para>If using 8-bit values an overflow might happen.</para>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">First image.</param>
+        /// <param name="value">Color to add.</param>
+        /// <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+        /// <param name="mask">Determines which image locations are going to be affected by the operation.</param>
+        /// <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
         public static Image<TColor, TDepth> Sub<TColor, TDepth>(this Image<TColor, TDepth> img, TColor value, bool inPlace = false, Image<Gray, byte> mask = null)
             where TColor : IColor
             where TDepth : struct
@@ -938,6 +982,17 @@
             return Sub(img, mulImg, inPlace, mask);
         }
 
+        /// <summary>
+        /// Multiplies pixels of two images. The operation is executed for each channel.
+        /// <para>If using 8-bit values an overflow might happen.</para>
+        /// </summary>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">First image.</param>
+        /// <param name="img2">Second image.</param>
+        /// <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+        /// <param name="mask">Determines which image locations are going to be affected by the operation.</param>
+        /// <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
         public static Image<TColor, TDepth> Mul<TColor, TDepth>(this Image<TColor, TDepth> img, Image<TColor, TDepth> img2, bool inPlace = false, Image<Gray, byte> mask = null)
             where TColor : IColor
             where TDepth : struct
@@ -950,6 +1005,17 @@
             return dest as Image<TColor, TDepth>;
         }
 
+        /// <summary>
+        /// Multiplies pixels of the first image and specified color. The operation is executed for each channel.
+        /// </summary>
+        /// <para>If using 8-bit values an overflow might happen.</para>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">First image.</param>
+        /// <param name="value">Color to add.</param>
+        /// <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+        /// <param name="mask">Determines which image locations are going to be affected by the operation.</param>
+        /// <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
         public static Image<TColor, TDepth> Mul<TColor, TDepth>(this Image<TColor, TDepth> img, TColor value, bool inPlace = false, Image<Gray, byte> mask = null)
             where TColor : IColor
             where TDepth : struct
@@ -958,6 +1024,17 @@
             return Mul(img, mulImg, inPlace, mask);
         }
 
+        /// <summary>
+        /// Divides pixels of two images. The operation is executed for each channel. If using integers, an integer division is going to be applied.
+        /// <para>If using 8-bit values an overflow might happen.</para>
+        /// </summary>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">First image.</param>
+        /// <param name="img2">Second image.</param>
+        /// <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+        /// <param name="mask">Determines which image locations are going to be affected by the operation.</param>
+        /// <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
         public static Image<TColor, TDepth> Div<TColor, TDepth>(this Image<TColor, TDepth> img, Image<TColor, TDepth> img2, bool inPlace = false, Image<Gray, byte> mask = null)
             where TColor : IColor
             where TDepth : struct
@@ -970,6 +1047,17 @@
             return dest as Image<TColor, TDepth>;
         }
 
+        /// <summary>
+        /// Multiplies pixels of the first image and specified color. The operation is executed for each channel. If using integers, an integer division is going to be applied.
+        /// </summary>
+        /// <para>If using 8-bit values an overflow might happen.</para>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">First image.</param>
+        /// <param name="value">Color to add.</param>
+        /// <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+        /// <param name="mask">Determines which image locations are going to be affected by the operation.</param>
+        /// <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
         public static Image<TColor, TDepth> Div<TColor, TDepth>(this Image<TColor, TDepth> img, TColor value, bool inPlace = false, Image<Gray, byte> mask = null)
             where TColor : IColor
             where TDepth : struct
@@ -985,21 +1073,45 @@
         where TColor : IColor
         where TDepth : struct
     {
+        /// <summary>
+        /// Adds two images.
+        /// </summary>
+        /// <param name="image">First image.</param>
+        /// <param name="img2">Second image.</param>
+        /// <returns>Summation result.</returns>
         public static Image<TColor, TDepth> operator +(Image<TColor, TDepth> image, Image<TColor, TDepth> img2)
         {
             return image.Add(img2);
         }
 
+        /// <summary>
+        /// Subtracts two images (first - second).
+        /// </summary>
+        /// <param name="image">First image.</param>
+        /// <param name="img2">Second image.</param>
+        /// <returns>Subtraction result.</returns>
         public static Image<TColor, TDepth> operator -(Image<TColor, TDepth> image, Image<TColor, TDepth> img2)
         {
             return image.Sub(img2);
         }
 
+        /// <summary>
+        /// Multiplies two images.
+        /// </summary>
+        /// <param name="image">First image.</param>
+        /// <param name="img2">Second image.</param>
+        /// <returns>Multiplication result.</returns>
         public static Image<TColor, TDepth> operator * (Image<TColor, TDepth> image, Image<TColor, TDepth> img2)
         {
             return image.Mul(img2);
         }
 
+        /// <summary>
+        /// Divides two images (first / second).
+        /// </summary>
+        /// <param name="image">First image.</param>
+        /// <param name="img2">Second image.</param>
+        /// <returns>Division result.</returns>
         public static Image<TColor, TDepth> operator /(Image<TColor, TDepth> image, Image<TColor, TDepth> img2)
         {
             return image.Div(img2);

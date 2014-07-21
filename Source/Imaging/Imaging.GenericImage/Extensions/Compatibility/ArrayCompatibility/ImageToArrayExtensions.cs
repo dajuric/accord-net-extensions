@@ -4,6 +4,9 @@ using Accord.Extensions.Imaging.Helper;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for converting an image to an array representation.
+    /// </summary>
     public static class ImageToArrayExtensions
     {
         private unsafe static Array toArray(IImage image)
@@ -43,7 +46,7 @@ namespace Accord.Extensions.Imaging
             return toArray(img) as TDepth[, ,];
         }
 
-        // <summary>
+        /// <summary>
         /// Converts gray image to 2D array.
         /// </summary>
         /// <param name="img">Input image.</param>

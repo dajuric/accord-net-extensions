@@ -9,9 +9,9 @@ namespace Accord.Extensions.Imaging
         /// Calculates Fast Fourier transform.
         /// </summary>
         /// <param name="image">Input image.</param>
-        /// <param name="direction">Forward or bacward direction.</param>
+        /// <param name="direction">Forward or backward direction.</param>
         /// <param name="inPlace">Process in place or not.</param>
-        /// <returns>Processed image. If <see cref="inPlace"/> is used the result is the same as input image therefore may be ommited.</returns>
+        /// <returns>Processed image. If <paramref name="inPlace"/> is used the result is the same as input image therefore may be omitted.</returns>
         public unsafe static Image<Complex, float> FFT(this Image<Complex, float> image, FourierTransform.Direction direction, bool inPlace = false)
         {
             return FFT<float>(image, direction, inPlace);
@@ -21,9 +21,9 @@ namespace Accord.Extensions.Imaging
         /// Calculates Fast Fourier transform.
         /// </summary>
         /// <param name="image">Input image.</param>
-        /// <param name="direction">Forward or bacward direction.</param>
+        /// <param name="direction">Forward or backward direction.</param>
         /// <param name="inPlace">Process in place or not.</param>
-        /// <returns>Processed image. If <see cref="inPlace"/> is used the result is the same as input image therefore may be ommited.</returns>
+        /// <returns>Processed image. If <paramref name="inPlace"/> is used the result is the same as input image therefore may be omitted.</returns>
         private unsafe static Image<Complex, double> FFT(this Image<Complex, double> image, FourierTransform.Direction direction, bool inPlace = false)
         {
             return FFT<double>(image, direction, inPlace);
@@ -44,7 +44,7 @@ namespace Accord.Extensions.Imaging
             }
             else if (typeof(TDepth).Equals(typeof(double)))
             {
-                throw new NotImplementedException();
+                throw new NotImplementedException(); //TODO: implement for double
                 //FourierTransform.FFT2((Complex*)dest.ImageData, dest.Width, dest.Height, dest.Stride, direction);
             }
             else

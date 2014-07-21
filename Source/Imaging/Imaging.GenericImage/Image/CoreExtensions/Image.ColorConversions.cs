@@ -9,27 +9,31 @@ namespace Accord.Extensions.Imaging
     {
         /// <summary>
         /// Converts the image from source to destination depth. 
-        /// Data may be shared if casting is used. To prevent that set <see cref="copyAlways"/> to true.
+        /// Data may be shared if casting is used. To prevent that set <paramref name="copyAlways"/> to true.
         /// </summary>
         /// <typeparam name="DestType">Destination type (primitive type).</typeparam>
         /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
         /// <param name="failIfCannotCast">If data copy is needed throws an exception.</param>
         /// <returns>Converted image.</returns>
-        public Image<TColor, DestType> Convert<DestType>(bool copyAlways = false, bool failIfCAnnotCast = false)
+        public Image<TColor, DestType> Convert<DestType>(bool copyAlways = false, bool failIfCannotCast = false)
             where DestType : struct
         {
             return this.Convert(ColorInfo.GetInfo<TColor, DestType>()) as Image<TColor, DestType>;
         }
     }
 
+    /// <summary>
+    /// Contains extension methods for image color conversion.
+    /// </summary>
     public static class ImageColorExtensions
     {
         /// <summary>
         /// Converts the image from source to destination color and depth.
-        /// Data may be shared if casting is used. To prevent that set <see cref="copyAlways"/> to true.
+        /// Data may be shared if casting is used. To prevent that set <paramref name="copyAlways"/> to true.
         /// </summary>
         /// <typeparam name="DestColor">Destination color (IColor).</typeparam>
         /// <typeparam name="DestType">Destination type (primitive type).</typeparam>
+        /// <param name="image">Image.</param>
         /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
         /// <param name="failIfCannotCast">If data copy is needed throws an exception.</param>
         /// <returns>Converted image.</returns>
@@ -42,8 +46,9 @@ namespace Accord.Extensions.Imaging
 
         /// <summary>
         /// Converts the image from source to destination color and depth.
-        /// Data may be shared if casting is used. To prevent that set <see cref="copyAlways"/> to true.
+        /// Data may be shared if casting is used. To prevent that set <paramref name="copyAlways"/> to true.
         /// </summary>
+        /// <param name="image">Image.</param>
         /// <param name="destColor">Destination color info.</param>
         /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
         /// <param name="failIfCannotCast">If data copy is needed throws an exception.</param>

@@ -22,6 +22,16 @@
             //for floating point numbers its segments converted to char could be compared (single bits not)
         }
 
+        /// <summary>
+        /// Executes pixel-wise logic AND operation.
+        /// </summary>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">First image.</param>
+        /// <param name="img2">Second image.</param>
+        /// <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+        /// <param name="mask">Determines which image locations are going to be affected by the operation.</param>
+        /// <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
         public static Image<TColor, TDepth> And<TColor, TDepth>(this Image<TColor, TDepth> img, Image<TColor, TDepth> img2, bool inPlace = false, Image<Gray, byte> mask = null)
             where TColor: IColor
             where TDepth: struct

@@ -2,6 +2,9 @@
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Canny extensions.
+    /// </summary>
     public static class CannyExtensions
     {
         /// <summary>

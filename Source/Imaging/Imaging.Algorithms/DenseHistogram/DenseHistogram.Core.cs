@@ -91,7 +91,7 @@ namespace Accord.Extensions.Imaging
         public int NumberOfElements { get; private set; }
 
         /// <summary>
-        /// Internal histogram structure. Use <see cref="Stride"/> and <see cref="ValueToIndexMultipliers"/> to access elements properly.
+        /// Internal histogram structure. Use image stride and <see cref="ValueToIndexMultipliers"/> to access elements properly.
         /// </summary>
         public float[] HistogramArray { get { return this.histogram; } }
 
@@ -126,6 +126,9 @@ namespace Accord.Extensions.Imaging
             }
         }
 
+        /// <summary>
+        /// Disposes dense histogram.
+        /// </summary>
         ~DenseHistogram()
         {
             Dispose();
@@ -143,9 +146,11 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Creates ratio histogram [0.. <see cref="histogramsNormalizationFactor"/>].
+        /// Creates ratio histogram [0.. <paramref name="histogramsNormalizationFactor"/>].
         /// </summary>
         /// <param name="hist2">Second histogram. This histogram will be element-wise dived with it. Both histograms must be normalized to the same value!</param>
+        /// <param name="histogramsNormalizationFactor">Histogram normalization factor. The maximum value in the ratio histogram will be the provided value.</param>
+        /// <param name="hist2Gain">Second histogram gain.</param>
         /// <returns>Normalized ratio histogram</returns>
         public unsafe DenseHistogram CreateRatioHistogram(DenseHistogram hist2, float histogramsNormalizationFactor = 1, float hist2Gain = 1)
         { 

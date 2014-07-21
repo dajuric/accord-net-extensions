@@ -1,10 +1,14 @@
 ﻿namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for binary thresholding.
+    /// </summary>
     public static class BinaryThreshold
     {
         /// <summary>
         /// Applies binary threshold to a input image.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="minValue">Minimal value in range.</param>
         /// <param name="maxValue">Maximum value in range.</param>
         /// <param name="valueToSet">Value to set after threshold is applied.</param>
@@ -32,7 +36,7 @@
         /// Pixels which are not in [min..max] range are set to zero.
         /// </para>
         /// </summary>
-        /// 
+        /// <param name="img">Image.</param> 
         /// <param name="minValue">Minimal value in range.</param>
         /// <param name="maxValue">Maximum value in range.</param>
         /// <returns>Thresholded image where pixels which are not in [min..max] range are set to zero.</returns>

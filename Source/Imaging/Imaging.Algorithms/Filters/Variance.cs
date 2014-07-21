@@ -11,6 +11,7 @@ namespace Accord.Extensions.Imaging.Filters
         /// border enhancement, making the Variance filter suitable to
         /// be used as an edge detection mechanism.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="radius">The radius neighborhood used to compute a pixel's local variance.</param>
         /// <returns>Processed image.</returns>
         internal static Image<TColor, TDepth> Variance<TColor, TDepth>(this Image<TColor, TDepth> img, int radius = 2)
@@ -22,6 +23,9 @@ namespace Accord.Extensions.Imaging.Filters
         }
     }
 
+    /// <summary>
+    /// Contains methods for variance calculation.
+    /// </summary>
     public static class VarianceExtensionsGray
     {
         /// <summary>
@@ -31,6 +35,7 @@ namespace Accord.Extensions.Imaging.Filters
         /// border enhancement, making the Variance filter suitable to
         /// be used as an edge detection mechanism.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="radius">The radius neighborhood used to compute a pixel's local variance.</param>
         /// <returns>Processed image.</returns>
         internal static Image<Gray, byte> Variance(this Image<Gray, byte> img, int radius = 2)
@@ -39,6 +44,9 @@ namespace Accord.Extensions.Imaging.Filters
         }
     }
 
+    /// <summary>
+    /// Contains methods for variance calculation.
+    /// </summary>
     public static class VarianceExtensionsColor3
     { 
         /// <summary>
@@ -48,6 +56,7 @@ namespace Accord.Extensions.Imaging.Filters
         /// border enhancement, making the Variance filter suitable to
         /// be used as an edge detection mechanism.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="radius">The radius neighborhood used to compute a pixel's local variance.</param>
         /// <returns>Processed image.</returns>
         internal static Image<TColor, byte> Variance<TColor>(this Image<TColor, byte> img, int radius = 2)
@@ -57,6 +66,9 @@ namespace Accord.Extensions.Imaging.Filters
         }
     }
 
+    /// <summary>
+    /// Contains methods for variance calculation.
+    /// </summary>
     public static class VarianceExtensionsBgra
     {
         /// <summary>
@@ -66,6 +78,7 @@ namespace Accord.Extensions.Imaging.Filters
         /// border enhancement, making the Variance filter suitable to
         /// be used as an edge detection mechanism.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="radius">The radius neighborhood used to compute a pixel's local variance.</param>
         /// <returns>Processed image.</returns>
         internal static Image<Bgra, byte> Variance(this Image<Bgra, byte> img, int radius = 2)

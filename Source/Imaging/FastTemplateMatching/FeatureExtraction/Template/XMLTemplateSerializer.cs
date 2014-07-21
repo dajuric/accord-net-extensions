@@ -10,7 +10,7 @@ using Accord.Extensions;
 namespace LINE2D
 {
     /// <summary>
-    /// Serializes and deserializes list of template pyramids into/from XML file.
+    /// Serializes and de-serializes list of template pyramids into/from XML file.
     /// If a template implements <see cref="IXmlSerializable"/> interface additional data provided by a user may be serialized/deserialized as well.
     /// </summary>
     public class XMLTemplateSerializer<TTemplatePyramid, TTemplate>
@@ -71,6 +71,11 @@ namespace LINE2D
             return xElem;
         }
 
+        /// <summary>
+        /// Serializes the collection of template pyramids with the same object class.
+        /// </summary>
+        /// <param name="c">The collection of template pyramids.</param>
+        /// <returns>Serialized collection of template pyramids.</returns>
         public static XElement SerializeTemplatePyramidClass(IEnumerable<TTemplatePyramid> c)
         {
             XElement xElem = new XElement("TemplatePyramidClass");
@@ -85,6 +90,11 @@ namespace LINE2D
             return xElem;
         }
 
+        /// <summary>
+        /// Serializes the collection of template pyramids and saves them to a file.
+        /// </summary>
+        /// <param name="cluster">The collection of template pyramids.</param>
+        /// <param name="fileName">File name.</param>
         public static void Save(IEnumerable<TTemplatePyramid> cluster, string fileName)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
@@ -102,7 +112,11 @@ namespace LINE2D
             xmlWriter.Close();
         }
 
-
+        /// <summary>
+        /// De-serializes the collection of template pyramids.
+        /// </summary>
+        /// <param name="fileName">File name.</param>
+        /// <returns>The collection of template pyramids.</returns>
         public static IEnumerable<TTemplatePyramid> Load(string fileName)
         { 
             XDocument xDoc = XDocument.Load(new StreamReader(fileName));

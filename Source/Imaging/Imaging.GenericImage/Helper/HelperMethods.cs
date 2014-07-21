@@ -5,13 +5,18 @@ using System.Runtime.InteropServices;
 
 namespace Accord.Extensions.Imaging.Helper
 {
+    /// <summary>
+    /// Contains image helper methods.
+    /// </summary>
     public static class HelperMethods
     {
         /// <summary>
-        /// Converts color to unmanaged data of type <see cref="TDepth"/>.
+        /// Converts color to unmanaged data of type <typeparamref name="TDepth"/>.
         /// </summary>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
         /// <param name="color">Color</param>
-        /// <param name="data">Pointer to unmanaged data. Space must be allocated (number of color channels * sizeof(<see cref="TDepth"/>)</param>
+        /// <param name="data">Pointer to unmanaged data. Space must be allocated (number of color channels * sizeof(<typeparamref name="TDepth"/>)</param>
         public unsafe static void ColorToPointer<TColor, TDepth>(TColor color, IntPtr data) 
             where TColor : IColor
             where TDepth: struct
@@ -28,7 +33,9 @@ namespace Accord.Extensions.Imaging.Helper
         /// <summary>
         /// Converts unmanaged data to color representation.
         /// </summary>
-        /// <param name="data">Pointer to unmanaged data of type: <see cref="TDepth"/></param>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="data">Pointer to unmanaged data of type: <typeparamref name="TDepth"/>.</param>
         /// <returns>Color</returns>
         public unsafe static TColor PointerToColor<TColor, TDepth>(IntPtr data)
             where TColor : IColor
@@ -47,8 +54,10 @@ namespace Accord.Extensions.Imaging.Helper
         }
 
         /// <summary>
-        /// Converts color to array of type <see cref="TDepth"/>.
+        /// Converts color to array of type <typeparamref name="TDepth"/>.
         /// </summary>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
         /// <param name="color">Color</param>
         /// <returns>Array whose length is the same as color's number of channels.</returns>
         public static TDepth[] ColorToArray<TColor, TDepth>(this TColor color)

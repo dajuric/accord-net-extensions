@@ -5,10 +5,19 @@ using Accord.Extensions.Imaging.Filters;
 
 namespace LINE2D
 {
+    /// <summary>
+    /// Computes linearized maps for each image in the image pyramid.. See <see cref="LinearizedMaps"/> for details.
+    /// </summary>
     public class LinearizedMapPyramid: IDisposable
     {
+        /// <summary>
+        /// Default neighborhood spread per level.
+        /// </summary>
         public static int[] DEFAULT_NEGBORHOOD_PER_LEVEL = new int[] { 5/*, 8*/}; //bigger image towards smaller one
 
+        /// <summary>
+        /// Gets linearized maps.
+        /// </summary>
         public LinearizedMaps[] PyramidalMaps { get; private set; }
 
         private LinearizedMapPyramid(LinearizedMaps[] responseMaps)
@@ -16,6 +25,13 @@ namespace LINE2D
             this.PyramidalMaps = responseMaps;
         }
 
+        /// <summary>
+        /// Creates linearized maps pyramid.
+        /// </summary>
+        /// <param name="sourceImage">Source image.</param>
+        /// <param name="minGradientMagnitude">Minimal gradient value threshold.</param>
+        /// <param name="neigborhoodPerLevel">Neighborhood per level. If null default neighborhood is going to be used.</param>
+        /// <returns>Pyramid of linearized maps.</returns>
         public static LinearizedMapPyramid CreatePyramid(Image<Gray, Byte> sourceImage, int minGradientMagnitude = 35, params int[] neigborhoodPerLevel)
         {
             return CreatePyramid(sourceImage, 
@@ -27,6 +43,13 @@ namespace LINE2D
                                  neigborhoodPerLevel);
         }
 
+        /// <summary>
+        /// Creates linearized maps pyramid.
+        /// </summary>
+        /// <param name="sourceImage">Source image.</param>
+        /// <param name="minGradientMagnitude">Minimal gradient value threshold.</param>
+        /// <param name="neigborhoodPerLevel">Neighborhood per level. If null default neighborhood is going to be used.</param>
+        /// <returns>Pyramid of linearized maps.</returns>
         public static LinearizedMapPyramid CreatePyramid(Image<Bgr, Byte> sourceImage, int minGradientMagnitude = 35, params int[] neigborhoodPerLevel)
         {
             return CreatePyramid(sourceImage,
@@ -38,6 +61,13 @@ namespace LINE2D
                                  neigborhoodPerLevel);
         }
 
+        /// <summary>
+        /// Creates linearized maps pyramid.
+        /// </summary>
+        /// <param name="sourceImage">Source image.</param>
+        /// <param name="orientationImgCalc">Orientation image calculation function.</param>
+        /// <param name="neigborhoodPerLevel">Neighborhood per level. If null default neighborhood is going to be used.</param>
+        /// <returns>Pyramid of linearized maps.</returns>
         public static LinearizedMapPyramid CreatePyramid<TColor, TDepth>(Image<TColor, TDepth> sourceImage, Func<Image<TColor, TDepth>, Image<Gray, int>> orientationImgCalc, params int[] neigborhoodPerLevel)
             where TColor: IColor
             where TDepth: struct
@@ -64,6 +94,9 @@ namespace LINE2D
 
         #region IDisposable Interface
 
+        /// <summary>
+        /// Disposes linear map pyramid.
+        /// </summary>
         public void Dispose()
         {
             foreach (var responseMap in PyramidalMaps)

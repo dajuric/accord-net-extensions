@@ -32,8 +32,8 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Calculates phase using Atan2 (secondImage / firstImage). 
         /// </summary>
-        /// <param name="imageA">First image.</param>
-        /// <param name="imageB">Second image.</param>
+        /// <param name="imageX">First image.</param>
+        /// <param name="imageY">Second image.</param>
         /// <returns>Phase.</returns>
         public static Image<Gray, double> Phase(this Image<Gray, double> imageX, Image<Gray, double> imageY)
         {

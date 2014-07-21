@@ -1,18 +1,35 @@
-﻿using System.Diagnostics;
+﻿using Accord.Extensions;
+using Accord.Extensions.Imaging;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
-using Accord.Extensions;
-using Accord.Extensions.Imaging;
 using Point = AForge.IntPoint;
 
 namespace LINE2D
 {
+    /// <summary>
+    /// Contains extension methods for 8-bit and 16-vector addition by suing fast SIMD arithmetics.
+    /// <para>The class depends on unmanaged project SIMDArrayInstructions.</para>
+    /// </summary>
     public unsafe static class SIMDArithemtics
     {
+        /// <summary>
+        /// Adds two byte vectors.
+        /// </summary>
+        /// <param name="srcAddr">Source address.</param>
+        /// <param name="dstAddr">Destination address.</param>
+        /// <param name="numOfElemsToAdd">The number of elements (bytes) to add.</param>
         [SuppressUnmanagedCodeSecurity]
         [DllImport("SIMDArrayInstructions.dll", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void AddByteToByteVector(byte* srcAddr, byte* dstAddr, int numOfElemsToAdd);
 
+        /// <summary>
+        /// Adds two 8-bit gray images.
+        /// <para>Source and destination image must have the size.</para>
+        /// </summary>
+        /// <param name="src">Source image.</param>
+        /// <param name="dst">Destination image.</param>
+        /// <param name="srcOffset">The point in source image.</param>
         public static void AddTo(this Image<Gray, byte> src, Image<Gray, byte> dst, Point srcOffset)
         {
             Debug.Assert(src.Width == dst.Width && src.Height == dst.Height);
@@ -44,10 +61,22 @@ namespace LINE2D
             }
         }
 
+        /// <summary>
+        /// Adds 8-bit to 16-bit vector using SIMD instructions.
+        /// </summary>
+        /// <param name="srcAddr">Source address.</param>
+        /// <param name="dstAddr">Destination address.</param>
+        /// <param name="numOfElemsToAdd">Number of elements to add.</param>
         [SuppressUnmanagedCodeSecurity]
         [DllImport("SIMDArrayInstructions.dll", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void AddByteToShortVector(byte* srcAddr, short* dstAddr, int numOfElemsToAdd);
 
+        /// <summary>
+        /// Adds 8-bit gray image to 16-bit destination image.
+        /// <para>Source and destination image must have the size.</para>
+        /// </summary>
+        /// <param name="src">Source image.</param>
+        /// <param name="dst">Destination image.</param>
         public static void AddTo(this Image<Gray, byte> src, Image<Gray, short> dst)
         {
             Debug.Assert(src.Width == dst.Width && src.Height == dst.Height);
@@ -71,6 +100,9 @@ namespace LINE2D
             }
         }
 
+        /// <summary>
+        /// Initializes SIMD arithmetics by adding unmanaged library directory to the search path.
+        /// </summary>
         static SIMDArithemtics()
         {
             Platform.AddDllSearchPath();

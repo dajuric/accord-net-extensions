@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for copying image data by using masks.
+    /// </summary>
     public static class ConditionalCopy
     {
         delegate void ConditionalCopyFunc(IImage image, IImage destImage, Image<Gray, byte> mask);
@@ -21,6 +24,7 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Copies values from source to destination image using mask. Destination values where mask == 0 are not erased!.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="destImg">Destination image</param>
         /// <param name="mask">Mask. Color locations that need to be copied must be set to !=0 in mask.</param>
         public static void CopyTo<TColor, TDepth>(this Image<TColor, TDepth> img, Image<TColor, TDepth> destImg, Image<Gray, byte> mask)
@@ -30,6 +34,12 @@ namespace Accord.Extensions.Imaging
             CopyTo((IImage)img, destImg, mask);
         }
 
+        /// <summary>
+        /// Copies values from source to destination image using mask. Destination values where mask == 0 are not erased!.
+        /// </summary>
+        /// <param name="img">Image.</param>
+        /// <param name="destImg">Destination image</param>
+        /// <param name="mask">Mask. Color locations that need to be copied must be set to !=0 in mask.</param>
         public static void CopyTo(this IImage img, IImage destImg, Image<Gray, byte> mask)
         {
             if (img.Size != mask.Size || img.Size != destImg.Size)

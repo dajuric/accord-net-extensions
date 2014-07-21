@@ -186,9 +186,10 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Performs bitwise NOT operation on image.
         /// </summary>
-        /// <param name="inPlace">Perfom this operation on original image or not.</param>
-        /// <param name="mask">Execuute this operation only where mask != 0.</param>
-        /// <returns>Processed image. If <see cref="inPlace"/> is set to true returned value can be discarded.</returns>
+        /// <param name="img">Image.</param>
+        /// <param name="inPlace">Perform this operation on original image or not.</param>
+        /// <param name="mask">Execute this operation only where mask != 0.</param>
+        /// <returns>Processed image. If <paramref name="inPlace"/> is set to true returned value can be discarded.</returns>
         public static Image<TColor, byte> Not<TColor>(this Image<TColor, byte> img, bool inPlace = false, Image<Gray, byte> mask = null)
             where TColor : IColor
         {
@@ -198,9 +199,10 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Performs bitwise NOT operation on image.
         /// </summary>
-        /// <param name="inPlace">Perfom this operation on original image or not.</param>
-        /// <param name="mask">Execuute this operation only where mask != 0.</param>
-        /// <returns>Processed image. If <see cref="inPlace"/> is set to true returned value can be discarded.</returns>
+        /// <param name="img">Image.</param>
+        /// <param name="inPlace">Perform this operation on original image or not.</param>
+        /// <param name="mask">Execute this operation only where mask != 0.</param>
+        /// <returns>Processed image. If <paramref name="inPlace"/> is set to true returned value can be discarded.</returns>
         public static Image<TColor, short> Not<TColor>(this Image<TColor, short> img, bool inPlace = false, Image<Gray, byte> mask = null)
           where TColor : IColor
         {
@@ -210,9 +212,10 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Performs bitwise NOT operation on image.
         /// </summary>
-        /// <param name="inPlace">Perfom this operation on original image or not.</param>
-        /// <param name="mask">Execuute this operation only where mask != 0.</param>
-        /// <returns>Processed image. If <see cref="inPlace"/> is set to true returned value can be discarded.</returns>
+        /// <param name="img">Image.</param>
+        /// <param name="inPlace">Perform this operation on original image or not.</param>
+        /// <param name="mask">Execute this operation only where mask != 0.</param>
+        /// <returns>Processed image. If <paramref name="inPlace"/> is set to true returned value can be discarded.</returns>
         public static Image<TColor, int> Not<TColor>(this Image<TColor, int> img, bool inPlace = false, Image<Gray, byte> mask = null)
            where TColor : IColor
         {

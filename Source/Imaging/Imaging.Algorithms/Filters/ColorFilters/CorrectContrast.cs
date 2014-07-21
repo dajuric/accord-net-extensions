@@ -2,12 +2,16 @@
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for contrast correction.
+    /// </summary>
     public static class CorrectContrastExtensions
     {
         /// <summary>
         /// Adjusts pixels' contrast value by increasing RGB values of bright pixel and decreasing
         /// pixel values of dark pixels (or vise versa if contrast needs to be decreased).
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="factor">Factor which is used to adjust contrast. Factor values greater than
         /// 0 increase contrast making light areas lighter and dark areas darker. Factor values
         /// less than 0 decrease contrast - decreasing variety of contrast.</param>
@@ -22,6 +26,7 @@ namespace Accord.Extensions.Imaging
         /// Adjusts pixels' contrast value by increasing RGB values of bright pixel and decreasing
         /// pixel values of dark pixels (or vise versa if contrast needs to be decreased).
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="factor">Factor which is used to adjust contrast. Factor values greater than
         /// 0 increase contrast making light areas lighter and dark areas darker. Factor values
         /// less than 0 decrease contrast - decreasing variety of contrast.</param>
@@ -37,6 +42,7 @@ namespace Accord.Extensions.Imaging
         /// Adjusts pixels' contrast value by increasing RGB values of bright pixel and decreasing
         /// pixel values of dark pixels (or vise versa if contrast needs to be decreased).
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="factor">Factor which is used to adjust contrast. Factor values greater than
         /// 0 increase contrast making light areas lighter and dark areas darker. Factor values
         /// less than 0 decrease contrast - decreasing variety of contrast.</param>

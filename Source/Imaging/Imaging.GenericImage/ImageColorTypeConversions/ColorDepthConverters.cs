@@ -12,6 +12,9 @@ namespace Accord.Extensions.Imaging.Converters
     {
         static Type[] SupportedPrimitiveTypes = new Type[] { typeof(byte), typeof(short), typeof(int), typeof(float), typeof(double) };
 
+        /// <summary>
+        /// Registers default color and depth conversions.
+        /// </summary>
         public static void Initialize()
         {
             registerDepthConverters();

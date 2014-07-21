@@ -3,6 +3,9 @@ using Accord.Extensions.Imaging.Helper;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for setting pixel values using other image as data source.
+    /// </summary>
     public static class PixelSetter
     {
         /// <summary>
@@ -17,6 +20,11 @@ namespace Accord.Extensions.Imaging
             SetValue((IImage)img, srcDataImg);
         }
 
+        /// <summary>
+        /// Sets image pixels.
+        /// </summary>
+        /// <param name="img">Destination image.</param>
+        /// <param name="srcDataImg">Source image.</param>
         public static void SetValue(this IImage img, IImage srcDataImg)
         {
             if (img.Size != srcDataImg.Size)

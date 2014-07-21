@@ -2,15 +2,36 @@
 
 namespace LINE2D
 {
+    /// <summary>
+    /// Line2D feature.
+    /// </summary>
     public class Feature : ICloneable
     {
+        /// <summary>
+        /// X location.
+        /// </summary>
         public int X;
+        /// <summary>
+        /// Y location.
+        /// </summary>
         public int Y;
+        /// <summary>
+        /// Quantized angle - binary representation (1, 2, 4,...).
+        /// </summary>
         public readonly byte AngleBinaryRepresentation;
+        /// <summary>
+        /// Quantized angle index.
+        /// </summary>
         public readonly byte AngleIndex;
 
         private Feature() { }
 
+        /// <summary>
+        /// Creates new feature.
+        /// </summary>
+        /// <param name="x">X location.</param>
+        /// <param name="y">Y location.</param>
+        /// <param name="angleBinaryRepresentation">Angle - binary representation.</param>
         public Feature(int x, int y, byte angleBinaryRepresentation)
         {
             this.X = x;
@@ -19,6 +40,10 @@ namespace LINE2D
             this.AngleIndex = GetAngleIndex(angleBinaryRepresentation);
         }
 
+        /// <summary>
+        /// Clones the feature.
+        /// </summary>
+        /// <returns></returns>
         public Feature Clone()
         {
             return new Feature(X, Y, AngleBinaryRepresentation);
@@ -49,6 +74,11 @@ namespace LINE2D
                 return numRightShifts;
         }
 
+        /// <summary>
+        /// Gets the binary representation of the quantized angle.
+        /// </summary>
+        /// <param name="angleIndex">Quantized angle index.</param>
+        /// <returns>The binary representation of the quantized angle</returns>
         public static byte GetAngleBinaryForm(byte angleIndex)
         {
             return (byte)(1 << angleIndex);

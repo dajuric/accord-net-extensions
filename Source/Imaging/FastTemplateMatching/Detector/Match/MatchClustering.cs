@@ -4,6 +4,9 @@ using MoreLinq;
 
 namespace LINE2D
 {
+    /// <summary>
+    /// LINE2D match grouping algorithm.
+    /// </summary>
     public class MatchClustering : GroupMatching<Match>
     {
         /// <summary>
@@ -17,6 +20,11 @@ namespace LINE2D
 
         Func<Match, double> compareByFunc = null;
 
+        /// <summary>
+        /// Creates new LINE2D match clustering object.
+        /// </summary>
+        /// <param name="minimumNeighbors">Minimum number of objects for a cluster.</param>
+        /// <param name="threshold">Min overlap.</param>
         public MatchClustering(int minimumNeighbors = 1, double threshold = 0.2)
            :base(null, AreMatchesNear, minimumNeighbors, threshold)
         {
@@ -39,8 +47,8 @@ namespace LINE2D
         /// Groups near matches into a group.
         /// </summary>
         /// 
-        /// <param name="strucutures">The structures to group.</param>
-        /// <param name="userCompareBy">User defined comparasion function. If null, the default will be used.</param>
+        /// <param name="strucutures">The objects to group.</param>
+        /// <param name="userCompareBy">User defined comparison function. If null, the default will be used.</param>
         /// 
         public GroupMatch<Match>[] Group(Match[] strucutures, Func<Match, double> userCompareBy = null)
         {

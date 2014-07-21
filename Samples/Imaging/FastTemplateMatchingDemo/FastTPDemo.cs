@@ -96,7 +96,7 @@ namespace FastTemplateMatchingDemo
             preprocessTime = stopwatch.ElapsedMilliseconds;
 
             stopwatch.Restart();
-            List<Match> matches = Detector.MatchTemplates(linPyr, templPyrs, threshold);
+            List<Match> matches = linPyr.MatchTemplates(templPyrs, threshold);
             stopwatch.Stop(); matchTime = stopwatch.ElapsedMilliseconds;
 
             var matchGroups = new MatchClustering(minDetectionsPerGroup).Group(matches.ToArray());

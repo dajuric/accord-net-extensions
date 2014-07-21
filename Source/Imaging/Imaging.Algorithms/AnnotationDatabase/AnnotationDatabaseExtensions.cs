@@ -8,6 +8,9 @@ using RangeF = AForge.Range;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for the annotation database type.
+    /// </summary>
     public static class AnnotationDatabaseExtensions
     {
         /// <summary>
@@ -52,6 +55,8 @@ namespace Accord.Extensions.Imaging
         /// Gets annotations from all images (flattens the database).
         /// </summary>
         /// <param name="data">Database.</param>
+        /// <param name="imgKeySelector">Image key selector function. Returns true if the provided image key should be selected.</param>
+        /// <param name="annotationSelector">Annotation selector function. Returns true if the provided annotation should be selected.</param>
         /// <returns>Annotations from all images.</returns>
         public static IEnumerable<KeyValuePair<string, Annotation>> GetAnnotations(this Database data, Func<string, bool> imgKeySelector, Func<Annotation, bool> annotationSelector)
         {
@@ -73,6 +78,12 @@ namespace Accord.Extensions.Imaging
             return GetAnnotations(data, (_) => true, (_) => true);
         }
 
+        /// <summary>
+        /// Modifies databse annotations and creates new database.
+        /// </summary>
+        /// <param name="data">Database.</param>
+        /// <param name="modifierFunc">Annotation modifier function.</param>
+        /// <returns>New database with modified annotations.</returns>
         public static Database ModifyAnnotations(this Database data, Func<Annotation, Annotation> modifierFunc)
         {
             var newData = new Database();
@@ -91,6 +102,15 @@ namespace Accord.Extensions.Imaging
             return newData;
         }
 
+        //TODO: enable support for arbitrary polygons.
+        /// <summary>
+        /// Randomizes locations of the annotations. The annotations are assumed to be rectangles. (support for arbitrary polygons will be enabled in one of the future releases).
+        /// </summary>
+        /// <param name="data">Database.</param>
+        /// <param name="locationRand">Location randomization range.</param>
+        /// <param name="scaleRand">Scale randomization range.</param>
+        /// <param name="nRandsPerSample">The number of generated (randomized) samples per sample.</param>
+        /// <returns>New database with generated randomized annotations.</returns>
         public static Database Randomize(this Database data, Pair<RangeF> locationRand, Pair<RangeF> scaleRand, int nRandsPerSample)
         {
             var newData = new Database();
@@ -122,8 +142,8 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Processes annotated samples in the following way:
         /// <para>   1) Inflates sample bounding rectangle.</para>
-        /// <para>   2) Randomizes rectangle and creates <see cref="nRandsPerSample"/> rectangles by using specified parameters: <see cref="locationRand"/>, <see cref="scaleRand"/>.</para>
-        /// <para>   3) Rescales rectangle so that its scale satisfies specified <see cref="widthHeightRatio"/> ratio.</para>
+        /// <para>   2) Randomizes rectangle and creates <paramref name="nRandsPerSample"/> rectangles by using specified parameters: <paramref name="locationRand"/>, <paramref name="scaleRand"/>.</para>
+        /// <para>   3) Rescales rectangle so that its scale satisfies specified <paramref name="widthHeightRatio"/> ratio.</para>
         /// <para>Please note that polygons are treated like rectangles (a bounding rectangle is taken).</para>
         /// </summary>
         /// <param name="data">Database</param>
@@ -170,7 +190,7 @@ namespace Accord.Extensions.Imaging
 
         /// <summary>
         /// Exports annotation database to list of images and list of annotation bounding rectangles.
-        /// <para>Returns list of images and bounding rectangles have the same length. Images are stored as references.</para>
+        /// <para>Returns list of images and bounding rectangles. The two lists have the same length. Images are stored as references.</para>
         /// </summary>
         /// <typeparam name="TImage">Image type.</typeparam>
         /// <param name="data">Database.</param>
@@ -198,6 +218,21 @@ namespace Accord.Extensions.Imaging
                 }
             }
         }
+
+        /// <summary>
+        /// Exports annotation database to list of images and list of annotation bounding rectangles.
+        /// <para>Returns list of images and bounding rectangles for each image. Images are stored as references.</para>
+        /// </summary>
+        /// <typeparam name="TImage">Image type.</typeparam>
+        /// <param name="data">Database.</param>
+        /// <param name="imageGrabberFunc">
+        /// Image grabbing function.
+        /// Parameters: image key
+        /// Returns: image
+        /// </param>
+        /// <param name="images">List of images.</param>
+        /// <param name="boundingRects">list of annotations' bounding rectangles.</param>
+        /// <param name="onDoneSampleLoad">Action that is executed on each image load. Parameter is progress [0..1].</param>
         public static void Export<TImage>(this Database data, Func<string, TImage> imageGrabberFunc, out List<TImage> images, out List<List<Rectangle>> boundingRects, Action<float> onDoneSampleLoad = null)
             where TImage : IImage
         {

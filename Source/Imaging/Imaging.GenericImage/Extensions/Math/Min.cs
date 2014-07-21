@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for method Min(a, b) applicable on an image.
+    /// </summary>
     public static class MinExtensions
     {
         delegate void MinFunc(IImage img1, IImage img2, IImage maxImg);

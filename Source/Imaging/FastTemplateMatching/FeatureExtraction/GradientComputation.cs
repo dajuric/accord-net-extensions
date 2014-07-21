@@ -6,8 +6,19 @@ using Accord.Extensions.Math;
 
 namespace LINE2D
 {
+    /// <summary>
+    /// Contains methods for gray and color gradient magnitude and  orientation computation.
+    /// </summary>
     public unsafe static class GradientComputation
     {
+        /// <summary>
+        /// Computes gradient orientations from the color image. Orientation from the channel which has the maximum gradient magnitude is taken as the orientation for a location.
+        /// </summary>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <param name="frame">Image.</param>
+        /// <param name="magnitudeSqrImage">Squared magnitude image.</param>
+        /// <param name="minValidMagnitude">Minimal valid magnitude.</param>
+        /// <returns>Orientation image (angles are in degrees).</returns>
         public static Image<Gray, int> Compute<TColor>(Image<TColor, Byte> frame, out Image<Gray, int> magnitudeSqrImage, int minValidMagnitude)
             where TColor: IColor3
         {
@@ -80,6 +91,13 @@ namespace LINE2D
             return orientImg;
         }
 
+        /// <summary>
+        /// Computes gradient orientations from the gray image.
+        /// </summary>
+        /// <param name="frame">Image.</param>
+        /// <param name="magnitudeSqrImage">Squared magnitude image.</param>
+        /// <param name="minValidMagnitude">Minimal valid magnitude.</param>
+        /// <returns>Orientation image (angles are in degrees).</returns>
         public static Image<Gray, int> Compute(Image<Gray, Byte> frame, out Image<Gray, int> magnitudeSqrImage, int minValidMagnitude)
         {
             int minValidMagSqr = minValidMagnitude * minValidMagnitude;

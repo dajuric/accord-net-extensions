@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for image channel splitting.
+    /// </summary>
     public static class ChannelSplitter
     {
         delegate void SplitImage(IImage srcImg, IImage[] channels, int[] channelIndicies);

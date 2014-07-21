@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Accord.Extensions.Imaging.Filters
 {
+    /// <summary>
+    /// Nearest-neighbor interpolation.
+    /// <para>Experimental class.</para> //TODO: finish
+    /// </summary>
     public static class ResizeNearsetNeighbur
     {
         delegate void ResizeFunc(IImage image, IImage destImage);
@@ -18,23 +22,37 @@ namespace Accord.Extensions.Imaging.Filters
             resizeFuncs.Add(typeof(double), conditionalCopyDouble);*/
         }
 
-        public static Image<TColor, TDepth> Resize<TColor, TDepth>(this Image<TColor, TDepth> img, Size newSize)
+        /// <summary>
+        /// Resizes the input image by using nearest neighbor interpolation.
+        /// </summary>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <param name="img">Image.</param>
+        /// <param name="newSize">New image size.</param>
+        /// <returns>Resized image.</returns>
+        public static Image<TColor, float> ResizeNN<TColor>(Image<TColor, float> img, Size newSize)
+            where TColor : IColor
+        {
+            return ResizeNN<TColor, float>(img, newSize);
+        }
+
+        /// <summary>
+        /// Resizes the input image by using nearest neighbor interpolation.
+        /// </summary>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">Image.</param>
+        /// <param name="newSize">New image size.</param>
+        /// <returns>Resized image.</returns>
+        internal static Image<TColor, TDepth> ResizeNN<TColor, TDepth>(Image<TColor, TDepth> img, Size newSize)
             where TColor : IColor
             where TDepth : struct
         {
             var resizedIm = new Image<TColor, TDepth>(newSize);
-            Resize((IImage)img, resizedIm);
+            ResizeNN((IImage)img, resizedIm);
             return resizedIm;
         }
 
-        public static void Resize<TColor, TDepth>(this Image<TColor, TDepth> img, Image<TColor, TDepth> destImg)
-            where TColor:IColor
-            where TDepth:struct
-        {
-            Resize((IImage)img, destImg);
-        }
-
-        internal static void Resize(this IImage img, IImage destImg)
+        internal static void ResizeNN(IImage img, IImage destImg)
         {
             if (img.ColorInfo.Equals(destImg.ColorInfo, ColorInfo.ComparableParts.Castable) == false)
                 throw new Exception("Image and dest image must be at least castable (the same number of channels, the same channel type)!");

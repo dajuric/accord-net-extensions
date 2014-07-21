@@ -8,21 +8,49 @@ using Accord.Extensions.Imaging;
 
 namespace LINE2D
 {
+    /// <summary>
+    /// LINE2D template. The class contains methods for template extraction from an image.
+    /// </summary>
     public unsafe class ImageTemplate: ITemplate, IXmlSerializable
     {
+        /// <summary>
+        /// Creates an empty image template. Requires initialization.
+        /// </summary>
         public ImageTemplate() { }
 
+        /// <summary>
+        /// Gets template features.
+        /// </summary>
         public Feature[] Features { get; private set; }
+        /// <summary>
+        /// Gets template size (features bounding box).
+        /// </summary>
         public Size Size { get; private set; }
+        /// <summary>
+        /// Gets class label for the template.
+        /// </summary>
         public string  ClassLabel { get; private set; }
 
-        public void Initialize(Feature[] features, Size size, string label)
+        /// <summary>
+        /// Initializes template. Used during de-serialization.
+        /// </summary>
+        /// <param name="features">Collection of features.</param>
+        /// <param name="size">Template size.</param>
+        /// <param name="classLabel">Template class label.</param>
+        public void Initialize(Feature[] features, Size size, string classLabel)
         {
             this.Features = features;
             this.Size = size;
-            this.ClassLabel = label;
+            this.ClassLabel = classLabel;
         }
 
+        /// <summary>
+        /// Creates template from the input image by using provided parameters.
+        /// </summary>
+        /// <param name="sourceImage">Input image.</param>
+        /// <param name="minFeatureStrength">Minimum gradient value for the feature.</param>
+        /// <param name="maxNumberOfFeatures">Maximum number of features per template. The features will be extracted so that their locations are semi-uniformly spread.</param>
+        /// <param name="classLabel">Template class label.</param>
         public virtual void Initialize(Image<Bgr, byte> sourceImage, int minFeatureStrength, int maxNumberOfFeatures, string classLabel)
         {
             Image<Gray, int> sqrMagImg;
@@ -33,6 +61,13 @@ namespace LINE2D
             Initialize(orientationImg, maxNumberOfFeatures, classLabel, featureImportanceFunc);
         }
 
+        /// <summary>
+        /// Creates template from the input image by using provided parameters.
+        /// </summary>
+        /// <param name="sourceImage">Input image.</param>
+        /// <param name="minFeatureStrength">Minimum gradient value for the feature.</param>
+        /// <param name="maxNumberOfFeatures">Maximum number of features per template. The features will be extracted so that their locations are semi-uniformly spread.</param>
+        /// <param name="classLabel">Template class label.</param>
         public virtual void Initialize(Image<Gray, byte> sourceImage, int minFeatureStrength, int maxNumberOfFeatures, string classLabel)
         {
             Image<Gray, int> sqrMagImg;
@@ -43,23 +78,34 @@ namespace LINE2D
             Initialize(orientationImg, maxNumberOfFeatures, classLabel, featureImportanceFunc);
         }
 
-        protected Rectangle boundingRect = Rectangle.Empty;
+        /// <summary>
+        /// Template bounding rectangle.
+        /// </summary>
+        protected Rectangle BoundingRect = Rectangle.Empty;
+
+        /// <summary>
+        /// Creates template from the input image by using provided parameters.
+        /// </summary>
+        /// <param name="orientation">Orientation image.</param>
+        /// <param name="maxNumberOfFeatures">Maximum number of features per template. The features will be extracted so that their locations are semi-uniformly spread.</param>
+        /// <param name="classLabel">Template class label.</param>
+        /// <param name="featureImportanceFunc">Function which returns feature's strength.</param>
         public void Initialize(Image<Gray, int> orientation, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
             maxNumberOfFeatures = Math.Max(0, Math.Min(maxNumberOfFeatures, GlobalParameters.MAX_NUM_OF_FEATURES));
             featureImportanceFunc = (featureImportanceFunc != null) ? featureImportanceFunc: (feature) => 0;
 
-            Image<Gray, Byte> importantQuantizedOrient = FeatureMap.Caclulate(orientation, 0);
+            Image<Gray, Byte> importantQuantizedOrient = FeatureMap.Calculate(orientation, 0);
             List<Feature> features = ExtractTemplate(importantQuantizedOrient, maxNumberOfFeatures, featureImportanceFunc);
 
-            boundingRect = GetBoundingRectangle(features);
+            BoundingRect = GetBoundingRectangle(features);
             //if (boundingRect.X == 1 && boundingRect.Y  == 1 && boundingRect.Width == 18)
             //    Console.WriteLine();
 
             for (int i = 0; i < features.Count; i++)
             {
-                features[i].X -= boundingRect.X;
-                features[i].Y -= boundingRect.Y;
+                features[i].X -= BoundingRect.X;
+                features[i].Y -= BoundingRect.Y;
 
                 //if(features[i].X < 0 || features[i].Y < 0)      
                 //    Console.WriteLine();
@@ -71,7 +117,7 @@ namespace LINE2D
 
 
             this.Features = features.ToArray();
-            this.Size = boundingRect.Size;
+            this.Size = BoundingRect.Size;
             this.ClassLabel = classLabel;
         }
 
@@ -89,7 +135,7 @@ namespace LINE2D
             {
                 for (int col = 0; col < imgWidth; col++)
                 {
-                    if (orientImgPtr[col] == 0) //quantized oerientations are: [1,2,4,8,...,128];
+                    if (orientImgPtr[col] == 0) //quantized orientations are: [1,2,4,8,...,128];
                         continue;
 
                     var candidate = new Feature(x: col, y: row, angleBinaryRepresentation: orientImgPtr[col]);
@@ -185,9 +231,17 @@ namespace LINE2D
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generates an object from its XML representation.
+        /// </summary>
+        /// <param name="reader">Reader's stream.</param>
         public virtual void ReadXml(XmlReader reader)
         {}
 
+        /// <summary>
+        /// Generates XML representation for the object.
+        /// </summary>
+        /// <param name="writer">Writers stream.</param>
         public virtual void WriteXml(XmlWriter writer)
         {}
 

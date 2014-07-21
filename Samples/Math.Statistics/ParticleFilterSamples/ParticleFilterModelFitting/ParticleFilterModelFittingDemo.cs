@@ -102,7 +102,7 @@ namespace ParticleFilterModelFitting
             IDictionary<ModelParams, IEnumerable<ModelParticle>> nonDistinctMembers;
             var uniqueParticles = getDistinctParticles(particles, out nonDistinctMembers); //get distint particles (there is no need to match the same templates)
 
-            var matches = Detector.MatchTemplates(linPyr.PyramidalMaps.First(), uniqueParticles, MATCHING_MIN_THRESHOLD);
+            var matches = linPyr.PyramidalMaps.First().MatchTemplates(uniqueParticles, MATCHING_MIN_THRESHOLD);
             if (matches.Count == 0)
                 return;
 

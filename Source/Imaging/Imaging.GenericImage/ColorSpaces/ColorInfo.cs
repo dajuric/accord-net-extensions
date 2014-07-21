@@ -138,6 +138,12 @@ namespace Accord.Extensions.Imaging
             numberOfChannels = channelTypes.Length;
         }
 
+        /// <summary>
+        /// Determines whether the object is equal compared to the specified object. 
+        /// A default comparison is used. Please see overloads.
+        /// </summary>
+        /// <param name="other">Other object.</param>
+        /// <returns>True if two objects are equal, false otherwise.</returns>
         public bool Equals(ColorInfo other)
         {
             return Equals(other, ComparableParts.Default);

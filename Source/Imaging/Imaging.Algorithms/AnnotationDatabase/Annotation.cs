@@ -18,7 +18,7 @@ namespace Accord.Extensions.Imaging
         public string Label { get; set; }
         /// <summary>
         /// Gets or sets the object contour.
-        /// <para>See <see cref="Recatngle.Vertices"/> to transform rectangle into set of points.</para>
+        /// <para>See rectangle to vertices extension to transform rectangle into set of points.</para>
         /// </summary>
         public Point[] Polygon { get; set; }
         /// <summary>
@@ -26,13 +26,17 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         public object Tag { get; set; }
 
+        /// <summary>
+        /// Clones annotation. Tag is cloned only is implements <see cref="System.ICloneable"/> interface.
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             return new Annotation 
             {
                 Label = this.Label,
                 Polygon = (Point[])this.Polygon.Clone(),
-                Tag = this.Tag
+                Tag = this.Tag is ICloneable ? ((ICloneable)this.Tag).Clone() : this.Tag
             };
         }
     }

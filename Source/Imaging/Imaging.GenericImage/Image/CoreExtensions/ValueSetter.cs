@@ -5,6 +5,9 @@ using Accord.Extensions.Imaging.Helper;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extensions for setting image color pixel values.
+    /// </summary>
     public static class ValueSetter
     {
         delegate void SetValueFunc(IImage image, Array color);

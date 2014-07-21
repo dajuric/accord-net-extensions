@@ -2,6 +2,9 @@
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Gaussian smooth extensions.
+    /// </summary>
     public static class SmoothGaussianExtensions
     {
         /// <summary>

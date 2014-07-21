@@ -4,11 +4,15 @@ using AForge.Imaging.Filters;
 
 namespace Accord.Extensions.Imaging.Filters
 {
+    /// <summary>
+    /// Contains wavelet transform extensions.
+    /// </summary>
     public static class WaveletTransformExtensions
     {
         /// <summary>
         /// Applies wavelet transform filter (Accord.NET).
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="wavelet">A wavelet function.</param>
         /// <param name="backward">True to perform backward transform, false otherwise.</param>
         /// <returns>Transformed image.</returns>
@@ -20,6 +24,7 @@ namespace Accord.Extensions.Imaging.Filters
         /// <summary>
         /// Applies wavelet transform filter (Accord.NET).
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="wavelet">A wavelet function.</param>
         /// <param name="backward">True to perform backward transform, false otherwise.</param>
         /// <returns>Transformed image.</returns>
@@ -31,6 +36,7 @@ namespace Accord.Extensions.Imaging.Filters
         /// <summary>
         /// Applies wavelet transform filter (Accord.NET).
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="wavelet">A wavelet function.</param>
         /// <param name="backward">True to perform backward transform, false otherwise.</param>
         /// <returns>Transformed image.</returns>

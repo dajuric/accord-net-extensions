@@ -5,19 +5,29 @@ namespace LINE2D
 {
     /// <summary>
     /// Orientation feature map.
-    /// <para>Feature map creatign has 3 stages:</para>
+    /// <para>Feature map creation has 3 stages:</para>
     /// <para>     1) Orientation quantization: [0..360] => [0..NUM_OF_QUNATIZED_ORIENTATIONS].</para>
-    /// <para>     2) Filtering quantized orientations (neigborhood must be the same oriented) 
+    /// <para>     2) Filtering quantized orientations (neighborhood must be the same oriented) 
     ///               and representing them in a binary form: [0..NUM_OF_QUNATIZED_ORIENTATIONS] => [1, 2, 4, 8, 16...]</para>
-    /// <para>     3) Spreading binary represented orientations to local neigborhood. This is a trade-off between accuracy and the noise resistance.</para>
+    /// <para>     3) Spreading binary represented orientations to local neighborhood. This is a trade-off between accuracy and the noise resistance.</para>
     /// </summary>
+    /// <remarks>
+    /// See: <a href="http://cvlabwww.epfl.ch/~lepetit/papers/hinterstoisser_pami11.pdf" />
+    /// </remarks>
     public unsafe static class FeatureMap
     {
+        /// <summary>
+        /// Marker for invalid orientation (magnitude too small)
+        /// </summary>
         public const int INVALID_ORIENTATION = 360 + 1; //used where magnitude to small; 360+1 => look quantization table
+
+        /// <summary>
+        /// Marker for invalid quantized orientation (magnitude too small)
+        /// </summary>
         public static byte INVALID_QUANTIZED_ORIENTATION = GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS + 1;
 
         /// <summary>
-        /// Angle qunatization lookup table. It transforms [0..360] => [0..NUM_OF_QUNATIZED_ORIENTATIONS-1].
+        /// Angle quantization lookup table. It transforms [0..360] => [0..NUM_OF_QUNATIZED_ORIENTATIONS-1].
         /// <para>For input value INVALID_ORIENTATION INVALID_QUANTIZED_ORIENTATION will be returned. 
         /// This special value is needed during feature map building to discard pixels which have small magnitude.</para>
         /// </summary>
@@ -206,7 +216,14 @@ namespace LINE2D
 
         #endregion
 
-        public static Image<Gray, byte> Caclulate(Image<Gray, int> orientationDegImg, int spreadNeigborhood, int minSameOrientations = 4)
+        /// <summary>
+        /// Calculates features map. First orientations are quantized, the stable ones are selected and then they are spread.
+        /// </summary>
+        /// <param name="orientationDegImg">Orientation map. Each location represents angle in degrees [0..360].</param>
+        /// <param name="spreadNeigborhood">Spreading neighborhood. If 1 no spreading is done.</param>
+        /// <param name="minSameOrientations">Minimal number of the same orientations in [3 x 3] neighborhood to proclaim the orientation stable.</param>
+        /// <returns>Feature map.</returns>
+        public static Image<Gray, byte> Calculate(Image<Gray, int> orientationDegImg, int spreadNeigborhood, int minSameOrientations = 4)
         {
             Image<Gray, Byte> quantizedOrient = FeatureMap.QuantizeOrientations(orientationDegImg);
             Image<Gray, Byte> importantQuantizedOrient = FeatureMap.RetainImportantQuantizedOrientations(quantizedOrient, minSameOrientations);

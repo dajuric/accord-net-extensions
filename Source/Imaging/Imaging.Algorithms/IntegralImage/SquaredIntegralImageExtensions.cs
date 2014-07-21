@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Accord.Extensions.Imaging.IntegralImage
 {
+    /// <summary>
+    /// Squared integral image extensions.
+    /// </summary>
     public static class SquaredIntegralImageExtensions
     {
         delegate void MakeIntegralFunc(IImage src, IImage dest);
@@ -19,16 +22,31 @@ namespace Accord.Extensions.Imaging.IntegralImage
 
         #region Extensions Make Integral
 
+        /// <summary>
+        /// Creates squared integral image.
+        /// </summary>
+        /// <param name="img">Image.</param>
+        /// <returns>Integral image.</returns>
         public static Image<Gray, int> MakeSquaredIntegral(this Image<Gray, byte> img)
         {
             return makeIntegral(img) as Image<Gray, int>;
         }
 
+        /// <summary>
+        /// Creates squared integral image.
+        /// </summary>
+        /// <param name="img">Image.</param>
+        /// <returns>Integral image.</returns>
         public static Image<Gray, float> MakeSquaredIntegral(this Image<Gray, float> img)
         {
             return makeIntegral(img) as Image<Gray, float>;
         }
 
+        /// <summary>
+        /// Creates squared integral image.
+        /// </summary>
+        /// <param name="img">Image.</param>
+        /// <returns>Integral image.</returns>
         public static Image<Gray, double> MakeSquaredIntegral(this Image<Gray, double> img)
         {
             return makeIntegral(img) as Image<Gray, double>;

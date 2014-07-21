@@ -6,8 +6,14 @@ using PointF = AForge.Point;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Provides methods for parallel spatial convolution.
+    /// </summary>
     public static class ParallelSpatialConvolution //TODO: int, double implementation (to remove additional converting e.g. <Bgr, int> -> <Bgr, int> -> Convolve -> <Bgr, int>
     {
+        /// <summary>
+        /// Supported image types for spatial convolution.
+        /// </summary>
         public static readonly Type[] SupportedTypes = new Type[] { /*typeof(int),*/ typeof(float)/*, typeof(double)*/ };
 
         delegate void ConvolutionFunc(IImage src, Rectangle sourceWorkingArea, IImage dest, Point destLoc, IImage kernel);
@@ -19,6 +25,14 @@ namespace Accord.Extensions.Imaging
             convolutionFuncs.Add(typeof(float), convolveFloat);
         }
 
+        /// <summary>
+        /// Convolves the image with the provided kernels.
+        /// </summary>
+        /// <typeparam name="TColor">Color type.</typeparam>
+        /// <param name="src">Source image.</param>
+        /// <param name="kernels">Kernels to convolve with.</param>
+        /// <param name="options">Border pixels resolvent options.</param>
+        /// <returns>Convolved image.</returns>
         public static Image<TColor, float> Convolve<TColor>(Image<TColor, float> src, Image<Gray, float>[] kernels, ConvolutionBorder options)
             where TColor : IColor
         {
@@ -37,7 +51,15 @@ namespace Accord.Extensions.Imaging
             return dest;
         }
 
-        public static void ConvolvePatch(IImage src, Rectangle srcArea, IImage kernel, IImage dest, bool convolveBorders = false)
+        /// <summary>
+        /// Convolves the image patch with the provided kernel.
+        /// </summary>
+        /// <param name="src">Source image.</param>
+        /// <param name="srcArea">Area of the image to convolve.</param>
+        /// <param name="kernel">Kernel to convolve with.</param>
+        /// <param name="dest">Destination image. It's size must be equal to the size of the specified area.</param>
+        /// <param name="convolveBorders">True if the borders should be convolved, false otherwise.</param>
+        public static void ConvolvePatch(IImage src, Rectangle srcArea, IImage kernel, IImage dest, bool convolveBorders = false) //TODO: revise whether it should be used or not.
         {
             ConvolutionFunc convolutionFunc = null;
             if (convolutionFuncs.TryGetValue(src.ColorInfo.ChannelType, out convolutionFunc) == false)

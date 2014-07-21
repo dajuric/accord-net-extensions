@@ -19,9 +19,17 @@ namespace Accord.Extensions.Imaging
         BorderMirror = 1
     }
 
+    /// <summary>
+    /// Provides extension methods for parallel image convolution.
+    /// The choice between spatial and frequency (FFT) convolution is automatically done (based on kernel size).
+    /// </summary>
     public static class ParallelConvolution
     {
-        public const int MIN_KERNEL_SIZE_FOR_FFT = 13 * 13; //for [7x7] kernel FFT should pay off but this area is increased (empirical)
+        /// <summary>
+        /// Minimal kernel size where FFT convolution will be applied instead of spatial.
+        /// <para>For [7x7] kernel FFT should pay off but this area is increased (empirical)</para>
+        /// </summary>
+        public const int MIN_KERNEL_SIZE_FOR_FFT = 13 * 13;
 
         #region Public Members
 

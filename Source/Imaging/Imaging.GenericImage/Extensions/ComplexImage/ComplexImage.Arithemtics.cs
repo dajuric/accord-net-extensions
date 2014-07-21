@@ -3,6 +3,9 @@ using Accord.Extensions.Math;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for working with images which color is complex number.
+    /// </summary>
     public static partial class ComplexImageExtensions
     {
         //Add - standard way
@@ -11,7 +14,9 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Multiplies two complex images. (imageA * imageB).
         /// </summary>
-        /// <param name="mask">If an mask is not null images are copied <see cref="Copy"/> where mask values are != 0</param>
+        /// <param name="imageA">First image.</param>
+        /// <param name="imageB">Second image.</param>
+        /// <param name="mask">If an mask is not null images are copied where mask values are != 0</param>
         /// <returns>Result image</returns>
         public unsafe static Image<Complex, TDepth> Mul<TDepth>(this Image<Complex, TDepth> imageA, Image<Complex, TDepth> imageB, Image<Gray, byte> mask = null) //TODO: CHECK
             where TDepth : struct
@@ -41,7 +46,9 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Divides two complex images. (imageA / imageB).
         /// </summary>
-        /// <param name="mask">If an mask is not null images are copied <see cref="Copy"/> where mask values are != 0</param>
+        /// <param name="imageA">First image.</param>
+        /// <param name="imageB">Second image.</param>
+        /// <param name="mask">If an mask is not null images are copied where mask values are != 0</param>
         /// <returns>Result image</returns>
         public unsafe static Image<Complex, TDepth> Div<TDepth>(this Image<Complex, TDepth> imageA, Image<Complex, TDepth> imageB, Image<Gray, byte> mask = null) //TODO: CHECK
             where TDepth : struct

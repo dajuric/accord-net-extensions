@@ -1,19 +1,31 @@
-﻿using System;
+﻿using Accord.Extensions;
+using Accord.Extensions.Imaging;
+using Accord.Extensions.Math.Geometry;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Accord.Extensions;
-using Accord.Extensions.Imaging;
-using Accord.Extensions.Math.Geometry;
 using Point = AForge.IntPoint;
 
 namespace LINE2D
 {
-    public unsafe class Detector
+    /// <summary>
+    /// Contains extensions for matching templates against <see cref="LinearizedMapPyramid"/> and <see cref="LinearizedMaps"/>.
+    /// <remarks>See <a href="http://cvlabwww.epfl.ch/~lepetit/papers/hinterstoisser_pami11.pdf"/> for details.</remarks>
+    /// </summary>
+    public static unsafe class LinearizedMemoryDetectorExtensions
     {
         #region TemplatePyrmaid matching (public)
 
-        public static List<Match> MatchTemplates(LinearizedMapPyramid linPyr, IEnumerable<ITemplatePyramid> templPyrs, int minMatchingPercentage, bool inParallel = true)
+        /// <summary>
+        /// Matches the provided pyramids of templates against the linearized memory maps pyramid.  
+        /// </summary>
+        /// <param name="linPyr">Linearized memory pyramid.</param>
+        /// <param name="templPyrs">Pyramids of templates.</param>
+        /// <param name="minMatchingPercentage">Minimum matching percentage [0..100].</param>
+        /// <param name="inParallel">True to match each template pyramid in parallel, sequentially otherwise.</param>
+        /// <returns>List of found matches.</returns>
+        public static List<Match> MatchTemplates(this LinearizedMapPyramid linPyr, IEnumerable<ITemplatePyramid> templPyrs, int minMatchingPercentage = 85, bool inParallel = true)
         {
             List<Match> matches = new List<Match>();
 
@@ -39,7 +51,14 @@ namespace LINE2D
             return matches;
         }
 
-        public static List<Match> MatchTemplate(LinearizedMapPyramid linPyr, ITemplatePyramid templPyr, int minMatchingPercentage)
+        /// <summary>
+        /// Matches the provided template pyramid against the linearized memory maps pyramid.  
+        /// </summary>
+        /// <param name="linPyr">Linearized memory pyramid.</param>
+        /// <param name="templPyr">Template pyramid.</param>
+        /// <param name="minMatchingPercentage">Minimum matching percentage [0..100].</param>
+        /// <returns>List of found matches.</returns>
+        public static List<Match> MatchTemplate(this LinearizedMapPyramid linPyr, ITemplatePyramid templPyr, int minMatchingPercentage = 85)
         {
             if (linPyr.PyramidalMaps.Length != templPyr.Templates.Length)
                 throw new Exception("Number of pyramids in linear pyramid must match the number of templates in template pyramid!" + "\n" + 
@@ -92,7 +111,15 @@ namespace LINE2D
 
         #region Template matching (public)
 
-        public static List<Match> MatchTemplates(LinearizedMaps linMaps, IEnumerable<ITemplate> templates, int minMatchingPercentage, bool inParallel = true)
+        /// <summary>
+        /// Matches the provided templates against the linear memory maps.
+        /// </summary>
+        /// <param name="linMaps">Linear maps.</param>
+        /// <param name="templates">Collections of templates.</param>
+        /// <param name="minMatchingPercentage">Minimum matching percentage [0..100].</param>
+        /// <param name="inParallel">True to match each template in parallel, sequentially otherwise.</param>
+        /// <returns>List of found matches.</returns>
+        public static List<Match> MatchTemplates(this LinearizedMaps linMaps, IEnumerable<ITemplate> templates, int minMatchingPercentage = 85, bool inParallel = true)
         {
             var searchArea = new Rectangle(new Point(), linMaps.ImageSize);
 
@@ -120,7 +147,15 @@ namespace LINE2D
             return matches;
         }
 
-        public static List<Match> MatchTemplate(LinearizedMaps linMaps, ITemplate template, Rectangle searchArea, int minMatchingPercentage)
+        /// <summary>
+        /// Matches the provided template against the linear memory maps.
+        /// </summary>
+        /// <param name="linMaps">Linear maps.</param>
+        /// <param name="template">Template.</param>
+        /// <param name="searchArea">Search area in the image.</param>
+        /// <param name="minMatchingPercentage">Minimum matching percentage [0..100].</param>
+        /// <returns>List of found matches.</returns>
+        public static List<Match> MatchTemplate(this LinearizedMaps linMaps, ITemplate template, Rectangle searchArea, int minMatchingPercentage = 85)
         {
             if (searchArea.IntersectionPercent(new Rectangle(new Point(), linMaps.ImageSize)) < 1)
             {
@@ -130,7 +165,14 @@ namespace LINE2D
             return matchTemplate(linMaps, template, searchArea, minMatchingPercentage);
         }
 
-        public static List<Match> MatchTemplate(LinearizedMaps linMaps, ITemplate template, int minMatchingPercentage)
+        /// <summary>
+        /// Matches the provided template against the linear memory maps.
+        /// </summary>
+        /// <param name="linMaps">Linear maps.</param>
+        /// <param name="template">Template.</param>
+        /// <param name="minMatchingPercentage">Minimum matching percentage [0..100].</param>
+        /// <returns>List of found matches.</returns>
+        public static List<Match> MatchTemplate(this LinearizedMaps linMaps, ITemplate template, int minMatchingPercentage)
         {
             var searchArea = new Rectangle(new Point(), linMaps.ImageSize);
 
@@ -141,7 +183,7 @@ namespace LINE2D
 
         #region Match template core
 
-        private static List<Match> matchTemplate(LinearizedMaps linMaps, ITemplate template, Rectangle searchArea, int minMatchingPercentage, bool filterPartialObjects = true)
+        private static List<Match> matchTemplate(this LinearizedMaps linMaps, ITemplate template, Rectangle searchArea, int minMatchingPercentage, bool filterPartialObjects = true)
         {
             //just do matching for templates that can fit into query image
             if (template.Size.Width > linMaps.ImageValidSize.Width ||

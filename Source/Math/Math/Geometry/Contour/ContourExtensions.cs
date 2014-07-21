@@ -240,7 +240,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="contour">Contour.</param>
         /// <param name="peaks">Peaks.</param>
         /// <param name="valeys">Valleys.</param>
-        /// <param name="scale">Used for <see cref="GetClosestPoint"/>. A good value is ~20. A specified region will be searched every time to avoid local minima.</param>
+        /// <param name="scale">Used for <see cref="GetClosestPoint"/>. A good value is ~20. A specified region will be searched every time to avoid local minimum.</param>
         /// <param name="humpPeaks">Found hump peaks.</param>
         /// <returns>Humps contour indexes.</returns>
         public static List<Range> GetHumps(this IList<Point> contour, List<int> peaks, List<int> valeys, int scale, out List<int> humpPeaks)

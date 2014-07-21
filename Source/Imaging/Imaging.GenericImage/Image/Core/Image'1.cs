@@ -5,7 +5,8 @@ using Accord.Extensions.Imaging.Helper;
 namespace Accord.Extensions.Imaging
 {
     /// <summary>
-    /// Generic image.
+    /// Implements generic image type and provides a basic data manipulation. Other functions are built as extensions making the class light-weight and portable.
+    /// <para>Other extensions and satellite assemblies enables multiple interoperability with other libraries such as AForge.NET, OpenCV, EmguCV.</para>
     /// </summary>
     /// <typeparam name="TColor">Color from type <see cref="IColor"/>.</typeparam>
     /// <typeparam name="TDepth">Primitive type.</typeparam>

@@ -5,6 +5,9 @@ using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Non-maxima suppression extensions.
+    /// </summary>
     public static class NonMaximaSupressionExtensions
     {
         delegate void SupressNonMaximaFunc(IImage src, IImage dest, int radius, int discardVal);
@@ -17,6 +20,14 @@ namespace Accord.Extensions.Imaging
             supressNonMaximaFuncs.Add(typeof(float), supressNonMaxima_Float);
         }
 
+        /// <summary>
+        /// Does non-maxima supression for the following gray image. Can be useful for detections filtering (e.g. post-processing output from Harris detector).
+        /// </summary>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">Image.</param>
+        /// <param name="radius">Non-maxima supression radius (kernel radius).</param>
+        /// <param name="discardValue">The value will be discarded (0 - for black).</param>
+        /// <returns>Processed image.</returns>
         public static Image<Gray, TDepth> SupressNonMaxima<TDepth>(this Image<Gray, TDepth> img, int radius = 3, int discardValue = 0)
            where TDepth : struct
         {
@@ -26,6 +37,14 @@ namespace Accord.Extensions.Imaging
             return dest;
         }
 
+        /// <summary>
+        /// Does non-maxima supression for the following gray image. Can be useful for detections filtering (e.g. post-processing output from Harris detector).
+        /// </summary>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">Image.</param>
+        /// <param name="dest">Destination image. Must have the same size as source image.</param>
+        /// <param name="radius">Non-maxima supression radius (kernel radius).</param>
+        /// <param name="discardValue">The value will be discarded (0 - for black).</param>
         public static void SupressNonMaxima<TDepth>(this Image<Gray, TDepth> img, Image<Gray, TDepth> dest, int radius = 3, int discardValue = 0)
             where TDepth:struct
         {

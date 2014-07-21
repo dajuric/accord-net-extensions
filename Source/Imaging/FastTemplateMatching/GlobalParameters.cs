@@ -12,7 +12,7 @@ namespace LINE2D
         /// <summary>
         /// Number of quantized orientations. Needed for feature extraction.
         /// <para>Maximum value is 8 (number of bits in byte). 3rd i 4th quadrant are mapped to 2nd and 1st</para>
-        /// <para>Altough this number can be lower than 8 precision can be lost, but the preprocessing stage can be speeded-up (lower number of response maps).</para>
+        /// <para>Although this number can be lower than 8 precision can be lost, but the preprocessing stage can be speeded-up (lower number of response maps).</para>
         /// </summary>
         public const int NUM_OF_QUNATIZED_ORIENTATIONS = 8; 
         /// <summary>
@@ -27,7 +27,7 @@ namespace LINE2D
         public const int MAX_NUM_OF_FEATURES = short.MaxValue / MAX_FEATURE_SIMILARITY;
 
         /// <summary>
-        /// Max number of features that can be added to a buffer of type Byte.
+        /// Max number of features that can be added to a buffer of type <see cref="System.Byte"/>.
         /// </summary>
         public const int MAX_SUPPORTED_NUM_OF_FEATURES_ADDDED_AS_BYTE = Byte.MaxValue / GlobalParameters.MAX_FEATURE_SIMILARITY;
 

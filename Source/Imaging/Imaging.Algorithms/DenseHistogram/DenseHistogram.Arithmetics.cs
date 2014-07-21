@@ -6,7 +6,7 @@ namespace Accord.Extensions.Imaging
     public partial class DenseHistogram
     {
         /// <summary>
-        /// Normalizes histogram so that sum of values are <see cref="scale"/>.
+        /// Normalizes histogram so that sum of values are <paramref name="scale"/>.
         /// </summary>
         /// <param name="scale">Scale</param>
         public unsafe void Normalize(float scale = 1)

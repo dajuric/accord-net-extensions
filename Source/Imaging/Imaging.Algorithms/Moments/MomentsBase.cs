@@ -34,7 +34,6 @@ namespace Accord.Extensions.Imaging.Moments
         /// 
         public int Order { get; set; }
 
-
         /// <summary>
         ///   Initializes a new instance of the <see cref="MomentsBase"/> class.
         /// </summary>
@@ -46,11 +45,19 @@ namespace Accord.Extensions.Imaging.Moments
             Order = order;
         }
 
+        /// <summary>
+        /// Computes moments for the provided image.
+        /// </summary>
+        /// <param name="image">Image.</param>
         public void Compute(Image<Gray, byte> image)
         {
             Compute((IImage)image);
         }
 
+        /// <summary>
+        /// Computes moments for the provided image.
+        /// </summary>
+        /// <param name="image">Image.</param>
         public void Compute(Image<Gray, float> image)
         {
             Compute((IImage)image);

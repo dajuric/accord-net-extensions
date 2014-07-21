@@ -5,6 +5,9 @@ using Accord.Extensions.Imaging.Helper;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Serves as a base class for generic image style providing some basic functions.
+    /// </summary>
     public partial class Image : IImage, IEquatable<Image>, IXmlSerializable
     {      
         PinnedArray<byte> buffer = null;
@@ -17,6 +20,9 @@ namespace Accord.Extensions.Imaging
         static Image()
         {}
 
+        /// <summary>
+        /// Image constructor used during de-serialization process.
+        /// </summary>
         protected Image()
         { }
 
@@ -65,7 +71,7 @@ namespace Accord.Extensions.Imaging
         /// <param name="strideAllignment">Stride alignment. Usual practice is that every image row ends with address aligned with 4.</param>
         protected static void Initialize(Image im, int width, int height, int strideAllignment = 4)
         {
-            int stride = calculateStride(im.ColorInfo, width, strideAllignment);
+            int stride = CalculateStride(im.ColorInfo, width, strideAllignment);
             var buffer = new PinnedArray<byte>(stride * height);
 
             im.IsAllocated = true;
@@ -94,6 +100,7 @@ namespace Accord.Extensions.Imaging
         /// Initializes generic image (attaches to existing unmanaged data).
         /// </summary>
         /// <param name="im">Generic image.</param>
+        /// <param name="imageData">Image data pointer.</param>
         /// <param name="width">Image width.</param>
         /// <param name="height">Image height.</param>
         /// <param name="stride">Image stride.</param>
@@ -117,7 +124,14 @@ namespace Accord.Extensions.Imaging
             im.Stride = stride;
         }
 
-        protected static int calculateStride(ColorInfo colorInfo, int width, int allignment = 4)
+        /// <summary>
+        /// Calculates image stride for the specified parameters.
+        /// </summary>
+        /// <param name="colorInfo">Color info.</param>
+        /// <param name="width">Image width.</param>
+        /// <param name="allignment">Data alignment.</param>
+        /// <returns>Image stride.</returns>
+        protected static int CalculateStride(ColorInfo colorInfo, int width, int allignment = 4)
         {
             int stride = width * colorInfo.Size;
 
@@ -158,6 +172,9 @@ namespace Accord.Extensions.Imaging
             isDisposed = true;
         }
 
+        /// <summary>
+        /// Disposes the image.
+        /// </summary>
         ~Image()
         {
             Dispose();
@@ -313,12 +330,12 @@ namespace Accord.Extensions.Imaging
         /// <param name="obj">Other.</param>
         /// <returns>Is the image equal to an object or not.</returns>
         public override bool Equals(object obj)
-        {
+        { 
             return this.Equals(obj as Image);
         }
 
         /// <summary>
-        /// Image's hash code. Pointer adress is used as hash code.
+        /// Image's hash code. Pointer address is used as hash code.
         /// </summary>
         /// <returns>Image's hash code.</returns>
         public override int GetHashCode()

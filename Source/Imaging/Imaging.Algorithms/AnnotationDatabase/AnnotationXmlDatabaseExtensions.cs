@@ -23,8 +23,14 @@ namespace Accord.Extensions.Imaging
         [Serializable]
         public class ImageAnnotations<TAnnotation>
         {
+            /// <summary>
+            /// Image key.
+            /// </summary>
             [XmlAttribute]
             public string ImageKey { get; set; }
+            /// <summary>
+            /// List of annotations for the image specified by the key.
+            /// </summary>
             public List<TAnnotation> Annotations { get; set; }
         }
 

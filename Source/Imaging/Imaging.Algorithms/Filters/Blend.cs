@@ -15,6 +15,7 @@ namespace Accord.Extensions.Imaging
         /// <para>Homography matrix is set to identity.</para>
         /// <para>Fill color is set to black with alpha set to 0 (all zeros).</para>
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="overlayIm">The overlay image (also called the anchor).</param>
         /// <param name="gradient">A value indicating whether to blend using a linear
         ///  gradient or just superimpose the two images with equal weights.</param>
@@ -37,6 +38,7 @@ namespace Accord.Extensions.Imaging
         /// images, effectively blending them in two images. The gradient is computed
         /// considering the distance between the centers of the two images.
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="overlayIm">The overlay image (also called the anchor).</param>
         /// <param name="homography">Homography matrix used to map a image passed to
         /// the filter to the overlay image specified at filter creation.</param>
@@ -64,6 +66,9 @@ namespace Accord.Extensions.Imaging
         }
     }
 
+    /// <summary>
+    /// Contains blend filter extensions.
+    /// </summary>
     public static class BlendExtensionsGray
     {
         /// <summary>
@@ -74,6 +79,7 @@ namespace Accord.Extensions.Imaging
         /// <para>Homography matrix is set to identity.</para>
         /// <para>Fill color is set to black with alpha set to 0 (all zeros).</para>
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="overlayIm">The overlay image (also called the anchor).</param>
         /// <param name="gradient">A value indicating whether to blend using a linear
         ///  gradient or just superimpose the two images with equal weights.</param>
@@ -93,6 +99,7 @@ namespace Accord.Extensions.Imaging
         /// images, effectively blending them in two images. The gradient is computed
         /// considering the distance between the centers of the two images.
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="overlayIm">The overlay image (also called the anchor).</param>
         /// <param name="homography">Homography matrix used to map a image passed to
         /// the filter to the overlay image specified at filter creation.</param>
@@ -111,6 +118,9 @@ namespace Accord.Extensions.Imaging
         }
     }
 
+    /// <summary>
+    /// Contains blend filter extensions.
+    /// </summary>
     public static class BlendExtensionsIColor3
     {
         /// <summary>
@@ -121,6 +131,7 @@ namespace Accord.Extensions.Imaging
         /// <para>Homography matrix is set to identity.</para>
         /// <para>Fill color is set to black with alpha set to 0 (all zeros).</para>
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="overlayIm">The overlay image (also called the anchor).</param>
         /// <param name="gradient">A value indicating whether to blend using a linear
         ///  gradient or just superimpose the two images with equal weights.</param>
@@ -141,6 +152,7 @@ namespace Accord.Extensions.Imaging
         /// images, effectively blending them in two images. The gradient is computed
         /// considering the distance between the centers of the two images.
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="overlayIm">The overlay image (also called the anchor).</param>
         /// <param name="homography">Homography matrix used to map a image passed to
         /// the filter to the overlay image specified at filter creation.</param>
@@ -161,6 +173,9 @@ namespace Accord.Extensions.Imaging
 
     }
 
+    /// <summary>
+    /// Contains blend filter extensions.
+    /// </summary>
     public static class BlendExtensionsIColor4
     {
         /// <summary>
@@ -171,6 +186,7 @@ namespace Accord.Extensions.Imaging
         /// <para>Homography matrix is set to identity.</para>
         /// <para>Fill color is set to black with alpha set to 0 (all zeros).</para>
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="overlayIm">The overlay image (also called the anchor).</param>
         /// <param name="gradient">A value indicating whether to blend using a linear
         ///  gradient or just superimpose the two images with equal weights.</param>
@@ -191,6 +207,7 @@ namespace Accord.Extensions.Imaging
         /// images, effectively blending them in two images. The gradient is computed
         /// considering the distance between the centers of the two images.
         /// </summary>
+        /// <param name="im">Image.</param>
         /// <param name="overlayIm">The overlay image (also called the anchor).</param>
         /// <param name="homography">Homography matrix used to map a image passed to
         /// the filter to the overlay image specified at filter creation.</param>

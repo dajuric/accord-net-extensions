@@ -28,8 +28,16 @@ namespace Accord.Extensions.Imaging.Moments
     /// 
     public interface IMoments
     {
+        /// <summary>
+        /// Computes moments for the provided image.
+        /// </summary>
+        /// <param name="image">Image.</param>
         void Compute(Image<Gray, byte> image);
 
+        /// <summary>
+        /// Computes moments for the provided image.
+        /// </summary>
+        /// <param name="image">Image.</param>
         void Compute(Image<Gray, float> image);
     }
 }

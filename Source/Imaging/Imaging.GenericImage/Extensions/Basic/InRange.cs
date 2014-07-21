@@ -5,6 +5,9 @@ using Accord.Extensions.Imaging.Helper;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for pixel in range checking.
+    /// </summary>
     public static class InRangeFilter
     {
         delegate void InRangeFunc(IImage src, Array min, Array max, int[] channelIndicies, Image<Gray, byte> dest, byte valueToSet);

@@ -6,6 +6,9 @@ using AForge.Imaging;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for <see cref="AForge.Imaging.UnmanagedImage"/> interoperability.
+    /// </summary>
     public static class UnmanagedImageConversionExtensions
     {
         /// <summary>
@@ -16,12 +19,8 @@ namespace Accord.Extensions.Imaging
         /// <param name="unmanagedImage"> Unmanaged image</param>
         /// <returns>Generic image (interface)</returns>
         public static IImage AsImage(this UnmanagedImage unmanagedImage)
-        { 
-            var imageColor = (from pixelFormatMapping in BitmapConversionExtensions.PixelFormatMappings
-                              where pixelFormatMapping.PixelFormat == unmanagedImage.PixelFormat
-                              select pixelFormatMapping.ColorInfo)
-                              .DefaultIfEmpty()
-                              .FirstOrDefault();
+        {
+            var imageColor = BitmapConversionExtensions.PixelFormatMappings.Reverse[unmanagedImage.PixelFormat];
 
             if (imageColor == null)
                 throw new Exception(string.Format("Pixel format {0} is not supported!", unmanagedImage.PixelFormat));
@@ -53,21 +52,22 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Converts an image to AForge (UnmanagedImage). In case when only cast is needed data is not copied. (Performance: if cast => ~0.03 ms per call)
         /// </summary>
-        /// <param name="copyAlways">Forces data copy even in the case when only cast is sufficent.</param>
-        /// <param name="failIfCannotCast">Fails if an image data must be converted to a format that is supported by UnmanagedImage. <see cref="copyAlways"/> switch is omitted.</param>
+        /// <param name="img">Image.</param>
+        /// <param name="copyAlways">Forces data copy even in the case when only cast is sufficient.</param>
+        /// <param name="failIfCannotCast">Fails if an image data must be converted to a format that is supported by UnmanagedImage. Switch <paramref name="copyAlways"/> is omitted.</param>
         /// <returns>Converted unmanaged image.</returns>
         public static UnmanagedImage ToAForgeImage(this IImage img, bool copyAlways = false, bool failIfCannotCast = false)
         {
-            //all formats (please note that during Image > Bitmap conversion DefaultPreferedDestPixelFormats are choosen for compatibility reasons.
+            //all formats (please note that during Image > Bitmap conversion DefaultPreferedDestPixelFormats are chosen for compatibility reasons.
             //put DefaultPreferedDestPixelFormats if an user encounters problems (e.g. during image saving - Bitmap does not support saving some PixelFormats)
-            var preferedDestinationFormats = BitmapConversionExtensions.PixelFormatMappings.Select(x => x.PixelFormat).ToArray();
+            var preferedDestinationFormats = BitmapConversionExtensions.PixelFormatMappings.Reverse.ToArray();
 
             bool justCast;
             IImage convertedIm = BitmapConversionExtensions.ToBitmapCompatibilityImage(img, preferedDestinationFormats, out justCast);
             if (justCast == false && failIfCannotCast)
                 throw new Exception("Image can not be casted to AForge image. Data must be copied!");
 
-            var destPixelFormat = BitmapConversionExtensions.PixelFormatMappings.Find(x => x.ColorInfo == convertedIm.ColorInfo).PixelFormat;
+            var destPixelFormat = BitmapConversionExtensions.PixelFormatMappings.Forward[convertedIm.ColorInfo];
 
             UnmanagedImage uImg = null;
 
@@ -89,10 +89,10 @@ namespace Accord.Extensions.Imaging
         /// Returns if an image can be casted to UnmanagedImage without data copy.
         /// </summary>
         /// <param name="image">Generic image</param>
-        /// <returns>Is image castable to UnmanagedImage.</returns>
+        /// <returns>Is image cast-able to UnmanagedImage.</returns>
         public static bool CanCastToAForgeImage(this IImage image)
         {
-            ColorInfo[] preferedColors = BitmapConversionExtensions.PixelFormatMappings.Select(x => x.ColorInfo).ToArray();
+            ColorInfo[] preferedColors = BitmapConversionExtensions.PixelFormatMappings.Forward.ToArray();
             var conversionPath = ColorDepthConverter.GetPath(image.ColorInfo, preferedColors);
 
             bool isImageCopied = ColorDepthConverter.CopiesData(conversionPath);

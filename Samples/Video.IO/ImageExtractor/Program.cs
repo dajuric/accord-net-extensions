@@ -9,7 +9,8 @@ namespace ImageExtractor
         static void Main(string[] args)
         {
             //emulate input args
-            string fileName = Path.Combine(@"C:\Users\Darko-Home\Desktop\HandVideos", "Toni .wmv");
+            //string fileName = Path.Combine(@"C:\Users\Darko-Home\Desktop\HandVideos", "Toni .wmv");
+            string fileName = Path.Combine(@"C:\Users\Darko-Home\Desktop\Prednja + stražnja", "AA011302.mxf");
             //string fileName = Path.Combine(getResourceDir(), "Welcome Accord.NET Extensions.mp4");
 
             if (args.Length == 1)

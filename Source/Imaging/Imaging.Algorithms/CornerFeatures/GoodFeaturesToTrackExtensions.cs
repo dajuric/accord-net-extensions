@@ -7,8 +7,20 @@ using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extensions for good features to track.
+    /// </summary>
     public static class GoodFeaturesToTrackExtensions
     {
+        /// <summary>
+        /// Searches the image for the good features to track. 
+        /// <para>For each location a Hessian matrix is made and min eig-value is compared against threshold.</para>
+        /// </summary>
+        /// <param name="image">Image.</param>
+        /// <param name="winSize">Window size.</param>
+        /// <param name="minEigVal">Minimum eigen value.</param>
+        /// <param name="minimalDistance">Minimum distance from two features.</param>
+        /// <returns>List of locations that have eigen value larger than <paramref name="minEigVal"/>.</returns>
         public static List<Point> GoodFeaturesToTrack(this Image<Gray, float> image, int winSize = 10, float minEigVal = 0.3f, float minimalDistance = 3)
         {
             var strengthImg = new Image<Gray, float>(image.Size);

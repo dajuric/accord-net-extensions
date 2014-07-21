@@ -3,8 +3,14 @@ using Accord.Math;
 
 namespace Accord.Extensions.Imaging.Filters
 {
+    /// <summary>
+    /// Laplace extensions.
+    /// </summary>
     public static class LaplaceExtensions
     {
+        /// <summary>
+        /// laplace 3x3 kernel.
+        /// </summary>
         public static readonly Image<Gray, float> Laplace_3x3 = new float[,] 
         {
             {+0, -1, +0},

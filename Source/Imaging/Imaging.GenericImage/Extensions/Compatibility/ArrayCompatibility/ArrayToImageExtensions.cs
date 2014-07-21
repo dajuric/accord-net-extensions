@@ -4,6 +4,9 @@ using Accord.Extensions.Imaging.Helper;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for converting and casting an image to an array.
+    /// </summary>
     public static class ArrayToImageExtensions
     {
         private static void getArrayDimenions(Array arr, out int nChannels, out int width, out int height)

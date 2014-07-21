@@ -3,6 +3,9 @@ using AForge.Imaging.Filters;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for AForge imaging filters execution.
+    /// </summary>
     public static class AForgeFilterProcessing
     {
         static AForgeFilterProcessing()
@@ -11,9 +14,10 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Executes specified filter on an image (without using parallel processor).
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="filter">AForge filter.</param>
         /// <param name="inPlace">Execute in place or not. Please use this switch correctly as some filters may not be processed correctly.</param>
-        /// <returns>Processed image. In case <see cref="inPlace"/> is set to true, result is processed source image (can be discarded).</returns>
+        /// <returns>Processed image. In case <paramref name="inPlace"/> is set to true, result is processed source image (can be discarded).</returns>
         private static Image<TColor, TDepth> ApplyFilter<TColor, TDepth, TFilter>(this Image<TColor, TDepth> img, TFilter filter, bool inPlace = false)
             where TColor: IColor
             where TDepth: struct
@@ -41,6 +45,7 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Executes specified filter on an image (without using parallel processor). As destination image size may be different from source in-place filtering is not allowed.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="filter">AForge <see cref="BaseFilter"/>.</param>
         public static Image<TColor, TDepth> ApplyFilter<TColor, TDepth>(this Image<TColor, TDepth> img, BaseFilter filter)
             where TColor : IColor
@@ -53,6 +58,7 @@ namespace Accord.Extensions.Imaging
         /// Executes specified filter on an image (without using parallel processor). 
         /// <see cref="BaseUsingCopyPartialFilter"/> must copy an image if in place operation is requested, so it was decided that in-place filtering is not allowed.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="filter">AForge <see cref="BaseUsingCopyPartialFilter"/>.</param>
         public static Image<TColor, TDepth> ApplyFilter<TColor, TDepth>(this Image<TColor, TDepth> img, BaseUsingCopyPartialFilter filter)
             where TColor : IColor
@@ -64,8 +70,9 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Executes specified filter on an image (without using parallel processor). 
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="filter">AForge <see cref="BaseInPlaceFilter"/>.</param>
-        ///  /// <param name="inPlace">Execute in place or not. Please use this switch correctly as some filters may not be processed correctly.</param>
+        /// <param name="inPlace">Execute in place or not. Please use this switch correctly as some filters may not be processed correctly.</param>
         public static Image<TColor, TDepth> ApplyFilter<TColor, TDepth>(this Image<TColor, TDepth> img, BaseInPlaceFilter filter, bool inPlace = false)
             where TColor : IColor
             where TDepth : struct
@@ -76,8 +83,9 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Executes specified filter on an image (without using parallel processor).
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="filter">AForge <see cref="BaseInPlacePartialFilter"/>.</param>
-        ///  /// <param name="inPlace">Execute in place or not. Please use this switch correctly as some filters may not be processed correctly.</param>
+        /// <param name="inPlace">Execute in place or not. Please use this switch correctly as some filters may not be processed correctly.</param>
         public static Image<TColor, TDepth> ApplyFilter<TColor, TDepth>(this Image<TColor, TDepth> img, BaseInPlacePartialFilter filter, bool inPlace = false)
             where TColor : IColor
             where TDepth : struct
@@ -88,6 +96,7 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Executes specified filter on an image (without using parallel processor). As destination image size may be different from source; in-place filtering is not allowed.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="filter">AForge <see cref="BaseTransformationFilter"/>.</param>
         public static Image<TColor, TDepth> ApplyFilter<TColor, TDepth>(this Image<TColor, TDepth> img, BaseTransformationFilter filter)
             where TColor : IColor
@@ -99,6 +108,7 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Executes specified filter on an image (without using parallel processor). As destination image size may be different from source; in-place filtering is not allowed.
         /// </summary>
+        /// <param name="img">Image.</param>
         /// <param name="filter">AForge <see cref="BaseTransformationFilter"/>.</param>
         public static Image<TDstColor, TDepth> ApplyFilter<TSrcColor, TDepth, TDstColor>(this Image<TSrcColor, TDepth> img, BaseTransformationFilter filter)
             where TSrcColor : IColor

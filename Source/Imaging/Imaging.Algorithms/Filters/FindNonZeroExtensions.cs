@@ -5,6 +5,9 @@ using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains methods for finding non-zero pixels.
+    /// </summary>
     public static class FindNonZeroExtensions
     {
         delegate void FindNonZeroFunc(IImage img, out List<Point> locations, out IList values);
@@ -17,6 +20,12 @@ namespace Accord.Extensions.Imaging
             findNonZeroFuncs.Add(typeof(float), findNonZero_Float);
         }
 
+        /// <summary>
+        /// Find non-zero locations in the image.
+        /// </summary>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">Image.</param>
+        /// <returns>List of found non-zero locations.</returns>
         public static List<Point> FindNonZero<TDepth>(this Image<Gray, TDepth> img)
             where TDepth : struct
         {
@@ -24,6 +33,13 @@ namespace Accord.Extensions.Imaging
             return FindNonZero(img, out values);
         }
 
+        /// <summary>
+        /// Find non-zero locations in the image.
+        /// </summary>
+        /// <typeparam name="TDepth">Channel type.</typeparam>
+        /// <param name="img">Image.</param>
+        /// <param name="values">Values for the found locations.</param>
+        /// <returns>List of found non-zero locations.</returns>
         public static List<Point> FindNonZero<TDepth>(this Image<Gray, TDepth> img, out List<TDepth> values)
             where TDepth: struct
         {

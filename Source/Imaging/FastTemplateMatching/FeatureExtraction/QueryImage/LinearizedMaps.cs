@@ -9,18 +9,21 @@ using PointF = AForge.Point;
 namespace LINE2D
 {
     /// <summary>
-    /// Linearized memory maps calcuation.
+    /// Linearized memory maps calculation.
+    /// <para>
+    /// See <a href="http://cvlabwww.epfl.ch/~lepetit/papers/hinterstoisser_pami11.pdf" /> Section 2.5. for details.
+    /// </para>
     /// </summary>
     public unsafe class LinearizedMaps: IDisposable
     {
         /// <summary>
-        /// Linear map stride allignment.
-        /// <para>It's value is 0 because linear map should be represented as continous vector (without stride allignment).</para>
+        /// Linear map stride alignment.
+        /// <para>It's value is 0 because linear map should be represented as continuous vector (without stride alignment).</para>
         /// </summary>
         public const int MAP_STRIDE_ALLIGNMENT = 0; 
 
         /// <summary>
-        /// Pre-calculated simmilarites between feature angle (binary representations) and all angle combinations. 
+        /// Pre-calculated similarities between feature angle (binary representations) and all angle combinations. 
         /// <para>[NUM_OF_ORIENTATIONS, 256 (all possible angle combinations for an source orientation)]</para>
         /// </summary>
         public static readonly byte[,] SimilarityAngleTable = null; 
@@ -107,7 +110,7 @@ namespace LINE2D
         /// Creates linear response maps.
         /// </summary>
         /// <param name="orientationDegImg">Orientation image (in degrees).</param>
-        /// <param name="neigborhood">Spread neigborhood size.</param>
+        /// <param name="neigborhood">Spread neighborhood size.</param>
         public LinearizedMaps(Image<Gray, int> orientationDegImg, int neigborhood)
         {
             this.NeigborhoodSize = neigborhood;
@@ -123,7 +126,7 @@ namespace LINE2D
         {
             Image<Gray, Byte>[][,] linearMaps = new Image<Gray, byte>[GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS][,];
 
-            using (Image<Gray, Byte> sprededQuantizedOrient = FeatureMap.Caclulate(orientationDegImg, this.NeigborhoodSize))
+            using (Image<Gray, Byte> sprededQuantizedOrient = FeatureMap.Calculate(orientationDegImg, this.NeigborhoodSize))
             {
                 for (int orient = 0; orient < GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS; orient++)
                 {
@@ -223,6 +226,13 @@ namespace LINE2D
 
         #endregion
 
+        /// <summary>
+        /// Gets the linearized map by suing provided image position and angle index.
+        /// </summary>
+        /// <param name="position">Image position.</param>
+        /// <param name="angleIndex">Quantized angle index.</param>
+        /// <param name="mapPoint">Corresponding position in the linearized map.</param>
+        /// <returns>Linearized map.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Image<Gray, byte> GetMapElement(Point position, int angleIndex, out Point mapPoint)
         {
@@ -243,6 +253,9 @@ namespace LINE2D
             return map;
         }
 
+        /// <summary>
+        /// Disposes the linearized map.
+        /// </summary>
         public void Dispose()
         {
             for (int orientationIdx = 0; orientationIdx < LinearMaps.Length; orientationIdx++)

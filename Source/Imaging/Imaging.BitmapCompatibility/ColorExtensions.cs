@@ -4,6 +4,10 @@ using Accord.Extensions.Imaging.Helper;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Contains extension methods for interoperability between <see cref="System.Drawing.Color"/> and <see cref="Accord.Extensions.Imaging.ColorInfo"/>.
+    /// Also provides some conversions between <see cref="System.Drawing.Color"/> and <see cref="Accord.Extensions.Imaging.Bgr32"/>.
+    /// </summary>
     public static class ColorExtensions
     {
         /// <summary>
@@ -45,6 +49,11 @@ namespace Accord.Extensions.Imaging
             }
         }
 
+        /// <summary>
+        /// Converts (casts) the color into 32-bit BGR color.
+        /// </summary>
+        /// <param name="color">Color.</param>
+        /// <returns>Bgr representation.</returns>
         public static Bgr32 ToBgr(this System.Drawing.Color color)
         {
             return new Bgr32 { B = color.B, G = color.G, R = color.R };
