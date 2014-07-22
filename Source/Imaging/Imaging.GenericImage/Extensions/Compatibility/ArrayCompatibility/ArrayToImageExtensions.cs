@@ -73,7 +73,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Sets pixels for an image from array. Array is converted to image chanels first (<seealso cref="GetChannels"/>)
+        /// Sets pixels for an image from array. Array is converted to image channels first (<seealso cref="GetChannels"/>)
         /// An image and an array must have the same dimensions.
         /// </summary>
         /// <param name="img">Destination image.</param>
@@ -86,7 +86,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Sets pixels for an image from array. Array is converted to image chanels first (one and only channel) (<seealso cref="GetChannels"/>)
+        /// Sets pixels for an image from array. Array is converted to image channels first (one and only channel) (<seealso cref="GetChannels"/>)
         /// An image and an array must have the same dimensions.
         /// </summary>
         /// <param name="img">Destination image.</param>

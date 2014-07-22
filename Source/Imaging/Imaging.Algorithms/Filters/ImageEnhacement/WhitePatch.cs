@@ -30,10 +30,9 @@ namespace Accord.Extensions.Imaging.Filters
         /// <param name="img">Image.</param>
         /// <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
         /// <returns>Processed image.</returns>
-        public static Image<TColor, byte> WhitePatch<TColor>(this Image<TColor, byte> img, bool inPlace = true)
-            where TColor : IColor3
+        public static Image<Bgr, byte> WhitePatch(this Image<Bgr, byte> img, bool inPlace = true)
         {
-            return WhitePatchExtensionsBase.WhitePatch<TColor, byte>(img, inPlace);
+            return WhitePatchExtensionsBase.WhitePatch<Bgr, byte>(img, inPlace);
         }
     }
 
@@ -48,10 +47,9 @@ namespace Accord.Extensions.Imaging.Filters
         /// <param name="img">Image.</param>
         /// <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
         /// <returns>Processed image.</returns>
-        public static Image<TColor, byte> WhitePatch<TColor>(this Image<TColor, byte> img, bool inPlace = true)
-            where TColor : IColor4
+        public static Image<Bgra, byte> WhitePatch(this Image<Bgra, byte> img, bool inPlace = true)
         {
-            return WhitePatchExtensionsBase.WhitePatch<TColor, byte>(img, inPlace);
+            return WhitePatchExtensionsBase.WhitePatch<Bgra, byte>(img, inPlace);
         }
     }
 }
