@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Target Name="CopyNativeReferences">
-
+  <Target Name="CopyNativeReferences_SIMDArrayInstructions">
+    
     <Copy SourceFiles="$(MSBuildThisFileDirectory)..\native\UnmanagedLibraries\Windows\x86\SIMDArrayInstructions.dll" 
           DestinationFolder="$(OutDir)\UnmanagedLibraries\Windows\x86\" 
           SkipUnchangedFiles="true" />
@@ -10,5 +10,11 @@
           SkipUnchangedFiles="true"/>
   </Target>
 
-  <Target Name="AfterBuild" DependsOnTargets="$(CopyNativeReferences)"/>
+  <PropertyGroup>
+    <AfterBuildDependsOn_SIMDArrayInstructions>
+      CopyNativeReferences_SIMDArrayInstructions;
+    </AfterBuildDependsOn_SIMDArrayInstructions>
+  </PropertyGroup>
+  
+  <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn_SIMDArrayInstructions)"/>
 </Project>

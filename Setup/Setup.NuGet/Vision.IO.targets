@@ -37,5 +37,11 @@
           SkipUnchangedFiles="true" />
   </Target>
 
-  <Target Name="AfterBuild" DependsOnTargets="$(CopyNativeReferences_OpenCV)"/>
+  <PropertyGroup>
+    <AfterBuildDependsOn_OpenCV>
+      CopyNativeReferences_OpenCV;
+    </AfterBuildDependsOn_OpenCV>
+  </PropertyGroup>
+
+  <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn_OpenCV)"/>
 </Project>
