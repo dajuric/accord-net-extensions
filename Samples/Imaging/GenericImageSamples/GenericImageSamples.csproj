@@ -77,6 +77,10 @@
       <Project>{f4e40964-c640-4c87-9e3e-a1f1266fbc73}</Project>
       <Name>Imaging.AForgeCompatibility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Imaging\Imaging.Algorithms\Imaging.Algorithms.csproj">
+      <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
+      <Name>Imaging.Algorithms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Source\Imaging\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj">
       <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
       <Name>Imaging.BitmapCompatibility</Name>

@@ -66,6 +66,12 @@
     <Compile Include="AnnotationDatabase\Annotation.cs" />
     <Compile Include="AnnotationDatabase\AnnotationDatabaseExtensions.cs" />
     <Compile Include="AnnotationDatabase\AnnotationXmlDatabaseExtensions.cs" />
+    <Compile Include="ComplexImage\ComplexImage.Arithemtics.cs" />
+    <Compile Include="ComplexImage\ComplexImage.FFT.cs" />
+    <Compile Include="Convolution\FrequencyConvolution\ParallelFFTConvolution.cs" />
+    <Compile Include="Convolution\ParallelConvolution.cs" />
+    <Compile Include="Convolution\SpatialConvolution\ParallelSpatialConvolution.cs" />
+    <Compile Include="Filters\Binarization\InRange.cs" />
     <Compile Include="Filters\Blend.cs" />
     <Compile Include="CornerFeatures\GoodFeaturesToTrackExtensions.cs" />
     <Compile Include="CornerFeatures\HarrisExtensions.cs" />
@@ -79,6 +85,14 @@
     <Compile Include="Filters\Edge\Laplace.cs" />
     <Compile Include="Filters\FindNonZeroExtensions.cs" />
     <Compile Include="Filters\GaborFilter.cs" />
+    <Compile Include="Filters\2 Source Filters\MathOperations\MathOperations.Arithmetics.cs" />
+    <Compile Include="Filters\2 Source Filters\MathOperations\MathOperations.cs" />
+    <Compile Include="Filters\2 Source Filters\MathOperations\MathOperations.Logic.cs" />
+    <Compile Include="Filters\2 Source Filters\MathOperations\MathOperations.LogicNot.cs" />
+    <Compile Include="Filters\2 Source Filters\Magnitude.cs" />
+    <Compile Include="Filters\2 Source Filters\Max.cs" />
+    <Compile Include="Filters\2 Source Filters\Min.cs" />
+    <Compile Include="Filters\2 Source Filters\Phase.cs" />
     <Compile Include="Filters\NonMaximaSupression.cs" />
     <Compile Include="Filters\Thresholding\BinaryThreshold.cs" />
     <Compile Include="Contour\BorderFollowing.cs" />
@@ -93,6 +107,7 @@
     <Compile Include="Moments\MomentsBase.cs" />
     <Compile Include="Moments\RawMoments.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.ForEach.cs" />
+    <Compile Include="Transform\GetRectSubPix.cs" />
     <Compile Include="Transform\PyramidExtensions.cs" />
     <Compile Include="Filters\Smooth\SmoothGaussian.cs" />
     <Compile Include="Filters\Edge\Sobel.cs" />

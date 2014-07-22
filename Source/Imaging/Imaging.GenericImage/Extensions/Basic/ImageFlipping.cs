@@ -77,7 +77,13 @@ namespace Accord.Extensions.Imaging
             return dest;
         }
 
-        internal static void FlipImage(IImage srcImg, IImage dstImg, FlipDirection flip)
+        /// <summary>
+        /// Flips an input image horizontally / vertically / both directions / or none (data copy).
+        /// </summary>
+        /// <param name="srcImg">Source image.</param>
+        /// <param name="dstImg">DEstination image. Must have the same size as source image.</param>
+        /// <param name="flip">Flip direction.</param>
+        public static void FlipImage(IImage srcImg, IImage dstImg, FlipDirection flip)
         {
             Type channelType = srcImg.ColorInfo.ChannelType;
 

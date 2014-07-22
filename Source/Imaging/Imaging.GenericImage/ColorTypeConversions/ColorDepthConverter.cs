@@ -28,7 +28,7 @@ namespace Accord.Extensions.Imaging.Converters
     public static class ColorDepthConverter
     {
         /// <summary>
-        /// To prevent paths like (Bgr, byte) => (Color3, byte) => (Hsv, byte), generic color conversions are weighted by user-defined amount.
+        /// To prevent paths like (Bgr, byte) => (Color3, byte) => (Hsv, byte), generic color conversions are weighted by arbitrary large weight.
         /// </summary>
         public static int GENERIC_COLOR_CAST_OFFSET = 500;
 
@@ -354,59 +354,6 @@ namespace Accord.Extensions.Imaging.Converters
         #endregion
 
         /// <summary>
-        /// Converts an image by using specified conversion path.
-        /// </summary>
-        /// <param name="conversionData">Conversion path.</param>
-        /// <param name="img">Image to convert.</param>
-        /// <returns>Converted image.</returns>
-        public static IImage Convert(this ConversionData<ColorInfo> conversionData, IImage img)
-        {
-            var proc = new ParallelProcessor<IImage, IImage>
-                (
-                  img.Size,
-                  () => conversionData.CreateFunc(img, conversionData.Destination),
-                  (src, dest, area) => conversionData.ConvertFunc(src.GetSubRect(area), dest.GetSubRect(area))
-#if DEBUG
-                  ,new ParallelOptions { ForceSequential = true }
-#else
-                  ,new ParallelOptions2D { ForceSequential = conversionData.ForceSequential }
-#endif
-                );
-
-            return proc.Process(img);
-        }
-
-        /// <summary>
-        /// Converts and image using conversion path.
-        /// </summary>
-        /// <param name="conversionPath">Conversion path. If zero-length source is returned. If null null is returned.</param>
-        /// <param name="srcImage">Input image.</param>
-        /// <param name="copyAlways">Forces to copy data even if the casting is enough</param>
-        /// <returns>Converted image. (may share data with input image if casting is used)</returns>
-        public static IImage Convert(this IList<ConversionData<ColorInfo>> conversionPath, IImage srcImage, bool copyAlways = false)
-        {
-            if (conversionPath == null)
-                return null;
-
-            IImage convertedIm = srcImage;
-            bool isImageCopied = false;
-            foreach (ConversionData<ColorInfo> conversion in conversionPath)
-            {
-                convertedIm = conversion.Convert(convertedIm);
-                isImageCopied |= conversion.CopiesData;
-            }
-
-            if (copyAlways && !isImageCopied)
-            {
-                var castedIm = convertedIm;
-                convertedIm = castedIm.Clone();
-                //castedIm.Dispose(); //TODO. should I dispose it ? (It would dispose srcImage -> not good)
-            }
-
-            return convertedIm;
-        }
-
-        /// <summary>
         /// Gets the conversion path.
         /// <para>If the conversion is not allowed or does not exist an empty list is returned.</para>
         /// </summary>
@@ -481,5 +428,61 @@ namespace Accord.Extensions.Imaging.Converters
 
             return cost;
         }
+
+        #region Image extensions
+        /// <summary>
+        /// Converts an image by using specified conversion path.
+        /// </summary>
+        /// <param name="img">Image to convert.</param>
+        /// <param name="conversionData">Conversion path.</param>
+        /// <returns>Converted image.</returns>
+        public static IImage Convert(this IImage img, ConversionData<ColorInfo> conversionData)
+        {
+            var proc = new ParallelProcessor<IImage, IImage>
+                (
+                  img.Size,
+                  () => conversionData.CreateFunc(img, conversionData.Destination),
+                  (src, dest, area) => conversionData.ConvertFunc(src.GetSubRect(area), dest.GetSubRect(area))
+#if DEBUG
+                  ,new ParallelOptions { ForceSequential = true }
+#else
+, new ParallelOptions2D { ForceSequential = conversionData.ForceSequential }
+#endif
+);
+
+            return proc.Process(img);
+        }
+
+        /// <summary>
+        /// Converts and image using conversion path.
+        /// </summary>
+        /// <param name="srcImage">Input image.</param>
+        /// <param name="conversionPath">Conversion path. If zero-length source is returned. If null, null value is returned.</param>
+        /// <param name="copyAlways">Forces to copy data even if the casting is enough</param>
+        /// <returns>Converted image. (may share data with input image if casting is used)</returns>
+        public static IImage Convert(this IImage srcImage, IList<ConversionData<ColorInfo>> conversionPath, bool copyAlways = false)
+        {
+            if (conversionPath == null)
+                return null;
+
+            IImage convertedIm = srcImage;
+            bool isImageCopied = false;
+            foreach (ConversionData<ColorInfo> conversion in conversionPath)
+            {
+                convertedIm = convertedIm.Convert(conversion);
+                isImageCopied |= conversion.CopiesData;
+            }
+
+            if (copyAlways && !isImageCopied)
+            {
+                var castedIm = convertedIm;
+                convertedIm = castedIm.Clone();
+                //castedIm.Dispose(); //TODO. should I dispose it ? (It would dispose srcImage -> not good)
+            }
+
+            return convertedIm;
+        }
+
+        #endregion
     }
 }

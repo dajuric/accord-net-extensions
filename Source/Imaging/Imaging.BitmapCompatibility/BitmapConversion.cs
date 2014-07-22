@@ -242,7 +242,7 @@ namespace Accord.Extensions.Imaging
 
             isJustCasted = ColorConverter.CopiesData(path) == false;
 
-            IImage convertedIm = ColorConverter.Convert(path.ToArray(), srcImg, false);
+            IImage convertedIm = ColorConverter.Convert(srcImg, path.ToArray(), false);
             return convertedIm;
         }
 

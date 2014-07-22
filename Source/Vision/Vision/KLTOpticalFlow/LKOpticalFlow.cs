@@ -193,7 +193,7 @@ namespace Accord.Extensions.Vision //POGLEDATI INTERPOLACIJU - možda je tamo gr
         {
             var pDerivX = storage.CurrImgPyrDerivX[storagePyrLevel].GetRectSubPix(currArea);
             var pDerivY = storage.CurrImgPyrDerivY[storagePyrLevel].GetRectSubPix(currArea);
-            var pDerivT = currPatch - prevPatch;
+            var pDerivT = currPatch.Sub(prevPatch);
 
             double[] Atb = new double[] 
             {

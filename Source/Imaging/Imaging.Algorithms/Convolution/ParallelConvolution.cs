@@ -128,7 +128,7 @@ namespace Accord.Extensions.Imaging
             /************************************** convert src ********************************/
             var supportedColors = supportedTypes.Select(x => ColorInfo.GetInfo(typeof(TColor), x)).ToArray();
             var conversionPath = ColorConverter.GetPath(src.ColorInfo, supportedColors);
-            IImage convertedSrc = ColorConverter.Convert(conversionPath.ToArray(), src, false);
+            IImage convertedSrc = ColorConverter.Convert(src, conversionPath.ToArray(), false);
 
             if (convertedSrc == null)
                 throw new Exception(string.Format("Convolution does not support images of type {0}", src.ColorInfo.ChannelType));
@@ -147,7 +147,7 @@ namespace Accord.Extensions.Imaging
 
             /************************************** convert back ********************************/
             var backwardConversion = ColorConverter.GetPath(dest.ColorInfo, src.ColorInfo);
-            IImage convertedDest = ColorConverter.Convert(backwardConversion.ToArray(), dest, false);
+            IImage convertedDest = ColorConverter.Convert(dest, backwardConversion.ToArray(), false);
             if (convertedDest == null)
                 throw new Exception(string.Format("Convolution does not support images of type {0}", src.ColorInfo.ChannelType));
             /************************************** convert back ********************************/

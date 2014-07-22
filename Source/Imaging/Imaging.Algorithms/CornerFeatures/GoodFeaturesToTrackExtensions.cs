@@ -28,9 +28,9 @@ namespace Accord.Extensions.Imaging
             var Dx = image.Sobel(1, 0, 3);
             var Dy = image.Sobel(0, 1, 3);
 
-            var Dxx = (Dx * Dx).MakeIntegral();
-            var Dxy = (Dx * Dy).MakeIntegral();
-            var Dyy = (Dy * Dy).MakeIntegral();
+            var Dxx = Dx.Mul(Dx).MakeIntegral();
+            var Dxy = Dx.Mul(Dy).MakeIntegral();
+            var Dyy = Dy.Mul(Dy).MakeIntegral();
 
             var proc = new ParallelProcessor<bool, bool>(image.Size,
                                                          () => true,

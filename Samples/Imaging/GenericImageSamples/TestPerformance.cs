@@ -22,7 +22,7 @@ namespace GenericImage
             UnmanagedImage uIm = smallIm.ToAForgeImage(copyAlways: true);
 
             var floatKernel = Matrix.Random(kernelSize, kernelSize, 0, 255).ToSingle();
-            int[,] intKernel = floatKernel.ToImage().Convert<int>().ToArray();
+            int[,] intKernel = floatKernel.ToImage().Convert<Gray, int>().ToArray();
 
             measure(() =>
             {

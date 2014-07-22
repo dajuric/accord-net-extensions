@@ -3,29 +3,10 @@ using Accord.Extensions.Imaging.Converters;
 
 namespace Accord.Extensions.Imaging
 {
-    public partial class Image<TColor, TDepth> : Image
-        where TColor : IColor
-        where TDepth : struct
-    {
-        /// <summary>
-        /// Converts the image from source to destination depth. 
-        /// Data may be shared if casting is used. To prevent that set <paramref name="copyAlways"/> to true.
-        /// </summary>
-        /// <typeparam name="DestType">Destination type (primitive type).</typeparam>
-        /// <param name="copyAlways">Forces data copy even if a casting is enough.</param>
-        /// <param name="failIfCannotCast">If data copy is needed throws an exception.</param>
-        /// <returns>Converted image.</returns>
-        public Image<TColor, DestType> Convert<DestType>(bool copyAlways = false, bool failIfCannotCast = false)
-            where DestType : struct
-        {
-            return this.Convert(ColorInfo.GetInfo<TColor, DestType>()) as Image<TColor, DestType>;
-        }
-    }
-
     /// <summary>
     /// Contains extension methods for image color conversion.
     /// </summary>
-    public static class ImageColorExtensions
+    public static class ColorConversionsExtensions
     {
         /// <summary>
         /// Converts the image from source to destination color and depth.
@@ -58,7 +39,7 @@ namespace Accord.Extensions.Imaging
             if (image == null) return null;
 
             var conversionPath = ColorDepthConverter.GetPath(image.ColorInfo, destColor);
-            
+
             if (conversionPath == null)
             {
                 throw new Exception(String.Format("Image does not support conversion from {0} to {1}", image.ColorInfo.ColorType, destColor.ColorType));
@@ -69,8 +50,9 @@ namespace Accord.Extensions.Imaging
                 throw new Exception("Fail if cannot cast is set to true: Image data must be copied");
             }
 
-            var convertedIm = ColorDepthConverter.Convert(conversionPath.ToArray(), image, copyAlways);
+            var convertedIm = ColorDepthConverter.Convert(image, conversionPath.ToArray(), copyAlways);
             return convertedIm;
         }
     }
 }
+
