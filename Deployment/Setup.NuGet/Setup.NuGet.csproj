@@ -7,8 +7,8 @@
     <ProjectGuid>{131A083D-F12A-48FA-8A7D-381C6B5C222D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Setup</RootNamespace>
-    <AssemblyName>Setup</AssemblyName>
+    <RootNamespace>Setup.NuGet</RootNamespace>
+    <AssemblyName>Setup.NuGet</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -48,7 +48,9 @@
     <None Include="Imaging.Algorithms.LNE2D.nuspec" />
     <None Include="Imaging.BitmapCompatibility.nuspec" />
     <None Include="Imaging.AForgeCompatibility.nuspec" />
-    <None Include="Core.nuspec" />
+    <None Include="Core.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="UpdateNuGet.cmd" />
   </ItemGroup>
   <ItemGroup>
@@ -57,15 +59,12 @@
   <ItemGroup>
     <Content Include="NuGet.exe" />
   </ItemGroup>
-    
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  
   <!-- Redefine targets (do nothing) -->
   <Target Name="Build">
   </Target>
   <Target Name="Rebuild">
   </Target>
-  
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>

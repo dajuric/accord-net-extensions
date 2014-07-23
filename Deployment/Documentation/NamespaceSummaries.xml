@@ -1,0 +1,24 @@
+﻿<?xml version="1.0"?>
+<doc>
+  <members>
+    <member name="R:Project">
+      <summary>About the project.</summary>
+    </member>
+
+    <!--Core-->
+    <member name="N:Accord.Extensions">
+      <summary>
+        The core of the Accord.NET Extensions Framework.
+        Contains classes needed for other libraries such as: collections, structures, structures for parallel processing and extensions shared across libraries. 
+      </summary>
+    </member>
+    <member name="N:Accord.Extensions.Caching">
+      <summary>
+        Contains structures for memory lazy caching and method caching.
+      </summary>
+    </member>
+    
+    
+    
+  </members>
+</doc>

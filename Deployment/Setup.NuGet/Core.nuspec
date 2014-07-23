@@ -13,7 +13,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
       The core of the Accord.NET Extensions Framework. 
-      Contains classes needed for other libraries such as: collections, structures, strcutures for parallel processing and extensions shared across libraries. Accord.NET Extensions is an extension framework for Accord.NET and AForge.NET.
+      Contains classes needed for other libraries such as: collections, structures, structures for parallel processing and extensions shared across libraries. Accord.NET Extensions is an extension framework for Accord.NET and AForge.NET.
     </description>
     <summary>Accord.NET Extensions Framework core library.</summary>
     <tags>accord.net framework extensions</tags>
