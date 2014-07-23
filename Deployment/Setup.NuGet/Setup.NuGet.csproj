@@ -57,7 +57,15 @@
   <ItemGroup>
     <Content Include="NuGet.exe" />
   </ItemGroup>
+    
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  
+  <!-- Redefine targets (do nothing) -->
+  <Target Name="Build">
+  </Target>
+  <Target Name="Rebuild">
+  </Target>
+  
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
@@ -67,6 +75,5 @@
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
-  </Target>
-  -->
+  </Target>  -->
 </Project>

@@ -10,8 +10,8 @@ namespace ImageExtractor
         {
             //emulate input args
             //string fileName = Path.Combine(@"C:\Users\Darko-Home\Desktop\HandVideos", "Toni .wmv");
-            //string fileName = Path.Combine(@"C:\Users\Darko-Home\Desktop\Svjetla - baza podataka\Stražnja", "AA012201.mxf");
-            string fileName = Path.Combine(getResourceDir(), "Welcome Accord.NET Extensions.mp4");
+            string fileName = Path.Combine(@"C:\Users\Darko-Home\Desktop\Svjetla - baza podataka\Stražnja", "AA012201.mxf");
+            //string fileName = Path.Combine(getResourceDir(), "Welcome Accord.NET Extensions.mp4");
 
             if (args.Length == 1)
                 fileName = args[0];

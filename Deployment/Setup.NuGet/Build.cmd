@@ -12,7 +12,7 @@ timeout /T 5
 
 :: Set version info
 set version=0.9.0
-set output=..\bin\nupkg
+set output=bin\
 
 :: Create output directory
 IF NOT EXIST %output%\nul (

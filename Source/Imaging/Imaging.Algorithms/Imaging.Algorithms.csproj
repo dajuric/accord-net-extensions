@@ -73,8 +73,9 @@
     <Compile Include="Convolution\SpatialConvolution\ParallelSpatialConvolution.cs" />
     <Compile Include="Filters\Binarization\InRange.cs" />
     <Compile Include="Filters\Blend.cs" />
-    <Compile Include="CornerFeatures\GoodFeaturesToTrackExtensions.cs" />
-    <Compile Include="CornerFeatures\HarrisExtensions.cs" />
+    <Compile Include="Interest Points\FastRetinaKeypointDetector.cs" />
+    <Compile Include="Interest Points\GoodFeaturesToTrack.cs" />
+    <Compile Include="Interest Points\HarrisCornersDetector.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Arithmetics.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Backpropagate.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Calculate.cs" />
