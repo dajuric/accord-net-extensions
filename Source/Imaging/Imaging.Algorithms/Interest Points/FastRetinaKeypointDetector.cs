@@ -13,7 +13,6 @@ namespace Accord.Extensions.Imaging
         /// Fast Retina Keypoint (FREAK) detector.
         /// <para>Accord.NET internal call. Please see: <see cref="Accord.Imaging.FastRetinaKeypointDetector"/> for details.</para>
         /// </summary>
-        /// <typeparam name="TDepth">Channel type.</typeparam>
         /// <param name="im">Image.</param>
         /// <param name="threshold">The detection threshold for the <see cref="Accord.Imaging.FastCornersDetector">FAST detector</see>.</param>
         /// <param name="computeDescriptors">

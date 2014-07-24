@@ -3,7 +3,7 @@ using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Filters;
 
-namespace LINE2D
+namespace Accord.Extensions.Imaging.Algorithms.LNE2D
 {
     /// <summary>
     /// Image template pyramid. See <see cref="ImageTemplate"/> for details.

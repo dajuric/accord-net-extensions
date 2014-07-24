@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LINE2D
+namespace Accord.Extensions.Imaging.Algorithms.LNE2D
 {
     /// <summary>
     /// Line2D feature.

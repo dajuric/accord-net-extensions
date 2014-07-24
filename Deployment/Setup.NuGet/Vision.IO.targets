@@ -38,10 +38,11 @@
   </Target>
 
   <PropertyGroup>
-    <AfterBuildDependsOn_OpenCV>
+    <AfterBuildDependsOn>
+      $(AfterBuildDependsOn);
       CopyNativeReferences_OpenCV;
-    </AfterBuildDependsOn_OpenCV>
+    </AfterBuildDependsOn>
   </PropertyGroup>
 
-  <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn_OpenCV)"/>
+  <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)"/>
 </Project>

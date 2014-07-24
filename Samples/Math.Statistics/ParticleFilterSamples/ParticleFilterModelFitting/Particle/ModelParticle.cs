@@ -1,7 +1,7 @@
 ﻿using System;
 using Accord.Extensions;
 using Accord.Extensions.Statistics.Filters;
-using LINE2D;
+using Accord.Extensions.Imaging.Algorithms.LNE2D;
 
 namespace ParticleFilterModelFitting
 {

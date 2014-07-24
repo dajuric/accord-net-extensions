@@ -6,7 +6,7 @@ using Accord.Extensions.Imaging;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 
-namespace LINE2D
+namespace Accord.Extensions.Imaging.Algorithms.LNE2D
 {
     /// <summary>
     /// Represents found LINE2D template.

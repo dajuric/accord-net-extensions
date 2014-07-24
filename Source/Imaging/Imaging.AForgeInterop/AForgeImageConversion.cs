@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Accord.Extensions.Imaging.Converters;
-using Accord.Extensions.Imaging.Helper;
 using AForge.Imaging;
 
 namespace Accord.Extensions.Imaging

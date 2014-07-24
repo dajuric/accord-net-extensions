@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 
-namespace LINE2D
+namespace Accord.Extensions.Imaging.Algorithms.LNE2D
 {
     /// <summary>
     /// LINE2D template. The class contains methods for template extraction from an image.
@@ -92,7 +92,7 @@ namespace LINE2D
         /// <param name="featureImportanceFunc">Function which returns feature's strength.</param>
         public void Initialize(Image<Gray, int> orientation, int maxNumberOfFeatures, string classLabel, Func<Feature, int> featureImportanceFunc = null)
         {
-            maxNumberOfFeatures = Math.Max(0, Math.Min(maxNumberOfFeatures, GlobalParameters.MAX_NUM_OF_FEATURES));
+            maxNumberOfFeatures = System.Math.Max(0, System.Math.Min(maxNumberOfFeatures, GlobalParameters.MAX_NUM_OF_FEATURES));
             featureImportanceFunc = (featureImportanceFunc != null) ? featureImportanceFunc: (feature) => 0;
 
             Image<Gray, Byte> importantQuantizedOrient = FeatureMap.Calculate(orientation, 0);
@@ -111,8 +111,8 @@ namespace LINE2D
                 //    Console.WriteLine();
 
                 //PATCH!!!
-                features[i].X = Math.Max(0, features[i].X);
-                features[i].Y = Math.Max(0, features[i].Y);
+                features[i].X = System.Math.Max(0, features[i].X);
+                features[i].Y = System.Math.Max(0, features[i].Y);
             }
 
 

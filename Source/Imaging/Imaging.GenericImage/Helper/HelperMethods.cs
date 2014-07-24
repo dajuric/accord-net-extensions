@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace Accord.Extensions.Imaging.Helper
+namespace Accord.Extensions.Imaging
 {
     /// <summary>
     /// Contains image helper methods.

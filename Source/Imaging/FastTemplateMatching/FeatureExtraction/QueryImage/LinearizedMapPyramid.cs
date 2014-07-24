@@ -3,7 +3,7 @@ using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Filters;
 
-namespace LINE2D
+namespace Accord.Extensions.Imaging.Algorithms.LNE2D
 {
     /// <summary>
     /// Computes linearized maps for each image in the image pyramid.. See <see cref="LinearizedMaps"/> for details.

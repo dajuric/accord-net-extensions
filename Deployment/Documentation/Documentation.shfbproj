@@ -34,10 +34,10 @@
       <DocumentationSource sourceFile="..\..\Source\Math\Math\Math.csproj" />
       <DocumentationSource sourceFile="..\..\Source\Math\Statistics\Statistics.csproj" />
       <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj" />
-      <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj" />
-      <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.AForgeCompatibility\Imaging.AForgeCompatibility.csproj" />
       <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.Algorithms\Imaging.Algorithms.csproj" />
-      <DocumentationSource sourceFile="..\..\Source\Imaging\FastTemplateMatching\LINE2D.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\Imaging\FastTemplateMatching\Imaging.Algorithms.LNE2D.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
@@ -58,7 +58,8 @@
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="False" />
-<NamespaceSummaryItem name="Accord.Extensions" isDocumented="True" /></NamespaceSummaries>
+      <NamespaceSummaryItem name="Accord.Extensions" isDocumented="True" />
+    </NamespaceSummaries>
     <ProjectSummary>
     </ProjectSummary>
   </PropertyGroup>

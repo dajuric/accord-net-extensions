@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Point = AForge.IntPoint;
 
-namespace LINE2D
+namespace Accord.Extensions.Imaging.Algorithms.LNE2D
 {
     /// <summary>
     /// Contains extensions for matching templates against <see cref="LinearizedMapPyramid"/> and <see cref="LinearizedMaps"/>.
@@ -92,8 +92,8 @@ namespace LINE2D
                     //translate search area to lower pyramid level
                     searchArea = new Rectangle //in originalImageSize coordinate system
                     {
-                        X = Math.Max(0, canidate.X - previousNeigborhood),
-                        Y = Math.Max(0, canidate.Y - previousNeigborhood),
+                        X = System.Math.Max(0, canidate.X - previousNeigborhood),
+                        Y = System.Math.Max(0, canidate.Y - previousNeigborhood),
                         Width = previousNeigborhood * 2, 
                         Height = previousNeigborhood * 2
                     };
@@ -193,7 +193,7 @@ namespace LINE2D
             var similarityMap = calculateSimilarityMap(template, linMaps, searchArea);
 
             float rawScoreScale = 100f / (GlobalParameters.MAX_FEATURE_SIMILARITY * template.Features.Length);
-            short minMatchingRawScore = (short)Math.Round(minMatchingPercentage * (1 / rawScoreScale));
+            short minMatchingRawScore = (short)System.Math.Round(minMatchingPercentage * (1 / rawScoreScale));
 
             List<short> rawScores;
             var foundMatchPoints = searchSimilarityMap(similarityMap, minMatchingRawScore, out rawScores);

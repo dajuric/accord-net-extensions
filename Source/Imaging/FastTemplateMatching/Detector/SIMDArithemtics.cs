@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using Point = AForge.IntPoint;
 
-namespace LINE2D
+namespace Accord.Extensions.Imaging.Algorithms.LNE2D
 {
     /// <summary>
     /// Contains extension methods for 8-bit and 16-vector addition by suing fast SIMD arithmetics.

@@ -137,13 +137,13 @@
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
       <Name>Math</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Imaging.AForgeCompatibility\Imaging.AForgeCompatibility.csproj">
+    <ProjectReference Include="..\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj">
       <Project>{f4e40964-c640-4c87-9e3e-a1f1266fbc73}</Project>
-      <Name>Imaging.AForgeCompatibility</Name>
+      <Name>Imaging.AForgeInterop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj">
+    <ProjectReference Include="..\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj">
       <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
-      <Name>Imaging.BitmapCompatibility</Name>
+      <Name>Imaging.BitmapInterop</Name>
     </ProjectReference>
     <ProjectReference Include="..\Imaging.GenericImage\Imaging.GenericImage.csproj">
       <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>

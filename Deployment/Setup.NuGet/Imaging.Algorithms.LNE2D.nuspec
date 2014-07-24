@@ -25,7 +25,7 @@
       <dependency id="Accord.Extensions.Math"                         version="$version$" />
       <dependency id="Accord.Extensions.Imaging.GenericImage"         version="$version$" />
       <dependency id="Accord.Extensions.Imaging.Algorithms"           version="$version$" />
-      <dependency id="Accord.Extensions.Imaging.BitmapCompatibility"  version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.BitmapInterop"        version="$version$" />
     </dependencies>
 
     <frameworkAssemblies>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
-using Accord.Extensions.Imaging.Helper;
 
 namespace Accord.Extensions.Imaging
 {

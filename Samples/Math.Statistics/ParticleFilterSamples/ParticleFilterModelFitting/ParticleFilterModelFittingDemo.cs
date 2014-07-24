@@ -10,7 +10,7 @@ using Accord.Extensions.Math.Geometry;
 using Accord.Extensions.Statistics.Filters;
 using Accord.Extensions.Vision;
 using AForge;
-using LINE2D;
+using Accord.Extensions.Imaging.Algorithms.LNE2D;
 using MoreLinq;
 using PointF = AForge.Point;
 

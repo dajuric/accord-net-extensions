@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LINE2D;
+using Accord.Extensions.Imaging.Algorithms.LNE2D;
 using Range = AForge.IntRange;
 
 namespace ParticleFilterModelFitting

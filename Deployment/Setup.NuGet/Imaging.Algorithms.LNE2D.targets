@@ -11,10 +11,11 @@
   </Target>
 
   <PropertyGroup>
-    <AfterBuildDependsOn_SIMDArrayInstructions>
+    <AfterBuildDependsOn>
+      $(AfterBuildDependsOn);
       CopyNativeReferences_SIMDArrayInstructions;
-    </AfterBuildDependsOn_SIMDArrayInstructions>
+    </AfterBuildDependsOn>
   </PropertyGroup>
   
-  <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn_SIMDArrayInstructions)"/>
+  <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)"/>
 </Project>

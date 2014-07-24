@@ -103,9 +103,9 @@
       <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
       <Name>Imaging.Algorithms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Source\Imaging\Imaging.BitmapCompatibility\Imaging.BitmapCompatibility.csproj">
+    <ProjectReference Include="..\..\..\..\Source\Imaging\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj">
       <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
-      <Name>Imaging.BitmapCompatibility</Name>
+      <Name>Imaging.BitmapInterop</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj">
       <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>

@@ -1,5 +1,4 @@
-﻿using Accord.Extensions.Imaging.Helper;
-using Accord.Imaging;
+﻿using Accord.Imaging;
 using Accord.Imaging.Filters;
 using Accord.Math;
 

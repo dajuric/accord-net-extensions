@@ -1,6 +1,5 @@
 ﻿using System;
 using Accord.Extensions.Imaging.Converters;
-using Accord.Extensions.Imaging.Helper;
 
 namespace Accord.Extensions.Imaging
 {

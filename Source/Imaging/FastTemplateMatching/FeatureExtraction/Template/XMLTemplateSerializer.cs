@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Accord.Extensions;
 
-namespace LINE2D
+namespace Accord.Extensions.Imaging.Algorithms.LNE2D
 {
     /// <summary>
     /// Serializes and de-serializes list of template pyramids into/from XML file.

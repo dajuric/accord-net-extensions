@@ -46,8 +46,8 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Imaging.Algorithms.LNE2D.nuspec" />
-    <None Include="Imaging.BitmapCompatibility.nuspec" />
-    <None Include="Imaging.AForgeCompatibility.nuspec" />
+    <None Include="Imaging.BitmapInterop.nuspec" />
+    <None Include="Imaging.AForgeInterop.nuspec" />
     <None Include="Core.nuspec">
       <SubType>Designer</SubType>
     </None>

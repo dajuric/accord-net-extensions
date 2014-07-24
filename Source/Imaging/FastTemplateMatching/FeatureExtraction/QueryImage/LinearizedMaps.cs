@@ -6,7 +6,7 @@ using Accord.Extensions.Imaging;
 using Point = AForge.IntPoint;
 using PointF = AForge.Point;
 
-namespace LINE2D
+namespace Accord.Extensions.Imaging.Algorithms.LNE2D
 {
     /// <summary>
     /// Linearized memory maps calculation.
@@ -69,7 +69,7 @@ namespace LINE2D
             }
 
             //the less shifts, the bigger similarity
-            byte similarity = (byte)(GlobalParameters.MAX_FEATURE_SIMILARITY - Math.Min(numOfLeftShifts, numOfRightShifts));
+            byte similarity = (byte)(GlobalParameters.MAX_FEATURE_SIMILARITY - System.Math.Min(numOfLeftShifts, numOfRightShifts));
 
             return similarity;
         }

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Accord.Extensions.Imaging;
 
-namespace LINE2D
+namespace Accord.Extensions.Imaging.Algorithms.LNE2D
 {
     /// <summary>
     /// Image template which contains object mask. It can be created only from a black-white image.

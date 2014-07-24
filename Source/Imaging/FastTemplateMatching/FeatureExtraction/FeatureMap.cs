@@ -1,7 +1,7 @@
 ﻿using System;
 using Accord.Extensions.Imaging;
 
-namespace LINE2D
+namespace Accord.Extensions.Imaging.Algorithms.LNE2D
 {
     /// <summary>
     /// Orientation feature map.
@@ -48,7 +48,7 @@ namespace LINE2D
             {
                 int directedAngle;
 
-                directedAngle = (int)Math.Round(2f * GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS / 360 * angle);
+                directedAngle = (int)System.Math.Round(2f * GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS / 360 * angle);
                 directedAngle &= 7;
          
                 angleQuantizationTable[angle] = (byte)directedAngle;

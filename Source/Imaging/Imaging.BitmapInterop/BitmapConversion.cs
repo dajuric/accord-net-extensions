@@ -1,5 +1,4 @@
-﻿using Accord.Extensions.Imaging.Helper;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;

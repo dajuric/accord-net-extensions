@@ -5,6 +5,7 @@
       <summary>About the project.</summary>
     </member>
 
+    <!--******************************  Core ******************************-->
     <!--Core-->
     <member name="N:Accord.Extensions">
       <summary>
@@ -12,13 +13,81 @@
         Contains classes needed for other libraries such as: collections, structures, structures for parallel processing and extensions shared across libraries. 
       </summary>
     </member>
+    <member name="N:Accord.Extensions.BinaryTree">
+      <summary>
+      </summary>
+    </member>
     <member name="N:Accord.Extensions.Caching">
       <summary>
         Contains structures for memory lazy caching and method caching.
       </summary>
     </member>
+
+    <!--******************************  Imaging ******************************-->
+    <!--Imaging.GenericImage-->
+    <!--Imaging.Algorithms-->
+    <!--Imaging.AForgeInterop-->
+    <!--Imaging.BitmapInterop-->
+    <member name="N:Accord.Extensions.Imaging">
+      <summary>
+      </summary>
+    </member>
+
+    <!--Imaging.GenericImage-->
+    <member name="N:Accord.Extensions.Imaging.Converters">
+      <summary>
+      </summary>
+    </member>
+
+    <!--Imaging.Algorithms-->
+    <member name="N:Accord.Extensions.Imaging.Filters">
+      <summary>
+      </summary>
+    </member>
+    <member name="N:Accord.Extensions.Imaging.IntegralImage">
+      <summary>
+      </summary>
+    </member>
+    <member name="N:Accord.Extensions.Imaging.Moments">
+      <summary>
+      </summary>
+    </member>
     
-    
+    <!--Imaging.Algorithms.LINE2D-->
+    <member name="N:Accord.Extensions.Imaging.Algortihms.LINE2D">
+      <summary>
+      </summary>
+    </member>
+
+    <!--******************************  Math ******************************-->
+    <!--Math-->
+    <member name="N:Accord.Extensions.Math">
+      <summary>
+      </summary>
+    </member>
+    <member name="N:Accord.Extensions.Math.Geometry">
+      <summary>
+      </summary>
+    </member>
+
+    <!--******************************  Statistics ******************************-->
+    <!--Statistics-->
+    <member name="N:Accord.Extensions.Statistics">
+      <summary>
+      </summary>
+    </member>
+    <member name="N:Accord.Extensions.Statistics.Filters">
+      <summary>
+      </summary>
+    </member>
+
+    <!--******************************  Vision ******************************-->
+    <!--Vision-->
+    <!--Vision.IO-->
+    <member name="N:Accord.Extensions.Vision">
+      <summary>
+      </summary>
+    </member>
     
   </members>
 </doc>
