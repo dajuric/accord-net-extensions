@@ -9,12 +9,13 @@
     <!--Core-->
     <member name="N:Accord.Extensions">
       <summary>
-        The core of the Accord.NET Extensions Framework.
+        The core namespace of the Accord.NET Extensions Framework.
         Contains classes needed for other libraries such as: collections, structures, structures for parallel processing and extensions shared across libraries. 
       </summary>
     </member>
     <member name="N:Accord.Extensions.BinaryTree">
       <summary>
+        Contains extension methods to simulate binary tree by using list and array collections.
       </summary>
     </member>
     <member name="N:Accord.Extensions.Caching">
@@ -30,32 +31,40 @@
     <!--Imaging.BitmapInterop-->
     <member name="N:Accord.Extensions.Imaging">
       <summary>
+        The namespace is shared across several packages.
+        Contains generic image class and extensions which include: AForge and Bitmap interoperability extensions and algorithms which are mostly written in a form of an extension.
       </summary>
     </member>
 
     <!--Imaging.GenericImage-->
     <member name="N:Accord.Extensions.Imaging.Converters">
       <summary>
+        Contains several classes related to image color and depth conversions. Those classes enable a user to define its own color and depth types and appropriate conversions.
+        The non-direct conversions are automatically resolved (graph traversal).
       </summary>
     </member>
 
     <!--Imaging.Algorithms-->
     <member name="N:Accord.Extensions.Imaging.Filters">
       <summary>
+        Contains a subset of imaging algorithms which belong to a "Filter" category.
       </summary>
     </member>
     <member name="N:Accord.Extensions.Imaging.IntegralImage">
       <summary>
+        Provides extensions for integral image. 
       </summary>
     </member>
     <member name="N:Accord.Extensions.Imaging.Moments">
       <summary>
+        Provides classes for calculating image moments.
       </summary>
     </member>
     
     <!--Imaging.Algorithms.LINE2D-->
-    <member name="N:Accord.Extensions.Imaging.Algortihms.LINE2D">
+    <member name="N:Accord.Extensions.Imaging.Algorithms.LINE2D">
       <summary>
+        Implements template matching algorithm (~20x faster than conventional sliding window approach).
       </summary>
     </member>
 
@@ -63,10 +72,13 @@
     <!--Math-->
     <member name="N:Accord.Extensions.Math">
       <summary>
+        Provides extensions for the 2D array. 
+        Implements parallel FFT transform. Implements group matching.
       </summary>
     </member>
     <member name="N:Accord.Extensions.Math.Geometry">
       <summary>
+        Provides structures and extensions for the graphs, contour, point transformations. 
       </summary>
     </member>
 
@@ -74,10 +86,14 @@
     <!--Statistics-->
     <member name="N:Accord.Extensions.Statistics">
       <summary>
+        Provides structures and extensions for calculating statistics over data.
+        Implements running statistics extensions.
       </summary>
     </member>
     <member name="N:Accord.Extensions.Statistics.Filters">
       <summary>
+        Implements the following algorithms: Discrete Kalman filter, Particle filtering (as extension), Joint-Probability data association filter (as extension).
+        Provides motion models.
       </summary>
     </member>
 
@@ -86,6 +102,9 @@
     <!--Vision.IO-->
     <member name="N:Accord.Extensions.Vision">
       <summary>
+        The namespace is shared across two packages. 
+        The root package implements vision algorithms. 
+        The second one provides IO interoperability (camera support, video capture, image directory reading).
       </summary>
     </member>
     

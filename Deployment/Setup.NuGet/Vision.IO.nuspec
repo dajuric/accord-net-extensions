@@ -12,7 +12,7 @@
     <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Provides unified API for IO video access: web-camera support, various video-format reading / writting, image-directory reader.
+      Provides unified API for IO video access: web-camera support, various video-format reading / writing, image-directory reader.
       All operations are stream-like and are abstracted therefore do not depend on actual video source. 
       The library is made in platform-abstract fashion.
     </description>

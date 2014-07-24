@@ -2,58 +2,120 @@
 <topic id="82a47298-d8a0-427d-ba58-e4bf1ac468ff" revisionNumber="1">
 	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
 		<introduction>
-			<para>This is a sample conceptual topic.  You can use this as a starting point for adding more conceptual
-content to your help project.</para>
+			<para>
+        Accord.NET Extensions is an extension framework for Accord.NET and AForge.NET.
+        The framework is built with extensibility and portability in mind.    
+        Most provided algorithms for image processing, computer vision and statistical algorithms and methods are made as extensions.
+        New structures for image handling - generic image is not tied to any specific library and video IO interoperability is platform abstract.
+      </para>
+
+      <para>
+        The framework is divided in libraries available through NuGet packages. The libraries can be grouped as following:
+      </para>
 		</introduction>
 
 		<section>
-			<title>Getting Started</title>
+			<title>Scientific computing</title>
 			<content>
-				<para>To get started, add a documentation source to the project (a Visual Studio solution, project, or
-assembly and XML comments file).  See the <legacyBold>Getting Started</legacyBold> topics in the Sandcastle Help
-File Builder's help file for more information.  The following default items are included in this project:</para>
-
+		
 				<list class="bullet">
 					<listItem>
-						<para><localUri>ContentLayout.content</localUri> - Use the content layout file to manage the
-conceptual content in the project and define its layout in the table of contents.</para>
+            <para>Accord.Extensions.Math</para>
+						<para> 
+              Provides extensions for the 2D array, graphs, contour, point transformations. 
+              Implements parallel FFT transform. Implements group matching.
+            </para>
 					</listItem>
 
-					<listItem>
-						<para>The <localUri>.\Media</localUri> folder - Place images in this folder that you will reference
-from conceptual content using <codeInline>medialLink</codeInline> or <codeInline>mediaLinkInline</codeInline>
-elements.  If you will not have any images in the file, you may remove this folder.</para>
-					</listItem>
-
-					<listItem>
-						<para>The <localUri>.\icons</localUri> folder - This contains a default logo for the help file.  You
-may replace it or remove it and the folder if not wanted.  If removed or if you change the file name, update
-the <ui>Transform Args</ui> project properties page by removing or changing the filename in the
-<codeInline>logoFile</codeInline> transform argument.  Note that unlike images referenced from conceptual topics,
-the logo file should have its <legacyBold>BuildAction</legacyBold> property set to <codeInline>Content</codeInline>.</para>
-					</listItem>
-
-					<listItem>
-						<para>The <localUri>.\Content</localUri> folder - Use this to store your conceptual topics.  You may
-name the files and organize them however you like.  One suggestion is to lay the files out on disk as you have
-them in the content layout file as shown in this project but the choice is yours.  Files can be added via the
-Solution Explorer or from within the content layout file editor.  Files must appear in the content layout file
-in order to be compiled into the help file.</para>
-					</listItem>
+          <listItem>
+            <para>Accord.Extensions.Statistics</para>
+            <para>
+              Provides classes and extensions for the following filters: Kalman, Particle filter, JPDAF - Joint Probability Data Association Filter.
+              Includes 2D motion models.
+            </para>
+          </listItem>
 				</list>
-
-				<para>See the <legacyBold>Conceptual Content</legacyBold> topics in the Sandcastle Help File Builder's
-help file for more information.  See the <legacyBold> Sandcastle MAML Guide</legacyBold> for details on Microsoft
-Assistance Markup Language (MAML) which is used to create these topics.</para>
-
-        <para>
-          MY comment: <link xlink:href="N:Accord.Extensions"></link>.
-        </para>
 			</content>
 		</section>
 
-		<relatedTopics>
-			<link xlink:href="546926a0-a454-4897-8fd2-78a597ade5fb" />
+    <section>
+      <title>Image processing</title>
+      <content>
+
+        <list class="bullet">
+          <listItem>
+            <para>Accord.Extensions.Imaging.GenericImage</para>
+            <para>
+              Implements slim generic image class and basic extensions (arithmetics). Provides multiple color spaces and conversions between them.
+              To get compatibility for other image types install appropriate extension NuGet package (e.g. Imaging.BitmapInterop).
+            </para>
+          </listItem>
+
+          <listItem>
+            <para>Accord.Extensions.Imaging.Algorithms</para>
+            <para>
+              Implements image-processing and computer-vision algorithms.
+              Provides extensions for some image-processing algorithms implemented in AForge.NET and Accord.NET library.
+            </para>
+          </listItem>
+
+          <listItem>
+            <para>Accord.Extensions.Imaging.Algorithms.LINE2D</para>
+            <para>
+              Implements template matching algorithm (~20x faster than conventional sliding window approach).
+            </para>
+          </listItem>
+
+          <listItem>
+            <para>Accord.Extensions.Vision</para>
+            <para>
+              Provides computer vision algorithms: Pyramidal KLT tracker, Camshift, Meanshift.
+            </para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+
+    <section>
+      <title>Support libraries</title>
+      <content>
+
+        <list class="bullet">
+          <listItem>
+            <para>Accord.Extensions.Core</para>
+            <para>
+              The core of the Accord.NET Extensions Framework.
+              Contains classes needed for other libraries such as: collections, structures, structures for parallel processing and extensions shared across libraries. Accord.NET Extensions is an extension framework for Accord.NET and AForge.NET.
+            </para>
+          </listItem>
+
+          <listItem>
+            <para>Accord.Extensions.Imaging.AForgeInterop</para>
+            <para>
+              Provides extensions for easy interoperability between generic image and AForge UnmanagedImage.
+            </para>
+          </listItem>
+
+          <listItem>
+            <para>Accord.Extensions.Imaging.BitmapInterop</para>
+            <para>
+              Provides extensions for interoperability with System.Drawing.Bitmap, Point, PointF, Color and drawing extensions.
+            </para>
+          </listItem>
+
+          <listItem>
+            <para>Accord.Extensions.Vision.IO</para>
+            <para>
+              Provides unified API for IO video access: web-camera support, various video-format reading / writing, image-directory reader.
+              All operations are stream-like and are abstracted therefore do not depend on actual video source.
+              The library is made in platform-abstract fashion.
+            </para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+
+    <relatedTopics>
 		</relatedTopics>
 	</developerConceptualDocument>
 </topic>
