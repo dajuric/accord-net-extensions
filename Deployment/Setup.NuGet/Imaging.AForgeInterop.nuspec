@@ -2,7 +2,7 @@
 
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Accord.Extensions.Imaging.AForgeCompatibility</id>
+    <id>Accord.Extensions.Imaging.AForgeInterop</id>
     <version>$version$</version>
     <title>Accord Extensions AForge Compatibility</title>
     <authors>Accord.NET Extensions</authors>
@@ -31,7 +31,7 @@
   </metadata>
   
   <files>
-    <file src="..\..\bin\Release\Accord.Extensions.Imaging.AForgeCompatibility.dll" target="lib\Accord.Extensions.Imaging.AForgeCompatibility.dll" />
-    <file src="..\..\bin\Release\Accord.Extensions.Imaging.AForgeCompatibility.xml" target="lib\Accord.Extensions.Imaging.AForgeCompatibility.xml" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.AForgeInterop.dll" target="lib\Accord.Extensions.Imaging.AForgeInterop.dll" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.AForgeInterop.xml" target="lib\Accord.Extensions.Imaging.AForgeInterop.xml" />
   </files>
 </package>

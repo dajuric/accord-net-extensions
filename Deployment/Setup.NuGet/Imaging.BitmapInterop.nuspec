@@ -2,7 +2,7 @@
 
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Accord.Extensions.Imaging.BitmapCompatibility</id>
+    <id>Accord.Extensions.Imaging.BitmapInterop</id>
     <version>$version$</version>
     <title>Accord Extensions Bitmap Compatibility</title>
     <authors>Accord.NET Extensions</authors>
@@ -32,7 +32,7 @@
   </metadata>
   
   <files>
-    <file src="..\..\bin\Release\Accord.Extensions.Imaging.BitmapCompatibility.dll" target="lib\Accord.Extensions.Imaging.BitmapCompatibility.dll" />
-    <file src="..\..\bin\Release\Accord.Extensions.Imaging.BitmapCompatibility.xml" target="lib\Accord.Extensions.Imaging.BitmapCompatibility.xml" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.BitmapInterop.dll" target="lib\Accord.Extensions.Imaging.BitmapInterop.dll" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.BitmapInterop.xml" target="lib\Accord.Extensions.Imaging.BitmapInterop.xml" />
   </files>
 </package>
