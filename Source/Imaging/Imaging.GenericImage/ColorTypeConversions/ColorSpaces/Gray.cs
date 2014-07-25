@@ -42,5 +42,14 @@ namespace Accord.Extensions.Imaging
         {
             return new Gray(intensity);
         }
+
+        /// <summary>
+        /// Gets the string color representation.
+        /// </summary>
+        /// <returns>String color representation.</returns>
+        public override string ToString()
+        {
+            return string.Format("{0}", Intensity);
+        }
     }
 }

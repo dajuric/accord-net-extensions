@@ -86,7 +86,7 @@ namespace Accord.Extensions.Imaging
             where TColor : IColor
             where TDepth : struct
         {
-            var fields = typeof(TColor).GetFields();
+            var fields = typeof(TColor).GetFields(BindingFlags.Public | ~BindingFlags.Static);
 
             object color = default(TColor);
 

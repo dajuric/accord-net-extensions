@@ -35,6 +35,28 @@ namespace Accord.Extensions.Imaging
         /// Gets or sets value.
         /// </summary>
         public double V;
+
+        /// <summary>
+        /// Gets the string color representation.
+        /// </summary>
+        /// <returns>String color representation.</returns>
+        public override string ToString()
+        {
+            return string.Format("H: {0}, S: {1}, V: {2}", H, S, V);
+        }
+
+        /// <summary>
+        /// Gets the index of the hue component.
+        /// </summary>
+        public const int IdxH = 0;
+        /// <summary>
+        /// Gets the index of the saturation component.
+        /// </summary>
+        public const int IdxS = 1;
+        /// <summary>
+        /// Gets the index of the value component.
+        /// </summary>
+        public const int IdxV = 2;
     }
 
     /// <summary>

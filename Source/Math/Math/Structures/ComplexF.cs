@@ -17,7 +17,7 @@ namespace Accord.Extensions.Math
         public float Im;
 
         /// <summary>
-        /// Creates a new instance of <see cref="ComplexF"/> strucure.
+        /// Creates a new instance of <see cref="ComplexF"/> structure.
         /// </summary>
         /// <param name="re">Real part.</param>
         /// <param name="im">Imaginary part.</param>

@@ -20,7 +20,7 @@ namespace Accord.Extensions.Math
         public double Im;
 
         /// <summary>
-        /// Creates a new instance of <see cref="Complex"/> strucure.
+        /// Creates a new instance of <see cref="Complex"/> structure.
         /// </summary>
         /// <param name="re">Real part.</param>
         /// <param name="im">Imaginary part.</param>

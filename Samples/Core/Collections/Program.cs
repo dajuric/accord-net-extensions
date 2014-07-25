@@ -9,11 +9,24 @@ namespace Collections
     {
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Sparse matrix example:"); Console.ResetColor();
             testSparseMatrix();
-            //testCircularList(); //TODO: ispraviti ?
-            //testMap();
-            //testHistory();
-            //testPinnedArray();
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Circular list example:"); Console.ResetColor();
+            testCircularList(); //TODO: ispraviti ?
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Map example:");           Console.ResetColor();
+            testMap();
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("History example:");       Console.ResetColor();
+            testHistory();
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Pinned array example:");  Console.ResetColor();
+            testPinnedArray();
         }
 
         struct MatElement<TKey, TVal>
@@ -53,6 +66,7 @@ namespace Collections
             {
                 Console.Write(val + " ");
             }
+            Console.WriteLine();
 
             //discover more extension methods!!!
         }
@@ -60,7 +74,7 @@ namespace Collections
         private static void testCircularList()
         {
             //the common problem when working with contours is to select previous and next point
-            //the list can be the solution but the special boder cases must be handeled separetly
+            //the list can be the solution but the special boundary cases must be handled separately
             //that is the reason why the circular list structure is created
 
             List<int> numbers = new int[] { 2, 4, 6, 8, 10, 12, 14 }.ToList();
@@ -77,6 +91,8 @@ namespace Collections
 	        }
 
             List<int> someLst = circularList; //back to list
+            Console.WriteLine();
+
             //discover more properties and extensions!!!
         }
 
@@ -106,13 +122,14 @@ namespace Collections
             {
                 Console.Write(keyB + " ");
             }
+            Console.WriteLine();
 
             //discover more properties and extensions!!!
         }
 
         private static void testHistory()
         {
-            //to log a history a list could serve. 
+            //to log a history a list could do the job. 
             //However if the user wants to remember only few elements (e.g. during object tracking) then History<> is the easiest to use.
 
             History<int> hist = new History<int>(maxNumOfElems: 5);
@@ -123,6 +140,7 @@ namespace Collections
             {
                 Console.Write(elem + " ");
             }
+            Console.WriteLine();
 
             //discover more properties and extensions!!!
         }
@@ -130,7 +148,7 @@ namespace Collections
         private unsafe static void testPinnedArray()
         { 
             //to enable fast access to the elements of the array (without bound checking) an PinnedArray<> is created.
-            //you can emulate it with GCHandle, but I think it looks better this way :)
+            //you can emulate it by using GCHandle, but this is more convenient way :)
 
             int[] arr = new int[] { 1, 2, 3, 4, 5 };
 

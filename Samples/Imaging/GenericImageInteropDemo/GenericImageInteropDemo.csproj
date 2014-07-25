@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{096BB366-DD5F-4535-AB15-9B975AB9E87E}</ProjectGuid>
+    <ProjectGuid>{E4ED626D-359B-493C-A72E-3738A5353D1B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GenericImageSamples</RootNamespace>
-    <AssemblyName>GenericImageSamples</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <RootNamespace>GenericImageInteropDemo</RootNamespace>
+    <AssemblyName>GenericImageInteropDemo</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -36,10 +35,10 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord">
+      <HintPath>..\..\..\packages\Accord.2.12.0.0\lib\Accord.dll</HintPath>
+    </Reference>
     <Reference Include="Accord.Math">
       <HintPath>..\..\..\packages\Accord.Math.2.12.0.0\lib\Accord.Math.dll</HintPath>
     </Reference>
@@ -49,25 +48,26 @@
     <Reference Include="AForge.Imaging">
       <HintPath>..\..\..\packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
     </Reference>
+    <Reference Include="AForge.Math">
+      <HintPath>..\..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestColorConversions.cs" />
-    <Compile Include="TestPerformance.cs" />
+    <Compile Include="Test.ArrayInterop.cs" />
+    <Compile Include="Test.AForgeInterop.cs" />
+    <Compile Include="Test.BitmapInterop.cs" />
+    <Compile Include="Test.OpenCVInterop.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\colorBig.jpg" />
-    <Content Include="Resources\FFT-sample.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Source\Core\Core.csproj">
@@ -77,10 +77,6 @@
     <ProjectReference Include="..\..\..\Source\Imaging\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj">
       <Project>{f4e40964-c640-4c87-9e3e-a1f1266fbc73}</Project>
       <Name>Imaging.AForgeInterop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Imaging\Imaging.Algorithms\Imaging.Algorithms.csproj">
-      <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
-      <Name>Imaging.Algorithms</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Source\Imaging\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj">
       <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>

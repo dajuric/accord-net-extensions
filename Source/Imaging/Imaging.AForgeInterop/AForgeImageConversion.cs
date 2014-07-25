@@ -13,7 +13,7 @@ namespace Accord.Extensions.Imaging
         /// <summary>
         /// Converts unmanaged image to generic image (IImage) but without data copy. 
         /// Format depends upon unmanaged image pixel format (e.g. 8bppGray -> [Gray, byte], 24bppColor -> [Color3, byte]...).
-        /// The same result produces <seealso cref="ToImage"/> if an output format matches unmanaged pixel format.
+        /// The same result produces <seealso cref="ToImage"/> if an output format matches unmanaged pixel format or the fail if cannot cast is set to false.
         /// </summary>
         /// <param name="unmanagedImage"> Unmanaged image</param>
         /// <returns>Generic image (interface)</returns>
@@ -25,8 +25,8 @@ namespace Accord.Extensions.Imaging
                 throw new Exception(string.Format("Pixel format {0} is not supported!", unmanagedImage.PixelFormat));
 
             IImage im = Image.Create(imageColor, 
-                                                unmanagedImage.ImageData, unmanagedImage.Width, unmanagedImage.Height, 
-                                                unmanagedImage.Stride, unmanagedImage);
+                                     unmanagedImage.ImageData, unmanagedImage.Width, unmanagedImage.Height, 
+                                     unmanagedImage.Stride, unmanagedImage);
 
             return im;
         }
@@ -37,14 +37,15 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         /// <param name="unmanagedImage">Unmanaged image.</param>
         /// <param name="copyAlways">Forces data copy even if the cast is enough.</param>
+        /// <param name="failIfCannotCast">Fails if an image data must be converted to a format that is supported by UnmanagedImage. Switch <paramref name="copyAlways"/> is omitted.</param>
         /// <returns>Generic image.</returns>
-        public static Image<TColor, TDepth> ToImage<TColor, TDepth>(this UnmanagedImage unmanagedImage, bool copyAlways = false)
+        public static Image<TColor, TDepth> ToImage<TColor, TDepth>(this UnmanagedImage unmanagedImage, bool copyAlways = false, bool failIfCannotCast = false)
             where TColor : IColor
             where TDepth : struct
         {
             IImage im = AsImage(unmanagedImage);
 
-            var convertedImage = ((Image)im).Convert(ColorInfo.GetInfo<TColor, TDepth>(), copyAlways);
+            var convertedImage = ((Image)im).Convert(ColorInfo.GetInfo<TColor, TDepth>(), copyAlways, failIfCannotCast);
             return convertedImage as Image<TColor, TDepth>;
         }
 

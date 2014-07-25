@@ -50,12 +50,12 @@
     <Compile Include="ColorTypeConversions\ColorSpaces\Gray.cs" />
     <Compile Include="ColorTypeConversions\ColorSpaces\Hsv.cs" />
     <Compile Include="Extensions\Basic\ColorConversions.cs" />
-    <Compile Include="Extensions\Compatibility\ArrayCompatibility\ArrayToImageExtensions.cs" />
-    <Compile Include="Extensions\Compatibility\ArrayCompatibility\ImageToArrayExtensions.cs" />
+    <Compile Include="Extensions\Interop\ArrayInterop\ArrayToImageExtensions.cs" />
+    <Compile Include="Extensions\Interop\ArrayInterop\ImageToArrayExtensions.cs" />
     <Compile Include="Extensions\Basic\ClearImage.cs" />
     <Compile Include="Extensions\Basic\ConditionalCopy.cs" />
     <Compile Include="Extensions\Basic\PixelSetter.cs" />
-    <Compile Include="Extensions\Compatibility\OpenCVCompatibility\IplImageConversions.cs" />
+    <Compile Include="Extensions\Interop\OpenCVInterop\IplImageConversions.cs" />
     <Compile Include="ColorTypeConversions\Converters\Color\BgrGrayConverters.cs" />
     <Compile Include="ColorTypeConversions\Converters\Depth\FromDoubleDepthConverters.cs" />
     <Compile Include="ColorTypeConversions\Converters\Depth\FromFloatDepthConverters.cs" />

@@ -23,7 +23,7 @@ namespace Parallel
                 proc.Process(field);
             });
 
-            Console.WriteLine("Parallel: {0}; Sequential: {1}", elapsedParallel, elapsedSeq);
+            Console.WriteLine("Parallel: {0} ms; Sequential: {1} ms.", elapsedParallel, elapsedSeq);
         }
 
         static double processFunc(double val)

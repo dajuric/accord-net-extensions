@@ -88,7 +88,7 @@ namespace ParticleFilterModelFitting
                     (particles, normalizedWeights) => 
                     {
                         var sampledParticles = ParticleFilter.SimpleResampler(particles.ToList(), 
-                                                                              normalizedWeights.ToList());
+                                                                              normalizedWeights.ToList()); //particles' weight are all equal after re-sampling
 
                         return sampledParticles;
                     }
@@ -100,7 +100,7 @@ namespace ParticleFilterModelFitting
             particles.ForEach(x => x.Weight = 0);
 
             IDictionary<ModelParams, IEnumerable<ModelParticle>> nonDistinctMembers;
-            var uniqueParticles = getDistinctParticles(particles, out nonDistinctMembers); //get distint particles (there is no need to match the same templates)
+            var uniqueParticles = getDistinctParticles(particles, out nonDistinctMembers); //get distinct particles (there is no need to match the same templates)
 
             var matches = linPyr.PyramidalMaps.First().MatchTemplates(uniqueParticles, MATCHING_MIN_THRESHOLD);
             if (matches.Count == 0)
@@ -155,18 +155,17 @@ namespace ParticleFilterModelFitting
 
             /********************************* output **************************************/
             var metaData = getData(p.MetaDataRef);
+            var text = String.Format("S:{0:00}, A:{1:00}",
+                                      p.ModelParameters.Scale, p.ModelParameters.Angle);
+
             if (metaData != null)
             {
                 //img.Draw(p.MetaData, new Bgr(Color.Blue), 1);
                 img.Draw(metaData.Points, Bgr8.Blue, 3);
-
-                var text = String.Format("W: {0:0.00}, \nS:{1:00}, A:{2:00}",
-                                         p.Weight, p.ModelParameters.Scale, p.ModelParameters.Angle);
                 img.DrawAnnotation(metaData.BoundingRect, text, annotationWidth: 80);
             }
 
-            Console.WriteLine(String.Format("W: {0:0.00}, S:{1:00}, A:{2:00}",
-                                      p.Weight, p.ModelParameters.Scale, p.ModelParameters.Angle));
+            Console.WriteLine(text);
             /********************************* output **************************************/
         }
 

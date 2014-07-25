@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-//taken from: http://blogs.msdn.com/b/pfxteam/archive/2009/08/12/9867246.aspx
 namespace Accord.Extensions
 {
     /// <summary>
     /// Provides extensions for working with collections in parallel way.
+    /// <para>Taken from <a href="http://blogs.msdn.com/b/pfxteam/archive/2009/08/12/9867246.aspx">parallel while</a> and modified.</para>
     /// </summary>
     public static class ParallelExtensions
     {
@@ -34,8 +34,10 @@ namespace Accord.Extensions
             System.Threading.Tasks.Parallel.ForEach(new InfinitePartitioner(), parallelOptions,
                 (ignored, loopState) =>
                 {
-                    if (condition()) body(loopState);
-                    else loopState.Stop();
+                    if (condition()) 
+                        body(loopState);
+                    else 
+                        loopState.Stop();
                 });
         }
     }
@@ -43,6 +45,7 @@ namespace Accord.Extensions
     /// <summary>
     /// Represents an infinite data partitioner. Returns an infinite collection of type <see cref="System.Boolean"/>.
     /// <para>It is used in While function extension.</para>
+    /// <para>Taken from <a href="http://blogs.msdn.com/b/pfxteam/archive/2009/08/12/9867246.aspx">parallel while</a>.</para>
     /// </summary>
     public class InfinitePartitioner : Partitioner<bool>
     {

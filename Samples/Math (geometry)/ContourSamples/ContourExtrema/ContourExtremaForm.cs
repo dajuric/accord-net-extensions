@@ -20,10 +20,14 @@ namespace ContourExtremaDemo
         private void ContourDemoForm_Shown(object sender, EventArgs e)
         {
             image = ResourceImages.bwHand.ToImage<Bgr, byte>();
-            findContour();
+            findPeaksAndValleys();
         }
 
-        private void findContour()
+        /// <summary>
+        /// Finds peaks and valleys. 
+        /// The EmguCV's GetConvexHull function will find the global hull meaning if the smaller object is merged with other objects some peaks will not be detected.
+        /// </summary>
+        private void findPeaksAndValleys()
         {
             var scale = 25; //for bigger humps increase scale
 

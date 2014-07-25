@@ -17,6 +17,7 @@ namespace GraphSearch
 
         private static void testGraph()
         {
+            //see graph.png
             TaggedEdge<string, float>[] edges = new TaggedEdge<string, float>[] 
             {
                 new TaggedEdge<string, float>("1", "2", 7),

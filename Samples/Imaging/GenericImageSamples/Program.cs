@@ -10,6 +10,10 @@ namespace GenericImage
             Console.WriteLine();
             Test.WriteAllConversionPaths();
             Console.WriteLine();
+ 
+            Console.WriteLine("*************** Color casting *********************");
+            Test.TestColorCasting();
+            Console.WriteLine();
 
             Console.WriteLine("******************************************* AForge vs Image<,> - performance ********************************************");
             Console.WriteLine();
@@ -39,16 +43,6 @@ namespace GenericImage
             Console.WriteLine();
 
             Console.WriteLine("**********************************************************************************************************");
-            Console.WriteLine();
-
-            //fast casting 
-            Console.WriteLine("*************** Color casting *********************");
-            Test.TestColorCasting();
-            Console.WriteLine();
-
-            Console.WriteLine("*************** Image<,> <=> Array conversions *********************");
-            Test.TestArrayToImage();
-            Test.TestArrayAsImageGray();
             Console.WriteLine();
         }
     }

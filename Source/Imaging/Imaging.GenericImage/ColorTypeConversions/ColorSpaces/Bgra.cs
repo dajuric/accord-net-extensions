@@ -40,6 +40,32 @@ namespace Accord.Extensions.Imaging
         /// Gets or sets the alpha component.
         /// </summary>
         public double A;
+
+        /// <summary>
+        /// Gets the string color representation.
+        /// </summary>
+        /// <returns>String color representation.</returns>
+        public override string ToString()
+        {
+            return string.Format("B: {0}, G: {1}, R: {2}, A: {3}", B, G, R, A);
+        }
+
+        /// <summary>
+        /// Gets the index of the blue component.
+        /// </summary>
+        public const int IdxB = 0;
+        /// <summary>
+        /// Gets the index of the green component.
+        /// </summary>
+        public const int IdxG = 1;
+        /// <summary>
+        /// Gets the index of the red component.
+        /// </summary>
+        public const int IdxR = 2;
+        /// <summary>
+        /// Gets the index of the alpha component.
+        /// </summary>
+        public const int IdxA = 3;
     }
 
     /// <summary>

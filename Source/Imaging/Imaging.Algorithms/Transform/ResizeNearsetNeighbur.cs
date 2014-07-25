@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Accord.Extensions.Imaging.Filters
+namespace Accord.Extensions.Imaging
 {
     /// <summary>
     /// Nearest-neighbor interpolation.
-    /// <para>Experimental class.</para> //TODO: finish
+    /// <para>The methods of this class are used internally in Resize() method extension.</para> 
     /// </summary>
     public static class ResizeNearsetNeighbur
     {
@@ -15,24 +15,12 @@ namespace Accord.Extensions.Imaging.Filters
         static ResizeNearsetNeighbur()
         {
             resizeFuncs = new Dictionary<Type, ResizeFunc>();
-            resizeFuncs.Add(typeof(float), resizeFloat);
-            /*resizeFuncs.Add(typeof(short), conditionalCopyShort);
-            resizeFuncs.Add(typeof(int), conditionalCopyInt);
-            resizeFuncs.Add(typeof(float), conditionalCopyFloat);
-            resizeFuncs.Add(typeof(double), conditionalCopyDouble);*/
-        }
 
-        /// <summary>
-        /// Resizes the input image by using nearest neighbor interpolation.
-        /// </summary>
-        /// <typeparam name="TColor">Color type.</typeparam>
-        /// <param name="img">Image.</param>
-        /// <param name="newSize">New image size.</param>
-        /// <returns>Resized image.</returns>
-        public static Image<TColor, float> ResizeNN<TColor>(Image<TColor, float> img, Size newSize)
-            where TColor : IColor
-        {
-            return ResizeNN<TColor, float>(img, newSize);
+            resizeFuncs.Add(typeof(byte), resizeByte);
+            resizeFuncs.Add(typeof(short), resizeShort);
+            resizeFuncs.Add(typeof(int), resizeInt);
+            resizeFuncs.Add(typeof(float), resizeFloat);
+            resizeFuncs.Add(typeof(double), resizeDouble);
         }
 
         /// <summary>
@@ -68,6 +56,110 @@ namespace Accord.Extensions.Imaging.Filters
             resizeFunc(img, destImg);
         }
 
+        #region Data type specific functions
+
+        private unsafe static void resizeByte(IImage srcImg, IImage dstImg)
+        {
+            float xFactor = (float)srcImg.Width / dstImg.Width;
+            float yFactor = (float)srcImg.Height / dstImg.Height;
+
+            int newWidth = dstImg.Width;
+            int newHeight = dstImg.Height;
+            int nChannels = srcImg.ColorInfo.NumberOfChannels;
+
+            int dstShift = dstImg.Stride - newWidth * srcImg.ColorInfo.Size;
+
+            byte* srcPtr = (byte*)srcImg.ImageData;
+            byte* dstPtr = (byte*)dstImg.ImageData;
+
+            for (int r = 0; r < newHeight; r++)
+            {
+                byte* srcRowPtr = (byte*)srcImg.GetData((int)(r * yFactor));
+
+                for (int c = 0; c < newWidth; c++)
+                {
+                    byte* srcColPtr = srcRowPtr + nChannels * (int)(c * xFactor);
+
+                    for (int ch = 0; ch < nChannels; ch++)
+                    {
+                        dstPtr[ch] = srcColPtr[ch];
+                    }
+
+                    dstPtr += nChannels;
+                }
+
+                dstPtr = (byte*)((byte*)dstPtr + dstShift);
+            }
+        }
+
+        private unsafe static void resizeShort(IImage srcImg, IImage dstImg)
+        {
+            float xFactor = (float)srcImg.Width / dstImg.Width;
+            float yFactor = (float)srcImg.Height / dstImg.Height;
+
+            int newWidth = dstImg.Width;
+            int newHeight = dstImg.Height;
+            int nChannels = srcImg.ColorInfo.NumberOfChannels;
+
+            int dstShift = dstImg.Stride - newWidth * srcImg.ColorInfo.Size;
+
+            short* srcPtr = (short*)srcImg.ImageData;
+            short* dstPtr = (short*)dstImg.ImageData;
+
+            for (int r = 0; r < newHeight; r++)
+            {
+                short* srcRowPtr = (short*)srcImg.GetData((int)(r * yFactor));
+
+                for (int c = 0; c < newWidth; c++)
+                {
+                    short* srcColPtr = srcRowPtr + nChannels * (int)(c * xFactor);
+
+                    for (int ch = 0; ch < nChannels; ch++)
+                    {
+                        dstPtr[ch] = srcColPtr[ch];
+                    }
+
+                    dstPtr += nChannels;
+                }
+
+                dstPtr = (short*)((short*)dstPtr + dstShift);
+            }
+        }
+
+        private unsafe static void resizeInt(IImage srcImg, IImage dstImg)
+        {
+            float xFactor = (float)srcImg.Width / dstImg.Width;
+            float yFactor = (float)srcImg.Height / dstImg.Height;
+
+            int newWidth = dstImg.Width;
+            int newHeight = dstImg.Height;
+            int nChannels = srcImg.ColorInfo.NumberOfChannels;
+
+            int dstShift = dstImg.Stride - newWidth * srcImg.ColorInfo.Size;
+
+            int* srcPtr = (int*)srcImg.ImageData;
+            int* dstPtr = (int*)dstImg.ImageData;
+
+            for (int r = 0; r < newHeight; r++)
+            {
+                int* srcRowPtr = (int*)srcImg.GetData((int)(r * yFactor));
+
+                for (int c = 0; c < newWidth; c++)
+                {
+                    int* srcColPtr = srcRowPtr + nChannels * (int)(c * xFactor);
+
+                    for (int ch = 0; ch < nChannels; ch++)
+                    {
+                        dstPtr[ch] = srcColPtr[ch];
+                    }
+
+                    dstPtr += nChannels;
+                }
+
+                dstPtr = (int*)((int*)dstPtr + dstShift);
+            }
+        }
+
         private unsafe static void resizeFloat(IImage srcImg, IImage dstImg)
         {
             float xFactor = (float) srcImg.Width / dstImg.Width;
@@ -101,5 +193,41 @@ namespace Accord.Extensions.Imaging.Filters
                 dstPtr = (float*)((byte*)dstPtr + dstShift);
             }
         }
+
+        private unsafe static void resizeDouble(IImage srcImg, IImage dstImg)
+        {
+            float xFactor = (float)srcImg.Width / dstImg.Width;
+            float yFactor = (float)srcImg.Height / dstImg.Height;
+
+            int newWidth = dstImg.Width;
+            int newHeight = dstImg.Height;
+            int nChannels = srcImg.ColorInfo.NumberOfChannels;
+
+            int dstShift = dstImg.Stride - newWidth * srcImg.ColorInfo.Size;
+
+            double* srcPtr = (double*)srcImg.ImageData;
+            double* dstPtr = (double*)dstImg.ImageData;
+
+            for (int r = 0; r < newHeight; r++)
+            {
+                double* srcRowPtr = (double*)srcImg.GetData((int)(r * yFactor));
+
+                for (int c = 0; c < newWidth; c++)
+                {
+                    double* srcColPtr = srcRowPtr + nChannels * (int)(c * xFactor);
+
+                    for (int ch = 0; ch < nChannels; ch++)
+                    {
+                        dstPtr[ch] = srcColPtr[ch];
+                    }
+
+                    dstPtr += nChannels;
+                }
+
+                dstPtr = (double*)((double*)dstPtr + dstShift);
+            }
+        }
+
+        #endregion
     }
 }

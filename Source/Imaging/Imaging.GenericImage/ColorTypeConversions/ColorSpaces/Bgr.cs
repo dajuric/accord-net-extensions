@@ -58,6 +58,15 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
+        /// Gets the string color representation.
+        /// </summary>
+        /// <returns>String color representation.</returns>
+        public override string ToString()
+        {
+            return string.Format("B: {0}, G: {1}, R: {2}", B, G, R);
+        }
+
+        /// <summary>
         /// Gets the index of the blue component.
         /// </summary>
         public const int IdxB = 0;

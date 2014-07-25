@@ -12,7 +12,14 @@ namespace ElementCaching
     {
         static void Main(string[] args)
         {
-            //testLRUCache();
+            if (IntPtr.Size == 4)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Warning: the application is 32-bit which may cause OutOfMemoryException due to 2GiB limit.");
+                Console.ResetColor();
+            }
+
+            //testLRUCache();  //uncomment to run
             testLazyMemCache();
         }
 
@@ -42,11 +49,11 @@ namespace ElementCaching
                 
                 (img) => (ulong)(img.Stride * img.Height),
 
-                //set false to not to call GC.Collect() when an item is evicted => may fill more RAM than it has been set, but shorthens delays caused by GC
+                //set false to not to call GC.Collect() when an item is evicted => may fill more RAM than it has been set, but shortens delays caused by GC
                 forceCollectionOnRemoval: true
                );
 
-
+            Console.WriteLine("Filling lazy cache (with constructors)...");
             const int MAX_KEY = 100;
             //adding elements (you can also use stream as IEnumerable to populate cache)
             for (int key = 0; key <= MAX_KEY; key++)
@@ -64,6 +71,7 @@ namespace ElementCaching
             }
 
             //accessing elements (run Task Manager to see memory allocation!)
+            Console.WriteLine("Accessing elements (run Task Manager to see memory allocation!):");
             Random rand = new Random();
             while (!Console.KeyAvailable)
             {
@@ -144,8 +152,6 @@ namespace ElementCaching
 
         static void lru_OnRemoveItem(LRUCache<int, Image<Gray, byte>> sender, KeyValuePair<int, Image<Gray, byte>> item, bool userRequested)
         {
-            //return;
-
             sender.Oldest.Value.Dispose();
             GC.Collect();
 
