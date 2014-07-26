@@ -19,7 +19,7 @@ namespace ObjectAnnotater
 
         private void btnImageSeq_Click(object sender, EventArgs e)
         {
-            var ext = (string)boxImageFormatSelection.SelectedItem;
+            var searchPatterns = ((string)boxImageFormatSelection.SelectedItem).Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
 
             using (var diag = new FolderBrowserDialog())
             {
@@ -28,7 +28,7 @@ namespace ObjectAnnotater
                 var result = diag.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    CaptureObj = new ImageDirectoryReader(diag.SelectedPath, ext, useNaturalSorting: true, recursive: chkRecursive.Checked);
+                    CaptureObj = new ImageDirectoryReader(diag.SelectedPath, searchPatterns, useNaturalSorting: true, recursive: chkRecursive.Checked);
 
                     imageDirPath = diag.SelectedPath;
                     btnSaveAnnotations.Enabled = true;
@@ -38,9 +38,6 @@ namespace ObjectAnnotater
 
         private void isAnnotationFileValid(string annFilePath)
         {
-            if (btnSelectVideo.Checked)
-                return;
-
             //if images...
             if (imageDirPath.IsSubfolder(new FileInfo(annFilePath).DirectoryName) == false)
             {
@@ -51,21 +48,6 @@ namespace ObjectAnnotater
                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 return;
-            }
-        }
-
-        private void btnVideo_Click(object sender, EventArgs e)
-        {
-            using (var diag = new OpenFileDialog())
-            {
-                diag.Filter = "Video files (*.avi, *.mp4, *.wmv, *.mxf)|*.avi;*.mp4;*.wmv;*.mxf|All Files (*.*)|*.*";
-
-                var result = diag.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    CaptureObj = new FileCapture(diag.FileName);
-                    btnSaveAnnotations.Enabled = true;
-                }
             }
         }
 
@@ -89,17 +71,5 @@ namespace ObjectAnnotater
 
         public ImageStreamReader CaptureObj { get; private set; }
         public string DatabaseFileName { get; private set; }
-
-        private void btnSelectImages_Click(object sender, EventArgs e)
-        {
-            gpBoxImageSequence.Enabled = true;
-            gpBoxVideo.Enabled = false;
-        }
-
-        private void btnSelectVideo_Click(object sender, EventArgs e)
-        {
-            gpBoxImageSequence.Enabled = false;
-            gpBoxVideo.Enabled = true;
-        }
     }
 }

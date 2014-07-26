@@ -11,6 +11,29 @@ namespace Accord.Extensions
     public static class PathExtensions
     {
         /// <summary>
+        /// Returns an enumerable collection of file information that matches a specified search pattern and search subdirectory option.
+        /// </summary>
+        /// <param name="dirInfo">Directory info.</param>
+        /// <param name="searchPatterns">The search strings (e.g. new string[]{ ".jpg", ".bmp" }</param>
+        /// <param name="searchOption">
+        /// One of the enumeration values that specifies whether the search operation
+        /// should include only the current directory or all subdirectories. The default
+        /// value is <see cref="System.IO.SearchOption.TopDirectoryOnly"/>.
+        ///</param>
+        /// <returns>An enumerable collection of files that matches <paramref name="searchPattern"/> and <paramref name="searchOption"/>.</returns>
+        public static IEnumerable<FileInfo> EnumerateFiles(this DirectoryInfo dirInfo, string[] searchPatterns, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        {
+            var fileInfos = new List<FileInfo>();
+            foreach (var searchPattern in searchPatterns)
+            {
+                var dirFileInfos = dirInfo.EnumerateFiles(searchPattern, searchOption);
+                fileInfos.AddRange(dirFileInfos);
+            }
+
+            return fileInfos;
+        }
+
+        /// <summary>
         /// Gets whether the path is child path.
         /// </summary>
         /// <param name="childPath">The child path.</param>

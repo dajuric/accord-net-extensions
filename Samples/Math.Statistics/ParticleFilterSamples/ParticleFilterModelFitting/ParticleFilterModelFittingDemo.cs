@@ -183,8 +183,8 @@ namespace ParticleFilterModelFitting
             {
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
 
-                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "SampleVideos", "1"), ".jpg");   //1st sample
-                //videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "SampleVideos", "2"), ".jpg"); //2nd sample
+                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "SampleVideos", "1"), "*.jpg");   //1st sample
+                //videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "SampleVideos", "2"), "*.jpg"); //2nd sample
             }
             catch (Exception)
             {

@@ -120,7 +120,7 @@ namespace FastTemplateMatchingDemo
             {
 #if FILE_CAPTURE
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
-                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), ".jpg");
+                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), "*.jpg");
 #else
                 videoCapture = new CameraCapture(0);
 #endif

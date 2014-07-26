@@ -120,28 +120,20 @@ namespace ObjectAnnotater
 
         private string getCurrentImageKey()
         {
-            string imageKey = null;
-
-            if (capture is ImageDirectoryReader)
-            {
-                capture.Seek(-1);
-                imageKey = (capture as ImageDirectoryReader).CurrentImageName;
-
-                //enables to have the same '.xml' for video and extracted images - ca not support recursive folder reading
-                /*var fileInfo = new FileInfo(imageKey);
-                imageKey = fileInfo.Name.Replace(fileInfo.Extension, String.Empty);*/
-
-                var dbDirInfo = new DirectoryInfo(Path.GetDirectoryName(databaseFileName));
-                imageKey = imageKey.GetRelativeFilePath(dbDirInfo);
-
-                capture.Seek(+1);
-            }
-            else if (capture is FileCapture)
-            {
-                imageKey = Math.Max(0, capture.Position - 1).ToString();
-            }
-            else
+            if (capture is ImageDirectoryReader == false)
                 throw new NotSupportedException("Unsupported image stream reader!");
+
+            capture.Seek(-1);
+            string imageKey = (capture as ImageDirectoryReader).CurrentImageName;
+
+            //enables to have the same '.xml' for video and extracted images - ca not support recursive folder reading
+            /*var fileInfo = new FileInfo(imageKey);
+            imageKey = fileInfo.Name.Replace(fileInfo.Extension, String.Empty);*/
+
+            var dbDirInfo = new DirectoryInfo(Path.GetDirectoryName(databaseFileName));
+            imageKey = imageKey.GetRelativeFilePath(dbDirInfo);
+
+            capture.Seek(+1);
 
             return imageKey;
         }

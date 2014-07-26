@@ -179,7 +179,7 @@ namespace KalmanObjectTracking
             {
 #if FILE_CAPTURE
                 string videoDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "Sequence");
-                videoCapture = new ImageDirectoryReader(videoDir, ".jpg");
+                videoCapture = new ImageDirectoryReader(videoDir, "*.jpg");
 #else
                 videoCapture = new CameraCapture(0);
 #endif

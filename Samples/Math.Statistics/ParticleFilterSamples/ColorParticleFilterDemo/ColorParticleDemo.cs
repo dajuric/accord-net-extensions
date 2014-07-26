@@ -150,7 +150,7 @@ namespace SimpleParticleFilterDemo
             {
                 //videoCapture = new CameraCapture(0);
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
-                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), ".jpg"); 
+                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), "*.jpg"); 
             }
             catch (Exception ex)
             {

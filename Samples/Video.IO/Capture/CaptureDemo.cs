@@ -17,7 +17,7 @@ namespace Capture
 
             //reader = new CameraCapture(0); //capture from camera
             //reader = new FileCapture(Path.Combine(getResourceDir(), "Welcome Accord.NET Extensions.mp4")); //capture from video
-            reader = new ImageDirectoryReader(Path.Combine(getResourceDir(), "Sequence"), ".jpg");
+            reader = new ImageDirectoryReader(Path.Combine(getResourceDir(), "Sequence"), "*.jpg");
             reader.Open();
 
             Application.Idle += capture_NewFrame;

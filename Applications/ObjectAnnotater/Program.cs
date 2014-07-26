@@ -46,15 +46,6 @@ namespace ObjectAnnotater
 
             if (capture != null && databaseFileName != null)
             {
-                if (capture is FileCapture)
-                    MessageBox.Show("Due to seek operation issue with opencv/mmpeg, seek operation may not work properly. " +  
-                                    "If you notice frame/annotation mismatches move slider to the beginning and " + 
-                                    "then hold right arrow to move to the desired position." + 
-                                    "\nSee: http://code.opencv.org/issues/1419 for details.",
-                                    "Seek operation issue",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
-
                 ObjectAnnotater form = null;
                 try
                 {
