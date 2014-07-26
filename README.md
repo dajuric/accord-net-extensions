@@ -1,9 +1,7 @@
 <h1>accord-net-extensions</h1>
 
 Accord.NET Extensions is an extension framework for Accord.NET and AForge.NET.
-The framework is built with extensibility and portability in mind.    
-Most provided algorithms for image processing, computer vision and statistical analysis are made as extensions.
-New generic image class is not tied to any specific library and 
+The framework is built with extensibility and portability in mind. Most provided algorithms for image processing, computer vision and statistical analysis are made as extensions. New generic image class is not tied to any specific library and 
 video IO library, which offers unified interface for camera capture, file and directory reading, is platform abstract.
 
 The framework is divided in libraries available through NuGet packages (soon). The libraries can be grouped as following:
