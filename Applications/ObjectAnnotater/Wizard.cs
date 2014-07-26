@@ -28,7 +28,7 @@ namespace ObjectAnnotater
                 var result = diag.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    CaptureObj = new ImageDirectoryReader(diag.SelectedPath, ext);
+                    CaptureObj = new ImageDirectoryReader(diag.SelectedPath, ext, useNaturalSorting: true, recursive: chkRecursive.Checked);
 
                     imageDirPath = diag.SelectedPath;
                     btnSaveAnnotations.Enabled = true;

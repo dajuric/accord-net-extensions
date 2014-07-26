@@ -27,7 +27,7 @@ namespace Accord.Extensions
         /// </summary>
         /// <param name="x">First string.</param>
         /// <param name="y">Second string.</param>
-        /// <returns>0 - the same objects, -1, +1 otherwise depending whether the first string preceds the second one or not.</returns>
+        /// <returns>0 - the same objects, -1, +1 otherwise depending whether the first string precedes the second one or not.</returns>
         public int Compare(string x, string y)
         { 
             throw new NotImplementedException();

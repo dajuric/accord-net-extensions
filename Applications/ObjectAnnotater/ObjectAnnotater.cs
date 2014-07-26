@@ -127,8 +127,12 @@ namespace ObjectAnnotater
                 capture.Seek(-1);
                 imageKey = (capture as ImageDirectoryReader).CurrentImageName;
 
-                var fileInfo = new FileInfo(imageKey);
-                imageKey = fileInfo.Name.Replace(fileInfo.Extension, String.Empty);
+                //enables to have the same '.xml' for video and extracted images - ca not support recursive folder reading
+                /*var fileInfo = new FileInfo(imageKey);
+                imageKey = fileInfo.Name.Replace(fileInfo.Extension, String.Empty);*/
+
+                var dbDirInfo = new DirectoryInfo(Path.GetDirectoryName(databaseFileName));
+                imageKey = imageKey.GetRelativeFilePath(dbDirInfo);
 
                 capture.Seek(+1);
             }

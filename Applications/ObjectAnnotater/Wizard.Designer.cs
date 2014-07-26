@@ -37,6 +37,7 @@
             this.btnVideo = new System.Windows.Forms.Button();
             this.btnSelectImages = new System.Windows.Forms.RadioButton();
             this.btnSelectVideo = new System.Windows.Forms.RadioButton();
+            this.chkRecursive = new System.Windows.Forms.CheckBox();
             this.gpBoxImageSequence.SuspendLayout();
             this.gpBoxVideo.SuspendLayout();
             this.SuspendLayout();
@@ -44,7 +45,7 @@
             // btnImageSeq
             // 
             this.btnImageSeq.Location = new System.Drawing.Point(5, 18);
-            this.btnImageSeq.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnImageSeq.Margin = new System.Windows.Forms.Padding(2);
             this.btnImageSeq.Name = "btnImageSeq";
             this.btnImageSeq.Size = new System.Drawing.Size(74, 37);
             this.btnImageSeq.TabIndex = 0;
@@ -62,14 +63,14 @@
             "*.bmp",
             "*.png"});
             this.boxImageFormatSelection.Location = new System.Drawing.Point(11, 59);
-            this.boxImageFormatSelection.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.boxImageFormatSelection.Margin = new System.Windows.Forms.Padding(2);
             this.boxImageFormatSelection.Name = "boxImageFormatSelection";
             this.boxImageFormatSelection.Size = new System.Drawing.Size(56, 21);
             this.boxImageFormatSelection.TabIndex = 2;
             // 
             // lblAnnFile
             // 
-            this.lblAnnFile.Location = new System.Drawing.Point(47, 103);
+            this.lblAnnFile.Location = new System.Drawing.Point(47, 129);
             this.lblAnnFile.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAnnFile.Name = "lblAnnFile";
             this.lblAnnFile.Size = new System.Drawing.Size(142, 29);
@@ -80,8 +81,8 @@
             // btnSaveAnnotations
             // 
             this.btnSaveAnnotations.Enabled = false;
-            this.btnSaveAnnotations.Location = new System.Drawing.Point(102, 143);
-            this.btnSaveAnnotations.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSaveAnnotations.Location = new System.Drawing.Point(102, 169);
+            this.btnSaveAnnotations.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveAnnotations.Name = "btnSaveAnnotations";
             this.btnSaveAnnotations.Size = new System.Drawing.Size(32, 19);
             this.btnSaveAnnotations.TabIndex = 5;
@@ -91,11 +92,12 @@
             // 
             // gpBoxImageSequence
             // 
+            this.gpBoxImageSequence.Controls.Add(this.chkRecursive);
             this.gpBoxImageSequence.Controls.Add(this.btnImageSeq);
             this.gpBoxImageSequence.Controls.Add(this.boxImageFormatSelection);
             this.gpBoxImageSequence.Location = new System.Drawing.Point(12, 7);
             this.gpBoxImageSequence.Name = "gpBoxImageSequence";
-            this.gpBoxImageSequence.Size = new System.Drawing.Size(96, 90);
+            this.gpBoxImageSequence.Size = new System.Drawing.Size(96, 116);
             this.gpBoxImageSequence.TabIndex = 6;
             this.gpBoxImageSequence.TabStop = false;
             this.gpBoxImageSequence.Text = "Images";
@@ -106,7 +108,7 @@
             this.gpBoxVideo.Enabled = false;
             this.gpBoxVideo.Location = new System.Drawing.Point(129, 7);
             this.gpBoxVideo.Name = "gpBoxVideo";
-            this.gpBoxVideo.Size = new System.Drawing.Size(94, 90);
+            this.gpBoxVideo.Size = new System.Drawing.Size(94, 116);
             this.gpBoxVideo.TabIndex = 7;
             this.gpBoxVideo.TabStop = false;
             this.gpBoxVideo.Text = "Video file";
@@ -126,7 +128,7 @@
             // 
             this.btnSelectImages.AutoSize = true;
             this.btnSelectImages.Checked = true;
-            this.btnSelectImages.Location = new System.Drawing.Point(23, 103);
+            this.btnSelectImages.Location = new System.Drawing.Point(23, 129);
             this.btnSelectImages.Name = "btnSelectImages";
             this.btnSelectImages.Size = new System.Drawing.Size(14, 13);
             this.btnSelectImages.TabIndex = 3;
@@ -137,7 +139,7 @@
             // btnSelectVideo
             // 
             this.btnSelectVideo.AutoSize = true;
-            this.btnSelectVideo.Location = new System.Drawing.Point(194, 103);
+            this.btnSelectVideo.Location = new System.Drawing.Point(194, 129);
             this.btnSelectVideo.Name = "btnSelectVideo";
             this.btnSelectVideo.Size = new System.Drawing.Size(14, 13);
             this.btnSelectVideo.TabIndex = 9;
@@ -145,11 +147,21 @@
             this.btnSelectVideo.UseVisualStyleBackColor = true;
             this.btnSelectVideo.Click += new System.EventHandler(this.btnSelectVideo_Click);
             // 
+            // chkRecursive
+            // 
+            this.chkRecursive.AutoSize = true;
+            this.chkRecursive.Location = new System.Drawing.Point(5, 93);
+            this.chkRecursive.Name = "chkRecursive";
+            this.chkRecursive.Size = new System.Drawing.Size(74, 17);
+            this.chkRecursive.TabIndex = 3;
+            this.chkRecursive.Text = "Recursive";
+            this.chkRecursive.UseVisualStyleBackColor = true;
+            // 
             // Wizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(232, 166);
+            this.ClientSize = new System.Drawing.Size(228, 192);
             this.Controls.Add(this.btnSelectVideo);
             this.Controls.Add(this.btnSelectImages);
             this.Controls.Add(this.gpBoxVideo);
@@ -157,12 +169,13 @@
             this.Controls.Add(this.btnSaveAnnotations);
             this.Controls.Add(this.lblAnnFile);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Wizard";
             this.Text = "Annotater";
             this.gpBoxImageSequence.ResumeLayout(false);
+            this.gpBoxImageSequence.PerformLayout();
             this.gpBoxVideo.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -180,5 +193,6 @@
         private System.Windows.Forms.Button btnVideo;
         private System.Windows.Forms.RadioButton btnSelectImages;
         private System.Windows.Forms.RadioButton btnSelectVideo;
+        private System.Windows.Forms.CheckBox chkRecursive;
     }
 }

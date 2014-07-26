@@ -24,9 +24,10 @@ namespace Accord.Extensions.Vision
         /// <param name="dirPath">The directory path.</param>
         /// <param name="extension">The image extension.</param>
         /// <param name="useNaturalSorting">Use natural sorting, otherwise raw image order is used.</param>
+        /// <param name="recursive">If true searches the current directory and all subdirectories. Otherwise, only top directory is searched.</param>
         /// <param name="loader">Loader image function. If null default loader is used.</param>
         /// <exception cref="DirectoryNotFoundException">Directory can not be found.</exception>
-        public ImageDirectoryReader(string dirPath, string extension, bool useNaturalSorting = true, Func<string, IImage> loader = null)
+        public ImageDirectoryReader(string dirPath, string extension, bool useNaturalSorting = true, bool recursive = false, Func<string, IImage> loader = null)
         {
             if (Directory.Exists(dirPath) == false)
                 throw new DirectoryNotFoundException(String.Format("Dir: {0} cannot be found!", dirPath));
@@ -40,18 +41,19 @@ namespace Accord.Extensions.Vision
 
             string ext = "*." + extension.TrimStart('.', '*');
             DirectoryInfo directoryInfo = new DirectoryInfo(dirPath);
+            var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
             IEnumerable<string> files = null;
 
             if (useNaturalSorting)
             {
-                files = directoryInfo.EnumerateFiles(ext, SearchOption.TopDirectoryOnly)
-                        .OrderBy(f => f.Name, new NaturalSortComparer())
+                files = directoryInfo.EnumerateFiles(ext, searchOption)
+                        .OrderBy(f => f.FullName, new NaturalSortComparer()) //in case of problems replace f.FullName with f.Name
                         .Select(f => f.FullName);
             }
             else
             {
-                files = from file in directoryInfo.EnumerateFiles(ext, SearchOption.TopDirectoryOnly)
+                files = from file in directoryInfo.EnumerateFiles(ext, searchOption)
                         select file.FullName;
             }
 

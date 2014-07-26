@@ -11,7 +11,7 @@ echo.
 timeout /T 5
 
 :: Set version info
-set version=0.9.0
+set version=0.9.0.0-rc
 set output=bin\
 
 :: Create output directory
@@ -20,7 +20,7 @@ IF NOT EXIST %output%\nul (
 )
 
 :: Remove old files
-forfiles /p %output% /m *.nupkg /c "cmd /c del @file"
+:forfiles /p %output% /m *.nupkg /c "cmd /c del @file"
 
 
 echo.
