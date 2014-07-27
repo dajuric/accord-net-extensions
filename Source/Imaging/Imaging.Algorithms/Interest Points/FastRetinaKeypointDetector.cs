@@ -1,5 +1,6 @@
 ﻿using Accord.Imaging;
 using AForge;
+using System;
 using System.Collections.Generic;
 
 namespace Accord.Extensions.Imaging
@@ -21,8 +22,8 @@ namespace Accord.Extensions.Imaging
         /// </param>
         /// <param name="octaves">The number of octaves to use when building the feature descriptor.</param>
         /// <param name="scale">The scale used when building the feature descriptor</param>
-        /// <returns>Interest points.</returns>
-        public static List<FastRetinaKeypoint> FREAK(this Image<Gray, byte> im, int threshold = 20, FastRetinaKeypointDescriptorType computeDescriptors = FastRetinaKeypointDescriptorType.Standard, int octaves = 4, float scale = 0.22f)
+        /// <returns>FREAK's detector result.</returns>
+        public static AlgorithmResult<FastRetinaKeypointDetector, List<FastRetinaKeypoint>> FREAK(this Image<Gray, byte> im, int threshold = 20, FastRetinaKeypointDescriptorType computeDescriptors = FastRetinaKeypointDescriptorType.Standard, int octaves = 4, float scale = 0.22f)
         {
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(threshold);
             freak.ComputeDescriptors = computeDescriptors;
@@ -31,7 +32,7 @@ namespace Accord.Extensions.Imaging
             
             var points = freak.ProcessImage(im.ToAForgeImage(copyAlways: false, failIfCannotCast: true));
 
-            return points;
+            return new AlgorithmResult<FastRetinaKeypointDetector, List<FastRetinaKeypoint>>(freak, points);
         }
     }
 }

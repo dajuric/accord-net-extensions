@@ -73,8 +73,12 @@
     <Compile Include="Convolution\SpatialConvolution\ParallelSpatialConvolution.cs" />
     <Compile Include="Filters\Binarization\InRange.cs" />
     <Compile Include="Filters\Blend.cs" />
+    <Compile Include="Interest Points\Descriptors\LocalBinaryPattern.cs" />
+    <Compile Include="Interest Points\FastCornersDetector.cs" />
     <Compile Include="Interest Points\FastRetinaKeypointDetector.cs" />
+    <Compile Include="Interest Points\AlgorithmResult.cs" />
     <Compile Include="Interest Points\GoodFeaturesToTrack.cs" />
+    <Compile Include="Interest Points\Haralick.cs" />
     <Compile Include="Interest Points\HarrisCornersDetector.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Arithmetics.cs" />
     <Compile Include="DenseHistogram\DenseHistogram.Backpropagate.cs" />
@@ -110,6 +114,8 @@
     <Compile Include="Filters\ImageEnhacement\WhitePatch.cs" />
     <Compile Include="IntegralImage\IntegralImageExtensions.cs" />
     <Compile Include="IntegralImage\SquaredIntegralImageExtensions.cs" />
+    <Compile Include="Interest Points\Descriptors\HistogramsOfOrientedGradients.cs" />
+    <Compile Include="Interest Points\SpeededUpRobustFeaturesDetector.cs" />
     <Compile Include="Moments\CentralMoments.cs" />
     <Compile Include="Moments\HuMoments.cs" />
     <Compile Include="Moments\IMoments.cs" />

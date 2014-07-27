@@ -123,7 +123,7 @@ namespace GenericImage
                 var hue = new Image<Gray, byte>(hsvIm.Size);
                 hue.SetValue(180 / 2);
 
-                hsvIm[0] = hue;
+                hsvIm[Hsv.IdxH] = hue;
                 var modifiedIm = hsvIm.Convert<Bgr, byte>();
             },
             () =>

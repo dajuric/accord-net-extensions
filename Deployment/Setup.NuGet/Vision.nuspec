@@ -20,7 +20,7 @@
     <dependencies>
       <dependency id="AForge"                                         version="2.2.5" />
 
-      <dependency id="Accord.Math"                                    version="" />
+      <dependency id="Accord.Math"                                    version="2.12" />
       
       <dependency id="Accord.Extensions.Core"                         version="$version$" />
       <dependency id="Accord.Extensions.Math"                         version="$version$" />

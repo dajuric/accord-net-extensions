@@ -21,8 +21,8 @@
       <dependency id="AForge"                                          version="2.2.5" />
       <dependency id="AForge.Imaging"                                  version="2.2.5" />
       
-      <dependency id="Accord.Extensions.Imaging.BitmapInterop"  version="$version$" />
-      <dependency id="Accord.Extensions.Math"                         version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.BitmapInterop"         version="$version$" />
+      <dependency id="Accord.Extensions.Math"                          version="$version$" />
     </dependencies>
 
     <frameworkAssemblies>
