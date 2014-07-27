@@ -107,6 +107,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericImageSamples", "Samples\Imaging\GenericImageSamples\GenericImageSamples.csproj", "{096BB366-DD5F-4535-AB15-9B975AB9E87E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{80FC5EA1-3478-4E7F-8B05-190DF6750EA4}"
+	ProjectSection(SolutionItems) = preProject
+		Deployment\icon.png = Deployment\icon.png
+		Deployment\Licence.txt = Deployment\Licence.txt
+		Deployment\logo.png = Deployment\logo.png
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{F34AE966-F8EB-46EC-A1A9-E7D8B1CA3DAB}"
 EndProject
@@ -153,6 +158,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imaging.AForgeInterop", "Source\Imaging\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj", "{F4E40964-C640-4C87-9E3E-A1F1266FBC73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericImageInteropDemo", "Samples\Imaging\GenericImageInteropDemo\GenericImageInteropDemo.csproj", "{E4ED626D-359B-493C-A72E-3738A5353D1B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1B03D07D-5E98-49C8-8C1B-B175FB73DA93}"
+	ProjectSection(SolutionItems) = preProject
+		Deployment\Resources\Accord.NET Extensions.pptx = Deployment\Resources\Accord.NET Extensions.pptx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -669,5 +679,6 @@ Global
 		{CE222A84-B03B-4053-8BA4-F237063382F2} = {6E2A5B5A-55B5-42C4-A308-4DC03A4095EC}
 		{F4E40964-C640-4C87-9E3E-A1F1266FBC73} = {6E2A5B5A-55B5-42C4-A308-4DC03A4095EC}
 		{E4ED626D-359B-493C-A72E-3738A5353D1B} = {5441734A-F5BE-4358-AB2D-B35DA258331C}
+		{1B03D07D-5E98-49C8-8C1B-B175FB73DA93} = {80FC5EA1-3478-4E7F-8B05-190DF6750EA4}
 	EndGlobalSection
 EndGlobal
