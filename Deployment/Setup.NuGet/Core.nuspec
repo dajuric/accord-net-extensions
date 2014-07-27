@@ -7,9 +7,9 @@
     <title>Accord Extensions (core library)</title>
     <authors>Accord.NET Extensions</authors>
     <owners>Accord.NET Extensions</owners>
-    <licenseUrl>https://github.com/dajuric/accord-net-extensions/Deplyoment/Licence.txt</licenseUrl>
+    <licenseUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Licence.txt</licenseUrl>
     <projectUrl>https://github.com/dajuric/accord-net-extensions</projectUrl>
-    <iconUrl>https://github.com/dajuric/accord-net-extensions/Deplyoment/logo.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Logo/logo-small.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
       The core of the Accord.NET Extensions Framework. 

@@ -7,9 +7,9 @@
     <title>Accord Extensions Bitmap Compatibility</title>
     <authors>Accord.NET Extensions</authors>
     <owners>Accord.NET Extensions</owners>
-    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
-    <projectUrl>http://accord.googlecode.com</projectUrl>
-    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <licenseUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Licence.txt</licenseUrl>
+    <projectUrl>https://github.com/dajuric/accord-net-extensions</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Logo/logo-small.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
       Provides extensions for interoperability with System.Drawing.Bitmap, Point, PointF, Color and drawing extensions.
