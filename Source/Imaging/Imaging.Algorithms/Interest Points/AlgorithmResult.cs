@@ -8,7 +8,7 @@ namespace Accord.Extensions.Imaging
     /// </summary>
     /// <typeparam name="TAlgorithm">Algorithm type.</typeparam>
     /// <typeparam name="TResult">Result type.</typeparam>
-    public struct AlgorithmResult<TAlgorithm, TResult>
+    public class AlgorithmResult<TAlgorithm, TResult>
     {
         /// <summary>
         /// Creates new algorithm result.
