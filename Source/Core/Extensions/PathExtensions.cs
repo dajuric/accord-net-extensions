@@ -20,7 +20,7 @@ namespace Accord.Extensions
         /// should include only the current directory or all subdirectories. The default
         /// value is <see cref="System.IO.SearchOption.TopDirectoryOnly"/>.
         ///</param>
-        /// <returns>An enumerable collection of files that matches <paramref name="searchPattern"/> and <paramref name="searchOption"/>.</returns>
+        /// <returns>An enumerable collection of files that matches <paramref name="searchPatterns"/> and <paramref name="searchOption"/>.</returns>
         public static IEnumerable<FileInfo> EnumerateFiles(this DirectoryInfo dirInfo, string[] searchPatterns, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             var fileInfos = new List<FileInfo>();

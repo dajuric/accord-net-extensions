@@ -25,7 +25,7 @@ namespace Accord.Extensions.Imaging
         {
             HarrisCornersDetector harris = new HarrisCornersDetector(measure, threshold, sigma, suppression);
             var points = harris.ProcessImage(im.ToAForgeImage(copyAlways: false, failIfCannotCast: true));
-
+         
             return points;
         }
     }

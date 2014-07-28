@@ -20,7 +20,7 @@ namespace Accord.Extensions.Imaging
         {
             FastCornersDetector fast = new FastCornersDetector(threshold);
             var points = fast.ProcessImage(im.ToAForgeImage(copyAlways: false, failIfCannotCast: true));
-
+            
             return points;
         }
     }
