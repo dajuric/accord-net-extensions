@@ -166,6 +166,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logo", "Logo", "{817B040E-5
 		Deployment\Logo\logo-small.png = Deployment\Logo\logo-small.png
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupMatchingDemo", "Samples\Math (geometry)\GroupMatchingDemo\GroupMatchingDemo.csproj", "{9E8AA7B3-4851-439D-81A4-E74798BCBE05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -625,6 +627,18 @@ Global
 		{E4ED626D-359B-493C-A72E-3738A5353D1B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E4ED626D-359B-493C-A72E-3738A5353D1B}.Release|Win32.ActiveCfg = Release|Any CPU
 		{E4ED626D-359B-493C-A72E-3738A5353D1B}.Release|x64.ActiveCfg = Release|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Release|Win32.ActiveCfg = Release|Any CPU
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -682,5 +696,6 @@ Global
 		{F4E40964-C640-4C87-9E3E-A1F1266FBC73} = {6E2A5B5A-55B5-42C4-A308-4DC03A4095EC}
 		{E4ED626D-359B-493C-A72E-3738A5353D1B} = {5441734A-F5BE-4358-AB2D-B35DA258331C}
 		{817B040E-5F27-4ACD-B1E4-F46452668A0E} = {80FC5EA1-3478-4E7F-8B05-190DF6750EA4}
+		{9E8AA7B3-4851-439D-81A4-E74798BCBE05} = {F31E8AE8-60A6-422D-8E96-911B65213569}
 	EndGlobalSection
 EndGlobal
