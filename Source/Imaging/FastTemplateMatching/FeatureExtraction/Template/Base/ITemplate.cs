@@ -7,7 +7,7 @@ using Accord.Extensions.Math.Geometry;
 using LineSegment2DF = AForge.Math.Geometry.LineSegment;
 using PointF = AForge.Point;
 
-namespace Accord.Extensions.Imaging.Algorithms.LNE2D
+namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {
     /// <summary>
     /// Represents LINE2D template interface.

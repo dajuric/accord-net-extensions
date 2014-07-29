@@ -42,10 +42,10 @@
     <None Include="Imaging.GenericImage.nuspec" />
     <None Include="Statistics.nuspec" />
     <None Include="Math.nuspec" />
-    <None Include="Imaging.Algorithms.LNE2D.targets">
+    <None Include="Imaging.Algorithms.LINE2D.targets">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Imaging.Algorithms.LNE2D.nuspec" />
+    <None Include="Imaging.Algorithms.LINE2D.nuspec" />
     <None Include="Imaging.BitmapInterop.nuspec" />
     <None Include="Imaging.AForgeInterop.nuspec" />
     <None Include="Core.nuspec">

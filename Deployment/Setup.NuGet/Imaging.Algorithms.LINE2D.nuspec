@@ -2,7 +2,7 @@
 
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Accord.Extensions.Imaging.Algorithms.LNE2D</id>
+    <id>Accord.Extensions.Imaging.Algorithms.LINE2D</id>
     <version>$version$</version>
     <title>Accord Extensions Fast template matching algorithm</title>
     <authors>Accord.NET Extensions</authors>
@@ -36,14 +36,14 @@
   </metadata>
   
   <files>
-    <file src="..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.LNE2D.dll" target="lib\Accord.Extensions.Imaging.Algorithms.LNE2D.dll" />
-    <file src="..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.LNE2D.xml" target="lib\Accord.Extensions.Imaging.Algorithms.LNE2D.xml" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.LINE2D.dll" target="lib\Accord.Extensions.Imaging.Algorithms.LINE2D.dll" />
+    <file src="..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.LINE2D.xml" target="lib\Accord.Extensions.Imaging.Algorithms.LINE2D.xml" />
 
     <!--Unmanaged Libraries-->
     <file src="..\..\bin\Release\UnmanagedLibraries\Windows\x86\SIMDArrayInstructions.dll" target="native\UnmanagedLibraries\Windows\x86\SIMDArrayInstructions.dll" />
     <file src="..\..\bin\Release\UnmanagedLibraries\Windows\x64\SIMDArrayInstructions.dll" target="native\UnmanagedLibraries\Windows\x64\SIMDArrayInstructions.dll" />
     
     <!--PostBuild tasks-->
-    <file src="Imaging.Algorithms.LNE2D.targets" target="build\Accord.Extensions.Imaging.Algorithms.LNE2D.targets" />
+    <file src="Imaging.Algorithms.LINE2D.targets" target="build\Accord.Extensions.Imaging.Algorithms.LINE2D.targets" />
   </files>
 </package>

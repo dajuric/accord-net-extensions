@@ -2,7 +2,7 @@
 using Accord.Extensions.Math.Geometry;
 using MoreLinq;
 
-namespace Accord.Extensions.Imaging.Algorithms.LNE2D
+namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {
     /// <summary>
     /// LINE2D match grouping algorithm.

@@ -5,7 +5,7 @@ using System.Linq;
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Imaging.Algorithms.LNE2D;
+using Accord.Extensions.Imaging.Algorithms.LINE2D;
 using PointF = AForge.Point;
 using Range = AForge.IntRange;
 

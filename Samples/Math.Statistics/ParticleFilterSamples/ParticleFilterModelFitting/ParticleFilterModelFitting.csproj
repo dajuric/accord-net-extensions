@@ -48,6 +48,12 @@
     <Reference Include="Accord">
       <HintPath>..\..\..\..\packages\Accord.2.12.0.0\lib\Accord.dll</HintPath>
     </Reference>
+    <Reference Include="Accord.Imaging">
+      <HintPath>..\..\..\..\packages\Accord.Imaging.2.12.0.0\lib\Accord.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.MachineLearning">
+      <HintPath>..\..\..\..\packages\Accord.MachineLearning.2.12.0.0\lib\Accord.MachineLearning.dll</HintPath>
+    </Reference>
     <Reference Include="Accord.Math">
       <HintPath>..\..\..\..\packages\Accord.Math.2.12.0.0\lib\Accord.Math.dll</HintPath>
     </Reference>
@@ -112,9 +118,9 @@
       <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Source\Imaging\FastTemplateMatching\Imaging.Algorithms.LNE2D.csproj">
+    <ProjectReference Include="..\..\..\..\Source\Imaging\FastTemplateMatching\Imaging.Algorithms.LINE2D.csproj">
       <Project>{5f6b97f8-7ea6-4b5d-9a5d-f5581505c303}</Project>
-      <Name>Imaging.Algorithms.LNE2D</Name>
+      <Name>Imaging.Algorithms.LINE2D</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Source\Imaging\Imaging.Algorithms\Imaging.Algorithms.csproj">
       <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>

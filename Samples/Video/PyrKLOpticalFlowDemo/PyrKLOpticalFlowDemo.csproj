@@ -37,6 +37,15 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord.Imaging">
+      <HintPath>..\..\..\packages\Accord.Imaging.2.12.0.0\lib\Accord.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.MachineLearning">
+      <HintPath>..\..\..\packages\Accord.MachineLearning.2.12.0.0\lib\Accord.MachineLearning.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics">
+      <HintPath>..\..\..\packages\Accord.Statistics.2.12.0.0\lib\Accord.Statistics.dll</HintPath>
+    </Reference>
     <Reference Include="AForge">
       <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
     </Reference>

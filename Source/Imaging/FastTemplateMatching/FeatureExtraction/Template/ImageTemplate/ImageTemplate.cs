@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 
-namespace Accord.Extensions.Imaging.Algorithms.LNE2D
+namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {
     /// <summary>
     /// LINE2D template. The class contains methods for template extraction from an image.

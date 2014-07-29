@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Point = AForge.IntPoint;
 
-namespace Accord.Extensions.Imaging.Algorithms.LNE2D
+namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {
     /// <summary>
     /// Contains extensions for matching templates against <see cref="LinearizedMapPyramid"/> and <see cref="LinearizedMaps"/>.

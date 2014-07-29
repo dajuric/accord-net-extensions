@@ -1,7 +1,7 @@
 ﻿using System;
 using Accord.Extensions.Imaging;
 
-namespace Accord.Extensions.Imaging.Algorithms.LNE2D
+namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {
     /// <summary>
     /// Orientation feature map.

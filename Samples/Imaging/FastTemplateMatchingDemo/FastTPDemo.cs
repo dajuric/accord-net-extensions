@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Vision;
-using Accord.Extensions.Imaging.Algorithms.LNE2D;
+using Accord.Extensions.Imaging.Algorithms.LINE2D;
 using PointF = AForge.Point;
 
 
@@ -19,8 +19,8 @@ using PointF = AForge.Point;
 using TemplatePyramid = LINE2D.ImageTemplatePyramid<LINE2D.ImageTemplateWithMask>;*/
 
 //without template mask (there is a slightly performance gain during runtime execution becasuse binary template masks are not loaded)
-using Template = Accord.Extensions.Imaging.Algorithms.LNE2D.ImageTemplate;
-using TemplatePyramid = Accord.Extensions.Imaging.Algorithms.LNE2D.ImageTemplatePyramid<Accord.Extensions.Imaging.Algorithms.LNE2D.ImageTemplate>;
+using Template = Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate;
+using TemplatePyramid = Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplatePyramid<Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate>;
 
 namespace FastTemplateMatchingDemo
 {

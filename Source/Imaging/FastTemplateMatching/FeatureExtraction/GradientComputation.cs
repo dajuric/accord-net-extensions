@@ -4,7 +4,7 @@ using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Filters;
 using Accord.Extensions.Math;
 
-namespace Accord.Extensions.Imaging.Algorithms.LNE2D
+namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {
     /// <summary>
     /// Contains methods for gray and color gradient magnitude and  orientation computation.

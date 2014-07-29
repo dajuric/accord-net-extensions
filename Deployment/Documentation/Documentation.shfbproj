@@ -36,9 +36,9 @@
       <DocumentationSource sourceFile="..\..\Source\Math\Statistics\Statistics.csproj" />
       <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj" />
       <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.Algorithms\Imaging.Algorithms.csproj" />
-      <DocumentationSource sourceFile="..\..\Source\Imaging\FastTemplateMatching\Imaging.Algorithms.LNE2D.csproj" />
       <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj" />
       <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\Imaging\FastTemplateMatching\Imaging.Algorithms.LINE2D.csproj" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>

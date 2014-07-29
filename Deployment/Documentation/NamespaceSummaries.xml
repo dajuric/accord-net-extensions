@@ -65,6 +65,7 @@
     <member name="N:Accord.Extensions.Imaging.Algorithms.LINE2D">
       <summary>
         Implements template matching algorithm (~20x faster than conventional sliding window approach).
+        The name 'LINE-2D' from the term 'Linearized Memory Maps' and '2D' refers to non-depth-extended version.
       </summary>
     </member>
 

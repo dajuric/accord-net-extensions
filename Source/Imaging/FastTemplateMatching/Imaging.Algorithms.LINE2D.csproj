@@ -8,8 +8,8 @@
     <ProjectGuid>{5F6B97F8-7EA6-4B5D-9A5D-F5581505C303}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Accord.Extensions.Imaging.Algorithms.LNE2D</RootNamespace>
-    <AssemblyName>Accord.Extensions.Imaging.Algorithms.LNE2D</AssemblyName>
+    <RootNamespace>Accord.Extensions.Imaging.Algorithms.LINE2D</RootNamespace>
+    <AssemblyName>Accord.Extensions.Imaging.Algorithms.LINE2D</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -48,7 +48,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\..\..\bin\Debug\Accord.Extensions.Imaging.Algorithms.LNE2D.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\bin\Debug\Accord.Extensions.Imaging.Algorithms.LINE2D.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,7 +61,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.LNE2D.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.LINE2D.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
