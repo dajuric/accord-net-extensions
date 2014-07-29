@@ -34,7 +34,7 @@ The framework is divided in libraries available through NuGet packages. The libr
          Implements parallel FFT transform. Implements group matching.
        </p>
        <p>
-         <i>samples: cardinal spline; contour extrema; graph path search</i>
+         <i>samples: cardinal spline; contour extrema; graph path search; group matching</i>
        </p>
    </li>
     
