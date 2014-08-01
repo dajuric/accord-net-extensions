@@ -131,6 +131,7 @@ namespace ObjectAnnotater.Components
             newAnn.Initialize(pictureBox);
             newAnn.Annotation.Label = DefaultLabel;
             newAnn.IsSelected = true;
+            newAnn.ShowLabel = this.ShowLabels;
             newAnn.OnMouseDown(this, e);
 
             drawingAnnotations.Add(newAnn);
@@ -157,6 +158,7 @@ namespace ObjectAnnotater.Components
                     drawingAnn.Initialize(pictureBox);
                     drawingAnn.Annotation = annotation;
                     drawingAnn.IsSelected = false;
+                    drawingAnn.ShowLabel = this.ShowLabels;
                     break;
                 }
             }

@@ -17,28 +17,22 @@ namespace ObjectAnnotater
         [STAThread]
         static void Main()
         {
-            ObservableCollection<Annotation> o = new ObservableCollection<Annotation>();
-            o.Add(new Annotation());
-            o.CollectionChanged += o_CollectionChanged;
-
-            o[0].Label = "kkk";
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             ImageStreamReader capture = null;
             string databaseFileName = null;
 
-            /*using (var wizard = new Wizard())
+            using (var wizard = new Wizard())
             {
                 wizard.ShowDialog();
 
                 capture = wizard.CaptureObj;
                 databaseFileName = wizard.DatabaseFileName;
-            }*/
+            }
 
-            capture = new ImageDirectoryReader(@"C:\Users\Darko-Home\Desktop\HandDatabase\prepared\Nenad_Darko\Tomislav 1\", "*.jpg");
-            databaseFileName = @"C:\Users\Darko-Home\Desktop\HandDatabase\prepared\Nenad_Darko\Tomislav 1.xml";
+            //capture = new ImageDirectoryReader(@"C:\Users\Darko-Home\Desktop\HandDatabase\prepared\Nenad_Darko\Tomislav 1\", "*.jpg");
+            //databaseFileName = @"C:\Users\Darko-Home\Desktop\HandDatabase\prepared\Nenad_Darko\Tomislav 1.xml";
 
             if (capture == null) //a user clicked "X" without data selection
             {
