@@ -11,7 +11,7 @@ namespace Accord.Extensions.Math.Geometry
     /// <summary>
     /// Contour extensions
     /// </summary>
-    public static class ContourExtensions
+    public static class ContourExtensions_Point32i
     {
         /// <summary>
         /// Gets path length between specified points.
@@ -43,30 +43,6 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="treatAsClosed">Treat as closed contour (distance from the last to the first point is added).</param>
         /// <returns>Cumulative distance.</returns>
         public static List<float> CumulativeEuclideanDistance(this IList<Point> pts, bool treatAsClosed = true)
-        {
-            var cumulativeDistances = new List<float>();
-            var maxOffset = treatAsClosed ? 0 : -1;
-
-            float cumulativeDistance = 0;
-            for (int i = 0; i < pts.Count + maxOffset; i++)
-            {
-                var idxA = i;
-                var idxB = (i + 1) % pts.Count;
-
-                cumulativeDistance += ((PointF)pts[idxA]).DistanceTo(pts[idxB]);
-                cumulativeDistances.Add(cumulativeDistance);
-            }
-
-            return cumulativeDistances;
-        }
-
-        /// <summary>
-        /// Gets cumulative distance for a contour (threated as closed contour).
-        /// </summary>
-        /// <param name="pts">Contour.</param>
-        /// <param name="treatAsClosed">Treat as closed contour (distance from the last to the first point is added).</param>
-        /// <returns>Cumulative distance.</returns>
-        public static List<float> CumulativeEuclideanDistance(this IList<PointF> pts, bool treatAsClosed = true)
         {
             var cumulativeDistances = new List<float>();
             var maxOffset = treatAsClosed ? 0 : -1;
@@ -201,7 +177,7 @@ namespace Accord.Extensions.Math.Geometry
                                               out List<int> peaks, out List<int> valeys)
         {
             peaks = new List<int>(); valeys = new List<int>();
-           
+
             for (int i = 0; i < contourPts.Count; i++)
             {
                 var idxL = (i - scale) % contourPts.Count; if (idxL < 0) idxL = contourPts.Count + idxL;
@@ -251,7 +227,7 @@ namespace Accord.Extensions.Math.Geometry
             if (valeys.Count == 0) return humps;
 
             foreach (var peak in peaks)
-            { 
+            {
                 var closestValey = valeys.MinBy(valey => System.Math.Abs(valey - peak));
 
                 var searchDirection = ((peak - closestValey) > 0) ? 1 : -1;
@@ -261,7 +237,7 @@ namespace Accord.Extensions.Math.Geometry
                     continue;
 
                 Range hump;
-                
+
                 if (searchDirection < 0)
                     hump = new Range(closestPtToValey, closestValey);
                 else
@@ -355,8 +331,106 @@ namespace Accord.Extensions.Math.Geometry
         /// </summary>
         /// <param name="points">Contour points.</param>
         /// <returns>Bounding rectangle.</returns>
+        public static Rectangle BoundingRect(this IEnumerable<Point> points)
+        {
+            if (points.Any() == false) return Rectangle.Empty;
+
+            int minX = Int32.MaxValue, maxX = Int32.MinValue,
+                minY = Int32.MaxValue, maxY = Int32.MinValue;
+
+            foreach (var pt in points)
+            {
+                if (pt.X < minX)
+                    minX = pt.X;
+                if (pt.X > maxX)
+                    maxX = pt.X;
+
+                if (pt.Y < minY)
+                    minY = pt.Y;
+                if (pt.Y > maxY)
+                    maxY = pt.Y;
+            }
+
+            return new Rectangle(minX, minY, maxX - minX, maxY - minY);
+        }
+
+        /// <summary>
+        /// Determines whether the polygon forms rectangle.
+        /// </summary>
+        /// <param name="points">Polygon.</param>
+        /// <returns>True if the polygon forms rectangle, false otherwise.</returns>
+        public static bool IsRectangle(this IEnumerable<Point> points)
+        {
+            if (points.Count() != 4)
+                return false;
+
+            var rect = points.BoundingRect();
+
+            bool hasTopLeft = false, hasTopRight = false, hasBottomLeft = false, hasBottomRight = false;
+
+            foreach (var pt in points)
+            {
+                if (rect.Top == pt.Y)
+                {
+                    if (rect.X == pt.X)
+                        hasTopLeft = true;
+
+                    if (rect.Right == pt.X)
+                        hasTopRight = true;
+                }
+
+                if (rect.Bottom == pt.Y)
+                {
+                    if (rect.X == pt.X)
+                        hasBottomLeft = true;
+
+                    if (rect.Right == pt.X)
+                        hasBottomRight = true;
+                }
+            }
+
+            return hasTopLeft && hasTopRight && hasBottomLeft && hasBottomRight;
+        }
+    }
+
+    /// <summary>
+    /// Contour extensions
+    /// </summary>
+    public static class ContourExtensions_Point32f
+    {
+        /// <summary>
+        /// Gets cumulative distance for a contour (threated as closed contour).
+        /// </summary>
+        /// <param name="pts">Contour.</param>
+        /// <param name="treatAsClosed">Treat as closed contour (distance from the last to the first point is added).</param>
+        /// <returns>Cumulative distance.</returns>
+        public static List<float> CumulativeEuclideanDistance(this IList<PointF> pts, bool treatAsClosed = true)
+        {
+            var cumulativeDistances = new List<float>();
+            var maxOffset = treatAsClosed ? 0 : -1;
+
+            float cumulativeDistance = 0;
+            for (int i = 0; i < pts.Count + maxOffset; i++)
+            {
+                var idxA = i;
+                var idxB = (i + 1) % pts.Count;
+
+                cumulativeDistance += ((PointF)pts[idxA]).DistanceTo(pts[idxB]);
+                cumulativeDistances.Add(cumulativeDistance);
+            }
+
+            return cumulativeDistances;
+        }
+
+        /// <summary>
+        /// Gets the minimum bounding rectangle around the points.
+        /// </summary>
+        /// <param name="points">Contour points.</param>
+        /// <returns>Bounding rectangle.</returns>
         public static RectangleF BoundingRect(this IEnumerable<PointF> points)
         {
+            if (points.Any() == false) return RectangleF.Empty;
+
             float minX = Single.MaxValue, maxX = Single.MinValue, 
                   minY = Single.MaxValue, maxY = Single.MinValue;
 
@@ -374,32 +448,6 @@ namespace Accord.Extensions.Math.Geometry
             }
 
             return new RectangleF(minX, minY, maxX - minX, maxY - minY);
-        }
-
-        /// <summary>
-        /// Gets the minimum bounding rectangle around the points.
-        /// </summary>
-        /// <param name="points">Contour points.</param>
-        /// <returns>Bounding rectangle.</returns>
-        public static Rectangle BoundingRect(this IEnumerable<Point> points)
-        {
-            int minX = Int32.MaxValue, maxX = Int32.MinValue, 
-                minY = Int32.MaxValue, maxY = Int32.MinValue;
-
-            foreach (var pt in points)
-            {
-                if (pt.X < minX)
-                    minX = pt.X;
-                if (pt.X > maxX)
-                    maxX = pt.X;
-
-                if (pt.Y < minY)
-                    minY = pt.Y;
-                if (pt.Y > maxY)
-                    maxY = pt.Y;
-            }
-
-            return new Rectangle(minX, minY, maxX - minX, maxY - minY);
         }
 
         /// <summary>
@@ -428,5 +476,42 @@ namespace Accord.Extensions.Math.Geometry
             }
         }
 
+        /// <summary>
+        /// Determines whether the polygon forms rectangle.
+        /// </summary>
+        /// <param name="points">Polygon.</param>
+        /// <returns>True if the polygon forms rectangle, false otherwise.</returns>
+        public static bool IsRectangle(this IEnumerable<PointF> points)
+        {
+            if (points.Count() != 4)
+                return false;
+
+            var rect = points.BoundingRect();
+
+            bool hasTopLeft = false, hasTopRight = false, hasBottomLeft = false, hasBottomRight = false;
+
+            foreach (var pt in points)
+            {
+                if (rect.Top == pt.Y)
+                {
+                    if (rect.X == pt.X)
+                        hasTopLeft = true;
+
+                    if (rect.Right == pt.X)
+                        hasTopRight = true;
+                }
+
+                if (rect.Bottom == pt.Y)
+                {
+                    if (rect.X == pt.X)
+                        hasBottomLeft = true;
+
+                    if (rect.Right == pt.X)
+                        hasBottomRight = true;
+                }
+            }
+
+            return hasTopLeft && hasTopRight && hasBottomLeft && hasBottomRight;
+        }
     }
 }

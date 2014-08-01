@@ -102,8 +102,8 @@ namespace Accord.Extensions.Math.Geometry
             { 
                 new Point(rect.X, rect.Y), //left-upper
                 new Point(rect.Right, rect.Y), //right-upper
-                new Point(rect.X, rect.Bottom), //left-bottom
-                new Point(rect.Right, rect.Bottom) //right-bottom
+                new Point(rect.Right, rect.Bottom), //right-bottom
+                new Point(rect.X, rect.Bottom) //left-bottom
             };
         }
 
@@ -226,8 +226,8 @@ namespace Accord.Extensions.Math.Geometry
             { 
                 new PointF(rect.X, rect.Y), //left-upper
                 new PointF(rect.Right, rect.Y), //right-upper
-                new PointF(rect.X, rect.Bottom), //left-bottom
-                new PointF(rect.Right, rect.Bottom) //right-bottom
+                new PointF(rect.Right, rect.Bottom), //right-bottom
+                new PointF(rect.X, rect.Bottom) //left-bottom
             };
         }
 

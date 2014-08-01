@@ -5,6 +5,7 @@ using Accord.Extensions.Imaging;
 using Accord.Extensions.Vision;
 using Point = AForge.IntPoint;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
+using System.Collections.ObjectModel;
 
 namespace ObjectAnnotater
 {
@@ -16,19 +17,28 @@ namespace ObjectAnnotater
         [STAThread]
         static void Main()
         {
+            ObservableCollection<Annotation> o = new ObservableCollection<Annotation>();
+            o.Add(new Annotation());
+            o.CollectionChanged += o_CollectionChanged;
+
+            o[0].Label = "kkk";
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             ImageStreamReader capture = null;
             string databaseFileName = null;
 
-            using (var wizard = new Wizard())
+            /*using (var wizard = new Wizard())
             {
                 wizard.ShowDialog();
 
                 capture = wizard.CaptureObj;
                 databaseFileName = wizard.DatabaseFileName;
-            }
+            }*/
+
+            capture = new ImageDirectoryReader(@"C:\Users\Darko-Home\Desktop\HandDatabase\prepared\Nenad_Darko\Tomislav 1\", "*.jpg");
+            databaseFileName = @"C:\Users\Darko-Home\Desktop\HandDatabase\prepared\Nenad_Darko\Tomislav 1.xml";
 
             if (capture == null) //a user clicked "X" without data selection
             {
@@ -47,12 +57,12 @@ namespace ObjectAnnotater
             if (capture != null && databaseFileName != null)
             {
                 ObjectAnnotater form = null;
-                try
+                //try
                 {
                     form = new ObjectAnnotater(capture, databaseFileName);
                     Application.Run(form);
                 }
-                catch (Exception)
+                /*catch (Exception)
                 {
                     var fInfo = new FileInfo(databaseFileName);
                     var autosaveName = fInfo.Name.Replace(fInfo.Extension, String.Empty) + "-autosave" + fInfo.Extension;
@@ -65,10 +75,15 @@ namespace ObjectAnnotater
                               autosaveName;
 
                     MessageBox.Show(msg, "Fatal error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                }*/
             }
 
             capture.Close();
+        }
+
+        static void o_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

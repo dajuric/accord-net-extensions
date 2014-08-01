@@ -26,19 +26,19 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
         /// <param name="minimumNeighbors">Minimum number of objects for a cluster.</param>
         /// <param name="threshold">Min overlap.</param>
         public MatchClustering(int minimumNeighbors = 1, double threshold = 0.2)
-           :base(null, AreMatchesNear, minimumNeighbors, threshold)
+           :base(null, areMatchesNear, minimumNeighbors, threshold)
         {
             compareByFunc = COMPARE_BY_SIZE;
-            this.AverageFunc = AverageMatches;
+            this.AverageFunc = getRepresentative;
         }
 
-        private Match AverageMatches(Match[] matches)
+        private Match getRepresentative(Match[] matches)
         {
             var bestMatch = matches.MaxBy(compareByFunc);
             return bestMatch;
         }
 
-        private static bool AreMatchesNear(Match m1, Match m2, double threshold)
+        private static bool areMatchesNear(Match m1, Match m2, double threshold)
         {
             return RectangleGroupMatching.AreRectanglesNear(m1.BoundingRect, m2.BoundingRect, threshold);
         }

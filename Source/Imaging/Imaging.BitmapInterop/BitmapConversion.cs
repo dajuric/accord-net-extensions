@@ -267,6 +267,17 @@ namespace Accord.Extensions.Imaging
             image.Palette = palette;
         }
 
+        /// <summary>
+        /// Lock a <see cref="System.Drawing.Bitmap"/> into system memory.
+        /// </summary>
+        /// <param name="bmp">Bitmap to lock.</param>
+        /// <param name="imageLockMode">Specifies the access level.</param>
+        /// <returns>Bitmap data.</returns>
+        public static BitmapData LockBits(this Bitmap bmp, ImageLockMode imageLockMode = ImageLockMode.ReadWrite)
+        {
+            return bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), imageLockMode, bmp.PixelFormat);
+        }
+
         #endregion
     }
 }

@@ -9,7 +9,7 @@ namespace Accord.Extensions.Math.Geometry
     /// <para>Defined functions can be used as object extensions.</para>
     /// Provides point extension methods.
     /// </summary>
-    public static class PointExtensions
+    public static class Point32iExtensions
     {
         /// <summary>
         /// Selects points which satisfy minimal specified distance.
@@ -46,7 +46,7 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// Clamps point coordinate according to the specified size (0,0, size.Width-1, size.Height-1).
+        /// Clamps point coordinate according to the specified size (0,0, size.Width, size.Height).
         /// </summary>
         /// <param name="point">The point to clamp.</param>
         /// <param name="size">The valid region.</param>
@@ -55,13 +55,13 @@ namespace Accord.Extensions.Math.Geometry
         {
             return new Point
             {
-                X = System.Math.Min(System.Math.Max(0, point.X), size.Width - 1),
-                Y = System.Math.Min(System.Math.Max(0, point.Y), size.Height - 1)
+                X = System.Math.Min(System.Math.Max(0, point.X), size.Width),
+                Y = System.Math.Min(System.Math.Max(0, point.Y), size.Height)
             };
         }
 
         /// <summary>
-        /// Clamps point coordinate according to the specified size (rect.X, rect.Y, rect.Right-1, rect.Bottom-1).
+        /// Clamps point coordinate according to the specified size (rect.X, rect.Y, rect.Right, rect.Bottom).
         /// </summary>
         /// <param name="point">The point to clamp.</param>
         /// <param name="rect">The valid region.</param>
@@ -70,8 +70,8 @@ namespace Accord.Extensions.Math.Geometry
         {
             return new Point
             {
-                X = System.Math.Min(System.Math.Max(rect.X, point.X), rect.Right - 1),
-                Y = System.Math.Min(System.Math.Max(rect.Y, point.Y), rect.Bottom - 1)
+                X = System.Math.Min(System.Math.Max(rect.X, point.X), rect.Right),
+                Y = System.Math.Min(System.Math.Max(rect.Y, point.Y), rect.Bottom)
             };
         }
 
@@ -94,7 +94,7 @@ namespace Accord.Extensions.Math.Geometry
     /// <para>Defined functions can be used as object extensions.</para>
     /// Provides point extension methods.
     /// </summary>
-    public static class PointFExtensions
+    public static class Point32fExtensions
     {
         /// <summary>
         /// Transforms point to the lower pyramid level.
@@ -181,6 +181,36 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
+        /// Clamps point coordinate according to the specified size (0,0, size.Width, size.Height).
+        /// </summary>
+        /// <param name="point">The point to clamp.</param>
+        /// <param name="size">The valid region.</param>
+        /// <returns>Clamped point.</returns>
+        public static PointF Clamp(this PointF point, SizeF size)
+        {
+            return new PointF
+            {
+                X = System.Math.Min(System.Math.Max(0, point.X), size.Width),
+                Y = System.Math.Min(System.Math.Max(0, point.Y), size.Height)
+            };
+        }
+
+        /// <summary>
+        /// Clamps point coordinate according to the specified size (rect.X, rect.Y, rect.Right, rect.Bottom).
+        /// </summary>
+        /// <param name="point">The point to clamp.</param>
+        /// <param name="rect">The valid region.</param>
+        /// <returns>Clamped point.</returns>
+        public static PointF Clamp(this PointF point, RectangleF rect)
+        {
+            return new PointF
+            {
+                X = System.Math.Min(System.Math.Max(rect.X, point.X), rect.Right),
+                Y = System.Math.Min(System.Math.Max(rect.Y, point.Y), rect.Bottom)
+            };
+        }
+
+        /// <summary>
         /// Negates point coordinates.
         /// </summary>
         /// <param name="point">The point to negate.</param>
@@ -199,7 +229,7 @@ namespace Accord.Extensions.Math.Geometry
     /// <para>Defined functions can be used as object extensions.</para>
     /// Provides point extension methods.
     /// </summary>
-    public static class DoublePointExtensions
+    public static class Point64fExtensions
     {
         /// <summary>
         /// Transforms point to the lower pyramid level.

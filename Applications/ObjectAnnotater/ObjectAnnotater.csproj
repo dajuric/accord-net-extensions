@@ -64,11 +64,18 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\DrawingAnnotation\DrawingAnnotation.cs" />
+    <Compile Include="Components\DrawingManager.cs" />
+    <Compile Include="Extensions\PictureBoxExtensions.cs" />
+    <Compile Include="Components\DrawingAnnotation\PointAnnotation.cs" />
+    <Compile Include="Components\DrawingAnnotation\RectangleAnnotation.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.ForEach.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.MinBy.cs" />
     <Compile Include="ObjectAnnotater.cs">
       <SubType>Form</SubType>
@@ -157,9 +164,7 @@
       <Name>Vision.IO</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Resources\label.png" />
     <Content Include="Resources\prepare.png" />

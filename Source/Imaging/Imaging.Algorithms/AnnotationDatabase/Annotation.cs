@@ -12,6 +12,16 @@ namespace Accord.Extensions.Imaging
     public class Annotation: ICloneable
     {
         /// <summary>
+        /// Creates new empty annotation.
+        /// </summary>
+        public Annotation()
+        {
+            this.Label = String.Empty;
+            this.Polygon = new Point[0];
+            this.Tag = null;
+        }
+
+        /// <summary>
         /// Gets or sets the annotation label
         /// </summary>
         [XmlAttribute]

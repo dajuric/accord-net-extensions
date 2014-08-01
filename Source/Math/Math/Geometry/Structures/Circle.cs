@@ -108,5 +108,15 @@ namespace Accord.Extensions.Math.Geometry
             var centerDiff = Accord.Math.Distance.Euclidean(X, Y, point.X, point.Y);
             return System.Math.Abs(centerDiff - Radius);
         }
+
+        /// <summary>
+        /// Converts integer into floating-point representation.
+        /// </summary>
+        /// <param name="circle">Integer circle representation.</param>
+        /// <returns>Floating-point circle representation.</returns>
+        public static implicit operator CircleF(Circle circle)
+        {
+            return new CircleF(circle.X, circle.Y, circle.Radius);
+        }
     }
 }
