@@ -7,7 +7,7 @@
     <td>
     <ul>
      <li>Version: 0.9.0.0 (release candidate 1)</li>
-     <li>NuGet packages (soon)</lI>
+     <li>NuGet packages: <b>ready</b> <i>(pre-release)</i></lI>
      <li>
        <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> Help (offline) </a> - <i>unblock after download!</i></li>
    </ul>
@@ -60,8 +60,8 @@ The framework is divided in libraries available through NuGet packages. The libr
        <b>Accord.Extensions.Imaging.GenericImage</b>
        <p>
           Implements slim generic image class and basic extensions (arithmetics). Provides multiple color spaces and conversions 
-          between them. The class can be used in non-generic way for developers who perefer AForge's UnmanagedImage style.
-          To get compatibility for other image types install appropriate extension NuGet package (e.g. 
+          between them. The class can be used in non-generic way for developers who prefer AForge's UnmanagedImage style.
+          To get compatibility for other image types install appropriate extension - NuGet package (e.g. 
           Imaging.BitmapInterop).
        </p>
        <p>
@@ -73,7 +73,7 @@ The framework is divided in libraries available through NuGet packages. The libr
       <b>Accord.Extensions.Imaging.Algorithms</b>
        <p>
         Implements image-processing and computer-vision algorithms.
-        Provides extensions for some image-processing algorithms implemented in AForge.NET and Accord.NET library.
+        Provides extensions for image-processing algorithms implemented in Accord.NET framework and for some image-processing algorithms implemented in AForge.NET framework.
        </p>
        <p>
          <i>samples: (see Accord.Extensions.Imaging.GenericImage)</i>
