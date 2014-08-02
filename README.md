@@ -7,7 +7,7 @@
     <td>
     <ul>
      <li>Version: 0.9.0.0 (release candidate 1)</li>
-     <li>NuGet packages (soon)</lI>
+     <li>NuGet packages: <b>ready</b> <i>(pre-release)</i></lI>
      <li>
        <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> Help (offline) </a> - <i>unblock after download!</i></li>
    </ul>
