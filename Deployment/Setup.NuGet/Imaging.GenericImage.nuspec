@@ -12,7 +12,8 @@
     <iconUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Logo/logo-small.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Implements slim generic image class and basic extensions (arithmetics). Provides multiple color spaces and conversions between them.
+      Implements slim generic image class and basic extensions (arithmetics). Provides multiple color spaces and conversions
+      between them. The class can be used in non-generic way for developers who prefer AForge's UnmanagedImage style.
       To get compatibility for other image types install appropriate extension - NuGet package (e.g. Imaging.BitmapInterop).
     </description>
     <summary>Interoperability extensions between Accord.Extensions and AForge image format.</summary>
