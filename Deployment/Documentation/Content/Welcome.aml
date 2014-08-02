@@ -48,7 +48,7 @@
             <para>Accord.Extensions.Imaging.GenericImage</para>
             <para>
               Implements slim generic image class and basic extensions (arithmetics). Provides multiple color spaces and conversions between them.
-              To get compatibility for other image types install appropriate extension NuGet package (e.g. Imaging.BitmapInterop).
+              To get compatibility for other image types install appropriate extension - NuGet package (e.g. Imaging.BitmapInterop).
             </para>
           </listItem>
 
@@ -56,7 +56,7 @@
             <para>Accord.Extensions.Imaging.Algorithms</para>
             <para>
               Implements image-processing and computer-vision algorithms.
-              Provides extensions for some image-processing algorithms implemented in AForge.NET and Accord.NET library.
+              Provides extensions for image-processing algorithms implemented in Accord.NET framework and for some image-processing algorithms implemented in AForge.NET framework.
             </para>
           </listItem>
 

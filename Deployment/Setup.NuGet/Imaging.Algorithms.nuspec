@@ -12,8 +12,8 @@
     <iconUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Logo/logo-small.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-     Implements image-processing and computer-vision algorithms. 
-     Provides extensions for some image-processing algorithms implemented in AForge.NET and Accord.NET library.
+      Implements image-processing and computer-vision algorithms.
+      Provides extensions for image-processing algorithms implemented in Accord.NET framework and for some image-processing algorithms implemented in AForge.NET framework.
     </description>
     <summary>Image-processing and computer-vision algorithms</summary>
     <tags>accord.net framework extensions imaging algorithms</tags>

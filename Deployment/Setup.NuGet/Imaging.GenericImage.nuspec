@@ -13,7 +13,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
       Implements slim generic image class and basic extensions (arithmetics). Provides multiple color spaces and conversions between them.
-      To get compatibility for other image types install appropriate extension NuGet package (e.g. Imaging.BitmapInterop).
+      To get compatibility for other image types install appropriate extension - NuGet package (e.g. Imaging.BitmapInterop).
     </description>
     <summary>Interoperability extensions between Accord.Extensions and AForge image format.</summary>
     <tags>accord.net framework extensions imaging generic-image color-spaces</tags>
