@@ -51,11 +51,21 @@ namespace Collections
             testPinnedArray();
         }
 
-        struct MatElement<TKey, TVal>
+        struct MatrixElement<TKey, TVal>
         {
             public TKey Row;
-            public TKey Col;
+            public TKey Column;
             public TVal Value;
+
+            public static MatrixElement<TKey, TVal> Create(TKey row, TKey column, TVal value)
+            {
+                return new MatrixElement<TKey, TVal>
+                {
+                    Row = row,
+                    Column = column,
+                    Value = value
+                };
+            }
         }
 
         private static void testSparseMatrix()
@@ -64,14 +74,14 @@ namespace Collections
             //the structure is used for methods that operates on graph (see Accord.Extension.Math) but it can be useful for many other problems
             //(e.g. when dense matrix takes a large amount of memory, but does not contain many elements)
 
-            var elements = new MatElement<int, string>[] 
+            var elements = new[] 
             {
-                new MatElement<int, string>{Row=0, Col=5, Value="0_5" },
-                new MatElement<int, string>{Row=55, Col=243, Value="55_243" },
-                new MatElement<int, string>{Row=-22, Col=10, Value="-22_10" }
+                MatrixElement<int, string>.Create(row:   0, column:   5, value:"0_5"    ),
+                MatrixElement<int, string>.Create(row:  55, column: 243, value:"55_243" ),
+                MatrixElement<int, string>.Create(row: -22, column:  10, value:"-22_10" )
             };
 
-            var sparseMat = elements.ToMatrix(x => x.Row, x => x.Col, x => x.Value);
+            var sparseMat = elements.ToMatrix(x => x.Row, x => x.Column, x => x.Value);
             sparseMat.AddOrUpdate(0, 5, "0_5_changed");
             bool isRemoved = sparseMat.Remove(55, 243);
 
