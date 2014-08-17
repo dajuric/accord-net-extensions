@@ -44,6 +44,7 @@
             this.btnToggleLabels = new System.Windows.Forms.ToolStripButton();
             this.btnPrepareSamples = new System.Windows.Forms.ToolStripButton();
             this.slider = new System.Windows.Forms.TrackBar();
+            this.btnExtractSamples = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slider)).BeginInit();
@@ -56,7 +57,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Location = new System.Drawing.Point(3, 2);
-            this.pictureBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(510, 373);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -80,7 +81,8 @@
             this.toolStripSeparator1,
             this.btnSave,
             this.btnToggleLabels,
-            this.btnPrepareSamples});
+            this.btnPrepareSamples,
+            this.btnExtractSamples});
             this.toolStrip.Location = new System.Drawing.Point(0, 402);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(515, 27);
@@ -163,7 +165,7 @@
             this.btnToggleLabels.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnToggleLabels.Image = ((System.Drawing.Image)(resources.GetObject("btnToggleLabels.Image")));
             this.btnToggleLabels.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnToggleLabels.Margin = new System.Windows.Forms.Padding(0, 1, 20, 2);
+            this.btnToggleLabels.Margin = new System.Windows.Forms.Padding(0, 1, 15, 2);
             this.btnToggleLabels.Name = "btnToggleLabels";
             this.btnToggleLabels.Size = new System.Drawing.Size(24, 24);
             this.btnToggleLabels.Text = "toolStripButton1";
@@ -176,7 +178,7 @@
             this.btnPrepareSamples.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnPrepareSamples.Image = ((System.Drawing.Image)(resources.GetObject("btnPrepareSamples.Image")));
             this.btnPrepareSamples.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPrepareSamples.Margin = new System.Windows.Forms.Padding(0, 1, 50, 2);
+            this.btnPrepareSamples.Margin = new System.Windows.Forms.Padding(0, 1, 15, 2);
             this.btnPrepareSamples.Name = "btnPrepareSamples";
             this.btnPrepareSamples.Size = new System.Drawing.Size(24, 24);
             this.btnPrepareSamples.Text = "Prepare Samples";
@@ -189,13 +191,25 @@
             this.slider.AutoSize = false;
             this.slider.LargeChange = 1;
             this.slider.Location = new System.Drawing.Point(3, 380);
-            this.slider.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.slider.Margin = new System.Windows.Forms.Padding(2);
             this.slider.Name = "slider";
             this.slider.Size = new System.Drawing.Size(512, 24);
             this.slider.TabIndex = 9;
             this.slider.TickFrequency = 100;
             this.slider.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.slider.ValueChanged += new System.EventHandler(this.slider_ValueChanged);
+            this.slider.Scroll += new System.EventHandler(this.slider_Scroll);
+            // 
+            // btnExtractSamples
+            // 
+            this.btnExtractSamples.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnExtractSamples.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnExtractSamples.Image = ((System.Drawing.Image)(resources.GetObject("btnExtractSamples.Image")));
+            this.btnExtractSamples.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExtractSamples.Margin = new System.Windows.Forms.Padding(0, 1, 15, 2);
+            this.btnExtractSamples.Name = "btnExtractSamples";
+            this.btnExtractSamples.Size = new System.Drawing.Size(24, 24);
+            this.btnExtractSamples.Text = "Extract Samples";
+            this.btnExtractSamples.Click += new System.EventHandler(this.btnExtractSamples_Click);
             // 
             // ObjectAnnotater
             // 
@@ -205,7 +219,7 @@
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.slider);
             this.Controls.Add(this.pictureBox);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ObjectAnnotater";
             this.Text = "Object Annotater";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ObjectAnnotater_FormClosing);
@@ -235,6 +249,7 @@
         private System.Windows.Forms.ToolStripButton btnSave;
         private System.Windows.Forms.ToolStripButton btnToggleLabels;
         private System.Windows.Forms.ToolStripButton btnPrepareSamples;
+        private System.Windows.Forms.ToolStripButton btnExtractSamples;
     }
 }
 

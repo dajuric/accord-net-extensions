@@ -59,7 +59,7 @@ namespace GraphSearch
 
             var graph = edges.ToGraph<string, TaggedEdge<string, float>>();
 
-            Dictionary<string, Dictionary<string, double>> costMatrix;
+            IDictionary<Pair<string>, double> costMatrix;
             var paths = graph.FindAllPaths(x => x.Tag, out costMatrix);
 
             var vertices = graph.GetVertices<string, TaggedEdge<string, float>>();
@@ -69,8 +69,8 @@ namespace GraphSearch
             {
                 foreach (var v2 in vertices)
                 {
-                    var path = paths[v1][v2];
-                    var cost = costMatrix.Contains(v1, v2) ? costMatrix[v1][v2]: Double.NaN;
+                    var path = paths.Get(v1, v2);
+                    var cost = costMatrix.ContainsKey(v1, v2) ? costMatrix.Get(v1, v2): Double.NaN;
 
                     Console.Write("{0} => {1}: Cost {2}. Edges:", v1, v2, cost.ToString().PadLeft(3));
                     foreach (var edge in path)

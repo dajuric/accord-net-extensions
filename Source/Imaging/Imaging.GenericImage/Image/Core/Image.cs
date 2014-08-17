@@ -265,9 +265,8 @@ namespace Accord.Extensions.Imaging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IntPtr GetData(int row, int col)
         {
-            if (col < 0 || col >= this.Width ||
-                row < 0 || row >= this.Height)
-                throw new ArgumentOutOfRangeException();
+            if (col < 0 || col >= this.Width)
+                throw new ArgumentOutOfRangeException("Column index is out of range: " + col);
 
             return this.GetData(row) + col * this.ColorInfo.Size;
         }
@@ -280,8 +279,8 @@ namespace Accord.Extensions.Imaging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IntPtr GetData(int row)
         {
-            if (row < 0 || row >= this.Height) 
-                throw new ArgumentOutOfRangeException();
+            if (row < 0 || row >= this.Height)
+                throw new ArgumentOutOfRangeException("Row index is out of range: " + row);
 
             return this.ImageData + row * this.Stride;
         }

@@ -53,8 +53,8 @@ namespace ObjectAnnotater
                 databaseFileName = wizard.DatabaseFileName;
             }
 
-            //capture = new ImageDirectoryReader(@"C:\Users\Darko-Home\Desktop\HandDatabase\prepared\Nenad_Darko\Tomislav 1\", "*.jpg");
-            //databaseFileName = @"C:\Users\Darko-Home\Desktop\HandDatabase\prepared\Nenad_Darko\Tomislav 1.xml";
+            //capture = new ImageDirectoryReader(@"C:\Users\Darko-Home\Desktop\Svjetla - baza podataka\prepared\prednja+straznja-svjetla-1\", "*.jpg");
+            //databaseFileName = @"C:\Users\Darko-Home\Desktop\Svjetla - baza podataka\prepared\prednja+straznja-svjetla-1-prepared.xml";
 
             if (capture == null) //a user clicked "X" without data selection
             {
@@ -73,12 +73,12 @@ namespace ObjectAnnotater
             if (capture != null && databaseFileName != null)
             {
                 ObjectAnnotater form = null;
-                //try
+                try
                 {
                     form = new ObjectAnnotater(capture, databaseFileName);
                     Application.Run(form);
                 }
-                /*catch (Exception)
+                catch (Exception)
                 {
                     var fInfo = new FileInfo(databaseFileName);
                     var autosaveName = fInfo.Name.Replace(fInfo.Extension, String.Empty) + "-autosave" + fInfo.Extension;
@@ -91,15 +91,10 @@ namespace ObjectAnnotater
                               autosaveName;
 
                     MessageBox.Show(msg, "Fatal error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }*/
+                }
             }
 
             capture.Close();
-        }
-
-        static void o_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }

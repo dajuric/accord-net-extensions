@@ -81,12 +81,13 @@ namespace ObjectAnnotater
             drawingManager.Clear();
 
             frame = capture.ReadAs<Bgr, byte>(); //the order is relevant (position is automatically increased)
-            this.pictureBox.Image = frame.ToBitmap();
-
             var imageKey = getCurrentImageKey();
 
             if (Database.ContainsKey(imageKey))
                 drawingManager.AddRange(Database[imageKey]);
+      
+            this.pictureBox.Image = frame.ToBitmap();
+            pictureBox.Update();
 
             this.Text = getCurrentImageKey() + " -> " + new FileInfo(databaseFileName).Name;
             this.slider.Value = (int)Math.Max(0, this.capture.Position - 1);
@@ -120,7 +121,7 @@ namespace ObjectAnnotater
             var areEqual = annotations.All(dbAnnotations.Contains) && annotations.Count == dbAnnotations.Count;
             btnSave.Enabled = btnSave.Enabled || !areEqual;
 
-            if (annotations.Any()) //do not save empty list
+            if(dbAnnotations.Any()  || annotations.Any()) //do not save empty list
             {
                 Database[imageKey] = annotations;
             }
@@ -128,17 +129,27 @@ namespace ObjectAnnotater
 
         private string getCurrentImageKey()
         {
-            if (capture is ImageDirectoryReader == false)
-                throw new NotSupportedException("Unsupported image stream reader!");
+            var pos = capture.Position;
 
-            capture.Seek(-1);
-            string imageKey = (capture as ImageDirectoryReader).CurrentImageName;
-            var dbDirInfo = new DirectoryInfo(Path.GetDirectoryName(databaseFileName));
-            imageKey = imageKey.GetRelativeFilePath(dbDirInfo);
-            capture.Seek(+1);
+            var imageKey = getImageKey(pos - 1);
+            capture.Seek(pos, SeekOrigin.Begin);
 
             return imageKey;
         }
+
+        private string getImageKey(long position)
+        {
+            if (capture is ImageDirectoryReader == false)
+                throw new NotSupportedException("Unsupported image stream reader!");
+
+            capture.Seek(position, SeekOrigin.Begin);
+            string imageKey = (capture as ImageDirectoryReader).CurrentImageName;
+            var dbDirInfo = new DirectoryInfo(Path.GetDirectoryName(databaseFileName));
+            imageKey = imageKey.GetRelativeFilePath(dbDirInfo);
+
+            return imageKey;
+        }
+
 
         #endregion
 
@@ -186,6 +197,11 @@ namespace ObjectAnnotater
                 case Keys.Control | Keys.S:
                     saveToFile();
                     break;
+
+                case Keys.R:
+                    replicate();
+                    this.btnSave.Enabled = true;
+                    break;
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -209,15 +225,32 @@ namespace ObjectAnnotater
             saveToFile();          
         }
 
-        private void slider_ValueChanged(object sender, EventArgs e)
+        private void slider_Scroll(object sender, EventArgs e)
         {
             getFrame(slider.Value);
         }
 
+        private void replicate()
+        {
+            var currPos = capture.Position - 1;
+
+            for (long pos = currPos; pos < capture.Length; pos++)
+            {
+                var imageKey = getImageKey(pos);
+                Database[imageKey] = drawingManager.DrawingAnnotations.Select(x => x.Annotation).ToList();
+            }
+        }
+
         private void btnPrepareSamples_Click(object sender, EventArgs e)
         {
-            var prepareSamplesForm = new SampleGeneration.SamplePreparation(this.Database);
-            prepareSamplesForm.ShowDialog(this);
+            var frmPrepareSamples = new SamplePreparation(this.Database);
+            frmPrepareSamples.ShowDialog(this);
+        }
+
+        private void btnExtractSamples_Click(object sender, EventArgs e)
+        {
+            var frmExtractSamples = new SampleExtraction(this.Database, this.capture, getImageKey);
+            frmExtractSamples.ShowDialog();
         }
     }
 }

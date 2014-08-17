@@ -39,12 +39,29 @@ namespace Accord.Extensions
         /// <typeparam name="TValue">Value type.</typeparam>
         /// <param name="mat">Sparse matrix - nested dictionaries.</param>
         /// <param name="firstKey">First key - row selector.</param>
-        /// <param name="secondKey">Second key - colum selector.</param>
+        /// <param name="secondKey">Second key - column selector.</param>
         /// <returns>True if the specified key exist in dictionary matrix, false otherwise.</returns>
-        public static bool Contains<TKey, TValue>(this Dictionary<TKey, Dictionary<TKey, TValue>> mat, TKey firstKey, TKey secondKey)
+        public static bool ContainsKey<TKey, TValue>(this IDictionary<Pair<TKey>, TValue> mat, TKey firstKey, TKey secondKey)
         {
-            TValue containedValue;
-            return TryGetValue(mat, firstKey, secondKey, out containedValue);
+            if (!mat.ContainsKey(new Pair<TKey>(firstKey, secondKey)))
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Gets the value associated with the two keys set.
+        /// </summary>
+        /// <exception cref="System.Collections.Generic.KeyNotFoundException"></exception>
+        /// <typeparam name="TKey">Key type.</typeparam>
+        /// <typeparam name="TValue">Value type.</typeparam>
+        /// <param name="mat">Sparse matrix - nested dictionaries.</param>
+        /// <param name="firstKey">First key - row selector.</param>
+        /// <param name="secondKey">Second key - column selector.</param>
+        /// <returns>Value.</returns>
+        public static TValue Get<TKey, TValue>(this IDictionary<Pair<TKey>, TValue> mat, TKey firstKey, TKey secondKey)
+        {
+            return mat[new Pair<TKey>(firstKey, secondKey)];
         }
 
         /// <summary>
@@ -57,45 +74,31 @@ namespace Accord.Extensions
         /// <param name="secondKey">Second key - colum selector.</param>
         /// <param name="value">Value.</param>
         /// <returns>True if provided keys exist, false otherwise.</returns>
-        public static bool TryGetValue<TKey, TValue>(this Dictionary<TKey, Dictionary<TKey, TValue>> mat, TKey firstKey, TKey secondKey, out TValue value)
+        public static bool TryGetValue<TKey, TValue>(this IDictionary<Pair<TKey>, TValue> mat, TKey firstKey, TKey secondKey, out TValue value)
         {
             value = default(TValue);
 
-            if (!mat.ContainsKey(firstKey))
+            if (!mat.ContainsKey(firstKey, secondKey))
                 return false;
 
-            var innerDict = mat[firstKey];
-            if (innerDict == null || !innerDict.ContainsKey(secondKey))
-                return false;
-
-            value = innerDict[secondKey];
+            value = mat.Get(firstKey, secondKey);
             return true;
         }
 
         /// <summary>
         /// Adds data determined by the provided keys.
-        /// <para>In case the the provided keys already exist, old value will not be overwritten.</para>
+        /// <para>In case the provided keys already exist, an exception is thrown.</para>
         /// </summary>
+        /// <exception cref="System.ArgumentException">Key already exist.</exception>
         /// <typeparam name="TKey">Key type.</typeparam>
         /// <typeparam name="TValue">Value type.</typeparam>
         /// <param name="mat">Sparse matrix - nested dictionaries.</param>
         /// <param name="firstKey">First key - row selector.</param>
         /// <param name="secondKey">Second key - colum selector.</param>
         /// <param name="value">Value.</param>
-        /// <returns>True if data determined by the provided keys does not exist, false otherwise.</returns>
-        public static bool Add<TKey, TValue>(this Dictionary<TKey, Dictionary<TKey, TValue>> mat, TKey firstKey, TKey secondKey, TValue value)
+        public static void Add<TKey, TValue>(this IDictionary<Pair<TKey>, TValue> mat, TKey firstKey, TKey secondKey, TValue value)
         {
-            if (!mat.ContainsKey(firstKey))
-                mat.Add(firstKey, new Dictionary<TKey, TValue>());
-
-            var innerDict = mat[firstKey];
-            if (!innerDict.ContainsKey(secondKey))
-            {
-                innerDict.Add(secondKey, value);
-                return true;
-            }
-
-            return false;
+            mat.Add(new Pair<TKey>(firstKey, secondKey), value);
         }
 
         /// <summary>
@@ -107,15 +110,15 @@ namespace Accord.Extensions
         /// <param name="firstKey">First key - row selector.</param>
         /// <param name="secondKey">Second key - colum selector.</param>
         /// <param name="value">Value.</param>
-        public static void AddOrUpdate<TKey, TValue>(this Dictionary<TKey, Dictionary<TKey, TValue>> mat, TKey firstKey, TKey secondKey, TValue value)
+        public static void AddOrUpdate<TKey, TValue>(this IDictionary<Pair<TKey>, TValue> mat, TKey firstKey, TKey secondKey, TValue value)
         {
-            if (!mat.Contains(firstKey, secondKey))
+            if (!mat.ContainsKey(firstKey, secondKey))
             {
                 mat.Add(firstKey, secondKey, value);
             }
             else
             {
-                mat[firstKey][secondKey] = value;
+                mat[new Pair<TKey>(firstKey, secondKey)] = value;
             }
         }
 
@@ -128,13 +131,9 @@ namespace Accord.Extensions
         /// <param name="firstKey">First key - row selector.</param>
         /// <param name="secondKey">Second key - colum selector.</param>
         /// <returns>True if the provided keys exist, false otherwise.</returns>
-        public static bool Remove<TKey, TValue>(this Dictionary<TKey, Dictionary<TKey, TValue>> mat, TKey firstKey, TKey secondKey)
+        public static bool Remove<TKey, TValue>(this IDictionary<Pair<TKey>, TValue> mat, TKey firstKey, TKey secondKey)
         {
-            if (!mat.Contains(firstKey, secondKey))
-                return false;
-
-            mat[firstKey].Remove(secondKey);
-            return true;
+            return mat.Remove(new Pair<TKey>(firstKey, secondKey));
         }
 
         /// <summary>
@@ -146,7 +145,7 @@ namespace Accord.Extensions
         /// <param name="firstKeySelector">Row matrix selector.</param>
         /// <param name="secondKeySelector">Column matrix selector.</param>
         /// <returns>Sparse matrix - nested dictionaries.</returns>
-        public static Dictionary<TKey, Dictionary<TKey, TValue>> ToMatrix<TKey, TValue>(this IEnumerable<TValue> values, Func<TValue, TKey> firstKeySelector, Func<TValue, TKey> secondKeySelector)
+        public static IDictionary<Pair<TKey>, TValue> ToMatrix<TKey, TValue>(this IEnumerable<TValue> values, Func<TValue, TKey> firstKeySelector, Func<TValue, TKey> secondKeySelector)
         {
             return values.ToMatrix(firstKeySelector, secondKeySelector, x => x);
         }
@@ -162,9 +161,9 @@ namespace Accord.Extensions
         /// <param name="secondKeySelector">Column matrix selector.</param>
         /// <param name="valueSelector">Value selector.</param>
         /// <returns>Sparse matrix - nested dictionaries.</returns>
-        public static Dictionary<TKey, Dictionary<TKey, TValue>> ToMatrix<TKey, TValue, TSrcValue>(this IEnumerable<TSrcValue> values, Func<TSrcValue, TKey> firstKeySelector, Func<TSrcValue, TKey> secondKeySelector, Func<TSrcValue, TValue> valueSelector)
+        public static Dictionary<Pair<TKey>, TValue> ToMatrix<TKey, TValue, TSrcValue>(this IEnumerable<TSrcValue> values, Func<TSrcValue, TKey> firstKeySelector, Func<TSrcValue, TKey> secondKeySelector, Func<TSrcValue, TValue> valueSelector)
         {
-            var mat = new Dictionary<TKey, Dictionary<TKey, TValue>>();
+            var mat = new Dictionary<Pair<TKey>, TValue>();
 
             foreach (var srcVal in values)
             {
@@ -185,14 +184,11 @@ namespace Accord.Extensions
         /// <typeparam name="TValue">Value type.</typeparam>
         /// <param name="mat">Sparse matrix - nested dictionaries.</param>
         /// <returns>Collection of sparse matrix values.</returns>
-        public static IEnumerable<TValue> AsEnumerable<TKey, TValue>(this Dictionary<TKey, Dictionary<TKey, TValue>> mat)
+        public static IEnumerable<TValue> AsEnumerable<TKey, TValue>(this IDictionary<Pair<TKey>, TValue> mat)
         {
-            foreach (var innerDict in mat.Values)
+            foreach (var val in mat.Values)
             {
-                foreach (var val in innerDict.Values)
-                {
-                    yield return val;
-                }
+                yield return val;
             }
         }
 
@@ -203,18 +199,13 @@ namespace Accord.Extensions
         /// <typeparam name="TValue">Value type.</typeparam>
         /// <param name="mat">Sparse matrix - nested dictionaries.</param>
         /// <returns>Collection of sparse matrix row and column keys.</returns>
-        public static IEnumerable<TKey> GetKeys<TKey, TValue>(this Dictionary<TKey, Dictionary<TKey, TValue>> mat)
+        public static IEnumerable<TKey> GetKeys<TKey, TValue>(this IDictionary<Pair<TKey>, TValue> mat)
         {
             var keys = new List<TKey>();
 
-            foreach (var srcKey in mat.Keys)
-            {
-                keys.Add(srcKey);
-
-                var dstKeys = mat[srcKey].Keys;
-                keys.AddRange(dstKeys);
-            }
-
+            keys.AddRange(mat.Keys.Select(x => x.First)); //source key
+            keys.AddRange(mat.Keys.Select(x => x.Second)); //destination key
+     
             return keys.Distinct();
         }
     }

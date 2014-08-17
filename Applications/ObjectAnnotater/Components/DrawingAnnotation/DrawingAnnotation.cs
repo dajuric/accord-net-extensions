@@ -97,7 +97,7 @@ namespace ObjectAnnotater.Components
             var annLabel = ShowLabel ? ann.Label : "";
             var labelSize = g.MeasureString(annLabel, drawingFont);
 
-            g.DrawString(annLabel, drawingFont, new SolidBrush(Color.Black), 
+            g.DrawString(annLabel, drawingFont, new SolidBrush(DefaultPen.Color), 
                                   new System.Drawing.PointF 
                                   {
                                       X = rect.X,

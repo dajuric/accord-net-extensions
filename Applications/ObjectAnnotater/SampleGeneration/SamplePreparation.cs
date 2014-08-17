@@ -28,7 +28,7 @@ using Accord.Extensions.Math.Geometry;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 using RangeF = AForge.Range;
 
-namespace ObjectAnnotater.SampleGeneration
+namespace ObjectAnnotater
 {
     public partial class SamplePreparation : Form
     {
@@ -101,17 +101,19 @@ namespace ObjectAnnotater.SampleGeneration
                 });
             }
 
-            //clamp
+            //move annotation to fit
             var imWidth = (int)nImageWidth.Value;
             var imHeight = (int)nImageHeight.Value;
 
             newDb = newDb.ModifyAnnotations(imgAnn =>
             {
                 var rect = imgAnn.Polygon.BoundingRect();
-                var clampedRect = rect.Intersect(new Size(imWidth, imHeight), preserveScale: true);
+
+                Rectangle translatedRect;
+                bool translationExist = rect.MoveToFitArea(new Size(imWidth, imHeight), out translatedRect);
 
                 var modifiedImgAnn = (Annotation)imgAnn.Clone();
-                modifiedImgAnn.Polygon = Rectangle.Round(clampedRect).Vertices();
+                modifiedImgAnn.Polygon = Rectangle.Round(translatedRect).Vertices();
                 return modifiedImgAnn;
             });
 

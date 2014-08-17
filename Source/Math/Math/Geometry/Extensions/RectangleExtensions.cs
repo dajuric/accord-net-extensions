@@ -190,6 +190,34 @@ namespace Accord.Extensions.Math.Geometry
             Rectangle newRect = rect.Intersect(new Rectangle(0, 0, area.Width, area.Height), preserveScale);
             return newRect;
         }
+
+        /// <summary>
+        /// Changes rectangle's location in order to fit the specified area.
+        /// </summary>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="area">Valid bounding box.</param>
+        /// <param name="translatedRectangle">Translated rectangle.</param>
+        /// <returns>True if the translation exist, false otherwise.</returns>
+        public static bool MoveToFitArea(this Rectangle rect, Size area, out Rectangle translatedRectangle)
+        { 
+            var leftOffset = (rect.X < 0) ? -rect.X : 0;
+            var topOffset = (rect.Y < 0) ? -rect.Y : 0;
+
+            rect.X += leftOffset;
+            rect.Y += topOffset;
+          
+            var rightOffset = (rect.Right > area.Width) ? (area.Width - rect.Right) : 0;
+            var bottomOffset = (rect.Bottom > area.Height) ? (area.Height - rect.Bottom) : 0;
+
+            rect.X += rightOffset;
+            rect.Y += bottomOffset;
+
+            translatedRectangle = rect;
+            if (rect.X < 0 || rect.Y < 0 || rect.Right > area.Width || rect.Bottom > area.Height)
+                return false;
+
+            return true;
+        }
     }
 
     /// <summary>

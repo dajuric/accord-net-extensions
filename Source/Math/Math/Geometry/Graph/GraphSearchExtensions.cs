@@ -42,16 +42,16 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="distanceFunc">Distance function between two vertices.</param>
         /// <param name="costMat">Cost matrix.</param>
         /// <returns>2D matrix where each element is path from a source to a destination.</returns>
-        public static Dictionary<TVertex, Dictionary<TVertex, List<TEdge>>> FindAllPaths<TVertex, TEdge>(this Dictionary<TVertex, Dictionary<TVertex, TEdge>> graph,
-                                                                                                         Func<TEdge, double> distanceFunc,
-                                                                                                         out Dictionary<TVertex, Dictionary<TVertex, double>> costMat)
+        public static IDictionary<Pair<TVertex>, List<TEdge>> FindAllPaths<TVertex, TEdge>(this IDictionary<Pair<TVertex>, TEdge> graph,
+                                                                                           Func<TEdge, double> distanceFunc,
+                                                                                           out IDictionary<Pair<TVertex>, double> costMat)
             where TEdge : Edge<TVertex>
         {
             var edges = graph.AsEnumerable();
             var vertices = edges.GetVertices<TVertex, TEdge>(); //graph.Keys; => does not pick destination vertices (some vertices may only exist as destinations)
 
             var costMatrix = edges.ToMatrix(x => x.Source, y => y.Destination, value => distanceFunc(value));
-            vertices.ForEach(x => costMatrix.Add(x, x, 0)); //add 0 path cost
+            vertices.ForEach(x => costMatrix.AddOrUpdate(x, x, 0)); //add 0 path cost
 
             var nextVertexMatrix = edges.ToMatrix(x => x.Source, y => y.Destination, value => value.Source);
 
@@ -61,15 +61,15 @@ namespace Accord.Extensions.Math.Geometry
                 {
                     foreach (var jV in vertices)
                     {
-                        if (!costMatrix.Contains(iV, kV) || !costMatrix.Contains(kV, jV))
+                        if (!costMatrix.ContainsKey(iV, kV) || !costMatrix.ContainsKey(kV, jV))
                             continue;
 
-                        var newDist = costMatrix[iV][kV] + costMatrix[kV][jV];
+                        var newDist = costMatrix.Get(iV,kV) + costMatrix.Get(kV, jV);
 
-                        if (!costMatrix.Contains(iV, jV) || newDist < costMatrix[iV][jV])
+                        if (!costMatrix.ContainsKey(iV, jV) || newDist < costMatrix.Get(iV, jV))
                         {
                             costMatrix.AddOrUpdate(iV, jV, newDist);
-                            nextVertexMatrix.AddOrUpdate(iV, jV, nextVertexMatrix[kV][jV]);
+                            nextVertexMatrix.AddOrUpdate(iV, jV, nextVertexMatrix.Get(kV, jV));
                         }
                     }
                 }
@@ -91,17 +91,17 @@ namespace Accord.Extensions.Math.Geometry
             return pathMatrix;
         }
 
-        private static List<TEdge> getPath<TVertex, TEdge>(Dictionary<TVertex, Dictionary<TVertex, TEdge>> graph,
-                                                           Dictionary<TVertex, Dictionary<TVertex, TVertex>> nextVertexMatrix,
+        private static List<TEdge> getPath<TVertex, TEdge>(IDictionary<Pair<TVertex>, TEdge> graph,
+                                                           IDictionary<Pair<TVertex>, TVertex> nextVertexMatrix,
                                                            TVertex source, TVertex destination)
         {
-            if (!nextVertexMatrix.Contains(source, destination))
+            if (!nextVertexMatrix.ContainsKey(source, destination))
                 return new List<TEdge>();
 
-            var intermediate = nextVertexMatrix[source][destination];
+            var intermediate = nextVertexMatrix.Get(source, destination);
             if (intermediate.Equals(source))
             {
-                return new List<TEdge>() { graph[source][destination] };
+                return new List<TEdge>() { graph.Get(source, destination) };
             }
             else
             {

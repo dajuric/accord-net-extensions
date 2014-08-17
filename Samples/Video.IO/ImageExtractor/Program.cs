@@ -34,9 +34,9 @@ namespace ImageExtractor
         static void Main(string[] args)
         {
             //emulate input args
-            //string fileMask = Path.Combine(@"C:\Users\Darko-Home\Desktop\HandVideos\popravljeno", "*.mp4");
+            string fileMask = Path.Combine(@"C:\Users\Darko-Home\Desktop\Svjetla - baza podataka\Prednja + stražnja", "prednja+straznja-svjetla-4.mxf");
             //string fileMask = Path.Combine(@"C:\Users\Darko-Home\Desktop\Svjetla - baza podataka\Stražnja", "AA012201.mxf");
-            string fileMask = Path.Combine(getResourceDir(), "Welcome Accord.NET Extensions.mp4");
+            //string fileMask = Path.Combine(getResourceDir(), "Welcome Accord.NET Extensions.mp4");
 
             if (args.Length == 1)
                 fileMask = args[0];

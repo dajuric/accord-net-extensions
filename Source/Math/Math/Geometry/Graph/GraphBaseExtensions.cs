@@ -38,7 +38,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph.</param>
         /// <returns>Collection of vertices.</returns>
-        public static IEnumerable<TVertex> GetVertices<TVertex, TEdge>(this Dictionary<TVertex, Dictionary<TVertex, TEdge>> graph)
+        public static IEnumerable<TVertex> GetVertices<TVertex, TEdge>(this IDictionary<Pair<TVertex>, TEdge> graph)
            where TEdge : Edge<TVertex>
         {
             return graph.GetKeys<TVertex, TEdge>();
@@ -64,7 +64,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="edges">Collection of edges.</param>
         /// <returns>Graph.</returns>
-        public static Dictionary<TVertex, Dictionary<TVertex, TEdge>> ToGraph<TVertex, TEdge>(this IEnumerable<TEdge> edges)
+        public static IDictionary<Pair<TVertex>, TEdge> ToGraph<TVertex, TEdge>(this IEnumerable<TEdge> edges)
             where TEdge : Edge<TVertex>
         {
             return edges.ToMatrix(x => x.Source, y => y.Destination);
@@ -77,11 +77,10 @@ namespace Accord.Extensions.Math.Geometry
         /// <typeparam name="TEdge">Edge type.</typeparam>
         /// <param name="graph">Graph.</param>
         /// <param name="edge">Edge to add.</param>
-        /// <returns>True if the edge is added, false otherwise.</returns>
-        public static bool AddEdge<TVertex, TEdge>(this Dictionary<TVertex, Dictionary<TVertex, TEdge>> graph, TEdge edge)
+        public static void AddOrUpdateEdge<TVertex, TEdge>(this IDictionary<Pair<TVertex>, TEdge> graph, TEdge edge)
             where TEdge : Edge<TVertex>
         {
-            return graph.Add(edge.Source, edge.Destination, edge);
+            graph.AddOrUpdate(edge.Source, edge.Destination, edge);
         }
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="graph">Graph.</param>
         /// <param name="edge">Edge to remove.</param>
         /// <returns>True if the edge is removed, false otherwise.</returns>
-        public static bool RemoveEdge<TVertex, TEdge, TEdgeCollection>(this Dictionary<TVertex, Dictionary<TVertex, TEdge>> graph, TEdge edge)
+        public static bool RemoveEdge<TVertex, TEdge, TEdgeCollection>(this IDictionary<Pair<TVertex>, TEdge> graph, TEdge edge)
             where TEdge : Edge<TVertex>
             where TEdgeCollection : ICollection<TEdge>
         {

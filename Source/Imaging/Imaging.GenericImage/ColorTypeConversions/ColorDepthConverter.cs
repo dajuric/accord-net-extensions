@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Accord.Extensions.Math.Geometry;
+using System.Collections;
 
 namespace Accord.Extensions.Imaging.Converters
 {
@@ -217,8 +218,8 @@ namespace Accord.Extensions.Imaging.Converters
 
         static List<IColor> genericColors;
         static List<ConversionData<Type>> depthConversions;
-        static Dictionary<ColorInfo, Dictionary<ColorInfo, ConversionData<ColorInfo>>> graph;
-        static Dictionary<ColorInfo, Dictionary<ColorInfo, List<ConversionData<ColorInfo>>>> shorthestPaths;
+        static Dictionary<Pair<ColorInfo>, ConversionData<ColorInfo>> graph;
+        static IDictionary<Pair<ColorInfo>, List<ConversionData<ColorInfo>>> shorthestPaths;
 
         #region Initialization
 
@@ -226,7 +227,7 @@ namespace Accord.Extensions.Imaging.Converters
         {
             genericColors = new List<IColor>();
             depthConversions = new List<ConversionData<Type>>();
-            graph = new Dictionary<ColorInfo, Dictionary<ColorInfo, ConversionData<ColorInfo>>>();
+            graph = new Dictionary<Pair<ColorInfo>, ConversionData<ColorInfo>>();
 
             ColorDepthConverters.Initialize();
             Initialize();
@@ -241,7 +242,7 @@ namespace Accord.Extensions.Imaging.Converters
             addDepthConversions();
             addSelfPaths();
 
-            Dictionary<ColorInfo, Dictionary<ColorInfo, double>> costMatrix;
+            IDictionary<Pair<ColorInfo>, double> costMatrix;
             shorthestPaths = graph.FindAllPaths(x =>
             {
                 var cost = (int)x.Cost;
@@ -279,7 +280,7 @@ namespace Accord.Extensions.Imaging.Converters
                 foreach (var depthConversion in depthConversions)
                 {
                     var colorConversion = ConversionData<ColorInfo>.AsConvertDepth(color.ColorType, depthConversion);
-                    graph.AddEdge(colorConversion);
+                    graph.AddOrUpdateEdge(colorConversion);
                 }
             }
         }
@@ -329,10 +330,10 @@ namespace Accord.Extensions.Imaging.Converters
         /// <summary>
         /// Adds conversion info (edge) to the graph.
         /// </summary>
-        /// <param name="conversionData"></param>
+        /// <param name="conversionData">Conversion data.</param>
         public static void Add(ConversionData<ColorInfo> conversionData)
         {
-            graph.AddEdge(conversionData);
+            graph.AddOrUpdateEdge(conversionData);
         }
 
         /// <summary>
@@ -362,12 +363,14 @@ namespace Accord.Extensions.Imaging.Converters
         /// <param name="forbidRule"></param>
         public static void Remove(Func<ColorInfo, ColorInfo, List<ConversionData<ColorInfo>>, bool> forbidRule)
         {
-            foreach (var v1 in shorthestPaths.Keys)
+            var keys = shorthestPaths.GetKeys();
+
+            foreach (var v1 in keys)
             {
-                foreach (var v2 in shorthestPaths.Keys)
+                foreach (var v2 in keys)
                 {
-                    if (forbidRule(v1, v2, shorthestPaths[v1][v2]))
-                        shorthestPaths[v1][v2] = new List<ConversionData<ColorInfo>>();
+                    if (forbidRule(v1, v2, shorthestPaths.Get(v1, v2)))
+                        shorthestPaths.AddOrUpdate(v1, v2, new List<ConversionData<ColorInfo>>());
                 }
             }
 

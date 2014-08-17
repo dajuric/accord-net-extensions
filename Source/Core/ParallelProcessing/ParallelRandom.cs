@@ -94,6 +94,20 @@ namespace Accord.Extensions
         }
 
         /// <summary>
+        /// Returns a random number within a specified range.
+        /// </summary>
+        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
+        /// <param name="maxValue">
+        /// The exclusive upper bound of the random number returned. maxValue must be
+        /// greater than or equal to minValue.
+        /// </param>
+        /// <returns>A 32-bit signed integer greater than or equal to minValue and less than maxValue.</returns>
+        public static int Next(int minValue, int maxValue)
+        {
+            return ParallelRandom<Random>.Local.Next(minValue, maxValue);
+        }
+
+        /// <summary>
         /// Fills the provided array of bytes with random values.
         /// </summary>
         /// <param name="buffer">Buffer to fill with random numbers.</param>
