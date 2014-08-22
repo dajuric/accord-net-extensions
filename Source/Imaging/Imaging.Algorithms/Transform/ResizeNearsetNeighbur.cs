@@ -29,7 +29,7 @@ namespace Accord.Extensions.Imaging
     /// Nearest-neighbor interpolation.
     /// <para>The methods of this class are used internally in Resize() method extension.</para> 
     /// </summary>
-    public static class ResizeNearsetNeighbur
+    internal static class ResizeNearsetNeighbur
     {
         delegate void ResizeFunc(IImage image, IImage destImage);
         static Dictionary<Type, ResizeFunc> resizeFuncs;
@@ -53,16 +53,16 @@ namespace Accord.Extensions.Imaging
         /// <param name="img">Image.</param>
         /// <param name="newSize">New image size.</param>
         /// <returns>Resized image.</returns>
-        internal static Image<TColor, TDepth> ResizeNN<TColor, TDepth>(Image<TColor, TDepth> img, Size newSize)
+        internal static Image<TColor, TDepth> Resize<TColor, TDepth>(Image<TColor, TDepth> img, Size newSize)
             where TColor : IColor
             where TDepth : struct
         {
             var resizedIm = new Image<TColor, TDepth>(newSize);
-            ResizeNN((IImage)img, resizedIm);
+            Resize((IImage)img, resizedIm);
             return resizedIm;
         }
 
-        internal static void ResizeNN(IImage img, IImage destImg)
+        internal static void Resize(IImage img, IImage destImg)
         {
             if (img.ColorInfo.Equals(destImg.ColorInfo, ColorInfo.ComparableParts.Castable) == false)
                 throw new Exception("Image and dest image must be at least castable (the same number of channels, the same channel type)!");

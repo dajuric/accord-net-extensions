@@ -62,7 +62,7 @@ namespace Accord.Extensions.Imaging
         public static readonly string ROOT_ELEMENT = "Annotations";
 
         /// <summary>
-        /// Load the annotation database.
+        /// Load the annotation database. Existing data will not be overwritten.
         /// </summary>
         /// <param name="data">Empty database.</param>
         /// <param name="fileName">Database file.</param>
@@ -72,13 +72,14 @@ namespace Accord.Extensions.Imaging
                 return;
 
             XDocument doc = XDocument.Load(fileName);
-
             var elems = doc.Element(ROOT_ELEMENT).Elements().Select(x => x.FromXElement<ImageAnnotations<Annotation>>());
 
             foreach (var imageAnnotations in elems)
             {
-                data[imageAnnotations.ImageKey] = imageAnnotations.Annotations;
-                //data[(Int32.Parse(imageAnnotations.ImageKey) - 3).ToString()] = imageAnnotations.Annotations;
+                if (!data.ContainsKey(imageAnnotations.ImageKey))
+                    data[imageAnnotations.ImageKey] = new List<Annotation>();
+             
+                data[imageAnnotations.ImageKey].AddRange(imageAnnotations.Annotations);
             }
         }
 

@@ -35,7 +35,7 @@ namespace Accord.Extensions
         /// </summary>
         /// <param name="random">Random generator.</param>
         /// <param name="minimum">Minimum number.</param>
-        /// <param name="maximum">MAximujm number.</param>
+        /// <param name="maximum">Maximum number.</param>
         /// <returns>Random number in user-specified interval.</returns>
         public static double NextDouble(this Random random, double minimum, double maximum)
         {

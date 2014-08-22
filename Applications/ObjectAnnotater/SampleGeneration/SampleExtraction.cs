@@ -123,7 +123,7 @@ namespace ObjectAnnotater
 
             btnStart.Text = "Extracting...";
             extractPositives(labelSeachPattern);
-            MessageBox.Show("Done.", "Annotation extraction", MessageBoxButtons.OK);
+            //MessageBox.Show("Done.", "Annotation extraction", MessageBoxButtons.OK);
             this.Close();
         }
     }

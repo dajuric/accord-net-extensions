@@ -198,14 +198,14 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="area">Valid bounding box.</param>
         /// <param name="translatedRectangle">Translated rectangle.</param>
         /// <returns>True if the translation exist, false otherwise.</returns>
-        public static bool MoveToFitArea(this Rectangle rect, Size area, out Rectangle translatedRectangle)
-        { 
+        public static bool MoveToFit(this Rectangle rect, Size area, out Rectangle translatedRectangle)
+        {
             var leftOffset = (rect.X < 0) ? -rect.X : 0;
             var topOffset = (rect.Y < 0) ? -rect.Y : 0;
 
             rect.X += leftOffset;
             rect.Y += topOffset;
-          
+
             var rightOffset = (rect.Right > area.Width) ? (area.Width - rect.Right) : 0;
             var bottomOffset = (rect.Bottom > area.Height) ? (area.Height - rect.Bottom) : 0;
 
@@ -386,11 +386,28 @@ namespace Accord.Extensions.Math.Geometry
                     Y = rect.Y + rect.Height * (float)rand.NextDouble(locationOffset.Second.Min, locationOffset.Second.Max),
 
                     Width = rect.Width * (float)rand.NextDouble(sizeOffset.First.Min, sizeOffset.First.Max),
-                    Height = rect.Height* (float)rand.NextDouble(sizeOffset.Second.Min, sizeOffset.Second.Max)
+                    Height = rect.Height * (float)rand.NextDouble(sizeOffset.Second.Min, sizeOffset.Second.Max)
                 };
 
                 yield return randRect;
             }
+        }
+
+        /// <summary>
+        /// Scales rectangles by the specified amount.
+        /// </summary>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="scaleFactor">Multiplication factor for vertices coordinates.</param>
+        /// <returns>Scaled rectangle.</returns>
+        public static RectangleF Scale(this RectangleF rect, float scaleFactor)
+        {
+            return new RectangleF 
+            {
+                X = rect.X * scaleFactor,
+                Y = rect.Y * scaleFactor,
+                Width = rect.Width * scaleFactor,
+                Height  =rect.Height * scaleFactor
+            };
         }
 
         /// <summary>

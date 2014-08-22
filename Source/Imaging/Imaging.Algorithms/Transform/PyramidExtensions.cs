@@ -57,7 +57,7 @@ namespace Accord.Extensions.Imaging.Filters
                 Height = (int)(im.Height * pyrScale)
             };
 
-           return ResizeNearsetNeighbur.ResizeNN(im, newSize);
+           return ResizeNearsetNeighbur.Resize(im, newSize);
         }
 
         /// <summary>

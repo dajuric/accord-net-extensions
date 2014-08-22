@@ -110,7 +110,7 @@ namespace ObjectAnnotater
                 var rect = imgAnn.Polygon.BoundingRect();
 
                 Rectangle translatedRect;
-                bool translationExist = rect.MoveToFitArea(new Size(imWidth, imHeight), out translatedRect);
+                bool translationExist = rect.MoveToFit(new Size(imWidth, imHeight), out translatedRect);
 
                 var modifiedImgAnn = (Annotation)imgAnn.Clone();
                 modifiedImgAnn.Polygon = Rectangle.Round(translatedRect).Vertices();

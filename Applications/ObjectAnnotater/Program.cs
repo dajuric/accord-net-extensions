@@ -53,8 +53,8 @@ namespace ObjectAnnotater
                 databaseFileName = wizard.DatabaseFileName;
             }
 
-            //capture = new ImageDirectoryReader(@"C:\Users\Darko-Home\Desktop\Svjetla - baza podataka\prepared\prednja+straznja-svjetla-1\", "*.jpg");
-            //databaseFileName = @"C:\Users\Darko-Home\Desktop\Svjetla - baza podataka\prepared\prednja+straznja-svjetla-1-prepared.xml";
+            /*capture = new ImageDirectoryReader(@"S:\Svjetla - baza podataka\prepared\straznja-svjetla-2\", "*.jpg");
+            databaseFileName = @"S:\Svjetla - baza podataka\prepared\straznja-svjetla-2.xml";//*/
 
             if (capture == null) //a user clicked "X" without data selection
             {
@@ -91,7 +91,7 @@ namespace ObjectAnnotater
                               autosaveName;
 
                     MessageBox.Show(msg, "Fatal error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                }//*/
             }
 
             capture.Close();

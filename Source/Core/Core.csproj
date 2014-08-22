@@ -53,6 +53,7 @@
     <Compile Include="Extensions\DictionaryMatrixExtensions.cs" />
     <Compile Include="Extensions\Enumerable\Enumerable.IndexOfMax.cs" />
     <Compile Include="Extensions\Enumerable\Enumerable.IndexOfMin.cs" />
+    <Compile Include="Extensions\Enumerable\Enumerable.Select.cs" />
     <Compile Include="Extensions\Enumerable\EnumerableExtensions.cs" />
     <Compile Include="Extensions\PathExtensions.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
