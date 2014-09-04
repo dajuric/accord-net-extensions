@@ -289,5 +289,43 @@ namespace Accord.Extensions.Math
 
             return rez;
         }
+
+        #region Jagged matrix
+
+        /// <summary>
+        /// Gets jagged matrix column elements.
+        /// </summary>
+        /// <exception cref="System.ArgumentException">Column index is out of range.</exception>
+        /// <typeparam name="T">Element type.</typeparam>
+        /// <param name="jaggedMatrix">Jagged matrix.</param>
+        /// <param name="columnIndex">Column index.</param>
+        /// <returns>Column elements.</returns>
+        public static IEnumerable<T> GetColumn<T>(this IEnumerable<IList<T>> jaggedMatrix, int columnIndex)
+        {
+            foreach (var matRow in jaggedMatrix)
+            {
+                yield return matRow[columnIndex];
+            }
+        }
+
+        /// <summary>
+        /// Converts vector to one-column jagged matrix representation.
+        /// </summary>
+        /// <typeparam name="T">Element type.</typeparam>
+        /// <param name="vector">Vector.</param>
+        /// <returns>One-column jagged matrix.</returns>
+        public static T[][] ToJaggedMatrix<T>(this IList<T> vector)
+        {
+            var mat = new T[vector.Count][];
+
+            for (int i = 0; i < vector.Count; i++)
+            {
+                mat[i] = new T[] { vector[i] };
+            }
+
+            return mat;
+        }
+
+        #endregion
     }
 }

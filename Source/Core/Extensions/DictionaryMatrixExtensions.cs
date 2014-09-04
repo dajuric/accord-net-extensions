@@ -145,9 +145,9 @@ namespace Accord.Extensions
         /// <param name="firstKeySelector">Row matrix selector.</param>
         /// <param name="secondKeySelector">Column matrix selector.</param>
         /// <returns>Sparse matrix - nested dictionaries.</returns>
-        public static IDictionary<Pair<TKey>, TValue> ToMatrix<TKey, TValue>(this IEnumerable<TValue> values, Func<TValue, TKey> firstKeySelector, Func<TValue, TKey> secondKeySelector)
+        public static IDictionary<Pair<TKey>, TValue> ToSparseMatrix<TKey, TValue>(this IEnumerable<TValue> values, Func<TValue, TKey> firstKeySelector, Func<TValue, TKey> secondKeySelector)
         {
-            return values.ToMatrix(firstKeySelector, secondKeySelector, x => x);
+            return values.ToSparseMatrix(firstKeySelector, secondKeySelector, x => x);
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Accord.Extensions
         /// <param name="secondKeySelector">Column matrix selector.</param>
         /// <param name="valueSelector">Value selector.</param>
         /// <returns>Sparse matrix - nested dictionaries.</returns>
-        public static Dictionary<Pair<TKey>, TValue> ToMatrix<TKey, TValue, TSrcValue>(this IEnumerable<TSrcValue> values, Func<TSrcValue, TKey> firstKeySelector, Func<TSrcValue, TKey> secondKeySelector, Func<TSrcValue, TValue> valueSelector)
+        public static Dictionary<Pair<TKey>, TValue> ToSparseMatrix<TKey, TValue, TSrcValue>(this IEnumerable<TSrcValue> values, Func<TSrcValue, TKey> firstKeySelector, Func<TSrcValue, TKey> secondKeySelector, Func<TSrcValue, TValue> valueSelector)
         {
             var mat = new Dictionary<Pair<TKey>, TValue>();
 

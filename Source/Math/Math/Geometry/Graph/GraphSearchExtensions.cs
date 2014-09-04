@@ -50,10 +50,10 @@ namespace Accord.Extensions.Math.Geometry
             var edges = graph.AsEnumerable();
             var vertices = edges.GetVertices<TVertex, TEdge>(); //graph.Keys; => does not pick destination vertices (some vertices may only exist as destinations)
 
-            var costMatrix = edges.ToMatrix(x => x.Source, y => y.Destination, value => distanceFunc(value));
+            var costMatrix = edges.ToSparseMatrix(x => x.Source, y => y.Destination, value => distanceFunc(value));
             vertices.ForEach(x => costMatrix.AddOrUpdate(x, x, 0)); //add 0 path cost
 
-            var nextVertexMatrix = edges.ToMatrix(x => x.Source, y => y.Destination, value => value.Source);
+            var nextVertexMatrix = edges.ToSparseMatrix(x => x.Source, y => y.Destination, value => value.Source);
 
             foreach (var kV in vertices)
             {
@@ -76,7 +76,7 @@ namespace Accord.Extensions.Math.Geometry
             }
 
             /*************************** path reconstruction *************************/
-            var pathMatrix = edges.ToMatrix(x => x.Source, y => y.Destination, value => new List<TEdge>());
+            var pathMatrix = edges.ToSparseMatrix(x => x.Source, y => y.Destination, value => new List<TEdge>());
 
             foreach (var iV in vertices)
             {

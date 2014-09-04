@@ -63,6 +63,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunningStatistics\RunningAverage.cs" />
     <Compile Include="RunningStatistics\RunningVariance.cs" />
+    <Compile Include="RunningStatistics\RunningWeightedAverage.cs" />
+    <Compile Include="RunningStatistics\RunningWeightedVariance.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

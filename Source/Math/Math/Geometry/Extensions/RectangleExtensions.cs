@@ -332,6 +332,30 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
+        /// Inflates the rectangle by specified width and height (can be negative) and automatically clamps rectangle coordinates.
+        /// </summary>
+        /// <param name="rect">Rectangle to inflate.</param>
+        /// <param name="widthScale">Horizontal scale.</param>
+        /// <param name="heightScale">Vertical scale.</param>
+        /// <param name="constrainedArea">If specified rectangle region will be clamped.</param>
+        /// <returns>Inflated rectangle.</returns>
+        public static RectangleF Inflate(this RectangleF rect, double widthScale, double heightScale, SizeF constrainedArea = default(SizeF))
+        {
+            RectangleF newRect = new RectangleF
+            {
+                X = (float)(rect.X - rect.Width * widthScale / 2),
+                Y = (float)(rect.Y - rect.Height * heightScale / 2),
+                Width = (float)(rect.Width + rect.Width * widthScale),
+                Height = (float)(rect.Height + rect.Height * heightScale)
+            };
+
+            if (constrainedArea.IsEmpty == false)
+                newRect.Intersect(new RectangleF(new PointF(), constrainedArea));
+
+            return newRect;
+        }
+
+        /// <summary>
         /// Randomizes rectangle position and scale and returns randomized rectangles.
         /// </summary>
         /// <param name="rect">Rectangle.</param>

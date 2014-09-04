@@ -21,6 +21,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -264,8 +265,8 @@ namespace Accord.Extensions.Math
         /// </summary>
         /// <typeparam name="T">Element type.</typeparam>
         /// <param name="collection">Collections of elements.</param>
-        /// <param name="valueSelector">Value selector. Parameters are a selected element and index of an element.</param>
-        /// <param name="weightSelector">Weight selector. Parameters are a selected element and index of an element.</param>
+        /// <param name="valueSelector">Value selector. Parameters are the selected element and index of an element.</param>
+        /// <param name="weightSelector">Weight selector. Parameters are the selected element and index of an element.</param>
         /// <returns>Weighted average of a collection.</returns>
         public static double WeightedAverage<T>(this IEnumerable<T> collection, Func<T, int, double> valueSelector, Func<T, int, double> weightSelector)
         {
@@ -277,8 +278,8 @@ namespace Accord.Extensions.Math
         /// </summary>
         /// <typeparam name="T">Element type.</typeparam>
         /// <param name="collection">Collections of elements.</param>
-        /// <param name="valueSelector">Value selector. Parameters are a selected element and index of an element.</param>
-        /// <param name="weightSelector">Weight selector. Parameters are a selected element and index of an element.</param>
+        /// <param name="valueSelector">Value selector. Parameters are the selected element and index of an element.</param>
+        /// <param name="weightSelector">Weight selector. Parameters are the selected element and index of an element.</param>
         /// <param name="divisionByZeroResolver">Division by zero case resolver.</param>
         /// <returns>Weighted average of a collection.</returns>
         public static double WeightedAverage<T>(this IEnumerable<T> collection, Func<T, int, double> valueSelector, Func<T, int, double> weightSelector, Func<double> divisionByZeroResolver)

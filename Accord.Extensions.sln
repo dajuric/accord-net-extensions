@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{30167CA5-B827-4781-A713-1024D1538129}"
 	ProjectSection(SolutionItems) = preProject
@@ -167,6 +167,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logo", "Logo", "{817B040E-5
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupMatchingDemo", "Samples\Math (geometry)\GroupMatchingDemo\GroupMatchingDemo.csproj", "{9E8AA7B3-4851-439D-81A4-E74798BCBE05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RT_old", "Experimental\RT_old\RT_old.csproj", "{F67A0F17-7ECF-4F3B-9671-79865029305E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -639,6 +641,18 @@ Global
 		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Release|Win32.ActiveCfg = Release|Any CPU
 		{9E8AA7B3-4851-439D-81A4-E74798BCBE05}.Release|x64.ActiveCfg = Release|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Release|Win32.ActiveCfg = Release|Any CPU
+		{F67A0F17-7ECF-4F3B-9671-79865029305E}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -697,6 +711,7 @@ Global
 		{E4ED626D-359B-493C-A72E-3738A5353D1B} = {5441734A-F5BE-4358-AB2D-B35DA258331C}
 		{817B040E-5F27-4ACD-B1E4-F46452668A0E} = {80FC5EA1-3478-4E7F-8B05-190DF6750EA4}
 		{9E8AA7B3-4851-439D-81A4-E74798BCBE05} = {F31E8AE8-60A6-422D-8E96-911B65213569}
+		{F67A0F17-7ECF-4F3B-9671-79865029305E} = {EA48A5F3-CBB8-4115-9726-A835402D5983}
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

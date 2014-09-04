@@ -245,6 +245,36 @@ namespace Accord.Extensions.Math.Geometry
                 Y = -point.Y
             };
         }
+
+        /// <summary>
+        /// Translates the point by the specified offset.
+        /// </summary>
+        /// <param name="point">The point to offset.</param>
+        /// <param name="offset">Offset to be added.</param>
+        /// <returns>Translated point.</returns>
+        public static PointF Offset(this PointF point, PointF offset)
+        {
+            return new PointF
+            {
+                X = point.X + offset.X,
+                Y = point.Y + offset.Y
+            };
+        }
+
+        /// <summary>
+        /// Subtracts the point by the specified offset.
+        /// </summary>
+        /// <param name="point">The point to subtract.</param>
+        /// <param name="offset">Subtract factor.</param>
+        /// <returns>Translated point.</returns>
+        public static PointF Subtract(this PointF point, PointF offset)
+        {
+            return new PointF
+            {
+                X = point.X - offset.X,
+                Y = point.Y - offset.Y
+            };
+        }
     }
 
     /// <summary>

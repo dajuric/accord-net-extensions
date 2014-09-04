@@ -22,10 +22,34 @@
 
 using System;
 using System.Xml.Serialization;
+using Accord.Extensions.Math.Geometry;
 using Point = AForge.IntPoint;
 
 namespace Accord.Extensions.Imaging
 {
+    /// <summary>
+    /// Annotated object type.
+    /// </summary>
+    public enum AnnotationType
+    {
+        /// <summary>
+        /// Point
+        /// </summary>
+        Point,
+        /// <summary>
+        /// Rectangle
+        /// </summary>
+        Rectangle,
+        /// <summary>
+        /// Polygon
+        /// </summary>
+        Polygon,
+        /// <summary>
+        /// Polygon does not contain points or its value is null.
+        /// </summary>
+        Empty
+    }
+
     /// <summary>
     /// Object annotation.
     /// <para>Used during training process. See ObjectAnnotater application in samples.</para>
@@ -70,6 +94,20 @@ namespace Accord.Extensions.Imaging
                 Polygon = (Point[])this.Polygon.Clone(),
                 Tag = this.Tag is ICloneable ? ((ICloneable)this.Tag).Clone() : this.Tag
             };
+        }
+
+        /// <summary>
+        /// Gets the annotated object type.
+        /// </summary>
+        public AnnotationType Type 
+        {
+            get 
+            {
+                if (Polygon == null || Polygon.Length == 0) return AnnotationType.Empty;
+                if (Polygon.Length == 1) return AnnotationType.Point;
+                if (Polygon.IsRectangle()) return AnnotationType.Rectangle;
+                return AnnotationType.Polygon;
+            }
         }
     }
 }

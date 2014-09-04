@@ -33,8 +33,6 @@ namespace Accord.Extensions.Vision
     /// </summary>
     public class ImageDirectoryReader : ImageStreamReader
     {
-        string[] fileNames = null;
-
         Func<string, IImage> loader;
         long currentFrame = 0;
 
@@ -68,30 +66,26 @@ namespace Accord.Extensions.Vision
                 throw new DirectoryNotFoundException(String.Format("Dir: {0} cannot be found!", dirPath));
 
             loader = loader ?? cvLoader;
+            DirectoryInfo directoryInfo = new DirectoryInfo(dirPath); 
 
             this.IsLiveStream = false;
             this.CanSeek = true;
-
+            this.DirectoryInfo = directoryInfo;
             this.loader = loader;
 
-            DirectoryInfo directoryInfo = new DirectoryInfo(dirPath);
             var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-
-            IEnumerable<string> files = null;
 
             if (useNaturalSorting)
             {
-                files = directoryInfo.EnumerateFiles(searchPatterns, searchOption)
-                        .OrderBy(f => f.FullName, new NaturalSortComparer()) //in case of problems replace f.FullName with f.Name
-                        .Select(f => f.FullName);
+                this.FileInfos = directoryInfo.EnumerateFiles(searchPatterns, searchOption)
+                                  .OrderBy(f => f.FullName, new NaturalSortComparer()) //in case of problems replace f.FullName with f.Name
+                                  .ToArray();
             }
             else
             {
-                files = from file in directoryInfo.EnumerateFiles(searchPatterns, searchOption)
-                        select file.FullName;
+                this.FileInfos = directoryInfo.EnumerateFiles(searchPatterns, searchOption)
+                                  .ToArray();
             }
-
-            this.fileNames = files.ToArray();
         }
 
         private static IImage cvLoader(string fileName)
@@ -136,7 +130,7 @@ namespace Accord.Extensions.Vision
                 if (this.Position >= this.Length)
                     return false;
 
-                image = loader(fileNames[currentFrame]);
+                image = loader(FileInfos[currentFrame].FullName);
                 currentFrame++;
             }
 
@@ -146,7 +140,7 @@ namespace Accord.Extensions.Vision
         /// <summary>
         /// Gets the total number of files in the specified directory which match the specified search criteria.
         /// </summary>
-        public override long Length { get { return fileNames.Length; } }
+        public override long Length { get { return FileInfos.Length; } }
 
         /// <summary>
         /// Gets the current position within the stream.
@@ -169,12 +163,30 @@ namespace Accord.Extensions.Vision
         #region Specific function
 
         /// <summary>
+        /// Gets the source directory info.
+        /// </summary>
+        public DirectoryInfo DirectoryInfo
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the ordered set of files which compose the current image directory stream.
+        /// </summary>
+        public FileInfo[] FileInfos
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets the current image file name.
         /// <para>If the position of the stream is equal to the stream length null is returned.</para>
         /// </summary>
         public string CurrentImageName
         {
-            get { return (this.Position < fileNames.Length) ? fileNames[this.Position] : null; }
+            get { return (this.Position < FileInfos.Length) ? FileInfos[this.Position].FullName : null; }
         }
 
         #endregion

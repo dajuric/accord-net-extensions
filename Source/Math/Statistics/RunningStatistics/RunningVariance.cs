@@ -42,7 +42,7 @@ namespace Accord.Extensions.Statistics
         /// <param name="data">Sample data.</param>
         /// <param name="onCalculated">
         /// Action callback which fires on each element addition-removal. 
-        /// <para>Parameters are: (index, incremental (average, incremental variance, decremental average, decremental variance).</para>
+        /// <para>Parameters are: (index, incremental average, incremental variance, decremental average, decremental variance).</para>
         /// </param>
         public static void RunningVarianceIncDec(this IList<double> data, Action<int, double, double, double, double> onCalculated)
         {

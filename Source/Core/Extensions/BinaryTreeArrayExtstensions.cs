@@ -21,6 +21,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Accord.Extensions.BinaryTree
 {
@@ -30,6 +31,20 @@ namespace Accord.Extensions.BinaryTree
     /// </summary>
     public static class BinaryTreeArrayExtstensions
     {
+        /// <summary>
+        /// Gets leaf node indices.
+        /// </summary>
+        /// <typeparam name="T">Data type.</typeparam>
+        /// <param name="collection">Data collection observed as binary tree.</param>
+        /// <returns>Node indices.</returns>
+        public static IEnumerable<int> LeafIndices<T>(this IList<T> collection)
+        {
+            var nInternalNodes = (collection.Count - 1) / 2;
+            var nLeafs = (collection.Count + 1) / 2;
+
+            return Enumerable.Range(nInternalNodes, nLeafs);
+        }
+
         /// <summary>
         /// Returns parent index determined by its child <paramref name="nodeIndex"/>.
         /// </summary>

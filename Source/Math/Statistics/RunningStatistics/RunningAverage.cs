@@ -242,7 +242,7 @@ namespace Accord.Extensions.Statistics
         /// </summary>
         /// <param name="data">Collection.</param>
         /// <returns>Average for each sample dimension.</returns>
-        public static double[] Average(this IList<double[]> data)
+        public static double[] Average(this ICollection<double[]> data)
         {
             var dim = data.First().Length;
             var avg = new double[dim];

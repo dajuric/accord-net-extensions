@@ -40,6 +40,9 @@ namespace Test
         {
             Test test = new Test();
 
+            test.TestRunningWeightedVariance();
+            return;
+
             var resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
             var imgColor = Bitmap.FromFile(Path.Combine(resourceDir, "testColorBig.jpg")).ToImage<Bgr, byte>();
             imgColor = imgColor.CorrectContrast(105);

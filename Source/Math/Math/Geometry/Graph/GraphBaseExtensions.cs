@@ -67,7 +67,7 @@ namespace Accord.Extensions.Math.Geometry
         public static IDictionary<Pair<TVertex>, TEdge> ToGraph<TVertex, TEdge>(this IEnumerable<TEdge> edges)
             where TEdge : Edge<TVertex>
         {
-            return edges.ToMatrix(x => x.Source, y => y.Destination);
+            return edges.ToSparseMatrix(x => x.Source, y => y.Destination);
         }
 
         /// <summary>
