@@ -92,7 +92,7 @@ namespace Accord.Extensions.Math.Geometry
     /// </summary>
     /// <typeparam name="TVertex">Vertex type.</typeparam>
     /// <typeparam name="TTag">User tag type.</typeparam>
-    public class TaggedEdge<TVertex, TTag> : Edge<TVertex>
+    public class Edge<TVertex, TTag> : Edge<TVertex>
     {
         /// <summary>
         /// Creates a new instance from two vertices and a tag. 
@@ -100,7 +100,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="source">Source vertex.</param>
         /// <param name="destination">Destination vertex.</param>
         /// <param name="tag">USer specifed tag.</param>
-        public TaggedEdge(TVertex source, TVertex destination, TTag tag)
+        public Edge(TVertex source, TVertex destination, TTag tag)
             : base(source, destination)
         {
             this.Tag = tag;

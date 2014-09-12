@@ -40,29 +40,29 @@ namespace GraphSearch
         private static void testGraph()
         {
             //see graph.png
-            TaggedEdge<string, float>[] edges = new TaggedEdge<string, float>[] 
+            Edge<string, float>[] edges = new Edge<string, float>[] 
             {
-                new TaggedEdge<string, float>("1", "2", 7),
-                new TaggedEdge<string, float>("1", "3", 9),
-                new TaggedEdge<string, float>("1", "6", 14),
+                new Edge<string, float>("1", "2", 7),
+                new Edge<string, float>("1", "3", 9),
+                new Edge<string, float>("1", "6", 14),
 
-                new TaggedEdge<string, float>("2", "3", 10),
-                new TaggedEdge<string, float>("2", "4", 15),
+                new Edge<string, float>("2", "3", 10),
+                new Edge<string, float>("2", "4", 15),
 
-                new TaggedEdge<string, float>("3", "6", 2),
-                new TaggedEdge<string, float>("3", "4", 11),
+                new Edge<string, float>("3", "6", 2),
+                new Edge<string, float>("3", "4", 11),
 
-                new TaggedEdge<string, float>("4", "5", 6),
+                new Edge<string, float>("4", "5", 6),
 
-                new TaggedEdge<string, float>("5", "6", 9)
+                new Edge<string, float>("5", "6", 9)
             };
 
-            var graph = edges.ToGraph<string, TaggedEdge<string, float>>();
+            var graph = edges.ToGraph<string, Edge<string, float>>();
 
             IDictionary<Pair<string>, double> costMatrix;
-            var paths = graph.FindAllPaths(x => x.Tag, out costMatrix);
+            var paths = graph.FindShortestPaths(x => x.Tag, out costMatrix);
 
-            var vertices = graph.GetVertices<string, TaggedEdge<string, float>>();
+            var vertices = graph.GetVertices<string, Edge<string, float>>();
 
             Console.WriteLine("Possible paths:");
             foreach (var v1 in vertices)

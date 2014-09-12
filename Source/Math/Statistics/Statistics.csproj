@@ -60,6 +60,8 @@
     <Compile Include="Filters\ParticleFilter\Particle.cs" />
     <Compile Include="Filters\ParticleFilter\ParticleFilter.cs" />
     <Compile Include="Filters\ParticleFilter\ParticleFilter.Methods.cs" />
+    <Compile Include="Median.cs" />
+    <Compile Include="NthOrderStatistic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunningStatistics\RunningAverage.cs" />
     <Compile Include="RunningStatistics\RunningVariance.cs" />

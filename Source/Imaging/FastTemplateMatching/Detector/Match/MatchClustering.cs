@@ -22,14 +22,16 @@
 
 using System;
 using Accord.Extensions.Math.Geometry;
+using System.Linq;
 using MoreLinq;
+using System.Collections.Generic;
 
 namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {
     /// <summary>
     /// LINE2D match grouping algorithm.
     /// </summary>
-    public class MatchClustering : GroupMatching<Match>
+    public class MatchClustering : Clustering<Match>
     {
         /// <summary>
         /// Default comparer. Compare matches by size. Usually representative match is better by using this criteria.
@@ -45,40 +47,47 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
         /// <summary>
         /// Creates new LINE2D match clustering object.
         /// </summary>
-        /// <param name="minimumNeighbors">Minimum number of objects for a cluster.</param>
-        /// <param name="threshold">Min overlap.</param>
-        public MatchClustering(int minimumNeighbors = 1, double threshold = 0.2)
-           :base(null, areMatchesNear, minimumNeighbors, threshold)
+        /// <param name="minGroupWeight">
+        /// Minimum group weight threshold. Group with less than <paramref name="minGroupWeight"/> will be discarded.
+        /// <para>If the all weights are equal to one, the <paramref name="minGroupWeight"/> represents the minimum number of neighbors.</para>
+        /// </param>
+        /// <param name="minMatchAreaOverlap">Minimum bounding rectangle overlap area represented as percentage [0..1].</param>
+        public MatchClustering(float minGroupWeight = 1f,float minMatchAreaOverlap = 0.3f)
+           :base()
         {
+            this.MinMatchAreaOverlap = minMatchAreaOverlap;
             compareByFunc = COMPARE_BY_SIZE;
-            this.AverageFunc = getRepresentative;
         }
 
-        private Match getRepresentative(Match[] matches)
+        /// <summary>
+        /// Minimum bounding rectangle overlap area represented as percentage [0..1].
+        /// </summary>
+        public float MinMatchAreaOverlap { get; set; }
+
+        protected override bool AreDetectionsAdjacent(Match m1, Match m2)
+        {
+            return m1.BoundingRect.IntersectionPercent(m2.BoundingRect) >= MinMatchAreaOverlap;
+        }
+
+        protected override Match GetRepresentative(IList<Match> matches, IList<float> weights)
         {
             var bestMatch = matches.MaxBy(compareByFunc);
             return bestMatch;
         }
 
-        private static bool areMatchesNear(Match m1, Match m2, double threshold)
-        {
-            return RectangleGroupMatching.AreRectanglesNear(m1.BoundingRect, m2.BoundingRect, threshold);
-        }
-
         /// <summary>
         /// Groups near matches into a group.
         /// </summary>
-        /// 
-        /// <param name="strucutures">The objects to group.</param>
+        /// <param name="matches">The objects to group.</param>
         /// <param name="userCompareBy">User defined comparison function. If null, the default will be used.</param>
-        /// 
-        public GroupMatch<Match>[] Group(Match[] strucutures, Func<Match, double> userCompareBy = null)
+        /// <returns>Clusters.</returns>
+        public IList<Cluster<Match>> Group(IList<Match> matches, Func<Match, double> userCompareBy = null)
         {
             this.compareByFunc = userCompareBy;
             if (this.compareByFunc == null)
                 this.compareByFunc = COMPARE_BY_SIZE;
 
-            return base.Group(strucutures);
+            return base.Group(matches, matches.Select(x=> x.Score).ToArray());
         }
     }
 }

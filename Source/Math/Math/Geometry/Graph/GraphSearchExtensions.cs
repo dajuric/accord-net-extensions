@@ -33,7 +33,7 @@ namespace Accord.Extensions.Math.Geometry
     public static class FloydWarshallExtensions
     {
         /// <summary>
-        /// Finds all paths withing the given graph by using Floyd-Warshall algorithm.
+        /// Finds all shortest paths for-each vertex pair withing the given graph by using Floyd-Warshall algorithm.
         /// See <a href="http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm" /> for details.
         /// </summary>
         /// <typeparam name="TVertex">Vertex type.</typeparam>
@@ -42,7 +42,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="distanceFunc">Distance function between two vertices.</param>
         /// <param name="costMat">Cost matrix.</param>
         /// <returns>2D matrix where each element is path from a source to a destination.</returns>
-        public static IDictionary<Pair<TVertex>, List<TEdge>> FindAllPaths<TVertex, TEdge>(this IDictionary<Pair<TVertex>, TEdge> graph,
+        public static IDictionary<Pair<TVertex>, List<TEdge>> FindShortestPaths<TVertex, TEdge>(this IDictionary<Pair<TVertex>, TEdge> graph,
                                                                                            Func<TEdge, double> distanceFunc,
                                                                                            out IDictionary<Pair<TVertex>, double> costMat)
             where TEdge : Edge<TVertex>

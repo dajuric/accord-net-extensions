@@ -53,7 +53,7 @@
     <Compile Include="Geometry\Graph\Edge.cs" />
     <Compile Include="Geometry\Graph\GraphBaseExtensions.cs" />
     <Compile Include="Geometry\Graph\GraphSearchExtensions.cs" />
-    <Compile Include="Geometry\GroupMatching\RectangleGroupMatching.cs" />
+    <Compile Include="Geometry\GroupMatching\RectangleClustering.cs" />
     <Compile Include="Geometry\Structures\CircleF.cs" />
     <Compile Include="Geometry\Structures\Ellipse.cs" />
     <Compile Include="Geometry\Structures\Point%271.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="Geometry\Angle.cs" />
     <Compile Include="Geometry\Contour\CardinalSpline.cs" />
     <Compile Include="Geometry\Contour\ContourExtensions.cs" />
-    <Compile Include="Geometry\GroupMatching\GroupMatching.cs" />
+    <Compile Include="Geometry\GroupMatching\Clustering.cs" />
     <Compile Include="Geometry\PointTransformation\PointTransfromationsExtensions.cs" />
     <Compile Include="Geometry\PointTransformation\Transfroms2D.cs" />
     <Compile Include="Geometry\Structures\Box2D.cs" />

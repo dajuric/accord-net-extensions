@@ -200,7 +200,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <summary>
         /// Interpolates at indices which are obtained using <paramref name="samplingStep"/>.
         /// <para>Distances between points do not have to be equal because control points may not be equally distributed.</para>
-        /// <para>For equally distributed points please use: <seealso cref="GetEqualyDistributedPoints"/>.</para>
+        /// <para>For equally distributed points please use: <seealso cref="GetEqualyDistributedPointIndices"/>.</para>
         /// </summary>
         /// <param name="controlPoints">Control points of the spline.</param>
         /// <param name="tension">Tension of the spline.</param>
@@ -288,7 +288,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <para>Interval [0..1].</para>
         /// </param>
         /// <returns>Indices for which points are evenly distributed.</returns>
-        public static IList<float> GetEqualyDistributedPoints(IList<PointF> controlPoints, float tension, int numPoints, float samplingStep = 0.3f) 
+        public static IList<float> GetEqualyDistributedPointIndices(IList<PointF> controlPoints, float tension, int numPoints, float samplingStep = 0.3f) 
         {
             if (numPoints < 2)
                 throw new NotSupportedException("The minimal number of points is 2");

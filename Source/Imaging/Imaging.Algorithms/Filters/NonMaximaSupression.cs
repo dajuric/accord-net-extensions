@@ -72,7 +72,7 @@ namespace Accord.Extensions.Imaging
         {
             SupressNonMaximaFunc supressNonMaximaFunc = null;
             if (supressNonMaximaFuncs.TryGetValue(img.ColorInfo.ChannelType, out supressNonMaximaFunc) == false)
-                throw new NotSupportedException(string.Format("Can not perform non-maxima supression on an image of type {0}", img.ColorInfo.ChannelType.Name));
+                throw new NotSupportedException(string.Format("Can not perform non-maxima suppression on an image of type {0}", img.ColorInfo.ChannelType.Name));
 
             var proc = new ParallelProcessor<IImage, bool>(img.Size,
                                                           () => true,

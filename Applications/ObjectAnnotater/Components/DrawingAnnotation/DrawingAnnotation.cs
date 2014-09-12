@@ -40,7 +40,7 @@ namespace ObjectAnnotater.Components
         public static readonly Pen SelectedPen = new Pen(Color.Red, 3);
         public static readonly Pen DefaultPen = new Pen(Color.Green, 2);
 
-        protected PictureBox Element = null;
+        protected DrawingCanvas Element = null;
 
         protected Pen Pen 
         {
@@ -82,7 +82,7 @@ namespace ObjectAnnotater.Components
 
         public abstract bool BelongsTo(IList<Point> polygon);
 
-        public virtual void Initialize(PictureBox element)
+        public virtual void Initialize(DrawingCanvas element)
         {
             this.Element = element;
             this.ShowLabel = true;

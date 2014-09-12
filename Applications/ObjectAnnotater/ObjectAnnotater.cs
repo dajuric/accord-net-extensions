@@ -198,8 +198,13 @@ namespace ObjectAnnotater
                     saveToFile();
                     break;
 
-                case Keys.R:
+                case Keys.Control | Keys.R:
                     replicate();
+                    this.btnSave.Enabled = true;
+                    break;
+
+                case Keys.Control | Keys.L:
+                    labelInRow();
                     this.btnSave.Enabled = true;
                     break;
             }
@@ -230,17 +235,6 @@ namespace ObjectAnnotater
             getFrame(slider.Value);
         }
 
-        private void replicate()
-        {
-            var currPos = capture.Position - 1;
-
-            for (long pos = currPos; pos < capture.Length; pos++)
-            {
-                var imageKey = getImageKey(pos);
-                Database[imageKey] = drawingManager.DrawingAnnotations.Select(x => x.Annotation).ToList();
-            }
-        }
-
         private void btnPrepareSamples_Click(object sender, EventArgs e)
         {
             var frmPrepareSamples = new SamplePreparation(this.Database);
@@ -252,5 +246,49 @@ namespace ObjectAnnotater
             var frmExtractSamples = new SampleExtraction(this.Database, this.capture, getImageKey);
             frmExtractSamples.ShowDialog();
         }
+
+        #region Specific functions
+
+        private void replicate()
+        {
+            var currPos = capture.Position - 1;
+
+            for (long pos = currPos; pos < capture.Length; pos++)
+            {
+                var imageKey = getImageKey(pos);
+                Database[imageKey] = drawingManager.DrawingAnnotations.Select(x => x.Annotation).ToList();
+            }
+        }
+
+        private void labelInRow()
+        {
+            var nextPos = capture.Position;
+            var label = this.txtAnnotationLabel.Text;
+
+            var annotation = drawingManager.Selected.Annotation;
+            for (long pos = nextPos; pos < capture.Length; pos++)
+            {
+                var imageKey = getImageKey(pos);
+
+                var annBoundingRect = annotation.Polygon.BoundingRect();
+
+                if (Database.ContainsKey(imageKey) == false)
+                    break; //no more annotations in a row
+
+                var sameObjectAnn = Database[imageKey]
+                                    .Where(x => x.Polygon.BoundingRect().IntersectionPercent(annBoundingRect) > 0.75)
+                                    .FirstOrDefault();
+
+                if (sameObjectAnn == default(Annotation))
+                    break; //no more annotations in a row
+
+                sameObjectAnn.Label = label;
+                annotation = sameObjectAnn;
+            }
+
+            capture.Seek(nextPos, SeekOrigin.Begin);
+        }
+
+        #endregion
     }
 }

@@ -133,10 +133,10 @@ namespace Accord.Extensions.Vision
             lock (syncObj)
             {
                 if (image.ColorInfo.NumberOfChannels == 3 && !ColorFrames)
-                    throw new Exception("Image must be color!");
+                    throw new Exception("Image must be grayscale!");
 
                 if (image.ColorInfo.NumberOfChannels == 1 && ColorFrames)
-                    throw new Exception("Image must be grayscale!");
+                    throw new Exception("Image must be color!");
 
                 if (!image.Size.Equals(FrameSize))
                     throw new Exception("Input image must be the same size as defined frame size!");

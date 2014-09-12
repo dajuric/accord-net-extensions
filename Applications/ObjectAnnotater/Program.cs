@@ -51,10 +51,10 @@ namespace ObjectAnnotater
 
                 capture = wizard.CaptureObj;
                 databaseFileName = wizard.DatabaseFileName;
-            }
+            }//*/
 
-            /*capture = new ImageDirectoryReader(@"S:\Svjetla - baza podataka\prepared\straznja-svjetla-2\", "*.jpg");
-            databaseFileName = @"S:\Svjetla - baza podataka\prepared\straznja-svjetla-2.xml";//*/
+            //capture = new ImageDirectoryReader(@"S:\Svjetla - baza podataka\prepared\straznja-svjetla-2\", "*.jpg");
+            //databaseFileName = @"S:\Svjetla - baza podataka\prepared\straznja-svjetla-2.xml";//
 
             if (capture == null) //a user clicked "X" without data selection
             {
@@ -73,7 +73,7 @@ namespace ObjectAnnotater
             if (capture != null && databaseFileName != null)
             {
                 ObjectAnnotater form = null;
-                try
+                //try
                 {
                     form = new ObjectAnnotater(capture, databaseFileName);
                     Application.Run(form);

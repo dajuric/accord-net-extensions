@@ -49,6 +49,8 @@ namespace Collections
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Pinned array example:");  Console.ResetColor();
             testPinnedArray();
+
+            Console.ReadLine();
         }
 
         struct MatrixElement<TKey, TVal>
@@ -70,7 +72,7 @@ namespace Collections
 
         private static void testSparseMatrix()
         {
-            //sparse matrix structure is implemented as an extension method for Dictionary<,Dictionary<,>>
+            //sparse matrix structure is implemented as an extension method for IDictionary<Pair<TKey>, TValue>
             //the structure is used for methods that operates on graph (see Accord.Extension.Math) but it can be useful for many other problems
             //(e.g. when dense matrix takes a large amount of memory, but does not contain many elements)
 
@@ -81,7 +83,7 @@ namespace Collections
                 MatrixElement<int, string>.Create(row: -22, column:  10, value:"-22_10" )
             };
 
-            var sparseMat = elements.ToMatrix(x => x.Row, x => x.Column, x => x.Value);
+            var sparseMat = elements.ToSparseMatrix(x => x.Row, x => x.Column, x => x.Value);
             sparseMat.AddOrUpdate(0, 5, "0_5_changed");
             bool isRemoved = sparseMat.Remove(55, 243);
 

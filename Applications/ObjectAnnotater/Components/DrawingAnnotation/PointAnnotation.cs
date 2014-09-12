@@ -37,7 +37,7 @@ namespace ObjectAnnotater.Components
 {
     public class PointAnnotation : DrawingAnnotation
     {
-        public override void Initialize(PictureBox element)
+        public override void Initialize(DrawingCanvas element)
         {
             base.Initialize(element);
         }
@@ -46,9 +46,9 @@ namespace ObjectAnnotater.Components
         {
             get 
             { 
-                var rect = Element.ToPictureBoxCoordinate(Annotation.Polygon.BoundingRect());
+                var rect = Element.ToPictureBoxCoordinate(Annotation.Polygon.BoundingRect().ToRect()).ToRect();
                 rect.Inflate(RECT_SIZE / 2, RECT_SIZE / 2);
-                return rect;
+                return Rectangle.Round(rect);
             }
         }
 
@@ -64,9 +64,11 @@ namespace ObjectAnnotater.Components
             if (Annotation.Polygon.Length == 0) return;
 
             var pt = this.Annotation.Polygon
-                         .Select(x => Element.ToPictureBoxCoordinate(x))
+                         .Select(x => Element.ToPictureBoxCoordinate(x.ToPt()).ToPt())
                          .Select(x => x.Round())
                          .First();
+
+            //pt = Element.ToPictureBoxCoordinate(new Point(367, 351).ToPt()).ToPt().Round();
 
             g.DrawRectangle(Pen, new System.Drawing.Rectangle(pt.X - RECT_SIZE / 2, pt.Y - RECT_SIZE / 2, RECT_SIZE, RECT_SIZE));
             g.DrawLine(Pen, pt.X - RECT_SIZE / 2, pt.Y - RECT_SIZE / 2, pt.X + RECT_SIZE / 2, pt.Y + RECT_SIZE / 2); // \
@@ -80,7 +82,7 @@ namespace ObjectAnnotater.Components
             if (e.Button != MouseButtons.Left || !this.IsSelected || isDrawn)
                 return;
 
-            pt = Element.ToImageCoordinate(e.Location.ToPt()).Round();
+            pt = Element.ToImageCoordinate(e.Location).ToPt().Round();
 
             var imageSize = Element.Image.Size.ToSize(); 
             this.Annotation.Polygon = new Point[] { pt.Clamp(imageSize) };

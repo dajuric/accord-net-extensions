@@ -86,11 +86,11 @@ namespace CardinalSplineDemo
             const float CONTOUR_TENSION = 0;
 
             /********************  contour and control points *********************/
-            var pointIndices = CardinalSpline.GetEqualyDistributedPoints(controlPoints, CONTOUR_TENSION, 500);
+            var pointIndices = CardinalSpline.GetEqualyDistributedPointIndices(controlPoints, CONTOUR_TENSION, 500);
             var points = CardinalSpline.InterpolateAt(controlPoints, CONTOUR_TENSION, pointIndices);
 
             var normals = new List<LineSegment2DF>();
-            var normalIndices = CardinalSpline.GetEqualyDistributedPoints(controlPoints, CONTOUR_TENSION, 100);
+            var normalIndices = CardinalSpline.GetEqualyDistributedPointIndices(controlPoints, CONTOUR_TENSION, 100);
             foreach (var idx in normalIndices)
             {
                 var pt = CardinalSpline.InterpolateAt(controlPoints, CONTOUR_TENSION, idx);

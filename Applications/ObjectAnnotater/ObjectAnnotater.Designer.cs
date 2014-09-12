@@ -1,4 +1,5 @@
-﻿namespace ObjectAnnotater
+﻿using ObjectAnnotater.Components;
+namespace ObjectAnnotater
 {
     partial class ObjectAnnotater
     {
@@ -29,7 +30,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjectAnnotater));
-            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.pictureBox = new DrawingCanvas();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.lblCurrentFrame = new System.Windows.Forms.ToolStripLabel();
@@ -43,9 +44,8 @@
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.btnToggleLabels = new System.Windows.Forms.ToolStripButton();
             this.btnPrepareSamples = new System.Windows.Forms.ToolStripButton();
-            this.slider = new System.Windows.Forms.TrackBar();
             this.btnExtractSamples = new System.Windows.Forms.ToolStripButton();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            this.slider = new System.Windows.Forms.TrackBar();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slider)).BeginInit();
             this.SuspendLayout();
@@ -56,13 +56,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox.Location = new System.Drawing.Point(3, 2);
-            this.pictureBox.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox.Image = null;
+            this.pictureBox.Location = new System.Drawing.Point(4, 2);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(510, 373);
-            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox.ResetTransformOnLoad = false;
+            this.pictureBox.Size = new System.Drawing.Size(679, 459);
             this.pictureBox.TabIndex = 1;
-            this.pictureBox.TabStop = false;
+            this.pictureBox.TranslateImageModifierKey = System.Windows.Forms.Keys.ShiftKey;
             // 
             // toolStrip
             // 
@@ -83,9 +84,9 @@
             this.btnToggleLabels,
             this.btnPrepareSamples,
             this.btnExtractSamples});
-            this.toolStrip.Location = new System.Drawing.Point(0, 402);
+            this.toolStrip.Location = new System.Drawing.Point(0, 501);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(515, 27);
+            this.toolStrip.Size = new System.Drawing.Size(687, 27);
             this.toolStrip.Stretch = true;
             this.toolStrip.TabIndex = 6;
             this.toolStrip.Text = "toolStrip";
@@ -98,19 +99,19 @@
             // lblCurrentFrame
             // 
             this.lblCurrentFrame.Name = "lblCurrentFrame";
-            this.lblCurrentFrame.Size = new System.Drawing.Size(13, 24);
+            this.lblCurrentFrame.Size = new System.Drawing.Size(17, 24);
             this.lblCurrentFrame.Text = "0";
             // 
             // lblSlash
             // 
             this.lblSlash.Name = "lblSlash";
-            this.lblSlash.Size = new System.Drawing.Size(12, 24);
+            this.lblSlash.Size = new System.Drawing.Size(15, 24);
             this.lblSlash.Text = "/";
             // 
             // lblTotalFrames
             // 
             this.lblTotalFrames.Name = "lblTotalFrames";
-            this.lblTotalFrames.Size = new System.Drawing.Size(31, 24);
+            this.lblTotalFrames.Size = new System.Drawing.Size(41, 24);
             this.lblTotalFrames.Text = "0000";
             // 
             // toolStripSeparator2
@@ -122,14 +123,14 @@
             // lblAnnottionLabel
             // 
             this.lblAnnottionLabel.Name = "lblAnnottionLabel";
-            this.lblAnnottionLabel.Size = new System.Drawing.Size(38, 24);
+            this.lblAnnottionLabel.Size = new System.Drawing.Size(48, 24);
             this.lblAnnottionLabel.Text = "Label:";
             // 
             // txtAnnotationLabel
             // 
             this.txtAnnotationLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtAnnotationLabel.Name = "txtAnnotationLabel";
-            this.txtAnnotationLabel.Size = new System.Drawing.Size(114, 27);
+            this.txtAnnotationLabel.Size = new System.Drawing.Size(151, 27);
             this.txtAnnotationLabel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLabel_KeyDown);
             this.txtAnnotationLabel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtLabel_KeyUp);
             // 
@@ -184,21 +185,6 @@
             this.btnPrepareSamples.Text = "Prepare Samples";
             this.btnPrepareSamples.Click += new System.EventHandler(this.btnPrepareSamples_Click);
             // 
-            // slider
-            // 
-            this.slider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.slider.AutoSize = false;
-            this.slider.LargeChange = 1;
-            this.slider.Location = new System.Drawing.Point(3, 380);
-            this.slider.Margin = new System.Windows.Forms.Padding(2);
-            this.slider.Name = "slider";
-            this.slider.Size = new System.Drawing.Size(512, 24);
-            this.slider.TabIndex = 9;
-            this.slider.TickFrequency = 100;
-            this.slider.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.slider.Scroll += new System.EventHandler(this.slider_Scroll);
-            // 
             // btnExtractSamples
             // 
             this.btnExtractSamples.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -211,19 +197,33 @@
             this.btnExtractSamples.Text = "Extract Samples";
             this.btnExtractSamples.Click += new System.EventHandler(this.btnExtractSamples_Click);
             // 
+            // slider
+            // 
+            this.slider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.slider.AutoSize = false;
+            this.slider.LargeChange = 1;
+            this.slider.Location = new System.Drawing.Point(4, 468);
+            this.slider.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.slider.Name = "slider";
+            this.slider.Size = new System.Drawing.Size(683, 30);
+            this.slider.TabIndex = 9;
+            this.slider.TickFrequency = 100;
+            this.slider.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slider.Scroll += new System.EventHandler(this.slider_Scroll);
+            // 
             // ObjectAnnotater
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(515, 429);
+            this.ClientSize = new System.Drawing.Size(687, 528);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.slider);
             this.Controls.Add(this.pictureBox);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ObjectAnnotater";
             this.Text = "Object Annotater";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ObjectAnnotater_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slider)).EndInit();
@@ -234,7 +234,7 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox;
+        private DrawingCanvas pictureBox;
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox txtAnnotationLabel;

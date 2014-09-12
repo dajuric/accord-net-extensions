@@ -37,14 +37,14 @@ namespace ObjectAnnotater.Components
 {
     public class RectangleAnnotation: DrawingAnnotation
     {
-        public override void Initialize(PictureBox element)
+        public override void Initialize(DrawingCanvas element)
         {
             base.Initialize(element);
         }
 
         public override Rectangle BoundingRectangle
         {
-            get { return Element.ToPictureBoxCoordinate(Annotation.Polygon.BoundingRect()); }
+            get { return Rectangle.Round(Element.ToPictureBoxCoordinate(Annotation.Polygon.BoundingRect().ToRect()).ToRect()); }
         }
 
         public override bool BelongsTo(IList<Point> polygon)
@@ -60,8 +60,7 @@ namespace ObjectAnnotater.Components
             var sortedPolyIndices = this.Annotation.Polygon.SortPointsClockwise();
             var poly = Annotation.Polygon.GetAt(sortedPolyIndices);
             var pictureBoxPoly = poly
-                                 .Select(x => Element.ToPictureBoxCoordinate(x))
-                                 .Select(x => x.ToPt())
+                                 .Select(x => Element.ToPictureBoxCoordinate(x.ToPt()))
                                  .ToArray();
 
             g.DrawPolygon(Pen, pictureBoxPoly);
@@ -76,7 +75,7 @@ namespace ObjectAnnotater.Components
             if (e.Button != MouseButtons.Left || !this.IsSelected || isDrawn)
                 return;
 
-            ptFirst = Element.ToImageCoordinate(e.Location.ToPt()).Round();
+            ptFirst = Element.ToImageCoordinate(e.Location).ToPt().Round();
             roi.Location = ptFirst; //if user draws MIN_RECT_SIZE, add it to click location
         }
 
@@ -96,7 +95,7 @@ namespace ObjectAnnotater.Components
             if (e.Button != MouseButtons.Left || !this.IsSelected || isDrawn)
                 return;
 
-            var ptSecond = Element.ToImageCoordinate(e.Location.ToPt()).Round();
+            var ptSecond = Element.ToImageCoordinate(e.Location).ToPt().Round();
 
             roi = new Rectangle
             {

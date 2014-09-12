@@ -185,7 +185,7 @@ namespace Accord.Extensions.Vision
 
             GC.Collect();
         }
-    
+
         void CamshiftDemo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (videoCapture != null) 

@@ -137,10 +137,9 @@ namespace PyrKLOpticalFlowDemo
             frame.Draw("Processed: " + elapsedMs + " ms", font, new PointF(15, 10), new Bgr(0, 255, 0));
             drawPoints(frame, newPositions);
             this.pictureBox.Image = frame.ToBitmap(); //it will be just casted (data is shared) 24bpp color
-
             GC.Collect();
         }
-    
+
         void CamshiftDemo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (videoCapture != null) 

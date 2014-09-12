@@ -71,8 +71,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\DrawingAnnotation\DrawingAnnotation.cs" />
+    <Compile Include="Components\DrawingCanvas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\DrawingCanvas.designer.cs">
+      <DependentUpon>DrawingCanvas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Components\DrawingManager.cs" />
-    <Compile Include="Extensions\PictureBoxExtensions.cs" />
     <Compile Include="Components\DrawingAnnotation\PointAnnotation.cs" />
     <Compile Include="Components\DrawingAnnotation\RectangleAnnotation.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.ForEach.cs" />
@@ -103,6 +108,9 @@
     <Compile Include="Wizard.Designer.cs">
       <DependentUpon>Wizard.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Components\DrawingCanvas.resx">
+      <DependentUpon>DrawingCanvas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ObjectAnnotater.resx">
       <DependentUpon>ObjectAnnotater.cs</DependentUpon>
     </EmbeddedResource>

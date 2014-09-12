@@ -37,7 +37,7 @@ namespace GroupMatchingDemo
     public partial class FormGroupMatch : Form
     {
         Image<Bgr, byte> debugImage = null;
-        RectangleGroupMatching groupMatching = null;
+        RectangleClustering groupMatching = null;
 
         public FormGroupMatch()
         {
@@ -45,12 +45,12 @@ namespace GroupMatchingDemo
             debugImage = new Image<Bgr, byte>(pictureBox.Size.ToSize());
 
             var detections = getDetections();
-            drawDetections(detections, Bgr8.Red, 3);
+            drawDetections(detections, Bgr8.Red, 1);
 
-            groupMatching = new RectangleGroupMatching(minimumNeighbors: 1, threshold: 0.3);
+            groupMatching = new RectangleClustering();
             var clusters = groupMatching.Group(detections);
 
-            drawDetections(clusters.Select(x => x.Representative), Bgr8.Green, 1);
+            drawDetections(clusters.Select(x => x.Representative), Bgr8.Green, 3);
             pictureBox.Image = debugImage.ToBitmap();
         }
 

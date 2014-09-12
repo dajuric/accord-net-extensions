@@ -43,17 +43,16 @@ namespace ObjectAnnotater.Components
         public delegate void ElementSelected(DrawingManager sender, DrawingAnnotation element);
         public event ElementSelected OnElementSelected;
 
-        PictureBox pictureBox;
+        DrawingCanvas pictureBox;
         List<DrawingAnnotation> drawingAnnotations;
         ContextMenu menu;
 
-        public DrawingManager(PictureBox pictureBox)
+        public DrawingManager(DrawingCanvas pictureBox)
         {
             this.pictureBox = pictureBox;
             drawingAnnotations = new List<DrawingAnnotation>();
 
             createMenu();
-
 
             this.pictureBox.Paint += pictureBox_Paint;
             this.pictureBox.MouseDown += pictureBox_MouseDown;

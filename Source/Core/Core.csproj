@@ -50,7 +50,7 @@
     <Compile Include="Collections\Map.cs" />
     <Compile Include="Caching\LazyMemoryCache%271.cs" />
     <Compile Include="Diagnostics\Diagnostics.cs" />
-    <Compile Include="Extensions\BinaryTreeArrayExtstensions.cs" />
+    <Compile Include="Extensions\BinaryTreeArrayExtensions.cs" />
     <Compile Include="Extensions\DictionaryMatrixExtensions.cs" />
     <Compile Include="Extensions\Enumerable\Enumerable.IndexOfMax.cs" />
     <Compile Include="Extensions\Enumerable\Enumerable.IndexOfMin.cs" />

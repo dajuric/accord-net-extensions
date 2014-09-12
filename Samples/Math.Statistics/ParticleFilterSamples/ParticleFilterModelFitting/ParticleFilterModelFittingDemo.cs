@@ -245,7 +245,6 @@ namespace ParticleFilterModelFitting
             //frame.Save("C:/imageAnn_" + a + ".jpg");
             //a++;
             GC.Collect();
-
             //Application.RaiseIdle(new EventArgs());
         }
 

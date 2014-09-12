@@ -46,6 +46,56 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
+        /// Count the number of annotations of the specified type with the same label.
+        /// </summary>
+        /// <param name="data">Database.</param>
+        /// <param name="type">Annotation type.</param>
+        /// <returns>The number of annotations per label for the specified annotation type.</returns>
+        public static Dictionary<string, int> CountAnnotations(this Database data, AnnotationType type)
+        {
+            Dictionary<string, int> labelCounts = new Dictionary<string, int>();
+
+            foreach (var pair in data.GetAnnotations())
+            {
+                if (pair.Value.Type != type) continue;
+
+                var annLabel = pair.Value.Label;
+
+                if (!labelCounts.ContainsKey(annLabel))
+                    labelCounts.Add(annLabel, 0);
+
+                labelCounts[annLabel]++;
+            }
+
+            return labelCounts;
+        }
+
+        /// <summary>
+        /// Gets the annotations of the specified type with the same label.
+        /// </summary>
+        /// <param name="data">Database.</param>
+        /// <param name="type">Annotation type.</param>
+        /// <returns>Annotations per label for the specified annotation type.</returns>
+        public static Dictionary<string, List<KeyValuePair<string, Annotation>>> GetAnnotationsByLabels(this Database data, AnnotationType type)
+        {
+            var annotations = new Dictionary<string, List<KeyValuePair<string, Annotation>>>();
+
+            foreach (var pair in data.GetAnnotations())
+            {
+                if (pair.Value.Type != type) continue;
+
+                var annLabel = pair.Value.Label;
+
+                if (!annotations.ContainsKey(annLabel))
+                    annotations.Add(annLabel, new List<KeyValuePair<string, Annotation>>());
+
+                annotations[annLabel].Add(pair);
+            }
+
+            return annotations;
+        }
+
+        /// <summary>
         /// Gets the number of annotations in the database.
         /// </summary>
         /// <param name="data"></param>
@@ -101,7 +151,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Modifies databse annotations and creates new database.
+        /// Modifies database annotations and creates new database.
         /// </summary>
         /// <param name="data">Database.</param>
         /// <param name="modifierFunc">Annotation modifier function.</param>
