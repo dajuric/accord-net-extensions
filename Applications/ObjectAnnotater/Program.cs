@@ -73,7 +73,7 @@ namespace ObjectAnnotater
             if (capture != null && databaseFileName != null)
             {
                 ObjectAnnotater form = null;
-                //try
+                try
                 {
                     form = new ObjectAnnotater(capture, databaseFileName);
                     Application.Run(form);

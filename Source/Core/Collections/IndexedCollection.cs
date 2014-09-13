@@ -5,8 +5,8 @@ namespace Accord.Extensions
 {
     /// <summary>
     /// Indexed collection class.
-    /// Represents the wrapper for the collection and the provided indices.
-    /// <para>Can be used if the large collections must be accessed through indices to avoid data copy.</para>
+    /// Represents the wrapper for the collection and the provided indexes.
+    /// <para>Can be used if the large collections must be accessed through indexes to avoid data copy.</para>
     /// </summary>
     /// <typeparam name="T">Element type.</typeparam>
     public class IndexedCollection<T>: IReadOnlyList<T>
@@ -18,18 +18,18 @@ namespace Accord.Extensions
         /// Creates new indexed collection.
         /// </summary>
         /// <param name="collection">Collection.</param>
-        /// <param name="indices">Indices.</param>
+        /// <param name="indices">Indexes.</param>
         public IndexedCollection(IList<T> collection, IList<int> indices)
         {
             if (collection.Count < indices.Count)
-                throw new Exception("The number of elements within the collection must be greater that the number of elements within indices.");
+                throw new Exception("The number of elements within the collection must be greater that the number of elements within indexes.");
 
             this.collection = collection;
             this.indices = indices;
         }
 
         /// <summary>
-        /// Gets the element of the provided collection where the provided index is mapped using provided indices.
+        /// Gets the element of the provided collection where the provided index is mapped using provided indexes.
         /// </summary>
         /// <param name="index">Index.</param>
         /// <returns>Collection element.</returns>
@@ -56,7 +56,7 @@ namespace Accord.Extensions
         /// <returns>Enumerator for the indexed collection.</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return new IndexedCollectionEnumerator<T>(this.collection, this.indices);
+            return new IndexedCollectionEnumerator(this.collection, this.indices);
         }
 
         /// <summary>
@@ -71,8 +71,7 @@ namespace Accord.Extensions
         /// <summary>
         /// Indexed collection enumerator.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        class IndexedCollectionEnumerator<T> : IEnumerator<T>
+        class IndexedCollectionEnumerator: IEnumerator<T>
         {
             IList<T> collection;
             IList<int> indices;
@@ -82,11 +81,11 @@ namespace Accord.Extensions
             /// Creates new indexed collection enumerator.
             /// </summary>
             /// <param name="collection">Collection.</param>
-            /// <param name="indices">Indices.</param>
+            /// <param name="indices">Indexes.</param>
             public IndexedCollectionEnumerator(IList<T> collection, IList<int> indices)
             {
                 if (collection.Count < indices.Count)
-                    throw new Exception("The number of elements within the collection must be greater that the number of elements within indices.");
+                    throw new Exception("The number of elements within the collection must be greater that the number of elements within indexes.");
 
                 this.collection = collection;
                 this.indices = indices;

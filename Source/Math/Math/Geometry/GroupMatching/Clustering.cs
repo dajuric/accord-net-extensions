@@ -29,9 +29,15 @@ namespace Accord.Extensions.Math.Geometry
     /// <summary>
     /// Represents collections of elements in one group.
     /// </summary>
-    /// <typeparam name="T">Type of element.</typeparam>
+    /// <typeparam name="T">Element type.</typeparam>
     public class Cluster<T>
     {
+        /// <summary>
+        /// Creates a new cluster instance.
+        /// </summary>
+        /// <param name="detections">Detections.</param>
+        /// <param name="detectionWeights">Detection importance factors. Must be non-negative.</param>
+        /// <param name="representative">Representative element for the cluster.</param>
         public Cluster(IList<T> detections, IList<float> detectionWeights, T representative)
         {
             this.Detections = detections;

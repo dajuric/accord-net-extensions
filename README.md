@@ -6,10 +6,10 @@
     
     <td>
     <ul>
-     <li>Version: 0.9.0.0 (release candidate 1)</li>
+     <li>Version: 1.0.0 (release candidate)</li>
      <li>NuGet packages: <b>ready</b> <i>(pre-release)</i></lI>
      <li>
-       <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> Help (offline) </a> - <i>unblock after download!</i></li>
+       <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> Help (offline) </a> - <i>unblock after download!</i></li> 
    </ul>
     </td>
   </tr>
@@ -23,36 +23,60 @@ video IO library, which offers unified interface for camera capture, file and di
 
 The framework is divided in libraries available through NuGet packages. The libraries can be grouped as following:
 
-
-<h3>Scientific computing</h3>
+<h3>Support libraries</h3>
 
 <ul> 
    <li> 
-       <b>Accord.Extensions.Math</b>
+       <b>Accord.Extensions.Core</b>
        <p>
-         Provides extensions for the 2D array, graphs, contour, point transformations. 
-         Implements parallel FFT transform. Implements group matching.
+          The core of the Accord.NET Extensions Framework.
+          Contains classes needed for other libraries: 
+	      collections, structures, structures for parallel processing and extensions shared across libraries. 
        </p>
        <p>
-         <i>samples: cardinal spline; contour extrema; graph path search; group matching</i>
-       </p>
-   </li>
-    
-   <li> 
-      <b>Accord.Extensions.Statistics</b>
-       <p>
-         Provides classes and extensions for the following filters: Kalman, Particle filter, JPDAF - Joint Probability Data 
-         Association Filter. Includes 2D motion models.
-       </p>
-       <p>
-         <i>samples: Kalman filtering: basic demo; object tracking - Kalman + Camshift;  Particle filtering: color object tracking; 
-            model fitting
+         <i>
+            samples: collections: sparse matrix, circular list, history, pinned array;
+                     element caching (lazy memory cache, LRU cache);
+                     method caching;
+                     parallel array operations;
+                     various extensions
          </i>
        </p>
    </li>
+     
+   <li> 
+      <b>Accord.Extensions.Imaging.AForgeInterop</b>
+       <p>
+        Provides extensions for easy interoperability between generic image and AForge UnmanagedImage.
+       </p>
+       <p>
+         <i>samples: (see Accord.Extensions.Imaging.GenericImage)</i>
+       </p>
+   </li>
+	 
+   <li> 
+      <b>Accord.Extensions.Imaging.BitmapInterop</b>
+       <p>
+         Provides extensions for interoperability with System.Drawing.Bitmap, Point, PointF, Color and drawing extensions.
+       </p>
+       <p>
+         <i>samples: (see Accord.Extensions.Imaging.GenericImage)</i>
+       </p>
+   </li>
+	 
+   <li> 
+      <b>Accord.Extensions.Vision.IO</b>
+       <p>
+        Provides unified API for IO video access: web-camera support, various video-format reading / writing, image-directory reader.
+        All operations are stream-like and are abstracted therefore do not depend on actual video source.
+        The library is made in platform-abstract fashion.
+       </p>
+       <p>
+         <i>samples: basic capture; capture and recording; video extraction</i>
+       </p>
+   </li>
 </ul>
-   
-   
+
 <h3>Image processing</h3>
 
 <ul> 
@@ -65,7 +89,7 @@ The framework is divided in libraries available through NuGet packages. The libr
           Imaging.BitmapInterop).
        </p>
        <p>
-         <i>samples: interop demo (AForge, OpenCV, Bitmap, array); demo: performance, automatic color conversion, extensions...</i>
+         <i>AForge, OpenCV, Bitmap, array interoperability demos; performance, automatic color conversion, various extensions</i>
        </p>
    </li>
      
@@ -100,57 +124,31 @@ The framework is divided in libraries available through NuGet packages. The libr
        </p>
    </li>
 </ul>
-	
-<h3>Support libraries</h3>
+
+<h3>Math libraries</h3>
 
 <ul> 
    <li> 
-       <b>Accord.Extensions.Core</b>
+       <b>Accord.Extensions.Math</b>
        <p>
-          The core of the Accord.NET Extensions Framework.
-          Contains classes needed for other libraries such as: 
-	      collections, structures, structures for parallel processing and extensions shared across libraries. 
+         Provides extensions for the 2D array, graphs, contour, point transformations. 
+         Implements parallel FFT transform. Implements group matching.
        </p>
        <p>
-         <i>
-            samples: collections: sparse matrix, circular list, history, pinned array;
-                     element caching (lazy memory cache, LRU cache);
-                     method caching;
-                     parallel array operations;
-                     extensions
+         <i>samples: cardinal spline; contour extrema; graph path search; group matching</i>
+       </p>
+   </li>
+    
+   <li> 
+      <b>Accord.Extensions.Statistics</b>
+       <p>
+         Provides classes and extensions for the following filters: Kalman, Particle filter, JPDAF - Joint Probability Data 
+         Association Filter. Includes 2D motion models.
+       </p>
+       <p>
+         <i>samples: Kalman: simulation and object tracking (Kalman + Camshift) demo; Particle filtering: color object tracking; 
+            template model selection
          </i>
-       </p>
-   </li>
-     
-   <li> 
-      <b>Accord.Extensions.Imaging.AForgeInterop</b>
-       <p>
-        Provides extensions for easy interoperability between generic image and AForge UnmanagedImage.
-       </p>
-       <p>
-         <i>samples: (see Accord.Extensions.Imaging.GenericImage)</i>
-       </p>
-   </li>
-	 
-   <li> 
-      <b>Accord.Extensions.Imaging.BitmapInterop</b>
-       <p>
-         Provides extensions for interoperability with System.Drawing.Bitmap, Point, PointF, Color and drawing extensions.
-       </p>
-       <p>
-         <i>samples: (see Accord.Extensions.Imaging.GenericImage)</i>
-       </p>
-   </li>
-	 
-   <li> 
-      <b>Accord.Extensions.Vision.IO</b>
-       <p>
-        Provides unified API for IO video access: web-camera support, various video-format reading / writing, image-directory reader.
-        All operations are stream-like and are abstracted therefore do not depend on actual video source.
-        The library is made in platform-abstract fashion.
-       </p>
-       <p>
-         <i>samples: basic capture; capture and recording; video extraction</i>
        </p>
    </li>
 </ul>

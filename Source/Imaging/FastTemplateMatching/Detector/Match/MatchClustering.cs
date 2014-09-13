@@ -64,11 +64,23 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
         /// </summary>
         public float MinMatchAreaOverlap { get; set; }
 
+        /// <summary>
+        /// Gets whether the two matches are adjacent.
+        /// </summary>
+        /// <param name="m1">First match.</param>
+        /// <param name="m2">Second match.</param>
+        /// <returns>True if two matches are adjacent, false otherwise.</returns>
         protected override bool AreDetectionsAdjacent(Match m1, Match m2)
         {
             return m1.BoundingRect.IntersectionPercent(m2.BoundingRect) >= MinMatchAreaOverlap;
         }
 
+        /// <summary>
+        /// Gets cluster representative.
+        /// </summary>
+        /// <param name="matches">Matches.</param>
+        /// <param name="weights">Match weights - ignored because weights are incorporated into match itself.</param>
+        /// <returns>Representative match.</returns>
         protected override Match GetRepresentative(IList<Match> matches, IList<float> weights)
         {
             var bestMatch = matches.MaxBy(compareByFunc);
