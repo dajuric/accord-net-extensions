@@ -7,10 +7,11 @@
     <td>
     <ul>
      <li>Version: 1.0.0 (release candidate)</li>
-     <li>NuGet packages: <b>ready</b> <i>(pre-release)</i></lI>
+     <li>NuGet packages: <a href="https://www.nuget.org/profiles/dajuric"><strong>ready</strong> <i>(pre-release)</i></a></li>
      <li>
-       <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> Help (offline) </a> - <i>unblock after download!</i></li> 
-   </ul>
+       Help: <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> Offline </a> - <i>unblock after download!</i></li>
+     <li>Tutorial: <em>Codeproject - comming soon</em></li>
+    </ul>
     </td>
   </tr>
 </table>
