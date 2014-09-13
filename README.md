@@ -45,6 +45,19 @@ The framework is divided in libraries available through NuGet packages. The libr
    </li>
      
    <li> 
+       <b>Accord.Extensions.Imaging.GenericImage</b>
+       <p>
+          Implements slim generic image class and basic extensions (arithmetics). Provides multiple color spaces and conversions 
+          between them. The class can be used in non-generic way for developers who prefer AForge's UnmanagedImage style.
+          To get compatibility for other image types install appropriate extension - NuGet package (e.g. 
+          Imaging.BitmapInterop).
+       </p>
+       <p>
+         <i>AForge, OpenCV, Bitmap, array interoperability demos; performance, automatic color conversion, various extensions</i>
+       </p>
+   </li> 
+	 
+   <li> 
       <b>Accord.Extensions.Imaging.AForgeInterop</b>
        <p>
         Provides extensions for easy interoperability between generic image and AForge UnmanagedImage.
@@ -79,20 +92,7 @@ The framework is divided in libraries available through NuGet packages. The libr
 
 <h3>Image processing</h3>
 
-<ul> 
-   <li> 
-       <b>Accord.Extensions.Imaging.GenericImage</b>
-       <p>
-          Implements slim generic image class and basic extensions (arithmetics). Provides multiple color spaces and conversions 
-          between them. The class can be used in non-generic way for developers who prefer AForge's UnmanagedImage style.
-          To get compatibility for other image types install appropriate extension - NuGet package (e.g. 
-          Imaging.BitmapInterop).
-       </p>
-       <p>
-         <i>AForge, OpenCV, Bitmap, array interoperability demos; performance, automatic color conversion, various extensions</i>
-       </p>
-   </li>
-     
+<ul>      
    <li> 
       <b>Accord.Extensions.Imaging.Algorithms</b>
        <p>

@@ -1,3 +1,4 @@
+:: The script was taken from: Accord.NET project and modified
 @echo off
 
 :: Make sure the nuget executable is writable

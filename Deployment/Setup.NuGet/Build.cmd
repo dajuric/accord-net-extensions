@@ -1,4 +1,5 @@
-﻿@echo off
+﻿:: The script was taken from: Accord.NET project and modified
+@echo off
 
 echo.
 echo Accord.NET Extensions Framework NuGet packages builder
