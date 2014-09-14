@@ -10,7 +10,7 @@
      <li>NuGet packages: <a href="https://www.nuget.org/profiles/dajuric"><strong>ready</strong> <i>(pre-release)</i></a></li>
      <li>
        Help: <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> Offline </a> - <i>unblock after download!</i></li>
-     <li>Introduction: <em>Codeproject - comming soon</em></li>
+     <li>Introduction: <a href="http://www.codeproject.com/Articles/814425/Welcome-to-Accord-NET-Extensions-Framework"> <strong>Codeproject</strong></a></li>
     </ul>
     </td>
   </tr>
