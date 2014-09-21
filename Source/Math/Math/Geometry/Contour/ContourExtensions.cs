@@ -323,7 +323,7 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
-        /// This will order the points clockwise starting from the 12 o'clock. 
+        /// Order the points clockwise starting from the 12 o'clock. 
         /// </summary>
         /// <param name="points">Points to sort clockwise</param>
         /// <returns>Sorted point indexes.</returns>
@@ -377,6 +377,29 @@ namespace Accord.Extensions.Math.Geometry
         }
 
         /// <summary>
+        /// Gets the center of the mass of the contour.
+        /// </summary>
+        /// <param name="points">Contour points.</param>
+        /// <returns>The center of the mass of the contour.</returns>
+        public static PointF Center(this IEnumerable<Point> points)
+        {
+            PointF average = new PointF();
+            int nSamples = 0;
+
+            foreach (var pt in points)
+            {
+                average.X += pt.X;
+                average.Y += pt.Y;
+                nSamples++;
+            }
+
+            average.X /= nSamples;
+            average.Y /= nSamples;
+
+            return average;
+        }
+
+        /// <summary>
         /// Determines whether the polygon forms rectangle.
         /// </summary>
         /// <param name="points">Polygon.</param>
@@ -420,6 +443,32 @@ namespace Accord.Extensions.Math.Geometry
     /// </summary>
     public static class ContourExtensions_Point32f
     {
+        /// <summary>
+        /// Order the points clockwise starting from the 12 o'clock. 
+        /// </summary>
+        /// <param name="points">Points to sort clockwise</param>
+        /// <returns>Sorted point indexes.</returns>
+        public static IEnumerable<int> SortPointsClockwise(this IEnumerable<PointF> points)
+        {
+            PointF center = new PointF
+            {
+                X = (float)points.Select(x => x.X).Average(),
+                Y = (float)points.Select(x => x.Y).Average()
+            };
+
+            var sortedIndeces = points
+                                .Select((x, i) => new
+                                {
+                                    Index = i,
+                                    Value = (System.Math.Atan2(x.Y - center.Y, x.X - center.X) * 180 / System.Math.PI - 90 + 360) % 360
+                                })
+                                .OrderBy(x => x.Value)
+                                .Select(x => x.Index)
+                                .ToList();
+
+            return sortedIndeces;
+        }
+
         /// <summary>
         /// Gets cumulative distance for a contour (threated as closed contour).
         /// </summary>
@@ -470,6 +519,29 @@ namespace Accord.Extensions.Math.Geometry
             }
 
             return new RectangleF(minX, minY, maxX - minX, maxY - minY);
+        }
+
+        /// <summary>
+        /// Gets the center of the mass of the contour.
+        /// </summary>
+        /// <param name="points">Contour points.</param>
+        /// <returns>The center of the mass of the contour.</returns>
+        public static PointF Center(this IEnumerable<PointF> points)
+        {
+            PointF average = new PointF();
+            int nSamples = 0;
+
+            foreach (var pt in points)
+            {
+                average.X += pt.X;
+                average.Y += pt.Y;
+                nSamples++;
+            }
+
+            average.X /= nSamples;
+            average.Y /= nSamples;
+
+            return average;
         }
 
         /// <summary>

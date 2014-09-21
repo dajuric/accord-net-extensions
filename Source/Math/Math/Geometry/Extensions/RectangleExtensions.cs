@@ -227,6 +227,34 @@ namespace Accord.Extensions.Math.Geometry
     public static class RectangleFExtensions
     {
         /// <summary>
+        /// Changes rectangle's location in order to fit the specified area.
+        /// </summary>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="area">Valid bounding box.</param>
+        /// <param name="translatedRectangle">Translated rectangle.</param>
+        /// <returns>True if the translation exist, false otherwise.</returns>
+        public static bool MoveToFit(this RectangleF rect, SizeF area, out RectangleF translatedRectangle)
+        {
+            var leftOffset = (rect.X < 0) ? -rect.X : 0;
+            var topOffset = (rect.Y < 0) ? -rect.Y : 0;
+
+            rect.X += leftOffset;
+            rect.Y += topOffset;
+
+            var rightOffset = (rect.Right > area.Width) ? (area.Width - rect.Right) : 0;
+            var bottomOffset = (rect.Bottom > area.Height) ? (area.Height - rect.Bottom) : 0;
+
+            rect.X += rightOffset;
+            rect.Y += bottomOffset;
+
+            translatedRectangle = rect;
+            if (rect.X < 0 || rect.Y < 0 || rect.Right > area.Width || rect.Bottom > area.Height)
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
         /// Gets intersection percent of two rectangles.
         /// </summary>
         /// <param name="rect1">First rectangle.</param>

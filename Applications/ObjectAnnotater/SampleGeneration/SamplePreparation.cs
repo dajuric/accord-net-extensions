@@ -58,10 +58,10 @@ namespace ObjectAnnotater
                 newDb = newDb.ModifyAnnotations(imgAnn => 
                 {
                     var rect = imgAnn.Polygon.BoundingRect();
-                    var inflatedRect = (RectangleF)rect.Inflate(inflateFactor, inflateFactor);
+                    var inflatedRect = (RectangleF)rect.Inflate((double)inflateFactor, inflateFactor);
 
                     var modifiedImgAnn = (Annotation)imgAnn.Clone();
-                    modifiedImgAnn.Polygon = Rectangle.Round(inflatedRect).Vertices();
+                    modifiedImgAnn.Polygon = inflatedRect.Vertices();
                     return modifiedImgAnn;
                 });
             }
@@ -96,7 +96,7 @@ namespace ObjectAnnotater
                     var scaledRect = ((RectangleF)rect).ScaleTo(widthHeightRatio, correctLocation: true);
 
                     var modifiedImgAnn = (Annotation)imgAnn.Clone();
-                    modifiedImgAnn.Polygon = Rectangle.Round(scaledRect).Vertices();
+                    modifiedImgAnn.Polygon = scaledRect.Vertices();
                     return modifiedImgAnn;
                 });
             }
@@ -109,11 +109,11 @@ namespace ObjectAnnotater
             {
                 var rect = imgAnn.Polygon.BoundingRect();
 
-                Rectangle translatedRect;
-                bool translationExist = rect.MoveToFit(new Size(imWidth, imHeight), out translatedRect);
+                RectangleF translatedRect;
+                bool translationExist = rect.MoveToFit(new SizeF(imWidth, imHeight), out translatedRect);
 
                 var modifiedImgAnn = (Annotation)imgAnn.Clone();
-                modifiedImgAnn.Polygon = Rectangle.Round(translatedRect).Vertices();
+                modifiedImgAnn.Polygon = translatedRect.Vertices();
                 return modifiedImgAnn;
             });
 

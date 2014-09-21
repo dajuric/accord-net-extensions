@@ -52,7 +52,7 @@ namespace ObjectAnnotater.Components
             }
         }
 
-        public override bool BelongsTo(IList<Point> polygon)
+        public override bool BelongsTo(IList<PointF> polygon)
         {
             return polygon.Count == 1;
         }
@@ -68,24 +68,24 @@ namespace ObjectAnnotater.Components
                          .Select(x => x.Round())
                          .First();
 
-            //pt = Element.ToPictureBoxCoordinate(new Point(367, 351).ToPt()).ToPt().Round();
+            //pt = Element.ToPictureBoxCoordinate(new Point(475, 306).ToPt()).ToPt().Round();
 
             g.DrawRectangle(Pen, new System.Drawing.Rectangle(pt.X - RECT_SIZE / 2, pt.Y - RECT_SIZE / 2, RECT_SIZE, RECT_SIZE));
             g.DrawLine(Pen, pt.X - RECT_SIZE / 2, pt.Y - RECT_SIZE / 2, pt.X + RECT_SIZE / 2, pt.Y + RECT_SIZE / 2); // \
             g.DrawLine(Pen, pt.X + RECT_SIZE / 2, pt.Y - RECT_SIZE / 2, pt.X - RECT_SIZE / 2, pt.Y + RECT_SIZE / 2); // /
         }
 
-        Point pt;
+        PointF pt;
 
         public override void OnMouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left || !this.IsSelected || isDrawn)
                 return;
 
-            pt = Element.ToImageCoordinate(e.Location).ToPt().Round();
+            pt = Element.ToImageCoordinate(e.Location).ToPt();
 
             var imageSize = Element.Image.Size.ToSize(); 
-            this.Annotation.Polygon = new Point[] { pt.Clamp(imageSize) };
+            this.Annotation.Polygon = new PointF[] { pt.Clamp(imageSize) };
             isDrawn = true;
         }
 

@@ -96,7 +96,7 @@ namespace ObjectAnnotater
                         var samplePath = getOutputImageName(databaseDir, imgKey, label);
                         Directory.CreateDirectory(Path.GetDirectoryName(samplePath));
 
-                        var sampleImg = img.GetSubRect(annotation.Polygon.BoundingRect());
+                        var sampleImg = img.GetSubRect(annotation.BoundingRectangle);
                                             //sampleImg = (sampleImg as Image<Bgr, byte>).SmoothGaussian(5);
                         sampleImg.ToBitmap().Save(samplePath, quality: 95);
                     }

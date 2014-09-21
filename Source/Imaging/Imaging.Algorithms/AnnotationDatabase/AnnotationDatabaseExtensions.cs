@@ -203,7 +203,7 @@ namespace Accord.Extensions.Imaging
                     {
                         Label = imgAnn.Label,
                         Tag = imgAnn.Tag,
-                        Polygon = Rectangle.Round(x).Vertices()
+                        Polygon = x.Vertices()
                     }));
                 }
             }
@@ -238,7 +238,7 @@ namespace Accord.Extensions.Imaging
                     var rect = imgAnn.Polygon.BoundingRect();
 
                     //1) inflate if requested
-                    var infaltedRect = (RectangleF)rect.Inflate(sampleInfalteFactor, sampleInfalteFactor);
+                    var infaltedRect = rect.Inflate((double)sampleInfalteFactor, sampleInfalteFactor);
 
                     //2) randomize
                     var randRects = infaltedRect.Randomize(locationRand, scaleRand, nRandsPerSample);
@@ -251,7 +251,7 @@ namespace Accord.Extensions.Imaging
                                                         { 
                                                             Label = imgAnn.Label, 
                                                             Tag = imgAnn.Tag, 
-                                                            Polygon = Rectangle.Round(x).Vertices() 
+                                                            Polygon = x.Vertices() 
                                                         })
                                      );
                 }
@@ -286,7 +286,7 @@ namespace Accord.Extensions.Imaging
                 foreach (var imageAnn in pair.Value)
                 {
                     images.Add(im);
-                    boundingRects.Add(imageAnn.Polygon.BoundingRect());
+                    boundingRects.Add(imageAnn.BoundingRectangle);
                 }
             }
         }
@@ -315,7 +315,7 @@ namespace Accord.Extensions.Imaging
             foreach (var pair in data)
             {
                 var im = imageGrabberFunc(pair.Key);
-                var imAnns = pair.Value.Select(x => x.Polygon.BoundingRect()).ToList();
+                var imAnns = pair.Value.Select(x => x.BoundingRectangle).ToList();
 
                 images.Add(im);
                 boundingRects.Add(imAnns);

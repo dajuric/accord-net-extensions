@@ -80,7 +80,7 @@ namespace ObjectAnnotater.Components
             get;
         }
 
-        public abstract bool BelongsTo(IList<Point> polygon);
+        public abstract bool BelongsTo(IList<PointF> polygon);
 
         public virtual void Initialize(DrawingCanvas element)
         {

@@ -20,7 +20,7 @@ namespace ObjectAnnotater.Components
 
             this.SetStyle(ControlStyles.AllPaintingInWmPaint |
                          ControlStyles.UserPaint | ControlStyles.ResizeRedraw |
-                         ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+                         ControlStyles.DoubleBuffer, true);
 
             this.TranslateImageModifierKey = Keys.ShiftKey;
             this.ResetTransformOnLoad = false;
@@ -78,7 +78,7 @@ namespace ObjectAnnotater.Components
 
                 if (image != null)
                 {
-                    if(this.ResetTransformOnLoad || this.imageBounds == default(Rectangle))
+                    if(this.ResetTransformOnLoad || this.imageBounds == default(RectangleF))
                         this.imageBounds = fitAndCenterImage(image.Size, this.ClientSize);
                 }
 
@@ -94,7 +94,7 @@ namespace ObjectAnnotater.Components
             set; 
         }
 
-        Rectangle imageBounds = default(Rectangle);
+        RectangleF imageBounds = default(RectangleF);
         protected override void OnPaint(PaintEventArgs e)
         {
             if(Image != null)
@@ -119,38 +119,43 @@ namespace ObjectAnnotater.Components
 
         #region Image mouse translate
 
+        Cursor cursor = Cursors.Default;
         Keys pressedKey = Keys.None;
+        bool keyHeld = false; //keyDown event fires multiple times. Why ?
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            if (keyHeld) return;
+            keyHeld = true;
+
             pressedKey = e.KeyCode;
+            if ((pressedKey & TranslateImageModifierKey) != Keys.None)
+            {
+                cursor = this.Cursor;
+                this.Cursor = Cursors.Hand;
+            }
+
             base.OnKeyDown(e);
         }
 
+        Point startDragLocation = default(Point);
         protected override void OnKeyUp(KeyEventArgs e)
         {
+            keyHeld = false;
             pressedKey = Keys.None;
+            this.Cursor = cursor;
+            startDragLocation = default(Point);
             base.OnKeyUp(e);
-        }
-
-        Point startDragLocation = default(Point);
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            bool shouldTranslate = pressedKey == TranslateImageModifierKey &&
-                                    e.Button == MouseButtons.Left;
-
-            if (shouldTranslate)
-                startDragLocation = e.Location;
-            else
-                base.OnMouseDown(e);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            bool shouldTranslate =  pressedKey == TranslateImageModifierKey && 
-                                    e.Button == MouseButtons.Left;
-
+            bool shouldTranslate = (pressedKey & TranslateImageModifierKey) != Keys.None;
+            
             if (shouldTranslate)
             {
+                if (startDragLocation.IsEmpty) //on start drag
+                    startDragLocation = e.Location;
+
                 imageBounds.X += e.X - startDragLocation.X;
                 imageBounds.Y += e.Y - startDragLocation.Y;
                 startDragLocation = e.Location;
@@ -165,11 +170,11 @@ namespace ObjectAnnotater.Components
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            var shouldScroll = pressedKey == TranslateImageModifierKey;
+            var shouldScroll = (pressedKey & TranslateImageModifierKey) != Keys.None;
 
             if (shouldScroll)
             {
-                var zoomCenter = new Point(e.X - imageBounds.X, e.Y - imageBounds.Y);
+                var zoomCenter = new PointF(e.X - imageBounds.X, e.Y - imageBounds.Y);
                 var zoomIn = e.Delta > 0;
 
                 updateImageBounds(ref imageBounds, image.Size, zoomIn, zoomCenter);
@@ -184,16 +189,16 @@ namespace ObjectAnnotater.Components
                 this.Invalidate();
         }
 
-        private static Rectangle fitAndCenterImage(Size imageSize, Size clientSize)
+        private static RectangleF fitAndCenterImage(Size imageSize, Size clientSize)
         {
             var scale = Math.Min((float)clientSize.Width / imageSize.Width, (float)clientSize.Height / imageSize.Height);
             var offsetX = (float)(clientSize.Width - imageSize.Width * scale) / 2;
             var offsetY = (float)(clientSize.Height - imageSize.Height * scale) / 2;
 
-            return new Rectangle((int)offsetX, (int)offsetY, (int)(imageSize.Width * scale), (int)(imageSize.Height * scale));
+            return new RectangleF(offsetX, offsetY, imageSize.Width * scale, imageSize.Height * scale);
         }
 
-        private static void updateImageBounds(ref Rectangle imageBounds, Size imageSize, bool zoomIn, Point zoomCenter)
+        private static void updateImageBounds(ref RectangleF imageBounds, Size imageSize, bool zoomIn, PointF zoomCenter)
         {
             var previousZoom = (float)imageBounds.Width / imageSize.Width;
             var currentZoom = getZoomFactor(imageBounds, imageSize, zoomIn);
@@ -202,18 +207,18 @@ namespace ObjectAnnotater.Components
             var zoomRatio = currentZoom / previousZoom;
            
             //update bounds size
-            imageBounds.Width = (int)(imageBounds.Width * zoomRatio);
-            imageBounds.Height = (int)(imageBounds.Height * zoomRatio);
+            imageBounds.Width = imageBounds.Width * zoomRatio;
+            imageBounds.Height = imageBounds.Height * zoomRatio;
 
             //return the zoom center to the previous position
-            imageBounds.X += (int)((1 - zoomRatio) * zoomCenter.X);
-            imageBounds.Y += (int)((1 - zoomRatio) * zoomCenter.Y);
+            imageBounds.X += (1 - zoomRatio) * zoomCenter.X;
+            imageBounds.Y += (1 - zoomRatio) * zoomCenter.Y;
         }
 
-        private static float getZoomFactor(Rectangle imageBounds, Size imageSize, bool zoomIn)
+        private static float getZoomFactor(RectangleF imageBounds, Size imageSize, bool zoomIn)
         {
             var previousZoom = (float)imageBounds.Width / imageSize.Width;
-            return zoomIn ? (previousZoom + 0.1f) : (previousZoom - 0.1f);
+            return zoomIn ? (previousZoom + 0.2f) : (previousZoom - 0.2f);
         }
     }
 }

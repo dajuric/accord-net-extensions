@@ -47,7 +47,7 @@ namespace ObjectAnnotater.Components
             get { return Rectangle.Round(Element.ToPictureBoxCoordinate(Annotation.Polygon.BoundingRect().ToRect()).ToRect()); }
         }
 
-        public override bool BelongsTo(IList<Point> polygon)
+        public override bool BelongsTo(IList<PointF> polygon)
         {
             return polygon.IsRectangle();
         }
@@ -67,7 +67,7 @@ namespace ObjectAnnotater.Components
         }
 
 
-        Rectangle roi = new Rectangle(0, 0, MIN_RECT_SIZE, MIN_RECT_SIZE);
+        RectangleF roi = new RectangleF(0, 0, MIN_RECT_SIZE, MIN_RECT_SIZE);
         Point ptFirst;
 
         public override void OnMouseDown(object sender, MouseEventArgs e)
@@ -97,7 +97,7 @@ namespace ObjectAnnotater.Components
 
             var ptSecond = Element.ToImageCoordinate(e.Location).ToPt().Round();
 
-            roi = new Rectangle
+            roi = new RectangleF
             {
                 X = System.Math.Min(ptFirst.X, ptSecond.X),
                 Y = System.Math.Min(ptFirst.Y, ptSecond.Y),

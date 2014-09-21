@@ -24,6 +24,7 @@ using System;
 using System.Xml.Serialization;
 using Accord.Extensions.Math.Geometry;
 using Point = AForge.IntPoint;
+using PointF = AForge.Point;
 
 namespace Accord.Extensions.Imaging
 {
@@ -63,7 +64,7 @@ namespace Accord.Extensions.Imaging
         public Annotation()
         {
             this.Label = String.Empty;
-            this.Polygon = new Point[0];
+            this.Polygon = new PointF[0];
             this.Tag = null;
         }
 
@@ -74,13 +75,43 @@ namespace Accord.Extensions.Imaging
         public string Label { get; set; }
         /// <summary>
         /// Gets or sets the object contour.
-        /// <para>See rectangle to vertices extension to transform rectangle into set of points.</para>
+        /// <para>See rectangle to vertexes extension to transform rectangle into set of points.</para>
         /// </summary>
-        public Point[] Polygon { get; set; }
+        public PointF[] Polygon { get; set; }
         /// <summary>
         /// Additional annotation data.
         /// </summary>
         public object Tag { get; set; }
+        /// <summary>
+        /// Gets the bounding rectangle for the annotation polygon.
+        /// <para>If the polygon is null or empty an empty rectangle is returned.</para>
+        /// </summary>
+        public Rectangle BoundingRectangle
+        {
+            get 
+            {
+                if (Polygon == null || Polygon.Length == 0)
+                    return Rectangle.Empty;
+
+                var br = this.Polygon.BoundingRect();
+                return new Rectangle((int)System.Math.Floor(br.X), (int)System.Math.Floor(br.Y),
+                                     (int)System.Math.Ceiling(br.Width), (int)System.Math.Ceiling(br.Height));
+            }
+        }
+        /// <summary>
+        /// Gets the center of the polygon.
+        /// <para>If the polygon is null or empty an empty point is returned.</para>
+        /// </summary>
+        public PointF Center 
+        {
+            get 
+            {
+                if (Polygon == null || Polygon.Length == 0)
+                    return new PointF();
+
+                return Polygon.Center();
+            }
+        }
 
         /// <summary>
         /// Clones annotation. Tag is cloned only is implements <see cref="System.ICloneable"/> interface.
@@ -91,7 +122,7 @@ namespace Accord.Extensions.Imaging
             return new Annotation 
             {
                 Label = this.Label,
-                Polygon = (Point[])this.Polygon.Clone(),
+                Polygon = (PointF[])this.Polygon.Clone(),
                 Tag = this.Tag is ICloneable ? ((ICloneable)this.Tag).Clone() : this.Tag
             };
         }
