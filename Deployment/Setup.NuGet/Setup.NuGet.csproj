@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="Build.cmd" />
+    <None Include="Push.cmd" />
     <None Include="Vision.IO.targets">
       <SubType>Designer</SubType>
     </None>
