@@ -58,7 +58,7 @@ namespace ObjectAnnotater
             }
         }
 
-        private void isAnnotationFileValid(string annFilePath)
+        private bool isAnnotationFileValid(string annFilePath)
         {
             //if images...
             if (imageDirPath.IsSubfolder(new FileInfo(annFilePath).DirectoryName) == false)
@@ -69,9 +69,11 @@ namespace ObjectAnnotater
                                 "Incorrect database path selection",
                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                return;
+                return false;
             }
-        }
+
+            return true;
+        }    
 
         private void btnSaveAnnotations_Click(object sender, EventArgs e)
         {
@@ -83,7 +85,9 @@ namespace ObjectAnnotater
                 var result = diag.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    isAnnotationFileValid(diag.FileName);
+                    bool isPathValid = isAnnotationFileValid(diag.FileName);
+                    if (!isPathValid)
+                        return;
 
                     this.DatabaseFileName = diag.FileName;
                     this.lblAnnFile.Text = "Annotation file:" + "\n" + new FileInfo(diag.FileName).Name;

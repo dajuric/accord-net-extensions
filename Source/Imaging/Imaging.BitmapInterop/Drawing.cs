@@ -349,7 +349,7 @@ namespace Accord.Extensions.Imaging
             var bmp = image.ToBitmap(false, true);
             using (Graphics g = Graphics.FromImage(bmp))
             {
-                g.DrawEllipse(pen, circle.X, circle.Y, circle.Radius * 2, circle.Radius * 2);
+                g.DrawEllipse(pen, circle.X - circle.Radius, circle.Y - circle.Radius, circle.Radius * 2, circle.Radius * 2);
             }
         }
 

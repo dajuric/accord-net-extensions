@@ -82,11 +82,11 @@
     <Compile Include="Components\DrawingAnnotation\RectangleAnnotation.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.ForEach.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.MinBy.cs" />
-    <Compile Include="ObjectAnnotater.cs">
+    <Compile Include="AnnotaterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ObjectAnnotater.Designer.cs">
-      <DependentUpon>ObjectAnnotater.cs</DependentUpon>
+    <Compile Include="AnnotaterForm.Designer.cs">
+      <DependentUpon>AnnotaterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,8 +111,8 @@
     <EmbeddedResource Include="Components\DrawingCanvas.resx">
       <DependentUpon>DrawingCanvas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ObjectAnnotater.resx">
-      <DependentUpon>ObjectAnnotater.cs</DependentUpon>
+    <EmbeddedResource Include="AnnotaterForm.resx">
+      <DependentUpon>AnnotaterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

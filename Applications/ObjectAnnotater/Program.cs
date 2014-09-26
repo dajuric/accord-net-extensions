@@ -53,13 +53,16 @@ namespace ObjectAnnotater
                 databaseFileName = wizard.DatabaseFileName;
             }//*/
 
-            //capture = new ImageDirectoryReader(@"C:\Users\Darko-Home\Desktop\prednja+straznja-svjetla-1\", "*.jpg");
-            //databaseFileName = @"C:\Users\Darko-Home\Desktop\prednja+straznja-svjetla-1.xml";//
+            //capture = new ImageDirectoryReader(@"S:\Svjetla - baza podataka\prepared\prednja+straznja-svjetla-1\", "*.jpg");
+            //databaseFileName = @"S:\Svjetla - baza podataka\prepared\prednja+straznja-svjetla-1.xml";//
 
-            if (capture == null) //a user clicked "X" without data selection
+            if (capture == null && databaseFileName == null) //a user clicked "X" without data selection
             {
-                //MessageBox.Show("Capture or database file name is null!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
+            }
+            else if (databaseFileName == null)
+            {
+                MessageBox.Show("Capture or database file name is empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             capture.Open();
@@ -72,10 +75,10 @@ namespace ObjectAnnotater
 
             if (capture != null && databaseFileName != null)
             {
-                ObjectAnnotater form = null;
+                AnnotaterForm form = null;
                 try
                 {
-                    form = new ObjectAnnotater(capture, databaseFileName);
+                    form = new AnnotaterForm(capture, databaseFileName);
                     Application.Run(form);
                 }
                 catch (Exception)

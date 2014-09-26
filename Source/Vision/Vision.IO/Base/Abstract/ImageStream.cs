@@ -30,7 +30,7 @@ namespace Accord.Extensions.Vision
     /// Provides the base class for the image stream.
     /// </summary>
     /// <typeparam name="TImage">Image type.</typeparam>
-    public abstract class ImageStream<TImage>
+    public abstract class ImageStream<TImage>: IDisposable
         where TImage: IImage
     {
         /// <summary>
