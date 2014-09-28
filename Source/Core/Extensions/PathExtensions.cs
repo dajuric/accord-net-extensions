@@ -96,7 +96,8 @@ namespace Accord.Extensions
             var currDirInfo = fileDirInfo;
             while (currDirInfo != null)
             {
-                if (currDirInfo.FullName.Equals(dirInfo.FullName))
+                if (String.Equals(currDirInfo.FullName.Trim(Path.DirectorySeparatorChar), 
+                                  dirInfo.FullName.Trim(Path.DirectorySeparatorChar)))
                     break;
 
                 folders.Push(currDirInfo.Name);
