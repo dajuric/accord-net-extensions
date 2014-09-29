@@ -36,6 +36,38 @@ namespace Accord.Extensions.Imaging
     public static class AnnotationDatabaseExtensions
     {
         /// <summary>
+        /// Adds annotation to the list of annotations with the specified key.
+        /// <para>If the key does not exist, the record will be created.</para>
+        /// </summary>
+        /// <typeparam name="TAnnotation">Annotation type.</typeparam>
+        /// <param name="database">Database.</param>
+        /// <param name="key">Image key.</param>
+        /// <param name="annotation">Annotation to add.</param>
+        public static void AddAnnotation<TAnnotation>(IDictionary<string, List<TAnnotation>> database, string key, TAnnotation annotation)
+        {
+            if (!database.ContainsKey(key))
+                database.Add(key, new List<TAnnotation>());
+
+            database[key].Add(annotation);
+        }
+
+        /// <summary>
+        /// Adds annotation to the list of annotations with the specified key.
+        /// <para>If the key does not exist, the record will be created.</para>
+        /// </summary>
+        /// <typeparam name="TAnnotation">Annotation type.</typeparam>
+        /// <param name="database">Database.</param>
+        /// <param name="key">Image key.</param>
+        /// <param name="annotations">Annotations to add.</param>
+        public static void AddAnnotations<TAnnotation>(IDictionary<string, List<TAnnotation>> database, string key, IEnumerable<TAnnotation> annotations)
+        {
+            if (!database.ContainsKey(key))
+                database.Add(key, new List<TAnnotation>());
+
+            database[key].AddRange(annotations);
+        }
+
+        /// <summary>
         /// Clones the database (tag is not cloned).
         /// </summary>
         /// <param name="data">Database to clone.</param>

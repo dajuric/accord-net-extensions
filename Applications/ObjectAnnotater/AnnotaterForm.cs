@@ -51,6 +51,7 @@ namespace ObjectAnnotater
         public AnnotaterForm(ImageStreamReader capture, string databaseFileName)
         {
             InitializeComponent();
+            this.pictureBox.ResetTransformOnLoad = true;
 
             this.capture = capture;
 
@@ -116,7 +117,7 @@ namespace ObjectAnnotater
             var imageKey = getCurrentImageKey();
 
             var dbAnnotations = Database.ContainsKey(imageKey) ? Database[imageKey]: new List<Annotation>();
-            var annotations = drawingManager.DrawingAnnotations.Select(x=> x.Annotation).ToList();
+            var annotations = drawingManager.DrawingAnnotations.Select(x => x.Annotation).ToList();
 
             var areEqual = annotations.All(dbAnnotations.Contains) && annotations.Count == dbAnnotations.Count;
             btnSave.Enabled = btnSave.Enabled || !areEqual;
@@ -179,6 +180,7 @@ namespace ObjectAnnotater
 
             drawingManager.DefaultLabel = txtAnnotationLabel.Text; 
             drawingManager.Selected.Annotation.Label = txtAnnotationLabel.Text;
+            btnSave.Enabled = true;
             pictureBox.Invalidate();
         }
 
@@ -210,21 +212,21 @@ namespace ObjectAnnotater
             }
 
             //move slider right away
-            if (!slider.ContainsFocus)
+            if (pictureBox.ContainsFocus)
             {
                 switch (keyData)
                 {
                     case Keys.Down:
                     case Keys.Right:
                         slider.Value = Math.Min(slider.Maximum, slider.Value + slider.SmallChange);
+                        getFrame(slider.Value);
                         break;
                     case Keys.Up:
                     case Keys.Left:
                         slider.Value = Math.Max(slider.Minimum, slider.Value - slider.SmallChange);
+                        getFrame(slider.Value);
                         break;
                 }
-
-                getFrame(slider.Value);
             }
 
             return base.ProcessCmdKey(ref msg, keyData);

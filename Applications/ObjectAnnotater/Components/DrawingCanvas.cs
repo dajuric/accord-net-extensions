@@ -30,23 +30,25 @@ namespace ObjectAnnotater.Components
 
         public PointF ToPictureBoxCoordinate(PointF point)
         {
-            var scale = (float)imageBounds.Width / image.Width;
+            var scaleX = (float)imageBounds.Width / image.Width;
+            var scaleY = (float)imageBounds.Height / image.Height;
 
             return new PointF
             {
-                X = point.X * scale + imageBounds.X,
-                Y = point.Y * scale + imageBounds.Y
+                X = point.X * scaleX + imageBounds.X,
+                Y = point.Y * scaleY + imageBounds.Y
             };
         }
 
         public PointF ToImageCoordinate(PointF point)
         {
-            var scale = (float)imageBounds.Width / image.Width;
+            var scaleX = (float)imageBounds.Width / image.Width;
+            var scaleY = (float)imageBounds.Height / image.Height;
 
             return new PointF
             {
-                X = (point.X - imageBounds.X) / scale,
-                Y = (point.Y - imageBounds.Y) / scale
+                X = (point.X - imageBounds.X) / scaleX,
+                Y = (point.Y - imageBounds.Y) / scaleY
             };
         }
 
