@@ -51,7 +51,6 @@ namespace ObjectAnnotater
         public AnnotaterForm(ImageStreamReader capture, string databaseFileName)
         {
             InitializeComponent();
-            this.pictureBox.ResetTransformOnLoad = true;
 
             this.capture = capture;
 
