@@ -10,7 +10,12 @@
      <li>NuGet packages: <a href="https://www.nuget.org/profiles/dajuric"><strong>ready</strong> <i>(pre-release)</i></a></li>
      <li>
        Help: <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> Offline </a> - <i>unblock after download!</i></li>
-     <li>Introduction: <em>Comming soon</em></li>
+     <li>
+        Tutorials: 
+        <ul>
+          <li><a href="http://www.codeproject.com/Articles/826377/Rapid-Object-Detection-in-Csharp">Fast template matching</a></li>
+        </ul>
+     </li>
     </ul>
     </td>
   </tr>
