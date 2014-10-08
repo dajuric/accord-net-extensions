@@ -13,7 +13,7 @@
      <li>
         Tutorials: 
         <ul>
-          <li><a href="http://www.codeproject.com/Articles/826377/Rapid-Object-Detection-in-Csharp">Fast template matching</a></li>
+          <li><a href="http://www.codeproject.com/Articles/826377/Rapid-Object-Detection-in-Csharp" target="_blank">Fast template matching</a></li>
         </ul>
      </li>
     </ul>
