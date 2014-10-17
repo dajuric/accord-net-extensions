@@ -236,6 +236,9 @@ namespace Accord.Extensions.Imaging
         /// <returns></returns>
         public static IplImage FromPointer(IntPtr pointerToStructure)
         {
+            if (pointerToStructure.Equals(IntPtr.Zero))
+                return default(IplImage);
+
             return (IplImage)Marshal.PtrToStructure(pointerToStructure, typeof(IplImage));
         }
     }
@@ -302,6 +305,9 @@ namespace Accord.Extensions.Imaging
         /// <returns>Image.</returns>
         public static unsafe IImage AsImage(this IplImage iplImage, Action<IplImage> destructor = null)
         {
+            if (iplImage.Equals(default(IplImage)))
+                return null;
+
             var depthType = depthAssociations.Reverse[iplImage.ChannelDepth];
             var colorType = colorAssociations.Reverse[iplImage.NumberOfChannels];
 

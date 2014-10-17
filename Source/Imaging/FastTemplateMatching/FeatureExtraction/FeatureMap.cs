@@ -114,7 +114,7 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 
         /// <summary>
         /// Take only those orientations that have MINIMAL_NUM_OF_SAME_ORIENTED_PIXELS in 3x3 negborhood.
-        /// Perfroms angle transformation into binary form ([0..7] -> [1, 2, 4, 8, ..., 128]) as well.
+        /// Performs angle transformation into binary form ([0..7] -> [1, 2, 4, 8, ..., 128]) as well.
         /// </summary>
         /// <param name="qunatizedOrientionImg">Quantized orientation image where angles are represented by lables [0..GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS] (invalid orientation label included).</param>
         /// <param name="minSameOrientations">Minimal number of same orientations for 3x3 neigborhood. The range is: [0..9] (3x3 neigborhood).</param>

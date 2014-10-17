@@ -21,6 +21,7 @@
 #endregion
 
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -33,6 +34,8 @@ namespace Accord.Extensions
     /// </summary>
     public static class SerializationExtensions
     {
+        #region XElement
+
         /// <summary>
         /// Serializes specified object to <see cref="XElement"/>.
         /// </summary>
@@ -59,11 +62,11 @@ namespace Accord.Extensions
         }
 
         /// <summary>
-        /// Deserializes the specified <see cref="XElement"/> to an object.
+        /// De-serializes the specified <see cref="XElement"/> to an object.
         /// </summary>
         /// <typeparam name="T">Destination generic object type.</typeparam>
         /// <param name="xElement">An element to deserialize.</param>
-        /// <returns>Deserialized object.</returns>
+        /// <returns>De-serialized object.</returns>
         public static T FromXElement<T>(this XElement xElement)
         {
             using (var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(xElement.ToString())))
@@ -72,5 +75,66 @@ namespace Accord.Extensions
                 return (T)xmlSerializer.Deserialize(memoryStream);
             }
         }
+
+        #endregion
+
+        #region Binary formatter
+
+        /// <summary>
+        /// Serializes specified object to memory stream by using binary formatter.
+        /// </summary>
+        /// <typeparam name="T">Object type.</typeparam>
+        /// <param name="obj">Object to serialize.</param>
+        /// <returns>Memory stream containing serialized object.</returns>
+        public static MemoryStream ToBinary<T>(this T obj)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            obj.ToBinary(memoryStream);
+            return memoryStream;
+        }
+
+        /// <summary>
+        /// Serializes specified object to memory stream by using binary formatter.
+        /// <para>If the file exists it will be overwritten.</para>
+        /// </summary>
+        /// <typeparam name="T">Object type.</typeparam>
+        /// <param name="obj">Object to serialize.</param>
+        /// <param name="fileName">The name of the file to save serialized object.</param>
+        public static void ToBinary<T>(this T obj, string fileName)
+        {
+            using (FileStream fileStream = new FileStream(fileName, FileMode.Create))
+            {
+                obj.ToBinary(fileStream);
+                fileStream.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Serializes specified object to memory stream by using binary formatter.
+        /// </summary>
+        /// <typeparam name="T">Object type.</typeparam>
+        /// <param name="obj">Object to serialize.</param>
+        /// <param name="stream">The existing stream to serialize to.</param>
+        public static void ToBinary<T>(this T obj, Stream stream)
+        {
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            binaryFormatter.Serialize(stream, obj);
+        }
+
+        /// <summary>
+        /// De-serializes the object from the specified stream.
+        /// <para>When de-serializing multiple objects the position within stream must not be tampered by the user.</para>
+        /// </summary>
+        /// <typeparam name="T">Object type.</typeparam>
+        /// <param name="stream">The stream which contains object data.</param>
+        /// <returns>De-serialized object.</returns>
+        public static T FromBinary<T>(this Stream stream)
+        {
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            var obj = (T)binaryFormatter.Deserialize(stream);
+            return obj;
+        }
+
+        #endregion
     }
 }

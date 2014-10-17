@@ -69,11 +69,11 @@ namespace Accord.Extensions.Vision
         /// <param name="offset">A frame index offset relative to the origin parameter.</param>
         /// <param name="origin">A value of type System.IO.SeekOrigin indicating the reference point used to obtain the new position.</param>
         /// <returns>The new position within the current stream.</returns>
-        /// <exception cref="NotSupportedException">The stream is does not support seeking.</exception>
+        /// <exception cref="NotSupportedException">Seek operation is not supported by the current stream.</exception>
         public virtual long Seek(long offset, System.IO.SeekOrigin origin = SeekOrigin.Current)
         {
             if (!this.CanSeek)
-                throw new NotSupportedException();
+                throw new NotSupportedException("Seek operation is not supported by the current stream.");
 
             long newPosition = 0;
             switch (origin)

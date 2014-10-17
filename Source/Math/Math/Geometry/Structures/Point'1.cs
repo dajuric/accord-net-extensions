@@ -28,6 +28,7 @@ namespace Accord.Extensions.Math.Geometry
     /// Represents generic point
     /// </summary>
     /// <typeparam name="T">Blittable type.</typeparam>
+    [Serializable]
     public struct Point<T>
     {
         /// <summary>

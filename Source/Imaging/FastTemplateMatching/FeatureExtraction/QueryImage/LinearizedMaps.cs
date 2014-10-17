@@ -152,7 +152,7 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
             {
                 for (int orient = 0; orient < GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS; orient++)
                 {
-                    using (var responseMap = computeResponseMap(sprededQuantizedOrient, this.NeigborhoodSize, orient))
+                    using (var responseMap = computeResponseMap(sprededQuantizedOrient, orient))
                     {
                         linearMaps[orient] = linearizeResponseMap(responseMap);
                         //responseMap.Save("C:/RM_" + orient + ".bmp");
@@ -163,7 +163,7 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
             return linearMaps;
         }
 
-        private Image<Gray, byte> computeResponseMap(Image<Gray, Byte> sprededQuantizedImage, int neigborhood, int orientationIndex)
+        private Image<Gray, byte> computeResponseMap(Image<Gray, Byte> sprededQuantizedImage, int orientationIndex)
         {
             int width = this.ImageValidSize.Width;
             int height = this.ImageValidSize.Height;
@@ -219,7 +219,7 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
         private unsafe void calculateLinearMapForNeighbour(Image<Gray, byte> responseMap, int neigbourRow, int neighbourCol,
                                                            Image<Gray, byte> linearMap)
         {
-            Debug.Assert(linearMap.Width == linearMap.Stride); //because linear map should be represented as continous vector
+            Debug.Assert(linearMap.Width == linearMap.Stride); //because linear map should be represented as continuous vector
 
             int neigborhood = this.NeigborhoodSize;
 
@@ -241,7 +241,7 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
                     linMapIdx++;
                 }
 
-                responseMapPtr += stride * neigborhood; //skip neigborhood rows
+                responseMapPtr += stride * neigborhood; //skip neighborhood rows
                 linMapPtr += linMapStride;
             }
         }
@@ -258,11 +258,11 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Image<Gray, byte> GetMapElement(Point position, int angleIndex, out Point mapPoint)
         {
-            //find corresponding linearized map for neighbour
+            //find corresponding linearized map for neighbor
             int gridX = position.X % this.NeigborhoodSize;
             int gridY = position.Y % this.NeigborhoodSize;
 
-            //find corresponsing position
+            //find corresponding position
             int elemX = position.X / this.NeigborhoodSize;
             int elemY = position.Y / this.NeigborhoodSize;
 

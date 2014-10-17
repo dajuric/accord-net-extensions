@@ -120,7 +120,7 @@ namespace Accord.Extensions.Vision
         /// <returns>Enumerator for the stream.</returns>
         public IEnumerator<TImage> GetEnumerator()
         {
-            return new StreamableSourceEnumerator<TImage>(this);
+            return new ImageStreamReaderEnumerator<TImage>(this);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Accord.Extensions.Vision
     /// <para>Stream must support seek operation.</para>
     /// </summary>
     /// <typeparam name="TImage">Image type.</typeparam>
-    public class StreamableSourceEnumerator<TImage> : IEnumerator<TImage>
+    public class ImageStreamReaderEnumerator<TImage> : IEnumerator<TImage>
         where TImage : IImage
     {
         ImageStreamReader<TImage> streamableSource;
@@ -152,7 +152,7 @@ namespace Accord.Extensions.Vision
         /// Creates new image stream iterator.
         /// </summary>
         /// <param name="streamableSource">Image stream.</param>
-        public StreamableSourceEnumerator(ImageStreamReader<TImage> streamableSource)
+        public ImageStreamReaderEnumerator(ImageStreamReader<TImage> streamableSource)
         {
             this.streamableSource = streamableSource;
             this.length = streamableSource.Length;
@@ -221,7 +221,7 @@ namespace Accord.Extensions.Vision
     /// <summary>
     /// Provides extensions for image stream.
     /// </summary>
-    public static class StreamableSourceExtensions
+    public static class ImageStreamReaderExtensions
     {
         /// <summary>
         /// Calls read function defined by the stream and converts an returned image if necessary.
