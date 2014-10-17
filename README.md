@@ -10,7 +10,16 @@
      <li>NuGet packages: <a href="https://www.nuget.org/profiles/dajuric"><strong>ready</strong> <i>(pre-release)</i></a></li>
      <li>
        Help: <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> Offline </a> - <i>unblock after download!</i></li>
-     <li>Introduction: <em>Comming soon</em></li>
+     <li>
+        Tutorials: 
+        <ul>
+          <li><a href="http://www.codeproject.com/Articles/826377/Rapid-Object-Detection-in-Csharp" target="_blank">Fast template matching</a></li>
+          
+           <li><a href="http://www.codeproject.com/Articles/828012/Introducing-Portable-Video-IO-Library-for-Csharp" target="_blank">Portable Video IO</a></li>
+           
+            <li><a href="http://www.codeproject.com/Articles/829349/Introducing-Portable-Generic-Image-Library-for-Csh" target="_blank">Portable Generic Image</a></li>
+        </ul>
+     </li>
     </ul>
     </td>
   </tr>
