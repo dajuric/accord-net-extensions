@@ -33,7 +33,7 @@ using PointF= AForge.Point;
 using Rectangle = Accord.Extensions.Rectangle;
 using RectangleF = Accord.Extensions.RectangleF;
 
-namespace ObjectAnnotater.Components
+namespace ObjectAnnotator.Components
 {
     public class RectangleAnnotation: DrawingAnnotation
     {

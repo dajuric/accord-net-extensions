@@ -1,5 +1,5 @@
-﻿using ObjectAnnotater.Components;
-namespace ObjectAnnotater
+﻿using ObjectAnnotator.Components;
+namespace ObjectAnnotator
 {
     partial class AnnotaterForm
     {
@@ -45,7 +45,7 @@ namespace ObjectAnnotater
             this.btnPrepareSamples = new System.Windows.Forms.ToolStripButton();
             this.btnExtractSamples = new System.Windows.Forms.ToolStripButton();
             this.slider = new System.Windows.Forms.TrackBar();
-            this.pictureBox = new ObjectAnnotater.Components.DrawingCanvas();
+            this.pictureBox = new DrawingCanvas();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slider)).BeginInit();
             this.SuspendLayout();

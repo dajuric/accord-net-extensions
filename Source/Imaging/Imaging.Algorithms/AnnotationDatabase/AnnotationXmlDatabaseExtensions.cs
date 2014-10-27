@@ -69,7 +69,7 @@ namespace Accord.Extensions.Imaging
         public static void Load(this Database data, string fileName)
         {
             if (!File.Exists(fileName))
-                return;
+                throw new FileNotFoundException("The file with the specified file name does not exist!");
 
             XDocument doc = XDocument.Load(fileName);
             var elems = doc.Element(ROOT_ELEMENT).Elements().Select(x => x.FromXElement<ImageAnnotations<Annotation>>());

@@ -31,9 +31,9 @@ using System.Linq;
 using System.Windows.Forms;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 using Point = AForge.IntPoint;
-using ObjectAnnotater.Components;
+using ObjectAnnotator.Components;
 
-namespace ObjectAnnotater
+namespace ObjectAnnotator
 {
     public partial class AnnotaterForm : Form
     {

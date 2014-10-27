@@ -31,7 +31,7 @@ using Accord.Extensions.Math.Geometry;
 using Accord.Extensions.Imaging;
 using System.Collections.Generic;
 
-namespace ObjectAnnotater
+namespace ObjectAnnotator
 {
     public partial class SampleExtraction : Form
     {

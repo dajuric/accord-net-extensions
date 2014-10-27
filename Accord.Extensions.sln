@@ -54,7 +54,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vision", "Source\Vision\Vis
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{91558AC9-EF21-42F0-BD4F-DC53CBCD58EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectAnnotater", "Applications\ObjectAnnotater\ObjectAnnotater.csproj", "{199259A4-217D-4057-8930-2B49A890014F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectAnnotator", "Applications\ObjectAnnotater\ObjectAnnotator.csproj", "{199259A4-217D-4057-8930-2B49A890014F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vision.IO", "Source\Vision\Vision.IO\Vision.IO.csproj", "{ED70A44E-9443-4A28-9B95-31299F8B2D08}"
 EndProject

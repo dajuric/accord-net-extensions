@@ -30,7 +30,7 @@ using System.Windows.Forms;
 using MoreLinq;
 using Accord.Extensions.Math.Geometry;
 
-namespace ObjectAnnotater.Components
+namespace ObjectAnnotator.Components
 {
     public class DrawingManager: IDisposable
     {

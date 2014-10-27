@@ -28,7 +28,7 @@ using Accord.Extensions.Math.Geometry;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 using RangeF = AForge.Range;
 
-namespace ObjectAnnotater
+namespace ObjectAnnotator
 {
     public partial class SamplePreparation : Form
     {

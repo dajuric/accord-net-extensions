@@ -1,4 +1,4 @@
-﻿namespace ObjectAnnotater.Components
+﻿namespace ObjectAnnotator.Components
 {
     partial class DrawingCanvas
     {

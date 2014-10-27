@@ -1,4 +1,4 @@
-﻿namespace ObjectAnnotater
+﻿namespace ObjectAnnotator
 {
     partial class SampleExtraction
     {

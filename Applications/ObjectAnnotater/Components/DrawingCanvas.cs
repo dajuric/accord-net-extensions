@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using Accord.Extensions.Imaging;
 using System.Drawing.Drawing2D;
 
-namespace ObjectAnnotater.Components
+namespace ObjectAnnotator.Components
 {
     public partial class DrawingCanvas : UserControl
     {

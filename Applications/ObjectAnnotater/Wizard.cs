@@ -27,7 +27,7 @@ using Accord.Extensions;
 using Accord.Extensions.Vision;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 
-namespace ObjectAnnotater
+namespace ObjectAnnotator
 {
     public partial class Wizard : Form
     {

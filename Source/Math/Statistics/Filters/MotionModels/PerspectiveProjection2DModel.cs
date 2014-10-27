@@ -90,7 +90,7 @@ namespace Accord.Extensions.Statistics.Filters
 
         /// <summary>
         /// Estimates transition matrix using numeric Jacobian calculation.
-        /// <para>If using Kalman transition matrix must be updated in each step because the model is not linear.</para>
+        /// <para>If using Kalman, transition matrix must be updated in each step because the model is not linear.</para>
         /// </summary>
         /// <param name="velocityMultiplierConst">Velocity multiplier constant</param>
         /// <param name="delta">Delta factor for Jacobian estimation.</param>
@@ -100,7 +100,7 @@ namespace Accord.Extensions.Statistics.Filters
             return Math.MathExtensions.CalculateJacobian(x =>
                         {
                             var st = FromArray(x);
-                            var output = Evaluate(delta, velocityMultiplierConst);
+                            var output = st.Evaluate(delta, velocityMultiplierConst);
                             return ToArray(output); 
                         },
                         ToArray(this), delta);

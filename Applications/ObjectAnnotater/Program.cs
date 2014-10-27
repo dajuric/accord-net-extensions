@@ -29,7 +29,7 @@ using Point = AForge.IntPoint;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 using System.Collections.ObjectModel;
 
-namespace ObjectAnnotater
+namespace ObjectAnnotator
 {
     static class Program
     {
@@ -53,8 +53,8 @@ namespace ObjectAnnotater
                 databaseFileName = wizard.DatabaseFileName;
             }//*/
 
-            //capture = new ImageDirectoryReader(@"S:\Svjetla - baza podataka\prepared\prednja+straznja-svjetla-1\", "*.jpg");
-            //databaseFileName = @"S:\Svjetla - baza podataka\prepared\prednja+straznja-svjetla-1.xml";//
+            //capture = new ImageDirectoryReader(@"S:\Svjetla - baza podataka\prepared\prednja+straznja-svjetla-4\", "*.jpg");
+            //databaseFileName = @"S:\Svjetla - baza podataka\prepared\prednja+straznja-svjetla-4.xml";//
 
             if (capture == null && databaseFileName == null) //a user clicked "X" without data selection
             {
