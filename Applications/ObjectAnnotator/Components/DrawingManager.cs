@@ -89,7 +89,7 @@ namespace ObjectAnnotator.Components
                 ((MenuItem)item).RadioCheck = true;
             }
 
-            menu.MenuItems[0].PerformClick();
+            menu.MenuItems[1].PerformClick();
         }
 
         void pictureBox_Paint(object sender, PaintEventArgs e)

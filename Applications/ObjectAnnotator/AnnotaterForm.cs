@@ -59,7 +59,8 @@ namespace ObjectAnnotator
 
             this.databaseFileName = databaseFileName;
             Database = new Database();
-            Database.Load(databaseFileName);
+            if (File.Exists(databaseFileName))
+                Database.Load(databaseFileName);
 
             loadCurrentImageAnnotations();
         }
