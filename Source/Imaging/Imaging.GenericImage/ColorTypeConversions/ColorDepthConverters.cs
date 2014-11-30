@@ -49,6 +49,29 @@ namespace Accord.Extensions.Imaging.Converters
 
             #endregion
 
+            #region Bgr <-> Bgra
+
+            foreach (var spt in SupportedPrimitiveTypes)
+            {
+                ColorDepthConverter.Add(ColorConvertData.AsConvertData
+                (
+                    source: ColorInfo.GetInfo(typeof(Bgra), spt),
+                    destination: ColorInfo.GetInfo(typeof(Bgr), spt),
+                    convertFunc: BgraBgrConverters.ConvertBgraToBgr,
+                    forceSequential: true
+                ));
+            }
+
+            ColorDepthConverter.Add(ColorConvertData.AsConvertData
+            (
+                source: ColorInfo.GetInfo<Bgr, byte>(),
+                destination: ColorInfo.GetInfo<Bgra, byte>(),
+                convertFunc: BgraBgrConverters.ConvertBgrToBgra_Byte
+             ));
+
+            #endregion
+
+
             #region Bgr <-> Hsv
 
             ColorDepthConverter.Add(ColorConvertData.AsConvertData

@@ -49,6 +49,7 @@
     <Compile Include="ColorTypeConversions\ColorSpaces\ColorInfo.cs" />
     <Compile Include="ColorTypeConversions\ColorSpaces\Gray.cs" />
     <Compile Include="ColorTypeConversions\ColorSpaces\Hsv.cs" />
+    <Compile Include="ColorTypeConversions\Converters\Color\BgraBgrConverters.cs" />
     <Compile Include="Extensions\Basic\ColorConversions.cs" />
     <Compile Include="Extensions\Interop\ArrayInterop\ArrayToImageExtensions.cs" />
     <Compile Include="Extensions\Interop\ArrayInterop\ImageToArrayExtensions.cs" />

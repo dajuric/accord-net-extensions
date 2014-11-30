@@ -62,7 +62,7 @@ namespace Accord.Extensions.Imaging
 
             var conversionPath = ColorDepthConverter.GetPath(image.ColorInfo, destColor);
 
-            if (conversionPath == null)
+            if (conversionPath == null /*it should never be null*/ || conversionPath.Count == 0)
             {
                 throw new Exception(String.Format("Image does not support conversion from {0} to {1}", image.ColorInfo.ColorType, destColor.ColorType));
             }
