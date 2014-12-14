@@ -4,7 +4,7 @@
   <metadata>
     <id>Accord.Extensions.Math</id>
     <version>$version$</version>
-    <title>Accord Extensions Math</title>
+    <title>Accord.Extensions.Math</title>
     <authors>Accord.NET Extensions</authors>
     <owners>Accord.NET Extensions</owners>
     <licenseUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Licence.txt</licenseUrl>

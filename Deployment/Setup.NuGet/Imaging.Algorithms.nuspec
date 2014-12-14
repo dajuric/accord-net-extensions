@@ -4,7 +4,7 @@
   <metadata>
     <id>Accord.Extensions.Imaging.Algorithms</id>
     <version>$version$</version>
-    <title>Accord Extensions Imaging Algorithms</title>
+    <title>Accord.Extensions.Imaging.Algorithms</title>
     <authors>Accord.NET Extensions</authors>
     <owners>Accord.NET Extensions</owners>
     <licenseUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Licence.txt</licenseUrl>

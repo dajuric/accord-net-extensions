@@ -4,7 +4,7 @@
   <metadata>
     <id>Accord.Extensions.Imaging.Algorithms.LINE2D</id>
     <version>$version$</version>
-    <title>Accord Extensions Fast template matching algorithm</title>
+    <title>Accord.Extensions.Imaging.Algorithms.LINE2D</title>
     <authors>Accord.NET Extensions</authors>
     <owners>Accord.NET Extensions</owners>
     <licenseUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Licence.txt</licenseUrl>
