@@ -37,20 +37,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
-      <HintPath>..\..\..\..\packages\Accord.2.12.0.0\lib\Accord.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Imaging">
-      <HintPath>..\..\..\..\packages\Accord.Imaging.2.12.0.0\lib\Accord.Imaging.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.MachineLearning">
-      <HintPath>..\..\..\..\packages\Accord.MachineLearning.2.12.0.0\lib\Accord.MachineLearning.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Math, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+    <Reference Include="Accord.Imaging, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\packages\Accord.Math.2.12.0.0\lib\Accord.Math.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Accord.Imaging.2.14.0\lib\net40\Accord.Imaging.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Statistics">
-      <HintPath>..\..\..\..\packages\Accord.Statistics.2.12.0.0\lib\Accord.Statistics.dll</HintPath>
+    <Reference Include="Accord.MachineLearning, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\Accord.MachineLearning.2.14.0\lib\net40\Accord.MachineLearning.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math">
+      <HintPath>..\..\..\..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\Accord.Statistics.2.14.0\lib\net40\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="AForge">
       <HintPath>..\..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>

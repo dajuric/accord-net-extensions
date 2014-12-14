@@ -21,7 +21,7 @@
       <dependency id="AForge"                                         version="2.2.5" />
       <dependency id="AForge.Math"                                    version="2.2.5" />
 
-      <dependency id="Accord.Imaging"                                 version="[2.12]" />
+      <dependency id="Accord.Imaging"                                 version="2.14" />
       
       <dependency id="Accord.Extensions.Core"                         version="$version$" />
       <dependency id="Accord.Extensions.Math"                         version="$version$" />

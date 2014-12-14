@@ -37,11 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
-      <HintPath>..\..\..\..\packages\Accord.2.12.0.0\lib\Accord.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Math, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\packages\Accord.Math.2.12.0.0\lib\Accord.Math.dll</HintPath>
+    <Reference Include="Accord.Math">
+      <HintPath>..\..\..\..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
     </Reference>
     <Reference Include="AForge">
       <HintPath>..\..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
