@@ -64,22 +64,16 @@ namespace KalmanObjectTracking
             var measurementDimension = 2; //just coordinates
 
             var initialState = new ModelState { Position = startPoint, Velocity = new PointF(0.5f, -2f)};
-            var initialStateError = ModelState.GetProcessNoise(0);
+            var initialStateError = ModelState.GetProcessNoise(10);
 
             kalman = new DiscreteKalmanFilter<ModelState, PointF>(initialState, initialStateError, 
                                                                   measurementDimension /*(position)*/, 0 /*no control*/,
                                                                   x => ModelState.ToArray(x), x => ModelState.FromArray(x), x => new double[] { x.X, x.Y });
 
-            kalman.ProcessNoise = ModelState.GetProcessNoise(2);
-            kalman.MeasurementNoise = Matrix.Diagonal<double>(kalman.MeasurementVectorDimension, 1);
+            kalman.ProcessNoise = ModelState.GetProcessNoise(10);
+            kalman.MeasurementNoise = Matrix.Diagonal<double>(kalman.MeasurementVectorDimension, 1.5);
 
-            kalman.MeasurementMatrix = new double[,] //just pick point coordinates for an observation [2 x 4] (look at ConstantVelocity2DModel)
-                { 
-                   //X,  vX, Y,  vY (look at ConstantVelocity2DModel)
-                    {1,  0,  0,  0}, //picks X
-                    {0,  0,  1,  0}  //picks Y
-                };
-
+            kalman.MeasurementMatrix = ModelState.GetPositionMeasurementMatrix();
             kalman.TransitionMatrix = ModelState.GetTransitionMatrix();
         }
 
@@ -129,9 +123,9 @@ namespace KalmanObjectTracking
             if (!foundBox.IsEmpty)
             {
                 /**************************** KALMAN correct **************************/
-                //kalman.Correct(new PointF(foundBox.Center.X, foundBox.Center.Y)); //correct predicted state by measurement
+                kalman.Correct(new PointF(foundBox.Center.X, foundBox.Center.Y)); //correct predicted state by measurement
                 /**************************** KALMAN correct **************************/
-
+            
                 var foundArea = Rectangle.Round(foundBox.GetMinArea());
                 searchArea = foundArea.Inflate(SEARCH_AREA_INFLATE_FACTOR, SEARCH_AREA_INFLATE_FACTOR, frame.Size); //inflate found area for search (X factor)...
                 nonVisibleCount = 0;
@@ -147,7 +141,7 @@ namespace KalmanObjectTracking
                 searchArea = createRect(kalman.State.Position, searchArea.Size, frame.Size); 
             }
 
-            if (nonVisibleCount > 80) //if not visible for a longer time => reset tracking
+            if (nonVisibleCount > 90) //if not visible for a longer time => reset tracking
             {
                 nonVisibleCount = 0;
                 isROISelected = false;
@@ -173,7 +167,7 @@ namespace KalmanObjectTracking
 
              //stopping conditions
             float avgIntensity = centralMoments.Mu00 / (foundBox.Size.Area() + Single.Epsilon);
-            if (avgIntensity < PROBABILITY_MIN_VAL || foundBox.Size.IsEmpty || foundBox.GetMinArea().Area() < 5 * 5)
+            if (avgIntensity < PROBABILITY_MIN_VAL || foundBox.Size.IsEmpty || foundBox.GetMinArea().Area() < 85 * 30)
             {
                 foundBox = Box2D.Empty; //invalid box
             }
