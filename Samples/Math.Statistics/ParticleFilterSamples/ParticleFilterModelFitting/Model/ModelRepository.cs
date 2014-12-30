@@ -28,6 +28,9 @@ using Range = AForge.IntRange;
 
 namespace ParticleFilterModelFitting
 {
+    /// <summary>
+    /// A repository for templates. Can generate template from model parameters (see <see cref="ModelParams"/> class).
+    /// </summary>
     public static class ModelRepository
     {
         private static short[][] sortedScales;
@@ -71,7 +74,7 @@ namespace ParticleFilterModelFitting
             AngleRange = new Range(sortedAngles.Select(x => x.First()).Min(), sortedAngles.Select(x => x.Last()).Max());
         }
 
-        public static ModelParams GetClosestTo(ModelParams model)
+        public static ModelParams GetMostSimilarTo(ModelParams model)
         {
             Func<short, short, float> scaleDistFunc = (a, b) => (float)Math.Abs(a - b);
             Func<short, short, float> angleDistFunc = (a, b) => (float)Math.Abs(a - b);//(float)Angle.DistanceDeg(a, b);

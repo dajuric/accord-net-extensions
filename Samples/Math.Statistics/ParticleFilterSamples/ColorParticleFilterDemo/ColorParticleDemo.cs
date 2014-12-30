@@ -34,6 +34,7 @@ using Accord.Statistics.Distributions.Univariate;
 using AForge;
 using PointF = AForge.Point;
 using System.IO;
+using Accord.Statistics.Distributions;
 
 namespace SimpleParticleFilterDemo
 {
@@ -51,7 +52,7 @@ namespace SimpleParticleFilterDemo
                 //we do not have velocity (or something else), so nothing :)
             }
 
-            public void Difuse()
+            public void Diffuse()
             {
                 this.Position = new PointF
                 {
@@ -85,50 +86,29 @@ namespace SimpleParticleFilterDemo
       
         private void init()
         {
-            particleFilter = ParticleFilter.UnifromParticleSpreadInitializer<ColorParticle>
-                                                    (
-                                                        //particles' count
-                                                        1000,
-                                                        //position range
-                                                        new DoubleRange[] 
-                                                        { 
-                                                            new DoubleRange(0, imgSize.Width), 
-                                                            new DoubleRange(0, imgSize.Height)
-                                                        },
-                                                        //convert arr => position (create from array)
-                                                        ColorParticle.FromArray
-                                                    )
-                                                    .ToList();
-
+            particleFilter = new List<ColorParticle>();
+            particleFilter.CreateParticles(1000,  //particles' count
+                                           ColorParticle.FromArray, //convert arr => position (create from array)
+                                           new ISampleableDistribution<double>[]  //position range
+                                           { 
+                                               new UniformContinuousDistribution(0, imgSize.Width),
+                                               new UniformContinuousDistribution(0, imgSize.Height)
+                                           });
         }
 
         private void predict()
         {
-            particleFilter.Predict
-               (
-                   //drift
-                   p => p.Drift(),
-                   //difuse
-                   p => p.Difuse()
-               );
+            particleFilter = particleFilter.Predict();
         }
 
         private void update()
         {
-           particleFilter = Enumerable.ToList(particleFilter.Update
-                   (
-                       //measure
-                       p => updateParticleWeight(p),
-                       //normalize weights
-                       particles => ParticleFilter.SimpleNormalizer(particles),
-                       //resample (if necessary)
-                       (particles, normalizedWeights) => ParticleFilter.SimpleResampler(particles.ToList(), normalizedWeights.ToList())
-                   ));
+            particleFilter.Update(measure);
         }
 
         NormalDistribution prob = new NormalDistribution(mean: 0, stdDev: 50);
 
-        private void updateParticleWeight(ColorParticle p)
+        private double measure(ColorParticle p)
         { 
             double[] distanceVector = new double[] { 255, 255, 255 };
             var location = p.Position.Round();
@@ -156,7 +136,7 @@ namespace SimpleParticleFilterDemo
             double probability = constAddFactor + constMulFactor * distance;*/
 
             var probability = prob.ProbabilityDensityFunction(Math.Sqrt(distance));
-            p.Weight = probability;       
+            return probability;      
         }
 
         #region GUI...
@@ -205,7 +185,7 @@ namespace SimpleParticleFilterDemo
             long end = DateTime.Now.Ticks;
             long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
 
-            drawParticles(particleFilter, frame);
+            drawParticles(particleFilter.Draw(sampleCount: particleFilter.Count / 2), frame); //draw only better particles
             frame.Draw("Processed: " + elapsedMs + " ms", font, new PointF(15, 10), new Bgr(0, 255, 0));
             this.pictureBox.Image = frame.ToBitmap(); //it will be just casted (data is shared)
 

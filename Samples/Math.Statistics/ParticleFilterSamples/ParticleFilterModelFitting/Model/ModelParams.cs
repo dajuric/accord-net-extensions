@@ -25,6 +25,9 @@ using Accord.Extensions.Imaging.Algorithms.LINE2D;
 
 namespace ParticleFilterModelFitting
 {
+    /// <summary>
+    /// A container for template parameters. Serves as particle's state.
+    /// </summary>
     public class ModelParams : ICloneable
     {
         public ModelParams(int modelTypeIndex, short scale, short angle)

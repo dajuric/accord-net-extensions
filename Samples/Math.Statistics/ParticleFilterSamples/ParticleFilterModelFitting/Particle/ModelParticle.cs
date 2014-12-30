@@ -38,7 +38,7 @@ namespace ParticleFilterModelFitting
         public void Drift()    
         {}
 
-        public void Difuse()
+        public void Diffuse()
         {
             var id = (ModelParameters.ModelTypeIndex + rand.Next(ModelRepository.PrototypeCount)) % ModelRepository.PrototypeCount;
             ModelParameters.ModelTypeIndex = id;
@@ -49,7 +49,7 @@ namespace ParticleFilterModelFitting
             var scale = ModelParameters.Scale + rand.Next(-15, +15 + 1);
             ModelParameters.Scale = (short)scale;
 
-            ModelParameters = ModelRepository.GetClosestTo(ModelParameters);
+            ModelParameters = ModelRepository.GetMostSimilarTo(ModelParameters);
             var template = ModelParameters.TryGetTemplate();
             this.updateTemplateData(template);
         }
@@ -60,7 +60,7 @@ namespace ParticleFilterModelFitting
                                          scale:         (short)arr[1], 
                                          angle:         (short)arr[2]);
 
-            mParams = ModelRepository.GetClosestTo(mParams);
+            mParams = ModelRepository.GetMostSimilarTo(mParams);
 
             var p = new ModelParticle
             {

@@ -35,6 +35,8 @@ using AForge;
 using Accord.Extensions.Imaging.Algorithms.LINE2D;
 using MoreLinq;
 using PointF = AForge.Point;
+using Accord.Statistics.Distributions;
+using Accord.Statistics.Distributions.Univariate;
 
 namespace ParticleFilterModelFitting
 {
@@ -68,20 +70,19 @@ namespace ParticleFilterModelFitting
             //drawTemplatesToFiles(templates, "C:/generatedTemplates");
             
             Console.WriteLine("Initializing particle filter!");
-            particleFilter = ParticleFilter.UnifromParticleSpreadInitializer(
-                                                    NUMBER_OF_PARTICLES,
-                                                    new DoubleRange[] 
-                                                    { 
-                                                        //template type
-                                                        new DoubleRange(0, ModelRepository.PrototypeCount - 1),
 
-                                                        //scale
-                                                        new DoubleRange(70, 150),
-
-                                                        //rotation
-                                                        new DoubleRange(-15, 15)
-                                                    },
-                                                    ModelParticle.FromParameters).ToList();
+            particleFilter = new List<ModelParticle>();
+            particleFilter.CreateParticles(NUMBER_OF_PARTICLES,  //particle count
+                                          ModelParticle.FromParameters, //convert arr => position (create from array)
+                                          new ISampleableDistribution<double>[]  //position range
+                                           { 
+                                               //template type
+                                               new UniformContinuousDistribution(0, ModelRepository.PrototypeCount - 1),
+                                               //scale
+                                               new UniformContinuousDistribution(70, 150),
+                                               //rotation
+                                               new UniformContinuousDistribution(-15, 15)
+                                           });
 
             initialParticles = particleFilter.Select(x => (ModelParticle)x.Clone()).ToList();
             resetClock = new Stopwatch(); resetClock.Start();
@@ -89,48 +90,20 @@ namespace ParticleFilterModelFitting
 
         private void predict()
         {
-            particleFilter.Predict
-                (
-                   //drift
-                   (p) => p.Drift(),
-                   //diffuse
-                   (p) => p.Difuse()
-                );
+            particleFilter = particleFilter
+                             .Predict(effectiveCountMinRatio: 0.9f, 
+                                      sampleCount: NUMBER_OF_PARTICLES /*preserve number of particles*/);
         }
 
         private void update()
         {
-           particleFilter = particleFilter.Update
-                (
-                    //measure
-                    particles => measure(linPyr, particles.ToList()),
-                    //normalize
-                    particles => ParticleFilter.SimpleNormalizer(particles),
-                    //re-sample
-                    (particles, normalizedWeights) => 
-                    {
-                        var sampledParticles = ParticleFilter.SimpleResampler(particles.ToList(), 
-                                                                              normalizedWeights.ToList()); //particles' weight are all equal after re-sampling
-
-                        return sampledParticles;
-                    }
-                ).ToList();
-        }
-
-        private void measure(LinearizedMapPyramid linPyr, List<ModelParticle> particles)
-        {
-            particles.ForEach(x => x.Weight = 0);
-
-            IDictionary<ModelParams, IEnumerable<ModelParticle>> nonDistinctMembers;
-            var uniqueParticles = getDistinctParticles(particles, out nonDistinctMembers); //get distinct particles (there is no need to match the same templates)
+            var uniqueParticles = particleFilter.GroupBy(x => x.ModelParameters).Select(x => x.First()); //get distinct particles (there is no need to match the same templates)
 
             var matches = linPyr.PyramidalMaps.First().MatchTemplates(uniqueParticles, MATCHING_MIN_THRESHOLD);
             if (matches.Count == 0)
                 return;
 
             var groups = matchClustering.Group(matches.ToArray(), MatchClustering.COMPARE_BY_SIZE);
-
-            //var bestGroup = groups/*.Where(x=>x.Neighbours > 3)*/.MaxBy(x => x.Neighbours); //for now
             var bestGroup = groups.MaxBy(x => x.Representative.BoundingRect.Area());
             var largestSize = bestGroup.Representative.Template.Size;
             var scaleFactor = 1f / (largestSize.Width * largestSize.Height);
@@ -140,14 +113,12 @@ namespace ParticleFilterModelFitting
                 var particle = (ModelParticle)m.Template;
                 var score = (m.Score / 100) * (particle.Size.Width * particle.Size.Height * scaleFactor); //actual score multiplied with size factor (the bigger the better)
                 m.Score = score;
-                if (particle.Weight < score)
+                if (particle.Weight < score) //1 particle may correspond to several matches
                 {
-                    particle.Weight = score; //1 particle may correspond to several matches
+                    particle.Weight = score; 
                     particle.MetaDataRef = new WeakReference<Match>(m); //avoid circular reference (template inside match is particle again)
                 }
             }
-
-            updateNonDistintParticleData(uniqueParticles, nonDistinctMembers); //update the rest of particles (which are the same) if any
         }
 
         private void processFrame(Image<Bgr, byte> img, out long matchTimeMs)
@@ -210,7 +181,7 @@ namespace ParticleFilterModelFitting
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot find any camera!");
+                MessageBox.Show("Video stream reading exception!");
                 return;
             }
          
@@ -223,7 +194,7 @@ namespace ParticleFilterModelFitting
         }
 
         Image<Bgr, byte> frame;
-        System.Drawing.Font font = new System.Drawing.Font("Arial", 12); //int a = 0;
+        System.Drawing.Font font = new System.Drawing.Font("Arial", 12); 
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
             frame = videoCapture.ReadAs<Bgr, byte>();
@@ -242,10 +213,7 @@ namespace ParticleFilterModelFitting
 
             frame.Draw("Processed: " + /*matchTimeMs*/ elapsedMs + " ms", font, new PointF(15, 10), new Bgr(0, 255, 0));
             this.pictureBox.Image = frame.ToBitmap();
-            //frame.Save("C:/imageAnn_" + a + ".jpg");
-            //a++;
             GC.Collect();
-            //Application.RaiseIdle(new EventArgs());
         }
 
         void ColorParticleDemo_FormClosing(object sender, FormClosingEventArgs e)
@@ -290,33 +258,7 @@ namespace ParticleFilterModelFitting
             wr.TryGetTarget(out val);
             return val;
         }
-
-        private static IEnumerable<ModelParticle> getDistinctParticles(IEnumerable<ModelParticle> particles, out  IDictionary<ModelParams, IEnumerable<ModelParticle>> otherGroupMembers)
-        {
-            var groups = from p in particles
-                         group p by p.ModelParameters into uniqueGroup
-                         select new
-                         {
-                             Representative = uniqueGroup.First(),
-                             OtherMembers = uniqueGroup.Skip(1)
-                         };
-
-            otherGroupMembers = groups.ToDictionary(x => x.Representative.ModelParameters, x => x.OtherMembers);
-            return groups.Select(x => x.Representative);
-        }
-
-        private static void updateNonDistintParticleData(IEnumerable<ModelParticle> uniqueParticles, IDictionary<ModelParams, IEnumerable<ModelParticle>> nonDistinctParticles)
-        {
-            foreach (var uniqueParticle in uniqueParticles)
-            {
-                foreach (var p in nonDistinctParticles[uniqueParticle.ModelParameters])
-                {
-                    p.MetaDataRef = new WeakReference<Match>(getData(uniqueParticle.MetaDataRef));
-                    p.Weight = uniqueParticle.Weight;
-                }
-            }
-        }
-
+       
         #endregion
     }
 }

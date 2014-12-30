@@ -33,6 +33,9 @@ using Range = AForge.IntRange;
 
 namespace ParticleFilterModelFitting
 {
+    /// <summary>
+    /// Open hand template. Contains method for templates extraction from the provided images.
+    /// </summary>
     public class OpenHandTemplate: ITemplate
     {
         const float CONTOUR_TENSION = 0f;

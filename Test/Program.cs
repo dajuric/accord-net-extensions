@@ -39,6 +39,8 @@ namespace Test
         unsafe static void Main()
         {
             Test test = new Test();
+            test.Bla();
+            return;
 
             test.TestRunningWeightedVariance();
             return;

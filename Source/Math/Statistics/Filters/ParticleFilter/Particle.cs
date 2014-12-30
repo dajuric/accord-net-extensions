@@ -42,7 +42,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// <summary>
         /// Applies noise to a particle's state.
         /// </summary>
-        void Difuse();
+        void Diffuse();
     }
 
     /// <summary>
