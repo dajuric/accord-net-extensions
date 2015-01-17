@@ -2,7 +2,7 @@
 // Accord.NET Extensions Framework
 // https://github.com/dajuric/accord-net-extensions
 //
-// Copyright © Darko Jurić, 2014 
+// Copyright © Darko Jurić, 2014-2015 
 // darko.juric2@gmail.com
 //
 //   This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@ namespace Accord.Extensions.Math.Geometry
     // Copyright © César Souza, 2009-2014
     // cesarsouza at gmail.com
     //
-    // Copyright © Darko Jurić, 2014
+    // Copyright © Darko Jurić, 2014-2015
     // darko.juric2 at gmail.com
     //
     //    This library is free software; you can redistribute it and/or

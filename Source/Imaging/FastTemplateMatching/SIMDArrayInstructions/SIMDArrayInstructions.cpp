@@ -2,7 +2,7 @@
 // Accord.NET Extensions Framework
 // https://github.com/dajuric/accord-net-extensions
 //
-// Copyright © Darko Juriæ, 2014 
+// Copyright © Darko Juriæ, 2014-2015 
 // darko.juric2@gmail.com
 //
 //   This program is free software: you can redistribute it and/or modify
