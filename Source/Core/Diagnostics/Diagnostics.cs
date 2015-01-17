@@ -98,7 +98,7 @@ namespace Accord.Extensions
             public override void WriteLine(string value)
             {
                 console.WriteLine(value);
-                if (value != "")
+                if (value != String.Empty)
                 {
                     base.WriteLine(value);
                 }
@@ -112,24 +112,29 @@ namespace Accord.Extensions
         static CombinedWriter combinedWriter = null;
 
         /// <summary>
-        /// Starts to clone the console output.
+        /// Starts to clone the console output to a specified file.
+        /// <para>If the logging is active the old instance is replaced by a new one.</para>
         /// </summary>
         /// <param name="fileName">Log-file name</param>
         /// <param name="append">True to append to an existing file, false to overwrite it.</param>
-        public static void StartLogging(string fileName, bool append)
+        public static void StartConsoleLogging(string fileName, bool append)
         {
-            StopLogging();
+            StopConsoleLogging();
 
             combinedWriter = new CombinedWriter(fileName, append, Console.Out);
+            Console.SetOut(combinedWriter);
         }
 
         /// <summary>
-        /// Stops the logging.
+        /// Stops the logging process.
         /// </summary>
-        public static void StopLogging()
+        public static void StopConsoleLogging()
         {
             if (combinedWriter != null)
+            {
                 combinedWriter.Dispose();
+                Console.SetOut(Console.Out);
+            }
         }
 
         #endregion
