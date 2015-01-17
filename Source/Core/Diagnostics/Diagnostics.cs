@@ -21,6 +21,7 @@
 #endregion
 
 using System;
+using System.IO;
 
 namespace Accord.Extensions
 {
@@ -29,6 +30,8 @@ namespace Accord.Extensions
     /// </summary>
     public static class Diagnostics
     {
+        #region Time measure
+
         /// <summary>
         /// Executes a provided action and measures time in milliseconds that was consumed by provided action.
         /// </summary>
@@ -64,5 +67,71 @@ namespace Accord.Extensions
 
             return totalElapsed / executionCount;
         }
+
+        #endregion
+
+        #region Logging
+
+        //Taken from http://stackoverflow.com/questions/420429/mirroring-console-output-to-a-file and modified.
+        /// <summary>
+        /// Combined console stream writer. Enables the cloning the console output.
+        /// </summary>
+        private class CombinedWriter : StreamWriter
+        {
+            TextWriter console;
+            public CombinedWriter(string path, bool append, TextWriter consoleout)
+                : base(path, append)
+            {
+                this.console = consoleout;
+                base.AutoFlush = true;
+            }
+            public override void Write(string value)
+            {
+                console.Write(value);
+                //base.Write(value);//do not log writes without line ends as these are only for console display
+            }
+            public override void WriteLine()
+            {
+                console.WriteLine();
+                //base.WriteLine();//do not log empty writes as these are only for advancing console display
+            }
+            public override void WriteLine(string value)
+            {
+                console.WriteLine(value);
+                if (value != "")
+                {
+                    base.WriteLine(value);
+                }
+            }
+            public new void Dispose()
+            {
+                base.Dispose();
+            }
+        }
+
+        static CombinedWriter combinedWriter = null;
+
+        /// <summary>
+        /// Starts to clone the console output.
+        /// </summary>
+        /// <param name="fileName">Log-file name</param>
+        /// <param name="append">True to append to an existing file, false to overwrite it.</param>
+        public static void StartLogging(string fileName, bool append)
+        {
+            StopLogging();
+
+            combinedWriter = new CombinedWriter(fileName, append, Console.Out);
+        }
+
+        /// <summary>
+        /// Stops the logging.
+        /// </summary>
+        public static void StopLogging()
+        {
+            if (combinedWriter != null)
+                combinedWriter.Dispose();
+        }
+
+        #endregion
     }
 }

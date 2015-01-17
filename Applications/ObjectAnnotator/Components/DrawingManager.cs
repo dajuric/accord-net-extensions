@@ -207,7 +207,7 @@ namespace ObjectAnnotator.Components
             }
         }
 
-        public IReadOnlyCollection<DrawingAnnotation> DrawingAnnotations { get { return drawingAnnotations; } }
+        public IList<DrawingAnnotation> DrawingAnnotations { get { return drawingAnnotations; } } //TODO: revert to read-only collection after Accord.NET is fixed
 
         bool showLabels = true;
         public bool ShowLabels

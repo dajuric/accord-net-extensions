@@ -107,6 +107,7 @@ namespace ObjectAnnotator.Components
 
             roi.Width = Math.Max(MIN_RECT_SIZE, roi.Width);
             roi.Height = Math.Max(MIN_RECT_SIZE, roi.Height);
+            roi.Height = 1.2f * roi.Width; //fix width-height ratio
 
             var imageSize = Element.Image.Size.ToSize(); 
             this.Annotation.Polygon = roi.Vertices().Select(x => x.Clamp(imageSize)).ToArray();

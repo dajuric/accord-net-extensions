@@ -170,6 +170,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RT", "Experimental\RT\RT.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectAnnotator", "Applications\ObjectAnnotator\ObjectAnnotator.csproj", "{199259A4-217D-4057-8930-2B49A890014F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOCO", "Experimental\GOCO\GOCO.csproj", "{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -653,6 +655,18 @@ Global
 		{199259A4-217D-4057-8930-2B49A890014F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{199259A4-217D-4057-8930-2B49A890014F}.Release|Win32.ActiveCfg = Release|Any CPU
 		{199259A4-217D-4057-8930-2B49A890014F}.Release|x64.ActiveCfg = Release|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Release|Win32.ActiveCfg = Release|Any CPU
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -712,5 +726,6 @@ Global
 		{F67A0F17-7ECF-4F3B-9671-79865029305E} = {EA48A5F3-CBB8-4115-9726-A835402D5983}
 		{531C3A68-6830-47CB-894A-203971BFD576} = {EA48A5F3-CBB8-4115-9726-A835402D5983}
 		{199259A4-217D-4057-8930-2B49A890014F} = {91558AC9-EF21-42F0-BD4F-DC53CBCD58EF}
+		{C21BE00D-DA89-4418-9FE1-C5DDFE8B7131} = {EA48A5F3-CBB8-4115-9726-A835402D5983}
 	EndGlobalSection
 EndGlobal
