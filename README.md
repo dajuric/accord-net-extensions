@@ -39,6 +39,69 @@ video IO library, which offers unified interface for camera capture, file and di
 
 The framework is divided in libraries available through NuGet packages. The libraries can be grouped as following:
 
+<h3>Image processing</h3>
+
+<ul>      
+   <li> 
+      <b>Accord.Extensions.Imaging.Algorithms</b>
+       <p>
+        Implements image-processing and computer-vision algorithms.
+        Provides extensions for image-processing algorithms implemented in Accord.NET framework and for some image-processing algorithms implemented in AForge.NET framework.
+       </p>
+       <p>
+         <i>samples: (see Accord.Extensions.Imaging.GenericImage)</i>
+       </p>
+   </li>
+	
+   <li> 
+      <b>Accord.Extensions.Imaging.Algorithms.LINE2D</b>
+       <p>
+        Implements template matching algorithm (~20x faster than conventional sliding window approach).
+       </p>
+       <p>
+         <i>samples: fast template matching demo</i>
+       </p>
+   </li>
+	 
+   <li> 
+      <b>Accord.Extensions.Vision</b>
+       <p>
+         Provides computer vision algorithms: Pyramidal KLT tracker, Camshift, Meanshift.
+       </p>
+       <p>
+         <i>samples: Camshift; pyramidal Lucas-Kanade tracker</i>
+       </p>
+   </li>
+</ul>
+
+<h3>Math libraries</h3>
+
+<ul> 
+   <li> 
+       <b>Accord.Extensions.Math</b>
+       <p>
+         Provides extensions for the 2D array, graphs, contour, point transformations. 
+         Implements parallel FFT transform. Implements group matching.
+       </p>
+       <p>
+         <i>samples: cardinal spline; contour extrema; graph path search; group matching</i>
+       </p>
+   </li>
+    
+   <li> 
+      <b>Accord.Extensions.Statistics</b>
+       <p>
+         Provides classes and extensions for the following filters: Kalman, Particle filter, JPDAF - Joint Probability Data 
+         Association Filter. Includes 2D motion models.
+       </p>
+       <p>
+         <i>samples: Kalman: simulation and object tracking (Kalman + Camshift) demo; Particle filtering: color object tracking; 
+            template model selection
+         </i>
+       </p>
+   </li>
+</ul>
+
 <h3>Support libraries</h3>
 
 <ul> 
@@ -102,69 +165,6 @@ The framework is divided in libraries available through NuGet packages. The libr
        </p>
        <p>
          <i>samples: basic capture; capture and recording; video extraction</i>
-       </p>
-   </li>
-</ul>
-
-<h3>Image processing</h3>
-
-<ul>      
-   <li> 
-      <b>Accord.Extensions.Imaging.Algorithms</b>
-       <p>
-        Implements image-processing and computer-vision algorithms.
-        Provides extensions for image-processing algorithms implemented in Accord.NET framework and for some image-processing algorithms implemented in AForge.NET framework.
-       </p>
-       <p>
-         <i>samples: (see Accord.Extensions.Imaging.GenericImage)</i>
-       </p>
-   </li>
-	
-   <li> 
-      <b>Accord.Extensions.Imaging.Algorithms.LINE2D</b>
-       <p>
-        Implements template matching algorithm (~20x faster than conventional sliding window approach).
-       </p>
-       <p>
-         <i>samples: fast template matching demo</i>
-       </p>
-   </li>
-	 
-   <li> 
-      <b>Accord.Extensions.Vision</b>
-       <p>
-         Provides computer vision algorithms: Pyramidal KLT tracker, Camshift, Meanshift.
-       </p>
-       <p>
-         <i>samples: Camshift; pyramidal Lucas-Kanade tracker</i>
-       </p>
-   </li>
-</ul>
-
-<h3>Math libraries</h3>
-
-<ul> 
-   <li> 
-       <b>Accord.Extensions.Math</b>
-       <p>
-         Provides extensions for the 2D array, graphs, contour, point transformations. 
-         Implements parallel FFT transform. Implements group matching.
-       </p>
-       <p>
-         <i>samples: cardinal spline; contour extrema; graph path search; group matching</i>
-       </p>
-   </li>
-    
-   <li> 
-      <b>Accord.Extensions.Statistics</b>
-       <p>
-         Provides classes and extensions for the following filters: Kalman, Particle filter, JPDAF - Joint Probability Data 
-         Association Filter. Includes 2D motion models.
-       </p>
-       <p>
-         <i>samples: Kalman: simulation and object tracking (Kalman + Camshift) demo; Particle filtering: color object tracking; 
-            template model selection
-         </i>
        </p>
    </li>
 </ul>
