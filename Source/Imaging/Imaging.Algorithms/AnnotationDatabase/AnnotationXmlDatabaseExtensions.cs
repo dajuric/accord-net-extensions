@@ -107,5 +107,74 @@ namespace Accord.Extensions.Imaging
             doc.Add(root);
             doc.Save(fileName);
         }
+
+        /// <summary>
+        /// Merges specified database into one database and saves it into specified file.
+        /// <para>All image paths will be modified so the root of their relatives paths is the output database path.</para>
+        /// </summary>
+        /// <param name="dbFileNames">Database file names.</param>
+        /// <param name="outputDbFileName">Output database file name.</param>
+        public static void MergeDatabases(this IEnumerable<string> dbFileNames, string outputDbFileName)
+        {
+            var outputFolder = Path.GetDirectoryName(outputDbFileName);
+            Database outputDb = new Database();
+
+            foreach (var dbFileName in dbFileNames)
+            {
+                var pathPrefix = Path.DirectorySeparatorChar +
+                                 Path.GetDirectoryName(dbFileName).GetRelativeFilePath(new DirectoryInfo(outputFolder))
+                                 .Trim(Path.DirectorySeparatorChar);
+
+                Database db = new Database();
+                db.Load(dbFileName);
+
+                foreach (var imageKey in db.Keys)
+                {
+                    var newKey = pathPrefix + imageKey;
+
+                    if (!outputDb.ContainsKey(imageKey))
+                        outputDb.Add(newKey, db[imageKey]);
+                }
+            }
+
+            outputDb.Save(outputDbFileName);
+        }
+
+        /// <summary>
+        /// Saves annotations of type rectangle to the specified text file as: &lt;image relative path&gt; ;   &lt;bounding box&gt; ; &lt;label&gt;
+        /// <para>Each annotation is written in a new line in case of multiple bounding boxes per image.</para>
+        /// </summary>
+        /// <param name="data">Database.</param>
+        /// <param name="fileName">Text file where to export the object bounding boxes.</param>
+        /// <param name="labelSelector">Labels selector.</param>
+        public static void ExportBoundingBoxes(this Database data, string fileName, Func<string, bool> labelSelector)
+        {
+            var txtWriter = File.CreateText(fileName);
+
+            foreach (var d in data)
+            {
+                var imgKey = d.Key;
+                foreach (var ann in d.Value.Where(ann => ann.Type == AnnotationType.Rectangle &&
+                                    labelSelector(ann.Label)))
+                {
+                    var boundingRect = ann.BoundingRectangle;
+                    var textLine = String.Format("{0}; {1}; {2} {3} {4} {5}", imgKey, ann.Label, boundingRect.X, boundingRect.Y, boundingRect.Width, boundingRect.Height);
+                    txtWriter.WriteLine(textLine);
+                }
+            }
+
+            txtWriter.Close();
+        }
+
+        /// <summary>
+        /// Saves annotations of type rectangle to the specified text file as: &lt;image relative path&gt; ;   &lt;bounding box&gt; ; &lt;label&gt;
+        /// <para>Each annotation is written in a new line in case of multiple bounding boxes per image.</para>
+        /// </summary>
+        /// <param name="data">Database.</param>
+        /// <param name="fileName">Text file where to export the object bounding boxes.</param>
+        public static void ExportBoundingBoxes(this Database data, string fileName)
+        {
+            ExportBoundingBoxes(data, fileName, (annLabel) => true);
+        }
     }
 }

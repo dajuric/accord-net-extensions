@@ -154,44 +154,6 @@ namespace Accord.Extensions.Imaging
         public static int AnnotationCount(this Database data)
         {
             return AnnotationCount(data, (_) => true);
-        }
-      
-        /// <summary>
-        /// Saves annotations of type rectangle to the specified text file as: &lt;image relative path&gt; ;   &lt;bounding box&gt; ; &lt;label&gt;
-        /// <para>Each annotation is written in a new line in case of multiple bounding boxes per image.</para>
-        /// </summary>
-        /// <param name="data">Database.</param>
-        /// <param name="fileName">Text file where to export the object bounding boxes.</param>
-        /// <param name="labelSelector">Labels selector.</param>
-        public static void ExportBoundingBoxes(this Database data, string fileName, Func<string, bool> labelSelector)
-        {
-            var txtWriter = File.CreateText(fileName);
-
-            foreach (var d in data)
-            {
-                var imgKey = d.Key;
-                foreach (var ann in d.Value.Where(ann => ann.Type == AnnotationType.Rectangle && 
-                                    labelSelector(ann.Label)))
-                {
-                    var boundingRect = ann.BoundingRectangle;
-                    var textLine = String.Format("{0}; {1}; {2} {3} {4} {5}", imgKey, ann.Label, boundingRect.X, boundingRect.Y, boundingRect.Width, boundingRect.Height);
-                    txtWriter.WriteLine(textLine);
-                }
-            }
-
-            txtWriter.Close();
-        }
-
-        /// <summary>
-        /// Saves annotations of type rectangle to the specified text file as: &lt;image relative path&gt; ;   &lt;bounding box&gt; ; &lt;label&gt;
-        /// <para>Each annotation is written in a new line in case of multiple bounding boxes per image.</para>
-        /// </summary>
-        /// <param name="data">Database.</param>
-        /// <param name="fileName">Text file where to export the object bounding boxes.</param>
-        public static void ExportBoundingBoxes(this Database data, string fileName)
-        {
-            ExportBoundingBoxes(data, fileName, (annLabel) => true);
-        }
-
+        }    
     }
 }
