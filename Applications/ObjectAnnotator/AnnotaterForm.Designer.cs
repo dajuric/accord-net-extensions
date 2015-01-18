@@ -42,7 +42,6 @@ namespace ObjectAnnotator
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.btnToggleLabels = new System.Windows.Forms.ToolStripButton();
-            this.btnPrepareSamples = new System.Windows.Forms.ToolStripButton();
             this.btnExtractSamples = new System.Windows.Forms.ToolStripButton();
             this.slider = new System.Windows.Forms.TrackBar();
             this.pictureBox = new DrawingCanvas();
@@ -67,7 +66,6 @@ namespace ObjectAnnotator
             this.toolStripSeparator1,
             this.btnSave,
             this.btnToggleLabels,
-            this.btnPrepareSamples,
             this.btnExtractSamples});
             this.toolStrip.Location = new System.Drawing.Point(0, 501);
             this.toolStrip.Name = "toolStrip";
@@ -157,19 +155,7 @@ namespace ObjectAnnotator
             this.btnToggleLabels.Text = "toolStripButton1";
             this.btnToggleLabels.ToolTipText = "Toggle labels (Ctrl + A)";
             this.btnToggleLabels.CheckedChanged += new System.EventHandler(this.btnToggleLabels_CheckedChanged);
-            // 
-            // btnPrepareSamples
-            // 
-            this.btnPrepareSamples.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnPrepareSamples.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnPrepareSamples.Image = ((System.Drawing.Image)(resources.GetObject("btnPrepareSamples.Image")));
-            this.btnPrepareSamples.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPrepareSamples.Margin = new System.Windows.Forms.Padding(0, 1, 15, 2);
-            this.btnPrepareSamples.Name = "btnPrepareSamples";
-            this.btnPrepareSamples.Size = new System.Drawing.Size(24, 24);
-            this.btnPrepareSamples.Text = "Prepare Samples";
-            this.btnPrepareSamples.Click += new System.EventHandler(this.btnPrepareSamples_Click);
-            // 
+            //
             // btnExtractSamples
             // 
             this.btnExtractSamples.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -249,7 +235,6 @@ namespace ObjectAnnotator
         private System.Windows.Forms.ToolStripLabel lblTotalFrames;
         private System.Windows.Forms.ToolStripButton btnSave;
         private System.Windows.Forms.ToolStripButton btnToggleLabels;
-        private System.Windows.Forms.ToolStripButton btnPrepareSamples;
         private System.Windows.Forms.ToolStripButton btnExtractSamples;
     }
 }

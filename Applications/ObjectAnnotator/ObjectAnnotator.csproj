@@ -96,12 +96,6 @@
     <Compile Include="SampleGeneration\SampleExtraction.Designer.cs">
       <DependentUpon>SampleExtraction.cs</DependentUpon>
     </Compile>
-    <Compile Include="SampleGeneration\SamplePreparation.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SampleGeneration\SamplePreparation.Designer.cs">
-      <DependentUpon>SamplePreparation.cs</DependentUpon>
-    </Compile>
     <Compile Include="Wizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,9 +120,6 @@
     </Compile>
     <EmbeddedResource Include="SampleGeneration\SampleExtraction.resx">
       <DependentUpon>SampleExtraction.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SampleGeneration\SamplePreparation.resx">
-      <DependentUpon>SamplePreparation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>

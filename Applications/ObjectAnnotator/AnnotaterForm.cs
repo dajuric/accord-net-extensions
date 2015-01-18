@@ -255,12 +255,6 @@ namespace ObjectAnnotator
             saveToFile();          
         }
 
-        private void btnPrepareSamples_Click(object sender, EventArgs e)
-        {
-            var frmPrepareSamples = new SamplePreparation(this.Database);
-            frmPrepareSamples.ShowDialog(this);
-        }
-
         private void btnExtractSamples_Click(object sender, EventArgs e)
         {
             var frmExtractSamples = new SampleExtraction(this.Database, this.capture, getImageKey);
