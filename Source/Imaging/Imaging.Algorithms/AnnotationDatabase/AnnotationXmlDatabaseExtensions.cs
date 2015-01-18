@@ -109,7 +109,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Merges specified database into one database and saves it into specified file.
+        /// Merges specified annotation databases into one database and saves it into specified file.
         /// <para>All image paths will be modified so the root of their relatives paths is the output database path.</para>
         /// </summary>
         /// <param name="dbFileNames">Database file names.</param>
