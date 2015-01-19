@@ -83,23 +83,6 @@ namespace Accord.Extensions.Statistics.Filters
         }
 
         /// <summary>
-        /// Calculates likelihood of the distance between particle and measurement (point).
-        /// </summary>
-        /// <param name="particle">Particle.</param>
-        /// <param name="measurement">Measurement (coordinate).</param>
-        /// <param name="likelihoodFunc">
-        /// Likelihood function.
-        /// <para>Can be used as parameter in <see cref="Update"/> function to calculate measurement-track association likelihood.</para>
-        /// </param>
-        /// <returns>Measurement-track likelihood.</returns>
-        public static double DistanceLikelihood(IParticle<ConstantVelocity2DModel> particle, PointF measurement, Func<double, double> likelihoodFunc)
-        {
-            var delta = measurement.DistanceTo(particle.State.Position);
-            var likelihood = likelihoodFunc(delta);
-            return likelihood;
-        }
-
-        /// <summary>
         /// Updates particle filters according to the calculated measurement-track association probability.
         /// </summary>
         /// <typeparam name="TFilter">Filter type.</typeparam>
@@ -128,7 +111,7 @@ namespace Accord.Extensions.Statistics.Filters
         public static double[,] Update<TFilter, TParticle, TMeasurement>(this IList<TFilter> particleFilters,
                                                                          List<TMeasurement> measurements,
                                                                          Func<TParticle, TMeasurement, double> likelihoodFunc,
-                                                                         Func<TFilter, IEnumerable<double>, IEnumerable<TParticle>> resample,
+                                                                         Func<TFilter, TFilter> resample,
                                                                          double detectionProbability = 0.9, double falseAlarmProbability = 0.01,
                                                                          Func<TMeasurement, TFilter, bool> considerAssociation = null)
             where TParticle: class, IParticle
@@ -175,7 +158,7 @@ namespace Accord.Extensions.Statistics.Filters
             {
                 for (int i = 0; i < particleFilters.Count; i++)
                 {
-                    var resampledParticles = resample(particleFilters[i], particleFilters[i].Select(x => x.Weight));
+                    var resampledParticles = resample(particleFilters[i]);
 
                     //preserve list reference (e.g. useful if list is a key in a dictionary)
                     particleFilters[i].Clear();
@@ -248,7 +231,7 @@ namespace Accord.Extensions.Statistics.Filters
 
         #endregion
 
-        #region
+        #region Remove
 
         /// <summary>
         /// Removes filters if an filter entropy is too big. 
