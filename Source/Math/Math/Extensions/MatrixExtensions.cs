@@ -290,6 +290,50 @@ namespace Accord.Extensions.Math
             return rez;
         }
 
+        /// <summary>
+        /// Gets the associations, unassociated rows and unassociated columns from the provided association matrix which represents the connected graph.
+        /// </summary>
+        /// <param name="associationMat">Association matrix where true values represent the connection.</param>
+        /// <param name="unassociatedRows">Unassociated rows.</param>
+        /// <param name="unassociatedColumns">Unassociated columns.</param>
+        /// <returns>Associated row-column pairs.</returns>
+        public static List<Pair<int>> GetAssociations(this bool[,] associationMat, out List<int> unassociatedRows, out List<int> unassociatedColumns)
+        {
+            var associations = new List<Pair<int>>();
+            unassociatedRows = new List<int>();
+            unassociatedColumns = new List<int>();
+
+            var nRows = associationMat.GetLength(0);
+            var nCols = associationMat.GetLength(1);
+
+            bool[] isColumnAssociated = new bool[nCols];
+
+            for (int r = 0; r < nRows; r++)
+            {
+                bool isRowAssociated = false;
+                for (int c = 0; c < nCols; c++)
+                {
+                    if (associationMat[r, c] == true)
+                    {
+                        isRowAssociated = true;
+                        isColumnAssociated[c] = true;
+                        associations.Add(new Pair<int>(r, c));
+                    }
+                }
+
+                if (isRowAssociated == false)
+                    unassociatedRows.Add(r);
+            }
+
+            for (int c = 0; c < isColumnAssociated.Length; c++)
+            {
+                if (isColumnAssociated[c] == false)
+                    unassociatedColumns.Add(c);
+            }
+
+            return associations;
+        }
+
         #region Jagged matrix
 
         /// <summary>

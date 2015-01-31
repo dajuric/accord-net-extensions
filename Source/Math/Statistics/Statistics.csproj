@@ -54,9 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Filters\MotionModels\PerspectiveProjection2DModel.cs" />
-    <Compile Include="Filters\TrackAssociation\JPDAF.Kalman.cs" />
-    <Compile Include="Filters\TrackAssociation\JPDAF.Base.cs" />
-    <Compile Include="Filters\TrackAssociation\JPDAF.ParticleFilter.cs" />
+    <Compile Include="Filters\TrackAssociation\EntropyManagement\EntropyTrackerRemoval.cs" />
+    <Compile Include="Filters\TrackAssociation\EntropyManagement\IEntropyTrack.cs" />
+    <Compile Include="Filters\TrackAssociation\JPDAF\JPDAF.Kalman.cs" />
+    <Compile Include="Filters\TrackAssociation\JPDAF\JPDAF.Base.cs" />
+    <Compile Include="Filters\TrackAssociation\JPDAF\JPDAF.ParticleFilter.cs" />
     <Compile Include="Filters\Kalman\Base\KalmanFilter.cs" />
     <Compile Include="Filters\Kalman\DiscreteKalmanFilter.cs" />
     <Compile Include="Filters\MotionModels\ConstantAcceleration2DModel.cs" />

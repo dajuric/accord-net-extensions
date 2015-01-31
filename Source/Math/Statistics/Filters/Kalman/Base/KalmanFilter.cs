@@ -76,7 +76,7 @@ namespace Accord.Extensions.Statistics.Filters
             this.ControlVectorDimension = controlVectorDimension;
 
             this.state = _state;
-            this.ErrorCovariance = initialStateError;
+            this.EstimateCovariance = initialStateError;
 
             this.stateConvertFunc = stateConvertFunc;
             this.stateConvertBackFunc = stateConvertBackFunc;
@@ -151,16 +151,16 @@ namespace Accord.Extensions.Statistics.Filters
         /// This matrix servers for Kalman gain calculation.
         /// <para>The matrix along with innovation vector can be used to achieve gating in JPDAF. See: <see cref="Accord.Extensions.Statistics.Filters.JPDAF"/> filter.</para>
         /// </summary>
-        public double[,] CovarianceMatrix 
+        public double[,] ResidualCovariance 
         {
             get; 
             protected set; 
         }
 
         /// <summary>
-        /// Gets the inverse of covariance matrix. See: <see cref="CovarianceMatrix"/>.
+        /// Gets the inverse of covariance matrix. See: <see cref="ResidualCovariance"/>.
         /// </summary>
-        public double[,] CovarianceMatrixInv
+        public double[,] ResidualCovarianceInv
         {
             get;
             protected set;
@@ -178,7 +178,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// <summary>
         /// Gets error estimate covariance matrix (P(k)). [n x n] matrix.
         /// </summary>
-        public double[,] ErrorCovariance
+        public double[,] EstimateCovariance
         {
             get;
             protected set;
@@ -324,24 +324,65 @@ namespace Accord.Extensions.Statistics.Filters
         #region Misc methods
 
         /// <summary>
-        /// Calculates the residual from the measurement and predicted state.
+        /// Calculates the residual from the measurement and the current state.
         /// </summary>
         /// <param name="measurement">Measurement.</param>
         /// <returns>Residual, error or innovation vector.</returns>
-        public double[] CalculatePredictionError(TMeasurement measurement)
+        public double[] CalculateDelta(TMeasurement measurement)
         {
             checkPrerequisites();
 
             var m = measurementConvertFunc(measurement);
-            return CalculatePredictionError(m);
+            return CalculateDelta(m);
         }
 
-        internal double[] CalculatePredictionError(double[] measurement)
+        internal double[] CalculateDelta(double[] measurement)
         {
             //innovation vector (measurement error)
-            var predictedMeasurement = this.MeasurementMatrix.Multiply(this.state);
-            var measurementError = measurement.Subtract(predictedMeasurement);
+            var stateMeasurement = this.MeasurementMatrix.Multiply(this.state);
+            var measurementError = measurement.Subtract(stateMeasurement);
             return measurementError;
+        }
+
+        /// <summary>
+        /// Calculates Mahalanobis distance between the provided measurement and the predicted state.
+        /// <para>Covariance matrix is the <see cref="ResidualCovariance"/>.</para>
+        /// </summary>
+        /// <param name="measurement">Measurement.</param>
+        /// <param name="delta">The residual from the measurement and the current state.</param>
+        /// <returns>Mahalanobis distance.</returns>
+        public double CalculateMahalanobisDistance(TMeasurement measurement, out double[] delta)
+        {
+            checkPrerequisites();
+
+            var m = measurementConvertFunc(measurement);
+            var stateMeasurement = this.MeasurementMatrix.Multiply(this.state);
+            delta = m.Subtract(stateMeasurement);
+
+            var distance = m.Mahalanobis(stateMeasurement, this.ResidualCovarianceInv);
+            return distance;
+        }
+
+        /// <summary>
+        /// Upper limit which includes valid measurements (gating) with 99% probability
+        /// </summary>
+        private static double gateThreshold = new ChiSquareDistribution(2).InverseDistributionFunction(0.99);
+
+        /// <summary>
+        /// Calculates Mahalanobis distance and compares distance and gate threshold.
+        /// <para>Gate threshold is obtained by calculating the 99 percent interval for the residual covariance.</para>
+        /// </summary>
+        /// <param name="measurement">Measurement.</param>
+        /// <param name="delta">The residual from the measurement and the current state.</param>
+        /// <param name="mahalanobisDistance">Mahalanobis distance.</param>
+        /// <returns>True if the measurement is inside the gating, false otherwise.</returns>
+        public bool IsMeasurementInsideGate(TMeasurement measurement, out double[] delta, out double mahalanobisDistance)
+        {
+            mahalanobisDistance = CalculateMahalanobisDistance(measurement, out delta);
+            if (mahalanobisDistance <= gateThreshold)
+                return true;
+
+            return false;
         }
 
         /// <summary>
@@ -349,7 +390,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// </summary>
         public double CalculateEntropy()
         {
-            return CalculateEntropy(this.ErrorCovariance);
+            return CalculateEntropy(this.EstimateCovariance);
         }
 
         /// <summary>
@@ -383,7 +424,7 @@ namespace Accord.Extensions.Statistics.Filters
         {
             positionSelectionMatrix = positionSelectionMatrix ?? this.MeasurementMatrix;
 
-            var measurementErrorCov = positionSelectionMatrix.Multiply(this.ErrorCovariance).Multiply(positionSelectionMatrix.Transpose());
+            var measurementErrorCov = positionSelectionMatrix.Multiply(this.EstimateCovariance).Multiply(positionSelectionMatrix.Transpose());
             var chiSquare = new ChiSquareDistribution(2).InverseDistributionFunction(confidence);
 
             var cov = measurementErrorCov.Multiply(chiSquare);

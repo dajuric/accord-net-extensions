@@ -83,17 +83,17 @@ namespace Accord.Extensions.Statistics.Filters
                 this.state = this.state.Add(this.ControlMatrix.Multiply(controlVector));
 
            //P'(k) = A * P(k-1) * At + Q 
-           this.ErrorCovariance = this.TransitionMatrix.Multiply(this.ErrorCovariance).Multiply(this.TransitionMatrix.Transpose()).Add(this.ProcessNoise);
+           this.EstimateCovariance = this.TransitionMatrix.Multiply(this.EstimateCovariance).Multiply(this.TransitionMatrix.Transpose()).Add(this.ProcessNoise);
 
            /******* calculate Kalman gain **********/
            var measurementMatrixTransponsed = this.MeasurementMatrix.Transpose();
 
            //S(k) = H * P'(k) * Ht + R
-           this.CovarianceMatrix = this.MeasurementMatrix.Multiply(this.ErrorCovariance).Multiply(measurementMatrixTransponsed).Add(this.MeasurementNoise);
-           this.CovarianceMatrixInv = this.CovarianceMatrix.Inverse();
+           this.ResidualCovariance = this.MeasurementMatrix.Multiply(this.EstimateCovariance).Multiply(measurementMatrixTransponsed).Add(this.MeasurementNoise);
+           this.ResidualCovarianceInv = this.ResidualCovariance.Inverse();
 
            //K(k) = P'(k) * Ht * S(k)^(-1)
-           this.KalmanGain = this.ErrorCovariance.Multiply(measurementMatrixTransponsed).Multiply(this.CovarianceMatrixInv);
+           this.KalmanGain = this.EstimateCovariance.Multiply(measurementMatrixTransponsed).Multiply(this.ResidualCovarianceInv);
            /******* calculate Kalman gain **********/
         }
 
@@ -107,7 +107,7 @@ namespace Accord.Extensions.Statistics.Filters
         protected override void CorrectInternal(double[] measurement)
         {
             //innovation vector (measurement error)
-            var delta = this.CalculatePredictionError(measurement);
+            var delta = this.CalculateDelta(measurement);
             correct(delta);
         }
 
@@ -120,7 +120,7 @@ namespace Accord.Extensions.Statistics.Filters
             this.state = this.state.Add(this.KalmanGain.Multiply(innovationVector));
 
             var identity = Matrix.Identity(this.StateVectorDimension);
-            this.ErrorCovariance = (identity.Subtract(this.KalmanGain.Multiply(this.MeasurementMatrix))).Multiply(this.ErrorCovariance.Transpose());
+            this.EstimateCovariance = (identity.Subtract(this.KalmanGain.Multiply(this.MeasurementMatrix))).Multiply(this.EstimateCovariance.Transpose());
         }
 
         /// <summary>
@@ -153,14 +153,14 @@ namespace Accord.Extensions.Statistics.Filters
 
             checkPrerequisites();
 
-            var priorErrorCovariance = this.ErrorCovariance.Multiply(covarianceMixtureFactor);
+            var priorErrorCovariance = this.EstimateCovariance.Multiply(covarianceMixtureFactor);
 
             this.correct(innovationVector);
-            var posterioriErrorCovariance = this.ErrorCovariance.Multiply(1 - covarianceMixtureFactor);
+            var posterioriErrorCovariance = this.EstimateCovariance.Multiply(1 - covarianceMixtureFactor);
 
             var innovationCov = this.KalmanGain.Multiply(innovationCovariance).Multiply(this.KalmanGain.Transpose());
 
-            this.ErrorCovariance = priorErrorCovariance.Add(posterioriErrorCovariance).Add(innovationCov);
+            this.EstimateCovariance = priorErrorCovariance.Add(posterioriErrorCovariance).Add(innovationCov);
         }
     }
 }

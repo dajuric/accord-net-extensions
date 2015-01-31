@@ -38,11 +38,6 @@ namespace Accord.Extensions.Statistics.Filters
     {
         #region Update
 
-        /// <summary>
-        /// upper limit which includes valid measurements (gating) with 99% probability
-        /// </summary>
-        private static double gateThreshold = new ChiSquareDistribution(2).InverseDistributionFunction(0.99);
-
         private static double[,][] calculateZXMatrix<TFilter, TState, TMeasurement>(this IList<TFilter> kalmanFilters,
                                                                                     IList<TMeasurement> measurements,
                                                                                     out double[,] probsZX)
@@ -56,20 +51,20 @@ namespace Accord.Extensions.Statistics.Filters
                 var kalman = kalmanFilters[tIdx];
                 var zeroCoordinate = new double[kalman.MeasurementVectorDimension];
 
-                var mvnPDF = new MultivariateNormalDistribution(zeroCoordinate, kalman.CovarianceMatrix);
+                var mvnPDF = new MultivariateNormalDistribution(zeroCoordinate, kalman.ResidualCovariance);
                 var mulCorrectionFactor = (double)1 / mvnPDF.ProbabilityDensityFunction(zeroCoordinate);
 
                 for (int mIdx = 0; mIdx < measurements.Count; mIdx++)
                 {
                     var measurement = measurements[mIdx];
 
-                    var delta = kalman.CalculatePredictionError(measurement);
+                    //delta' / S^-1 * delta; this expression has ChiSquare distribution (Mahalanobis distance)
+                    double[] delta; double mahalanobisDistancce;//not used
+                    var isInsideGate = kalman.IsMeasurementInsideGate(measurement, out delta, out mahalanobisDistancce);
+
                     innovZX[mIdx, tIdx] = delta;
 
-                    //delta' / S^-1 * delta; this expression has ChiSquare distribution
-                    var gate = delta.Multiply(kalman.CovarianceMatrixInv).Multiply(delta.Transpose()).Sum();
-                    
-                    if (gate < gateThreshold)
+                    if (isInsideGate)
                     {
                         probsZX[mIdx, tIdx] = mvnPDF.ProbabilityDensityFunction(delta) * mulCorrectionFactor; //modification (added mul correction factor)
                     }
@@ -224,62 +219,6 @@ namespace Accord.Extensions.Statistics.Filters
                     kalmanFilterCreatorFunc,
                     minMarginalMeasurementlProbability
                   );
-        }
-
-        #endregion
-
-        #region Remove
-
-        /// <summary>
-        /// Removes filters if an filter entropy is too big. 
-        /// </summary>
-        /// <typeparam name="TFilter">Filter type.</typeparam>
-        /// <typeparam name="TState">Kalman filter state type.</typeparam>
-        /// <typeparam name="TMeasurement">Kalman filter measurement type.</typeparam>
-        /// <param name="kalmanFilters">Kalman filters.</param>
-        /// <param name="removeSelector">
-        /// Remove function selector.
-        /// Parameters: Kalman filter index to be removed, filter entropy.
-        /// Returns: true if the filter needs to be removed, false otherwise.
-        /// </param>
-        /// <returns>True if a filter or filters are removed, false otherwise.</returns>
-        public static bool RemoveFilters<TFilter, TState, TMeasurement>(this List<TFilter> kalmanFilters,
-                                                                        Func<int, double, bool> removeSelector)
-           where TFilter : KalmanFilter<TState, TMeasurement>
-        {
-            var entropies = new List<double>();
-
-            foreach (var kf in kalmanFilters)
-            {
-                var entropy = kf.CalculateEntropy();
-                entropies.Add(entropy);
-            }
-
-            return removeFilters(kalmanFilters, entropies, removeSelector);
-        }
-
-        /// <summary>
-        /// Removes filters if an filter entropy is too big. 
-        /// </summary>
-        /// <typeparam name="TFilter">Filter type.</typeparam>
-        /// <typeparam name="TState">Kalman filter state type.</typeparam>
-        /// <typeparam name="TMeasurement">Kalman filter measurement type.</typeparam>
-        /// <param name="kalmanFilters">Kalman filters.</param>
-        /// <param name="filtersEntropies">List of filter entropies. 
-        /// <para>The number of entropies must match the number of filters.</para>
-        /// </param>
-        /// <param name="removeSelector">
-        /// Remove function selector.
-        /// Parameters: Kalman filter index to be removed, filter entropy.
-        /// Returns: true if the filter needs to be removed, false otherwise.
-        /// </param>
-        /// <returns>True if a filter or filters are removed, false otherwise.</returns>
-        public static bool RemoveFilters<TFilter, TState, TMeasurement>(this List<TFilter> kalmanFilters,
-                                                                        IList<double> filtersEntropies,
-                                                                        Func<int, double, bool> removeSelector)
-          where TFilter : KalmanFilter<TState, TMeasurement>
-        {
-            return removeFilters(kalmanFilters, filtersEntropies, removeSelector);
         }
 
         #endregion
