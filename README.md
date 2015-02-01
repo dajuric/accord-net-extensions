@@ -174,7 +174,7 @@ The framework is divided in libraries available through NuGet packages. The libr
    The official way for package installation is the installation over NuGet. Just before you type "Accord.Extensions" or "Accord" (then you need to scroll a bit), please select "Include Pre-release" in the Visual Studio drop-down, due to pre-release version of the framework.
 </p>
 
-<h2>Final word</h2
+<h2>Final word</h2>
 <p align="justify">
    If you like the project please star it in order to help to spread the word. That way you will make the framework more significant and in the same time you will motivate me to improve it, so the benefit would be mutual.
 </p>
