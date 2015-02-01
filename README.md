@@ -176,5 +176,13 @@ The framework is divided in libraries available through NuGet packages. The libr
 
 <h2>Final word</h2>
 <p align="justify">
-   If you like the project please star it in order to help to spread the word. That way you will make the framework more significant and in the same time you will motivate me to improve it, so the benefit would be mutual.
+  <ul>
+    <li>
+     If you like the project please star it in order to help to spread the word. That way you will make the framework more significant and in the same time you will motivate me to improve it, so the benefit would be mutual.
+    </li>
+    
+    <li>
+       If you have any questions, comments or you would like to propose an enhacement please leave the message on Github, or write to: darko.juric2 [at] gmail.com
+    </li>
+  </ul>
 </p>
