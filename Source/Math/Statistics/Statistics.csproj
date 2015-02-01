@@ -53,6 +53,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Filters\Kalman\Base\KalmanFilterExtensions.cs" />
     <Compile Include="Filters\MotionModels\PerspectiveProjection2DModel.cs" />
     <Compile Include="Filters\TrackAssociation\EntropyManagement\EntropyTrackerRemoval.cs" />
     <Compile Include="Filters\TrackAssociation\EntropyManagement\IEntropyTrack.cs" />
