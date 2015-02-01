@@ -178,7 +178,7 @@ The framework is divided in libraries available through NuGet packages. The libr
 <p align="justify">
   <ul>
     <li>
-     If you like the project please star it in order to help to spread the word. That way you will make the framework more significant and in the same time you will motivate me to improve it, so the benefit would be mutual.
+     If you like the project please star it in order to help to spread the word. That way you will make the framework more significant and in the same time you will motivate me to improve it, so the benefit is mutual.
     </li>
     
     <li>
