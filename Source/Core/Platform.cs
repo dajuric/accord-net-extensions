@@ -120,7 +120,27 @@ namespace Accord.Extensions
         }
 
         /// <summary>
-        /// Adds the default directory to unmanaged library search path for functions that load unmanaged library. 
+        /// Gets a default unmanaged library search directory.
+        /// The default directory is platform specific:
+        /// <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
+        /// <para>  MacOS: /UnmanagedLibraries/MacOS/</para>
+        /// <para>  Linux: /UnmanagedLibraries/Linux/</para>
+        /// </summary>
+        /// <param name="rootDirectory">Root directory which marks the starting point (e.g. executing assembly directory).</param>
+        /// <returns>Default unmanaged library search directory.</returns>
+        public static string GetDefaultDllSearchPath(string rootDirectory)
+        {
+            var baseDirectory = Path.Combine(rootDirectory, "UnmanagedLibraries");
+            var loadDirectory = Path.Combine(baseDirectory, Platform.RunningPlatform.ToString());
+
+            if (Platform.RunningPlatform == Platform.OperatingSystem.Windows)
+                loadDirectory = Path.Combine(loadDirectory, Environment.Is64BitProcess ? "x64" : "x86");
+
+            return loadDirectory;
+        }
+
+        /// <summary>
+        /// Adds the default directory to unmanaged library search path for functions that load unmanaged library. The root directory is the current directory. 
         /// The default directory is platform specific:
         /// <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
         /// <para>  MacOS: /UnmanagedLibraries/MacOS/</para>
@@ -128,13 +148,8 @@ namespace Accord.Extensions
         /// </summary>
         public static void AddDllSearchPath()
         {
-            var baseDirectory = Path.Combine(Directory.GetCurrentDirectory(), "UnmanagedLibraries");
-            var loadDirectory = Path.Combine(baseDirectory, Platform.RunningPlatform.ToString());
-
-            if (Platform.RunningPlatform == Platform.OperatingSystem.Windows)
-                loadDirectory = Path.Combine(loadDirectory, Environment.Is64BitProcess ? "x64" : "x86");
-
-            AddDllSearchPath(loadDirectory);
+            var dllSearchPathPath = GetDefaultDllSearchPath(Directory.GetCurrentDirectory());
+            AddDllSearchPath(dllSearchPathPath);
         }
 
 
