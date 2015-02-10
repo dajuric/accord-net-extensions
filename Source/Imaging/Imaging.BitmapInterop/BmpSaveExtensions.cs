@@ -85,7 +85,7 @@ namespace Accord.Extensions.Imaging
 
         private static ImageCodecInfo getEncoder(ImageFormat format)
         {
-            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
 
             foreach (ImageCodecInfo codec in codecs)
             {
