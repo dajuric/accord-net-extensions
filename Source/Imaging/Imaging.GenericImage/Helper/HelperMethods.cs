@@ -24,6 +24,7 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace Accord.Extensions.Imaging
 {
@@ -129,7 +130,7 @@ namespace Accord.Extensions.Imaging
         private static Func<IImage> getGenericImageConstructor(Type objectType, ColorInfo colorInfo)
         {
             var genericClassType = objectType.MakeGenericType(colorInfo.ColorType, colorInfo.ChannelType);
-            var ctor = genericClassType.GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, System.Type.EmptyTypes, null);
+            var ctor = genericClassType.GetTypeInfo().DeclaredConstructors.Single(c => !c.IsStatic && c.GetParameters().Length == 0);
             var ctorInvoker = Expression.Lambda<Func<IImage>>(Expression.New(ctor)).Compile();
 
             return ctorInvoker;

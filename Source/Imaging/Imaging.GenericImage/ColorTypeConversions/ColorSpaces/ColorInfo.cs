@@ -109,7 +109,7 @@ namespace Accord.Extensions.Imaging
 
         private static ColorInfo getInfo(Type colorType)
         {
-            var channelTypes = colorType.GetFields().Select(x => x.FieldType).ToArray();
+            var channelTypes = colorType.GetTypeInfo().DeclaredFields.Select(x => x.FieldType).ToArray();
             return getInfo(colorType, channelTypes.FirstOrDefault());
         }
 
@@ -120,7 +120,7 @@ namespace Accord.Extensions.Imaging
             ColorInfo ci = new ColorInfo();
             ci.ColorType = colorType;
 
-            var attribVal = Attribute.GetCustomAttribute(colorType, typeof(ColorInfoAttribute)) as ColorInfoAttribute;
+            var attribVal = colorType.GetTypeInfo().GetCustomAttribute<ColorInfoAttribute>();
             ci.ConversionCodename = (attribVal != null) ? attribVal.ConversionCodename : new ColorInfoAttribute().ConversionCodename;
             ci.IsGenericColorSpace = (attribVal != null) ? attribVal.IsGenericColorSpace : new ColorInfoAttribute().IsGenericColorSpace;
 
@@ -137,7 +137,7 @@ namespace Accord.Extensions.Imaging
         private static void getChannelInfo(Type colorType, Type depthType, out int numberOfChannels)
         {
             numberOfChannels = 0;
-
+     
             var channelTypes = colorType
                                .GetFields(BindingFlags.Public | ~BindingFlags.Static)
                                .Select(x => x.FieldType)
@@ -151,10 +151,10 @@ namespace Accord.Extensions.Imaging
             if (channelTypes.Length == 0)
                 throw new Exception("Color structure must have at least one public field!");
 
-            if (!depthType.IsValueType)
+            if (!depthType.GetTypeInfo().IsValueType)
                 throw new Exception("Channel type must be a value type!");
 
-            if (!depthType.IsPrimitive)
+            if (!depthType.GetTypeInfo().IsPrimitive)
                 throw new Exception("Channel type must be a primitive type!");
 
             numberOfChannels = channelTypes.Length;

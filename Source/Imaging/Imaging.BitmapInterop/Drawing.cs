@@ -399,7 +399,7 @@ namespace Accord.Extensions.Imaging
             textColor = textColor.Equals(default(Bgr)) ? Color.Black.ToBgr() : color;
             font = font ?? new Font("Arial", 8, System.Drawing.FontStyle.Bold);
 
-            var nLines = text.Where(x => x.Equals('\n')).Count() + 1;
+            var nLines = text.ToCharArray().Where(x => x.Equals('\n')).Count() + 1;
             var annotationHeight = (int)(3 + (font.SizeInPoints + 3) * nLines + 3);
             var xOffset = (annotationWidth - rect.Width) / 2;
             var annotationRect = new Rectangle(rect.X - xOffset, rect.Y - annotationHeight, annotationWidth, annotationHeight);

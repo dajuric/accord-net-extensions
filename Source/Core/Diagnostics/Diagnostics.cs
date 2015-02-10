@@ -80,7 +80,7 @@ namespace Accord.Extensions
         {
             TextWriter console;
             public CombinedWriter(string path, bool append, TextWriter consoleout)
-                : base(path, append)
+                : base(File.Open(path, append ? FileMode.Append : FileMode.OpenOrCreate, FileAccess.Write))
             {
                 this.console = consoleout;
                 base.AutoFlush = true;

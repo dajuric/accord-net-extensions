@@ -140,7 +140,7 @@ namespace Accord.Extensions.Imaging
         /// </summary>
         public void Dispose()
         {
-            if (histogramHandle != null && histogramHandle.IsAllocated)
+            if (histogramHandle.IsAllocated)
             {
                 histogramHandle.Free();
                 histPtr = null;

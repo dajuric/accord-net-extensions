@@ -83,10 +83,10 @@ namespace Accord.Extensions.Imaging
                                                               lock(locations)
                                                               lock (_values)
                                                               {
-                                                                  locationsPatch.ForEach(x => 
-                                                                  { 
+                                                                  foreach (var x in locationsPatch)
+                                                                  {
                                                                       locations.Add(x + area.Location);
-                                                                  });
+                                                                  }
 
                                                                   _values.AddRange(valuesPatch  as IList<TDepth>);
                                                               }

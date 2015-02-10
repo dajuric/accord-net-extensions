@@ -126,12 +126,12 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
             settings.NewLineHandling = NewLineHandling.Replace;
             settings.CloseOutput = true;
 
-            XmlWriter xmlWriter = XmlWriter.Create(new StreamWriter(fileName, false), settings);
+            XmlWriter xmlWriter = XmlWriter.Create(new StreamWriter(File.Create(fileName)), settings);
 
             SerializeTemplatePyramidClass(cluster).Save(xmlWriter);
 
             xmlWriter.Flush();
-            xmlWriter.Close();
+            xmlWriter.Dispose();
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
         /// <returns>The collection of template pyramids.</returns>
         public static IEnumerable<TTemplatePyramid> Load(string fileName)
         { 
-            XDocument xDoc = XDocument.Load(new StreamReader(fileName));
+            XDocument xDoc = XDocument.Load(new StreamReader(File.OpenRead(fileName)));
 
             IEnumerable<XElement> templatePyrClusters = from pyrCluster in xDoc.Descendants()
                                                         where pyrCluster.Name == "TemplatePyramidClass"

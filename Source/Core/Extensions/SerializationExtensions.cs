@@ -56,7 +56,8 @@ namespace Accord.Extensions
                         ns.Add("", "");
 
                     xmlSerializer.Serialize(streamWriter, obj, ns);
-                    return XElement.Parse(Encoding.ASCII.GetString(memoryStream.ToArray()));
+                    var bytes = memoryStream.ToArray();
+                    return XElement.Parse(Encoding.UTF8.GetString(bytes, 0, bytes.Length));
                 }
             }
         }
@@ -69,7 +70,7 @@ namespace Accord.Extensions
         /// <returns>De-serialized object.</returns>
         public static T FromXElement<T>(this XElement xElement)
         {
-            using (var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(xElement.ToString())))
+            using (var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(xElement.ToString())))
             { 
                 var xmlSerializer = new XmlSerializer(typeof(T));
                 return (T)xmlSerializer.Deserialize(memoryStream);

@@ -79,7 +79,7 @@ namespace Accord.Extensions
         /// </summary>
         public void Dispose()
         {
-            if (handle != null && handle.IsAllocated) //this function is called for the first time
+            if (handle.IsAllocated) //this function is called for the first time
             {
                 handle.Free();
                 this.Array = null;
