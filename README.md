@@ -186,3 +186,6 @@ The framework is divided in libraries available through NuGet packages. The libr
     </li>
   </ul>
 </p>
+
+
+[![Join the chat at https://gitter.im/dajuric/accord-net-extensions](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dajuric/accord-net-extensions?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
