@@ -98,5 +98,57 @@ namespace Accord.Extensions.Math.Geometry
         {
             return graph.Remove(edge.Source, edge.Destination);
         }
+
+        /* //TODO: NEEDS testing
+          public static IEnumerable<TVertex> Sinks<TVertex, TEdge>(this IDictionary<Pair<TVertex>, TEdge> graph)
+            where TEdge : Edge<TVertex>
+        {
+            var vertices = graph.GetVertices();
+
+            foreach (var vertex in vertices)
+            {
+                if (graph.OutgoingEdges(vertex).Any() == false)
+                    yield return vertex;
+            }
+        }
+
+        public static IEnumerable<TVertex> Sources<TVertex, TEdge>(this IDictionary<Pair<TVertex>, TEdge> graph)
+            where TEdge : Edge<TVertex>
+        {
+            var vertices = graph.GetVertices();
+
+            foreach (var vertex in vertices)
+            {
+                if (graph.IncomingEdges(vertex).Any() == false)
+                    yield return vertex;
+            }
+        }
+
+        public static IEnumerable<TEdge> IncomingEdges<TVertex, TEdge>(this IDictionary<Pair<TVertex>, TEdge> graph, TVertex vertex)
+         where TEdge : Edge<TVertex>
+        {
+            var vertices = graph.GetVertices();
+            foreach (var v in vertices)
+            {
+                if (graph.ContainsKey(v, vertex)) //are connected
+                {
+                    yield return graph.Get(v, vertex);
+                }
+            }
+        }
+
+        public static IEnumerable<TEdge> OutgoingEdges<TVertex, TEdge>(this IDictionary<Pair<TVertex>, TEdge> graph, TVertex vertex)
+           where TEdge : Edge<TVertex>
+        {
+            var vertices = graph.GetVertices();
+            foreach (var v in vertices)
+            {
+                if (graph.ContainsKey(vertex, v)) //are connected
+                {
+                    yield return graph.Get(vertex, v);
+                }
+            }
+        }
+         */
     }
 }
