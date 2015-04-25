@@ -190,3 +190,7 @@ The framework is divided in libraries available through NuGet packages. The libr
     </li>
   </ul>
 </p>
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dajuric/accord-net-extensions/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
