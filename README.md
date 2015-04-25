@@ -32,6 +32,7 @@
   <tr>
     <td><a href="https://gitter.im/dajuric/accord-net-extensions?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge" title="Join the chat at https://gitter.im/dajuric/accord-net-extensions"><img src="https://badges.gitter.im/Join%20Chat.svg" alt=""/></a></td>
     </td>
+    <td><a href="https://bitdeli.com/free" title="Bitdeli Badge"> <img src="https://d2weczhvl823v0.cloudfront.net/dajuric/accord-net-extensions/trend.png" alt=""/></a>
   </tr>
 </table>
 
