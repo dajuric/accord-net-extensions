@@ -3,7 +3,7 @@ namespace Accord.Extensions.Statistics.Filters
 {
     /// <summary>
     /// Interface for a track which removal wants to be handled by entropy threshold.
-    /// <para>See <see cref="Accord.Extensions.Statistics.Filters.EntropyTrackRemoval"/> class.</para>
+    /// <para>See <see cref="Accord.Extensions.Statistics.Filters.EntropyTrackerRemoval"/> class.</para>
     /// </summary>
     public interface IEntropyTrack
     {
@@ -21,7 +21,7 @@ namespace Accord.Extensions.Statistics.Filters
 
     /// <summary>
     /// Interface for a track which removal wants to be handled by entropy threshold.
-    /// <para>See <see cref="Accord.Extensions.Statistics.Filters.EntropyTrackRemoval"/> class.</para>
+    /// <para>See <see cref="Accord.Extensions.Statistics.Filters.EntropyTrackerRemoval"/> class.</para>
     /// </summary>
     public interface IEntropyTrack<TTracker> : IEntropyTrack
     {

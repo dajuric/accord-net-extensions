@@ -100,16 +100,15 @@ namespace Accord.Extensions.Math.Geometry
         /// <summary>
         /// Gets vertices.
         /// </summary>
-        /// <param name="useScreenCoordinateSystem">During vertex rotation whether to use standard Cartesian space or screen coordinate space (y-inverted).</param>
         /// <returns>Vertices.</returns>
-        public PointF[] GetVertices(bool useScreenCoordinateSystem = false)
+        public PointF[] GetVertices()
         {
             PointF center = this.Center;
             float angleRad = (float)Accord.Extensions.Math.Geometry.Angle.ToRadians(this.Angle);
           
             PointF[] nonRotatedVertices = getNonRotatedVertices();
             PointF[] rotatedVertices = nonRotatedVertices.Select(x=> new PointF(x.X - center.X, x.Y - center.Y)) //translate to (0,0)
-                                                         .Select(x => x.Rotate(angleRad, useScreenCoordinateSystem)) //rotate
+                                                         .Select(x => x.Rotate(angleRad)) //rotate
                                                          .Select(x => new PointF(x.X + center.X, x.Y + center.Y)) //translate back
                                                          .ToArray();
 

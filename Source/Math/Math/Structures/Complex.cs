@@ -27,9 +27,8 @@ namespace Accord.Extensions.Math
     /// <summary>
     /// Represents complex number.
     /// </summary>
-    [ColorInfo(ConversionCodename = "Complex")]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Complex : IColor
+    public struct Complex 
     {
         /// <summary>
         /// Real part of the complex number.
@@ -47,7 +46,7 @@ namespace Accord.Extensions.Math
         /// <param name="re">Real part.</param>
         /// <param name="im">Imaginary part.</param>
         public Complex(double re, double im)
-        {
+        { 
             this.Re = re;
             this.Im = im;
         }

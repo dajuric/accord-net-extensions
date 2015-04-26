@@ -69,12 +69,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BranchAndBoundAssigmentTest.cs" />
+    <Compile Include="Tests\BranchAndBoundAssigmentTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.LKFlow.cs" />
-    <Compile Include="Test.RunningVariance.cs" />
-    <Compile Include="Test.Temp.cs" />
+    <Compile Include="Tests\PyrLKFlowTest.cs" />
+    <Compile Include="Tests\RunningVarianceTest.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -99,30 +98,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\LKFlow\1.bmp" />
-    <Content Include="Resources\LKFlow\2.bmp" />
     <Content Include="Resources\testColorBig.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Source\Core\Core.csproj">
-      <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
-      <Name>Core</Name>
+    <ProjectReference Include="..\Source\ImageProcessing\FastTemplateMatching\Imaging.Algorithms.LINE2D.csproj">
+      <Project>{5f6b97f8-7ea6-4b5d-9a5d-f5581505c303}</Project>
+      <Name>Imaging.Algorithms.LINE2D</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Source\Imaging\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj">
-      <Project>{f4e40964-c640-4c87-9e3e-a1f1266fbc73}</Project>
-      <Name>Imaging.AForgeInterop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Source\Imaging\Imaging.Algorithms\Imaging.Algorithms.csproj">
+    <ProjectReference Include="..\Source\ImageProcessing\Imaging.Algorithms\Imaging.Algorithms.csproj">
       <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
       <Name>Imaging.Algorithms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Source\Imaging\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj">
-      <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
-      <Name>Imaging.BitmapInterop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj">
-      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
-      <Name>Imaging.GenericImage</Name>
+    <ProjectReference Include="..\Source\ImageProcessing\Vision\Vision.csproj">
+      <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
+      <Name>Vision</Name>
     </ProjectReference>
     <ProjectReference Include="..\Source\Math\Math\Math.csproj">
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
@@ -132,9 +121,29 @@
       <Project>{d10c7255-8bab-452f-af0f-4cec06f92a26}</Project>
       <Name>Statistics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Source\Vision\Vision\Vision.csproj">
-      <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
-      <Name>Vision</Name>
+    <ProjectReference Include="..\Source\Support\Core\Core.csproj">
+      <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Source\Support\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj">
+      <Project>{f4e40964-c640-4c87-9e3e-a1f1266fbc73}</Project>
+      <Name>Imaging.AForgeInterop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Source\Support\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj">
+      <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
+      <Name>Imaging.BitmapInterop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Source\Support\Imaging.Drawing\Imaging.Drawing.csproj">
+      <Project>{00a17086-903d-4047-bfb2-c7b4aa110b97}</Project>
+      <Name>Imaging.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Source\Support\Imaging.GenericImage\Imaging.GenericImage.csproj">
+      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
+      <Name>Imaging.GenericImage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Source\Support\Imaging.IO\Imaging.IO.csproj">
+      <Project>{ed70a44e-9443-4a28-9b95-31299f8b2d08}</Project>
+      <Name>Imaging.IO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

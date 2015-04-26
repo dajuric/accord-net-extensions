@@ -20,7 +20,7 @@
 //
 #endregion
 
-using Accord.Extensions.Vision;
+using Accord.Extensions.Imaging;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -73,7 +73,7 @@ namespace ObjectAnnotator
                 {
                     capture.Seek(i, SeekOrigin.Begin);
                     var imgName = (capture as ImageDirectoryReader).CurrentImageName;
-                    var img = capture.Read();
+                    var img = capture.Read(); 
 
                     var labelCounter = new Dictionary<string, int>();
                     foreach (var annotation in database[imgKey])
@@ -98,7 +98,8 @@ namespace ObjectAnnotator
 
                         var sampleImg = img.GetSubRect(annotation.BoundingRectangle);
                                             //sampleImg = (sampleImg as Image<Bgr, byte>).SmoothGaussian(5);
-                        sampleImg.ToBitmap().Save(samplePath, quality: 95);
+
+                        ImageIO.TrySave(sampleImg, samplePath);
                     }
                 }
             }

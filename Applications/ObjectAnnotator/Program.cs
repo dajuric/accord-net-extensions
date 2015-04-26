@@ -24,7 +24,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using Accord.Extensions.Imaging;
-using Accord.Extensions.Vision;
+using Accord.Extensions.Imaging;
 using Point = AForge.IntPoint;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 using System.Collections.ObjectModel;

@@ -16,9 +16,9 @@ namespace Accord.Extensions.Statistics.Filters
         /// <param name="tracks">Collection of tracks.</param>
         /// <param name="calculateEntropy">Function for the track entropy calculation.</param>
         /// <param name="minEntropyDecrease">Minimal entropy decrease to mark a track as non-tentative.</param>
-        /// <param name="maxEntropyIncrese">Maximal entropy increase to remove a track.</param>
+        /// <param name="maxEntropyIncrease">Maximal entropy increase to remove a track.</param>
         /// <returns>True if at least one track is removed, false otherwise.</returns>
-        public static bool Remove<TTrack>(this List<TTrack> tracks, Func<TTrack, double> calculateEntropy, double minEntropyDecrease = 0.15, double maxEntropyIncrese = 0.15)
+        public static bool Remove<TTrack>(this List<TTrack> tracks, Func<TTrack, double> calculateEntropy, double minEntropyDecrease = 0.15, double maxEntropyIncrease = 0.15)
             where TTrack: class, IEntropyTrack
         {
             var tracksToRemove = new List<TTrack>();
@@ -40,7 +40,7 @@ namespace Accord.Extensions.Statistics.Filters
                     track.IsTentative = false;
                 }
 
-                if (entropy >= (initialEntropy + System.Math.Abs((double)initialEntropy) * maxEntropyIncrese))
+                if (entropy >= (initialEntropy + System.Math.Abs((double)initialEntropy) * maxEntropyIncrease))
                 {
                     tracksToRemove.Add(track);
                 }
@@ -60,15 +60,15 @@ namespace Accord.Extensions.Statistics.Filters
         /// <typeparam name="TMeasurement">Kalman measurement type.</typeparam>
         /// <param name="tracks">Collection of tracks.</param>
         /// <param name="minEntropyDecrease">Minimal entropy decrease to mark a track as non-tentative.</param>
-        /// <param name="maxEntropyIncrese">Maximal entropy increase to remove a track.</param>
+        /// <param name="maxEntropyIncrease">Maximal entropy increase to remove a track.</param>
         /// <returns>True if at least one track is removed, false otherwise.</returns>
-        public static bool Remove<TTrack, TKalman, TState, TMeasurement>(this List<TTrack> tracks, double minEntropyDecrease = 0.15, double maxEntropyIncrese = 0.15)
+        public static bool Remove<TTrack, TKalman, TState, TMeasurement>(this List<TTrack> tracks, double minEntropyDecrease = 0.15, double maxEntropyIncrease = 0.15)
             where TTrack : class, IEntropyTrack<TKalman>
             where TKalman: KalmanFilter<TState, TMeasurement>
         {
             return Remove<TTrack>(tracks, 
                                  (track) => track.Tracker.CalculateEntropy(), 
-                                 minEntropyDecrease, maxEntropyIncrese);
+                                 minEntropyDecrease, maxEntropyIncrease);
         }
 
         /// <summary>
@@ -81,9 +81,9 @@ namespace Accord.Extensions.Statistics.Filters
         /// <param name="tracks">Collection of tracks.</param>
         /// <param name="stateConverter">Particle state converter.</param>
         /// <param name="minEntropyDecrease">Minimal entropy decrease to mark a track as non-tentative.</param>
-        /// <param name="maxEntropyIncrese">Maximal entropy increase to remove a track.</param>
+        /// <param name="maxEntropyIncrease">Maximal entropy increase to remove a track.</param>
         /// <returns>True if at least one track is removed, false otherwise.</returns>
-        public static bool Remove<TTrack, TParticleFilter, TParticle>(this List<TTrack> tracks, Func<TParticle, double[]> stateConverter, double minEntropyDecrease = 0.15, double maxEntropyIncrese = 0.15)
+        public static bool Remove<TTrack, TParticleFilter, TParticle>(this List<TTrack> tracks, Func<TParticle, double[]> stateConverter, double minEntropyDecrease = 0.15, double maxEntropyIncrease = 0.15)
             where TTrack: class, IEntropyTrack<TParticleFilter>
             where TParticleFilter: IEnumerable<TParticle>
             where TParticle: class, IParticle
@@ -100,7 +100,7 @@ namespace Accord.Extensions.Statistics.Filters
 
                                      return entropy;
                                  },
-                                 minEntropyDecrease, maxEntropyIncrese);
+                                 minEntropyDecrease, maxEntropyIncrease);
         }
     }
 }

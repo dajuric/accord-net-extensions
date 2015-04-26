@@ -177,7 +177,6 @@ namespace Accord.Extensions.Math.Geometry //TODO: update Vector2D class accordin
             return new Vector2D(direction.X, direction.Y);
         }
 
-        //TODO: this code belongs to point structure
         #region Add point functions 
 
         /// <summary>

@@ -16,78 +16,6 @@
 		</introduction>
 
     <section>
-        <title>Support libraries</title>
-        <content>
-
-          <list class="bullet">
-            <listItem>
-              <para>Accord.Extensions.Core</para>
-              <para>
-                The core of the Accord.NET Extensions Framework.
-                Contains classes needed for other libraries such as: collections, structures, structures for parallel processing and extensions shared across libraries.
-              </para>
-            </listItem>
-
-            <listItem>
-              <para>Accord.Extensions.Imaging.GenericImage</para>
-              <para>
-                Implements slim generic image class and basic extensions (arithmetics). Provides multiple color spaces and conversions
-                between them. The class can be used in non-generic way for developers who prefer AForge's UnmanagedImage style.
-                To get compatibility for other image types install appropriate extension - NuGet package (e.g. Imaging.BitmapInterop).
-              </para>
-            </listItem>
-            
-            <listItem>
-              <para>Accord.Extensions.Imaging.AForgeInterop</para>
-              <para>
-                Provides extensions for easy interoperability between generic image and AForge UnmanagedImage.
-              </para>
-            </listItem>
-
-            <listItem>
-              <para>Accord.Extensions.Imaging.BitmapInterop</para>
-              <para>
-                Provides extensions for interoperability with System.Drawing.Bitmap, Point, PointF, Color and drawing extensions.
-              </para>
-            </listItem>
-
-            <listItem>
-              <para>Accord.Extensions.Vision.IO</para>
-              <para>
-                Provides unified API for IO video access: web-camera support, various video-format reading / writing, image-directory reader.
-                All operations are stream-like and are abstracted therefore do not depend on actual video source.
-                The library is made in platform-abstract fashion.
-              </para>
-            </listItem>
-          </list>
-        </content>
-      </section>
-
-    <section>
-        <title>Math libraries</title>
-        <content>
-
-          <list class="bullet">
-            <listItem>
-              <para>Accord.Extensions.Math</para>
-              <para>
-                Provides extensions for the 2D array, graphs, contour, point transformations.
-                Implements parallel FFT transform. Implements group matching.
-              </para>
-            </listItem>
-
-            <listItem>
-              <para>Accord.Extensions.Statistics</para>
-              <para>
-                Provides classes and extensions for the following filters: Kalman, Particle filter, JPDAF - Joint Probability Data Association Filter.
-                Includes 2D motion models.
-              </para>
-            </listItem>
-          </list>
-        </content>
-      </section>
-
-    <section>
       <title>Image processing</title>
       <content>
 
@@ -117,7 +45,85 @@
         </list>
       </content>
     </section>
+    
+    <section>
+        <title>Math libraries</title>
+        <content>
 
+          <list class="bullet">
+            <listItem>
+              <para>Accord.Extensions.Math</para>
+              <para>
+                Provides extensions for the 2D array, graphs, contour, point transformations.
+                Implements parallel FFT transform. Implements group matching.
+              </para>
+            </listItem>
+
+            <listItem>
+              <para>Accord.Extensions.Statistics</para>
+              <para>
+                Provides classes and extensions for the following filters: Kalman, Particle filter, JPDAF - Joint Probability Data Association Filter.
+                Includes 2D motion models.
+              </para>
+            </listItem>
+          </list>
+        </content>
+      </section>
+
+    <section>
+      <title>Support libraries</title>
+      <content>
+
+        <list class="bullet">
+          <listItem>
+            <para>Accord.Extensions.Core</para>
+            <para>
+              The core of the Accord.NET Extensions Framework.
+              Contains classes needed for other libraries such as: collections, structures, structures for parallel processing and extensions shared across libraries.
+            </para>
+          </listItem>
+
+          <listItem>
+            <para>Accord.Extensions.Imaging.GenericImage</para>
+            <para>
+              Provides .NET native array imaging extensions. Implements slim generic image class for fast and unmanaged pixel access. 
+              To get compatibility for other image types install appropriate extension - NuGet package (e.g. Imaging.BitmapInterop).
+            </para>
+          </listItem>
+
+          <listItem>
+            <para>Accord.Extensions.Imaging.Drawing</para>
+            <para>
+              Provides platform independent drawing extensions which operate on native .NET arrays.
+            </para>
+          </listItem>
+          
+          <listItem>
+            <para>Accord.Extensions.Imaging.AForgeInterop</para>
+            <para>
+              Provides extensions for easy interoperability between generic image and AForge UnmanagedImage.
+            </para>
+          </listItem>
+
+          <listItem>
+            <para>Accord.Extensions.Imaging.BitmapInterop</para>
+            <para>
+              Provides extensions for interoperability with System.Drawing.Bitmap, Point, PointF, Color and drawing extensions.
+            </para>
+          </listItem>
+
+          <listItem>
+            <para>Accord.Extensions.Imaging.IO</para>
+            <para>
+              Provides unified API for IO video access: web-camera support, various video-format reading / writing, image-directory reader and functions for image reading and writing.
+              All operations on image streams are standard stream operations and do not depend on actual video source.
+              The library is made in platform-abstract fashion.
+            </para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+    
     <relatedTopics>
 		</relatedTopics>
 	</developerConceptualDocument>

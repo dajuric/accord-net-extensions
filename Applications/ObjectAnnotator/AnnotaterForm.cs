@@ -23,7 +23,7 @@
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Vision;
+using Accord.Extensions.Imaging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -70,7 +70,7 @@ namespace ObjectAnnotator
             this.txtAnnotationLabel.Text = element.Annotation.Label;
         }
 
-        Image<Bgr, byte> frame = null;
+        Bgr<byte>[,] frame = null;
 
         #region Commands
 
@@ -81,7 +81,7 @@ namespace ObjectAnnotator
 
             drawingManager.Clear();
 
-            frame = capture.ReadAs<Bgr, byte>(); //the order is relevant (position is automatically increased)
+            capture.ReadTo(ref frame); //the order is relevant (position is automatically increased)
             var imageKey = getCurrentImageKey();
 
             if (Database.ContainsKey(imageKey))

@@ -24,7 +24,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using Accord.Extensions;
-using Accord.Extensions.Vision;
+using Accord.Extensions.Imaging;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
 
 namespace ObjectAnnotator

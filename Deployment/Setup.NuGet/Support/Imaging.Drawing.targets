@@ -1,0 +1,24 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target Name="CopyNativeReferences_OpenCV">
+    
+    <!--x86-->
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\native\UnmanagedLibraries\Windows\x86\opencv_core248.dll" 
+          DestinationFolder="$(OutDir)\UnmanagedLibraries\Windows\x86\" 
+          SkipUnchangedFiles="true" />
+
+    <!--x64-->
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\native\UnmanagedLibraries\Windows\x64\opencv_core248.dll"
+          DestinationFolder="$(OutDir)\UnmanagedLibraries\Windows\x64\"
+          SkipUnchangedFiles="true" />
+  </Target>
+
+  <PropertyGroup>
+    <AfterBuildDependsOn>
+      $(AfterBuildDependsOn);
+      CopyNativeReferences_OpenCV;
+    </AfterBuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)"/>
+</Project>

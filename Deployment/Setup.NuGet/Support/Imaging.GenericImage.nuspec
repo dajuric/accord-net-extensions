@@ -1,0 +1,34 @@
+﻿<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Extensions.Imaging.GenericImage</id>
+    <version>$version$</version>
+    <title>Accord.Extensions.Imaging.GenericImage</title>
+    <authors>Accord.NET Extensions</authors>
+    <owners>Accord.NET Extensions</owners>
+    <licenseUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Licence.txt</licenseUrl>
+    <projectUrl>https://github.com/dajuric/accord-net-extensions</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Logo/logo-small.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Provides .NET native array imaging extensions. Color-spaces and channel depth conversion is included.
+      Implements slim generic image class when fast pixel manipulation is needed.
+      To get compatibility for other image types install appropriate extension - NuGet package (e.g. Imaging.BitmapInterop).
+    </description>
+    <summary>.NET image array extensions. Color and depth conversions. Slim unmanaged structure for fast pixel manipulation.</summary>
+    <tags>accord.net framework extensions imaging generic-image color-spaces</tags>
+
+    <dependencies>
+      <dependency id="AForge"                                          version="2.2.5" />
+      
+      <dependency id="Accord.Extensions.Core"                          version="$version$" />
+      <dependency id="Accord.Extensions.Math"                          version="$version$" />
+    </dependencies>
+  </metadata>
+  
+  <files>
+    <file src="..\..\..\bin\Release\Accord.Extensions.Imaging.GenericImage.dll" target="lib\net45\Accord.Extensions.Imaging.GenericImage.dll" />
+    <file src="..\..\..\bin\Release\Accord.Extensions.Imaging.GenericImage.xml" target="lib\net45\Accord.Extensions.Imaging.GenericImage.xml" />
+  </files>
+</package>

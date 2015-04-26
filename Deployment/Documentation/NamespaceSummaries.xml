@@ -36,14 +36,6 @@
       </summary>
     </member>
 
-    <!--Imaging.GenericImage-->
-    <member name="N:Accord.Extensions.Imaging.Converters">
-      <summary>
-        Contains several classes related to image color and depth conversions. Those classes enable a user to define its own color and depth types and appropriate conversions.
-        The non-direct conversions are automatically resolved (graph traversal).
-      </summary>
-    </member>
-
     <!--Imaging.Algorithms-->
     <member name="N:Accord.Extensions.Imaging.Filters">
       <summary>
@@ -103,9 +95,7 @@
     <!--Vision.IO-->
     <member name="N:Accord.Extensions.Vision">
       <summary>
-        The namespace is shared across two packages. 
-        The root package implements vision algorithms. 
-        The second one provides IO interoperability (camera support, video capture, image directory reading).
+        The package implements vision algorithms: meanshift, Camshift, KLT Optical flow.
       </summary>
     </member>
     

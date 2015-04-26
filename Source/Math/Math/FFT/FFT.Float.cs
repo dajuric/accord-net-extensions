@@ -135,8 +135,6 @@ namespace Accord.Extensions.Math
         /// 
         public unsafe static void FFT2(ComplexF* data, int width, int height, int stride, Direction direction)
         {
-            const int MIN_PATCH_SIZE = 32; //how much rows/columns should one thread process
-
             int k = height;
             int n = width;
 
@@ -152,65 +150,45 @@ namespace Accord.Extensions.Math
             }
 
             // process rows
-            var procRow = new ParallelProcessor<bool, bool>(new Size(1 /*does not matter*/, height),
-                                                            () => true,
-                                                            (_, __, area) =>
-                                                            {
-                                                                ComplexF* dataPatchPtr = data + area.Y * stride / sizeof(ComplexF); //get row
+            ComplexF* dataPtr = data; //get row
 
-                                                                for (int i = 0; i < area.Height; i++)
-                                                                {
-                                                                    // transform it
-                                                                    FourierTransform.FFT(dataPatchPtr, n, direction);
+            for (int i = 0; i < height; i++)
+            {
+                // transform it
+                FourierTransform.FFT(dataPtr, n, direction);
 
-                                                                    dataPatchPtr += stride / sizeof(ComplexF);
-                                                                }
-                                                            },
-                                                            new ParallelOptions2D { ParallelTrigger = (size) => size.Height >= MIN_PATCH_SIZE
-                                                                                  /*,ForceSequential = true*/}
-                                                              );
+                dataPtr += stride / sizeof(ComplexF);
+            }
 
             // process columns
-            //(y and x are swaped => proc thinks it is diving horizontal pacthes but instead we are using them as vertical ones)
-            var procCol = new ParallelProcessor<bool, bool>(new Size(1 /*does not matter*/, width),
-                                                            () => true,
-                                                            (_, __, area) =>
-                                                            {
-                                                                ComplexF* dataPatchPtr = &data[area.Y]; //get column 
+            dataPtr = data; //get column 
 
-                                                                fixed (ComplexF* _col = new ComplexF[k])
-                                                                {
-                                                                    ComplexF* col = _col;
+            fixed (ComplexF* _col = new ComplexF[k])
+            {
+                ComplexF* col = _col;
 
-                                                                    for (int j = 0; j < area.Height; j++)
-                                                                    {
-                                                                        // copy column
-                                                                        ComplexF* dataColPtr = &dataPatchPtr[j];
-                                                                        for (int i = 0; i < k; i++)
-                                                                        {
-                                                                            col[i] = *dataColPtr;
-                                                                            dataColPtr += stride / sizeof(ComplexF);
-                                                                        }
+                for (int j = 0; j < height; j++)
+                {
+                    // copy column
+                    ComplexF* dataColPtr = &dataPtr[j];
+                    for (int i = 0; i < k; i++)
+                    {
+                        col[i] = *dataColPtr;
+                        dataColPtr += stride / sizeof(ComplexF);
+                    }
 
-                                                                        // transform it
-                                                                        FourierTransform.FFT(col, k, direction);
+                    // transform it
+                    FourierTransform.FFT(col, k, direction);
 
-                                                                        // copy back
-                                                                        dataColPtr = &dataPatchPtr[j];
-                                                                        for (int i = 0; i < k; i++)
-                                                                        {
-                                                                            *dataColPtr = col[i];
-                                                                            dataColPtr += stride / sizeof(ComplexF);
-                                                                        }
-                                                                    }
-                                                                }
-                                                            },
-                                                            new ParallelOptions2D { ParallelTrigger = (size) => size.Height >= MIN_PATCH_SIZE
-                                                                                 /*,ForceSequential = true */}
-                                                            );
-
-           procRow.Process(true);
-           procCol.Process(true);         
+                    // copy back
+                    dataColPtr = &dataPtr[j];
+                    for (int i = 0; i < k; i++)
+                    {
+                        *dataColPtr = col[i];
+                        dataColPtr += stride / sizeof(ComplexF);
+                    }
+                }
+            }     
         }
 
         #region Private Region

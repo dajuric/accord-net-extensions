@@ -48,7 +48,6 @@
       <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -80,7 +79,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Core.csproj">
+    <ProjectReference Include="..\..\Support\Core\Core.csproj">
       <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
       <Name>Core</Name>
     </ProjectReference>

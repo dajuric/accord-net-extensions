@@ -1,0 +1,33 @@
+﻿<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Extensions.Math</id>
+    <version>$version$</version>
+    <title>Accord.Extensions.Math</title>
+    <authors>Accord.NET Extensions</authors>
+    <owners>Accord.NET Extensions</owners>
+    <licenseUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Licence.txt</licenseUrl>
+    <projectUrl>https://github.com/dajuric/accord-net-extensions</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Logo/logo-small.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Provides extensions for the 2D array, graphs, contour, point transformations. Implements parallel FFT transform. Implements group matching. 
+    </description>
+    <summary>Accord.NET Extensions Framework math library.</summary>
+    <tags>accord.net framework extensions math geometry</tags>
+
+    <dependencies>
+      <dependency id="AForge"                 version="2.2.5" />
+      <dependency id="AForge.Math"            version="2.2.5" />
+      <dependency id="Accord.Math"            version="2.14" />
+
+      <dependency id="Accord.Extensions.Core" version="$version$" />
+    </dependencies>
+  </metadata>
+  
+  <files>
+    <file src="..\..\..\bin\Release\Accord.Extensions.Math.dll" target="lib\net45\Accord.Extensions.Math.dll" />
+    <file src="..\..\..\bin\Release\Accord.Extensions.Math.xml" target="lib\net45\Accord.Extensions.Math.xml" />
+  </files>
+</package>

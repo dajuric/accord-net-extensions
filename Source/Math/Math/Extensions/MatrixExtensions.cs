@@ -334,6 +334,30 @@ namespace Accord.Extensions.Math
             return associations;
         }
 
+        /// <summary>
+        /// Divides each matrix element with the specified value.
+        /// </summary>
+        /// <param name="matrix">Matrix.</param>
+        /// <param name="value">Denominator.</param>
+        /// <param name="inPlace">True to perform the operation in place, false otherwise.</param>
+        /// <returns>Result matrix.</returns>
+        public static float[,] Divide(this float[,] matrix, float value, bool inPlace = false)
+        {
+            var rowCount = matrix.RowCount();
+            var colCount = matrix.ColumnCount();
+            var dest = inPlace ? matrix : new float[rowCount, colCount];
+
+            for (int r = 0; r < rowCount; r++)
+            {
+                for (int c = 0; c < colCount; c++)
+                {
+                    dest[r, c] = matrix[r, c] / value;
+                }
+            }
+
+            return dest;
+        }
+
         #region Jagged matrix
 
         /// <summary>

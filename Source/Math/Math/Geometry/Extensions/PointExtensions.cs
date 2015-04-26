@@ -175,31 +175,9 @@ namespace Accord.Extensions.Math.Geometry
         /// <param name="p">Point.</param>
         /// <param name="angleRad">Angle in radians.</param>
         /// <returns>Rotated point.</returns>
-        public static PointF Rotate(this PointF p, float angleRad) //TODO - critical: replce with Transformation.Transform func
+        public static PointF Rotate(this PointF p, float angleRad)
         {
-            var a = Rotate(new PointF(p.X, p.Y), angleRad);
-            return new AForge.Point(a.X, a.Y);
-        }
-
-        /// <summary>
-        /// Rotates the point by specified angle in radians.
-        /// </summary>
-        /// <param name="p">Point.</param>
-        /// <param name="angleRad">Angle in radians.</param>
-        /// <param name="useScreenCoordinateSystem">Assume screen coordinate system where vertical coordinate has opposite direction.</param>
-        /// <returns>Rotated point.</returns>
-        public static PointF Rotate(this PointF p, float angleRad, bool useScreenCoordinateSystem = true)
-        {
-            if (useScreenCoordinateSystem)
-                angleRad *= -1;
-
-            double cos = System.Math.Cos(angleRad);
-            double sin = System.Math.Sin(angleRad);
-
-            double rotatedX = p.X * cos - p.Y * sin;
-            double rotatedY = p.X * sin + p.Y * cos;
-
-            return new PointF((float)rotatedX, (float)rotatedY);
+            return p.Transform(Transforms2D.Rotation(angleRad));
         }
 
         /// <summary>

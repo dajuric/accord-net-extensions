@@ -239,6 +239,7 @@ namespace Accord.Extensions.Statistics
             for (int i = 0; i < samples.Count; i++)
             {
                 var variance = UpdateVarianceSumIncremental(ref M2, ref sumWeight, ref mean, samples[i], weights[i]);
+                onCalculated(i, mean, variance);
             }
         }
 
@@ -255,7 +256,7 @@ namespace Accord.Extensions.Statistics
         {
             double   sumWeight = weights.Sum();
             double[] mean = samples.Average(weights);
-            double   M2 = samples.Variance(weights).Sum();
+            double M2 = samples.Variance(weights).Multiply(sumWeight).Sum();
 
             for (int i = 0; i < samples.Count; i++)
             {

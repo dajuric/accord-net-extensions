@@ -48,6 +48,15 @@ namespace Accord.Extensions.Math
             this.Re = re;
             this.Im = im;
         }
+
+        /// <summary>
+        /// Calculates magnitude.
+        /// </summary>
+        /// <returns>Magnitude.</returns>
+        public float Magnitude()
+        {
+            return (float)System.Math.Sqrt(this.Re * this.Re + this.Im * this.Im);
+        }
     }
 
 }

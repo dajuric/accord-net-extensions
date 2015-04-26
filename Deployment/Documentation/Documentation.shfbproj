@@ -29,16 +29,17 @@
     </TransformComponentArguments>
     <DocumentationSources>
       <DocumentationSource sourceFile="NamespaceSummaries.xml" />
-      <DocumentationSource sourceFile="..\..\Source\Core\Core.csproj" />
-      <DocumentationSource sourceFile="..\..\Source\Vision\Vision.IO\Vision.IO.csproj" />
-      <DocumentationSource sourceFile="..\..\Source\Vision\Vision\Vision.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\Support\Core\Core.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\Support\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\Support\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\Support\Imaging.Drawing\Imaging.Drawing.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\Support\Imaging.GenericImage\Imaging.GenericImage.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\Support\Imaging.IO\Imaging.IO.csproj" />
       <DocumentationSource sourceFile="..\..\Source\Math\Math\Math.csproj" />
       <DocumentationSource sourceFile="..\..\Source\Math\Statistics\Statistics.csproj" />
-      <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.GenericImage\Imaging.GenericImage.csproj" />
-      <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.Algorithms\Imaging.Algorithms.csproj" />
-      <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj" />
-      <DocumentationSource sourceFile="..\..\Source\Imaging\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj" />
-      <DocumentationSource sourceFile="..\..\Source\Imaging\FastTemplateMatching\Imaging.Algorithms.LINE2D.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\ImageProcessing\FastTemplateMatching\Imaging.Algorithms.LINE2D.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\ImageProcessing\Imaging.Algorithms\Imaging.Algorithms.csproj" />
+      <DocumentationSource sourceFile="..\..\Source\ImageProcessing\Vision\Vision.csproj" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
@@ -53,7 +54,7 @@
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <RootNamespaceContainer>False</RootNamespaceContainer>
     <PresentationStyle>VS2013</PresentationStyle>
-    <Preliminary>True</Preliminary>
+    <Preliminary>False</Preliminary>
     <NamingMethod>Guid</NamingMethod>
     <HelpTitle>Accord.NET Extensions Framework</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>

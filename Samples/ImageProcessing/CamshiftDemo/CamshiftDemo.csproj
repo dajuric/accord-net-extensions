@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3CA48B2E-13DA-4B1D-9846-C7754D18A33A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Camshift</RootNamespace>
+    <AssemblyName>Camshift</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accord">
+      <HintPath>..\..\..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Imaging, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Accord.Imaging.2.14.0\lib\net40\Accord.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.MachineLearning, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Accord.MachineLearning.2.14.0\lib\net40\Accord.MachineLearning.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math">
+      <HintPath>..\..\..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Accord.Statistics.2.14.0\lib\net40\Accord.Statistics.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CamshiftDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CamshiftDemo.Designer.cs">
+      <DependentUpon>CamshiftDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CamshiftDemo.resx">
+      <DependentUpon>CamshiftDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Source\Support\Core\Core.csproj">
+      <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\ImageProcessing\Imaging.Algorithms\Imaging.Algorithms.csproj">
+      <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
+      <Name>Imaging.Algorithms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Support\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj">
+      <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
+      <Name>Imaging.BitmapInterop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Support\Imaging.GenericImage\Imaging.GenericImage.csproj">
+      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
+      <Name>Imaging.GenericImage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Support\Imaging.Drawing\Imaging.Drawing.csproj">
+      <Project>{00a17086-903d-4047-bfb2-c7b4aa110b97}</Project>
+      <Name>Imaging.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Math\Math\Math.csproj">
+      <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
+      <Name>Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Support\Imaging.IO\Imaging.IO.csproj">
+      <Project>{ed70a44e-9443-4a28-9b95-31299f8b2d08}</Project>
+      <Name>Imaging.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\ImageProcessing\Vision\Vision.csproj">
+      <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
+      <Name>Vision</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\ImageSequence\img-100.jpg" />
+    <Content Include="Resources\ImageSequence\img-101.jpg" />
+    <Content Include="Resources\ImageSequence\img-102.jpg" />
+    <Content Include="Resources\ImageSequence\img-103.jpg" />
+    <Content Include="Resources\ImageSequence\img-104.jpg" />
+    <Content Include="Resources\ImageSequence\img-105.jpg" />
+    <Content Include="Resources\ImageSequence\img-106.jpg" />
+    <Content Include="Resources\ImageSequence\img-107.jpg" />
+    <Content Include="Resources\ImageSequence\img-108.jpg" />
+    <Content Include="Resources\ImageSequence\img-109.jpg" />
+    <Content Include="Resources\ImageSequence\img-110.jpg" />
+    <Content Include="Resources\ImageSequence\img-111.jpg" />
+    <Content Include="Resources\ImageSequence\img-112.jpg" />
+    <Content Include="Resources\ImageSequence\img-113.jpg" />
+    <Content Include="Resources\ImageSequence\img-114.jpg" />
+    <Content Include="Resources\ImageSequence\img-115.jpg" />
+    <Content Include="Resources\ImageSequence\img-116.jpg" />
+    <Content Include="Resources\ImageSequence\img-117.jpg" />
+    <Content Include="Resources\ImageSequence\img-118.jpg" />
+    <Content Include="Resources\ImageSequence\img-119.jpg" />
+    <Content Include="Resources\ImageSequence\img-120.jpg" />
+    <Content Include="Resources\ImageSequence\img-121.jpg" />
+    <Content Include="Resources\ImageSequence\img-122.jpg" />
+    <Content Include="Resources\ImageSequence\img-123.jpg" />
+    <Content Include="Resources\ImageSequence\img-124.jpg" />
+    <Content Include="Resources\ImageSequence\img-125.jpg" />
+    <Content Include="Resources\ImageSequence\img-126.jpg" />
+    <Content Include="Resources\ImageSequence\img-127.jpg" />
+    <Content Include="Resources\ImageSequence\img-128.jpg" />
+    <Content Include="Resources\ImageSequence\img-129.jpg" />
+    <Content Include="Resources\ImageSequence\img-130.jpg" />
+    <Content Include="Resources\ImageSequence\img-131.jpg" />
+    <Content Include="Resources\ImageSequence\img-132.jpg" />
+    <Content Include="Resources\ImageSequence\img-133.jpg" />
+    <Content Include="Resources\ImageSequence\img-134.jpg" />
+    <Content Include="Resources\ImageSequence\img-135.jpg" />
+    <Content Include="Resources\ImageSequence\img-136.jpg" />
+    <Content Include="Resources\ImageSequence\img-137.jpg" />
+    <Content Include="Resources\ImageSequence\img-138.jpg" />
+    <Content Include="Resources\ImageSequence\img-139.jpg" />
+    <Content Include="Resources\ImageSequence\img-140.jpg" />
+    <Content Include="Resources\ImageSequence\img-141.jpg" />
+    <Content Include="Resources\ImageSequence\img-142.jpg" />
+    <Content Include="Resources\ImageSequence\img-143.jpg" />
+    <Content Include="Resources\ImageSequence\img-144.jpg" />
+    <Content Include="Resources\ImageSequence\img-145.jpg" />
+    <Content Include="Resources\ImageSequence\img-146.jpg" />
+    <Content Include="Resources\ImageSequence\img-147.jpg" />
+    <Content Include="Resources\ImageSequence\img-148.jpg" />
+    <Content Include="Resources\ImageSequence\img-149.jpg" />
+    <Content Include="Resources\ImageSequence\img-150.jpg" />
+    <Content Include="Resources\ImageSequence\img-151.jpg" />
+    <Content Include="Resources\ImageSequence\img-152.jpg" />
+    <Content Include="Resources\ImageSequence\img-153.jpg" />
+    <Content Include="Resources\ImageSequence\img-154.jpg" />
+    <Content Include="Resources\ImageSequence\img-155.jpg" />
+    <Content Include="Resources\ImageSequence\img-156.jpg" />
+    <Content Include="Resources\ImageSequence\img-157.jpg" />
+    <Content Include="Resources\ImageSequence\img-158.jpg" />
+    <Content Include="Resources\ImageSequence\img-159.jpg" />
+    <Content Include="Resources\ImageSequence\img-160.jpg" />
+    <Content Include="Resources\ImageSequence\img-161.jpg" />
+    <Content Include="Resources\ImageSequence\img-162.jpg" />
+    <Content Include="Resources\ImageSequence\img-163.jpg" />
+    <Content Include="Resources\ImageSequence\img-164.jpg" />
+    <Content Include="Resources\ImageSequence\img-165.jpg" />
+    <Content Include="Resources\ImageSequence\img-166.jpg" />
+    <Content Include="Resources\ImageSequence\img-167.jpg" />
+    <Content Include="Resources\ImageSequence\img-168.jpg" />
+    <Content Include="Resources\ImageSequence\img-169.jpg" />
+    <Content Include="Resources\ImageSequence\img-170.jpg" />
+    <Content Include="Resources\ImageSequence\img-171.jpg" />
+    <Content Include="Resources\ImageSequence\img-172.jpg" />
+    <Content Include="Resources\ImageSequence\img-173.jpg" />
+    <Content Include="Resources\ImageSequence\img-174.jpg" />
+    <Content Include="Resources\ImageSequence\img-175.jpg" />
+    <Content Include="Resources\ImageSequence\img-176.jpg" />
+    <Content Include="Resources\ImageSequence\img-177.jpg" />
+    <Content Include="Resources\ImageSequence\img-178.jpg" />
+    <Content Include="Resources\ImageSequence\img-179.jpg" />
+    <Content Include="Resources\ImageSequence\img-180.jpg" />
+    <Content Include="Resources\ImageSequence\img-181.jpg" />
+    <Content Include="Resources\ImageSequence\img-182.jpg" />
+    <Content Include="Resources\ImageSequence\img-183.jpg" />
+    <Content Include="Resources\ImageSequence\img-184.jpg" />
+    <Content Include="Resources\ImageSequence\img-185.jpg" />
+    <Content Include="Resources\ImageSequence\img-186.jpg" />
+    <Content Include="Resources\ImageSequence\img-187.jpg" />
+    <Content Include="Resources\ImageSequence\img-188.jpg" />
+    <Content Include="Resources\ImageSequence\img-189.jpg" />
+    <Content Include="Resources\ImageSequence\img-190.jpg" />
+    <Content Include="Resources\ImageSequence\img-191.jpg" />
+    <Content Include="Resources\ImageSequence\img-192.jpg" />
+    <Content Include="Resources\ImageSequence\img-193.jpg" />
+    <Content Include="Resources\ImageSequence\img-194.jpg" />
+    <Content Include="Resources\ImageSequence\img-195.jpg" />
+    <Content Include="Resources\ImageSequence\img-196.jpg" />
+    <Content Include="Resources\ImageSequence\img-197.jpg" />
+    <Content Include="Resources\ImageSequence\img-198.jpg" />
+    <Content Include="Resources\ImageSequence\img-199.jpg" />
+    <Content Include="Resources\ImageSequence\img-200.jpg" />
+    <Content Include="Resources\ImageSequence\img-201.jpg" />
+    <Content Include="Resources\ImageSequence\img-202.jpg" />
+    <Content Include="Resources\ImageSequence\img-203.jpg" />
+    <Content Include="Resources\ImageSequence\img-204.jpg" />
+    <Content Include="Resources\ImageSequence\img-205.jpg" />
+    <Content Include="Resources\ImageSequence\img-206.jpg" />
+    <Content Include="Resources\ImageSequence\img-207.jpg" />
+    <Content Include="Resources\ImageSequence\img-208.jpg" />
+    <Content Include="Resources\ImageSequence\img-209.jpg" />
+    <Content Include="Resources\ImageSequence\img-210.jpg" />
+    <Content Include="Resources\ImageSequence\img-211.jpg" />
+    <Content Include="Resources\ImageSequence\img-212.jpg" />
+    <Content Include="Resources\ImageSequence\img-213.jpg" />
+    <Content Include="Resources\ImageSequence\img-214.jpg" />
+    <Content Include="Resources\ImageSequence\img-215.jpg" />
+    <Content Include="Resources\ImageSequence\img-216.jpg" />
+    <Content Include="Resources\ImageSequence\img-217.jpg" />
+    <Content Include="Resources\ImageSequence\img-218.jpg" />
+    <Content Include="Resources\ImageSequence\img-219.jpg" />
+    <Content Include="Resources\ImageSequence\img-220.jpg" />
+    <Content Include="Resources\ImageSequence\img-221.jpg" />
+    <Content Include="Resources\ImageSequence\img-222.jpg" />
+    <Content Include="Resources\ImageSequence\img-223.jpg" />
+    <Content Include="Resources\ImageSequence\img-224.jpg" />
+    <Content Include="Resources\ImageSequence\img-225.jpg" />
+    <Content Include="Resources\ImageSequence\img-226.jpg" />
+    <Content Include="Resources\ImageSequence\img-227.jpg" />
+    <Content Include="Resources\ImageSequence\img-228.jpg" />
+    <Content Include="Resources\ImageSequence\img-229.jpg" />
+    <Content Include="Resources\ImageSequence\img-230.jpg" />
+    <Content Include="Resources\ImageSequence\img-231.jpg" />
+    <Content Include="Resources\ImageSequence\img-232.jpg" />
+    <Content Include="Resources\ImageSequence\img-233.jpg" />
+    <Content Include="Resources\ImageSequence\img-234.jpg" />
+    <Content Include="Resources\ImageSequence\img-235.jpg" />
+    <Content Include="Resources\ImageSequence\img-236.jpg" />
+    <Content Include="Resources\ImageSequence\img-237.jpg" />
+    <Content Include="Resources\ImageSequence\img-238.jpg" />
+    <Content Include="Resources\ImageSequence\img-239.jpg" />
+    <Content Include="Resources\ImageSequence\img-240.jpg" />
+    <Content Include="Resources\ImageSequence\img-241.jpg" />
+    <Content Include="Resources\ImageSequence\img-242.jpg" />
+    <Content Include="Resources\ImageSequence\img-243.jpg" />
+    <Content Include="Resources\ImageSequence\img-244.jpg" />
+    <Content Include="Resources\ImageSequence\img-245.jpg" />
+    <Content Include="Resources\ImageSequence\img-246.jpg" />
+    <Content Include="Resources\ImageSequence\img-247.jpg" />
+    <Content Include="Resources\ImageSequence\img-248.jpg" />
+    <Content Include="Resources\ImageSequence\img-249.jpg" />
+    <Content Include="Resources\ImageSequence\img-250.jpg" />
+    <Content Include="Resources\ImageSequence\img-251.jpg" />
+    <Content Include="Resources\ImageSequence\img-252.jpg" />
+    <Content Include="Resources\ImageSequence\img-253.jpg" />
+    <Content Include="Resources\ImageSequence\img-254.jpg" />
+    <Content Include="Resources\ImageSequence\img-255.jpg" />
+    <Content Include="Resources\ImageSequence\img-256.jpg" />
+    <Content Include="Resources\ImageSequence\img-257.jpg" />
+    <Content Include="Resources\ImageSequence\img-258.jpg" />
+    <Content Include="Resources\ImageSequence\img-259.jpg" />
+    <Content Include="Resources\ImageSequence\img-260.jpg" />
+    <Content Include="Resources\ImageSequence\img-261.jpg" />
+    <Content Include="Resources\ImageSequence\img-262.jpg" />
+    <Content Include="Resources\ImageSequence\img-263.jpg" />
+    <Content Include="Resources\ImageSequence\img-264.jpg" />
+    <Content Include="Resources\ImageSequence\img-265.jpg" />
+    <Content Include="Resources\ImageSequence\img-266.jpg" />
+    <Content Include="Resources\ImageSequence\img-267.jpg" />
+    <Content Include="Resources\ImageSequence\img-268.jpg" />
+    <Content Include="Resources\ImageSequence\img-269.jpg" />
+    <Content Include="Resources\ImageSequence\img-270.jpg" />
+    <Content Include="Resources\ImageSequence\img-271.jpg" />
+    <Content Include="Resources\ImageSequence\img-272.jpg" />
+    <Content Include="Resources\ImageSequence\img-273.jpg" />
+    <Content Include="Resources\ImageSequence\img-274.jpg" />
+    <Content Include="Resources\ImageSequence\img-275.jpg" />
+    <Content Include="Resources\ImageSequence\img-276.jpg" />
+    <Content Include="Resources\ImageSequence\img-277.jpg" />
+    <Content Include="Resources\ImageSequence\img-278.jpg" />
+    <Content Include="Resources\ImageSequence\img-279.jpg" />
+    <Content Include="Resources\ImageSequence\img-280.jpg" />
+    <Content Include="Resources\ImageSequence\img-281.jpg" />
+    <Content Include="Resources\ImageSequence\img-282.jpg" />
+    <Content Include="Resources\ImageSequence\img-283.jpg" />
+    <Content Include="Resources\ImageSequence\img-284.jpg" />
+    <Content Include="Resources\ImageSequence\img-285.jpg" />
+    <Content Include="Resources\ImageSequence\img-286.jpg" />
+    <Content Include="Resources\ImageSequence\img-287.jpg" />
+    <Content Include="Resources\ImageSequence\img-288.jpg" />
+    <Content Include="Resources\ImageSequence\img-289.jpg" />
+    <Content Include="Resources\ImageSequence\img-290.jpg" />
+    <Content Include="Resources\ImageSequence\img-291.jpg" />
+    <Content Include="Resources\ImageSequence\img-292.jpg" />
+    <Content Include="Resources\ImageSequence\img-293.jpg" />
+    <Content Include="Resources\ImageSequence\img-294.jpg" />
+    <Content Include="Resources\ImageSequence\img-295.jpg" />
+    <Content Include="Resources\ImageSequence\img-296.jpg" />
+    <Content Include="Resources\ImageSequence\img-297.jpg" />
+    <Content Include="Resources\ImageSequence\img-298.jpg" />
+    <Content Include="Resources\ImageSequence\img-299.jpg" />
+    <Content Include="Resources\ImageSequence\img-300.jpg" />
+    <Content Include="Resources\ImageSequence\img-301.jpg" />
+    <Content Include="Resources\ImageSequence\img-302.jpg" />
+    <Content Include="Resources\ImageSequence\img-303.jpg" />
+    <Content Include="Resources\ImageSequence\img-304.jpg" />
+    <Content Include="Resources\ImageSequence\img-305.jpg" />
+    <Content Include="Resources\ImageSequence\img-306.jpg" />
+    <Content Include="Resources\ImageSequence\img-307.jpg" />
+    <Content Include="Resources\ImageSequence\img-308.jpg" />
+    <Content Include="Resources\ImageSequence\img-309.jpg" />
+    <Content Include="Resources\ImageSequence\img-310.jpg" />
+    <Content Include="Resources\ImageSequence\img-311.jpg" />
+    <Content Include="Resources\ImageSequence\img-312.jpg" />
+    <Content Include="Resources\ImageSequence\img-313.jpg" />
+    <Content Include="Resources\ImageSequence\img-314.jpg" />
+    <Content Include="Resources\ImageSequence\img-315.jpg" />
+    <Content Include="Resources\ImageSequence\img-316.jpg" />
+    <Content Include="Resources\ImageSequence\img-317.jpg" />
+    <Content Include="Resources\ImageSequence\img-318.jpg" />
+    <Content Include="Resources\ImageSequence\img-319.jpg" />
+    <Content Include="Resources\ImageSequence\img-320.jpg" />
+    <Content Include="Resources\ImageSequence\img-321.jpg" />
+    <Content Include="Resources\ImageSequence\img-322.jpg" />
+    <Content Include="Resources\ImageSequence\img-323.jpg" />
+    <Content Include="Resources\ImageSequence\img-324.jpg" />
+    <Content Include="Resources\ImageSequence\img-325.jpg" />
+    <Content Include="Resources\ImageSequence\img-326.jpg" />
+    <Content Include="Resources\ImageSequence\img-327.jpg" />
+    <Content Include="Resources\ImageSequence\img-328.jpg" />
+    <Content Include="Resources\ImageSequence\img-329.jpg" />
+    <Content Include="Resources\ImageSequence\img-330.jpg" />
+    <Content Include="Resources\ImageSequence\img-331.jpg" />
+    <Content Include="Resources\ImageSequence\img-332.jpg" />
+    <Content Include="Resources\ImageSequence\img-333.jpg" />
+    <Content Include="Resources\ImageSequence\img-334.jpg" />
+    <Content Include="Resources\ImageSequence\img-335.jpg" />
+    <Content Include="Resources\ImageSequence\img-336.jpg" />
+    <Content Include="Resources\ImageSequence\img-337.jpg" />
+    <Content Include="Resources\ImageSequence\img-338.jpg" />
+    <Content Include="Resources\ImageSequence\img-339.jpg" />
+    <Content Include="Resources\ImageSequence\img-340.jpg" />
+    <Content Include="Resources\ImageSequence\img-341.jpg" />
+    <Content Include="Resources\ImageSequence\img-342.jpg" />
+    <Content Include="Resources\ImageSequence\img-343.jpg" />
+    <Content Include="Resources\ImageSequence\img-344.jpg" />
+    <Content Include="Resources\ImageSequence\img-345.jpg" />
+    <Content Include="Resources\ImageSequence\img-346.jpg" />
+    <Content Include="Resources\ImageSequence\img-347.jpg" />
+    <Content Include="Resources\ImageSequence\img-348.jpg" />
+    <Content Include="Resources\ImageSequence\img-349.jpg" />
+    <Content Include="Resources\ImageSequence\img-350.jpg" />
+    <Content Include="Resources\ImageSequence\img-351.jpg" />
+    <Content Include="Resources\ImageSequence\img-352.jpg" />
+    <Content Include="Resources\ImageSequence\img-353.jpg" />
+    <Content Include="Resources\ImageSequence\img-354.jpg" />
+    <Content Include="Resources\ImageSequence\img-355.jpg" />
+    <Content Include="Resources\ImageSequence\img-356.jpg" />
+    <Content Include="Resources\ImageSequence\img-357.jpg" />
+    <Content Include="Resources\ImageSequence\img-358.jpg" />
+    <Content Include="Resources\ImageSequence\img-359.jpg" />
+    <Content Include="Resources\ImageSequence\img-360.jpg" />
+    <Content Include="Resources\ImageSequence\img-361.jpg" />
+    <Content Include="Resources\ImageSequence\img-362.jpg" />
+    <Content Include="Resources\ImageSequence\img-363.jpg" />
+    <Content Include="Resources\ImageSequence\img-364.jpg" />
+    <Content Include="Resources\ImageSequence\img-365.jpg" />
+    <Content Include="Resources\ImageSequence\img-366.jpg" />
+    <Content Include="Resources\ImageSequence\img-367.jpg" />
+    <Content Include="Resources\ImageSequence\img-368.jpg" />
+    <Content Include="Resources\ImageSequence\img-369.jpg" />
+    <Content Include="Resources\ImageSequence\img-370.jpg" />
+    <Content Include="Resources\ImageSequence\img-371.jpg" />
+    <Content Include="Resources\ImageSequence\img-372.jpg" />
+    <Content Include="Resources\ImageSequence\img-373.jpg" />
+    <Content Include="Resources\ImageSequence\img-374.jpg" />
+    <Content Include="Resources\ImageSequence\img-375.jpg" />
+    <Content Include="Resources\ImageSequence\img-376.jpg" />
+    <Content Include="Resources\ImageSequence\img-377.jpg" />
+    <Content Include="Resources\ImageSequence\img-378.jpg" />
+    <Content Include="Resources\ImageSequence\img-379.jpg" />
+    <Content Include="Resources\ImageSequence\img-380.jpg" />
+    <Content Include="Resources\ImageSequence\img-381.jpg" />
+    <Content Include="Resources\ImageSequence\img-382.jpg" />
+    <Content Include="Resources\ImageSequence\img-383.jpg" />
+    <Content Include="Resources\ImageSequence\img-384.jpg" />
+    <Content Include="Resources\ImageSequence\img-385.jpg" />
+    <Content Include="Resources\ImageSequence\img-60.jpg" />
+    <Content Include="Resources\ImageSequence\img-61.jpg" />
+    <Content Include="Resources\ImageSequence\img-62.jpg" />
+    <Content Include="Resources\ImageSequence\img-63.jpg" />
+    <Content Include="Resources\ImageSequence\img-64.jpg" />
+    <Content Include="Resources\ImageSequence\img-65.jpg" />
+    <Content Include="Resources\ImageSequence\img-66.jpg" />
+    <Content Include="Resources\ImageSequence\img-67.jpg" />
+    <Content Include="Resources\ImageSequence\img-68.jpg" />
+    <Content Include="Resources\ImageSequence\img-69.jpg" />
+    <Content Include="Resources\ImageSequence\img-70.jpg" />
+    <Content Include="Resources\ImageSequence\img-71.jpg" />
+    <Content Include="Resources\ImageSequence\img-72.jpg" />
+    <Content Include="Resources\ImageSequence\img-73.jpg" />
+    <Content Include="Resources\ImageSequence\img-74.jpg" />
+    <Content Include="Resources\ImageSequence\img-75.jpg" />
+    <Content Include="Resources\ImageSequence\img-76.jpg" />
+    <Content Include="Resources\ImageSequence\img-77.jpg" />
+    <Content Include="Resources\ImageSequence\img-78.jpg" />
+    <Content Include="Resources\ImageSequence\img-79.jpg" />
+    <Content Include="Resources\ImageSequence\img-80.jpg" />
+    <Content Include="Resources\ImageSequence\img-81.jpg" />
+    <Content Include="Resources\ImageSequence\img-82.jpg" />
+    <Content Include="Resources\ImageSequence\img-83.jpg" />
+    <Content Include="Resources\ImageSequence\img-84.jpg" />
+    <Content Include="Resources\ImageSequence\img-85.jpg" />
+    <Content Include="Resources\ImageSequence\img-86.jpg" />
+    <Content Include="Resources\ImageSequence\img-87.jpg" />
+    <Content Include="Resources\ImageSequence\img-88.jpg" />
+    <Content Include="Resources\ImageSequence\img-89.jpg" />
+    <Content Include="Resources\ImageSequence\img-90.jpg" />
+    <Content Include="Resources\ImageSequence\img-91.jpg" />
+    <Content Include="Resources\ImageSequence\img-92.jpg" />
+    <Content Include="Resources\ImageSequence\img-93.jpg" />
+    <Content Include="Resources\ImageSequence\img-94.jpg" />
+    <Content Include="Resources\ImageSequence\img-95.jpg" />
+    <Content Include="Resources\ImageSequence\img-96.jpg" />
+    <Content Include="Resources\ImageSequence\img-97.jpg" />
+    <Content Include="Resources\ImageSequence\img-98.jpg" />
+    <Content Include="Resources\ImageSequence\img-99.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

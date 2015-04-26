@@ -75,7 +75,7 @@ namespace Accord.Extensions.Math.Geometry
         /// <returns>Ellipse.</returns>
         public static Ellipse Fit(double[,] covMatrix, PointF center = default(PointF))
         {
-            if (covMatrix.ColumnCount() != 2 || covMatrix.RowCount() != 2)
+            if (covMatrix.GetLength(0) != 2 || covMatrix.GetLength(1) != 2)
                 throw new ArgumentException("Covariance matrix must have the same dimensions, and the dimension length must be 2!");
 
             return Fit(covMatrix[0, 0], covMatrix[0, 1], covMatrix[1, 1], center);

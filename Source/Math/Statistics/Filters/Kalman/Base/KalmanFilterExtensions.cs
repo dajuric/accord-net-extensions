@@ -17,7 +17,7 @@ namespace Accord.Extensions.Statistics.Filters
         /// <param name="trackers">Kalman filter trackers.</param>
         /// <param name="measurements">Measurements.</param>
         /// <param name="gateDistances">
-        /// If true the distance will be compared with gating threshold and if the distance exceedes the distance threshold <see cref="Double.Infinity"/> value will be written.
+        /// If true the distance will be compared with gating threshold and if the distance exceeds the distance threshold <see cref="System.Double.PositiveInfinity"/> value will be written.
         /// <para>The gating is obtained as 99 percent probability interval of the Kalman residual covariance.</para>
         /// </param>
         /// <returns>Distance matrix [tracks x detections].</returns>
