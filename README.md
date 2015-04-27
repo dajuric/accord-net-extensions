@@ -62,7 +62,7 @@
             Implements template matching algorithm (~20x faster than conventional sliding window approach).
         </p>
         <p>
-            <b>Tutorials:</b> <a href="http://www.codeproject.com/Articles/826377/Rapid-Object-Detection-in-Csharp" target="_blank">Fast template matching - tutorial</a>
+            <b>Tutorials:</b> <a href="http://www.codeproject.com/Articles/826377/Rapid-Object-Detection-in-Csharp" target="_blank">Fast template matching</a>
         </p>
 
         <table border="0" cellpadding="1" cellspacing="1">
@@ -88,7 +88,7 @@
         </p>
         <p>
             <b>Tutorials:</b>
-            <a href="http://www.codeproject.com/Articles/840823/Object-Feature-Tracking-in-Csharp" target="_blank">Object Feature Tracking - tutorial</a>
+            <a href="http://www.codeproject.com/Articles/840823/Object-Feature-Tracking-in-Csharp" target="_blank">Object Feature Tracking</a>
         </p>
 
         <table border="0" cellpadding="1" cellspacing="1">
