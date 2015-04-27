@@ -49,7 +49,7 @@ namespace CaptureAndRecording
 
         Bgr<byte>[,] frame = null;
         void capture_NewFrame(object sender, EventArgs e)
-        {
+        { 
             reader.ReadTo(ref frame);
 
             if (frame == null)
