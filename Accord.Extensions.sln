@@ -110,6 +110,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imaging.Algorithms", "Source\ImageProcessing\Imaging.Algorithms\Imaging.Algorithms.csproj", "{91C6AE50-EE09-4E3D-8EBB-1BD42688D042}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imaging.Algorithms.LINE2D", "Source\ImageProcessing\FastTemplateMatching\Imaging.Algorithms.LINE2D.csproj", "{5F6B97F8-7EA6-4B5D-9A5D-F5581505C303}"
+	ProjectSection(ProjectDependencies) = postProject
+		{06DC371A-D057-4353-9D70-544329B6CFEF} = {06DC371A-D057-4353-9D70-544329B6CFEF}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SIMDArrayInstructions", "Source\ImageProcessing\FastTemplateMatching\SIMDArrayInstructions\SIMDArrayInstructions.vcxproj", "{06DC371A-D057-4353-9D70-544329B6CFEF}"
 EndProject
@@ -146,6 +149,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContourExtremaDemo", "Samples\Math\ContourSamples\ContourExtrema\ContourExtremaDemo.csproj", "{B7771804-4292-4912-9334-B71F288313F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kalman2DFilterDemo", "Samples\Math\KalmanSamples\Kalman2DFilterDemo\Kalman2DFilterDemo.csproj", "{898F6B1C-78AB-4B6F-BD78-484577E8805C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F46115E9-C4FC-4355-93AE-BE8E96B236C9} = {F46115E9-C4FC-4355-93AE-BE8E96B236C9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KalmanObjectTrackingDemo", "Samples\Math\KalmanSamples\KalmanObjectTrackingDemo\KalmanObjectTrackingDemo.csproj", "{86EABAB4-3762-4E86-AFA8-FC3D21B1F095}"
 EndProject
