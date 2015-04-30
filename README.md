@@ -276,16 +276,13 @@
     Browse through some included samples, install NuGet packages and enjoy!
 </p>
 
+<h2>How to Engage, Contribute and Provide Feedback</h2>
+<p align="justify">
+   The best ways to contribute and provide feedback is to try things out, file bugs and propose enhancements. Your opinion is important and will define the future roadmap. If you have any questions, comments or you would like to propose an enhancement please leave the message on Github, or write to: darko.juric2 [at] gmail.com.
+</p>
+
 <h2>Final word</h2>
 <p align="justify">
-    <ul>
-        <li>
-            If you like the project please <b>star it</b> in order to help to spread the word.
-            That way you will make the framework more significant and in the same time you will motivate me to improve it, so the benefit is mutual.
-        </li>
-
-        <li>
-            If you have any questions, comments or you would like to propose an enhancement please leave the message on Github, or write to: darko.juric2 [at] gmail.com
-        </li>
-    </ul>
+     If you like the project please <b>star it</b> in order to help to spread the word.
+     That way you will make the framework more significant and in the same time you will motivate me to improve it, so the benefit is mutual.
 </p>
