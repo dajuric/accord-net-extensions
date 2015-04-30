@@ -79,7 +79,7 @@
     <li>
         <p>
             <b>
-                <a href="https://www.nuget.org/packages/Accord.Extensions.Imaging.Algorithms.LINE2D/">Accord.Extensions.Vision package</a>
+                <a href="https://www.nuget.org/packages/Accord.Extensions.Vision/">Accord.Extensions.Vision package</a>
             </b>
             <br />
             Pyramidal KLT tracker, Camshift, Meanshift
