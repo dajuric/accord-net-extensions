@@ -20,7 +20,7 @@
 			<a href="https://bitdeli.com/free" title="Bitdeli Badge"> 
 				<img src="https://d2weczhvl823v0.cloudfront.net/dajuric/accord-net-extensions/trend.png" alt=""/>
 			</a>
-		<td>
+		</td>
 	</tr>
 </table>
 
