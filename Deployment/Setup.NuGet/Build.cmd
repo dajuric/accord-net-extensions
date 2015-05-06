@@ -12,7 +12,7 @@ echo.
 timeout /T 5
 
 :: Set version info
-set version=2.0.0
+set version=2.0.1
 set output=%cd%\bin\
 
 :: Create output directory
@@ -23,11 +23,12 @@ IF NOT EXIST %output%\nul (
 :: Remove old files
 :forfiles /p %output% /m *.nupkg /c "cmd /c del @file"
 
-
 echo.
 echo Creating packages...
 
-forfiles /s /m *.nuspec /c "cmd /c nuget.exe pack "@Path" -Version %version% -OutputDirectory %output%"
+set currDir = %cd%
+
+forfiles /s /m *.nuspec /c "cmd /c %cd%\nuget.exe pack "@Path" -Version %version% -OutputDirectory %output%"
 ::forfiles /s /m *.nuspec /c "@Path"
 
 :eof
