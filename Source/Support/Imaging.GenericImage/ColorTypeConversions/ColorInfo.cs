@@ -86,12 +86,6 @@ namespace Accord.Extensions.Imaging
 
         private static ColorInfo getInfo(Type colorType)
         {
-            var channelTypes = colorType.GetFields().Select(x => x.FieldType).ToArray();
-            return getInfo(colorType, channelTypes.FirstOrDefault());
-        }
-
-        private static ColorInfo getInfo(Type colorType, Type depthType)
-        {
             ColorInfo ci = new ColorInfo();
             ci.ColorType = colorType;
 
@@ -99,39 +93,40 @@ namespace Accord.Extensions.Imaging
             ci.ConversionCodename = (attribVal != null) ? attribVal.ConversionCodename : new ColorInfoAttribute().ConversionCodename;
             ci.IsGenericColorSpace = (attribVal != null) ? attribVal.IsGenericColorSpace : new ColorInfoAttribute().IsGenericColorSpace;
 
-            int numberOfChannels;
-            getChannelInfo(colorType, depthType, out numberOfChannels);
+            Type channelType;  int numberOfChannels;
+            getChannelInfo(colorType, out channelType, out numberOfChannels);
 
             ci.ChannelCount = numberOfChannels;
-            ci.ChannelType = depthType;
-            ci.ChannelSize = Marshal.SizeOf(depthType);
+            ci.ChannelType = channelType;
+            ci.ChannelSize = Marshal.SizeOf(channelType);
 
             return ci;
         }
 
-        private static void getChannelInfo(Type colorType, Type depthType, out int numberOfChannels)
+        private static void getChannelInfo(Type colorType, out Type channelType, out int numberOfChannels)
         {
             numberOfChannels = 0;
 
             var channelTypes = colorType
-                               .GetFields(BindingFlags.Public | ~BindingFlags.Static)
+                               .GetFields(BindingFlags.Public | ~BindingFlags.Static) //if BindingFlags.Instance and if colorType is byte => zero length array
                                .Select(x => x.FieldType)
                                .ToArray();
 
             //ensure that all types are the same
-            var _depthType = channelTypes[0];
-            if (channelTypes.Where(x => x.Equals(_depthType)).Count() != channelTypes.Length)
+            var _channelType = channelTypes[0];
+            if (channelTypes.Where(x => x.Equals(_channelType)).Count() != channelTypes.Length)
                 throw new Exception("Public fields must have the same type!");
 
             if (channelTypes.Length == 0)
                 throw new Exception("Color structure must have at least one public field!");
 
-            if (!depthType.IsValueType)
+            if (!_channelType.IsValueType)
                 throw new Exception("Channel type must be a value type!");
 
-            if (!depthType.IsPrimitive)
+            if (!_channelType.IsPrimitive)
                 throw new Exception("Channel type must be a primitive type!");
 
+            channelType = _channelType;
             numberOfChannels = channelTypes.Length;
         }
 
