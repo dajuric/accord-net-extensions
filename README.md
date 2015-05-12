@@ -286,5 +286,3 @@
      If you like the project please <b>star it</b> in order to help to spread the word.
      That way you will make the framework more significant and in the same time you will motivate me to improve it, so the benefit is mutual.
 </p>
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dajuric/accord-net-extensions/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
