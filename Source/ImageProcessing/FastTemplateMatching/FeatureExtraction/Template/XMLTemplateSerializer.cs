@@ -126,12 +126,11 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
             settings.NewLineHandling = NewLineHandling.Replace;
             settings.CloseOutput = true;
 
-            XmlWriter xmlWriter = XmlWriter.Create(new StreamWriter(File.Create(fileName)), settings);
-
-            SerializeTemplatePyramidClass(cluster).Save(xmlWriter);
-
-            xmlWriter.Flush();
-            xmlWriter.Dispose();
+            using (var streamWriter = new StreamWriter(File.Create(fileName)))
+            using (var xmlWriter = XmlWriter.Create(streamWriter, settings))
+            {
+                SerializeTemplatePyramidClass(cluster).Save(xmlWriter);
+            }
         }
 
         /// <summary>

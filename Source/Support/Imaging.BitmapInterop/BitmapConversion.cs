@@ -42,7 +42,7 @@ namespace Accord.Extensions.Imaging
             var arr = new TColor[bmp.Height, bmp.Width];
             using (var img = arr.Lock())
             {
-                Copy.UnsafeCopy(bmpData.Scan0, img.ImageData, img.Stride, bmpData.Stride, bmpData.Height);
+                Copy.UnsafeCopy(bmpData.Scan0, img.ImageData, bmpData.Stride, img.Stride, bmpData.Height);
             }
 
             bmp.UnlockBits(bmpData);
