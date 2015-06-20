@@ -21,8 +21,10 @@
 #endregion
 
 using AForge.Imaging;
+using System.Linq;
 using System.Collections.Generic;
-using Point = AForge.IntPoint;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {
@@ -42,7 +44,9 @@ namespace Accord.Extensions.Imaging
             List<Point> points = null;
             using (var uImg = image.Lock())
             {
-                points = cornerDetector.ProcessImage(uImg.AsAForgeImage());
+                points = cornerDetector.ProcessImage(uImg.AsAForgeImage())
+                                       .Select(x => x.ToPoint())
+                                       .ToList();
             }
 
             return points;

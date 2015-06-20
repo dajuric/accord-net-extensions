@@ -24,6 +24,7 @@ using System;
 using Accord.Extensions;
 using Accord.Extensions.Statistics.Filters;
 using Accord.Extensions.Imaging.Algorithms.LINE2D;
+using DotImaging.Primitives2D;
 
 namespace ParticleFilterModelFitting
 {

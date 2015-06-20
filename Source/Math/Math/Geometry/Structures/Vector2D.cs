@@ -20,10 +20,8 @@
 //
 #endregion
 
+using DotImaging.Primitives2D;
 using RangeF = AForge.Range;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
-using LineSegment2DF = AForge.Math.Geometry.LineSegment;
 
 namespace Accord.Extensions.Math.Geometry //TODO: update Vector2D class according to Vector3D
 {
@@ -155,16 +153,6 @@ namespace Accord.Extensions.Math.Geometry //TODO: update Vector2D class accordin
         public static bool AreOpositeDirection(Vector2D v1, Vector2D v2)
         {
             return v1.X == -v2.X && v1.Y == -v2.Y;
-        }
-
-        /// <summary>
-        /// Converts line segment into vector.
-        /// </summary>
-        /// <param name="line">Line segment.</param>
-        /// <returns>New <see cref="Vector2D"/>.</returns>
-        public static explicit operator Vector2D(LineSegment2DF line)
-        {
-            return new Vector2D(line.Start, line.End);
         }
 
         /// <summary>

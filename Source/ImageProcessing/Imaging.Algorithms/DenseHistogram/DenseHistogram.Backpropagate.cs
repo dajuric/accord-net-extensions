@@ -24,6 +24,7 @@ using System;
 using System.Linq;
 using MoreLinq;
 using System.Collections.Generic;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging
 {

@@ -174,74 +174,6 @@
     <li>
         <p>
             <b>
-                <a href="https://www.nuget.org/packages/Accord.Extensions.Imaging.GenericImage">Accord.Extensions.Imaging.GenericImage package</a>
-            </b>
-            <br />
-            .NET image array extensions. Color and depth conversions. Slim unmanaged structure for fast pixel manipulation.
-        </p>
-        <p>
-            <b>Tutorials:</b>
-            <a href="http://www.codeproject.com/Articles/829349/Introducing-Portable-Generic-Image-Library-for-Csh" target="_blank">Portable Generic Image</a> <em>(update pending)</em>
-        </p>
-
-        <table border="0" cellpadding="1" cellspacing="1">
-            <tbody>
-                <tr>
-                    <td align="center" width="100%">
-                        <img alt="Generic image sample" src="./Deployment/README-resources/genericImage-sample.png" width="500" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </li>
-
-    <li>
-        <p>
-            <b>
-                <a href="https://www.nuget.org/packages/Accord.Extensions.Imaging.Drawing">Accord.Extensions.Imaging.Drawing package</a>
-            </b>
-            <br />
-            .NET image drawing array extensions.
-        </p>
-        <table border="0" cellpadding="1" cellspacing="1">
-            <tbody>
-                <tr>
-                    <td align="center" width="100%">
-                        <img alt="Generic image drawing sample" src="./Deployment/README-resources/genericImage-drawing-sample.png" width="500" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </li>
-
-    <li>
-        <p>
-            <b>
-                <a href="https://www.nuget.org/packages/Accord.Extensions.Imaging.IO">Accord.Extensions.Imaging.IO package</a>
-            </b>
-            <br />
-            A unified API for IO video access (camera, file, image directory). Portable image loading/saving.
-        </p>
-        <p>
-            <b>Tutorials:</b>
-            <a href="http://www.codeproject.com/Articles/828012/Introducing-Portable-Video-IO-Library-for-Csharp" target="_blank">Portable Imaging IO</a>
-            <em>(update pending)</em>
-        </p>
-
-        <table border="0" cellpadding="1" cellspacing="1">
-            <tbody>
-                <tr>
-                    <td align="center" width="100%">
-                        <img alt="Imaging IO sample" src="./Deployment/README-resources/imagingIO-sample.png" width="500" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </li>
-
-    <li>
-        <p>
-            <b>
                 <a href="https://www.nuget.org/packages/Accord.Extensions.Imaging.AForgeInterop">Accord.Extensions.Imaging.AForgeInterop package</a>
             </b>
             <br />
@@ -252,28 +184,18 @@
     <li>
         <p>
             <b>
-                <a href="https://www.nuget.org/packages/Accord.Extensions.Imaging.BitmapInterop">Accord.Extensions.Imaging.Bitmap package</a>
-            </b>
-            <br />
-            Interoperability extensions between .NET array and Bitmap.
-        </p>
-    </li>
-
-    <li>
-        <p>
-            <b>
                 <a href="https://www.nuget.org/packages/Accord.Extensions.Core">Accord.Extensions.Core package</a>
             </b>
             <br />
-            Element and method caching, parallel extensions, shared structures.
+            Element caching, parallel extensions, shared structures.
         </p>
     </li>
-
 </ul>
 
 <h2>Getting started</h2>
 <p align="justify">
     Browse through some included samples, install NuGet packages and enjoy!
+	Also take a look at: <a href="https://github.com/dajuric/dot-imaging">DotImaging</a> - the portable imaging library which is the foundation library for Accord.NET Extensions
 </p>
 
 <h2>How to Engage, Contribute and Provide Feedback</h2>

@@ -24,8 +24,8 @@ using System.Linq;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
 using Accord.Math;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {

@@ -25,14 +25,12 @@
     </member>
 
     <!--******************************  Imaging ******************************-->
-    <!--Imaging.GenericImage-->
     <!--Imaging.Algorithms-->
     <!--Imaging.AForgeInterop-->
-    <!--Imaging.BitmapInterop-->
     <member name="N:Accord.Extensions.Imaging">
       <summary>
         The namespace is shared across several packages.
-        Contains generic image class and extensions which include: AForge and Bitmap interoperability extensions and algorithms which are mostly written in a form of an extension.
+        Contains extensions which include: AForge interoperability extensions and algorithms which are mostly written in a form of an extension.
       </summary>
     </member>
 
@@ -88,16 +86,6 @@
         Implements the following algorithms: Discrete Kalman filter, Particle filtering (as extension), Joint-Probability data association filter (as extension).
         Provides motion models.
       </summary>
-    </member>
-
-    <!--******************************  Vision ******************************-->
-    <!--Vision-->
-    <!--Vision.IO-->
-    <member name="N:Accord.Extensions.Vision">
-      <summary>
-        The package implements vision algorithms: meanshift, Camshift, KLT Optical flow.
-      </summary>
-    </member>
-    
+    </member>    
   </members>
 </doc>

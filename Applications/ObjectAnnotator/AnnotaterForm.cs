@@ -23,15 +23,15 @@
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Imaging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
-using Point = AForge.IntPoint;
 using ObjectAnnotator.Components;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace ObjectAnnotator
 {
@@ -140,11 +140,11 @@ namespace ObjectAnnotator
 
         private string getImageKey(long position)
         {
-            if (capture is ImageDirectoryReader == false)
+            if (capture is ImageDirectoryCapture == false)
                 throw new NotSupportedException("Unsupported image stream reader!");
 
             capture.Seek(position, SeekOrigin.Begin);
-            string imageKey = (capture as ImageDirectoryReader).CurrentImageName;
+            string imageKey = (capture as ImageDirectoryCapture).CurrentImageName;
             var dbDirInfo = new DirectoryInfo(Path.GetDirectoryName(databaseFileName));
             imageKey = imageKey.GetRelativeFilePath(dbDirInfo);
 

@@ -21,8 +21,10 @@
 #endregion
 
 using Accord.Imaging;
-using AForge;
 using System.Collections.Generic;
+using DotImaging;
+using System.Linq;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {
@@ -41,14 +43,16 @@ namespace Accord.Extensions.Imaging
         /// <param name="sigma">Gaussian smoothing sigma.</param>
         /// <param name="suppression">Non-maximum suppression window radius.</param>
         /// <returns>Interest point locations.</returns>
-        public static List<IntPoint> HarrisCorners<TDepth>(this Gray<byte>[,] im, HarrisCornerMeasure measure = HarrisCornerMeasure.Harris, float threshold = 20000f, double sigma = 1.2, int suppression = 3)
+        public static List<Point> HarrisCorners<TDepth>(this Gray<byte>[,] im, HarrisCornerMeasure measure = HarrisCornerMeasure.Harris, float threshold = 20000f, double sigma = 1.2, int suppression = 3)
         {
             HarrisCornersDetector harris = new HarrisCornersDetector(measure, threshold, sigma, suppression);
             
-            List<IntPoint> points;        
+            List<Point> points;        
             using(var uImg = im.Lock())
             {
-                points = harris.ProcessImage(uImg.AsAForgeImage());
+                points = harris.ProcessImage(uImg.AsAForgeImage())
+                               .Select(x => x.ToPoint())
+                               .ToList();
             }
          
             return points;

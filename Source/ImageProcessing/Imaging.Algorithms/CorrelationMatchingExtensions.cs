@@ -22,7 +22,8 @@
 
 using Accord.Imaging;
 using System.Collections.Generic;
-using Point = AForge.IntPoint;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {
@@ -49,7 +50,7 @@ namespace Accord.Extensions.Imaging
             using(var uImg2 = image2.Lock())
             {
                 var correlationMatching = new CorrelationMatching(windowSize, maxDistance, uImg1.AsBitmap(), uImg2.AsBitmap());
-                matches = correlationMatching.Match(points1, points2);
+                matches = correlationMatching.Match(points1.ToPoints(), points2.ToPoints()).ToPoints();
             }
 
             return matches;

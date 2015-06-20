@@ -32,28 +32,14 @@
   <ItemGroup>
     <None Include="Build.cmd" />
     <None Include="Push.cmd" />
-    <None Include="Support\Imaging.Drawing.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Support\Imaging.Drawing.targets">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Support\Imaging.IO.targets">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Support\Imaging.IO.nuspec">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="ImageProcessing\Vision.nuspec" />
     <None Include="ImageProcessing\Imaging.Algorithms.nuspec" />
-    <None Include="Support\Imaging.GenericImage.nuspec" />
     <None Include="Math\Statistics.nuspec" />
     <None Include="Math\Math.nuspec" />
     <None Include="ImageProcessing\Imaging.Algorithms.LINE2D.targets">
       <SubType>Designer</SubType>
     </None>
     <None Include="ImageProcessing\Imaging.Algorithms.LINE2D.nuspec" />
-    <None Include="Support\Imaging.BitmapInterop.nuspec" />
     <None Include="Support\Imaging.AForgeInterop.nuspec" />
     <None Include="Support\Core.nuspec">
       <SubType>Designer</SubType>

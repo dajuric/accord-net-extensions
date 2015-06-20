@@ -25,7 +25,7 @@ using Accord.Extensions.Math;
 using Accord.Extensions.Math.Geometry;
 using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
-using PointF = AForge.Point;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Statistics.Filters
 {  

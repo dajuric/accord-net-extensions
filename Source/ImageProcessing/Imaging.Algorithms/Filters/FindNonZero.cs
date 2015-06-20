@@ -22,7 +22,8 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Point = AForge.IntPoint;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {

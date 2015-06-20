@@ -20,13 +20,12 @@
 //
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
 using Accord.Extensions;
 using Accord.Extensions.Caching;
-using Accord.Extensions.Imaging;
+using DotImaging;
 using Microsoft.VisualBasic.Devices;
+using System;
+using System.Threading;
 
 namespace ElementCaching
 {

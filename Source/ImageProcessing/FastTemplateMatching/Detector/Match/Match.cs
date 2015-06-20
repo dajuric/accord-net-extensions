@@ -22,7 +22,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Point = AForge.IntPoint;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {

@@ -23,13 +23,14 @@
 #define FILE_CAPTURE //comment it to enable camera capture
 
 using System;
+using System.Threading;
 using System.Windows.Forms;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
-using AForge;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
 using System.IO;
+using DotImaging;
+using DotImaging.Primitives2D;
+using IntRange = AForge.IntRange;
 
 namespace Accord.Extensions.Imaging
 {
@@ -91,7 +92,7 @@ namespace Accord.Extensions.Imaging
             probabilityMap.AndByte(mask, inPlace:true);
 
             //run Camshift algorithm to find new object position, size and angle
-            foundBox = Camshift.Process(probabilityMap, searchArea); 
+            foundBox = Camshift.Process(probabilityMap, searchArea);
             var foundArea = Rectangle.Round(foundBox.GetMinArea());
 
             searchArea = foundArea.Inflate(0.05, 0.05, frame.Size()); //inflate found area for search (X factor)...
@@ -110,7 +111,7 @@ namespace Accord.Extensions.Imaging
             {
 #if FILE_CAPTURE
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
-                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), "*.jpg");
+                videoCapture = new ImageDirectoryCapture(Path.Combine(resourceDir, "ImageSequence"), "*.jpg");
                 roi = new Rectangle(80, 130, 50, 70); isROISelected = true;
                 this.barVMin.Value = 100;
 #else
@@ -153,7 +154,7 @@ namespace Accord.Extensions.Imaging
             GC.Collect();
         }
 
-        Accord.Extensions.Imaging.Font font = Accord.Extensions.Imaging.Font.Normal; 
+        Font font = DotImaging.Font.Normal; 
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             videoCapture.ReadTo(ref frame);

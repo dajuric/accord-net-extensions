@@ -21,13 +21,13 @@
 #endregion
 
 using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Accord.Extensions.Statistics.Filters;
 using Accord.Math;
-using PointF = AForge.Point;
+using DotImaging.Primitives2D;
+using Color = System.Drawing.Color;
 using ModelState = Accord.Extensions.Statistics.Filters.ConstantVelocity2DModel;
 
 namespace Kalman2DFilterDemo

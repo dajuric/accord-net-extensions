@@ -41,32 +41,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord">
-      <HintPath>..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Imaging">
-      <HintPath>..\packages\Accord.Imaging.2.14.0\lib\net40\Accord.Imaging.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.MachineLearning">
-      <HintPath>..\packages\Accord.MachineLearning.2.14.0\lib\net40\Accord.MachineLearning.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Math">
-      <HintPath>..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Statistics">
-      <HintPath>..\packages\Accord.Statistics.2.14.0\lib\net40\Accord.Statistics.dll</HintPath>
-    </Reference>
     <Reference Include="AForge">
       <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Imaging">
-      <HintPath>..\packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tests\BranchAndBoundAssigmentTest.cs" />
@@ -101,14 +81,6 @@
     <Content Include="Resources\testColorBig.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Source\ImageProcessing\FastTemplateMatching\Imaging.Algorithms.LINE2D.csproj">
-      <Project>{5f6b97f8-7ea6-4b5d-9a5d-f5581505c303}</Project>
-      <Name>Imaging.Algorithms.LINE2D</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Source\ImageProcessing\Imaging.Algorithms\Imaging.Algorithms.csproj">
-      <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
-      <Name>Imaging.Algorithms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Source\ImageProcessing\Vision\Vision.csproj">
       <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
       <Name>Vision</Name>
@@ -124,26 +96,6 @@
     <ProjectReference Include="..\Source\Support\Core\Core.csproj">
       <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
       <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Source\Support\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj">
-      <Project>{f4e40964-c640-4c87-9e3e-a1f1266fbc73}</Project>
-      <Name>Imaging.AForgeInterop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Source\Support\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj">
-      <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
-      <Name>Imaging.BitmapInterop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Source\Support\Imaging.Drawing\Imaging.Drawing.csproj">
-      <Project>{00a17086-903d-4047-bfb2-c7b4aa110b97}</Project>
-      <Name>Imaging.Drawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Source\Support\Imaging.GenericImage\Imaging.GenericImage.csproj">
-      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
-      <Name>Imaging.GenericImage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Source\Support\Imaging.IO\Imaging.IO.csproj">
-      <Project>{ed70a44e-9443-4a28-9b95-31299f8b2d08}</Project>
-      <Name>Imaging.IO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

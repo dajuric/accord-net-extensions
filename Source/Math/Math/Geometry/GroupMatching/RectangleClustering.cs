@@ -21,6 +21,8 @@
 #endregion
 
 using System.Collections.Generic;
+using DotImaging.Primitives2D;
+
 namespace Accord.Extensions.Math.Geometry
 {
     /// <summary>

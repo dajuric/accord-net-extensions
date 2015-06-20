@@ -23,7 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Point = AForge.IntPoint;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging
 {

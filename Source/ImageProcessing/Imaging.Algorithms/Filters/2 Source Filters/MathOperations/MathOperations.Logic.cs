@@ -20,6 +20,8 @@
 //
 #endregion
 
+using DotImaging;
+
 namespace Accord.Extensions.Imaging
 {
     /// <summary>

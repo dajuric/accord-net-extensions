@@ -23,8 +23,7 @@
 using System;
 using System.Xml.Serialization;
 using Accord.Extensions.Math.Geometry;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {

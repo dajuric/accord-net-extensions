@@ -27,8 +27,9 @@ using System.Linq;
 using System.Windows.Forms;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
+using DotImaging;
+using DotImaging.Primitives2D;
 using LineSegment2DF = AForge.Math.Geometry.LineSegment;
-using PointF = AForge.Point;
 
 namespace CardinalSplineDemo
 {
@@ -115,7 +116,7 @@ namespace CardinalSplineDemo
             var p1 = vec.Add(centerPoint);
             var p2 = vec.Negate().Add(centerPoint);
 
-            return new LineSegment2DF(p1, p2);
+            return new LineSegment2DF(p1.ToPoint(), p2.ToPoint());
         }
 
         #endregion

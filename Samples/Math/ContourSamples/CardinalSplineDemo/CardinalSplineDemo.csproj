@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>59e9d1b9</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,9 +37,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord">
-      <HintPath>..\..\..\..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
-    </Reference>
     <Reference Include="Accord.Math">
       <HintPath>..\..\..\..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
     </Reference>
@@ -53,11 +51,26 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
     </Reference>
+    <Reference Include="DotImaging.BitmapInterop, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\DotImaging.BitmapInterop.2.5.0\lib\net45\DotImaging.BitmapInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="DotImaging.Drawing, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\DotImaging.Drawing.2.5.0\lib\net45\DotImaging.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="DotImaging.GenericImage, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\DotImaging.GenericImage.2.5.0\lib\net45\DotImaging.GenericImage.dll</HintPath>
+    </Reference>
+    <Reference Include="DotImaging.Primitives2D, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\DotImaging.Primitives2D.2.5.0\lib\net45\DotImaging.Primitives2D.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardinalSplineForm.cs">
@@ -104,25 +117,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Source\Support\Core\Core.csproj">
-      <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Source\Support\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj">
-      <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
-      <Name>Imaging.BitmapInterop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Source\Support\Imaging.GenericImage\Imaging.GenericImage.csproj">
-      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
-      <Name>Imaging.GenericImage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Source\Support\Imaging.Drawing\Imaging.Drawing.csproj">
-      <Project>{00a17086-903d-4047-bfb2-c7b4aa110b97}</Project>
-      <Name>Imaging.Drawing</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Source\Math\Math\Math.csproj">
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
       <Name>Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Source\Support\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj">
+      <Project>{f4e40964-c640-4c87-9e3e-a1f1266fbc73}</Project>
+      <Name>Imaging.AForgeInterop</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +131,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\..\..\..\packages\DotImaging.Drawing.2.5.0\build\DotImaging.Drawing.targets" Condition="Exists('..\..\..\..\packages\DotImaging.Drawing.2.5.0\build\DotImaging.Drawing.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\packages\DotImaging.Drawing.2.5.0\build\DotImaging.Drawing.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\DotImaging.Drawing.2.5.0\build\DotImaging.Drawing.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

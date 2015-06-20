@@ -21,7 +21,7 @@
 #endregion
 
 using System.Collections.Generic;
-using Range = AForge.IntRange;
+using AForge;
 
 namespace Accord.Extensions
 {

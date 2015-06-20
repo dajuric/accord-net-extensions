@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging.IntegralImage
 {

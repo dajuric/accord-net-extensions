@@ -22,6 +22,7 @@
 
 using Accord.Imaging;
 using Accord.Extensions.Imaging;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging
 {

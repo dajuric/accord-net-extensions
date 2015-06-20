@@ -36,9 +36,6 @@
     <DocumentationFile>..\..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord">
-      <HintPath>..\..\..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
-    </Reference>
     <Reference Include="Accord.Imaging, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Accord.Imaging.2.14.0\lib\net40\Accord.Imaging.dll</HintPath>
@@ -49,10 +46,6 @@
     </Reference>
     <Reference Include="Accord.Math">
       <HintPath>..\..\..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Statistics, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Accord.Statistics.2.14.0\lib\net40\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -65,9 +58,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
     </Reference>
+    <Reference Include="DotImaging.BitmapInterop, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\DotImaging.BitmapInterop.2.5.0\lib\net45\DotImaging.BitmapInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="DotImaging.GenericImage, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\DotImaging.GenericImage.2.5.0\lib\net45\DotImaging.GenericImage.dll</HintPath>
+    </Reference>
+    <Reference Include="DotImaging.Primitives2D, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\DotImaging.Primitives2D.2.5.0\lib\net45\DotImaging.Primitives2D.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
@@ -134,33 +138,20 @@
     <Compile Include="Transform\ResizeNearsetNeighbur.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Support\Core\Core.csproj">
-      <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Math\Math\Math.csproj">
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
       <Name>Math</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Support\Core\Core.csproj">
+      <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Support\Imaging.AForgeInterop\Imaging.AForgeInterop.csproj">
       <Project>{f4e40964-c640-4c87-9e3e-a1f1266fbc73}</Project>
       <Name>Imaging.AForgeInterop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Support\Imaging.BitmapInterop\Imaging.BitmapInterop.csproj">
-      <Project>{ce222a84-b03b-4053-8ba4-f237063382f2}</Project>
-      <Name>Imaging.BitmapInterop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Support\Imaging.GenericImage\Imaging.GenericImage.csproj">
-      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
-      <Name>Imaging.GenericImage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Support\Imaging.Drawing\Imaging.Drawing.csproj">
-      <Project>{00a17086-903d-4047-bfb2-c7b4aa110b97}</Project>
-      <Name>Imaging.Drawing</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

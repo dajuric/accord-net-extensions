@@ -24,8 +24,6 @@ using System;
 using System.Drawing;
 using System.IO;
 using Accord.Extensions.Imaging;
-using Accord.Extensions.Imaging.Filters;
-using AForge.Imaging;
 
 namespace Test
 {

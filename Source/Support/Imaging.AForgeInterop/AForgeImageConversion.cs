@@ -21,9 +21,9 @@
 #endregion
 
 using System;
-using System.Linq;
 using AForge.Imaging;
 using System.Drawing.Imaging;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging
 {

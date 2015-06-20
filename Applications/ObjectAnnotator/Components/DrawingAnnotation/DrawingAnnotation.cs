@@ -22,16 +22,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using Accord.Extensions.Math.Geometry;
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using System.Linq;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
-using Rectangle = Accord.Extensions.Rectangle;
 using System.ComponentModel;
+using DotImaging.Primitives2D;
+using Pen = System.Drawing.Pen;
+using Color = System.Drawing.Color;
+using Graphics = System.Drawing.Graphics;
 
 namespace ObjectAnnotator.Components
 {
@@ -97,7 +97,7 @@ namespace ObjectAnnotator.Components
             var annLabel = ShowLabel ? ann.Label : "";
             var labelSize = g.MeasureString(annLabel, drawingFont);
 
-            g.DrawString(annLabel, drawingFont, new SolidBrush(DefaultPen.Color), 
+            g.DrawString(annLabel, drawingFont, new System.Drawing.SolidBrush(DefaultPen.Color), 
                                   new System.Drawing.PointF 
                                   {
                                       X = rect.X,

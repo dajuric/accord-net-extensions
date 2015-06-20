@@ -26,7 +26,7 @@ using System.Linq;
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
-using PointF = AForge.Point;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {

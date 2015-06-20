@@ -26,7 +26,6 @@ using Accord.Extensions;
 using Accord.Extensions.Math.Geometry;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Algorithms.LINE2D;
-using Accord.Extensions.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,9 +33,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Point = AForge.IntPoint;
 using Template = Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate;
 using TemplatePyramid = Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplatePyramid<Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate>;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace FastTemplateMatchingDemo
 {
@@ -136,7 +136,7 @@ namespace FastTemplateMatchingDemo
             {
 #if FILE_CAPTURE
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
-                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), "*.jpg");
+                videoCapture = new ImageDirectoryCapture(Path.Combine(resourceDir, "ImageSequence"), "*.jpg");
 #else
                 videoCapture = new CameraCapture(0);
 #endif
@@ -156,7 +156,7 @@ namespace FastTemplateMatchingDemo
         }
 
         Bgr<byte>[,] frame = null;
-        Accord.Extensions.Imaging.Font font = new Font(FontTypes.HERSHEY_DUPLEX, 1, 0.2f);
+        Font font = new DotImaging.Font(FontTypes.HERSHEY_DUPLEX, 1, 0.1f);
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             videoCapture.ReadTo(ref frame);

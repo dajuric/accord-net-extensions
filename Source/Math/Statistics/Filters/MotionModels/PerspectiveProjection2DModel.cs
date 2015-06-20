@@ -20,7 +20,7 @@
 //
 #endregion
 
-using PointF = AForge.Point;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Statistics.Filters
 {

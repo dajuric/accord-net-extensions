@@ -21,6 +21,7 @@
 #endregion
 
 using Accord.Math;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging
 {

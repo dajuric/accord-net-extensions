@@ -23,7 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PointF = AForge.Point;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Statistics.Filters
 {

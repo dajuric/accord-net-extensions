@@ -22,6 +22,7 @@
 
 using System;
 using Accord.Imaging.Filters;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging.Filters
 {

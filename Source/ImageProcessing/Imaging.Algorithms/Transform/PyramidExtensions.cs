@@ -21,6 +21,8 @@
 #endregion
 
 using System;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging.Filters
 {

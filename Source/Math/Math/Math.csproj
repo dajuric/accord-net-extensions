@@ -36,15 +36,8 @@
     <DocumentationFile>..\..\..\bin\Release\Accord.Extensions.Math.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord">
-      <HintPath>..\..\..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
-    </Reference>
     <Reference Include="Accord.Math">
       <HintPath>..\..\..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Statistics, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Accord.Statistics.2.14.0\lib\net40\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="AForge">
       <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
@@ -52,22 +45,20 @@
     <Reference Include="AForge.Math">
       <HintPath>..\..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
     </Reference>
+    <Reference Include="DotImaging.Primitives2D, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\DotImaging.Primitives2D.2.5.0\lib\net45\DotImaging.Primitives2D.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\BranchAndBoundAssigment.cs" />
     <Compile Include="Geometry\Angle.cs" />
-    <Compile Include="Geometry\Extensions\PointExtensions.cs" />
     <Compile Include="Geometry\Extensions\RectangleExtensions.cs" />
-    <Compile Include="Geometry\Extensions\SizeExtensions.cs" />
     <Compile Include="Geometry\Graph\Edge.cs" />
     <Compile Include="Geometry\Graph\GraphBaseExtensions.cs" />
     <Compile Include="Geometry\Graph\GraphSearchExtensions.cs" />
     <Compile Include="Geometry\GroupMatching\RectangleClustering.cs" />
-    <Compile Include="Geometry\Structures\Box2D.cs" />
-    <Compile Include="Geometry\Structures\Circle.cs" />
-    <Compile Include="Geometry\Structures\CircleF.cs" />
-    <Compile Include="Geometry\Structures\Ellipse.cs" />
     <Compile Include="Geometry\Structures\Point%271.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.ForEach.cs" />
     <Compile Include="Structures\Complex.cs" />
@@ -87,7 +78,6 @@
     <Compile Include="Structures\ComplexF.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

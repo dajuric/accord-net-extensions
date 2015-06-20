@@ -24,6 +24,8 @@ using System;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Moments;
 using Accord.Extensions.Math.Geometry;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {

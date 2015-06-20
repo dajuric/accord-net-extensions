@@ -20,22 +20,17 @@
 //
 #endregion
 
+using Accord.Extensions.Statistics.Filters;
+using Accord.Math;
+using Accord.Statistics.Distributions;
+using Accord.Statistics.Distributions.Univariate;
+using DotImaging;
+using DotImaging.Primitives2D;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Accord.Extensions;
-using Accord.Extensions.Imaging;
-using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Statistics.Filters;
-using Accord.Extensions.Imaging;
-using Accord.Math;
-using Accord.Statistics.Distributions.Univariate;
-using AForge;
-using PointF = AForge.Point;
-using Point = AForge.IntPoint;
-using System.IO;
-using Accord.Statistics.Distributions;
 
 namespace SimpleParticleFilterDemo
 {
@@ -153,7 +148,7 @@ namespace SimpleParticleFilterDemo
             {
                 //videoCapture = new CameraCapture(0);
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
-                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), "*.jpg"); 
+                videoCapture = new ImageDirectoryCapture(Path.Combine(resourceDir, "ImageSequence"), "*.jpg"); 
             }
             catch (Exception ex)
             {
@@ -171,7 +166,7 @@ namespace SimpleParticleFilterDemo
         }
 
         Bgr<byte>[,] frame;
-        Accord.Extensions.Imaging.Font font = new Accord.Extensions.Imaging.Font(FontTypes.HERSHEY_COMPLEX, 1, 0.5f); 
+        Font font = new Font(FontTypes.HERSHEY_COMPLEX, 1, 0.5f); 
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
             videoCapture.ReadTo(ref frame);

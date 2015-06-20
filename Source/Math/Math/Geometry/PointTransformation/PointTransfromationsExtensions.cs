@@ -22,7 +22,7 @@
 
 using System.Collections.Generic;
 using Accord.Math;
-using PointF = AForge.Point;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Math.Geometry
 {

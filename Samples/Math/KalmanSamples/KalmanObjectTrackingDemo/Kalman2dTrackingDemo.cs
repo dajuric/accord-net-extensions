@@ -30,12 +30,12 @@ using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Moments;
 using Accord.Extensions.Math.Geometry;
 using Accord.Extensions.Statistics.Filters;
-using Accord.Extensions.Imaging;
 using Accord.Math;
-using AForge;
+using DotImaging;
+using DotImaging.Primitives2D;
+using IntRange = AForge.IntRange;
 using ModelState = Accord.Extensions.Statistics.Filters.ConstantVelocity2DModel;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
+
 
 namespace KalmanObjectTracking
 {
@@ -92,10 +92,10 @@ namespace KalmanObjectTracking
             originalObjHist.Scale((float)1 / roi.Area());
             //originalObjHist.Normalize(Byte.MaxValue);
 
-            var backgroundArea = roi.Inflate(1.5, 1.5, frame.Size());
+            var backgroundArea = roi.Inflate(1.5, 1.5, frame.Size()); 
             var backgroundMask = mask.Clone(backgroundArea);
-            backgroundMask.SetValue<Gray<byte>>(0, new Rectangle(Point.Subtract(roi.Location, backgroundArea.Location), roi.Size));
-
+            backgroundMask.SetValue<Gray<byte>>(0, new Rectangle(roi.X - backgroundArea.X, roi.Y - backgroundArea.Y, roi.Width, roi.Height));
+           
             backgroundHist.Calculate(hsvImg.SplitChannels<Hsv<byte>, byte>(backgroundArea, 0, 1), false, mask, backgroundArea.Location);
             backgroundHist.Scale((float)1 / (backgroundArea.Area() - roi.Area()));
             //backgroundHist.Normalize(Byte.MaxValue);
@@ -195,7 +195,7 @@ namespace KalmanObjectTracking
             {
 #if FILE_CAPTURE
                 string videoDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources", "Sequence");
-                videoCapture = new ImageDirectoryReader(videoDir, "*.jpg");
+                videoCapture = new ImageDirectoryCapture(videoDir, "*.jpg");
 #else
                 videoCapture = new CameraCapture(0);
 #endif
@@ -235,7 +235,7 @@ namespace KalmanObjectTracking
             GC.Collect();
         }
 
-        Accord.Extensions.Imaging.Font font = Accord.Extensions.Imaging.Font.Normal; 
+        Font font = DotImaging.Font.Normal; 
         void videoCapture_NewFrame(object sender, EventArgs e)
         {
             videoCapture.ReadTo(ref frame);

@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using Accord.Extensions.Math;
 using Accord.Math;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging.Filters
 {

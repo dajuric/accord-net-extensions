@@ -28,6 +28,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Accord.Extensions;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {

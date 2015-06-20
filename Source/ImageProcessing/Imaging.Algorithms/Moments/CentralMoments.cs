@@ -46,7 +46,8 @@ using Accord.Extensions.Math.Geometry;
 
 namespace Accord.Extensions.Imaging.Moments
 {
-    using PointF = AForge.Point;
+    using DotImaging;
+    using DotImaging.Primitives2D;
 
     /// <summary>
     ///   Central image moments.

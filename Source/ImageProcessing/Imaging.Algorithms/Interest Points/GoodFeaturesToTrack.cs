@@ -26,7 +26,8 @@ using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Filters;
 using Accord.Extensions.Imaging.IntegralImage;
 using Accord.Extensions.Math.Geometry;
-using Point = AForge.IntPoint;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {

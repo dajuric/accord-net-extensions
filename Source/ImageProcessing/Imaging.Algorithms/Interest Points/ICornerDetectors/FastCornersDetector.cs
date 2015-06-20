@@ -21,8 +21,10 @@
 #endregion
 
 using Accord.Imaging;
-using AForge;
 using System.Collections.Generic;
+using DotImaging;
+using DotImaging.Primitives2D;
+using System.Linq;
 
 namespace Accord.Extensions.Imaging
 {
@@ -38,14 +40,16 @@ namespace Accord.Extensions.Imaging
         /// <param name="im">Image.</param>
         /// <param name="threshold">The suppression threshold. Decreasing this value increases the number of points detected by the algorithm.</param>
         /// <returns>Interest point locations.</returns>
-        public static List<IntPoint> CornerFeaturesDetector(this Gray<byte>[,] im, int threshold = 20)
+        public static List<Point> CornerFeaturesDetector(this Gray<byte>[,] im, int threshold = 20)
         {
             FastCornersDetector fast = new FastCornersDetector(threshold);
 
-            List<IntPoint> points;
+            List<Point> points;
             using (var uImg = im.Lock())
             {
-                points = fast.ProcessImage(uImg.AsAForgeImage());
+                points = fast.ProcessImage(uImg.AsAForgeImage())
+                             .Select(x => x.ToPoint())
+                             .ToList();
             }
             
             return points;

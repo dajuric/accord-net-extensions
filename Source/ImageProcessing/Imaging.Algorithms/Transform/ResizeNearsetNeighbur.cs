@@ -22,6 +22,8 @@
 
 using System;
 using System.Collections.Generic;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {
@@ -76,7 +78,7 @@ namespace Accord.Extensions.Imaging
 
         internal static void Resize(IImage img, IImage destImg)
         {
-            if (img.ColorInfo.Equals(destImg.ColorInfo, ColorInfo.ComparableParts.Castable) == false)
+            if (img.ColorInfo.Equals(destImg.ColorInfo, ColorInfo.ComparableParts.BinaryCompatible) == false)
                 throw new Exception("Image and dest image must be at least castable (the same number of channels, the same channel type)!");
 
             Type depthType = img.ColorInfo.ChannelType;

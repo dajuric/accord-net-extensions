@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using Accord.Extensions.Math;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging
 {

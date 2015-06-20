@@ -24,8 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MoreLinq;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
+using DotImaging.Primitives2D;
 using Range = AForge.IntRange;
 
 namespace Accord.Extensions.Math.Geometry
@@ -75,7 +74,7 @@ namespace Accord.Extensions.Math.Geometry
                 var idxA = i;
                 var idxB = (i + 1) % pts.Count;
 
-                cumulativeDistance += ((PointF)pts[idxA]).DistanceTo(pts[idxB]);
+                cumulativeDistance += (float)((PointF)pts[idxA]).DistanceTo(pts[idxB]);
                 cumulativeDistances.Add(cumulativeDistance);
             }
 
@@ -486,7 +485,7 @@ namespace Accord.Extensions.Math.Geometry
                 var idxA = i;
                 var idxB = (i + 1) % pts.Count;
 
-                cumulativeDistance += ((PointF)pts[idxA]).DistanceTo(pts[idxB]);
+                cumulativeDistance += (float)((PointF)pts[idxA]).DistanceTo(pts[idxB]);
                 cumulativeDistances.Add(cumulativeDistance);
             }
 

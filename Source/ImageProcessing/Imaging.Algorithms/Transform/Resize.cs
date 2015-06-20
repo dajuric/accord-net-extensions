@@ -22,6 +22,8 @@
 
 using System;
 using AForge.Imaging.Filters;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {

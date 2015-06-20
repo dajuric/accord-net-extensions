@@ -6,8 +6,6 @@
         Accord.NET Extensions is an extension framework for Accord.NET and AForge.NET.
         The framework is built with extensibility and portability in mind.    
         Most provided algorithms for image processing, computer vision and statistical analysis are made as extensions.
-        New generic image class is not tied to any specific library and 
-        video IO library, which offers unified interface for camera capture, file and directory reading, is platform abstract.
       </para>
 
       <para>
@@ -69,60 +67,6 @@
           </list>
         </content>
       </section>
-
-    <section>
-      <title>Support libraries</title>
-      <content>
-
-        <list class="bullet">
-          <listItem>
-            <para>Accord.Extensions.Core</para>
-            <para>
-              The core of the Accord.NET Extensions Framework.
-              Contains classes needed for other libraries such as: collections, structures, structures for parallel processing and extensions shared across libraries.
-            </para>
-          </listItem>
-
-          <listItem>
-            <para>Accord.Extensions.Imaging.GenericImage</para>
-            <para>
-              Provides .NET native array imaging extensions. Implements slim generic image class for fast and unmanaged pixel access. 
-              To get compatibility for other image types install appropriate extension - NuGet package (e.g. Imaging.BitmapInterop).
-            </para>
-          </listItem>
-
-          <listItem>
-            <para>Accord.Extensions.Imaging.Drawing</para>
-            <para>
-              Provides platform independent drawing extensions which operate on native .NET arrays.
-            </para>
-          </listItem>
-          
-          <listItem>
-            <para>Accord.Extensions.Imaging.AForgeInterop</para>
-            <para>
-              Provides extensions for easy interoperability between generic image and AForge UnmanagedImage.
-            </para>
-          </listItem>
-
-          <listItem>
-            <para>Accord.Extensions.Imaging.BitmapInterop</para>
-            <para>
-              Provides extensions for interoperability with System.Drawing.Bitmap, Point, PointF, Color and drawing extensions.
-            </para>
-          </listItem>
-
-          <listItem>
-            <para>Accord.Extensions.Imaging.IO</para>
-            <para>
-              Provides unified API for IO video access: web-camera support, various video-format reading / writing, image-directory reader and functions for image reading and writing.
-              All operations on image streams are standard stream operations and do not depend on actual video source.
-              The library is made in platform-abstract fashion.
-            </para>
-          </listItem>
-        </list>
-      </content>
-    </section>
     
     <relatedTopics>
 		</relatedTopics>

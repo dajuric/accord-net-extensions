@@ -23,6 +23,7 @@
 using Accord.Imaging;
 using Accord.Imaging.Filters;
 using Accord.Extensions.Imaging;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging.Filters
 {

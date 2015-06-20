@@ -24,6 +24,7 @@ using System;
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Filters;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {

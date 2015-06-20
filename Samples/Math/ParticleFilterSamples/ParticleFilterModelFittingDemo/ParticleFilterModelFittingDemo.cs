@@ -30,13 +30,10 @@ using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
 using Accord.Extensions.Statistics.Filters;
-using Accord.Extensions.Imaging;
-using AForge;
 using Accord.Extensions.Imaging.Algorithms.LINE2D;
 using MoreLinq;
-using Font = Accord.Extensions.Imaging.Font;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
+using DotImaging;
+using DotImaging.Primitives2D;
 using Accord.Statistics.Distributions;
 using Accord.Statistics.Distributions.Univariate;
 
@@ -61,7 +58,7 @@ namespace ParticleFilterModelFitting
         static MatchClustering matchClustering = new MatchClustering();
 
         private void init()
-        {
+        { 
             var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName, "Resources", "PrototypeTemplatesBW");
             var generatedScales = EnumerableExtensions.GetRange(60, 170, 3);
             var generatedOrientations = EnumerableExtensions.GetRange(-90, +90, (int)((180f / GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS) / 2 / 2 /*user factor - last "2"*/));
@@ -157,7 +154,7 @@ namespace ParticleFilterModelFitting
             { 
                 //img.Draw(p.MetaData, new Bgr(Color.Blue), 1);
                 img.Draw(metaData.Points.ToArray(), Bgr<byte>.Blue, 3);
-                img.DrawAnnotation(metaData.BoundingRect, text, Accord.Extensions.Imaging.Font.Big);
+                img.DrawAnnotation(metaData.BoundingRect, text, DotImaging.Font.Big);
             }
 
             Console.WriteLine(text);
@@ -178,8 +175,8 @@ namespace ParticleFilterModelFitting
             {
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
 
-                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "SampleVideos", "1"), "*.jpg");   //1st sample
-                //videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "SampleVideos", "2"), "*.jpg"); //2nd sample
+                videoCapture = new ImageDirectoryCapture(Path.Combine(resourceDir, "SampleVideos", "1"), "*.jpg");   //1st sample
+                //videoCapture = new ImageDirectoryCapture(Path.Combine(resourceDir, "SampleVideos", "2"), "*.jpg"); //2nd sample
             }
             catch (Exception)
             {
@@ -196,7 +193,7 @@ namespace ParticleFilterModelFitting
         }
 
         Bgr<byte>[,] frame = null;
-        Accord.Extensions.Imaging.Font font = new Font(FontTypes.HERSHEY_DUPLEX, 1, 0.2f);
+        Font font = new Font(FontTypes.HERSHEY_DUPLEX, 1, 0.2f);
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
             videoCapture.ReadTo<Bgr<byte>>(ref frame); 

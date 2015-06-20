@@ -42,6 +42,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using DotImaging;
+using DotImaging.Primitives2D;
+
 namespace Accord.Extensions.Imaging.Moments
 {
     /// <summary>

@@ -25,6 +25,7 @@ using Accord.Extensions.Math.Geometry;
 using System.Linq;
 using MoreLinq;
 using System.Collections.Generic;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 {

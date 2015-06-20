@@ -24,12 +24,12 @@ using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Imaging.Algorithms.LINE2D;
 using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Imaging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using PointF = AForge.Point;
+using DotImaging.Primitives2D;
+using DotImaging;
 using Range = AForge.IntRange;
 
 namespace ParticleFilterModelFitting

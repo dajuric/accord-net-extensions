@@ -23,9 +23,11 @@
       <dependency id="Accord.Math"                                    version="2.14" />
       <dependency id="Accord.Imaging"                                 version="2.14" />
 
+      <dependency id="DotImaging.GenericImage"                         version="[2, 3)" />
+      <dependency id="DotImaging.Primitives2D"                         version="[2, 3)" />
+      
       <dependency id="Accord.Extensions.Core"                         version="$version$" />
       <dependency id="Accord.Extensions.Math"                         version="$version$" />
-      <dependency id="Accord.Extensions.Imaging.GenericImage"         version="$version$" />
       <dependency id="Accord.Extensions.Imaging.Algorithms"           version="$version$" />
     </dependencies>
   </metadata>

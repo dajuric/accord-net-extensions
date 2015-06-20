@@ -23,8 +23,8 @@
 using System.Threading.Tasks;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging //POGLEDATI INTERPOLACIJU - možda je tamo greška => pretvaranje SizeF -> Size
 {

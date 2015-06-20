@@ -26,10 +26,10 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
-using Point = AForge.IntPoint;
 using Accord.Extensions.Math.Geometry;
-using Accord.Extensions.Imaging;
 using System.Collections.Generic;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace ObjectAnnotator
 {
@@ -72,7 +72,7 @@ namespace ObjectAnnotator
                 if (database.ContainsKey(imgKey))
                 {
                     capture.Seek(i, SeekOrigin.Begin);
-                    var imgName = (capture as ImageDirectoryReader).CurrentImageName;
+                    var imgName = (capture as ImageDirectoryCapture).CurrentImageName;
                     var img = capture.Read(); 
 
                     var labelCounter = new Dictionary<string, int>();

@@ -27,6 +27,8 @@ using System.Windows.Forms;
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Accord.Extensions.Math.Geometry;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace ContourExtremaDemo
 {

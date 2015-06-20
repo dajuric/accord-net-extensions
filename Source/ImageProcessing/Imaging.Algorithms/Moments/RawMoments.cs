@@ -45,7 +45,8 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using AForge;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging.Moments
 {
@@ -216,7 +217,7 @@ namespace Accord.Extensions.Imaging.Moments
 
             using (var uImg = image.Lock(area))
             {
-                computeByte(uImg, new IntPoint(), Order,
+                computeByte(uImg, Point.Empty, Order,
                             out m00, out m01, out m10,
                             out m11, out m02, out m20,
                             out m12, out m21, out m30, out m03);
@@ -244,7 +245,7 @@ namespace Accord.Extensions.Imaging.Moments
 
             using (var uImg = image.Lock(area))
             {
-                computeFloat(uImg, new IntPoint(), Order,
+                computeFloat(uImg, Point.Empty, Order,
                              out m00, out m01, out m10,
                              out m11, out m02, out m20,
                              out m12, out m21, out m30, out m03);
@@ -259,7 +260,7 @@ namespace Accord.Extensions.Imaging.Moments
             CenterY = M01 * InvM00;
         }
 
-        private unsafe static void computeByte(IImage image, IntPoint offset, int order, 
+        private unsafe static void computeByte(IImage image, Point offset, int order, 
                                                out float m00, out float m01, out float m10,
                                                out float m11, out float m02, out float m20,
                                                out float m12, out float m21, out float m30, out float m03)
@@ -290,7 +291,7 @@ namespace Accord.Extensions.Imaging.Moments
             }       
         }
 
-        private unsafe static void computeFloat(IImage image, IntPoint offset, int order,
+        private unsafe static void computeFloat(IImage image, Point offset, int order,
                                                 out float m00, out float m01, out float m10,
                                                 out float m11, out float m02, out float m20,
                                                 out float m12, out float m21, out float m30, out float m03)

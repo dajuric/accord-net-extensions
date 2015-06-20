@@ -34,17 +34,6 @@ namespace Accord.Extensions.Math
     public static class MatrixExtensions
     {
         /// <summary>
-        /// Creates new array which has the same size as the source.
-        /// </summary>
-        /// <typeparam name="T">Element type.</typeparam>
-        /// <param name="matrix">Source matrix.</param>
-        /// <returns>Blank array of the same size as source array.</returns>
-        public static T[,] CopyBlank<T>(this T[,] matrix)
-        {
-            return new T[matrix.GetLength(0), matrix.GetLength(1)];
-        }
-
-        /// <summary>
         /// For a given matrix returns number of rows and columns in the form [rows, columns]
         /// </summary>
         public static int[] GetSize<T>(this T[,] matrix)

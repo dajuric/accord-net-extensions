@@ -67,19 +67,17 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord">
-      <HintPath>..\..\..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
-    </Reference>
     <Reference Include="Accord.Imaging, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Accord.Imaging.2.14.0\lib\net40\Accord.Imaging.dll</HintPath>
     </Reference>
-    <Reference Include="AForge">
-      <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
+    <Reference Include="DotImaging.GenericImage, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.GenericImage.2.5.0\lib\net45\DotImaging.GenericImage.dll</HintPath>
+    </Reference>
+    <Reference Include="DotImaging.Primitives2D, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\DotImaging.Primitives2D.2.5.0\lib\net45\DotImaging.Primitives2D.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -90,6 +88,8 @@
     <Compile Include="Detector\Match\Match.cs" />
     <Compile Include="Detector\Match\MatchClustering.cs" />
     <Compile Include="Detector\SIMDArithemtics.cs" />
+    <Compile Include="DotImaging\PathExtensions.cs" />
+    <Compile Include="DotImaging\Platform.cs" />
     <Compile Include="FeatureExtraction\Template\Base\Feature.cs" />
     <Compile Include="FeatureExtraction\Template\Base\ITemplate.cs" />
     <Compile Include="FeatureExtraction\Template\Base\ITemplatePyramid.cs" />
@@ -129,13 +129,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Support\Core\Core.csproj">
-      <Project>{f46115e9-c4fc-4355-93ae-be8e96b236c9}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Math\Math\Math.csproj">
       <Project>{23880a3c-b97d-4139-8355-6dc599dd1576}</Project>
       <Name>Math</Name>
@@ -143,10 +141,6 @@
     <ProjectReference Include="..\Imaging.Algorithms\Imaging.Algorithms.csproj">
       <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
       <Name>Imaging.Algorithms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Support\Imaging.GenericImage\Imaging.GenericImage.csproj">
-      <Project>{3cf8f155-3da1-4529-9b28-d409e86ed4e2}</Project>
-      <Name>Imaging.GenericImage</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

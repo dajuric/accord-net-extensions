@@ -23,7 +23,8 @@
 using System;
 using Accord.Extensions.Math;
 using Accord.Extensions.Imaging;
-using Point = AForge.IntPoint;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {
@@ -65,7 +66,7 @@ namespace Accord.Extensions.Imaging
             return image.Convert<Gray<float>, ComplexF>(convertGrayToComplex);
         }
 
-        private static void convertGrayToComplex(ref Gray<float> source, ref ComplexF destination)
+        private static void convertGrayToComplex(Gray<float> source, ref ComplexF destination)
         {
             destination.Re = source.Intensity;
         }
@@ -102,7 +103,7 @@ namespace Accord.Extensions.Imaging
             return image.Convert<ComplexF, Gray<float>>(convertComplexToMagnitude, area);
         }
 
-        private static void convertComplexToMagnitude(ref ComplexF source, ref Gray<float> destination)
+        private static void convertComplexToMagnitude(ComplexF source, ref Gray<float> destination)
         {
             destination.Intensity = source.Magnitude();
         }

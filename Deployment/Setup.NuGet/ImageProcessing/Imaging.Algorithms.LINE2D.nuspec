@@ -22,17 +22,13 @@
       <dependency id="AForge.Math"                                    version="2.2.5" />
 
       <dependency id="Accord.Imaging"                                 version="2.14" />
-      
-      <dependency id="Accord.Extensions.Core"                         version="$version$" />
-      <dependency id="Accord.Extensions.Math"                         version="$version$" />
-      <dependency id="Accord.Extensions.Imaging.GenericImage"         version="$version$" />
-      <dependency id="Accord.Extensions.Imaging.Algorithms"           version="$version$" />
-      <dependency id="Accord.Extensions.Imaging.BitmapInterop"        version="$version$" />
-    </dependencies>
 
-    <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Drawing"  />
-    </frameworkAssemblies>
+      <dependency id="DotImaging.GenericImage"                        version="[2, 3)" />
+      <dependency id="DotImaging.BitmapInterop"                       version="[2, 3)" />
+      
+      <dependency id="Accord.Extensions.Math"                         version="$version$" />
+      <dependency id="Accord.Extensions.Imaging.Algorithms"           version="$version$" />
+    </dependencies>
   </metadata>
   
   <files>

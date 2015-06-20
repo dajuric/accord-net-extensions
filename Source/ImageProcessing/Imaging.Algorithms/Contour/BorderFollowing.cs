@@ -23,7 +23,9 @@
 using System.Collections.Generic;
 using Accord.Imaging;
 using Accord.Extensions.Imaging;
-using Point = AForge.IntPoint;
+using DotImaging;
+using System.Linq;
+using DotImaging.Primitives2D;
 
 namespace Accord.Extensions.Imaging
 {
@@ -45,7 +47,9 @@ namespace Accord.Extensions.Imaging
             List<Point> points;
             using (var uImg = im.Lock())
             {
-                points = bf.FindContour(uImg.AsAForgeImage());
+                points = bf.FindContour(uImg.AsAForgeImage())
+                           .Select(x => x.ToPoint())
+                           .ToList();
             }
 
             return points;

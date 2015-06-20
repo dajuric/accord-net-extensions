@@ -28,11 +28,10 @@ using System.Linq;
 using System.Windows.Forms;
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
-using Accord.Extensions.Imaging;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
+using DotImaging;
+using DotImaging.Primitives2D;
 
-using FlowColor = Accord.Extensions.Imaging.Gray<float>;
+using FlowColor = DotImaging.Gray<float>;
 using System.IO;
 
 namespace PyrKLOpticalFlowDemo
@@ -82,7 +81,7 @@ namespace PyrKLOpticalFlowDemo
             {
 #if FILE_CAPTURE
                 string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
-                videoCapture = new ImageDirectoryReader(Path.Combine(resourceDir, "ImageSequence"), "*.jpg");
+                videoCapture = new ImageDirectoryCapture(Path.Combine(resourceDir, "ImageSequence"), "*.jpg");
 
                 videoCapture.ReadTo(ref frame);
                 prevIm = frame.ToGray().Cast<float>();
@@ -112,7 +111,7 @@ namespace PyrKLOpticalFlowDemo
         FlowColor[,] prevIm = null;
         List<PointF> oldPositions = null;
 
-        Accord.Extensions.Imaging.Font font = Accord.Extensions.Imaging.Font.Normal; 
+        Font font = DotImaging.Font.Normal; 
         Bgr<byte>[,] frame = null;
         void videoCapture_NewFrame(object sender, EventArgs e)
         {

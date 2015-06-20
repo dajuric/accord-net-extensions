@@ -34,7 +34,7 @@
     <DocumentationFile>..\..\..\bin\Release\Accord.Extensions.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AForge">
+	<Reference Include="AForge">
       <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -58,17 +58,10 @@
     <Compile Include="Extensions\Enumerable\EnumerableExtensions.cs" />
     <Compile Include="Extensions\PathExtensions.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
-    <Compile Include="Caching\MethodCache.cs" />
-    <Compile Include="NaturalSortComparer.cs" />
     <Compile Include="ParallelProcessing\ParallelExtensions.cs" />
     <Compile Include="Collections\CircularList.cs" />
     <Compile Include="Extensions\SerializationExtensions.cs" />
     <Compile Include="ParallelProcessing\ParallelRandom.cs" />
-    <Compile Include="Geometry\RectangleF.cs" />
-    <Compile Include="Geometry\SizeF.cs" />
-    <Compile Include="Platform.cs" />
-    <Compile Include="Geometry\Rectangle.cs" />
-    <Compile Include="Geometry\Size.cs" />
     <Compile Include="Collections\History.cs" />
     <Compile Include="Collections\PinnedArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

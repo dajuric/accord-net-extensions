@@ -26,8 +26,6 @@ using System.Linq;
 using Accord.Extensions.Math;
 using Accord.Math;
 using Accord.Statistics.Distributions.Multivariate;
-using Accord.Statistics.Distributions.Univariate;
-using AForge;
 using Accord.Statistics.Distributions;
 
 namespace Accord.Extensions.Statistics.Filters

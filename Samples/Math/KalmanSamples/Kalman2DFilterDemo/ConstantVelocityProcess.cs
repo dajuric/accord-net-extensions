@@ -21,11 +21,10 @@
 #endregion
 
 using System;
-using System.Drawing;
 using Accord.Extensions.Statistics.Filters;
 using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
-using PointF = AForge.Point;
+using DotImaging.Primitives2D;
 
 namespace Kalman2DFilterDemo
 {

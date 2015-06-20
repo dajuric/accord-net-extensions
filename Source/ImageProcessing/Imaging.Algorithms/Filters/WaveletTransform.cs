@@ -23,6 +23,7 @@
 using Accord.Imaging.Filters;
 using Accord.Math.Wavelets;
 using AForge.Imaging.Filters;
+using DotImaging;
 
 namespace Accord.Extensions.Imaging.Filters
 {

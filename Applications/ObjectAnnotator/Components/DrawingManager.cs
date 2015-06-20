@@ -28,6 +28,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MoreLinq;
+using DotImaging;
+using DotImaging.Primitives2D;
 using Accord.Extensions.Math.Geometry;
 
 namespace ObjectAnnotator.Components

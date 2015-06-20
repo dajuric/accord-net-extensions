@@ -26,6 +26,7 @@ using System.Windows.Forms;
 using Accord.Extensions;
 using Accord.Extensions.Imaging;
 using Database = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Accord.Extensions.Imaging.Annotation>>;
+using DotImaging;
 
 namespace ObjectAnnotator
 {
@@ -50,7 +51,7 @@ namespace ObjectAnnotator
                 var result = diag.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    CaptureObj = new ImageDirectoryReader(diag.SelectedPath, searchPatterns, useNaturalSorting: true, recursive: chkRecursive.Checked);
+                    CaptureObj = new ImageDirectoryCapture(diag.SelectedPath, searchPatterns, useNaturalSorting: true, recursive: chkRecursive.Checked);
 
                     imageDirPath = diag.SelectedPath;
                     btnSaveAnnotations.Enabled = true;

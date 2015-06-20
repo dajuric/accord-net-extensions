@@ -25,13 +25,11 @@ using Accord.Extensions.Math.Geometry;
 using System;
 using Accord.Extensions;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
-using Rectangle = Accord.Extensions.Rectangle;
-using RectangleF = Accord.Extensions.RectangleF;
+using DotImaging;
+using DotImaging.Primitives2D;
+using Graphics = System.Drawing.Graphics;
 
 namespace ObjectAnnotator.Components
 {

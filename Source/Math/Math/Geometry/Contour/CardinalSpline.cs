@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Accord.Math;
-using PointF = AForge.Point;
+using DotImaging.Primitives2D;
 using RangeF = AForge.Range;
 
 namespace Accord.Extensions.Math.Geometry
