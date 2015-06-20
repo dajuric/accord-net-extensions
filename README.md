@@ -6,7 +6,7 @@
 
         <td>
             <ul>
-                <li>Version: 2.0</li>
+                <li>Version: 2.5</li>
                 <li>NuGet packages: <a href="https://www.nuget.org/profiles/dajuric"><strong>ready</strong></a></li>
                 <li>
                     Help: <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> Offline </a> - <i>unblock after download!</i>
@@ -14,14 +14,6 @@
             </ul>
         </td>
     </tr>
-	<tr>
-		<td></td>
-	    <td align="right">
-			<a href="https://bitdeli.com/free" title="Bitdeli Badge"> 
-				<img src="https://d2weczhvl823v0.cloudfront.net/dajuric/accord-net-extensions/trend.png" alt=""/>
-			</a>
-		</td>
-	</tr>
 </table>
 
 <p align="justify">
