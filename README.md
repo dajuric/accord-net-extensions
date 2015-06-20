@@ -186,8 +186,8 @@
 
 <h2>Getting started</h2>
 <p align="justify">
-    Browse through some included samples, install NuGet packages and enjoy!
-	Also take a look at: <a href="https://github.com/dajuric/dot-imaging">DotImaging</a> - the portable imaging library which is the foundation library for Accord.NET Extensions
+    Browse through some included samples, install NuGet packages and enjoy! <br/>
+<b>Take a look at: <a href="https://github.com/dajuric/dot-imaging">DotImaging</a></b> - the portable imaging library which is the foundation library for Accord.NET Extensions
 </p>
 
 <h2>How to Engage, Contribute and Provide Feedback</h2>
