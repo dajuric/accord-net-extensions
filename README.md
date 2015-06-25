@@ -18,7 +18,7 @@
 
 <p align="justify">
     <b>Accord.NET Extensions</b> is an extension framework for <a href="http://accord-framework.net/"> Accord.NET </a> and <a href="http://www.aforgenet.com/framework/license.html">AForge.NET</a>.
-    The framework sets focus on .NET native array as primary imaging object, offers algorithms build as extensions, and provides unified platform-abstract imaging IO API. The libraries can be grouped as following:
+    The framework sets focus on .NET native array as primary imaging object and offers computer-vision algorithms mostly build as extensions. The libraries can be grouped as following:
 </p>
 
 <h3>Image processing</h3>
