@@ -36,16 +36,23 @@
     <DocumentationFile>..\..\..\bin\Release\Accord.Extensions.Imaging.Algorithms.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord.Imaging, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Accord.Imaging.2.14.0\lib\net40\Accord.Imaging.dll</HintPath>
+    <Reference Include="Accord">
+      <HintPath>..\..\..\packages\Accord.2.15.0\lib\net45\Accord.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.MachineLearning, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+    <Reference Include="Accord.Imaging, Version=2.15.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Accord.MachineLearning.2.14.0\lib\net40\Accord.MachineLearning.dll</HintPath>
+      <HintPath>..\..\..\packages\Accord.Imaging.2.15.0\lib\net45\Accord.Imaging.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Math">
-      <HintPath>..\..\..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
+    <Reference Include="Accord.MachineLearning, Version=2.15.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Accord.MachineLearning.2.15.0\lib\net45\Accord.MachineLearning.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math, Version=2.15.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Accord.Math.2.15.0\lib\net45\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics">
+      <HintPath>..\..\..\packages\Accord.Statistics.2.15.0\lib\net45\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -60,15 +67,15 @@
     </Reference>
     <Reference Include="DotImaging.BitmapInterop, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.BitmapInterop.2.5.0\lib\net45\DotImaging.BitmapInterop.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.BitmapInterop.2.5.1\lib\net45\DotImaging.BitmapInterop.dll</HintPath>
     </Reference>
     <Reference Include="DotImaging.GenericImage, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.GenericImage.2.5.0\lib\net45\DotImaging.GenericImage.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.GenericImage.2.5.1\lib\net45\DotImaging.GenericImage.dll</HintPath>
     </Reference>
     <Reference Include="DotImaging.Primitives2D, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.Primitives2D.2.5.0\lib\net45\DotImaging.Primitives2D.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.Primitives2D.2.5.1\lib\net45\DotImaging.Primitives2D.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -138,6 +145,7 @@
     <Compile Include="Transform\ResizeNearsetNeighbur.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -114,40 +114,112 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
         }
 
         /// <summary>
-        /// Serializes the collection of template pyramids and saves them to a file.
+        /// Serializes the collection of template pyramids and saves them to a memory stream with default encoding.
         /// </summary>
         /// <param name="cluster">The collection of template pyramids.</param>
-        /// <param name="fileName">File name.</param>
-        public static void Save(IEnumerable<TTemplatePyramid> cluster, string fileName)
+        /// <returns>
+        /// Output stream where string is written using default encoding.
+        /// <para>Output stream must be closed to free any resources.</para>
+        /// </returns>
+        public static MemoryStream ToStream(IEnumerable<TTemplatePyramid> cluster)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.IndentChars = "\t";
             settings.NewLineChars = "\r\n";
             settings.NewLineHandling = NewLineHandling.Replace;
-            settings.CloseOutput = true;
+            settings.CloseOutput = false;
 
-            using (var streamWriter = new StreamWriter(File.Create(fileName)))
-            using (var xmlWriter = XmlWriter.Create(streamWriter, settings))
+            var memoryStream = new MemoryStream();
+
+            using (var xmlWriter = XmlWriter.Create(memoryStream, settings))
             {
                 SerializeTemplatePyramidClass(cluster).Save(xmlWriter);
             }
+
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return memoryStream;
         }
 
         /// <summary>
-        /// De-serializes the collection of template pyramids.
+        /// Serializes the collection of template pyramids and saves them to a specified file.
         /// </summary>
+        /// <param name="cluster">The collection of template pyramids.</param>
         /// <param name="fileName">File name.</param>
+        public static void ToFile(IEnumerable<TTemplatePyramid> cluster, string fileName)
+        {
+            using (var stream = ToStream(cluster))
+            using (var fileStream = File.Create(fileName))
+            {
+                stream.CopyTo(fileStream);
+            }           
+        }
+
+        /// <summary>
+        /// Serializes the collection of template pyramids and writes XML content to a string.
+        /// </summary>
+        /// <param name="cluster">The collection of template pyramids.</param>
+        /// <returns>Serialized string.</returns>
+        public static string ToString(IEnumerable<TTemplatePyramid> cluster)
+        {
+            string xmlString = null;
+            using (var stream = ToStream(cluster))
+            {
+                xmlString = System.Text.Encoding.Default.GetString(stream.ToArray());
+            }
+
+            return xmlString;
+        }
+
+
+        /// <summary>
+        /// De-serializes the template pyramids collection.
+        /// </summary>
+        /// <param name="stream">Input stream.</param>
         /// <returns>The collection of template pyramids.</returns>
-        public static IEnumerable<TTemplatePyramid> Load(string fileName)
-        { 
-            XDocument xDoc = XDocument.Load(new StreamReader(File.OpenRead(fileName)));
+        public static IEnumerable<TTemplatePyramid> FromStream(Stream stream)
+        {
+            XDocument xDoc = XDocument.Load(new StreamReader(stream));
 
             IEnumerable<XElement> templatePyrClusters = from pyrCluster in xDoc.Descendants()
                                                         where pyrCluster.Name == "TemplatePyramidClass"
                                                         select pyrCluster;
 
             return DeserializeTemplatePyramidClass(templatePyrClusters.First());
+        }
+
+        /// <summary>
+        /// De-serializes the template pyramids collection.
+        /// </summary>
+        /// <param name="fileName">File name.</param>
+        /// <returns>The collection of template pyramids.</returns>
+        public static IEnumerable<TTemplatePyramid> FromFile(string fileName)
+        {
+            IEnumerable<TTemplatePyramid> templates = null;
+            using (var fileStream = File.OpenRead(fileName))
+            {
+                templates = FromStream(fileStream);
+            }
+
+            return templates;
+        }
+
+        /// <summary>
+        /// De-serializes the template pyramids collection.
+        /// </summary>
+        /// <param name="xmlString">String with XML content.</param>
+        /// <returns>The collection of template pyramids.</returns>
+        public static IEnumerable<TTemplatePyramid> FromString(string xmlString)
+        {
+            IEnumerable<TTemplatePyramid> templates = null;
+
+            byte[] byteArray = System.Text.Encoding.Default.GetBytes(xmlString);
+            using(MemoryStream stringStream = new MemoryStream(byteArray))
+            {
+                templates = FromStream(stringStream);
+            }
+
+            return templates;
         }
 
         private static IEnumerable<TTemplatePyramid> DeserializeTemplatePyramidClass(XElement templatePyrClassNode)

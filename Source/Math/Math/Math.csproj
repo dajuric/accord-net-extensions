@@ -36,8 +36,15 @@
     <DocumentationFile>..\..\..\bin\Release\Accord.Extensions.Math.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord.Math">
-      <HintPath>..\..\..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
+    <Reference Include="Accord">
+      <HintPath>..\..\..\packages\Accord.2.15.0\lib\net45\Accord.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math, Version=2.15.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Accord.Math.2.15.0\lib\net45\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics">
+      <HintPath>..\..\..\packages\Accord.Statistics.2.15.0\lib\net45\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="AForge">
       <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
@@ -47,7 +54,7 @@
     </Reference>
     <Reference Include="DotImaging.Primitives2D, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.Primitives2D.2.5.0\lib\net45\DotImaging.Primitives2D.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.Primitives2D.2.5.1\lib\net45\DotImaging.Primitives2D.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -78,6 +85,7 @@
     <Compile Include="Structures\ComplexF.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

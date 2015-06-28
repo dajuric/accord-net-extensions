@@ -83,7 +83,7 @@ namespace FastTemplateMatchingDemo
                 {}
             });
 
-            //XMLTemplateSerializer<ImageTemplatePyramid, ImageTemplate>.Save(list, "C:/bla.xml");
+            //XMLTemplateSerializer<ImageTemplatePyramid<ImageTemplate>, ImageTemplate>.ToFile(list, "C:/bla.xml");
             return list;
         }
 
@@ -92,8 +92,7 @@ namespace FastTemplateMatchingDemo
             List<TemplatePyramid> list = new List<TemplatePyramid>();
 
             string resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
-            list = XMLTemplateSerializer<TemplatePyramid, Template>.Load(Path.Combine(resourceDir, "OpenHand_Right.xml")).ToList();
-            //list = XMLTemplateSerializer<TemplatePyramid, Template>.Load("C:/bla.xml").ToList();
+            list = XMLTemplateSerializer<TemplatePyramid, Template>.FromFile(Path.Combine(resourceDir, "OpenHand_Right.xml")).ToList();
 
             return list;
         }

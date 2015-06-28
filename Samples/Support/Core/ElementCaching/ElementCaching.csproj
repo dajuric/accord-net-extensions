@@ -36,12 +36,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotImaging.GenericImage, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\packages\DotImaging.GenericImage.2.5.0\lib\net45\DotImaging.GenericImage.dll</HintPath>
+    <Reference Include="DotImaging.GenericImage">
+      <HintPath>..\..\..\..\packages\DotImaging.GenericImage.2.5.1\lib\net45\DotImaging.GenericImage.dll</HintPath>
     </Reference>
     <Reference Include="DotImaging.Primitives2D">
-      <HintPath>..\..\..\..\packages\DotImaging.Primitives2D.2.5.0\lib\net45\DotImaging.Primitives2D.dll</HintPath>
+      <HintPath>..\..\..\..\packages\DotImaging.Primitives2D.2.5.1\lib\net45\DotImaging.Primitives2D.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />

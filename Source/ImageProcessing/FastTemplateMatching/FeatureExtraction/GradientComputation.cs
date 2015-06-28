@@ -82,7 +82,7 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
 
         private unsafe static void computeColor(KernelThread thread, byte* frame, int frameStride, Gray<int>[,] orientationImage, Gray<int>[,] magnitudeSqrImage, int minSqrMagnitude)
         {
-            frame = frame + frameStride * thread.Y + thread.X;
+            frame = frame + frameStride * thread.Y + thread.X * 3 /*sizeof(Bgr<byte>)*/; 
 
             int maxMagSqr = 0, maxDx = 0, maxDy = 0;
             for (int ch = 0; ch < 3; ch++)

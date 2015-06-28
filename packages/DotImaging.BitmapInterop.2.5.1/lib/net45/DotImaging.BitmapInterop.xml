@@ -1,0 +1,439 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotImaging.BitmapInterop</name>
+    </assembly>
+    <members>
+        <member name="T:DotImaging.MethodCache">
+            <summary>
+            Represents a set of cache decorated methods 
+            Taken from: http://www.codeproject.com/Articles/195369/Simple-Method-Caching 
+            and slightly modified.
+            </summary>
+        </member>
+        <member name="F:DotImaging.MethodCache.Global">
+            <summary>
+            Gets the global (singleton) instance of the method cache.
+            </summary>
+        </member>
+        <member name="M:DotImaging.MethodCache.Invoke``1(System.Func{``0})">
+            <summary>
+            Invokes the target <paramref name="function"/>
+            </summary>        
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method.</param>        
+            <returns>The result of invoking the target method.</returns>
+        </member>
+        <member name="M:DotImaging.MethodCache.Invoke``2(System.Func{``0,``1},``0)">
+            <summary>
+            Invokes the target <paramref name="function"/>
+            </summary>
+            <typeparam name="T">The type of the parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method.</param>
+            <param name="arg">The argument passed to the parameter of the target method.</param>
+            <returns>The result of invoking the target method.</returns>
+        </member>
+        <member name="M:DotImaging.MethodCache.Invoke``3(System.Func{``0,``1,``2},``0,``1)">
+            <summary>
+            Invokes the target <paramref name="function"/>
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method.</param>
+            <param name="arg1">The argument passed to the first parameter of the target method.</param>
+            <param name="arg2">The argument passed to the second parameter of the target method.</param>
+            <returns>The result of invoking the target method.</returns>
+        </member>
+        <member name="M:DotImaging.MethodCache.Invoke``4(System.Func{``0,``1,``2,``3},``0,``1,``2)">
+            <summary>
+            Invokes the target <paramref name="function"/>
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method.</param>
+            <param name="arg1">The argument passed to the first parameter of the target method.</param>
+            <param name="arg2">The argument passed to the second parameter of the target method.</param>
+            <param name="arg3">The argument passed to the third parameter of the target method.</param>
+            <returns>The result of invoking the target method.</returns>
+        </member>
+        <member name="M:DotImaging.MethodCache.Invoke``5(System.Func{``0,``1,``2,``3,``4},``0,``1,``2,``3)">
+            <summary>
+            Invokes the target <paramref name="function"/>
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method.</param>
+            <param name="arg1">The argument passed to the first parameter of the target method.</param>
+            <param name="arg2">The argument passed to the second parameter of the target method.</param>
+            <param name="arg3">The argument passed to the third parameter of the target method.</param>
+            <param name="arg4">The argument passed to the forth parameter of the target method.</param>
+            <returns>The result of invoking the target method.</returns>
+        </member>
+        <member name="T:DotImaging.CacheProvider">
+            <summary>
+            A class that is capable of decorating a method with a cache.
+            </summary>
+        </member>
+        <member name="M:DotImaging.CacheProvider.Decorate``1(System.Func{``0})">
+            <summary>
+            Decorates the target <paramref name="function"/> by returning a function
+            delegate that points back to a cache for this function.
+            </summary>        
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method to decorate.</param>
+            <returns>A function delegate that represents the cached version of the target method.</returns>
+        </member>
+        <member name="M:DotImaging.CacheProvider.Decorate``2(System.Func{``0,``1})">
+            <summary>
+            Decorates the target <paramref name="function"/> by returning a function
+            delegate that points back to a cache indexed by the method arguments.
+            </summary>
+            <typeparam name="T">The type of the parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method to decorate.</param>
+            <returns>A function delegate that represents the cached version of the target method.</returns>
+        </member>
+        <member name="M:DotImaging.CacheProvider.Decorate``3(System.Func{``0,``1,``2})">
+            <summary>
+            Decorates the target <paramref name="function"/> by returning a function
+            delegate that points back to a cache indexed by the method arguments.
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method to decorate.</param>
+            <returns>A function delegate that represents the cached version of the target method.</returns>
+        </member>
+        <member name="M:DotImaging.CacheProvider.Decorate``4(System.Func{``0,``1,``2,``3})">
+            <summary>
+            Decorates the target <paramref name="function"/> by returning a function
+            delegate that points back to a cache indexed by the method arguments.
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>        
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method to decorate.</param>
+            <returns>A function delegate that represents the cached version of the target method.</returns>
+        </member>
+        <member name="M:DotImaging.CacheProvider.Decorate``5(System.Func{``0,``1,``2,``3,``4})">
+            <summary>
+            Decorates the target <paramref name="function"/> by returning a function
+            delegate that points back to a cache indexed by the method arguments.
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>        
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the forth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method to decorate.</param>
+            <returns>A function delegate that represents the cached version of the target method.</returns>
+        </member>
+        <member name="T:DotImaging.BitmapConversionExtensions">
+            <summary>
+            Provides extension methods for converting generic image into <see cref="T:System.Drawing.Bitmap"/>.
+            </summary>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToArray(System.Drawing.Bitmap)">
+            <summary>
+            Converts a bitmap to an image (copies data). 
+            </summary>
+            <param name="bmp">Input bitmap.</param>
+            <returns>2D array.</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Image{DotImaging.Gray{System.Byte}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Image{DotImaging.Gray{System.Int16}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Image{DotImaging.Bgr{System.Byte}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Image{DotImaging.Bgra{System.Byte}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Image{DotImaging.Bgr{System.Int16}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Image{DotImaging.Bgra{System.Int16}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Gray{System.Byte}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Gray{System.Int16}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Bgr{System.Byte}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Bgra{System.Byte}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Bgr{System.Int16}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.ToBitmap(DotImaging.Bgra{System.Int16}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.AsBitmap(DotImaging.Image{DotImaging.Gray{System.Byte}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.AsBitmap(DotImaging.Image{DotImaging.Gray{System.Int16}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.AsBitmap(DotImaging.Image{DotImaging.Bgr{System.Byte}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.AsBitmap(DotImaging.Image{DotImaging.Bgra{System.Byte}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.AsBitmap(DotImaging.Image{DotImaging.Bgr{System.Int16}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.AsBitmap(DotImaging.Image{DotImaging.Bgra{System.Int16}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.SetGrayscalePalette(System.Drawing.Bitmap)">
+            <summary>
+            Replaces color palette entries with grayscale intensities (256 entries).
+            </summary>
+            <param name="image">The 8-bpp grayscale image.</param>
+        </member>
+        <member name="M:DotImaging.BitmapConversionExtensions.LockBits(System.Drawing.Bitmap,System.Drawing.Imaging.ImageLockMode)">
+            <summary>
+            Lock a <see cref="T:System.Drawing.Bitmap"/> into system memory.
+            </summary>
+            <param name="bmp">Bitmap to lock.</param>
+            <param name="imageLockMode">Specifies the access level.</param>
+            <returns>Bitmap data.</returns>
+        </member>
+        <member name="T:DotImaging.BmpSaveExtensions">
+            <summary>
+            Bitmap file save extensions.
+            </summary>
+        </member>
+        <member name="M:DotImaging.BmpSaveExtensions.Save(System.Drawing.Image,System.String,System.Int32)">
+            <summary>
+            Saves the specified image.
+            <para>
+            Quality parameter is only supported for JPEG, PNG file types. 
+            For other file types this value is omitted.
+            </para>
+            </summary>
+            <param name="image">Image.</param>
+            <param name="filename">File name.</param>
+            <param name="quality">Quality parameter [0..100] where 0 means maximum compression.</param>
+        </member>
+        <member name="T:DotImaging.ColorExtensions">
+            <summary>
+            Contains color format conversion extensions.
+            </summary>
+        </member>
+        <member name="M:DotImaging.ColorExtensions.ToColor(DotImaging.Gray{System.Byte},System.Byte)">
+            <summary>
+            Gets System.Drawing.Color from Bgr8 color.
+            </summary>
+            <param name="color">Color.</param>
+            <param name="opacity">Opacity. If color has 4 channels opacity is discarded.</param>
+            <returns>System.Drawing.Color</returns>
+        </member>
+        <member name="M:DotImaging.ColorExtensions.ToColor(DotImaging.Bgr{System.Byte},System.Byte)">
+            <summary>
+            Gets System.Drawing.Color from Bgr8 color.
+            </summary>
+            <param name="color">Color.</param>
+            <param name="opacity">Opacity. If color has 4 channels opacity is discarded.</param>
+            <returns>System.Drawing.Color</returns>
+        </member>
+        <member name="M:DotImaging.ColorExtensions.ToColor(DotImaging.Bgra{System.Byte})">
+            <summary>
+            Gets System.Drawing.Color from Bgra8 color.
+            </summary>
+            <param name="color">Color.</param>
+            <returns>System.Drawing.Color</returns>
+        </member>
+        <member name="M:DotImaging.ColorExtensions.ToBgr(System.Drawing.Color)">
+            <summary>
+            Converts (casts) the color into 32-bit BGR color.
+            </summary>
+            <param name="color">Color.</param>
+            <returns>Bgr representation.</returns>
+        </member>
+        <member name="T:DotImaging.DrawingStructureConversions">
+            <summary>
+            Contains extension methods for System.Drawing namespace and Accord.NET extensions structure conversion.
+            </summary>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToPt(System.Drawing.Point)">
+            <summary>
+            Converts <see cref="T:System.Drawing.Point"/> to the <see cref="!:AForge.IntPoint"/>.
+            </summary>
+            <param name="point"><see cref="T:System.Drawing.Point"/></param>
+            <returns><see cref="!:AForge.IntPoint"/></returns>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToPt(System.Drawing.PointF)">
+            <summary>
+            Converts <see cref="T:System.Drawing.PointF"/> to the <see cref="!:AForge.Point"/>.
+            </summary>
+            <param name="point"><see cref="T:System.Drawing.PointF"/></param>
+            <returns><see cref="!:AForge.Point"/></returns>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToPt(DotImaging.Primitives2D.Point)">
+            <summary>
+            Converts to <see cref="!:AForge.IntPoint"/> to the <see cref="T:System.Drawing.Point"/>.
+            </summary>
+            <param name="point"><see cref="!:AForge.IntPoint"/></param>
+            <returns><see cref="T:System.Drawing.Point"/></returns>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToPt(DotImaging.Primitives2D.PointF)">
+            <summary>
+            Converts to <see cref="!:AForge.Point"/> to the <see cref="T:System.Drawing.PointF"/>.
+            </summary>
+            <param name="point"><see cref="!:AForge.Point"/></param>
+            <returns><see cref="T:System.Drawing.PointF"/></returns>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToRect(System.Drawing.Rectangle)">
+            <summary>
+            Converts the <see cref="T:System.Drawing.Rectangle"/> to the <see cref="!:Accord.Extensions.Rectangle"/>.
+            </summary>
+            <param name="rect"><see cref="T:System.Drawing.Rectangle"/></param>
+            <returns><see cref="!:Accord.Extensions.Rectangle"/></returns>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToRect(System.Drawing.RectangleF)">
+            <summary>
+            Converts the <see cref="T:System.Drawing.RectangleF"/> to the <see cref="!:Accord.Extensions.RectangleF"/>.
+            </summary>
+            <param name="rect"><see cref="T:System.Drawing.RectangleF"/></param>
+            <returns><see cref="!:Accord.Extensions.RectangleF"/></returns>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToRect(DotImaging.Primitives2D.Rectangle)">
+            <summary>
+            Converts the <see cref="!:Accord.Extensions.Rectangle"/> to the <see cref="T:System.Drawing.Rectangle"/>.
+            </summary>
+            <param name="rect"><see cref="!:Accord.Extensions.Rectangle"/></param>
+            <returns><see cref="T:System.Drawing.Rectangle"/></returns>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToRect(DotImaging.Primitives2D.RectangleF)">
+            <summary>
+            Converts the <see cref="!:Accord.Extensions.RectangleF"/> to the <see cref="T:System.Drawing.RectangleF"/>.
+            </summary>
+            <param name="rect"><see cref="!:Accord.Extensions.RectangleF"/></param>
+            <returns><see cref="T:System.Drawing.RectangleF"/></returns>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToSize(System.Drawing.Size)">
+            <summary>
+            Converts the <see cref="T:System.Drawing.Size"/> to the <see cref="!:Accord.Extensions.Size"/>.
+            </summary>
+            <param name="size"><see cref="T:System.Drawing.Size"/></param>
+            <returns><see cref="!:Accord.Extensions.Size"/></returns>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToSize(System.Drawing.SizeF)">
+            <summary>
+            Converts the <see cref="T:System.Drawing.SizeF"/> to the <see cref="!:Accord.Extensions.SizeF"/>.
+            </summary>
+            <param name="size"><see cref="T:System.Drawing.SizeF"/></param>
+            <returns><see cref="!:Accord.Extensions.SizeF"/></returns>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToSize(DotImaging.Primitives2D.Size)">
+            <summary>
+            Converts the <see cref="!:Accord.Extensions.Size"/> to the <see cref="T:System.Drawing.Size"/>.
+            </summary>
+            <param name="size"><see cref="!:Accord.Extensions.Size"/></param>
+            <returns><see cref="T:System.Drawing.Size"/></returns>
+        </member>
+        <member name="M:DotImaging.DrawingStructureConversions.ToSize(DotImaging.Primitives2D.SizeF)">
+            <summary>
+            Converts the <see cref="!:Accord.Extensions.SizeF"/> to the <see cref="T:System.Drawing.SizeF"/>.
+            </summary>
+            <param name="size"><see cref="!:Accord.Extensions.SizeF"/></param>
+            <returns><see cref="T:System.Drawing.SizeF"/></returns>
+        </member>
+    </members>
+</doc>

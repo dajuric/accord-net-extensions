@@ -179,6 +179,7 @@ namespace Accord.Extensions.Imaging.Algorithms.LINE2D
         private static List<Feature> FilterScatteredFeatures(List<Feature> candidates, int maxNumOfFeatures, int minDistance)
         {
             int distance = 50;
+            maxNumOfFeatures = System.Math.Min(maxNumOfFeatures, candidates.Count);
 
             List<Feature> filteredFeatures = new List<Feature>();
             int distanceSqr = distance * distance;

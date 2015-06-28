@@ -1,0 +1,1043 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotImaging.IO</name>
+    </assembly>
+    <members>
+        <member name="T:DotImaging.PathExtensions">
+            <summary>
+            <para>Defined functions can be used as object extensions.</para>
+            Provides methods for string which is treated as file and directory path.
+            </summary>
+        </member>
+        <member name="M:DotImaging.PathExtensions.EnumerateFiles(System.IO.DirectoryInfo,System.String[],System.IO.SearchOption)">
+             <summary>
+             Returns an enumerable collection of file information that matches a specified search pattern and search subdirectory option.
+             </summary>
+             <param name="dirInfo">Directory info.</param>
+             <param name="searchPatterns">The search strings (e.g. new string[]{ ".jpg", ".bmp" }</param>
+             <param name="searchOption">
+             One of the enumeration values that specifies whether the search operation
+             should include only the current directory or all subdirectories. The default
+             value is <see cref="F:System.IO.SearchOption.TopDirectoryOnly"/>.
+            </param>
+             <returns>An enumerable collection of files that matches <paramref name="searchPatterns"/> and <paramref name="searchOption"/>.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.IsSubfolder(System.String,System.String)">
+            <summary>
+            Gets whether the path is child path.
+            </summary>
+            <param name="childPath">The child path.</param>
+            <param name="parentPath">The parent path.</param>
+            <returns>True if the child path is indeed child path (or the same) as parent path, otherwise false.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.GetRelativeFilePath(System.String,System.IO.DirectoryInfo)">
+            <summary>
+            Gets relative file path regarding specified directory.
+            </summary>
+            <param name="fileName">Full file name and path.</param>
+            <param name="dirInfo">
+            Directory info of a directory path which serves as root.
+            </param>
+            <returns>Relative file path. In case the relative path could not be find the empty string is returned.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.NormalizePathDelimiters(System.String)">
+            <summary>
+            Replaces path delimiters with platform-specific one defined in <see cref="F:System.IO.Path.DirectorySeparatorChar"/>.
+            </summary>
+            <param name="path">Path to replace delimiters.</param>
+            <returns>Path with replaced delimiters.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.NormalizePathDelimiters(System.String,System.String)">
+            <summary>
+            Replaces path delimiters with specified one.
+            </summary>
+            <param name="path">Path to replace delimiters.</param>
+            <param name="normalizedDelimiter">Replacing delimiter.</param>
+            <returns>Path with replaced delimiters.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.IsDirectory(System.String)">
+            <summary>
+            Checks whether the path is file or directory.
+            </summary>
+            <param name="path">File or directory path.</param>
+            <returns>
+            True if the path is directory, false if the path is file. 
+            Null is returned if the path does not exist or in case of an internal error.
+            </returns>
+        </member>
+        <member name="T:DotImaging.NaturalSortComparer">
+            <summary>
+            Provides functions for natural string comparison.
+            </summary>
+        </member>
+        <member name="M:DotImaging.NaturalSortComparer.#ctor(System.Boolean)">
+            <summary>
+            Creates a new instance of <see cref="T:DotImaging.NaturalSortComparer"/>.
+            </summary>
+            <param name="inAscendingOrder">Sorts in ascending order, otherwise descending.</param>
+        </member>
+        <member name="M:DotImaging.NaturalSortComparer.Compare(System.String,System.String)">
+            <summary>
+            Compares two strings.
+            </summary>
+            <param name="x">First string.</param>
+            <param name="y">Second string.</param>
+            <returns>0 - the same objects, -1, +1 otherwise depending whether the first string precedes the second one or not.</returns>
+        </member>
+        <member name="T:DotImaging.Platform">
+            <summary>
+            Contains functions and properties for platform interoperability.
+            </summary>
+        </member>
+        <member name="M:DotImaging.Platform.getRunningPlatform">
+            <summary>
+            Gets operating system name.
+            <para>
+            Taken from: <a href="http://stackoverflow.com/questions/10138040/how-to-detect-properly-windows-linux-mac-operating-systems"/> and modified.
+            </para>
+            </summary>
+        </member>
+        <member name="M:DotImaging.Platform.AddDllSearchPath(System.String)">
+            <summary>
+            Adds the specified directory to unmanaged library search path for functions that load unmanaged library. See <paramref name="dllDirectory"/> attribute is also included.
+            Internally it changes process environmental variable.
+            </summary>
+            <param name="dllDirectory">Directory where to search unmanaged libraries.</param>
+        </member>
+        <member name="M:DotImaging.Platform.GetDefaultDllSearchPath(System.String)">
+            <summary>
+            Gets a default unmanaged library search directory.
+            The default directory is platform specific:
+            <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
+            <para>  MacOS: /UnmanagedLibraries/MacOS/</para>
+            <para>  Linux: /UnmanagedLibraries/Linux/</para>
+            </summary>
+            <param name="rootDirectory">Root directory which marks the starting point (e.g. executing assembly directory).</param>
+            <returns>Default unmanaged library search directory.</returns>
+        </member>
+        <member name="M:DotImaging.Platform.AddDllSearchPath">
+            <summary>
+            Adds the default directory to unmanaged library search path for functions that load unmanaged library. The root directory is the current directory. 
+            The default directory is platform specific:
+            <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
+            <para>  MacOS: /UnmanagedLibraries/MacOS/</para>
+            <para>  Linux: /UnmanagedLibraries/Linux/</para>
+            </summary>
+        </member>
+        <member name="M:DotImaging.Platform.GetModuleFormatString">
+            <summary>
+            Gets a platform specific module format (e.g. Windows {0}.dll).
+            </summary>
+            <returns>Module format string.</returns>
+        </member>
+        <member name="P:DotImaging.Platform.RunningPlatform">
+            <summary>
+            Gets operating system name.
+            </summary>
+        </member>
+        <member name="T:DotImaging.Platform.OperatingSystem">
+            <summary>
+            Operating system type.
+            </summary>
+        </member>
+        <member name="F:DotImaging.Platform.OperatingSystem.Windows">
+            <summary>
+            Windows family.
+            </summary>
+        </member>
+        <member name="F:DotImaging.Platform.OperatingSystem.Linux">
+            <summary>
+            Linux family
+            </summary>
+        </member>
+        <member name="F:DotImaging.Platform.OperatingSystem.MacOS">
+            <summary>
+            MacOS family
+            </summary>
+        </member>
+        <member name="T:DotImaging.ImageStream`1">
+            <summary>
+            Provides the base class for the image stream.
+            </summary>
+            <typeparam name="TImage">Image type.</typeparam>
+        </member>
+        <member name="M:DotImaging.ImageStream`1.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:DotImaging.ImageStream`1"/>.
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageStream`1.Seek(System.Int64,System.IO.SeekOrigin)">
+            <summary>
+            When overridden in a derived class, sets the position within the current stream.
+            </summary>
+            <param name="offset">A frame index offset relative to the origin parameter.</param>
+            <param name="origin">A value of type System.IO.SeekOrigin indicating the reference point used to obtain the new position.</param>
+            <returns>The new position within the current stream.</returns>
+            <exception cref="T:System.NotSupportedException">Seek operation is not supported by the current stream.</exception>
+        </member>
+        <member name="M:DotImaging.ImageStream`1.Dispose">
+            <summary>
+            Closes the stream and releases all resources.
+            <para>Use Dispose function rather than Close function.</para>
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageStream`1.Open">
+            <summary>
+            When overridden in a derived class, opens the current stream. 
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageStream`1.Close">
+            <summary>
+            When overridden in a derived class, closes the current stream and releases any resources associated with the current stream.
+            This function is internally called by <see cref="M:DotImaging.ImageStream`1.Dispose"/>.
+            </summary>
+        </member>
+        <member name="P:DotImaging.ImageStream`1.Length">
+            <summary>
+            When overridden in a derived class, gets the length in number of frames.
+            </summary>
+        </member>
+        <member name="P:DotImaging.ImageStream`1.Position">
+            <summary>
+            When overridden in a derived class, gets the next frame index.
+            </summary>
+        </member>
+        <member name="P:DotImaging.ImageStream`1.IsLiveStream">
+            <summary>
+            Gets whether the stream is live stream meaning that its length is not constant.
+            Those streams are usually not seek-able. See also: <see cref="P:DotImaging.ImageStream`1.CanSeek"/>.
+            </summary>
+        </member>
+        <member name="P:DotImaging.ImageStream`1.CanSeek">
+            <summary>
+            Gets a value indicating whether the current stream supports seeking.
+            </summary>
+        </member>
+        <member name="T:DotImaging.ImageStreamWriter">
+            <summary>
+            Image stream writer abstract class. 
+            See generic class also.
+            </summary>
+        </member>
+        <member name="T:DotImaging.ImageStreamWriter`1">
+            <summary>
+            Image stream writer abstract class. 
+            It is the base class for classes providing image stream reading.
+            </summary>
+            <typeparam name="TImage">Image type.</typeparam>
+        </member>
+        <member name="M:DotImaging.ImageStreamWriter`1.#ctor">
+            <summary>
+            Initializes a new instance of the image stream writer class.
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageStreamWriter`1.WriteAsync(`0)">
+            <summary>
+            Creates and starts the task responsible for frame writing.
+            If this function is called <see cref="P:DotImaging.ImageStreamWriter`1.WriteTimeout"/> must be handled by a user itself.
+            <remarks>
+            By using this function writing to some streams can be accelerated.
+            </remarks>
+            </summary>
+            <returns>An image writing task.</returns>
+        </member>
+        <member name="M:DotImaging.ImageStreamWriter`1.Write(`0)">
+            <summary>
+            Writes an image from the current stream 
+            and advances the position within the stream by 1 element.
+            </summary>
+            <returns>
+            True if the operation is successfully completed, 
+            false if the writer failed to write or the <see cref="P:DotImaging.ImageStreamWriter`1.WriteTimeout"/> has been reached.
+            </returns>
+        </member>
+        <member name="M:DotImaging.ImageStreamWriter`1.WriteInternal(`0)">
+            <summary>
+            When overridden in a derived class returns an image and a status.
+            Position is advanced.
+            </summary>
+            <param name="image">Image to write.</param>
+            <returns>True if successful, false otherwise.</returns>
+        </member>
+        <member name="P:DotImaging.ImageStreamWriter`1.WriteTimeout">
+            <summary>
+            Gets or sets a value, in milliseconds, that determines how long the writer will attempt to write before timing out.
+            </summary>
+        </member>
+        <member name="T:DotImaging.ImageStreamWriterExtensions">
+            <summary>
+            Provides extensions for an image stream writer.
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageStreamWriterExtensions.Write``1(DotImaging.ImageStreamWriter{DotImaging.Image{``0}},``0[0:,0:])">
+            <summary>
+            Writes a single image into the specified stream.
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="writer">image stream writer.</param>
+            <param name="image">Image to write.</param>
+            <returns>True if the writing operation is successful, false otherwise.</returns>
+        </member>
+        <member name="T:DotImaging.ImageStreamReader">
+            <summary>
+            Image stream reader abstract class. 
+            See generic class also.
+            </summary>
+        </member>
+        <member name="T:DotImaging.ImageStreamReader`1">
+            <summary>
+            Image stream writer abstract class. 
+            It is the base class for classes providing image stream reading.
+            </summary>
+            <typeparam name="TImage">Image type.</typeparam>
+        </member>
+        <member name="M:DotImaging.ImageStreamReader`1.#ctor">
+            <summary>
+            Initializes a new instance of the image reader class.
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageStreamReader`1.ReadAsync">
+            <summary>
+            Creates and starts the task responsible for frame reading.
+            If this function is called <see cref="P:DotImaging.ImageStreamReader`1.ReadTimeout"/> must be handled by a user itself.
+            <remarks>
+            By using this function reading from some streams can be accelerated.
+            </remarks>
+            </summary>
+            <returns>A image reading task.</returns>
+        </member>
+        <member name="M:DotImaging.ImageStreamReader`1.Read(System.Boolean@)">
+            <summary>
+            Reads an image from the current stream 
+            and advances the position within the stream by 1 element.
+            </summary>
+            <param name="isExpired">If a null is returned this can be due to <see cref="P:DotImaging.ImageStreamReader`1.ReadTimeout"/> has been reached.</param>
+            <returns>Read image.</returns>
+        </member>
+        <member name="M:DotImaging.ImageStreamReader`1.Read">
+            <summary>
+            Reads an image from the current stream 
+            and advances the position within the stream by usually 1 element.
+            </summary>
+            <returns>Read image.</returns>
+        </member>
+        <member name="M:DotImaging.ImageStreamReader`1.ReadInternal(`0@)">
+            <summary>
+            When overridden in a derived class returns an image and a status.
+            Position is advanced.
+            </summary>
+            <param name="image">Read image.</param>
+            <returns></returns>
+        </member>
+        <member name="M:DotImaging.ImageStreamReader`1.GetEnumerator">
+            <summary>
+            Gets the enumerator for the stream.
+            <para>If the stream does not support seek, an exception will be thrown during iteration.</para>
+            </summary>
+            <returns>Enumerator for the stream.</returns>
+        </member>
+        <member name="M:DotImaging.ImageStreamReader`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Gets the enumerator for the stream.
+            <para>If the stream does not support seek, an exception will be thrown during iteration.</para>
+            </summary>
+            <returns>Enumerator for the stream.</returns>
+        </member>
+        <member name="P:DotImaging.ImageStreamReader`1.ReadTimeout">
+            <summary>
+            Gets or sets a value, in milliseconds, that determines how long the stream will attempt to read before timing out.
+            </summary>
+        </member>
+        <member name="T:DotImaging.ImageStreamReaderEnumerator`1">
+            <summary>
+            Enumerator for the image stream.
+            <para>Stream must support seek operation.</para>
+            </summary>
+            <typeparam name="TImage">Image type.</typeparam>
+        </member>
+        <member name="M:DotImaging.ImageStreamReaderEnumerator`1.#ctor(DotImaging.ImageStreamReader{`0})">
+            <summary>
+            Creates new image stream iterator.
+            </summary>
+            <param name="streamableSource">Image stream.</param>
+        </member>
+        <member name="M:DotImaging.ImageStreamReaderEnumerator`1.MoveNext">
+            <summary>
+            Moves the position of the iterator by 1.
+            </summary>
+            <returns>True if the position increment is valid, false otherwise.</returns>
+        </member>
+        <member name="M:DotImaging.ImageStreamReaderEnumerator`1.Reset">
+            <summary>
+            Resets the enumerator,
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageStreamReaderEnumerator`1.Dispose">
+            <summary>
+            Disposes the iterator and resets the position within the stream.
+            </summary>
+        </member>
+        <member name="P:DotImaging.ImageStreamReaderEnumerator`1.Current">
+            <summary>
+            Gets the current image within the stream.
+            </summary>
+        </member>
+        <member name="P:DotImaging.ImageStreamReaderEnumerator`1.System#Collections#IEnumerator#Current">
+            <summary>
+            Gets the current image within the stream.
+            </summary>
+        </member>
+        <member name="T:DotImaging.ImageStreamReaderExtensions">
+            <summary>
+            Provides extensions for image stream.
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageStreamReaderExtensions.ReadAs``1(DotImaging.ImageStreamReader{DotImaging.IImage})">
+            <summary>
+            Calls read function defined by the stream and converts an returned image if necessary.
+            <para>If the image can not be read (null), null is returned.</para>
+            </summary>
+            <param name="imageStream">Image stream.</param>
+            <returns>Converted image or null if the image can not be read.</returns>
+        </member>
+        <member name="M:DotImaging.ImageStreamReaderExtensions.ReadTo``1(DotImaging.ImageStreamReader{DotImaging.IImage},``0[0:,0:]@)">
+            <summary>
+            Reads an element form the input stream and fills the specified buffer.
+            <para>If the read element does not match the specified type a null value will be written.</para>
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="imageStream">Image source stream.</param>
+            <param name="buffer">
+            Buffer to write to.
+            <para>The specified buffer can be null, as it is managed by the function itself.</para>
+            </param>
+        </member>
+        <member name="T:DotImaging.ImageIO">
+            <summary>
+            Provides methods for image saving and loading
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageIO.LoadUnchanged(System.String)">
+            <summary>
+            Loads an image with the specified path and name as it is.
+            </summary>
+            <param name="fileName">Image file name.</param>
+            <returns>Image.</returns>
+        </member>
+        <member name="M:DotImaging.ImageIO.LoadColor(System.String)">
+            <summary>
+            Loads an image with the specified path and name and performs and RGB conversion.
+            </summary>
+            <param name="fileName">Image filename.</param>
+            <returns>Image.</returns>
+        </member>
+        <member name="M:DotImaging.ImageIO.LoadGray(System.String)">
+            <summary>
+            Loads an image with the specified path and name and performs and gray conversion.
+            </summary>
+            <param name="fileName">Image filename.</param>
+            <returns>Image.</returns>
+        </member>
+        <member name="M:DotImaging.ImageIO.TrySave(DotImaging.IImage,System.String)">
+            <summary>
+            Saves the provided image. If the image has non-supported color or depth false value is returned.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Filename.</param>
+            <returns>True if the image is saved, false otherwise.</returns>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save``1(DotImaging.Image{``0},System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <typeparam name="TColor">Image color.</typeparam>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save``1(``0[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <typeparam name="TColor">Image color.</typeparam>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Gray{System.Byte}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Gray{System.SByte}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Gray{System.Int16}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Gray{System.UInt16}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Gray{System.Int32}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Gray{System.Single}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Gray{System.Double}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgr{System.Byte}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgr{System.SByte}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgr{System.Int16}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgr{System.UInt16}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgr{System.Int32}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgr{System.Single}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgr{System.Double}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgra{System.Byte}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgra{System.SByte}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgra{System.Int16}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgra{System.UInt16}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgra{System.Int32}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgra{System.Single}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="M:DotImaging.ImageIO.Save(DotImaging.Bgra{System.Double}[0:,0:],System.String)">
+            <summary>
+            Saves the specified image.
+            </summary>
+            <param name="image">Image to save.</param>
+            <param name="fileName">Image filename.</param>
+        </member>
+        <member name="T:DotImaging.VideoCaptureBase">
+            <summary>
+            Represents the base class for video capture that shares common functions and properties with camera and file capture. 
+            </summary>
+        </member>
+        <member name="F:DotImaging.VideoCaptureBase.capturePtr">
+            <summary>
+            Internal OpenCV pointer for the capture object.
+            </summary>
+        </member>
+        <member name="M:DotImaging.VideoCaptureBase.Close">
+            <summary>
+            Releases all resources allocated by capture.
+            </summary>
+        </member>
+        <member name="M:DotImaging.VideoCaptureBase.ReadInternal(DotImaging.IImage@)">
+            <summary>
+            Reads the next image in the stream and advances the position by one.
+            </summary>
+            <param name="image">Read image.</param>
+            <returns>True if the reading operation was successful, false otherwise.</returns>
+        </member>
+        <member name="P:DotImaging.VideoCaptureBase.Length">
+            <summary>
+            Gets the length in number of frames.
+            </summary>
+        </member>
+        <member name="P:DotImaging.VideoCaptureBase.ConvertRgb">
+            <summary>
+            Gets or sets whether to force conversion of an input image to Bgr color type.
+            </summary>
+        </member>
+        <member name="P:DotImaging.VideoCaptureBase.FrameSize">
+            <summary>
+            Gets the frame size.
+            </summary>
+        </member>
+        <member name="P:DotImaging.VideoCaptureBase.FrameRate">
+            <summary>
+            Gets the frame rate.
+            </summary>
+        </member>
+        <member name="T:DotImaging.CameraCapture">
+            <summary>
+            Represents camera streamable source and provides functions and properties to access a device in a streamable way.
+            </summary>
+        </member>
+        <member name="M:DotImaging.CameraCapture.#ctor(System.Int32)">
+            <summary>
+            Creates capture from camera.
+            </summary>
+            <param name="cameraIdx">Camera index.</param>
+        </member>
+        <member name="M:DotImaging.CameraCapture.Open">
+            <summary>
+            Opens the camera stream.
+            </summary>
+        </member>
+        <member name="P:DotImaging.CameraCapture.Brightness">
+            <summary>
+            Gets or sets the brightness of the camera.
+            <para>If the property is not supported by device 0 will be returned.</para>
+            </summary>
+        </member>
+        <member name="P:DotImaging.CameraCapture.Contrast">
+            <summary>
+            Gets or sets the contrast of the camera.
+            <para>If the property is not supported by device 0 will be returned.</para>
+            </summary>
+        </member>
+        <member name="P:DotImaging.CameraCapture.Exposure">
+            <summary>
+            Gets or sets the exposure of the camera.
+            <para>If the property is not supported by device 0 will be returned.</para>
+            </summary>
+        </member>
+        <member name="P:DotImaging.CameraCapture.Gain">
+            <summary>
+            Gets or sets the gain of the camera.
+            <para>If the property is not supported by device 0 will be returned.</para>
+            </summary>
+        </member>
+        <member name="P:DotImaging.CameraCapture.Hue">
+            <summary>
+            Gets or sets the hue of the camera.
+            <para>If the property is not supported by device 0 will be returned.</para>
+            </summary>
+        </member>
+        <member name="P:DotImaging.CameraCapture.Saturation">
+            <summary>
+            Gets or sets the saturation of the camera.
+            <para>If the property is not supported by device 0 will be returned.</para>
+            </summary>
+        </member>
+        <member name="P:DotImaging.CameraCapture.FrameSize">
+            <summary>
+            Gets or sets the frame size of the camera.
+            </summary>
+        </member>
+        <member name="P:DotImaging.CameraCapture.FrameRate">
+            <summary>
+            Gets or sets the frame rate of the camera.
+            <para>If the property is not supported by device 0 will be returned.</para>
+            </summary>
+        </member>
+        <member name="T:DotImaging.FileCapture">
+            <summary>
+            Represents video file streamable source and provides functions and properties to access data in a streamable way.
+            </summary>
+        </member>
+        <member name="M:DotImaging.FileCapture.#ctor(System.String)">
+            <summary>
+            Creates capture from video file.
+            </summary>
+            <param name="fileName">Video file name.</param>
+        </member>
+        <member name="M:DotImaging.FileCapture.Open">
+            <summary>
+            Opens the video file stream.
+            </summary>
+        </member>
+        <member name="M:DotImaging.FileCapture.Seek(System.Int64,System.IO.SeekOrigin)">
+            <summary>
+            Sets the position within the current stream.
+            <para>Warning: the underlying OpenCV function seeks to nearest key-frame, therefore the seek operation may not be frame-accurate.</para>
+            </summary>
+            <param name="offset">A frame index offset relative to the origin parameter.</param>
+            <param name="origin">A value of type System.IO.SeekOrigin indicating the reference point used to obtain the new position.</param>
+            <returns>The new position within the current stream.</returns>
+        </member>
+        <member name="P:DotImaging.FileCapture.Position">
+            <summary>
+            Gets the current position in the stream as frame offset.
+            </summary>
+        </member>
+        <member name="T:DotImaging.VideoCodec">
+            <summary>
+            OpenCV video codec name.
+            </summary>
+        </member>
+        <member name="F:DotImaging.VideoCodec.MPEG1">
+            <summary>
+            MPEG1 codec name: "PIM1".
+            </summary>
+        </member>
+        <member name="F:DotImaging.VideoCodec.MotionJpeg">
+            <summary>
+            Motion JPEG codec name: "MJPG".
+            </summary>
+        </member>
+        <member name="F:DotImaging.VideoCodec.IntelYUV">
+            <summary>
+            Intel YUV codec name: "IYUV".
+            </summary>
+        </member>
+        <member name="F:DotImaging.VideoCodec.UserSelection">
+            <summary>
+            User selection - on Windows dialog will be opened. Value: -1.
+            </summary>
+        </member>
+        <member name="M:DotImaging.VideoCodec.#ctor(System.Int32)">
+            <summary>
+            Creates new video codec from an id.
+            </summary>
+            <param name="codec">Codec id.</param>
+        </member>
+        <member name="M:DotImaging.VideoCodec.FromName(System.Char,System.Char,System.Char,System.Char)">
+            <summary>
+            Creates new video codec id from 4-character code. For example, FromName('P','I','M','1') is MPEG-1 codec, FromName('M','J','P','G') is motion-jpeg codec etc.
+            </summary>
+            <param name="c1">First char.</param>
+            <param name="c2">Second char.</param>
+            <param name="c3">Third char.</param>
+            <param name="c4">Fourth char.</param>
+            <returns>Video codec.</returns>
+        </member>
+        <member name="M:DotImaging.VideoCodec.FromName(System.String)">
+            <summary>
+            Creates new video codec id from 4-character string.
+            </summary>
+            <param name="codecName">4-character string codec name.</param>
+            <returns>Video codec.</returns>
+        </member>
+        <member name="M:DotImaging.VideoCodec.op_Implicit(DotImaging.VideoCodec)~System.Int32">
+            <summary>
+            Casts video codec to an 32-bit integer.
+            </summary>
+            <param name="videoCodec">Video codec.</param>
+            <returns>32-bit integer representation of the video codec.</returns>
+        </member>
+        <member name="M:DotImaging.VideoCodec.op_Explicit(System.Int32)~DotImaging.VideoCodec">
+            <summary>
+            Creates video codec from the 32-bit integer.
+            </summary>
+            <param name="code">32-bit code.</param>
+            <returns>New codec name.</returns>
+        </member>
+        <member name="M:DotImaging.VideoCodec.op_Explicit(System.String)~DotImaging.VideoCodec">
+            <summary>
+            Creates video codec from the 4-character string.
+            </summary>
+            <param name="code">4-character string.</param>
+            <returns>New codec name.</returns>
+            <exception cref="T:System.Exception">Invalid string length.</exception>
+        </member>
+        <member name="M:DotImaging.VideoCodec.ToString">
+            <summary>
+            Gets the string representation of the codec name.
+            </summary>
+            <returns>String representation.</returns>
+        </member>
+        <member name="T:DotImaging.CvHighGuiInvoke">
+            <summary>
+            Internal class for OpenCV highgui library invocation.
+            </summary>
+        </member>
+        <member name="M:DotImaging.CvHighGuiInvoke.cvCreateVideoWriter(System.String,System.Int32,System.Double,DotImaging.Primitives2D.Size,System.Boolean)">
+            <summary>
+            Creates video writer structure.
+            </summary>
+            <param name="filename">Name of the output video file.</param>
+            <param name="fourcc">4-character code of codec used to compress the frames. See <see cref="T:DotImaging.VideoCodec"/> class.</param>
+            <param name="fps">Frame rate of the created video stream. </param>
+            <param name="frameSize">Size of video frames.</param>
+            <param name="isColor">If true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames </param>
+            <returns>The video writer</returns>
+        </member>
+        <member name="M:DotImaging.CvHighGuiInvoke.cvWriteFrame(System.IntPtr,System.IntPtr)">
+            <summary>
+            Writes/appends one frame to video file.
+            </summary>
+            <param name="writer">video writer structure.</param>
+            <param name="image">the written frame</param>
+            <returns>True on success, false otherwise</returns>
+        </member>
+        <member name="M:DotImaging.CvHighGuiInvoke.cvReleaseVideoWriter(System.IntPtr@)">
+            <summary>
+            Finishes writing to video file and releases the structure.
+            </summary>
+            <param name="writer">pointer to video file writer structure</param>
+        </member>
+        <member name="T:DotImaging.CaptureProperty">
+            <summary>
+            OpenCV capture properties for camera and video.
+            </summary>
+        </member>
+        <member name="T:DotImaging.ImageLoadType">
+            <summary>
+            OpenCV image load mode.
+            </summary>
+        </member>
+        <member name="F:DotImaging.ImageLoadType.Unchanged">
+            <summary>
+            Loads the image as is (including the alpha channel if present) 
+            </summary>
+        </member>
+        <member name="F:DotImaging.ImageLoadType.Grayscale">
+            <summary>
+            Loads the image as an intensity image
+            </summary>
+        </member>
+        <member name="F:DotImaging.ImageLoadType.Color">
+            <summary>
+             Loads the image in the RGB format
+            </summary>
+        </member>
+        <member name="F:DotImaging.ImageLoadType.AnyColor">
+            <summary>
+            Loads the image of any color
+            </summary>
+        </member>
+        <member name="F:DotImaging.ImageLoadType.AnyDepth">
+            <summary>
+            Loads the image of any depth
+            </summary>
+        </member>
+        <member name="T:DotImaging.ImageDirectoryCapture">
+            <summary>
+            Represents directory stream-able source and provides functions and properties to access data in a stream-able way.
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageDirectoryCapture.#ctor(System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Creates an instance of <see cref="T:DotImaging.ImageDirectoryCapture"/>.
+            </summary>
+            <param name="dirPath">The directory path.</param>
+            <param name="searchPattern">The image search pattern.</param>
+            <param name="useNaturalSorting">Use natural sorting, otherwise raw image order is used.</param>
+            <param name="recursive">If true searches the current directory and all subdirectories. Otherwise, only top directory is searched.</param>
+            <exception cref="T:System.IO.DirectoryNotFoundException">Directory can not be found.</exception>
+        </member>
+        <member name="M:DotImaging.ImageDirectoryCapture.#ctor(System.String,System.String[],System.Boolean,System.Boolean)">
+            <summary>
+            Creates an instance of <see cref="T:DotImaging.ImageDirectoryCapture"/>.
+            </summary>
+            <param name="dirPath">The directory path.</param>
+            <param name="searchPatterns">The image search patterns.</param>
+            <param name="useNaturalSorting">Use natural sorting, otherwise raw image order is used.</param>
+            <param name="recursive">If true searches the current directory and all subdirectories. Otherwise, only top directory is searched.</param>
+            <exception cref="T:System.IO.DirectoryNotFoundException">Directory can not be found.</exception>
+        </member>
+        <member name="M:DotImaging.ImageDirectoryCapture.Open">
+            <summary>
+            Open the current stream. This overload does not do anything.
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageDirectoryCapture.Close">
+            <summary>
+            Closes the current stream. This overload resets position to zero.
+            </summary>
+        </member>
+        <member name="M:DotImaging.ImageDirectoryCapture.ReadInternal(DotImaging.IImage@)">
+            <summary>
+            Reads an image from the stream.
+            </summary>
+            <param name="image">Read image.</param>
+            <returns>True if the reading operation was successful, false otherwise.</returns>
+        </member>
+        <member name="M:DotImaging.ImageDirectoryCapture.Seek(System.Int64,System.IO.SeekOrigin)">
+            <summary>
+            Sets the position within the current stream.
+            </summary>
+            <param name="offset">A frame index offset relative to the origin parameter.</param>
+            <param name="origin">A value of type <see cref="T:System.IO.SeekOrigin"/> indicating the reference point used to obtain the new position.</param>
+            <returns>The new position within the current stream.</returns>
+        </member>
+        <member name="P:DotImaging.ImageDirectoryCapture.Length">
+            <summary>
+            Gets the total number of files in the specified directory which match the specified search criteria.
+            </summary>
+        </member>
+        <member name="P:DotImaging.ImageDirectoryCapture.Position">
+            <summary>
+            Gets the current position within the stream.
+            </summary>
+        </member>
+        <member name="P:DotImaging.ImageDirectoryCapture.DirectoryInfo">
+            <summary>
+            Gets the source directory info.
+            </summary>
+        </member>
+        <member name="P:DotImaging.ImageDirectoryCapture.FileInfos">
+            <summary>
+            Gets the ordered set of files which compose the current image directory stream.
+            </summary>
+        </member>
+        <member name="P:DotImaging.ImageDirectoryCapture.CurrentImageName">
+            <summary>
+            Gets the current image file name.
+            <para>If the position of the stream is equal to the stream length null is returned.</para>
+            </summary>
+        </member>
+        <member name="T:DotImaging.VideoWriter">
+            <summary>
+            Video writer that writes images into video file.
+            </summary>
+        </member>
+        <member name="M:DotImaging.VideoWriter.#ctor(System.String,DotImaging.Primitives2D.Size,System.Single,System.Boolean)">
+            <summary>
+            Creates new video writer (with default codec).
+            </summary>
+            <param name="fileName">Video file name.</param>
+            <param name="frameSize">Video frame size.</param>
+            <param name="fps">Specifies the number of frames per second.</param>
+            <param name="isColor">Specifies whether the image is color image (3 channels) or grayscale image (one channel).</param>
+        </member>
+        <member name="M:DotImaging.VideoWriter.#ctor(System.String,DotImaging.Primitives2D.Size,System.Single,System.Boolean,DotImaging.VideoCodec)">
+            <summary>
+            Creates new video writer.
+            </summary>
+            <param name="fileName">Video file name.</param>
+            <param name="frameSize">Video frame size.</param>
+            <param name="fps">Specifies the number of frames per second.</param>
+            <param name="isColor">Specifies whether the image is color image (3 channels) or grayscale image (one channel).</param>
+            <param name="videoCodec">Specifies used codec for video encoding.</param>
+        </member>
+        <member name="M:DotImaging.VideoWriter.Open">
+            <summary>
+            Opens the video file stream.
+            </summary>
+        </member>
+        <member name="M:DotImaging.VideoWriter.WriteInternal(DotImaging.IImage)">
+            <summary>
+            Writes the provided image to the stream.
+            </summary>
+            <param name="image">Image to write.</param>
+            <returns>True, if the operation was successful, false otherwise.</returns>
+        </member>
+        <member name="M:DotImaging.VideoWriter.Close">
+            <summary>
+            Closes video writer.
+            <para>Use dispose method to remove any additional resources.</para>
+            </summary>
+        </member>
+        <member name="P:DotImaging.VideoWriter.OutputFileName">
+            <summary>
+            Gets the output file name.
+            </summary>
+        </member>
+        <member name="P:DotImaging.VideoWriter.ColorFrames">
+            <summary>
+            Gets whether the frame must consist of 3-channels (color) or from just one (grayscale).
+            </summary>
+        </member>
+        <member name="P:DotImaging.VideoWriter.Codec">
+            <summary>
+            Gets the codec used to encode frames.
+            </summary>
+        </member>
+        <member name="P:DotImaging.VideoWriter.FrameRate">
+            <summary>
+            Gets the number of frames per second.
+            </summary>
+        </member>
+        <member name="P:DotImaging.VideoWriter.FrameSize">
+            <summary>
+            Gets the frame size.
+            </summary>
+        </member>
+        <member name="P:DotImaging.VideoWriter.Position">
+            <summary>
+            Gets the current position in the stream as frame offset.
+            </summary>
+        </member>
+        <member name="P:DotImaging.VideoWriter.Length">
+            <summary>
+            Gets the current stream length which is not constant and is the same as position.
+            </summary>
+        </member>
+    </members>
+</doc>

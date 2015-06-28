@@ -1,0 +1,557 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotImaging.Drawing</name>
+    </assembly>
+    <members>
+        <member name="T:DotImaging.PathExtensions">
+            <summary>
+            <para>Defined functions can be used as object extensions.</para>
+            Provides methods for string which is treated as file and directory path.
+            </summary>
+        </member>
+        <member name="M:DotImaging.PathExtensions.EnumerateFiles(System.IO.DirectoryInfo,System.String[],System.IO.SearchOption)">
+             <summary>
+             Returns an enumerable collection of file information that matches a specified search pattern and search subdirectory option.
+             </summary>
+             <param name="dirInfo">Directory info.</param>
+             <param name="searchPatterns">The search strings (e.g. new string[]{ ".jpg", ".bmp" }</param>
+             <param name="searchOption">
+             One of the enumeration values that specifies whether the search operation
+             should include only the current directory or all subdirectories. The default
+             value is <see cref="F:System.IO.SearchOption.TopDirectoryOnly"/>.
+            </param>
+             <returns>An enumerable collection of files that matches <paramref name="searchPatterns"/> and <paramref name="searchOption"/>.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.IsSubfolder(System.String,System.String)">
+            <summary>
+            Gets whether the path is child path.
+            </summary>
+            <param name="childPath">The child path.</param>
+            <param name="parentPath">The parent path.</param>
+            <returns>True if the child path is indeed child path (or the same) as parent path, otherwise false.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.GetRelativeFilePath(System.String,System.IO.DirectoryInfo)">
+            <summary>
+            Gets relative file path regarding specified directory.
+            </summary>
+            <param name="fileName">Full file name and path.</param>
+            <param name="dirInfo">
+            Directory info of a directory path which serves as root.
+            </param>
+            <returns>Relative file path. In case the relative path could not be find the empty string is returned.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.NormalizePathDelimiters(System.String)">
+            <summary>
+            Replaces path delimiters with platform-specific one defined in <see cref="F:System.IO.Path.DirectorySeparatorChar"/>.
+            </summary>
+            <param name="path">Path to replace delimiters.</param>
+            <returns>Path with replaced delimiters.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.NormalizePathDelimiters(System.String,System.String)">
+            <summary>
+            Replaces path delimiters with specified one.
+            </summary>
+            <param name="path">Path to replace delimiters.</param>
+            <param name="normalizedDelimiter">Replacing delimiter.</param>
+            <returns>Path with replaced delimiters.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.IsDirectory(System.String)">
+            <summary>
+            Checks whether the path is file or directory.
+            </summary>
+            <param name="path">File or directory path.</param>
+            <returns>
+            True if the path is directory, false if the path is file. 
+            Null is returned if the path does not exist or in case of an internal error.
+            </returns>
+        </member>
+        <member name="T:DotImaging.Platform">
+            <summary>
+            Contains functions and properties for platform interoperability.
+            </summary>
+        </member>
+        <member name="M:DotImaging.Platform.getRunningPlatform">
+            <summary>
+            Gets operating system name.
+            <para>
+            Taken from: <a href="http://stackoverflow.com/questions/10138040/how-to-detect-properly-windows-linux-mac-operating-systems"/> and modified.
+            </para>
+            </summary>
+        </member>
+        <member name="M:DotImaging.Platform.AddDllSearchPath(System.String)">
+            <summary>
+            Adds the specified directory to unmanaged library search path for functions that load unmanaged library. See <paramref name="dllDirectory"/> attribute is also included.
+            Internally it changes process environmental variable.
+            </summary>
+            <param name="dllDirectory">Directory where to search unmanaged libraries.</param>
+        </member>
+        <member name="M:DotImaging.Platform.GetDefaultDllSearchPath(System.String)">
+            <summary>
+            Gets a default unmanaged library search directory.
+            The default directory is platform specific:
+            <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
+            <para>  MacOS: /UnmanagedLibraries/MacOS/</para>
+            <para>  Linux: /UnmanagedLibraries/Linux/</para>
+            </summary>
+            <param name="rootDirectory">Root directory which marks the starting point (e.g. executing assembly directory).</param>
+            <returns>Default unmanaged library search directory.</returns>
+        </member>
+        <member name="M:DotImaging.Platform.AddDllSearchPath">
+            <summary>
+            Adds the default directory to unmanaged library search path for functions that load unmanaged library. The root directory is the current directory. 
+            The default directory is platform specific:
+            <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
+            <para>  MacOS: /UnmanagedLibraries/MacOS/</para>
+            <para>  Linux: /UnmanagedLibraries/Linux/</para>
+            </summary>
+        </member>
+        <member name="M:DotImaging.Platform.GetModuleFormatString">
+            <summary>
+            Gets a platform specific module format (e.g. Windows {0}.dll).
+            </summary>
+            <returns>Module format string.</returns>
+        </member>
+        <member name="P:DotImaging.Platform.RunningPlatform">
+            <summary>
+            Gets operating system name.
+            </summary>
+        </member>
+        <member name="T:DotImaging.Platform.OperatingSystem">
+            <summary>
+            Operating system type.
+            </summary>
+        </member>
+        <member name="F:DotImaging.Platform.OperatingSystem.Windows">
+            <summary>
+            Windows family.
+            </summary>
+        </member>
+        <member name="F:DotImaging.Platform.OperatingSystem.Linux">
+            <summary>
+            Linux family
+            </summary>
+        </member>
+        <member name="F:DotImaging.Platform.OperatingSystem.MacOS">
+            <summary>
+            MacOS family
+            </summary>
+        </member>
+        <member name="T:DotImaging.FontTypes">
+            <summary>
+            Fonts
+            </summary>
+        </member>
+        <member name="F:DotImaging.FontTypes.HERSHEY_SIMPLEX">
+            <summary>
+            HERSHEY_SIMPLEX
+            </summary>
+        </member>
+        <member name="F:DotImaging.FontTypes.HERSHEY_PLAIN">
+            <summary>
+            HERSHEY_PLAIN
+            </summary>
+        </member>
+        <member name="F:DotImaging.FontTypes.HERSHEY_DUPLEX">
+            <summary>
+            HERSHEY_DUPLEX
+            </summary>
+        </member>
+        <member name="F:DotImaging.FontTypes.HERSHEY_COMPLEX">
+            <summary>
+            HERSHEY_COMPLEX
+            </summary>
+        </member>
+        <member name="F:DotImaging.FontTypes.HERSHEY_TRIPLEX">
+            <summary>
+            HERSHEY_TRIPLEX
+            </summary>
+        </member>
+        <member name="F:DotImaging.FontTypes.HERSHEY_COMPLEX_SMALL">
+            <summary>
+            HERSHEY_COMPLEX_SMALL
+            </summary>
+        </member>
+        <member name="F:DotImaging.FontTypes.HERSHEY_SCRIPT_SIMPLEX">
+            <summary>
+            HERSHEY_SCRIPT_SIMPLEX
+            </summary>
+        </member>
+        <member name="F:DotImaging.FontTypes.HERSHEY_SCRIPT_COMPLEX">
+            <summary>
+            HERSHEY_SCRIPT_COMPLEX
+            </summary>
+        </member>
+        <member name="T:DotImaging.Font">
+            <summary>
+            Managed structure equivalent to CvFont
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.fontName">
+            <summary>
+            For QT
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.color">
+            <summary>
+            For QT
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.FontType">
+            <summary>
+             Font type
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.ascii">
+            <summary>
+             font data and metrics 
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.greek">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.cyrillic">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.HorizontalScale">
+            <summary>
+            hscale
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.VerticalScale">
+            <summary>
+            vscale
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.Shear">
+            <summary>
+             slope coefficient: 0 - normal, >0 - italic 
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.Thickness">
+            <summary>
+             letters thickness 
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.dx">
+            <summary>
+             horizontal interval between letters 
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.LineType">
+            <summary>
+            type of line
+            </summary>
+        </member>
+        <member name="M:DotImaging.Font.#ctor(DotImaging.FontTypes,System.Double,System.Double)">
+            <summary>
+            Create a Font of the specific type, horizontal scale and vertical scale
+            </summary>
+            <param name="type">The type of the font</param>
+            <param name="hscale">The horizontal scale of the font</param>
+            <param name="vscale">the vertical scale of the fonr</param>
+        </member>
+        <member name="M:DotImaging.Font.GetTextSize(System.String,System.Int32)">
+            <summary>
+            Calculates the binding rectangle for the given text string when the font is used
+            </summary>
+            <param name="text">Input string</param>
+            <param name="baseline">y-coordinate of the baseline relatively to the bottom-most text point</param>
+            <returns>size of the text string. Height of the text does not include the height of character parts that are below the baseline</returns>
+        </member>
+        <member name="F:DotImaging.Font.Big">
+            <summary>
+            Hershey duplex font with vertical scale of two.
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.Normal">
+            <summary>
+            Hershey duplex font with vertical scale of 0.5.
+            </summary>
+        </member>
+        <member name="F:DotImaging.Font.Small">
+            <summary>
+            Hershey duplex font with vertical scale of 0.25.
+            </summary>
+        </member>
+        <member name="T:DotImaging.CvScalar">
+            <summary>
+            CV's 4 element vector.
+            </summary>
+        </member>
+        <member name="F:DotImaging.CvScalar.V0">
+            <summary>
+            First value.
+            </summary>
+        </member>
+        <member name="F:DotImaging.CvScalar.V1">
+            <summary>
+            Second value.
+            </summary>
+        </member>
+        <member name="F:DotImaging.CvScalar.V2">
+            <summary>
+            Third value.
+            </summary>
+        </member>
+        <member name="F:DotImaging.CvScalar.V3">
+            <summary>
+            Fourth value.
+            </summary>
+        </member>
+        <member name="T:DotImaging.LineTypes">
+            <summary>
+            The type of line for drawing
+            </summary>
+        </member>
+        <member name="F:DotImaging.LineTypes.EightConnected">
+            <summary>
+            8-connected
+            </summary>
+        </member>
+        <member name="F:DotImaging.LineTypes.FourConnected">
+            <summary>
+            4-connected
+            </summary>
+        </member>
+        <member name="F:DotImaging.LineTypes.Antialiased">
+            <summary>
+            Antialias
+            </summary>
+        </member>
+        <member name="T:DotImaging.CvCoreInvoke">
+            <summary>
+            Internal class for OpenCV highgui library invocation.
+            </summary>
+        </member>
+        <member name="M:DotImaging.CvCoreInvoke.cvLine(DotImaging.IplImage*,DotImaging.Primitives2D.Point,DotImaging.Primitives2D.Point,DotImaging.CvScalar,System.Int32,DotImaging.LineTypes,System.Int32)">
+            <summary>
+            Draws the line segment between pt1 and pt2 points in the image. The line is clipped by the image or ROI rectangle. For non-antialiased lines with integer coordinates the 8-connected or 4-connected Bresenham algorithm is used. Thick lines are drawn with rounding endings. Antialiased lines are drawn using Gaussian filtering.
+            </summary>
+            <param name="img">The image</param>
+            <param name="pt1">First point of the line segment</param>
+            <param name="pt2">Second point of the line segment</param>
+            <param name="color">Line color</param>
+            <param name="thickness">Line thickness. </param>
+            <param name="lineType">Type of the line:
+            8 (or 0) - 8-connected line.
+            4 - 4-connected line.
+            CV_AA - antialiased line. 
+            </param>
+            <param name="shift">Number of fractional bits in the point coordinates</param>
+        </member>
+        <member name="M:DotImaging.CvCoreInvoke.cvPolyLine(DotImaging.IplImage*,System.IntPtr[],System.Int32[],System.Int32,System.Boolean,DotImaging.CvScalar,System.Int32,DotImaging.LineTypes,System.Int32)">
+            <summary>
+            Draws a single or multiple polygonal curves
+            </summary>
+            <param name="img">Image</param>
+            <param name="pts">Array of pointers to polylines</param>
+            <param name="npts">Array of polyline vertex counters</param>
+            <param name="contours">Number of polyline contours</param>
+            <param name="isClosed">
+            Indicates whether the polylines must be drawn closed. 
+            If !=0, the function draws the line from the last vertex of every contour to the first vertex.
+            </param>
+            <param name="color">Polyline color</param>
+            <param name="thickness">Thickness of the polyline edges</param>
+            <param name="lineType">Type of the line segments, see cvLine description</param>
+            <param name="shift">Number of fractional bits in the vertex coordinates</param>
+        </member>
+        <member name="M:DotImaging.CvCoreInvoke.cvRectangle(DotImaging.IplImage*,DotImaging.Primitives2D.Point,DotImaging.Primitives2D.Point,DotImaging.CvScalar,System.Int32,DotImaging.LineTypes,System.Int32)">
+            <summary>
+            Draws a rectangle with two opposite corners pt1 and pt2
+            </summary>
+            <param name="img">Image</param>
+            <param name="pt1">A rectangle vertex</param>
+            <param name="pt2">Opposite rectangle vertex</param>
+            <param name="color">Line color </param>
+            <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle.</param>
+            <param name="lineType">Type of the line</param>
+            <param name="shift">Number of fractional bits in the point coordinates</param>
+        </member>
+        <member name="M:DotImaging.CvCoreInvoke.cvRectangleR(DotImaging.IplImage*,DotImaging.Primitives2D.Rectangle,DotImaging.CvScalar,System.Int32,DotImaging.LineTypes,System.Int32)">
+            <summary>
+            Draws a rectangle specified by a CvRect structure
+            </summary>
+            /// <param name="img">Image</param>
+            <param name="rect">The rectangle to be drawn</param>
+            <param name="color">Line color </param>
+            <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle.</param>
+            <param name="lineType">Type of the line</param>
+            <param name="shift">Number of fractional bits in the point coordinates</param>
+        </member>
+        <member name="M:DotImaging.CvCoreInvoke.cvCircle(DotImaging.IplImage*,DotImaging.Primitives2D.Point,System.Int32,DotImaging.CvScalar,System.Int32,DotImaging.LineTypes,System.Int32)">
+            <summary>
+            Draws a simple or filled circle with given center and radius. The circle is clipped by ROI rectangle.
+            </summary>
+            <param name="img">Image where the circle is drawn</param>
+            <param name="center">Center of the circle</param>
+            <param name="radius">Radius of the circle.</param>
+            <param name="color">Color of the circle</param>
+            <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn</param>
+            <param name="lineType">Type of the circle boundary</param>
+            <param name="shift">Number of fractional bits in the center coordinates and radius value</param>
+        </member>
+        <member name="M:DotImaging.CvCoreInvoke.cvEllipse(DotImaging.IplImage*,DotImaging.Primitives2D.Point,DotImaging.Primitives2D.Size,System.Double,System.Double,System.Double,DotImaging.CvScalar,System.Int32,DotImaging.LineTypes,System.Int32)">
+            <summary>
+            Draws a simple or thick elliptic arc or fills an ellipse sector. The arc is clipped by ROI rectangle. A piecewise-linear approximation is used for antialiased arcs and thick arcs. All the angles are given in degrees.
+            </summary>
+            <param name="img">Image</param>
+            <param name="center">Center of the ellipse</param>
+            <param name="axes">Length of the ellipse axes</param>
+            <param name="angle">Rotation angle</param>
+            <param name="startAngle">Starting angle of the elliptic arc</param>
+            <param name="endAngle">Ending angle of the elliptic arc</param>
+            <param name="color">Ellipse color</param>
+            <param name="thickness">Thickness of the ellipse arc</param>
+            <param name="lineType">Type of the ellipse boundary</param>
+            <param name="shift">Number of fractional bits in the center coordinates and axes' values</param>
+        </member>
+        <member name="M:DotImaging.CvCoreInvoke.cvDrawContours(DotImaging.IplImage*,System.IntPtr,DotImaging.CvScalar,DotImaging.CvScalar,System.Int32,System.Int32,DotImaging.LineTypes,DotImaging.Primitives2D.Point)">
+            <summary>
+            Draws contour outlines in the image if thickness &gt;=0 or fills area bounded by the contours if thickness&lt;0.
+            </summary>
+            <param name="img">Image where the contours are to be drawn. Like in any other drawing function, the contours are clipped with the ROI</param>
+            <param name="contour">Pointer to the first contour</param>
+            <param name="externalColor">Color of the external contours</param>
+            <param name="holeColor">Color of internal contours </param>
+            <param name="maxLevel">Maximal level for drawn contours. If 0, only contour is drawn. If 1, the contour and all contours after it on the same level are drawn. If 2, all contours after and all contours one level below the contours are drawn, etc. If the value is negative, the function does not draw the contours following after contour but draws child contours of contour up to abs(maxLevel)-1 level. </param>
+            <param name="thickness">Thickness of lines the contours are drawn with. If it is negative the contour interiors are drawn</param>
+            <param name="lineType">Type of the contour segments</param>
+            <param name="offset">Shift all the point coordinates by the specified value. It is useful in case if the contours retrived in some image ROI and then the ROI offset needs to be taken into account during the rendering. </param>
+        </member>
+        <member name="M:DotImaging.CvCoreInvoke.cvFillConvexPoly(DotImaging.IplImage*,DotImaging.Primitives2D.Point[],System.Int32,DotImaging.CvScalar,DotImaging.LineTypes,System.Int32)">
+            <summary>
+            Fills convex polygon interior. This function is much faster than The function cvFillPoly and can fill not only the convex polygons but any monotonic polygon, i.e. a polygon whose contour intersects every horizontal line (scan line) twice at the most
+            </summary>
+            <param name="img">Image</param>
+            <param name="pts">Array of pointers to a single polygon</param>
+            <param name="npts">Polygon vertex counter</param>
+            <param name="color">Polygon color</param>
+            <param name="lineType">Type of the polygon boundaries</param>
+            <param name="shift">Number of fractional bits in the vertex coordinates</param>
+        </member>
+        <member name="M:DotImaging.CvCoreInvoke.cvInitFont(DotImaging.Font@,DotImaging.FontTypes,System.Double,System.Double,System.Double,System.Int32,DotImaging.LineTypes)">
+            <summary>
+            Initializes the font structure that can be passed to text rendering functions
+            </summary>
+            <param name="font">Pointer to the font structure initialized by the function</param>
+            <param name="fontFace">Font name identifier. Only a subset of Hershey fonts are supported now</param>
+            <param name="hscale">Horizontal scale. If equal to 1.0f, the characters have the original width depending on the font type. If equal to 0.5f, the characters are of half the original width</param>
+            <param name="vscale">Vertical scale. If equal to 1.0f, the characters have the original height depending on the font type. If equal to 0.5f, the characters are of half the original height</param>
+            <param name="shear">Approximate tangent of the character slope relative to the vertical line. Zero value means a non-italic font, 1.0f means 45 slope, etc. thickness Thickness of lines composing letters outlines. The function cvLine is used for drawing letters</param>
+            <param name="thickness">Thickness of the text strokes</param>
+            <param name="lineType">Type of the strokes</param>
+        </member>
+        <member name="M:DotImaging.CvCoreInvoke.cvPutText(DotImaging.IplImage*,System.String,DotImaging.Primitives2D.Point,DotImaging.Font@,DotImaging.CvScalar)">
+            <summary>
+            Renders the text in the image with the specified font and color. The printed text is clipped by ROI rectangle. Symbols that do not belong to the specified font are replaced with the rectangle symbol.
+            </summary>
+            <param name="img">Input image</param>
+            <param name="text">String to print</param>
+            <param name="org">Coordinates of the bottom-left corner of the first letter</param>
+            <param name="font">Pointer to the font structure</param>
+            <param name="color">Text color</param>
+        </member>
+        <member name="M:DotImaging.CvCoreInvoke.cvGetTextSize(System.String,DotImaging.Font@,DotImaging.Primitives2D.Size@,System.Int32@)">
+            <summary>
+            Calculates the binding rectangle for the given text string when a specified font is used
+            </summary>
+            <param name="textString">Input string</param>
+            <param name="font">The font structure</param>
+            <param name="textSize">Resultant size of the text string. Height of the text does not include the height of character parts that are below the baseline</param>
+            <param name="baseline">y-coordinate of the baseline relatively to the bottom-most text point</param>
+        </member>
+        <member name="T:DotImaging.ColorCvScalarConversionExtensions">
+            <summary>
+            Provides extensions for color format conversion to and from CvSclalar.
+            </summary>
+        </member>
+        <member name="T:DotImaging.Drawing">
+            <summary>
+            Provides extension drawing methods which operate on color RGB/RGBA images.
+            </summary>
+        </member>
+        <member name="M:DotImaging.Drawing.Draw(DotImaging.Bgr{System.Byte}[0:,0:],DotImaging.Primitives2D.Rectangle,DotImaging.Bgr{System.Byte},System.Int32,System.Byte)">
+            <summary>
+            Draws rectangle.
+            </summary>
+            <param name="image">Input image.</param>
+            <param name="rect">Rectangle.</param>
+            <param name="color">Object's color.</param>
+            <param name="thickness">Border thickness. If less than zero structure will be filled.</param>
+            <param name="opacity">Sets alpha channel where 0 is transparent and 255 is full opaque.</param>
+        </member>
+        <member name="M:DotImaging.Drawing.Draw(DotImaging.Bgr{System.Byte}[0:,0:],System.String,DotImaging.Font,DotImaging.Primitives2D.Point,DotImaging.Bgr{System.Byte},System.Byte)">
+            <summary>
+            Draws text on the provided image.
+            </summary>
+            <param name="image">Input image.</param>
+            <param name="text">User text.</param>
+            <param name="font">Font.</param>
+            <param name="botomLeftPoint">Bottom-left point.</param>
+            <param name="color">Text color.</param>
+            <param name="opacity">Sets alpha channel where 0 is transparent and 255 is full opaque.</param>
+        </member>
+        <member name="M:DotImaging.Drawing.Draw(DotImaging.Bgr{System.Byte}[0:,0:],DotImaging.Primitives2D.Box2D,DotImaging.Bgr{System.Byte},System.Int32,System.Byte)">
+            <summary>
+            Draws Box2D.
+            </summary>
+            <param name="image">Input image.</param>
+            <param name="box">Box 2D.</param>
+            <param name="color">Object's color.</param>
+            <param name="thickness">Border thickness.</param>
+            <param name="opacity">Sets alpha channel where 0 is transparent and 255 is full opaque.</param>
+        </member>
+        <member name="M:DotImaging.Drawing.Draw(DotImaging.Bgr{System.Byte}[0:,0:],DotImaging.Primitives2D.Ellipse,DotImaging.Bgr{System.Byte},System.Int32)">
+            <summary>
+            Draws ellipse.
+            </summary>
+            <param name="image">Input image.</param>
+            <param name="ellipse">Ellipse.</param>
+            <param name="color">Object's color.</param>
+            <param name="thickness">Border thickness.</param>
+        </member>
+        <member name="M:DotImaging.Drawing.Draw(DotImaging.Bgr{System.Byte}[0:,0:],DotImaging.Primitives2D.Point[],DotImaging.Bgr{System.Byte},System.Int32,System.Byte)">
+            <summary>
+            Draws contour.
+            </summary>
+            <param name="image">Input image.</param>
+            <param name="contour">Contour points.</param>
+            <param name="color">Contour color.</param>
+            <param name="thickness">Contours thickness.</param>
+            <param name="opacity">Sets alpha channel where 0 is transparent and 255 is full opaque.</param>
+        </member>
+        <member name="M:DotImaging.Drawing.Draw(DotImaging.Bgr{System.Byte}[0:,0:],DotImaging.Primitives2D.Circle,DotImaging.Bgr{System.Byte},System.Int32)">
+            <summary>
+            Draws circle.
+            </summary>
+            <param name="image">Input image.</param>
+            <param name="circle">Circle</param>
+            <param name="color">Circle color.</param>
+            <param name="thickness">Contours thickness.</param>
+        </member>
+        <member name="M:DotImaging.Drawing.Draw(DotImaging.Bgr{System.Byte}[0:,0:],System.Collections.Generic.IEnumerable{DotImaging.Primitives2D.Circle},DotImaging.Bgr{System.Byte},System.Int32)">
+            <summary>
+            Draws circles.
+            </summary>
+            <param name="image">Input image.</param>
+            <param name="circles">Circles</param>
+            <param name="color">Circle color.</param>
+            <param name="thickness">Contours thickness.</param>
+        </member>
+        <member name="M:DotImaging.Drawing.DrawAnnotation(DotImaging.Bgr{System.Byte}[0:,0:],DotImaging.Primitives2D.Rectangle,System.String,DotImaging.Font)">
+            <summary>
+            Draws rectangle with the specified text on top.
+            </summary>
+            <param name="image">Image.</param>
+            <param name="rect">User specified area to annotate.</param>
+            <param name="text">Label.</param>
+            <param name="font">Font to use.</param>
+        </member>
+    </members>
+</doc>
