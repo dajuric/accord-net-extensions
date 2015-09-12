@@ -30,6 +30,7 @@ using System.IO;
 using System.Linq;
 using DotImaging.Primitives2D;
 using DotImaging;
+using MoreCollections;
 using Range = AForge.IntRange;
 
 namespace ParticleFilterModelFitting
@@ -80,7 +81,7 @@ namespace ParticleFilterModelFitting
             }
         }
 
-        private static List<PointF> findContour(Gray<byte>[,] templateImg)
+        private static IList<PointF> findContour(Gray<byte>[,] templateImg)
         {
             var contour = templateImg.FindContour(minGradientStrength: 150).Select(x => (PointF)x).ToList();
 

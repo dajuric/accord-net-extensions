@@ -1,38 +1,41 @@
 #region Licence and Terms
-// Accord.NET Extensions Framework
-// https://github.com/dajuric/accord-net-extensions
+// MoreCollections
+// https://github.com/more-dotnet/more-collections
 //
-// Copyright © Darko Jurić, 2014-2015 
+// Copyright © Darko Jurić, 2015 
 // darko.juric2@gmail.com
 //
-//   This program is free software: you can redistribute it and/or modify
-//   it under the terms of the GNU Lesser General Public License as published by
-//   the Free Software Foundation, either version 3 of the License, or
-//   (at your option) any later version.
+//The MIT License (MIT)
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
 //
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU Lesser General Public License for more details.
-// 
-//   You should have received a copy of the GNU Lesser General Public License
-//   along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.txt>.
+//The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
 //
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//SOFTWARE.
 #endregion
 
 using System.Collections.Generic;
-using AForge;
 
-namespace Accord.Extensions
+namespace MoreCollections
 {
     /// <summary>
-    /// <para>Defined functions can be used as object extensions.</para>
-    /// Provides methods for circular list.
+    /// Circular list extension methods.
     /// </summary>
     public static class CircularListExtensions
     {
         /// <summary>
-        /// Creates <see cref="Accord.Extensions.CircularList{T}"/> from <see cref="System.Collections.Generic.List{T}"/>.
+        /// Creates <see cref="MoreCollections.CircularList{T}"/> from <see cref="System.Collections.Generic.List{T}"/>.
         /// </summary>
         /// <typeparam name="T">Element type.</typeparam>
         /// <param name="list">List of elements.</param>
@@ -44,9 +47,9 @@ namespace Accord.Extensions
     }
 
     /// <summary>
-    /// Represents s strongly typed circular list of objects meaning that any index is converted to absolute one before accessing the element - negative indices are supported.
+    /// List which supports modulo indexing.
     /// </summary>
-    /// <typeparam name="T">The object type.</typeparam>
+    /// <typeparam name="T">Element type.</typeparam>
     public class CircularList<T> : List<T>
     {
         /// <summary>
@@ -57,9 +60,9 @@ namespace Accord.Extensions
         { }
 
         /// <summary>
-        /// Creates the instance from collection.
+        /// Creates the instance from a specified collection.
         /// </summary>
-        /// <param name="collection">The specified collection.</param>
+        /// <param name="collection">Collection.</param>
         public CircularList(IEnumerable<T> collection)
             : base(collection)
         { }
@@ -67,7 +70,7 @@ namespace Accord.Extensions
         /// <summary>
         /// Gets or sets the element at specified index.
         /// </summary>
-        /// <param name="index">The specified index.</param>
+        /// <param name="index">Index.</param>
         /// <returns>The element at specified index.</returns>
         public new T this[int index]
         {
@@ -87,23 +90,15 @@ namespace Accord.Extensions
         /// <summary>
         /// Gets the range of elements from specified index range.
         /// </summary>
-        /// <param name="index">The starting index.</param>
-        /// <param name="count">The number of elements.</param>
+        /// <param name="index">Starting index.</param>
+        /// <param name="count">Elements count.</param>
         /// <returns>The circular list (data is shared).</returns>
         public new CircularList<T> GetRange(int index, int count)
-        { 
-            return GetRange(new Range(index, index + count));
-        }
-
-        /// <summary>
-        /// Gets the range of elements from specified index range.
-        /// </summary>
-        /// <param name="range">The index range.</param>
-        /// <returns>The circular list (data is shared).</returns>
-        public CircularList<T> GetRange(Range range)
         {
+            int maxIdx = index + count;
+
             int[] segmentIndeces, segmentLengths;
-            translateRange((int)range.Min, (int)range.Max, out segmentIndeces, out segmentLengths);
+            translateRange((int)index, (int)maxIdx, out segmentIndeces, out segmentLengths);
 
             var slice = new CircularList<T>();
             for (int i = 0; i < segmentIndeces.Length; i++)

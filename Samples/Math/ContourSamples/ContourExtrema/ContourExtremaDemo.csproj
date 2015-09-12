@@ -87,6 +87,7 @@
     <Compile Include="ContourExtremaForm.Designer.cs">
       <DependentUpon>ContourExtremaForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MoreCollections\CiruclarList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceImages.Designer.cs">

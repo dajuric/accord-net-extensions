@@ -21,13 +21,11 @@
 #endregion
 
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Accord.Extensions.Imaging;
-using Point = AForge.IntPoint;
-using PointF = AForge.Point;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using DotImaging;
+using DotImaging.Primitives2D;
 
 namespace Test
 {
@@ -41,10 +39,10 @@ namespace Test
         public void TestLKFlow()
         {
             var im1 = new Gray<float>[480, 640];
-            im1.SetValue<Gray<float>>(System.Byte.MaxValue, new Accord.Extensions.Rectangle(272, 82, 116, 64));
+            im1.SetValue<Gray<float>>(System.Byte.MaxValue, new Rectangle(272, 82, 116, 64));
 
             var im2 = new Gray<float>[480, 640];
-            im2.SetValue<Gray<float>>(System.Byte.MaxValue, new Accord.Extensions.Rectangle(277, 83, 116, 64));
+            im2.SetValue<Gray<float>>(System.Byte.MaxValue, new Rectangle(277, 83, 116, 64));
 
             var pts = new List<PointF>();
             pts.Add(new PointF(272, 82)); //-> 277,83

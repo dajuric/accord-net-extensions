@@ -12,8 +12,8 @@ echo.
 timeout /T 5
 
 :: Set version info
-set version=2.5.0
-set output=%cd%\bin\
+set version=2.5.1
+set output=bin\
 
 :: Create output directory
 IF NOT EXIST %output%\nul (
@@ -26,9 +26,7 @@ IF NOT EXIST %output%\nul (
 echo.
 echo Creating packages...
 
-set currDir = %cd%
-
-forfiles /s /m *.nuspec /c "cmd /c %cd%\nuget.exe pack "@Path" -Version %version% -OutputDirectory %output%"
+forfiles /s /m *.nuspec /c "cmd /c ..\nuget.exe pack "@Path" -Version %version% -OutputDirectory ..\%output%"
 ::forfiles /s /m *.nuspec /c "@Path"
 
 :eof

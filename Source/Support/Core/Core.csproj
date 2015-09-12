@@ -34,7 +34,7 @@
     <DocumentationFile>..\..\..\bin\Release\Accord.Extensions.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="AForge">
+    <Reference Include="AForge">
       <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -46,8 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caching\LRUCache%271.cs" />
-    <Compile Include="Collections\IndexedCollection.cs" />
-    <Compile Include="Collections\Map.cs" />
     <Compile Include="Caching\LazyMemoryCache%271.cs" />
     <Compile Include="Diagnostics\Diagnostics.cs" />
     <Compile Include="Extensions\BinaryTreeArrayExtensions.cs" />
@@ -59,11 +57,8 @@
     <Compile Include="Extensions\PathExtensions.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="ParallelProcessing\ParallelExtensions.cs" />
-    <Compile Include="Collections\CircularList.cs" />
     <Compile Include="Extensions\SerializationExtensions.cs" />
     <Compile Include="ParallelProcessing\ParallelRandom.cs" />
-    <Compile Include="Collections\History.cs" />
-    <Compile Include="Collections\PinnedArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\SearchMethods.cs" />
     <Compile Include="Pair%271.cs" />
