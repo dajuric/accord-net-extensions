@@ -45,8 +45,6 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caching\LRUCache%271.cs" />
-    <Compile Include="Caching\LazyMemoryCache%271.cs" />
     <Compile Include="Diagnostics\Diagnostics.cs" />
     <Compile Include="Extensions\BinaryTreeArrayExtensions.cs" />
     <Compile Include="Extensions\DictionaryMatrixExtensions.cs" />
