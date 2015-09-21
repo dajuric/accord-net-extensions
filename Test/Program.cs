@@ -20,8 +20,10 @@
 //
 #endregion
 
+using DotImaging;
 using System;
 using System.IO;
+using Accord.Extensions.Imaging;
 
 namespace Test
 {
@@ -33,9 +35,8 @@ namespace Test
         [STAThread]
         unsafe static void Main()
         {
-            //var resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
-            //var imgColor = ImageIO.LoadColor(Path.Combine(resourceDir, "testColorBig.jpg")).Clone();
-            
+            var resourceDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Resources");
+            var imgColor = ImageIO.LoadColor(Path.Combine(resourceDir, "testColorBig.jpg")).Clone();
             //imgColor = imgColor.CorrectContrast(105);
          }
 

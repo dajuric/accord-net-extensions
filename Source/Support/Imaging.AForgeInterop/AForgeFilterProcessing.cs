@@ -22,6 +22,7 @@
 
 using System;
 using DotImaging;
+using DotImaging.Primitives2D;
 using AForge.Imaging.Filters;
 
 namespace Accord.Extensions.Imaging
@@ -32,7 +33,7 @@ namespace Accord.Extensions.Imaging
     public static class AForgeFilterProcessing
     {
         /// <summary>
-        /// Executes specified filter on an image (without using parallel processor).
+        /// Executes specified filter on an image.
         /// </summary>
         /// <param name="img">Image.</param>
         /// <param name="filter">AForge filter.</param>
@@ -58,7 +59,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Executes specified filter on an image (without using parallel processor). As destination image size may be different from source in-place filtering is not allowed.
+        /// Executes specified filter on an image. As destination image size may be different from source in-place filtering is not allowed.
         /// </summary>
         /// <param name="img">Image.</param>
         /// <param name="filter">AForge <see cref="BaseFilter"/>.</param>
@@ -69,7 +70,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Executes specified filter on an image (without using parallel processor). 
+        /// Executes specified filter on an image. 
         /// <see cref="BaseUsingCopyPartialFilter"/> must copy an image if in place operation is requested, so it was decided that in-place filtering is not allowed.
         /// </summary>
         /// <param name="img">Image.</param>
@@ -81,7 +82,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Executes specified filter on an image (without using parallel processor). 
+        /// Executes specified filter on an image. 
         /// </summary>
         /// <param name="img">Image.</param>
         /// <param name="filter">AForge <see cref="BaseInPlaceFilter"/>.</param>
@@ -93,7 +94,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Executes specified filter on an image (without using parallel processor).
+        /// Executes specified filter on an image.
         /// </summary>
         /// <param name="img">Image.</param>
         /// <param name="filter">AForge <see cref="BaseInPlacePartialFilter"/>.</param>
@@ -105,7 +106,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Executes specified filter on an image (without using parallel processor). As destination image size may be different from source; in-place filtering is not allowed.
+        /// Executes specified filter on an image. As destination image size may be different from source; in-place filtering is not allowed.
         /// </summary>
         /// <param name="img">Image.</param>
         /// <param name="filter">AForge <see cref="BaseTransformationFilter"/>.</param>
@@ -116,7 +117,7 @@ namespace Accord.Extensions.Imaging
         }
 
         /// <summary>
-        /// Executes specified filter on an image (without using parallel processor). As destination image size may be different from source; in-place filtering is not allowed.
+        /// Executes specified filter on an image. As destination image size may be different from source; in-place filtering is not allowed.
         /// </summary>
         /// <param name="img">Image.</param>
         /// <param name="filter">AForge <see cref="BaseTransformationFilter"/>.</param>
@@ -125,6 +126,25 @@ namespace Accord.Extensions.Imaging
             where TDstColor : struct, IColor
         {
             TDstColor[,] dest = new TDstColor[img.Height(), img.Width()];
+
+            using (var uImg = img.Lock())
+            using (var uDest = dest.Lock())
+            { 
+                filter.Apply(uImg.AsAForgeImage(), uDest.AsAForgeImage());
+            }
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Executes specified filter on an image. As destination image size may be different from source; in-place filtering is not allowed.
+        /// </summary>
+        /// <param name="img">Image.</param>
+        /// <param name="filter">AForge <see cref="BaseTransformationFilter"/>.</param>
+        public static TColor[,] ApplyBaseResizeFilter<TColor>(this TColor[,] img, BaseResizeFilter filter)
+            where TColor : struct, IColor
+        {
+            TColor[,] dest = new TColor[filter.NewHeight, filter.NewWidth];
 
             using (var uImg = img.Lock())
             using (var uDest = dest.Lock())

@@ -12,7 +12,7 @@ echo.
 timeout /T 5
 
 :: Set version info
-set version=2.5.2
+set version=2.5.3
 set output=bin\
 
 :: Create output directory

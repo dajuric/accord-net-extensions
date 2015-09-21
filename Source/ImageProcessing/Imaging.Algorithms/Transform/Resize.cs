@@ -67,9 +67,9 @@ namespace Accord.Extensions.Imaging
                     //return img.ApplyFilter(new ResizeNearestNeighbor(newSize.Width, newSize.Height));
                     return ResizeNearsetNeighbur.Resize(img, newSize); //faster
                 case InterpolationMode.Bilinear:
-                    return img.ApplyBaseTransformationFilter(new ResizeBilinear(newSize.Width, newSize.Height));
+                    return img.ApplyBaseResizeFilter(new ResizeBilinear(newSize.Width, newSize.Height));
                 case InterpolationMode.Bicubic:
-                    return img.ApplyBaseTransformationFilter(new ResizeBicubic(newSize.Width, newSize.Height));
+                    return img.ApplyBaseResizeFilter(new ResizeBicubic(newSize.Width, newSize.Height));
                 default:
                     throw new NotSupportedException();
             }

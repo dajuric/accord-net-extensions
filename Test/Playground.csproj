@@ -13,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -63,6 +65,10 @@
       <HintPath>..\packages\DotImaging.GenericImage.2.5.2\lib\net45\DotImaging.GenericImage.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DotImaging.IO, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotImaging.IO.2.5.1\lib\net45\DotImaging.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DotImaging.Primitives2D, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DotImaging.Primitives2D.2.5.2\lib\net45\DotImaging.Primitives2D.dll</HintPath>
       <Private>True</Private>
@@ -104,6 +110,10 @@
     <Content Include="Resources\testColorBig.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Source\ImageProcessing\Imaging.Algorithms\Imaging.Algorithms.csproj">
+      <Project>{91c6ae50-ee09-4e3d-8ebb-1bd42688d042}</Project>
+      <Name>Imaging.Algorithms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Source\ImageProcessing\Vision\Vision.csproj">
       <Project>{901e6881-6237-49c8-8ddf-5e2491d7d1d0}</Project>
       <Name>Vision</Name>
@@ -126,6 +136,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\packages\DotImaging.IO.2.5.1\build\DotImaging.IO.targets" Condition="Exists('..\packages\DotImaging.IO.2.5.1\build\DotImaging.IO.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\DotImaging.IO.2.5.1\build\DotImaging.IO.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\DotImaging.IO.2.5.1\build\DotImaging.IO.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
