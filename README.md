@@ -1,20 +1,16 @@
-<table>
-    <tr>
-        <td>
-            <img src="https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Logo/logo-big.png" alt="Accord.NET Extensions logo" width="150" align="center">
-        </td>
+<p align="center">
+    <a href="https://www.nuget.org/profiles/dajuric"> <img src="Deployment/Logo/logo-big.png" alt="Accord.NET Extensions logo" width="120" align="center"> </a>
+</p>
 
-        <td>
-            <ul>
-                <li>Version: 3.0</li>
-                <li>NuGet packages: <a href="https://www.nuget.org/profiles/dajuric"><strong>ready</strong></a></li>
-                <li>
-                    Help: <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> Offline </a> - <i>unblock after download!</i>
-                </li>
-            </ul>
-        </td>
-    </tr>
-</table>
+<p align="center">
+    <img src="https://img.shields.io/badge/Build-passing-brightgreen.svg?style=flat-square" alt="Build passing"/>
+    
+    <a href="https://www.nuget.org/profiles/dajuric"> 
+    <img src="https://img.shields.io/badge/NuGet-v3.0.2-blue.svg?style=flat-square" alt="NuGet packages version"/>  </a>
+    
+     <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> 
+     <img src="https://img.shields.io/badge/help-offline-lightgrey.svg?style=flat-square" alt="NuGet packages version"/>  </a>
+</p>
 
 <p align="justify">
     <b>Accord.NET Extensions</b> is an extension framework for <a href="http://accord-framework.net/"> Accord.NET </a> and <a href="http://www.aforgenet.com/framework/license.html">AForge.NET</a>.
