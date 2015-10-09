@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://www.nuget.org/profiles/dajuric"> <img src="Deployment/Logo/logo-big.png" alt="Accord.NET Extensions logo" width="120" align="center"> </a>
+    <a href="https://www.nuget.org/profiles/dajuric"> <img src="Deployment/Logo/logo-big.png" alt="Accord.NET Extensions logo" width="150" align="center"> </a>
 </p>
 
 <p align="center">
