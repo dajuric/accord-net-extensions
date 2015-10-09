@@ -3,8 +3,6 @@
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/Build-passing-brightgreen.svg?style=flat-square" alt="Build passing"/>
-    
     <a href="https://www.nuget.org/profiles/dajuric"> 
     <img src="https://img.shields.io/badge/NuGet-v3.0.2-blue.svg?style=flat-square" alt="NuGet packages version"/>  </a>
     
