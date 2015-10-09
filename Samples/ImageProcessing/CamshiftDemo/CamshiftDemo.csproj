@@ -13,7 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>9b958ba1</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,51 +41,45 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord, Version=2.15.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Accord.2.15.0\lib\net45\Accord.dll</HintPath>
+    <Reference Include="Accord, Version=3.0.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Accord.3.0.2\lib\net45\Accord.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Accord.Imaging, Version=2.15.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Accord.Imaging.2.15.0\lib\net45\Accord.Imaging.dll</HintPath>
+    <Reference Include="Accord.Imaging, Version=3.0.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Accord.Imaging.3.0.2\lib\net45\Accord.Imaging.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Accord.MachineLearning">
-      <HintPath>..\..\..\packages\Accord.MachineLearning.2.15.0\lib\net45\Accord.MachineLearning.dll</HintPath>
+    <Reference Include="Accord.MachineLearning, Version=3.0.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Accord.MachineLearning.3.0.2\lib\net45\Accord.MachineLearning.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Accord.Math, Version=2.15.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Accord.Math.2.15.0\lib\net45\Accord.Math.dll</HintPath>
+    <Reference Include="Accord.Math, Version=3.0.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Accord.Math.3.0.2\lib\net45\Accord.Math.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Accord.Statistics">
-      <HintPath>..\..\..\packages\Accord.Statistics.2.15.0\lib\net45\Accord.Statistics.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
+    <Reference Include="Accord.Statistics, Version=3.0.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Accord.Statistics.3.0.2\lib\net45\Accord.Statistics.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotImaging.BitmapInterop, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.BitmapInterop.2.5.1\lib\net45\DotImaging.BitmapInterop.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.BitmapInterop.2.5.3\lib\net45\DotImaging.BitmapInterop.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotImaging.Drawing, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.Drawing.2.5.1\lib\net45\DotImaging.Drawing.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.Drawing.2.5.3\lib\net45\DotImaging.Drawing.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotImaging.GenericImage, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.GenericImage.2.5.1\lib\net45\DotImaging.GenericImage.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.GenericImage.2.5.3\lib\net45\DotImaging.GenericImage.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotImaging.IO, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.IO.2.5.1\lib\net45\DotImaging.IO.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.IO.2.5.3\lib\net45\DotImaging.IO.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotImaging.Primitives2D, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.Primitives2D.2.5.1\lib\net45\DotImaging.Primitives2D.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.Primitives2D.2.5.3\lib\net45\DotImaging.Primitives2D.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -477,11 +472,13 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\packages\DotImaging.Drawing.2.5.1\build\DotImaging.Drawing.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\DotImaging.Drawing.2.5.1\build\DotImaging.Drawing.targets'))" />
-    <Error Condition="!Exists('..\..\..\packages\DotImaging.IO.2.5.1\build\DotImaging.IO.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\DotImaging.IO.2.5.1\build\DotImaging.IO.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\Accord.3.0.2\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Accord.3.0.2\build\Accord.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\DotImaging.Drawing.2.5.3\build\DotImaging.Drawing.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\DotImaging.Drawing.2.5.3\build\DotImaging.Drawing.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\DotImaging.IO.2.5.3\build\DotImaging.IO.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\DotImaging.IO.2.5.3\build\DotImaging.IO.targets'))" />
   </Target>
-  <Import Project="..\..\..\packages\DotImaging.Drawing.2.5.1\build\DotImaging.Drawing.targets" Condition="Exists('..\..\..\packages\DotImaging.Drawing.2.5.1\build\DotImaging.Drawing.targets')" />
-  <Import Project="..\..\..\packages\DotImaging.IO.2.5.1\build\DotImaging.IO.targets" Condition="Exists('..\..\..\packages\DotImaging.IO.2.5.1\build\DotImaging.IO.targets')" />
+  <Import Project="..\..\..\packages\Accord.3.0.2\build\Accord.targets" Condition="Exists('..\..\..\packages\Accord.3.0.2\build\Accord.targets')" />
+  <Import Project="..\..\..\packages\DotImaging.Drawing.2.5.3\build\DotImaging.Drawing.targets" Condition="Exists('..\..\..\packages\DotImaging.Drawing.2.5.3\build\DotImaging.Drawing.targets')" />
+  <Import Project="..\..\..\packages\DotImaging.IO.2.5.3\build\DotImaging.IO.targets" Condition="Exists('..\..\..\packages\DotImaging.IO.2.5.3\build\DotImaging.IO.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

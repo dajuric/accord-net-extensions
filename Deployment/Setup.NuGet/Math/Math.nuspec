@@ -18,12 +18,16 @@
     <tags>accord.net framework extensions math geometry</tags>
 
     <dependencies>
-      <dependency id="AForge"                 version="2.2.5" />
-      <dependency id="AForge.Math"            version="2.2.5" />
-      <dependency id="Accord.Math"            version="2.14" />
+      <dependency id="Accord.Statistics"       version="3.0.2" />
 
-      <dependency id="Accord.Extensions.Core" version="$version$" />
+      <dependency id="DotImaging.Primitives2D" version="2.5.3" />
+
+      <dependency id="Accord.Extensions.Core"  version="$version$" />
     </dependencies>
+
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Numerics"  />
+    </frameworkAssemblies>
   </metadata>
   
   <files>

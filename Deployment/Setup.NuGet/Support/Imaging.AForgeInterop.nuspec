@@ -12,17 +12,15 @@
     <iconUrl>https://raw.githubusercontent.com/dajuric/accord-net-extensions/master/Deployment/Logo/logo-small.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Provides extensions for easy interoperability between generic image and AForge UnmanagedImage.
+      Provides extensions for easy interoperability between DotImaging and UnmanagedImage format.
     </description>
-    <summary>Interoperability extensions between Accord.Extensions and AForge image format.</summary>
-    <tags>accord.net framework extensions imaging AForge.NET interoperability</tags>
+    <summary>Interoperability extensions between DotImaging and UnmanagedImage format.</summary>
+    <tags>accord.net extensions interoperability unmanaged-image, dot-imaging</tags>
 
     <dependencies>
-      <dependency id="AForge"                      version="2.2.5" />
-      <dependency id="AForge.Imaging"              version="2.2.5" />
+      <dependency id="Accord.Imaging"              version="3.0.2" />
       
-      <dependency id="DotImaging.BitmapInterop"    version="[2, 3)" />
-      <dependency id="Accord.Extensions.Math"      version="$version$" />
+      <dependency id="DotImaging.GenericImage"     version="2.5.3" />
     </dependencies>
 
     <frameworkAssemblies>

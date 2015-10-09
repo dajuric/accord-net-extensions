@@ -618,4 +618,78 @@ namespace Accord.Extensions.Imaging
             return imageA.Calculate(imageB, max_Float, inPlace);
         }
     }
+
+    /// <summary>
+    /// Contains extensions that operate on two source images.
+    /// </summary>
+    public static class TwoSoruceImageOperationExtensions //TODO: move to DotImaging
+    {
+        /// <summary>
+        /// Two source filter operation.
+        /// </summary>
+        /// <param name="sourceA">First image.</param>
+        /// <param name="sourceB">Second image.</param>
+        /// <param name="destination">Destination image.</param>
+        public delegate void UnsafeTwoSourceFilterFunc(IImage sourceA, IImage sourceB, IImage destination);
+
+        /// <summary>
+        /// Executes the user defined two source filter operation.
+        /// </summary>
+        /// <typeparam name="TColor">Image color.</typeparam>
+        /// <param name="imageA">First image.</param>
+        /// <param name="imageB">Second image.</param>
+        /// <param name="func">User defined operation.</param>
+        /// <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+        /// <returns>he result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        public static TColor[,] Calculate<TColor>(this TColor[,] imageA, TColor[,] imageB, UnsafeTwoSourceFilterFunc func, bool inPlace = false)
+            where TColor : struct
+        {
+            TColor[,] dest = imageA;
+            if (!inPlace)
+                dest = imageA.CopyBlank();
+
+            using (var uImg = imageA.Lock())
+            using (var uImg2 = imageB.Lock())
+            using (var uDest = dest.Lock())
+            {
+                func(uImg, uImg2, uDest);
+            }
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Executes the user defined two source filter operation.
+        /// </summary>
+        /// <typeparam name="TColor">Image color.</typeparam>
+        /// <param name="imageA">First image.</param>
+        /// <param name="imageB">Second image.</param>
+        /// <param name="func">User defined operation.</param>
+        /// <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+        /// <returns>he result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        public static TColor[,] Calculate<TColor>(this TColor[,] imageA, TColor[,] imageB, TwoSourceFilterFunc<TColor> func, bool inPlace = false)
+            where TColor : struct
+        {
+            TColor[,] dest = imageA;
+            if (!inPlace)
+                dest = imageA.CopyBlank();
+
+            ParallelLauncher.Launch(thread =>
+            {
+                func(ref imageA[thread.Y, thread.X], ref imageB[thread.Y, thread.X], ref dest[thread.Y, thread.X]);
+            },
+            imageA.Width(), imageA.Height());
+
+            return dest;
+        }
+
+        /// <summary>
+        /// Two source filter operation.
+        /// </summary>
+        /// <param name="src1">First image.</param>
+        /// <param name="src2">Second image.</param>
+        /// <param name="dest">Destination image.</param>
+        public delegate void TwoSourceFilterFunc<TColor>(ref TColor src1, ref TColor src2, ref TColor dest)
+            where TColor : struct;
+    }
 }

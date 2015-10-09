@@ -13,7 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>1b392a80</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,20 +37,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotImaging.BitmapInterop, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.BitmapInterop.2.5.1\lib\net45\DotImaging.BitmapInterop.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.BitmapInterop.2.5.3\lib\net45\DotImaging.BitmapInterop.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotImaging.Drawing, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.Drawing.2.5.1\lib\net45\DotImaging.Drawing.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.Drawing.2.5.3\lib\net45\DotImaging.Drawing.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotImaging.GenericImage, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.GenericImage.2.5.1\lib\net45\DotImaging.GenericImage.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.GenericImage.2.5.3\lib\net45\DotImaging.GenericImage.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotImaging.Primitives2D, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotImaging.Primitives2D.2.5.1\lib\net45\DotImaging.Primitives2D.dll</HintPath>
+      <HintPath>..\..\..\packages\DotImaging.Primitives2D.2.5.3\lib\net45\DotImaging.Primitives2D.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -104,9 +105,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\..\..\packages\DotImaging.Drawing.2.5.1\build\DotImaging.Drawing.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\DotImaging.Drawing.2.5.1\build\DotImaging.Drawing.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\DotImaging.Drawing.2.5.3\build\DotImaging.Drawing.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\DotImaging.Drawing.2.5.3\build\DotImaging.Drawing.targets'))" />
   </Target>
-  <Import Project="..\..\..\packages\DotImaging.Drawing.2.5.1\build\DotImaging.Drawing.targets" Condition="Exists('..\..\..\packages\DotImaging.Drawing.2.5.1\build\DotImaging.Drawing.targets')" />
+  <Import Project="..\..\..\packages\DotImaging.Drawing.2.5.3\build\DotImaging.Drawing.targets" Condition="Exists('..\..\..\packages\DotImaging.Drawing.2.5.3\build\DotImaging.Drawing.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

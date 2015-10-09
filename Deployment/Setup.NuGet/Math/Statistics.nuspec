@@ -19,15 +19,16 @@
     <tags>accord.net framework extensions math statistics</tags>
 
     <dependencies>
-      <dependency id="Accord"                    version="2.14" />
-      <dependency id="Accord.Math"               version="2.14" />
       <dependency id="Accord.Statistics"         version="2.14" />
 
-      <dependency id="DotImaging.Primitives2D"   version="[2, 3)" />
+      <dependency id="DotImaging.Primitives2D"   version="2.5.3" />
       
-      <dependency id="Accord.Extensions.Core"    version="$version$" />
       <dependency id="Accord.Extensions.Math"    version="$version$" />
     </dependencies>
+
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Numerics"  />
+    </frameworkAssemblies>
   </metadata>
   
   <files>

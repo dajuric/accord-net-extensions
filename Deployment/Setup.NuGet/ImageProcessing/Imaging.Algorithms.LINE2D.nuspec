@@ -18,13 +18,11 @@
     <tags>accord.net framework template-matching</tags>
 
     <dependencies>
-      <dependency id="AForge"                                         version="2.2.5" />
-      <dependency id="AForge.Math"                                    version="2.2.5" />
+      <dependency id="Accord.Statistics"                              version="3.0.2" />
+      <dependency id="Accord.Imaging"                                 version="3.0.2" />
 
-      <dependency id="Accord.Imaging"                                 version="2.14" />
-
-      <dependency id="DotImaging.GenericImage"                        version="[2, 3)" />
-      <dependency id="DotImaging.BitmapInterop"                       version="[2, 3)" />
+      <dependency id="DotImaging.GenericImage"                        version="2.5.3" />
+      <dependency id="DotImaging.BitmapInterop"                       version="2.5.3" />
       
       <dependency id="Accord.Extensions.Math"                         version="$version$" />
       <dependency id="Accord.Extensions.Imaging.Algorithms"           version="$version$" />

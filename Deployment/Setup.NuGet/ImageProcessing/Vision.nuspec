@@ -18,18 +18,20 @@
     <tags>accord.net framework extensions computer-vision  KLT-tracker camshift, meanshift</tags>
 
     <dependencies>
-      <dependency id="AForge"                                         version="2.2.5" />
+      <dependency id="Accord.Statistics"                              version="3.0.2" />
+      <dependency id="Accord.Imaging"                                 version="3.0.2" />
 
-      <dependency id="Accord.Math"                                    version="2.14" />
-      <dependency id="Accord.Imaging"                                 version="2.14" />
-
-      <dependency id="DotImaging.GenericImage"                         version="[2, 3)" />
-      <dependency id="DotImaging.Primitives2D"                         version="[2, 3)" />
+      <dependency id="DotImaging.GenericImage"                        version="2.5.3" />
+      <dependency id="DotImaging.Primitives2D"                        version="2.5.3" />
       
       <dependency id="Accord.Extensions.Core"                         version="$version$" />
       <dependency id="Accord.Extensions.Math"                         version="$version$" />
       <dependency id="Accord.Extensions.Imaging.Algorithms"           version="$version$" />
     </dependencies>
+
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Numerics" />
+    </frameworkAssemblies>
   </metadata>
   
   <files>
