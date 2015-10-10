@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/badge/NuGet-v3.0.2-blue.svg?style=flat-square" alt="NuGet packages version"/>  </a>
     
      <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> 
-     <img src="https://img.shields.io/badge/help-offline-lightgrey.svg?style=flat-square" alt="NuGet packages version"/>  </a>
+     <img src="https://img.shields.io/badge/help-download-yellow.svg?style=flat-square" alt="Help"/>  </a>
 </p>
 
 <p align="justify">
