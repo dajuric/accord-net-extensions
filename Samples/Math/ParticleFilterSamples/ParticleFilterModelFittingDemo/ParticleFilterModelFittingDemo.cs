@@ -154,7 +154,7 @@ namespace ParticleFilterModelFitting
             { 
                 //img.Draw(p.MetaData, new Bgr(Color.Blue), 1);
                 img.Draw(metaData.Points.ToArray(), Bgr<byte>.Blue, 3);
-                img.DrawAnnotation(metaData.BoundingRect, text, DotImaging.Font.Big);
+                img.DrawAnnotation(metaData.BoundingRect, text, DotImaging.Font.Small);
             }
 
             Console.WriteLine(text);
@@ -193,7 +193,6 @@ namespace ParticleFilterModelFitting
         }
 
         Bgr<byte>[,] frame = null;
-        Font font = new Font(FontTypes.HERSHEY_DUPLEX, 1, 0.2f);
         void videoCapture_ProcessFrame(object sender, EventArgs e)
         {
             videoCapture.ReadTo<Bgr<byte>>(ref frame); 
@@ -210,7 +209,7 @@ namespace ParticleFilterModelFitting
             long end = DateTime.Now.Ticks;
             long elapsedMs = (end - start) / TimeSpan.TicksPerMillisecond;
 
-            frame.Draw("Processed: " + /*matchTimeMs*/ elapsedMs + " ms", font, new Point(25, 20), Bgr<byte>.Red);
+            frame.Draw("Processed: " + /*matchTimeMs*/ elapsedMs + " ms", DotImaging.Font.Small, new Point(25, 20), Bgr<byte>.Red);
             this.pictureBox.Image = frame.ToBitmap();
             GC.Collect();
         }

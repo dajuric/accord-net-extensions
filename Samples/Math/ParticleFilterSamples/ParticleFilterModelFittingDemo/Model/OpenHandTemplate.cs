@@ -99,7 +99,7 @@ namespace ParticleFilterModelFitting
             }
 
             //return contour;
-            return new CircularList<PointF>(contour).GetRange(new Range(lastIdx, firstIdx));
+            return new CircularList<PointF>(contour).GetRange(lastIdx, contour.Count -  (lastIdx - firstIdx + 1));
         }
 
         private static ITemplate create(IEnumerable<PointF> normalizedPoints,

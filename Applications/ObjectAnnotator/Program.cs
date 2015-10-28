@@ -81,7 +81,7 @@ namespace ObjectAnnotator
                     form = new AnnotaterForm(capture, databaseFileName);
                     Application.Run(form);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     var fInfo = new FileInfo(databaseFileName);
                     var autosaveName = fInfo.Name.Replace(fInfo.Extension, String.Empty) + "-autosave" + fInfo.Extension;

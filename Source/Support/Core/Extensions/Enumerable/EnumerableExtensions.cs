@@ -111,51 +111,6 @@ namespace Accord.Extensions
             }
         }
 
-
-        /// <summary>
-        /// Gets elements from source array at user defined indices.
-        /// </summary>
-        /// <param name="src">Data array.</param>
-        /// <param name="range">User defined range.</param>
-        /// <returns>Array of values in specified range.</returns>
-        public static T[] GetRange<T>(this IList<T> src, IntRange range)
-        {
-            T[] arr = new T[range.Max - range.Min + 1];
-
-            int i = 0;
-            for (int idx = range.Min; idx <= range.Max; idx++)
-            {
-                arr[i] = src[idx];
-                i++;
-            }
-
-            return arr;
-        }
-
-        /// <summary>
-        /// Gets elements from source array at user defined indices.
-        /// </summary>
-        /// <param name="src">Data array.</param>
-        /// <param name="startIndex">Start index.</param>
-        /// <param name="length">Range length.</param>
-        /// <returns>Array of values in specified range.</returns>
-        public static T[] GetRange<T>(this IList<T> src, int startIndex, int length)
-        {
-            return src.GetRange(new IntRange(startIndex, startIndex + length - 1));
-        }
-
-        /// <summary>
-        /// Gets elements from source array at user defined indices.
-        /// </summary>
-        /// <param name="src">Data array.</param>
-        /// <param name="startIndex">Start index.</param>
-        /// <returns>Array of values in specified range.</returns>
-        public static T[] GetRange<T>(this IList<T> src, int startIndex)
-        {
-            var length = src.Count;
-            return src.GetRange(new IntRange(startIndex, startIndex + length - 1));
-        }
-
         /// <summary>
         /// Removes user-specified elements from the list.
         /// </summary>

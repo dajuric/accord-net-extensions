@@ -87,7 +87,7 @@ namespace ContourExtremaDemo
             //draw humps
             for (int i = 0; i < humps.Count; i++)
             {
-                var slice = contour.ToCircularList().GetRange(humps[i]);
+                var slice = contour.ToCircularList().GetRange(humps[i].Min, humps[i].Length);
                 image.Draw(slice.ToArray(), Bgr<byte>.Green, 5);
             }
 
