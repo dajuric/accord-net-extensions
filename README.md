@@ -198,3 +198,6 @@
      If you like the project please <b>star it</b> in order to help to spread the word.
      That way you will make the framework more significant and in the same time you will motivate me to improve it, so the benefit is mutual.
 </p>
+
+
+[![Join the chat at https://gitter.im/dajuric/accord-net-extensions](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dajuric/accord-net-extensions?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
