@@ -1,13 +1,12 @@
 <p align="center">
-    <a href="https://www.nuget.org/profiles/dajuric"> <img src="Deployment/Logo/logo-big.png" alt="Accord.NET Extensions logo" width="150" align="center"> </a>
+    <a href="https://www.nuget.org/profiles/dajuric"> 
+        <img src="Deployment/Logo/logo-big.png" alt="Accord.NET Extensions logo" width="150" align="center" style="background-color: white;"> 
+    </a>
 </p>
 
 <p align="center">
     <a href="https://www.nuget.org/profiles/dajuric"> 
     <img src="https://img.shields.io/badge/NuGet-v3.0.2-blue.svg?style=flat-square" alt="NuGet packages version"/>  </a>
-    
-     <a href="https://github.com/dajuric/accord-net-extensions/raw/master/Deployment/Documentation/Help/Accord.NET%20Extensions%20Documentation.chm"> 
-     <img src="https://img.shields.io/badge/Help-download-yellow.svg?style=flat-square" alt="Help"/>  </a>
 </p>
 
 <p align="justify">
@@ -36,7 +35,6 @@
             </tbody>
         </table>
     </li>
-
     <li>
         <p>
             <b>
@@ -48,20 +46,16 @@
         <p>
             <b>Tutorials:</b> <a href="http://www.codeproject.com/Articles/826377/Rapid-Object-Detection-in-Csharp" target="_blank">Fast template matching</a>
         </p>
-
         <table border="0" cellpadding="1" cellspacing="1">
             <tbody>
                 <tr>
                     <td align="center" width="100%">
-                        <a href="https://www.youtube.com/watch?v=B4-IR8ySrSs" target="_blank">
-                            <img alt="Fast template matching" src="./Deployment/README-resources/FastTemplateMatching.jpg" width="250" />
-                        </a>
+                        <img alt="Fast template matching" src="./Deployment/README-resources/FastTemplateMatching.jpg" width="250" />
                     </td>
                 </tr>
             </tbody>
         </table>
     </li>
-
     <li>
         <p>
             <b>
@@ -74,19 +68,14 @@
             <b>Tutorials:</b>
             <a href="http://www.codeproject.com/Articles/840823/Object-Feature-Tracking-in-Csharp" target="_blank">Object Feature Tracking</a>
         </p>
-
         <table border="0" cellpadding="1" cellspacing="1">
             <tbody>
                 <tr>
                     <td align="center" width="50%">
-                        <a href="https://www.youtube.com/watch?v=6B_PNDCWtz4" target="_blank">
-                            <img alt="KLT Optical flow" src="./Deployment/README-resources/KLTOpticalFlow.jpg" width="250">
-                        </a>
+                        <img alt="KLT Optical flow" src="./Deployment/README-resources/KLTOpticalFlow.jpg" width="250">
                     </td>
                     <td align="center" width="50%">
-                        <a href="https://www.youtube.com/watch?v=C-ivmaUHaP4" target="_blank">
-                            <img alt="Camshift tracker" src="./Deployment/README-resources/CamshiftTracker.jpg" width="250">
-                        </a>
+                        <img alt="Camshift tracker" src="./Deployment/README-resources/CamshiftTracker.jpg" width="250">
                     </td>
                 </tr>
             </tbody>
@@ -106,7 +95,6 @@
             Fluent matrix extensions. Geometry and graph structures and extensions.
         </p>
     </li>
-
     <li>
         <p>
             <b>
@@ -120,37 +108,26 @@
             <b>Tutorials:</b> <a href="http://www.codeproject.com/Articles/865935/Object-Tracking-Kalman-Filter-with-Ease" target="_blank">Kalman filter</a>,
             <a href="http://www.codeproject.com/Articles/865934/Object-Tracking-Particle-filter-with-ease" target="_blank">Particle filter</a>
         </p>
-
         <table border="0" cellpadding="1" cellspacing="1">
             <tbody>
                 <tr>
                     <td align="center" width="50%">
-                        <a href="https://www.youtube.com/watch?v=LSoJXCQIAvQ" target="_blank">
-                            <img alt="Kalman Filter 2D" src="./Deployment/README-resources/KalmanFiler2D.jpg" width="250">
-                        </a>
+                        <img alt="Kalman Filter 2D" src="./Deployment/README-resources/KalmanFiler2D.jpg" width="250">
                     </td>
                     <td align="center" width="50%">
-                        <a href="https://www.youtube.com/watch?v=p9FXMf_HRw0" target="_blank">
-                            <img alt="Kalman Filter Tracking" src="./Deployment/README-resources/KalmanFilterTracking.jpg" width="250">
-                        </a>
+                        <img alt="Kalman Filter Tracking" src="./Deployment/README-resources/KalmanFilterTracking.jpg" width="250">
                     </td>
                 </tr>
-
                 <tr>
                     <td align="center" width="50%">
-                        <a href="https://www.youtube.com/watch?v=SV6CmEha51k" target="_blank">
-                            <img alt="Particle filter color tracking" src="./Deployment/README-resources/ParticleFilterColorTracking.jpg" width="250">
-                        </a>
+                        <img alt="Particle filter color tracking" src="./Deployment/README-resources/ParticleFilterColorTracking.jpg" width="250">
                     </td>
                     <td align="center" width="50%">
-                        <a href="https://www.youtube.com/watch?v=5VWtoimnlto" target="_blank">
-                            <img alt="Particle filter template matching" src="./Deployment/README-resources/ParticleFilterTemplateMatching.jpg" width="250">
-                        </a>
+                        <img alt="Particle filter template matching" src="./Deployment/README-resources/ParticleFilterTemplateMatching.jpg" width="250">
                     </td>
                 </tr>
             </tbody>
         </table>
-
     </li>
 </ul>
 
@@ -166,7 +143,6 @@
             Interoperability extensions between .NET array and AForge's UnmanagedImage.
         </p>
     </li>
-
     <li>
         <p>
             <b>
